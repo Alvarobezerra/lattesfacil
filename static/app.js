@@ -164,7 +164,21 @@ function getFormData() {
   return data;
 }
 
+function revelarPassos(modo) {
+  // modo: "doc" | "manual" | "form". Os passos seguintes só aparecem depois da escolha do Passo 1.
+  const up = $("stepUpload");
+  if (modo === "doc" || modo === "manual") {
+    up.classList.remove("hidden");
+    up.classList.toggle("modo-manual", modo === "manual");
+  }
+  if (modo === "form") {
+    $("stepRevisao").classList.remove("hidden");
+    $("lattesForm").classList.remove("hidden");
+  }
+}
+
 function setFormData(data, markEnrichedKeys = []) {
+  revelarPassos("form");
   applyTipoProducao(data.tipo_producao || "anais");
   FIELD_IDS.forEach((id) => {
     const el = $(id);
@@ -915,11 +929,7 @@ async function uploadEvidenceFile(file) {
   currentUploadedFile = file;
   currentUploadId = uploadId;
   $("cadernoResults").innerHTML = "";
-  setFormData(json.extracted);
-  const notes = (json.extracted.extraction_notes || []).join(" ");
-  const kind = { apresentacao: "Certificado", artigo: "Artigo", orientacao: "Documento de orientação" }[json.extracted.tipo_producao] || "Resumo";
-  statusEl.textContent = `${kind} lido de "${file.name}". ${notes || "Revise e clique em Buscar Dados Faltantes se necessário."}`;
-  if (notes.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
+  aplicarResposta(json, { uploadId, nomeArquivo: file.name });
 }
 
 async function extractFromRawText(text) {
@@ -937,11 +947,255 @@ async function extractFromRawText(text) {
     statusEl.textContent = json.error || "Erro na extração.";
     return;
   }
-  setFormData(json.extracted);
-  const n2 = (json.extracted.extraction_notes || []).join(" ");
-  statusEl.textContent = `Dados extraídos do texto. ${n2 || "Use 'Buscar Dados Faltantes' para completar informações."}`;
-  if (n2.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
+  aplicarResposta(json, { texto: text, nomeArquivo: "o texto colado" });
 }
+
+
+// ==========================================================================
+// Reconhecimento da evidência: "Entendi: X" / "Qual destes?" / escolhedor guiado
+// ==========================================================================
+let classCtx = { uploadId: null, texto: null, json: null };
+let catalogoItens = null;
+let chooserGrupo = "";
+const TIPO_DO_ITEM = { anais: "anais", apresentacao: "apresentacao", artigo: "artigo", orientacao_concluida: "orientacao", orientacao_andamento: "orientacao" };
+const SINONIMOS = {
+  anais: "resumo congresso poster pôster publicado anais caderno de resumos",
+  apresentacao: "palestra poster pôster comunicação oral apresentei apresentação",
+  participacao_evento: "ouvinte participante congresso simpósio jornada semana",
+  organizacao_evento: "comissão organizadora organizei coordenei evento",
+  artigo: "revista periódico doi publicado journal",
+  artigo_aceito: "aceite aceito carta submissão",
+  livro_capitulo: "livro capítulo isbn editora",
+  orientacao_concluida: "tcc monografia ic iniciação científica mestrado doutorado coorientação orientei",
+  orientacao_andamento: "tcc ic iniciação científica orientando atual em andamento",
+  banca: "banca examinadora examinador defesa qualificação avaliador",
+  curso_ministrado: "minicurso oficina aula ministrei docente instrutor",
+  formacao_complementar: "curso capacitação extensão aperfeiçoamento atualização certificado de curso aluno",
+  formacao_academica: "diploma graduação especialização mestrado doutorado titulação histórico",
+  atuacao_profissional: "vínculo cargo trabalho emprego servidor monitoria contrato",
+  revisor_periodico: "parecerista reviewer peer review revisor revista",
+  corpo_editorial: "editor editorial conselho revista",
+  patente: "inpi invenção carta patente depósito",
+  software_registro: "programa de computador software registro inpi",
+  premio: "prêmio menção honrosa melhor trabalho homenagem título",
+  projeto: "pesquisa extensão ensino bolsa edital fapema cnpq equipe",
+  idioma: "inglês espanhol proficiência toefl ielts cambridge",
+  licenca: "maternidade paternidade adoção licença",
+  relatorio_tecnico: "parecer relatório consultoria assessoria laudo",
+};
+const normTxt = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const confRotulo = (c) => (c >= 0.75 ? "Confiança alta" : c >= 0.5 ? "Confiança média" : "Confiança baixa");
+
+function el(tag, cls, texto) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+async function garantirCatalogo() {
+  if (catalogoItens) return catalogoItens;
+  try {
+    const r = await fetch("/api/itens");
+    catalogoItens = (await r.json()).itens || [];
+  } catch (e) {
+    catalogoItens = [];
+  }
+  return catalogoItens;
+}
+
+function aplicarResposta(json, ctx) {
+  const statusEl = $("extractStatus");
+  classCtx = { uploadId: ctx.uploadId || null, texto: ctx.texto || null, json };
+  const cls = json.classificacao || { decisao: "escolher", candidatos: [] };
+  if (json.extracted) {
+    setFormData(json.extracted);
+    const notes = (json.extracted.extraction_notes || []).join(" ");
+    statusEl.textContent = `Li ${ctx.nomeArquivo}. ${notes || "Revise e clique em Buscar Dados Faltantes se necessário."}`;
+    if (notes.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
+  } else {
+    statusEl.textContent = `Li ${ctx.nomeArquivo}, mas ainda não preenchi nada: ${cls.motivo_decisao || "escolha abaixo o que ele comprova"}.`;
+  }
+  statusEl.classList.remove("hidden");
+  renderClassPanel(cls, json);
+}
+
+async function renderClassPanel(cls, json) {
+  const itens = await garantirCatalogo();
+  const painel = $("classPanel");
+  const head = $("classHead");
+  const cards = $("classCards");
+  const rel = $("classRel");
+  head.innerHTML = "";
+  cards.innerHTML = "";
+  rel.textContent = "";
+  painel.classList.remove("hidden", "ok", "duvida", "escolher");
+  $("classChooser").classList.add("hidden");
+  const cands = cls.candidatos || [];
+  const top = cands[0];
+
+  if (cls.decisao === "avancar" && top) {
+    painel.classList.add(top.implementado && json.extracted ? "ok" : "duvida");
+    head.appendChild(el("strong", "", top.implementado && json.extracted ? `✅ Entendi: ${top.item}` : `Reconheci: ${top.item}`));
+    head.appendChild(el("p", "", `Porque: ${top.motivos.join("; ")}.` + (top.implementado ? "" : " O preenchimento automático deste tipo ainda não está pronto.")));
+    cands.slice(1).filter((c) => c.confianca >= 0.55).slice(0, 2).forEach((c) => {
+      const b = el("button", "btn btn-sm btn-ghost", `Ou seria: ${c.item}`);
+      b.type = "button";
+      b.onclick = () => escolherItem(c.id);
+      cards.appendChild(b);
+    });
+    const tambem = (cls.tambem_pode_gerar || [])[0];
+    if (tambem) {
+      const alvo = itens.find((i) => i.id === tambem.id);
+      rel.textContent = `Este documento também comprova: ${alvo ? alvo.item : tambem.id} (${tambem.motivo}). Registre depois de concluir este.`;
+    }
+  } else if (cls.decisao === "confirmar" && cands.length) {
+    painel.classList.add("duvida");
+    head.appendChild(el("strong", "", "Encontrei mais de uma possibilidade. Qual descreve melhor este documento?"));
+    cands.slice(0, 3).forEach((c) => {
+      const card = el("div", "class-card");
+      card.appendChild(el("h4", "", c.item));
+      card.appendChild(el("span", "conf-pill", confRotulo(c.confianca)));
+      const ul = el("ul");
+      c.motivos.forEach((m) => ul.appendChild(el("li", "", m)));
+      card.appendChild(ul);
+      const b = el("button", "btn btn-sm btn-primary", c.implementado ? "Usar este" : "Reconhecido (em breve)");
+      b.type = "button";
+      b.onclick = () => escolherItem(c.id);
+      card.appendChild(b);
+      cards.appendChild(card);
+    });
+  } else {
+    painel.classList.add("escolher");
+    head.appendChild(el("strong", "", "Não consegui identificar o documento."));
+    head.appendChild(el("p", "", `${cls.motivo_decisao || "Nada nele aponta claramente para um item"}. Escolha abaixo o que ele comprova.`));
+    abrirChooser();
+  }
+}
+
+function abrirChooser() {
+  $("classPanel").classList.remove("hidden");
+  $("classChooser").classList.remove("hidden");
+  renderChooser();
+  $("chooserBusca").focus();
+}
+
+async function renderChooser() {
+  const itens = await garantirCatalogo();
+  const q = normTxt($("chooserBusca").value).trim();
+  const grupos = [...new Set(itens.map((i) => i.grupo))];
+  const gBox = $("chooserGrupos");
+  gBox.innerHTML = "";
+  ["", ...grupos].forEach((g) => {
+    const b = el("button", g === chooserGrupo ? "ativo" : "", g || "Todos");
+    b.type = "button";
+    b.onclick = () => {
+      chooserGrupo = g;
+      renderChooser();
+    };
+    gBox.appendChild(b);
+  });
+  const lista = $("chooserLista");
+  lista.innerHTML = "";
+  const sugerido = classCtx.json && classCtx.json.classificacao && (classCtx.json.classificacao.candidatos || []).map((c) => c.id);
+  const filtrados = itens
+    .filter((i) => !chooserGrupo || i.grupo === chooserGrupo)
+    .filter((i) => !q || normTxt([i.item, i.secao, i.grupo, i.exemplo, SINONIMOS[i.id] || ""].join(" ")).includes(q))
+    .sort((a, b) => (sugerido && sugerido.includes(b.id) ? 1 : 0) - (sugerido && sugerido.includes(a.id) ? 1 : 0));
+  if (!filtrados.length) {
+    lista.appendChild(el("p", "hint", "Nada encontrado. Tente outra palavra (ex.: certificado, declaração, ata) ou escolha um grupo acima."));
+    return;
+  }
+  filtrados.forEach((i) => {
+    const b = el("button", "chooser-item");
+    b.type = "button";
+    const txt = el("span");
+    txt.appendChild(document.createTextNode(i.item));
+    txt.appendChild(el("small", "", `${i.secao} · ${i.grupo}${i.exemplo ? " · ex.: " + i.exemplo : ""}`));
+    b.appendChild(txt);
+    b.appendChild(el("span", i.implementado ? "badge-pronto" : "badge-breve", i.implementado ? "pronto" : "em breve"));
+    b.onclick = () => escolherItem(i.id);
+    lista.appendChild(b);
+  });
+}
+
+function enviarFeedback(sugerido, escolhido, cls) {
+  fetch("/api/classificacao/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sugerido, escolhido, decisao: (cls && cls.decisao) || "", confianca: (cls && cls.candidatos && cls.candidatos[0] && cls.candidatos[0].confianca) || 0 }),
+  }).catch(() => {});
+}
+
+async function escolherItem(itemId) {
+  const itens = await garantirCatalogo();
+  const alvo = itens.find((i) => i.id === itemId);
+  if (!alvo) return;
+  const cls = classCtx.json && classCtx.json.classificacao;
+  const sugerido = (cls && cls.candidatos && cls.candidatos[0] && cls.candidatos[0].id) || "nenhum";
+  if (cls && itemId !== sugerido) enviarFeedback(sugerido, itemId, cls); // aprende com a correção (só os ids)
+  const head = $("classHead");
+  const statusEl = $("extractStatus");
+  if (!alvo.implementado) {
+    head.innerHTML = "";
+    head.appendChild(el("strong", "", `Escolhido: ${alvo.item}`));
+    head.appendChild(el("p", "", "O mapeamento deste formulário do Lattes já existe, mas o preenchimento automático ainda não está pronto. Seu documento continua guardado nesta sessão por 30 minutos."));
+    $("classPanel").classList.remove("ok", "escolher");
+    $("classPanel").classList.add("duvida");
+    $("classCards").innerHTML = "";
+    return;
+  }
+  if (!classCtx.uploadId && !classCtx.texto) {
+    // sem documento: abre o formulário em branco do tipo escolhido
+    setFormData({ tipo_producao: TIPO_DO_ITEM[itemId] || "anais", situacao_orientacao: itemId === "orientacao_andamento" ? "Em andamento" : "Concluída" });
+    statusEl.textContent = `Formulário em branco de: ${alvo.item}. Preencha os campos ou envie um documento.`;
+    statusEl.classList.remove("hidden");
+    $("classPanel").classList.add("hidden");
+    return;
+  }
+  const corpo = { item: itemId, usuario: $("ownerName").value };
+  if (classCtx.uploadId) corpo.id = classCtx.uploadId;
+  else corpo.texto = classCtx.texto;
+  const r = await fetch("/api/classificacao/interpretar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
+  const json = await r.json();
+  if (r.status === 410) {
+    showToast("O arquivo venceu no servidor. Envie de novo.");
+    return;
+  }
+  if (!r.ok || !json.extracted) {
+    showToast(json.error || "Não consegui ler o documento como esse item.");
+    return;
+  }
+  setFormData(json.extracted);
+  const notes = (json.extracted.extraction_notes || []).join(" ");
+  statusEl.textContent = `Lido como: ${alvo.item}. ${notes}`;
+  statusEl.classList.remove("hidden");
+  if (notes.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
+  $("classHead").innerHTML = "";
+  $("classHead").appendChild(el("strong", "", `✅ Usando: ${alvo.item}`));
+  $("classCards").innerHTML = "";
+  $("classRel").textContent = "";
+  $("classChooser").classList.add("hidden");
+  $("classPanel").classList.remove("duvida", "escolher");
+  $("classPanel").classList.add("ok");
+}
+
+$("btnOutroTipo").onclick = abrirChooser;
+$("intentDoc").onclick = () => { revelarPassos("doc"); $("stepUpload").scrollIntoView({ behavior: "smooth", block: "start" }); };
+$("btnEscolherManual").onclick = () => {
+  revelarPassos("manual");
+  classCtx = { uploadId: null, texto: null, json: null };
+  const painel = $("classPanel");
+  painel.classList.remove("ok", "duvida");
+  painel.classList.add("escolher");
+  $("classHead").innerHTML = "";
+  $("classHead").appendChild(el("strong", "", "O que você quer registrar?"));
+  $("classHead").appendChild(el("p", "", "Escolha o tipo e abrimos o formulário. Se tiver o documento depois, é só enviar."));
+  $("classCards").innerHTML = "";
+  $("classRel").textContent = "";
+  abrirChooser();
+};
+$("chooserBusca").addEventListener("input", renderChooser);
 
 async function enrichMissing() {
   const statusEl = $("enrichStatus");
@@ -1432,7 +1686,7 @@ function renderLattesStatus() {
     detail = "A aba do Lattes não tem currículo aberto. Faça o login (Login Único CNPq) nessa aba.";
   }
   const card = $("lattesConnect");
-  card.className = `card lattes-connect state-${state}`;
+  card.className = `lattes-pop state-${state}${card.classList.contains("hidden") ? " hidden" : ""}`;
   $("lcTitle").textContent = title;
   $("lcDetail").textContent = detail;
   const pill = $("lattesPill");
@@ -1476,7 +1730,15 @@ $("btnCopyConnector").onclick = async () => {
   }
 };
 $("connectorLink").href = "javascript:" + encodeURIComponent(buildConnectorScript());
-$("lattesPill").onclick = () => $("lattesConnect").scrollIntoView({ behavior: "smooth", block: "center" });
+function togglePopLattes(abrir) {
+  const pop = $("lattesConnect"), pill = $("lattesPill");
+  const open = abrir === undefined ? pop.classList.contains("hidden") : abrir;
+  pop.classList.toggle("hidden", !open);
+  pill.setAttribute("aria-expanded", String(open));
+}
+$("lattesPill").onclick = (e) => { e.stopPropagation(); togglePopLattes(); };
+document.addEventListener("click", (e) => { if (!e.target.closest(".lattes-wrap")) togglePopLattes(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") togglePopLattes(false); });
 $("ownerName").addEventListener("change", renderLattesStatus);
 setInterval(renderLattesStatus, 5000);
 
@@ -1913,7 +2175,7 @@ async function renderDossieTree() {
     const org = await res.json();
 
     if (!org.anos || Object.keys(org.anos).length === 0) {
-      preview.innerHTML = `<span class="tree-meta">Nenhum comprovante cadastrado ainda. Envie um arquivo no Passo 1.</span>`;
+      preview.innerHTML = `<span class="tree-meta">Nenhum comprovante cadastrado ainda. Envie um arquivo no Passo 2.</span>`;
       return;
     }
 

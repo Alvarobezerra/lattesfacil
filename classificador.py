@@ -197,3 +197,17 @@ def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no
     if top["id"] == "apresentacao":
         relacionados.append({"id": "participacao_evento", "motivo": "o mesmo certificado também comprova a participação no evento"})
     return {"decisao": decisao, "motivo_decisao": why, "candidatos": cands, "tambem_pode_gerar": relacionados}
+
+
+def catalogo_publico() -> list[dict[str, Any]]:
+    """Lista dos itens reconhecíveis, para o escolhedor guiado da tela."""
+    return [{"id": i.id, "secao": i.secao, "item": i.item, "grupo": i.grupo, "implementado": i.implementado,
+             "exemplo": i.exemplo} for i in ITENS]
+
+
+def candidato_fixo(item_id: str, motivo: str, confianca: float = 0.95) -> dict[str, Any]:
+    """Resultado de classificação para quando outro leitor já sabe o que é (ex.: o texto é só um DOI)."""
+    i = INDICE[item_id]
+    return {"decisao": "avancar", "motivo_decisao": motivo, "tambem_pode_gerar": [],
+            "candidatos": [{"id": i.id, "item": i.item, "secao": i.secao, "grupo": i.grupo, "pontos": 0,
+                            "confianca": confianca, "motivos": [motivo], "implementado": i.implementado}]}

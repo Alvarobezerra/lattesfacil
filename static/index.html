@@ -27,8 +27,34 @@
         <button class="btn btn-eval" id="btnOpenAuditModal" type="button" title="Auditoria de Conformidade e Oportunidades do Currículo">
           🛡️ Avaliação do Lattes
         </button>
-        <button class="lattes-pill state-off" id="lattesPill" type="button" title="Estado da conexão com o Lattes">● Lattes OFF</button>
+        <div class="lattes-wrap">
+          <button class="lattes-pill state-off" id="lattesPill" type="button" aria-expanded="false" aria-controls="lattesConnect" title="Estado da conexão com o Lattes">● Lattes OFF</button>
+        <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
+        <section id="lattesConnect" class="lattes-pop state-off hidden" aria-live="polite">
+          <div class="lc-main">
+            <span class="lc-dot" aria-hidden="true"></span>
+            <div class="lc-text">
+              <strong id="lcTitle">Lattes: desconectado</strong>
+              <p id="lcDetail" class="hint">Nenhum sinal do Lattes ainda. Clique em Entrar no Lattes, faça o login e conecte.</p>
+            </div>
+            <div class="lc-actions">
+              <button type="button" class="btn btn-primary" id="btnLoginLattes">🔐 Entrar no Lattes</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
+            </div>
+          </div>
+          <details class="lc-steps">
+            <summary>Como conectar (3 passos)</summary>
+            <ol>
+              <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesFácil nunca vê sua senha.</li>
+              <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesFácil</a> para os favoritos e clique nele.</li>
+              <li><strong>Pronto:</strong> o selo muda para ON com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
+            </ol>
+            <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
+          </details>
+        </section>
+        </div>
         <a class="btn btn-ghost" href="/logout" title="Encerrar a sessão">Sair</a>
+        <button class="btn btn-ghost" id="btnOpenDossieModal" type="button" title="Comprovantes organizados por ano (padrão CAPES/CNPq)">📁 Dossiê</button>
         <button class="btn btn-ghost" id="btnToggleHistory" type="button">
           📚 Registros Salvos (<span id="recordsCount">0</span>)
         </button>
@@ -37,30 +63,6 @@
   </header>
 
   <main class="container">
-    <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
-    <section id="lattesConnect" class="card lattes-connect state-off" aria-live="polite">
-      <div class="lc-main">
-        <span class="lc-dot" aria-hidden="true"></span>
-        <div class="lc-text">
-          <strong id="lcTitle">Lattes: desconectado</strong>
-          <p id="lcDetail" class="hint">Nenhum sinal do Lattes ainda. Clique em Entrar no Lattes, faça o login e conecte.</p>
-        </div>
-        <div class="lc-actions">
-          <button type="button" class="btn btn-primary" id="btnLoginLattes">🔐 Entrar no Lattes</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
-        </div>
-      </div>
-      <details class="lc-steps">
-        <summary>Como conectar (3 passos)</summary>
-        <ol>
-          <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesFácil nunca vê sua senha.</li>
-          <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesFácil</a> para os favoritos e clique nele.</li>
-          <li><strong>Pronto:</strong> o selo muda para ON com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
-        </ol>
-        <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
-      </details>
-    </section>
-
     <!-- Painel de Histórico Compartilhado -->
     <section id="historyPanel" class="card hidden">
       <div class="card-header">
@@ -71,11 +73,26 @@
       <div id="recordsList" class="records-list"></div>
     </section>
 
-    <!-- Passo 1: Upload de Evidência -->
-    <section class="card">
+    <!-- Passo 1: o que o usuário quer adicionar hoje (os demais passos só aparecem depois) -->
+    <section id="stepIntent" class="card step-intent">
       <div class="card-header">
         <div>
           <span class="step-pill">Passo 1</span>
+          <h2>O que você deseja adicionar hoje ao seu Lattes?</h2>
+        </div>
+      </div>
+      <p class="hint">Escolha como quer começar. Os próximos passos aparecem em seguida.</p>
+      <div class="intent-choices">
+        <button type="button" class="intent-btn" id="intentDoc"><span class="intent-ico">📄</span><strong>Tenho um documento</strong><span class="hint">Certificado, resumo, artigo, declaração, e-mail do evento. O sistema descobre onde ele entra no Lattes.</span></button>
+        <button type="button" class="intent-btn" id="btnEscolherManual"><span class="intent-ico">🧭</span><strong>Quero escolher o tipo de registro</strong><span class="hint">Não tenho o documento agora: eu digo o que quero registrar (artigo, orientação, apresentação, banca...).</span></button>
+      </div>
+    </section>
+
+    <!-- Passo 2: Upload de Evidência -->
+    <section id="stepUpload" class="card hidden">
+      <div class="card-header">
+        <div>
+          <span class="step-pill">Passo 2</span>
           <h2>Envie o arquivo de evidência (PDF ou texto do resumo)</h2>
         </div>
         <button class="btn btn-secondary btn-sm" id="btnLoadSample" type="button">
@@ -102,45 +119,30 @@
 
       <p class="search-for">Se o PDF for um caderno de anais com vários trabalhos, procuramos os resumos de <strong id="searchUser"></strong> (usuário selecionado no topo).</p>
       <p id="fileAdded" class="file-added hidden"></p>
+
+      <section id="classPanel" class="class-panel hidden" aria-live="polite">
+        <div id="classHead" class="class-head"></div>
+        <div id="classCards" class="class-cards"></div>
+        <div id="classRel" class="class-rel"></div>
+        <div class="class-actions">
+          <button type="button" id="btnOutroTipo" class="btn btn-sm btn-ghost">Não é isso: escolher outro tipo</button>
+        </div>
+        <div id="classChooser" class="class-chooser hidden">
+          <input type="search" id="chooserBusca" placeholder="Buscar: TCC, banca, curso, patente, prêmio, diploma..." aria-label="Buscar tipo de registro" />
+          <div id="chooserGrupos" class="chooser-grupos"></div>
+          <div id="chooserLista" class="chooser-lista"></div>
+        </div>
+      </section>
       <div id="cadernoResults" class="records-list"></div>
 
       <div id="extractStatus" class="status-banner hidden"></div>
-
-      <!-- Dossiê Acadêmico: Nome Padronizado CAPES / CNPq -->
-      <div id="dossieBanner" class="dossie-card">
-        <div class="dossie-header">
-          <div class="dossie-badge-title">
-            <span class="dossie-icon">📁</span>
-            <div>
-              <strong>Dossiê Acadêmico (Padrão CAPES / CNPq)</strong>
-              <p class="hint">Nomenclatura oficial padronizada para comissões Sucupira e prestação de contas</p>
-            </div>
-          </div>
-          <span class="badge badge-capes">CAPES & CNPq Ready</span>
-        </div>
-        <div class="dossie-filename-row">
-          <span class="dossie-filename-label">📁 Nome Padronizado CAPES:</span>
-          <code id="standardFileName" class="dossie-filename-val">2024_ARTIGO_REIS_TITULO.pdf</code>
-        </div>
-        <div class="dossie-actions">
-          <button type="button" class="btn btn-primary" id="btnDownloadStandardized" title="Baixar comprovante renomeado com a nomenclatura oficial">
-            📥 Baixar Comprovante Padronizado
-          </button>
-          <button type="button" class="btn btn-secondary btn-sm" id="btnCopyStandardName" title="Copiar nome do arquivo">
-            📋 Copiar Nome
-          </button>
-          <button type="button" class="btn btn-ghost btn-sm" id="btnOpenDossieModal" title="Visualizar estrutura de pastas sugerida por ano acadêmico">
-            🗂️ Ver Estrutura em Pastas
-          </button>
-        </div>
-      </div>
     </section>
 
-    <!-- Passo 2: Completude & Busca Automática -->
-    <section class="card status-card">
+    <!-- Passo 3: Completude & Busca Automática -->
+    <section id="stepRevisao" class="card status-card hidden">
       <div class="completeness-row">
         <div>
-          <span class="step-pill">Passo 2</span>
+          <span class="step-pill">Passo 3</span>
           <h2>Revisão e Busca de Dados Faltantes</h2>
           <p id="completenessText" class="hint">Envie uma evidência ou preencha os campos abaixo.</p>
         </div>
@@ -158,7 +160,7 @@
     </section>
 
     <!-- Passo 3: Formulário Simplificado Espelhado no Lattes -->
-    <form id="lattesForm" class="form-grid">
+    <form id="lattesForm" class="form-grid hidden">
       <!-- Bloco A: Dados Gerais -->
       <section class="card">
         <div class="card-header">
@@ -512,26 +514,17 @@
       <section class="card action-card">
         <div class="card-header">
           <div>
-            <span class="step-pill">Passo 3</span>
+            <span class="step-pill">Passo 4</span>
             <h2>Aplicar no Lattes ou Salvar para Teste</h2>
           </div>
         </div>
 
         <div class="action-buttons">
-          <button type="button" class="btn btn-primary" id="btnDownloadStandardizedPasso3" title="Baixar comprovante renomeado para o padrão oficial CAPES/CNPq">
-            📥 Baixar Comprovante Padronizado
-          </button>
-          <button type="button" class="btn btn-primary" id="btnSaveRecord">
-            💾 Salvar Registro Compartilhado
-          </button>
           <button type="button" class="btn btn-primary" id="btnOpenLattes">
             🚀 Enviar para o Lattes (guia passo a passo)
           </button>
-          <button type="button" class="btn btn-accent" id="btnCopyLattesScript">
-            ⚡ Copiar Script Auto-Preenchimento Lattes
-          </button>
-          <button type="button" class="btn btn-secondary" id="btnExportJson">
-            📥 Baixar JSON
+          <button type="button" class="btn btn-primary" id="btnSaveRecord">
+            💾 Salvar registro
           </button>
         </div>
 
@@ -542,10 +535,24 @@
           <li class="guide-step" data-step="4">Confira os campos, adicione autores/palavras-chave se faltarem e clique em <strong>Salvar</strong> no Lattes.</li>
         </ol>
 
+        <details class="mais-opcoes">
+          <summary>Mais opções</summary>
+          <div class="action-buttons">
+          <button type="button" class="btn btn-accent" id="btnCopyLattesScript">
+            ⚡ Copiar Script Auto-Preenchimento Lattes
+          </button>
+          <button type="button" class="btn btn-secondary" id="btnExportJson">
+            📥 Baixar JSON
+          </button>
+          <button type="button" class="btn btn-primary" id="btnDownloadStandardizedPasso3" title="Baixar comprovante renomeado para o padrão oficial CAPES/CNPq">
+            📥 Baixar Comprovante Padronizado
+          </button>
+          </div>
         <div class="bookmarklet-box">
           <p><strong>Como usar no Lattes em 5 segundos:</strong> Abra o formulário <em>Trabalhos publicados em anais de eventos</em> no Lattes já logado, clique em <strong>Copiar Script Auto-Preenchimento</strong>, abra o Console do navegador (<code>F12</code> → Console) no iframe do formulário e cole, ou arraste o botão abaixo para sua barra de favoritos:</p>
           <a id="bookmarkletLink" class="bookmarklet-btn" href="#">✨ Preencher Lattes (Arraste aos Favoritos)</a>
         </div>
+        </details>
       </section>
     </form>
   </main>

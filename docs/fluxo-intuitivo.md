@@ -50,3 +50,13 @@ opções no escolhedor (mais escolhido primeiro). Sem enviar o documento a terce
 O protótipo acerta os 30 casos de teste, mas **26 deles foram escritos junto com as regras**, então isso mede consistência,
 não acerto no mundo real. O próximo teste honesto é com **documentos reais**: cada documento novo entra no teste com o item
 esperado, e a regra só é ajustada quando um documento real falha.
+
+## 7. Estado atual (protótipo na tela)
+Ligado ao envio de arquivos e ao texto colado (nada implantado fora do computador):
+- `POST /api/upload/finish` e `POST /api/extract` devolvem `classificacao` (decisão, candidatos, motivos) e, quando o sistema avança
+  sozinho num item já implementado, os campos extraídos. Itens sem preenchimento pronto aparecem como "reconhecido, em breve".
+- `GET /api/itens` alimenta o escolhedor guiado; `POST /api/classificacao/interpretar` relê o mesmo arquivo (ou texto) como outro item.
+- `POST /api/classificacao/feedback` guarda só `sugerido` x `escolhido` (ids, decisão e confiança), nunca o documento.
+- Tela: painel "Entendi / Qual destes? / Não consegui identificar", botão "Não é isso", busca com sinônimos e o caminho
+  "Não tenho um documento" (abre o formulário em branco do tipo escolhido).
+- Testes: `tests/teste_classificador.py` (regras), `tests/teste_api_classificacao.py` (API) e `tests/teste_seguranca.py`.

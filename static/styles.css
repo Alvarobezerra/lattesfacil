@@ -539,10 +539,16 @@ body {
 .lattes-pill.state-wait { background: #fff1cc; color: #8a5a00; }
 .lattes-pill.state-mismatch { background: #ffe0cc; color: #a34100; }
 .lattes-pill.state-on { background: #d9f5e7; color: #0b6b43; }
-.lattes-connect { border-left: 6px solid #9b1c1c; }
-.lattes-connect.state-wait { border-left-color: #d99a00; }
-.lattes-connect.state-mismatch { border-left-color: #d9590f; }
-.lattes-connect.state-on { border-left-color: #12a066; }
+.lattes-wrap { position: relative; }
+.lattes-pop { position: absolute; right: 0; top: calc(100% + 10px); width: min(440px, calc(100vw - 32px)); z-index: 30; background: #fff; color: #0f172a; border-radius: 12px; padding: 16px; border-left: 6px solid #9b1c1c; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.3); }
+.lattes-pop.hidden { display: none; }
+.lattes-pop.state-wait { border-left-color: #d99a00; }
+.lattes-pop.state-mismatch { border-left-color: #d9590f; }
+.lattes-pop.state-on { border-left-color: #12a066; }
+@media (max-width: 640px) {
+  .topbar-actions, .lattes-wrap { position: static; }
+  .lattes-pop { left: 16px; right: 16px; width: auto; top: 100%; }
+}
 .lc-main { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 .lc-dot { width: 14px; height: 14px; border-radius: 50%; background: #9b1c1c; flex: none; }
 .state-wait .lc-dot { background: #d99a00; }
@@ -1164,3 +1170,42 @@ body {
   padding-top: 12px;
   border-top: 1px solid #e2e8f0;
 }
+
+/* Reconhecimento da evidência e escolhedor guiado */
+.manual-link { margin: 4px 0 8px; font-size: 0.9rem; }
+.class-panel { margin: 12px 0; padding: 14px; border: 1px solid #cbd5e1; border-left: 5px solid #1f6feb; border-radius: 12px; display: grid; gap: 10px; }
+.class-panel.ok { border-left-color: #12a066; }
+.class-panel.duvida { border-left-color: #d99a00; }
+.class-panel.escolher { border-left-color: #d9590f; }
+.class-head strong { font-size: 1.05rem; }
+.class-head p { margin: 4px 0 0; color: #5a6877; font-size: 0.92rem; }
+.class-cards { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.class-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
+.class-card h4 { margin: 0; font-size: 0.98rem; }
+.class-card ul { margin: 0; padding-left: 18px; color: #5a6877; font-size: 0.88rem; }
+.conf-pill { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #e4eeff; color: #1f6feb; justify-self: start; }
+.class-rel { font-size: 0.88rem; color: #5a6877; }
+.class-chooser { display: grid; gap: 8px; border-top: 1px dashed #cbd5e1; padding-top: 10px; }
+.class-chooser input[type=search] { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; width: 100%; box-sizing: border-box; }
+.chooser-grupos { display: flex; flex-wrap: wrap; gap: 6px; }
+.chooser-grupos button { font: inherit; font-size: 0.85rem; padding: 5px 10px; border-radius: 99px; border: 1px solid #cbd5e1; background: transparent; color: inherit; cursor: pointer; }
+.chooser-grupos button.ativo { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+.chooser-lista { display: grid; gap: 6px; max-height: 320px; overflow-y: auto; }
+.chooser-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: left; font: inherit; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; background: transparent; color: inherit; cursor: pointer; }
+.chooser-item:hover { border-color: #1f6feb; }
+.chooser-item small { display: block; color: #5a6877; }
+.badge-pronto, .badge-breve { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.badge-pronto { background: #d9f5e7; color: #0b6b43; }
+.badge-breve { background: #eceff3; color: #5a6877; }
+
+/* Passo 1: intenção */
+.intent-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 12px; }
+.intent-btn { font: inherit; text-align: left; display: flex; flex-direction: column; gap: 6px; padding: 18px; border: 2px solid #d6deea; border-radius: 12px; background: #fff; cursor: pointer; color: inherit; }
+.intent-btn:hover, .intent-btn:focus-visible { border-color: #2563eb; background: #f4f8ff; outline: none; }
+.intent-btn strong { font-size: 1.05rem; }
+.intent-ico { font-size: 1.8rem; }
+.modo-manual #dropZone, .modo-manual .paste-box, .modo-manual .search-for { display: none; }
+
+.mais-opcoes { margin-top: 14px; }
+.mais-opcoes summary { cursor: pointer; font-weight: 600; color: #475569; }
+.mais-opcoes .action-buttons { margin: 10px 0; }

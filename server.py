@@ -25,6 +25,7 @@ from caderno import abstract_to_record, name_tokens, scan_caderno
 from artigo import doi_only, is_article, parse_artigo
 from orientacao import is_orientacao, parse_orientacao
 from certificado import is_certificate, parse_certificado
+from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
 from compliance import sanitizar_metadados, verificar_conformidade
@@ -135,6 +136,18 @@ def init_db() -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS correcoes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                quando TEXT NOT NULL,
+                sugerido TEXT NOT NULL,
+                escolhido TEXT NOT NULL,
+                decisao TEXT NOT NULL,
+                confianca REAL
+            )
+            """
+        )
         cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
@@ -193,11 +206,64 @@ def _purge_uploads() -> None:
         UPLOADS.pop(min(UPLOADS, key=lambda k: UPLOADS[k]["ts"]), None)
 
 
+LEGADO_PARA_ITEM = ("artigo", "apresentacao", "orientacao_concluida")
+
+
+def interpretar(item_id: str, raw_text: str, filename: str, usuario: str) -> dict[str, Any] | None:
+    """Lê o texto como o item escolhido. None quando o preenchimento daquele item ainda não existe."""
+    if item_id == "anais":
+        extracted = parse_evidence_text(raw_text, filename=filename)
+    elif item_id == "apresentacao":
+        extracted = parse_certificado(raw_text, usuario)
+    elif item_id == "artigo":
+        extracted = parse_artigo(raw_text, usuario, doi=doi_only(raw_text) or "")
+    elif item_id in ("orientacao_concluida", "orientacao_andamento"):
+        extracted = parse_orientacao(raw_text, usuario)
+        if item_id == "orientacao_andamento":
+            extracted["situacao_orientacao"] = "Em andamento"
+    else:
+        return None
+    extracted = sanitizar_metadados(extracted)
+    nome_padrao = gerar_nome_padronizado(extracted)
+    ano = extrair_ano(extracted)
+    return {"extracted": extracted, "nome_padronizado": nome_padrao, "caminho_sugerido": f"{ano}/{nome_padrao}"}
+
+
+def classificar_evidencia(raw_text: str, filename: str, paginas: int = 0, n_kw: int = 0) -> dict[str, Any]:
+    """Classifica e, quando o classificador não sabe, usa os leitores específicos como segunda opinião."""
+    if doi_only(raw_text):
+        return candidato_fixo("artigo", "o texto é um DOI")
+    cls = classificar(raw_text, filename, paginas, n_kw)
+    if cls["decisao"] == "escolher" and not cls.get("caderno") and raw_text.strip():
+        legado = "artigo" if is_article(raw_text) else "apresentacao" if is_certificate(raw_text) else \
+            "orientacao_concluida" if is_orientacao(raw_text) else None
+        if legado:
+            cand = candidato_fixo(legado, "o leitor específico reconheceu o formato", 0.5)
+            cand["decisao"] = "confirmar"
+            return cand
+    return cls
+
+
+def responder_evidencia(cls: dict[str, Any], raw_text: str, filename: str, usuario: str) -> dict[str, Any]:
+    """Monta a resposta: classificação + (só quando o sistema pode avançar sozinho) os campos extraídos."""
+    resp: dict[str, Any] = {"classificacao": cls, "raw_text": raw_text[:4000], "filename": filename}
+    top = cls["candidatos"][0] if cls.get("candidatos") else None
+    if cls["decisao"] == "avancar" and top and top.get("implementado"):
+        feito = interpretar(top["id"], raw_text, filename, usuario)
+        if feito:
+            resp.update(feito)
+            resp["item_escolhido"] = top["id"]
+    return resp
+
+
 def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str, Any]:
     """Lê um arquivo de evidência (PDF, TXT ou E-mail .eml) e devolve o JSON de resposta de /api/extract."""
     orig_filename = filename
+    paginas, n_kw = 0, 0
     if filename.lower().endswith(".pdf"):
         pdf_info = extract_text_from_pdf_bytes(file_bytes)
+        paginas = pdf_info["page_count"]
+        n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I))
         if pdf_info["page_count"] > MAX_SINGLE_ABSTRACT_PAGES and len(
             re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I)
         ) >= MIN_ABSTRACTS_FOR_CADERNO:
@@ -218,24 +284,10 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
             raw_text = f"{eml_info.get('subject', '')}\n\n{eml_info.get('body', '')}".strip()
     else:
         raw_text = file_bytes.decode("utf-8", errors="replace")
-    if is_certificate(raw_text):
-        extracted = parse_certificado(raw_text, usuario)
-    elif is_article(raw_text):
-        extracted = parse_artigo(raw_text, usuario)
-    elif is_orientacao(raw_text):
-        extracted = parse_orientacao(raw_text, usuario)
-    else:
-        extracted = parse_evidence_text(raw_text, filename=filename)
-    extracted = sanitizar_metadados(extracted)
-    nome_padrao = gerar_nome_padronizado(extracted)
-    ano = extrair_ano(extracted)
-    return {
-        "extracted": extracted,
-        "raw_text": raw_text[:4000],
-        "filename": filename,
-        "nome_padronizado": nome_padrao,
-        "caminho_sugerido": f"{ano}/{nome_padrao}",
-    }
+    cls = classificar_evidencia(raw_text, filename, paginas, n_kw)
+    resp = responder_evidencia(cls, raw_text, filename, usuario)
+    resp["_leitura"] = {"texto": raw_text, "arquivo": filename}  # fica só na memória da sessão; não vai ao cliente
+    return resp
 
 
 def run_caderno(file_bytes: bytes, filename: str, pesquisador: str) -> tuple[dict[str, Any], int]:
@@ -400,6 +452,10 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/login":
             self._send_html(LOGIN_HTML.replace("%ERRO%", ""))
             return
+        if path == "/api/itens":
+            if self._gate():
+                self._send_json({"itens": catalogo_publico()})
+            return
         if path == "/logout":
             tok = self._sess()
             SESSIONS.pop(tok, None)
@@ -408,7 +464,7 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/health":
             self._send_json({"ok": True})
             return
-        if path != "/api/lattes/ping" and not self._gate():
+        if path not in ("/api/lattes/ping", "/mockup-ia.html") and not self._gate():
             return
 
         if path == "/api/radar":
@@ -585,6 +641,62 @@ class LattesHandler(BaseHTTPRequestHandler):
             self._send_json({"ok": True, "received": received})
             return
 
+        if path == "/api/classificacao/interpretar":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                item = str(payload.get("item", ""))
+                usuario = str(payload.get("usuario", "")).strip()
+                if item not in INDICE:
+                    self._send_json({"error": "Item desconhecido."}, HTTPStatus.BAD_REQUEST)
+                    return
+                texto, arquivo = "", ""
+                uid = str(payload.get("id", ""))
+                if uid:
+                    with UPLOADS_LOCK:
+                        up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                        if up and up.get("sess") != self._sess_tag():
+                            up = None
+                        if up:
+                            up["ts"] = time.time()
+                            texto, arquivo = up.get("texto", ""), up.get("arquivo", "")
+                    if not texto:
+                        self._send_json({"error": "Arquivo vencido no servidor. Envie de novo.", "expired": True}, HTTPStatus.GONE)
+                        return
+                else:
+                    texto, arquivo = str(payload.get("texto", ""))[:200000], ""
+                feito = interpretar(item, texto, arquivo, usuario)
+                if feito is None:
+                    self._send_json({"implementado": False, "item": INDICE[item].item, "secao": INDICE[item].secao})
+                else:
+                    feito["implementado"] = True
+                    feito["item_escolhido"] = item
+                    self._send_json(feito)
+            except Exception:
+                self._send_json({"error": "Falha ao interpretar o documento como esse item."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/classificacao/feedback":
+            # guarda só os ids (nunca o documento): sugerido x escolhido, para melhorar as regras
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                sug, esc = str(payload.get("sugerido", "")), str(payload.get("escolhido", ""))
+                dec = str(payload.get("decisao", ""))[:12]
+                if (sug not in INDICE and sug not in ("nenhum", "caderno")) or esc not in INDICE:
+                    self._send_json({"error": "Dados inválidos."}, HTTPStatus.BAD_REQUEST)
+                    return
+                try:
+                    conf = float(payload.get("confianca", 0))
+                except (TypeError, ValueError):
+                    conf = 0.0
+                with db() as conn:
+                    conn.execute("INSERT INTO correcoes (quando, sugerido, escolhido, decisao, confianca) VALUES (?, ?, ?, ?, ?)",
+                                 (datetime.now(timezone.utc).isoformat(), sug, esc, dec, conf))
+                    conn.commit()
+                self._send_json({"ok": True})
+            except Exception:
+                self._send_json({"error": "Falha ao registrar a correção."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if path == "/api/upload/finish":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
@@ -605,6 +717,11 @@ class LattesHandler(BaseHTTPRequestHandler):
                     up.update(data=data, chunks={}, ts=time.time())
                     filename = up["name"] or "arquivo.pdf"
                 result = process_extract(filename, data, usuario)
+                leitura = result.pop("_leitura", None)
+                if leitura:
+                    with UPLOADS_LOCK:
+                        if uid in UPLOADS:
+                            UPLOADS[uid]["texto"], UPLOADS[uid]["arquivo"] = leitura["texto"], leitura["arquivo"]
                 result["upload_id"] = uid
                 self._send_json(result)
             except Exception:
@@ -621,8 +738,14 @@ class LattesHandler(BaseHTTPRequestHandler):
                     uid = str(uuid.uuid4()).replace("-", "")[:16]
                     with UPLOADS_LOCK:
                         _purge_uploads()
-                        UPLOADS[uid] = {"chunks": {}, "n": 1, "name": parsed_file[0], "ts": time.time(), "data": parsed_file[1]}
+                        UPLOADS[uid] = {"chunks": {}, "n": 1, "name": parsed_file[0], "ts": time.time(), "data": parsed_file[1],
+                                        "sess": self._sess_tag()}
                     res = process_extract(parsed_file[0], parsed_file[1], form_fields.get("usuario", "").strip())
+                    leitura = res.pop("_leitura", None)
+                    if leitura:
+                        with UPLOADS_LOCK:
+                            if uid in UPLOADS:
+                                UPLOADS[uid]["texto"], UPLOADS[uid]["arquivo"] = leitura["texto"], leitura["arquivo"]
                     res["upload_id"] = uid
                     self._send_json(res)
                     return
@@ -633,24 +756,8 @@ class LattesHandler(BaseHTTPRequestHandler):
                     self._send_json({"error": "Envie um arquivo PDF ou cole o texto da evidência."}, HTTPStatus.BAD_REQUEST)
                     return
                 usuario_txt = str(payload.get("usuario", "")).strip()
-                if doi_only(raw_text):
-                    extracted = parse_artigo("", usuario_txt, doi=doi_only(raw_text))
-                elif is_certificate(raw_text):
-                    extracted = parse_certificado(raw_text, usuario_txt)
-                elif is_article(raw_text):
-                    extracted = parse_artigo(raw_text, usuario_txt)
-                elif is_orientacao(raw_text):
-                    extracted = parse_orientacao(raw_text, usuario_txt)
-                else:
-                    extracted = parse_evidence_text(raw_text, filename=payload.get("filename", ""))
-                nome_padrao = gerar_nome_padronizado(extracted)
-                ano = extrair_ano(extracted)
-                self._send_json({
-                    "extracted": extracted,
-                    "raw_text": raw_text[:4000],
-                    "nome_padronizado": nome_padrao,
-                    "caminho_sugerido": f"{ano}/{nome_padrao}",
-                })
+                cls = classificar_evidencia(raw_text, payload.get("filename", ""))
+                self._send_json(responder_evidencia(cls, raw_text, payload.get("filename", ""), usuario_txt))
             except Exception:
                 self._send_json({"error": "Falha na extração do arquivo. Verifique se é um PDF válido."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
