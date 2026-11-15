@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LattesFácil — Cadastro Inteligente de Resumos</title>
+  <title>LattesData — Cadastro Inteligente de Resumos</title>
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <span class="logo">LF</span>
+        <img class="logo" src="/img/isotipo-dark.svg" alt="" width="44" height="44" />
         <div>
-          <h1>LattesFácil</h1>
+          <h1 class="wordmark" aria-label="LattesData"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></h1>
           <p class="subtitle">Extração de evidências + busca automática para o Currículo Lattes</p>
         </div>
       </div>
@@ -45,8 +46,8 @@
           <details class="lc-steps">
             <summary>Como conectar (3 passos)</summary>
             <ol>
-              <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesFácil nunca vê sua senha.</li>
-              <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesFácil</a> para os favoritos e clique nele.</li>
+              <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesData nunca vê sua senha.</li>
+              <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesData</a> para os favoritos e clique nele.</li>
               <li><strong>Pronto:</strong> o selo muda para ON com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
             </ol>
             <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
@@ -529,7 +530,7 @@
         </div>
 
         <ol id="lattesGuide" class="lattes-guide hidden">
-          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesFácil nunca os vê). Ao executar o script, ele confere se o currículo aberto é desse usuário e não preenche nada se for outro.</li>
+          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesData nunca os vê). Ao executar o script, ele confere se o currículo aberto é desse usuário e não preenche nada se for outro.</li>
           <li class="guide-step" data-step="2"><span id="guideStep2" data-doi="">Vá em <em>Produções → Trabalhos publicados em anais de eventos → Incluir novo item</em> para abrir o formulário.</span></li>
           <li class="guide-step" data-step="3">Pressione <code>F12</code> → aba <em>Console</em>, cole o script (já copiado para sua área de transferência) e tecle Enter.</li>
           <li class="guide-step" data-step="4">Confira os campos, adicione autores/palavras-chave se faltarem e clique em <strong>Salvar</strong> no Lattes.</li>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Laboratório de Marca</title>
+<style>
+  :root{
+    --bg:#F1F4F8; --panel:#FFFFFF; --ink:#0B192C; --muted:#5B6B80; --line:#DCE3EC;
+    --accent:#0A7C96; --accent-ink:#FFFFFF; --soft:#E8F3F6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0A1220; --panel:#111C2E; --ink:#E8EEF6; --muted:#93A4BA; --line:#22324A; --accent:#38BDF8; --accent-ink:#06243A; --soft:#14253B; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+  header{padding:20px 24px 8px}
+  header h1{margin:0;font-size:22px;letter-spacing:-.2px}
+  header p{margin:4px 0 0;color:var(--muted);max-width:70ch}
+  .app{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;padding:16px 24px 40px;align-items:start}
+  @media (max-width:900px){.app{grid-template-columns:1fr;padding:12px 16px 32px}}
+  aside{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+  @media (max-width:900px){aside{position:static;max-height:none}}
+  aside h3{margin:18px 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  aside h3:first-child{margin-top:0}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .chip{display:flex;flex-direction:column;gap:5px;padding:7px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);cursor:pointer;text-align:left;font:inherit;font-size:12px}
+  .chip.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--soft) inset, 0 0 0 1px var(--accent)}
+  .sw{display:flex;height:14px;border-radius:4px;overflow:hidden}
+  .sw i{flex:1}
+  .colors{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+  .colors label{font-size:10px;color:var(--muted);display:flex;flex-direction:column;gap:3px;align-items:center}
+  .colors input{width:100%;height:30px;padding:0;border:1px solid var(--line);border-radius:6px;background:none;cursor:pointer}
+  .seg{display:flex;flex-wrap:wrap;gap:4px}
+  .seg button{flex:1 1 auto;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-size:12px}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0;font-size:12px}
+  .row span{color:var(--muted)}
+  .row input[type=range]{flex:1;max-width:170px}
+  select{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit;font-size:13px}
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:16px}
+  .btn{padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn:hover{filter:brightness(1.06)}
+  main{display:flex;flex-direction:column;gap:20px;min-width:0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .card h2{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  #stage{border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:260px;padding:28px;border:1px solid var(--line);transition:background .2s}
+  #stage svg{height:150px;width:auto;max-width:100%}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:12px}
+  .badge{padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--ink)}
+  .badge.warn{background:#FDE8D7;color:#7A3B06}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .tile{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .tile small{padding:6px 10px;font-size:11px;color:var(--muted);background:var(--panel);border-top:1px solid var(--line)}
+  .tile .art{display:flex;align-items:center;justify-content:center;padding:18px;min-height:96px}
+  .art svg,.nav svg{display:block;height:100%;width:auto}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:#fff;border:1px solid #E3E8EF;border-radius:12px;color:#334155;font-size:13px}
+  .nav .links{display:flex;gap:16px;align-items:center}
+  .nav .cta{padding:7px 14px;border-radius:8px;font-weight:600}
+  .fav{display:flex;align-items:flex-end;gap:14px}
+  .pins{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+  .pin{border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer}
+  .pin .art{padding:16px;height:100px}
+  .pin footer{display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;color:var(--muted);border-top:1px solid var(--line)}
+  .pin footer button{border:0;background:none;color:inherit;cursor:pointer;font:inherit}
+  .empty{color:var(--muted);font-size:13px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px}
+  #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+  #toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <h1>Laboratório de Marca — LattesData</h1>
+  <p>Mexa em cores, símbolo, moldura, fontes e layout e veja o resultado ao vivo. Use <b>Fixar</b> para guardar as combinações que gostar e <b>Copiar configuração</b> para me passar a escolhida.</p>
+</header>
+
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <section class="card">
+      <h2>Prévia</h2>
+      <div id="stage"></div>
+      <div class="badges" id="badges"></div>
+    </section>
+    <section class="card">
+      <h2>Aplicações</h2>
+      <div class="nav" id="nav"></div>
+      <div class="tiles" id="tiles" style="margin-top:12px"></div>
+    </section>
+    <section class="card">
+      <h2>Variações fixadas</h2>
+      <div class="pins" id="pins"></div>
+    </section>
+  </main>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ============ DADOS ============ */
+const PALETTES = [
+  {id:'oficial', name:'Oficial LattesData', ink:'#0B192C', struct:'#1B365D', accent:'#00A3C4', node:'#10B981', sky:'#38BDF8'},
+  {id:'esmeralda', name:'Esmeralda e ouro', ink:'#0F2A24', struct:'#1F5A4C', accent:'#0E9F6E', node:'#F5B700', sky:'#6EE7B7'},
+  {id:'grena', name:'Grená institucional', ink:'#2B0F1A', struct:'#6B1F3A', accent:'#C2410C', node:'#14B8A6', sky:'#FDBA74'},
+  {id:'indigo', name:'Índigo tecnológico', ink:'#14123A', struct:'#3B3A8C', accent:'#7C3AED', node:'#22D3EE', sky:'#A5B4FC'},
+  {id:'grafite', name:'Grafite e laranja', ink:'#18181B', struct:'#3F3F46', accent:'#F97316', node:'#10B981', sky:'#FDBA74'},
+  {id:'oceano', name:'Oceano e sol', ink:'#06243A', struct:'#0B5C8E', accent:'#0EA5E9', node:'#FACC15', sky:'#7DD3FC'},
+  {id:'terra', name:'Terra brasileira', ink:'#2A1A12', struct:'#7C4A2D', accent:'#B45309', node:'#16A34A', sky:'#FCD34D'},
+  {id:'ardosia', name:'Ardósia e coral', ink:'#1E293B', struct:'#475569', accent:'#E11D48', node:'#0EA5E9', sky:'#FDA4AF'}
+];
+const SERIF = [
+  {n:'Newsreader',w:600,fb:'Georgia,serif'},{n:'Playfair Display',w:600,fb:'Georgia,serif'},{n:'Fraunces',w:600,fb:'Georgia,serif'},
+  {n:'Lora',w:600,fb:'Georgia,serif'},{n:'Source Serif 4',w:600,fb:'Georgia,serif'},{n:'DM Serif Display',w:400,noW:true,fb:'Georgia,serif'},
+  {n:'Cormorant Garamond',w:700,fb:'Georgia,serif'},{n:'Libre Baskerville',w:700,fb:'Georgia,serif'},{n:'Instrument Serif',w:400,noW:true,fb:'Georgia,serif'}
+];
+const SANS = [
+  {n:'Inter',w:900,sans:1,fb:'system-ui,sans-serif'},{n:'Plus Jakarta Sans',w:800,sans:1,fb:'system-ui,sans-serif'},
+  {n:'Space Grotesk',w:700,sans:1,fb:'system-ui,sans-serif'},{n:'Sora',w:700,sans:1,fb:'system-ui,sans-serif'},
+  {n:'Manrope',w:800,sans:1,fb:'system-ui,sans-serif'},{n:'Outfit',w:700,sans:1,fb:'system-ui,sans-serif'},
+  {n:'Montserrat',w:800,sans:1,fb:'system-ui,sans-serif'},{n:'IBM Plex Sans',w:700,sans:1,fb:'system-ui,sans-serif'},
+  {n:'JetBrains Mono',w:700,sans:1,fb:'monospace'},{n:'Unbounded',w:700,sans:1,fb:'system-ui,sans-serif'}
+];
+const FONTS = SERIF.concat(SANS);
+const font = n => FONTS.find(f=>f.n===n) || FONTS[0];
+
+/* carrega as fontes do Google */
+(function(){
+  const fam = FONTS.map(f => 'family='+f.n.replace(/ /g,'+') + (f.sans ? ':wght@'+f.w : f.noW ? ':ital@0;1' : ':ital,wght@0,'+f.w+';1,'+f.w)).join('&');
+  const l=document.createElement('link'); l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?'+fam+'&display=swap'; document.head.appendChild(l);
+})();
+
+/* ============ COR ============ */
+const h2r=h=>{h=h.replace('#','');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255]};
+const r2h=(r,g,b)=>'#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
+const mix=(a,b,t)=>{const A=h2r(a),B=h2r(b);return r2h(...A.map((v,i)=>v+(B[i]-v)*t))};
+const lum=h=>{const[r,g,b]=h2r(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b};
+const cr=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+
+function bgOf(cfg,key){
+  const c=cfg.colors;
+  if(key==='escuro') return lum(c.ink)<.12 ? c.ink : '#0B0F14';
+  if(key==='cor') return c.accent;
+  return '#F8FAFC';
+}
+function resolve(cfg,o){
+  const c=cfg.colors, bg=bgOf(cfg,o.bg||cfg.bg);
+  const dark = cr(bg,'#ffffff') >= cr(bg,'#000000');
+  let t1 = dark ? '#F8FAFC' : c.ink;
+  if(cr(t1,bg)<4.5) t1 = cr('#fff',bg)>cr('#000',bg) ? '#fff' : '#0B0B0B';
+  const t2 = [c.accent, dark?c.sky:c.struct].find(x=>cr(x,bg)>=1.6) || t1;
+  const framed = ['circulo','hexagono','quadrado'].includes(cfg.frame);
+  const r = {bg,dark,t1,t2,framed,node:c.node,sky:c.sky};
+  if(framed){
+    const ff = [c.ink,c.struct,c.accent].find(x=>cr(x,bg)>=1.8) || t1;
+    const on = cr('#F8FAFC',ff)>=cr('#0B0B0B',ff) ? '#F8FAFC' : '#0B0B0B';
+    r.frameFill=ff; r.line=on; r.sub = cr(c.sky,ff)>=3 ? c.sky : on; r.tint=mix(ff,on,.14);
+    r.coreFill=mix(ff,'#000000',.35); r.coreRing = cr(c.accent,r.coreFill)>=2 ? c.accent : on;
+    if(cr(c.node,r.coreFill)<2) r.node=on;
+  } else {
+    r.line=t1; r.sub = dark ? c.sky : c.struct; r.tint=mix(bg,r.sub,.16);
+    r.coreFill = dark ? mix(bg,'#000000',.3) : c.ink; r.coreRing = cr(c.accent,r.coreFill)>=2 ? c.accent : t1;
+  }
+  if(o.mono){
+    if(framed){ r.frameFill=t1; r.line=r.sub=r.coreRing=r.node=r.sky=bg; r.tint=mix(t1,bg,.2); r.coreFill=t1; }
+    else { r.line=r.sub=r.coreRing=r.node=r.sky=t1; r.tint=mix(bg,t1,.1); r.coreFill=bg; }
+    r.t2=t1;
+  }
+  return r;
+}
+
+/* ============ SÍMBOLO (caixa 120x120) ============ */
+const f1=v=>Math.round(v*10)/10;
+function symbol(cfg,r){
+  const fr=cfg.frame, framed=r.framed; let o='';
+  if(fr==='circulo') o+=`<circle cx="60" cy="60" r="58" fill="${r.frameFill}"/>`;
+  if(fr==='hexagono'){ const p=[0,1,2,3,4,5].map(k=>{const a=(-90+60*k)*Math.PI/180;return f1(60+58*Math.cos(a))+','+f1(60+58*Math.sin(a))}).join(' '); o+=`<polygon points="${p}" fill="${r.frameFill}" stroke="${r.frameFill}" stroke-width="6" stroke-linejoin="round"/>`; }
+  if(fr==='quadrado') o+=`<rect x="3" y="3" width="114" height="114" rx="30" fill="${r.frameFill}"/>`;
+  if(fr==='anel') o+=`<circle cx="60" cy="60" r="56" fill="none" stroke="${r.t2}" stroke-width="3"/>`;
+  const R = framed ? 34 : fr==='anel' ? 38 : 46, rin = 6, T = cfg.turns;
+  const end = -Math.PI*0.62;
+  const P = t => { const rr=rin*Math.pow(R/rin,t), a=end-(1-t)*T*2*Math.PI; return [60+rr*Math.cos(a), 60+rr*Math.sin(a)]; };
+  const path = (t0,t1,n=140) => { let s=''; for(let i=0;i<=n;i++){const p=P(t0+(t1-t0)*i/n); s+=(i?'L':'M')+f1(p[0])+' '+f1(p[1]);} return s; };
+  const core = (x,y,k=1) => cfg.nucleo ? `<circle cx="${x}" cy="${y}" r="${9.5*k}" fill="${r.coreFill}" stroke="${r.coreRing}" stroke-width="${2.6*k}"/><circle cx="${x}" cy="${y}" r="${3.4*k}" fill="${r.node}"/>`+[[0,-6],[0,6],[-6,0],[6,0]].map(d=>`<circle cx="${f1(x+d[0]*k)}" cy="${f1(y+d[1]*k)}" r="${1.3*k}" fill="${r.sky}"/>`).join('') : '';
+  if(cfg.estilo==='nautilo'){
+    const span=1/T, t0=1-span;
+    let body=path(t0,1,90); let back=''; for(let i=90;i>=0;i--){const p=P(t0-span+span*i/90); back+='L'+f1(p[0])+' '+f1(p[1]);}
+    o+=`<path d="${body}${back}Z" fill="${r.tint}"/>`;
+    let ch=''; const n=cfg.camaras;
+    for(let j=0;j<n;j++){ const t=t0+span*(j/n); if(t-span<0) continue; const a=P(t), b=P(t-span); ch+=`M${f1(a[0])} ${f1(a[1])}L${f1(b[0])} ${f1(b[1])}`; }
+    o+=`<path d="${ch}" stroke="${r.sub}" stroke-width="1.7" stroke-linecap="round" fill="none"/>`;
+    o+=`<path d="${path(0,1,220)}" stroke="${r.line}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+    o+=core(60,60);
+  } else if(cfg.estilo==='linha'){
+    o+=`<path d="${path(0,1,220)}" stroke="${r.line}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+    const e=P(1); o+=`<circle cx="${f1(e[0])}" cy="${f1(e[1])}" r="4.2" fill="${r.node}"/>`;
+    o+= cfg.nucleo ? `<circle cx="60" cy="60" r="5" fill="${r.node}"/><circle cx="60" cy="60" r="9" fill="none" stroke="${r.coreRing}" stroke-width="2"/>` : '';
+  } else { /* aurea: quadrados de Fibonacci */
+    const u=(framed?66:98)/13, ox=60-6.5*u, oy=60-4*u, p=(x,y)=>f1(ox+x*u)+' '+f1(oy+y*u);
+    const sq=[[0,0,8],[8,0,5],[10,5,3],[8,6,2],[8,5,1],[9,5,1]];
+    o+=sq.map(s=>`<rect x="${f1(ox+s[0]*u)}" y="${f1(oy+s[1]*u)}" width="${f1(s[2]*u)}" height="${f1(s[2]*u)}" fill="${r.tint}" stroke="${r.sub}" stroke-width="1.3"/>`).join('');
+    const A=(rad,x,y)=>`A${f1(rad*u)} ${f1(rad*u)} 0 0 1 ${p(x,y)}`;
+    o+=`<path d="M${p(0,8)}${A(8,8,0)}${A(5,13,5)}${A(3,10,8)}${A(2,8,6)}${A(1,9,5)}${A(1,10,6)}" stroke="${r.line}" stroke-width="3.6" stroke-linecap="round" fill="none"/>`;
+    const ex=ox+10*u, ey=oy+6*u; o+=core(f1(ex),f1(ey),.62);
+  }
+  return o;
+}
+
+/* ============ LOGO COMPLETA ============ */
+const cv=document.createElement('canvas').getContext('2d');
+function tw(t,F,it,fs,ls){ cv.font=`${it?'italic ':''}${F.w} ${fs}px "${F.n}"`; return cv.measureText(t).width + ls*Math.max(t.length-1,0); }
+function logo(cfg,o={}){
+  const r=resolve(cfg,o), FL=font(cfg.fontL), FD=font(cfg.fontD), it=cfg.italic, dt=cfg.caps?'DATA':'Data';
+  const layout=o.layout||cfg.layout, pad=10;
+  const sym=(S,x,y)=>`<g transform="translate(${f1(x)},${f1(y)}) scale(${f1(S/120*1000)/1000})">${symbol(cfg,r)}</g>`;
+  const tx=(t,x,y,fs,F,ital,fill,ls)=>`<text x="${f1(x)}" y="${f1(y)}" font-family="'${F.n}', ${F.fb}" font-size="${f1(fs)}" font-weight="${F.w}" font-style="${ital?'italic':'normal'}" fill="${fill}" letter-spacing="${f1(ls)}">${t}</text>`;
+  let W,H,body='';
+  if(layout==='simbolo'){ const S=96; W=H=S+2*pad; body=sym(S,pad,pad); }
+  else if(layout==='vertical'){
+    const S=88, fs=S*.44, fd=fs*.86, ls=cfg.ls*fd, wl=tw('Lattes',FL,it,fs,0), gap=fs*.16, wd=tw(dt,FD,false,fd,ls), tot=wl+gap+wd;
+    W=Math.max(S,tot)+2*pad; H=pad+S+14+fs+pad;
+    const y=pad+S+14+fs*.8;
+    body=sym(S,(W-S)/2,pad)+tx('Lattes',(W-tot)/2,y,fs,FL,it,r.t1,0)+tx(dt,(W-tot)/2+wl+gap,y,fd,FD,false,r.t2,ls);
+  } else if(layout==='empilhado'){
+    const S=84, f1s=S*.5, f2s=S*.36, ls=cfg.ls*f2s, wl=tw('Lattes',FL,it,f1s,0), wd=tw(dt,FD,false,f2s,ls), x=pad+S+16;
+    W=x+Math.max(wl,wd)+pad; H=S+2*pad;
+    body=sym(S,pad,pad)+tx('Lattes',x,pad+S*.5,f1s,FL,it,r.t1,0)+tx(dt,x,pad+S*.5+f2s*1.12,f2s,FD,false,r.t2,ls);
+  } else {
+    const S=84, fs=S*.5, fd=fs*.86, ls=cfg.ls*fd, wl=tw('Lattes',FL,it,fs,0), gap=fs*.16, wd=tw(dt,FD,false,fd,ls), x=pad+S+16;
+    W=x+wl+gap+wd+pad; H=S+2*pad;
+    const y=pad+S/2+fd*.36;
+    body=sym(S,pad,pad)+tx('Lattes',x,y,fs,FL,it,r.t1,0)+tx(dt,x+wl+gap,y,fd,FD,false,r.t2,ls);
+  }
+  W=Math.ceil(W); H=Math.ceil(H);
+  const rect = o.rect ? `<rect width="${W}" height="${H}" fill="${r.bg}"/>` : '';
+  return {svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" fill="none">${rect}${body}</svg>`, w:W, h:H, r};
+}
+function fontCss(cfg){
+  const q=(F,ital)=>'family='+F.n.replace(/ /g,'+')+(F.sans?':wght@'+F.w:F.noW?':ital@'+(ital?1:0):':ital,wght@'+(ital?1:0)+','+F.w);
+  return `<style>@import url('https://fonts.googleapis.com/css2?${q(font(cfg.fontL),cfg.italic)}&amp;${q(font(cfg.fontD),false)}&amp;display=swap');</style>`;
+}
+
+/* ============ ESTADO ============ */
+const base = () => ({pal:'oficial', colors:Object.assign({},PALETTES[0]), estilo:'nautilo', frame:'nenhum', turns:2.25, camaras:12, nucleo:true,
+  layout:'horizontal', fontL:'Newsreader', fontD:'Inter', italic:true, caps:true, ls:0.02, bg:'claro'});
+['id','name'].forEach(k=>delete base().colors[k]);
+let S = base(); delete S.colors.id; delete S.colors.name;
+let pins=[]; try{ pins=JSON.parse(localStorage.getItem('lattes-marca-pins')||'[]'); }catch(e){}
+const savePins=()=>{ try{localStorage.setItem('lattes-marca-pins',JSON.stringify(pins))}catch(e){} };
+const colorsOf=p=>({ink:p.ink,struct:p.struct,accent:p.accent,node:p.node,sky:p.sky});
+S.colors=colorsOf(PALETTES[0]);
+
+/* ============ UI ============ */
+const seg=(k,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-seg="${k}" data-v="${v}">${l}</button>`).join('')}</div>`;
+const fopt=(list,sel)=>list.map(f=>`<option value="${f.n}"${f.n===sel?' selected':''}>${f.n}</option>`).join('');
+document.getElementById('side').innerHTML = `
+  <h3>Paleta</h3>
+  <div class="chips">${PALETTES.map(p=>`<button class="chip" data-pal="${p.id}"><span class="sw">${['ink','struct','accent','node','sky'].map(k=>`<i style="background:${p[k]}"></i>`).join('')}</span>${p.name}</button>`).join('')}</div>
+  <div class="colors">${[['ink','Traço'],['struct','Estrutura'],['accent','Destaque'],['node','Núcleo'],['sky','Pontos']].map(([k,l])=>`<label>${l}<input type="color" data-color="${k}"></label>`).join('')}</div>
+  <h3>Símbolo</h3>
+  ${seg('estilo',[['nautilo','Náutilo'],['linha','Espiral'],['aurea','Áurea']])}
+  <div style="height:6px"></div>
+  ${seg('frame',[['nenhum','Livre'],['circulo','Círculo'],['hexagono','Hexágono'],['quadrado','Quadrado'],['anel','Anel']])}
+  <div class="row"><span>Voltas da espiral</span><input type="range" data-range="turns" min="2" max="3.5" step="0.05"></div>
+  <div class="row"><span>Câmaras</span><input type="range" data-range="camaras" min="6" max="24" step="1"></div>
+  <div class="row"><span>Núcleo de dados</span><input type="checkbox" data-check="nucleo"></div>
+  <h3>Tipografia</h3>
+  <div class="row"><span>“Lattes”</span></div>
+  <select data-select="fontL"><optgroup label="Serifadas">${fopt(SERIF,S.fontL)}</optgroup><optgroup label="Sem serifa">${fopt(SANS,S.fontL)}</optgroup></select>
+  <div class="row"><span>“DATA”</span></div>
+  <select data-select="fontD"><optgroup label="Sem serifa">${fopt(SANS,S.fontD)}</optgroup><optgroup label="Serifadas">${fopt(SERIF,S.fontD)}</optgroup></select>
+  <div class="row"><span>Lattes em itálico</span><input type="checkbox" data-check="italic"></div>
+  <div class="row"><span>DATA em caixa alta</span><input type="checkbox" data-check="caps"></div>
+  <div class="row"><span>Espaçamento do DATA</span><input type="range" data-range="ls" min="0" max="0.2" step="0.01"></div>
+  <h3>Layout</h3>
+  ${seg('layout',[['horizontal','Linha'],['empilhado','Empilhado'],['vertical','Vertical'],['simbolo','Só símbolo']])}
+  <h3>Fundo da prévia</h3>
+  ${seg('bg',[['claro','Claro'],['escuro','Escuro'],['cor','Cor de destaque']])}
+  <div class="btns">
+    <button class="btn" data-act="random">🎲 Sortear</button>
+    <button class="btn primary" data-act="pin">📌 Fixar</button>
+    <button class="btn" data-act="copy">Copiar configuração</button>
+    <button class="btn" data-act="svg">Baixar SVG</button>
+  </div>
+  <p class="note">O SVG baixado usa as fontes via Google Fonts. Na versão final convertemos o texto em curvas.</p>`;
+
+const $=s=>document.querySelector(s);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),1800)};
+
+async function ensureFonts(cfg){
+  try{ await Promise.all([
+    document.fonts.load(`${cfg.italic?'italic ':''}${font(cfg.fontL).w} 40px "${font(cfg.fontL).n}"`),
+    document.fonts.load(`${font(cfg.fontD).w} 40px "${font(cfg.fontD).n}"`)]); }catch(e){}
+}
+
+function syncUI(){
+  document.querySelectorAll('[data-seg]').forEach(b=>b.classList.toggle('on',String(S[b.dataset.seg])===b.dataset.v));
+  document.querySelectorAll('[data-pal]').forEach(b=>b.classList.toggle('on',S.pal===b.dataset.pal));
+  document.querySelectorAll('[data-color]').forEach(i=>i.value=S.colors[i.dataset.color]);
+  document.querySelectorAll('[data-range]').forEach(i=>i.value=S[i.dataset.range]);
+  document.querySelectorAll('[data-check]').forEach(i=>i.checked=!!S[i.dataset.check]);
+  document.querySelectorAll('[data-select]').forEach(i=>i.value=S[i.dataset.select]);
+  const nautOnly = S.estilo==='nautilo';
+  document.querySelector('[data-range="camaras"]').disabled=!nautOnly;
+  document.querySelector('[data-range="turns"]').disabled=S.estilo==='aurea';
+}
+
+const art=(cfg,o,h)=>{ const l=logo(cfg,o); return `<div class="art" style="background:${l.r.bg};height:${h}px">${l.svg}</div>`; };
+function render(){
+  const L=logo(S,{});
+  const st=$('#stage'); st.style.background=L.r.bg; st.innerHTML=L.svg;
+  const c1=cr(L.r.t2,L.r.bg), c2=cr(L.r.t1,L.r.bg);
+  const lv=c=>c>=7?'AAA':c>=4.5?'AA':c>=3?'AA texto grande':'insuficiente';
+  $('#badges').innerHTML=`<span class="badge ${c2<4.5?'warn':''}">“Lattes” sobre o fundo: ${c2.toFixed(1)}:1 · ${lv(c2)}</span><span class="badge ${c1<3?'warn':''}">“DATA” sobre o fundo: ${c1.toFixed(1)}:1 · ${lv(c1)}</span>`;
+  // aplicações
+  const lg=logo(S,{bg:'claro',layout:'horizontal'}), btnBg=S.colors.accent, btnFg=cr('#fff',btnBg)>=cr('#0B0B0B',btnBg)?'#fff':'#0B0B0B';
+  $('#nav').innerHTML=`<div style="height:38px">${lg.svg.replace('<svg ','<svg class="lgs" ')}</div><div class="links"><span>Radar</span><span>Dossiê</span><span>Comprovantes</span><span class="cta" style="background:${btnBg};color:${btnFg}">Conectar Lattes</span></div>`;
+  const fav = n => { const l=logo(S,{layout:'simbolo',bg:'claro'}); return `<div style="height:${n}px;width:${n}px">${l.svg}</div>`; };
+  const iconBg = bgOf(S,'escuro');
+  $('#tiles').innerHTML=
+    `<div class="tile"><div class="art" style="background:#F8FAFC"><div class="fav">${[16,32,48,64].map(fav).join('')}</div></div><small>Favicon 16 · 32 · 48 · 64 px</small></div>`+
+    `<div class="tile">${art(S,{bg:'escuro',layout:'simbolo'},96)}<small>Ícone de app (fundo escuro)</small></div>`+
+    `<div class="tile">${art(S,{bg:'escuro',layout:'horizontal'},96)}<small>Sobre fundo escuro</small></div>`+
+    `<div class="tile">${art(S,{bg:'cor',layout:'horizontal'},96)}<small>Sobre a cor de destaque</small></div>`+
+    `<div class="tile">${art(S,{bg:'claro',layout:'horizontal',mono:true},96)}<small>Monocromática (carimbo / P&amp;B)</small></div>`+
+    `<div class="tile">${art(S,{bg:'escuro',layout:'vertical',mono:true},96)}<small>Monocromática vertical</small></div>`;
+  document.querySelectorAll('.art svg').forEach(s=>s.style.height='100%');
+  renderPins();
+}
+function renderPins(){
+  const el=$('#pins');
+  if(!pins.length){ el.innerHTML='<p class="empty">Nada fixado ainda. Quando uma combinação ficar boa, clique em “Fixar”.</p>'; return; }
+  el.innerHTML=pins.map((p,i)=>{ const l=logo(p,{}); return `<div class="pin" data-load="${i}"><div class="art" style="background:${l.r.bg}">${l.svg}</div><footer><span>#${i+1} · ${p.fontL} + ${p.fontD}</span><button data-del="${i}" title="Remover">✕</button></footer></div>`; }).join('');
+}
+let busy=0;
+async function refresh(){ const id=++busy; syncUI(); await ensureFonts(S); if(id!==busy) return; render(); }
+
+/* ============ EVENTOS ============ */
+const side=$('#side');
+side.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.seg){ const v=b.dataset.v; S[b.dataset.seg]=v; return refresh(); }
+  if(b.dataset.pal){ const p=PALETTES.find(x=>x.id===b.dataset.pal); S.pal=p.id; S.colors=colorsOf(p); return refresh(); }
+  if(b.dataset.act==='random') return randomize();
+  if(b.dataset.act==='pin'){ pins.push(JSON.parse(JSON.stringify(S))); savePins(); toast('Variação fixada'); return refresh(); }
+  if(b.dataset.act==='copy'){ const t=JSON.stringify(S); (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Configuração copiada'),()=>{prompt('Copie a configuração:',t)}); return; }
+  if(b.dataset.act==='svg'){
+    const l=logo(S,{rect:S.bg!=='claro'}); const svg=l.svg.replace('fill="none">','fill="none"><defs>'+fontCss(S)+'</defs>');
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})); a.download='lattesdata-logo.svg'; a.click(); toast('SVG baixado'); }
+});
+side.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.color){ S.colors[t.dataset.color]=t.value; S.pal='custom'; }
+  else if(t.dataset.range){ S[t.dataset.range]=parseFloat(t.value); }
+  else if(t.dataset.check){ S[t.dataset.check]=t.checked; }
+  else if(t.dataset.select){ S[t.dataset.select]=t.value; }
+  else return;
+  refresh();
+});
+$('#pins').addEventListener('click',e=>{
+  const d=e.target.closest('[data-del]'); if(d){ pins.splice(+d.dataset.del,1); savePins(); return renderPins(); }
+  const p=e.target.closest('[data-load]'); if(p){ S=JSON.parse(JSON.stringify(pins[+p.dataset.load])); refresh(); window.scrollTo({top:0,behavior:'smooth'}); }
+});
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function randomize(){
+  const p=pick(PALETTES); S.pal=p.id; S.colors=colorsOf(p);
+  S.estilo=pick(['nautilo','nautilo','linha','aurea']); S.frame=pick(['nenhum','nenhum','circulo','hexagono','quadrado','anel']);
+  S.turns=+(2+Math.random()*1.5).toFixed(2); S.camaras=6+Math.floor(Math.random()*18);
+  S.fontL=pick(SERIF).n; S.fontD=pick(SANS).n; S.italic=Math.random()>.2; S.caps=Math.random()>.15; S.ls=+(Math.random()*.15).toFixed(2);
+  refresh();
+}
+refresh();
+document.fonts.ready.then(()=>{ render(); });
+</script>
+</body>
+</html>

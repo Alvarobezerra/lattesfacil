@@ -1,4 +1,4 @@
-"""LattesFácil - Web server for evidence extraction, enrichment, and Lattes form assistance."""
+"""LattesData - Web server for evidence extraction, enrichment, and Lattes form assistance."""
 
 from __future__ import annotations
 
@@ -55,14 +55,44 @@ CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
 LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LattesFácil — Acesso</title><style>
-body{font-family:system-ui,sans-serif;background:#0f1b2a;color:#e6edf5;display:grid;place-items:center;min-height:100vh;margin:0}
-form{background:#16263a;padding:28px;border-radius:14px;width:min(360px,90vw);display:grid;gap:14px}
-h1{margin:0;font-size:1.3rem}p{margin:0;color:#98a6b6;font-size:.9rem}
-input{padding:12px;border-radius:8px;border:1px solid #2c4160;background:#0f1b2a;color:#fff;font-size:1rem}
-button{padding:12px;border:0;border-radius:8px;background:#1f6feb;color:#fff;font-weight:700;font-size:1rem;cursor:pointer}
+<title>LattesData — Acesso</title><style>
+body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:#0b192c;color:#f8fafc;display:grid;place-items:center;min-height:100vh;margin:0}
+form{background:#10233d;border:1px solid #1b365d;padding:30px 28px;border-radius:14px;width:min(360px,90vw);display:grid;gap:14px}
+.wm{display:flex;align-items:center;gap:12px}
+.wm b{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:600;font-size:1.7rem}
+.wm i{font-style:normal;font-weight:900;color:#00a3c4;font-size:1.3rem;margin-left:5px}
+p{margin:0;color:#9fb0c8;font-size:.9rem}
+input{padding:12px;border-radius:8px;border:1px solid #1b365d;background:#0b192c;color:#fff;font-size:1rem}
+input:focus{outline:2px solid #00a3c4;border-color:#00a3c4}
+button{padding:12px;border:0;border-radius:8px;background:#00a3c4;color:#04202a;font-weight:700;font-size:1rem;cursor:pointer}
+button:hover{background:#38bdf8}
 .erro{color:#ff9b8a;font-size:.9rem}</style></head><body>
-<form method="post" action="/login"><h1>LattesFácil</h1><p>Acesso restrito. Digite o código de acesso.</p>
+<form method="post" action="/login"><div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56" fill="none">
+    <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" 
+          stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+    
+    <path d="M43 19L56 50" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M26 35L54 55" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M18 55L52 60" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M22 75L54 65" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M36 92L58 70" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M56 103L62 72" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M78 98L66 70" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M96 82L68 64" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M102 60L68 58" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+
+    <circle cx="60" cy="60" r="15" fill="#0369A1" stroke="#38BDF8" stroke-width="3"/>
+    
+    <line x1="60" y1="49" x2="60" y2="71" stroke="#38BDF8" stroke-width="1.8"/>
+    <line x1="49" y1="60" x2="71" y2="60" stroke="#38BDF8" stroke-width="1.8"/>
+
+    <circle cx="60" cy="49" r="2.2" fill="#38BDF8"/>
+    <circle cx="60" cy="71" r="2.2" fill="#38BDF8"/>
+    <circle cx="49" cy="60" r="2.2" fill="#38BDF8"/>
+    <circle cx="71" cy="60" r="2.2" fill="#38BDF8"/>
+
+    <circle cx="60" cy="60" r="5.5" fill="#10B981"/>
+  </svg><span><b>Lattes</b><i>DATA</i></span></div><p>Acesso restrito. Digite o código de acesso.</p>
 <input type="password" name="codigo" autocomplete="current-password" autofocus required aria-label="Código de acesso">
 %ERRO%<button type="submit">Entrar</button></form></body></html>"""
 
@@ -910,7 +940,7 @@ def main() -> None:
     server = ThreadingHTTPServer((host, port), LattesHandler)
     if host not in ("127.0.0.1", "localhost", "::1"):
         print("Atenção: escutando fora do localhost. O acesso exige o código; use sempre HTTPS (LATTESFACIL_HTTPS=1).")
-    print(f"LattesFácil rodando em http://{host}:{port}")
+    print(f"LattesData rodando em http://{host}:{port}")
     server.serve_forever()
 
 

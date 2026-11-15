@@ -291,10 +291,10 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   }
   var doc = findDoc(window);
   if (!doc) {
-    alert('LattesFácil: formulário não encontrado. Abra Trabalhos publicados em anais de eventos > Incluir novo item e execute de novo.');
+    alert('LattesData: formulário não encontrado. Abra Trabalhos publicados em anais de eventos > Incluir novo item e execute de novo.');
     return;
   }
-  // Confere se o currículo aberto no Lattes é do usuário selecionado no LattesFácil antes de preencher qualquer coisa.
+  // Confere se o currículo aberto no Lattes é do usuário selecionado no LattesData antes de preencher qualquer coisa.
   var wanted = String(d.__usuario || '');
   var loggedName = '';
   try {
@@ -308,7 +308,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var same = wa.length > 0 && lb.length > 0 && wa[0] === lb[0] && wa[wa.length - 1] === lb[lb.length - 1] &&
       wa.every(function (t) { return lb.indexOf(t) >= 0; });
     if (!same) {
-      alert('LattesFácil: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no LattesFácil é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no LattesFácil ou entre no Lattes com a conta correta.');
+      alert('LattesData: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no LattesData é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no LattesData ou entre no Lattes com a conta correta.');
       return;
     }
   }
@@ -365,7 +365,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var NOMES = { anais: 'um Trabalho em anais', apresentacao: 'uma Apresentação de trabalho', artigo: 'um Artigo em periódico', orientacao: 'uma Orientação' };
   var CAMINHOS = { anais: 'Produções > Trabalhos publicados em anais de eventos', apresentacao: 'Produções > Apresentação de trabalho e palestra', artigo: 'Produções > Artigos completos publicados em periódicos', orientacao: 'Orientações > Orientações e supervisões concluídas (ou em andamento)' };
   if (want !== have) {
-    alert('LattesFácil: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
+    alert('LattesData: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
     return;
   }
   var isApres = want === 'apresentacao';
@@ -390,7 +390,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       msgs.forEach(function (m) { report.push('Lattes: ' + m); });
       var got = doc.querySelector('[name="f_titulo"]');
       recuperou = !!(got && got.value);
-      if (!recuperou) report.push('o Lattes não recuperou os dados do DOI; usei os dados do LattesFácil');
+      if (!recuperou) report.push('o Lattes não recuperou os dados do DOI; usei os dados do LattesData');
     } else {
       report.push('sem DOI: escolha o periódico na lupa do Lattes');
     }
@@ -429,7 +429,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var primeiro = doc.querySelector('input[name="F_COD_PROD"]');
     var formAndamento = !!(primeiro && /^A/.test(primeiro.value));
     if (andamento !== formAndamento) {
-      alert('LattesFácil: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
+      alert('LattesData: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
       return;
     }
     var cod = lookup(NAT_ORI, d.natureza, 'natureza');
@@ -591,7 +591,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       ? 'ATENÇÃO: o Lattes não reconheceu o nome do titular entre os autores do DOI. Confira o campo "Nome em citações bibliográficas" do currículo (o Lattes mostra a lista de autores do DOI na tela).'
       : 'autores importados do DOI pelo Lattes');
   }
-  alert('LattesFácil: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
+  alert('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
     (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
 })();`;
 
@@ -1454,7 +1454,7 @@ $("tipo_producao").addEventListener("change", () => {
 });
 
 // Event Listeners
-// Usuário em teste: define quem está logado no LattesFácil (dono dos registros, autor buscado no caderno
+// Usuário em teste: define quem está logado no LattesData (dono dos registros, autor buscado no caderno
 // e titular esperado no Lattes). Guardado só neste navegador.
 function applyUser(name, { persist = true } = {}) {
   $("ownerName").value = name;
@@ -1604,7 +1604,7 @@ const CONNECTOR_TEMPLATE = String.raw`(function () {
     } catch (err) { return ''; }
   }
   function send(online, name) {
-    // Canal 1: aba aberta pelo LattesFácil (window.opener). Canal 2: aviso ao servidor, funciona com qualquer aba.
+    // Canal 1: aba aberta pelo LattesData (window.opener). Canal 2: aviso ao servidor, funciona com qualquer aba.
     try { var t = window.top.opener || window.opener; if (t) t.postMessage({ type: 'lattesfacil-status', online: online, name: name }, ORIGIN); } catch (err) {}
     try {
       var img = new Image();
@@ -1616,7 +1616,7 @@ const CONNECTOR_TEMPLATE = String.raw`(function () {
   send(!!n, n);
   window.__lfTimer = setInterval(function () { var x = nameOf(); send(!!x, x); }, 15000);
   window.addEventListener('pagehide', function () { send(false, ''); });
-  alert(n ? 'LattesFácil conectado. Currículo aberto: ' + n : 'LattesFácil conectado, mas ainda não há currículo aberto. Faça login no Lattes; o status atualiza sozinho.');
+  alert(n ? 'LattesData conectado. Currículo aberto: ' + n : 'LattesData conectado, mas ainda não há currículo aberto. Faça login no Lattes; o status atualiza sozinho.');
 })();`;
 
 function getSid() {
