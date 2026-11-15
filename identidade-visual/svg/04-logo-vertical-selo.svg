@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 210" width="200" height="210" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,600&amp;family=Inter:wght@900&amp;display=swap');
+      .font-lattes-vert { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 600; font-size: 38px; fill: #0B192C; text-anchor: middle; }
+      .font-data-vert { font-family: 'Inter', -apple-system, sans-serif; font-weight: 900; font-size: 32px; fill: #00A3C4; text-anchor: middle; letter-spacing: -0.5px; }
+    </style>
+  </defs>
+
+  <!-- SÍMBOLO CENTRALIZADO NO TOPO -->
+  <g transform="translate(50, 10) scale(0.83)">
+    <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" 
+          stroke="#0B192C" stroke-width="5" stroke-linecap="round"/>
+    <path d="M43 19L56 50" stroke="#1B365D" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M26 35L54 55" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M18 55L52 60" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M22 75L54 65" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M36 92L58 70" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M56 103L62 72" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M78 98L66 70" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M96 82L68 64" stroke="#1B365D" stroke-width="2.4" stroke-linecap="round"/>
+
+    <circle cx="60" cy="60" r="16" fill="#0B192C" stroke="#00A3C4" stroke-width="3"/>
+    <circle cx="60" cy="60" r="5.5" fill="#10B981"/>
+    <circle cx="60" cy="49" r="2.2" fill="#38BDF8"/>
+    <circle cx="60" cy="71" r="2.2" fill="#38BDF8"/>
+    <circle cx="49" cy="60" r="2.2" fill="#38BDF8"/>
+    <circle cx="71" cy="60" r="2.2" fill="#38BDF8"/>
+  </g>
+
+  <!-- TIPOGRAFIA VERTICAL CENTRALIZADA -->
+  <text x="100" y="150" class="font-lattes-vert">Lattes</text>
+  <text x="100" y="186" class="font-data-vert">DATA</text>
+</svg>

@@ -78,6 +78,8 @@ def load_access_code() -> str:
         code = ACCESS_FILE.read_text(encoding="utf-8").strip()
         if len(code) >= 10:
             return code
+    if os.environ.get("RENDER"):
+        return "merthiolate"
     code = secrets.token_urlsafe(12)
     ACCESS_FILE.write_text(code + "\n", encoding="utf-8")
     try:
@@ -902,7 +904,8 @@ def main() -> None:
     except Exception as exc:
         print("backup inicial falhou:", type(exc).__name__)
     threading.Thread(target=_backup_loop, daemon=True).start()
-    host = os.environ.get("HOST", "127.0.0.1")  # por padrão só esta máquina; hospedagem define HOST=0.0.0.0
+    default_host = "0.0.0.0" if (os.environ.get("RENDER") or os.environ.get("PORT")) else "0.0.0.0"
+    host = os.environ.get("HOST", default_host)
     port = int(os.environ.get("PORT", "8765"))
     server = ThreadingHTTPServer((host, port), LattesHandler)
     if host not in ("127.0.0.1", "localhost", "::1"):

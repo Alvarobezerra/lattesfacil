@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 130" width="380" height="130" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,600&amp;family=Inter:wght@900&amp;display=swap');
+      .font-lattes-mono-b { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 600; font-size: 52px; fill: #000000; }
+      .font-data-mono-b { font-family: 'Inter', -apple-system, sans-serif; font-weight: 900; font-size: 46px; fill: #000000; letter-spacing: -0.5px; }
+    </style>
+  </defs>
+
+  <g transform="translate(10, 5)">
+    <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" 
+          stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+    
+    <path d="M43 19L56 50" stroke="#000000" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M26 35L54 55" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M18 55L52 60" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M22 75L54 65" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M36 92L58 70" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M56 103L62 72" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M78 98L66 70" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M96 82L68 64" stroke="#000000" stroke-width="2.2" stroke-linecap="round"/>
+
+    <circle cx="60" cy="60" r="15" fill="#000000"/>
+    <circle cx="60" cy="60" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <text x="145" y="60" class="font-lattes-mono-b">Lattes</text>
+  <text x="148" y="108" class="font-data-mono-b">DATA</text>
+</svg>

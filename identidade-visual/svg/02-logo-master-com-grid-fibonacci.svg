@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 160" width="460" height="160" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,600&amp;family=Inter:wght@900&amp;display=swap');
+      .font-lattes { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 600; font-size: 52px; fill: #0B192C; }
+      .font-data { font-family: 'Inter', -apple-system, sans-serif; font-weight: 900; font-size: 46px; fill: #00A3C4; letter-spacing: -0.5px; }
+      .grid-line { stroke: #CBD5E1; stroke-width: 0.8; stroke-dasharray: 3 3; }
+      .golden-spiral { stroke: #D4AF37; stroke-width: 1.2; fill: none; opacity: 0.85; }
+    </style>
+  </defs>
+
+  <!-- GRID TÉCNICO DE FUNDO (LINHAS DE CONSTRUÇÃO) -->
+  <line x1="15" y1="80" x2="160" y2="80" class="grid-line"/>
+  <line x1="80" y1="10" x2="80" y2="150" class="grid-line"/>
+  <circle cx="80" cy="80" r="50" stroke="#E2E8F0" stroke-width="0.8" fill="none"/>
+  <circle cx="80" cy="80" r="65" stroke="#E2E8F0" stroke-width="0.8" fill="none"/>
+
+  <!-- ESPIRAL DOURADA DE FIBONACCI (CANTO SUPERIOR) -->
+  <g transform="translate(330, 15) scale(0.65)">
+    <!-- Retângulos Áureos -->
+    <rect x="0" y="0" width="144" height="89" stroke="#E2E8F0" stroke-width="0.8" fill="none"/>
+    <line x1="89" y1="0" x2="89" y2="89" stroke="#E2E8F0" stroke-width="0.8"/>
+    <line x1="89" y1="55" x2="144" y2="55" stroke="#E2E8F0" stroke-width="0.8"/>
+    <line x1="123" y1="55" x2="123" y2="89" stroke="#E2E8F0" stroke-width="0.8"/>
+    <!-- Arco da Espiral -->
+    <path d="M0 89A89 89 0 0 1 89 0A55 55 0 0 1 144 55A34 34 0 0 1 110 89" class="golden-spiral"/>
+  </g>
+
+  <!-- SÍMBOLO NÁUTILO DE DADOS -->
+  <g transform="translate(20, 20)">
+    <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" 
+          stroke="#0B192C" stroke-width="4.5" stroke-linecap="round"/>
+    
+    <path d="M43 19L56 50" stroke="#1B365D" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M26 35L54 55" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M18 55L52 60" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M22 75L54 65" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M36 92L58 70" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M56 103L62 72" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M78 98L66 70" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M96 82L68 64" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M102 60L68 58" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M92 40L65 54" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M75 24L62 52" stroke="#1B365D" stroke-width="2.2" stroke-linecap="round"/>
+
+    <circle cx="60" cy="60" r="15" fill="#0B192C" stroke="#00A3C4" stroke-width="3"/>
+    
+    <line x1="60" y1="49" x2="60" y2="71" stroke="#00A3C4" stroke-width="1.8"/>
+    <line x1="49" y1="60" x2="71" y2="60" stroke="#00A3C4" stroke-width="1.8"/>
+    <line x1="52" y1="52" x2="68" y2="68" stroke="#00A3C4" stroke-width="1.8"/>
+    <line x1="52" y1="68" x2="68" y2="52" stroke="#00A3C4" stroke-width="1.8"/>
+
+    <circle cx="60" cy="49" r="2.2" fill="#38BDF8"/>
+    <circle cx="60" cy="71" r="2.2" fill="#38BDF8"/>
+    <circle cx="49" cy="60" r="2.2" fill="#38BDF8"/>
+    <circle cx="71" cy="60" r="2.2" fill="#38BDF8"/>
+
+    <circle cx="60" cy="60" r="5.5" fill="#10B981"/>
+  </g>
+
+  <!-- TIPOGRAFIA OFICIAL -->
+  <text x="165" y="75" class="font-lattes">Lattes</text>
+  <text x="168" y="123" class="font-data">DATA</text>
+</svg>
