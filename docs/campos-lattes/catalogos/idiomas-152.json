@@ -1,0 +1,619 @@
+{
+ "catalogo": "idiomas",
+ "total": 152,
+ "tem_opcao_vazia_no_inicio": true,
+ "campos_que_usam": [
+  "F_IDIOMA",
+  "F_IDIOMA_OBRA"
+ ],
+ "valores": [
+  {
+   "valor": "DE",
+   "texto": "Alemão"
+  },
+  {
+   "valor": "ES",
+   "texto": "Espanhol"
+  },
+  {
+   "valor": "FR",
+   "texto": "Francês"
+  },
+  {
+   "valor": "EN",
+   "texto": "Inglês"
+  },
+  {
+   "valor": "IT",
+   "texto": "Italiano"
+  },
+  {
+   "valor": "LB",
+   "texto": "Libras"
+  },
+  {
+   "valor": "PT",
+   "texto": "Português"
+  },
+  {
+   "valor": "AB",
+   "texto": "Abhkazian"
+  },
+  {
+   "valor": "AA",
+   "texto": "Afar"
+  },
+  {
+   "valor": "AF",
+   "texto": "Afrikaans"
+  },
+  {
+   "valor": "AY",
+   "texto": "Aimara"
+  },
+  {
+   "valor": "SQ",
+   "texto": "Albanês"
+  },
+  {
+   "valor": "AM",
+   "texto": "Amarico"
+  },
+  {
+   "valor": "AR",
+   "texto": "Árabe"
+  },
+  {
+   "valor": "AN",
+   "texto": "Armênio"
+  },
+  {
+   "valor": "AS",
+   "texto": "Assames"
+  },
+  {
+   "valor": "AZ",
+   "texto": "Azerbaidjano"
+  },
+  {
+   "valor": "BC",
+   "texto": "Baluchi"
+  },
+  {
+   "valor": "EU",
+   "texto": "Basco"
+  },
+  {
+   "valor": "BA",
+   "texto": "Bashquir"
+  },
+  {
+   "valor": "BN",
+   "texto": "Bengali"
+  },
+  {
+   "valor": "BB",
+   "texto": "Berbere"
+  },
+  {
+   "valor": "BE",
+   "texto": "Bielo-Russo"
+  },
+  {
+   "valor": "BH",
+   "texto": "Bihari"
+  },
+  {
+   "valor": "BM",
+   "texto": "Birmanês"
+  },
+  {
+   "valor": "BI",
+   "texto": "Bislama"
+  },
+  {
+   "valor": "BR",
+   "texto": "Bretão"
+  },
+  {
+   "valor": "BG",
+   "texto": "Búlgaro"
+  },
+  {
+   "valor": "CB",
+   "texto": "Cabie"
+  },
+  {
+   "valor": "KS",
+   "texto": "Cachemiriano"
+  },
+  {
+   "valor": "KM",
+   "texto": "Cambodjano"
+  },
+  {
+   "valor": "KN",
+   "texto": "Canadá"
+  },
+  {
+   "valor": "KK",
+   "texto": "Casaque"
+  },
+  {
+   "valor": "CA",
+   "texto": "Catalão"
+  },
+  {
+   "valor": "ZH",
+   "texto": "Chinês"
+  },
+  {
+   "valor": "SI",
+   "texto": "Cingalês"
+  },
+  {
+   "valor": "KO",
+   "texto": "Coreano"
+  },
+  {
+   "valor": "CO",
+   "texto": "Corsico"
+  },
+  {
+   "valor": "CR",
+   "texto": "Crioulo"
+  },
+  {
+   "valor": "HR",
+   "texto": "Croata"
+  },
+  {
+   "valor": "KU",
+   "texto": "Curdo"
+  },
+  {
+   "valor": "DA",
+   "texto": "Dinamarquês"
+  },
+  {
+   "valor": "DI",
+   "texto": "Divehi"
+  },
+  {
+   "valor": "DZ",
+   "texto": "Dzongka"
+  },
+  {
+   "valor": "FY",
+   "texto": "Erisão"
+  },
+  {
+   "valor": "SK",
+   "texto": "Eslovaco"
+  },
+  {
+   "valor": "SL",
+   "texto": "Esloveno"
+  },
+  {
+   "valor": "EO",
+   "texto": "Esperanto"
+  },
+  {
+   "valor": "ET",
+   "texto": "Estoniano"
+  },
+  {
+   "valor": "EE",
+   "texto": "Eue"
+  },
+  {
+   "valor": "FO",
+   "texto": "Feróico"
+  },
+  {
+   "valor": "FJ",
+   "texto": "Fijiano"
+  },
+  {
+   "valor": "FL",
+   "texto": "Filipino"
+  },
+  {
+   "valor": "FI",
+   "texto": "Finlandês"
+  },
+  {
+   "valor": "GD",
+   "texto": "Gaelico Escocês"
+  },
+  {
+   "valor": "GL",
+   "texto": "Galego"
+  },
+  {
+   "valor": "CY",
+   "texto": "Galês"
+  },
+  {
+   "valor": "KA",
+   "texto": "Georgiano"
+  },
+  {
+   "valor": "EL",
+   "texto": "Grego"
+  },
+  {
+   "valor": "KL",
+   "texto": "Groenlandês"
+  },
+  {
+   "valor": "GN",
+   "texto": "Guarani"
+  },
+  {
+   "valor": "GU",
+   "texto": "Gujarati"
+  },
+  {
+   "valor": "HY",
+   "texto": "Harmênio"
+  },
+  {
+   "valor": "HA",
+   "texto": "Hausa"
+  },
+  {
+   "valor": "IW",
+   "texto": "Hebraico"
+  },
+  {
+   "valor": "HI",
+   "texto": "Hindi"
+  },
+  {
+   "valor": "NL",
+   "texto": "Holandês"
+  },
+  {
+   "valor": "HU",
+   "texto": "Húngaro"
+  },
+  {
+   "valor": "JI",
+   "texto": "Iidiche"
+  },
+  {
+   "valor": "IN",
+   "texto": "Indonésio"
+  },
+  {
+   "valor": "IA",
+   "texto": "Interlíngua"
+  },
+  {
+   "valor": "IE",
+   "texto": "Interlíngue"
+  },
+  {
+   "valor": "IK",
+   "texto": "Inupiak"
+  },
+  {
+   "valor": "ID",
+   "texto": "Ioma"
+  },
+  {
+   "valor": "GA",
+   "texto": "Irlandês"
+  },
+  {
+   "valor": "IS",
+   "texto": "Islandês"
+  },
+  {
+   "valor": "JA",
+   "texto": "Japonês"
+  },
+  {
+   "valor": "JV",
+   "texto": "Javanês"
+  },
+  {
+   "valor": "LO",
+   "texto": "Laosiano"
+  },
+  {
+   "valor": "LP",
+   "texto": "Lapão"
+  },
+  {
+   "valor": "LA",
+   "texto": "Latim"
+  },
+  {
+   "valor": "LV",
+   "texto": "Letão"
+  },
+  {
+   "valor": "LN",
+   "texto": "Lingála"
+  },
+  {
+   "valor": "LT",
+   "texto": "Lituano"
+  },
+  {
+   "valor": "LX",
+   "texto": "Luxemburguês"
+  },
+  {
+   "valor": "MK",
+   "texto": "Macedônio"
+  },
+  {
+   "valor": "ML",
+   "texto": "Malaiala"
+  },
+  {
+   "valor": "MS",
+   "texto": "Malaio"
+  },
+  {
+   "valor": "MG",
+   "texto": "Malgaxe"
+  },
+  {
+   "valor": "MT",
+   "texto": "Maltês"
+  },
+  {
+   "valor": "MA",
+   "texto": "Mandingo"
+  },
+  {
+   "valor": "MI",
+   "texto": "Maori"
+  },
+  {
+   "valor": "MR",
+   "texto": "Maratí"
+  },
+  {
+   "valor": "MO",
+   "texto": "Moldavio"
+  },
+  {
+   "valor": "MN",
+   "texto": "Mongol"
+  },
+  {
+   "valor": "NA",
+   "texto": "Nauruano"
+  },
+  {
+   "valor": "NE",
+   "texto": "Nepali"
+  },
+  {
+   "valor": "NO",
+   "texto": "Norueguês"
+  },
+  {
+   "valor": "OR",
+   "texto": "Oria"
+  },
+  {
+   "valor": "OM",
+   "texto": "Oromo"
+  },
+  {
+   "valor": "FA",
+   "texto": "Persa"
+  },
+  {
+   "valor": "PL",
+   "texto": "Polonês"
+  },
+  {
+   "valor": "PA",
+   "texto": "Punjabi"
+  },
+  {
+   "valor": "PS",
+   "texto": "Pushto"
+  },
+  {
+   "valor": "QU",
+   "texto": "Quichua"
+  },
+  {
+   "valor": "RW",
+   "texto": "Quiniaruanda"
+  },
+  {
+   "valor": "KY",
+   "texto": "Quirquiz"
+  },
+  {
+   "valor": "RN",
+   "texto": "Quirundi"
+  },
+  {
+   "valor": "QI",
+   "texto": "Quisuahili"
+  },
+  {
+   "valor": "RM",
+   "texto": "Reto-Romano"
+  },
+  {
+   "valor": "RO",
+   "texto": "Romeno"
+  },
+  {
+   "valor": "RU",
+   "texto": "Russo"
+  },
+  {
+   "valor": "SM",
+   "texto": "Samoano"
+  },
+  {
+   "valor": "SG",
+   "texto": "Sango"
+  },
+  {
+   "valor": "SA",
+   "texto": "Sanscrito"
+  },
+  {
+   "valor": "SR",
+   "texto": "Serbian"
+  },
+  {
+   "valor": "SH",
+   "texto": "Servo-Croata"
+  },
+  {
+   "valor": "ST",
+   "texto": "Sesoto"
+  },
+  {
+   "valor": "TN",
+   "texto": "Setsuana"
+  },
+  {
+   "valor": "SN",
+   "texto": "Shona"
+  },
+  {
+   "valor": "SD",
+   "texto": "Sindi"
+  },
+  {
+   "valor": "MY",
+   "texto": "Sirmanês"
+  },
+  {
+   "valor": "SS",
+   "texto": "Sisvati"
+  },
+  {
+   "valor": "SO",
+   "texto": "Somali"
+  },
+  {
+   "valor": "SW",
+   "texto": "Suaili"
+  },
+  {
+   "valor": "SU",
+   "texto": "Sudanês"
+  },
+  {
+   "valor": "SV",
+   "texto": "Sueco"
+  },
+  {
+   "valor": "TG",
+   "texto": "Tadjique"
+  },
+  {
+   "valor": "TH",
+   "texto": "Tai"
+  },
+  {
+   "valor": "TL",
+   "texto": "Talagog"
+  },
+  {
+   "valor": "TA",
+   "texto": "Tamil"
+  },
+  {
+   "valor": "TT",
+   "texto": "Tatar"
+  },
+  {
+   "valor": "CS",
+   "texto": "Tcheco"
+  },
+  {
+   "valor": "TE",
+   "texto": "Telugo"
+  },
+  {
+   "valor": "BO",
+   "texto": "Tibetano"
+  },
+  {
+   "valor": "TI",
+   "texto": "Tigrina"
+  },
+  {
+   "valor": "TO",
+   "texto": "Tongalês"
+  },
+  {
+   "valor": "TS",
+   "texto": "Tsonga"
+  },
+  {
+   "valor": "TW",
+   "texto": "Tui"
+  },
+  {
+   "valor": "TR",
+   "texto": "Turco"
+  },
+  {
+   "valor": "TK",
+   "texto": "Turcomano"
+  },
+  {
+   "valor": "TU",
+   "texto": "Tuvaloano"
+  },
+  {
+   "valor": "UK",
+   "texto": "Ucraniâno"
+  },
+  {
+   "valor": "UR",
+   "texto": "Urdu"
+  },
+  {
+   "valor": "UZ",
+   "texto": "Uzbeco"
+  },
+  {
+   "valor": "VI",
+   "texto": "Vietnamita"
+  },
+  {
+   "valor": "VO",
+   "texto": "Volupak"
+  },
+  {
+   "valor": "WO",
+   "texto": "Wolof"
+  },
+  {
+   "valor": "XH",
+   "texto": "Xosa"
+  },
+  {
+   "valor": "YO",
+   "texto": "Yoruba"
+  },
+  {
+   "valor": "ZU",
+   "texto": "Zulú"
+  },
+  {
+   "valor": "OU",
+   "texto": "Outros"
+  }
+ ]
+}

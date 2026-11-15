@@ -6,14 +6,19 @@
   "formularios": [
     {
       "url": "prc_outras_inf?f_cod=<codigo_do_cv>",
-      "total_campos": 1,
-      "campos": [
+      "total_campos_nomeados": 1,
+      "abas": [
         {
-          "tipo": "textarea",
-          "name": "F_TEXTO",
-          "id": "f_texto",
-          "maxlength": 2000,
-          "rotulo_provavel": "Neste local você pode cadastrar informações adicionais relativas ao seu currículo, não con"
+          "aba": "(sem aba)",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "F_TEXTO",
+              "id": "f_texto",
+              "maxlength": 2000,
+              "rotulo_provavel": "Neste local você pode cadastrar informações adicionais relativas ao seu currículo, não con"
+            }
+          ]
         }
       ],
       "ocultos": [
@@ -25,6 +30,9 @@
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o texto"
       ]
     }
   ],

@@ -33,6 +33,8 @@ const FIELD_IDS = [
   "cidade_editora",
   "area_conhecimento",
   "visibilidade",
+  "f_sta_divulgacao_cientifica",
+  "f_inovacao",
 ];
 
 const NATUREZAS = {
@@ -134,8 +136,15 @@ function getFormData() {
   const data = {};
   FIELD_IDS.forEach((id) => {
     const el = $(id);
-    if (el) data[id] = el.value.trim();
+    if (!el) return;
+    if (el.type === "checkbox") {
+      data[id] = el.checked ? "S" : "N";
+    } else {
+      data[id] = el.value.trim();
+    }
   });
+  data.f_sta_divulgacao_cientifica = $("f_sta_divulgacao_cientifica") && $("f_sta_divulgacao_cientifica").checked ? "S" : "N";
+  data.f_inovacao = $("f_inovacao") && $("f_inovacao").checked ? "S" : "N";
   data.autores = [...state.autores];
   data.palavras_chave = [...state.palavras_chave];
   return data;
@@ -146,18 +155,30 @@ function setFormData(data, markEnrichedKeys = []) {
   FIELD_IDS.forEach((id) => {
     const el = $(id);
     if (!el || data[id] === undefined) return;
-    el.value = data[id] || "";
+    if (el.type === "checkbox") {
+      el.checked = data[id] === "S" || data[id] === true;
+    } else {
+      el.value = data[id] || "";
+    }
     el.classList.remove("enriched-highlight");
     if (markEnrichedKeys.includes(id) && data[id]) {
       el.classList.add("enriched-highlight");
     }
   });
+  if ($("f_sta_divulgacao_cientifica")) {
+    $("f_sta_divulgacao_cientifica").checked = data.f_sta_divulgacao_cientifica === "S" || data.divulgacao_cientifica === "S" || data.f_sta_divulgacao_cientifica === true;
+  }
+  if ($("f_inovacao")) {
+    $("f_inovacao").checked = data.f_inovacao === "S" || data.inovacao === "S" || data.f_inovacao === true;
+  }
   if (Array.isArray(data.autores)) state.autores = data.autores;
   if (Array.isArray(data.palavras_chave)) state.palavras_chave = data.palavras_chave;
   applyTipoProducao($("tipo_producao").value); // atualiza o guia com o DOI já preenchido
   renderChips();
   updateCompleteness();
+  if (typeof updateComplianceUI === "function") updateComplianceUI();
   updateBookmarklet();
+  updateStandardizedDossieName();
 }
 
 function renderChips() {
@@ -283,6 +304,11 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     if (!r) { report.push('opção ausente: ' + name + '=' + value); return; }
     r.checked = true; r.click();
   }
+  function setRadioIfExists(name, value) {
+    if (!value) return;
+    var r = doc.querySelector('input[type="radio"][name="' + name + '"][value="' + value + '"]');
+    if (r) { r.checked = true; r.click(); }
+  }
   function setSelect(name, value) {
     if (!value) return;
     var sel = doc.querySelector('select[name="' + name + '"]');
@@ -302,6 +328,9 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var PAIS = { 'brasil': 'BRA', 'portugal': 'POR' };
   var NAT_APRES = { 'comunicacao': '2J1', 'conferencia ou palestra': '2J2', 'congresso': '2J3', 'seminario': '2J4', 'simposio': '2J5', 'outra': '2J9' };
   var IDIOMA = { 'portugues': 'PT', 'ingles': 'EN', 'espanhol': 'ES', 'frances': 'FR', 'alemao': 'DE', 'italiano': 'IT' };
+
+  var divCient = (d.f_sta_divulgacao_cientifica === 'S' || d.divulgacao_cientifica === 'S') ? 'S' : 'N';
+  var inovVal = (d.f_inovacao === 'S' || d.inovacao === 'S') ? 'S' : 'N';
 
   var want = d.tipo_producao || 'anais';
   var have = doc.querySelector('[name="f_titulo_periodico"]') ? 'artigo' : (doc.querySelector('[name="f_nme_orient"]') ? 'orientacao' : (doc.querySelector('[name="f_nme_evento"]') ? 'apresentacao' : 'anais'));
@@ -348,7 +377,9 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     if (pf && !pf.value) setVal('f_pag_fim', d.pagina_final);
     setVal('f_homepage', d.homepage);
     setRadio('F_RELEV', 'N');
-    setRadio('F_STA_DIVULGACAO_CIENTIFICA', 'N');
+    setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
+    setRadioIfExists('f_sta_inovacao', inovVal);
+    setRadioIfExists('f_inovacao', inovVal);
     setVal('f_ref', d.outras_informacoes);
   } else if (want === 'orientacao') {
     var wnd = doc.defaultView;
@@ -426,7 +457,9 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     setSelect('f_meio', lookup(MEIO, d.meio_divulgacao, 'meio de divulgação'));
     setVal('f_homepage', d.homepage);
     setRadio('F_RELEV', 'N');
-    setRadio('F_STA_DIVULGACAO_CIENTIFICA', 'N');
+    setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
+    setRadioIfExists('f_sta_inovacao', inovVal);
+    setRadioIfExists('f_inovacao', inovVal);
     setVal('f_nme_evento', d.nome_evento);
     setVal('f_inst', d.instituicao_promotora);
     setVal('f_local', d.local_evento);
@@ -442,7 +475,9 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     setSelect('f_meio', lookup(MEIO, d.meio_divulgacao, 'meio de divulgação'));
     setVal('f_homepage', d.homepage);
     setRadio('F_RELEV', 'N');
-    setRadio('F_STA_DIVULGACAO_CIENTIFICA', 'N');
+    setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
+    setRadioIfExists('f_sta_inovacao', inovVal);
+    setRadioIfExists('f_inovacao', inovVal);
     setRadio('f_tipo_evento', lookup(TIPO_EVENTO, d.classificacao_evento, 'classificação do evento'));
     setVal('f_evento', d.nome_evento);
     setVal('f_cidade_evento', d.cidade_evento);
@@ -532,10 +567,243 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
 })();`;
 
+function sanitizeDataPayload(raw) {
+  const d = { ...raw };
+  const ASPAS = /["'“”‘’`«»]/g;
+  const TRAVES = /[—–]/g;
+  const cleanStr = (s) => (s ? String(s).replace(ASPAS, "").replace(TRAVES, "-").replace(/\s+/g, " ").trim() : "");
+  
+  [
+    "titulo",
+    "titulo_anais",
+    "titulo_en",
+    "nome_evento",
+    "cidade_evento",
+    "local_evento",
+    "instituicao_promotora",
+    "editora",
+    "cidade_editora",
+    "periodico",
+    "nome_orientando",
+    "instituicao_orient",
+    "curso_orient"
+  ].forEach((k) => {
+    if (d[k] && typeof d[k] === "string") d[k] = cleanStr(d[k]);
+  });
+  if (d.isbn_issn) {
+    d.isbn_issn = String(d.isbn_issn).replace(/\D/g, "");
+  }
+  if (d.doi) {
+    let doi = String(d.doi).trim().replace(/^(https?:\/\/)?(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "").trim();
+    const m = doi.match(/\b(10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+)/);
+    if (m) doi = m[1].replace(/\.$/, "");
+    d.doi = doi;
+  }
+  return d;
+}
+
+function evaluateCompliance(data) {
+  const alerts = [];
+  const tipo = data.tipo_producao || "anais";
+  const titulo = (data.titulo || "").trim();
+  const doi = (data.doi || "").trim();
+  const pagIni = (data.pagina_inicial || "").trim();
+  const vol = (data.volume || "").trim();
+  const isbn = (data.isbn_issn || "").trim();
+
+  // 1. Regra de Artigo sem DOI (Portaria CNPq 2.664/2026 e CAPES Sucupira)
+  if (tipo === "artigo") {
+    if (!doi) {
+      alerts.push({
+        campo: "doi",
+        nivel: "critico",
+        mensagem: "Artigo sem DOI cadastrado. Conforme a Portaria CNPq 2.664/2026 e CAPES Sucupira, artigos sem DOI não são importados pelo Sucupira, gerando inconsistência e perda de pontuação do PPG."
+      });
+    } else if (!doi.startsWith("10.") || !doi.includes("/")) {
+      alerts.push({
+        campo: "doi",
+        nivel: "critico",
+        mensagem: `DOI '${doi}' fora do padrão Lattes (deve iniciar com '10.' e conter barra '/', sem prefixos URL).`
+      });
+    } else {
+      alerts.push({
+        campo: "doi",
+        nivel: "sucesso",
+        mensagem: `DOI em conformidade com o padrão CNPq (10.xxxx): ${doi}`
+      });
+    }
+  } else if (doi) {
+    if (doi.startsWith("10.") && doi.includes("/")) {
+      alerts.push({
+        campo: "doi",
+        nivel: "sucesso",
+        mensagem: `DOI em conformidade com o padrão CNPq: ${doi}`
+      });
+    } else {
+      alerts.push({
+        campo: "doi",
+        nivel: "aviso",
+        mensagem: `DOI '${doi}' fora do formato oficial do Lattes (esperado 10.xxxx).`
+      });
+    }
+  }
+
+  // 2. Regra de aspas e travessões no título
+  if (titulo) {
+    const hasAspas = /["'“”‘’`«»]/.test(titulo);
+    const hasTraves = /[—–]/.test(titulo);
+    if (hasAspas || hasTraves) {
+      const motivos = [];
+      if (hasAspas) motivos.push("aspas");
+      if (hasTraves) motivos.push("travessões (—, –)");
+      alerts.push({
+        campo: "titulo",
+        nivel: "aviso",
+        mensagem: `O título contém ${motivos.join(" e ")}, que o Lattes converte para '?'. Use a sanitização automática para evitar corrupção de caracteres.`
+      });
+    } else {
+      alerts.push({
+        campo: "titulo",
+        nivel: "sucesso",
+        mensagem: "Título em conformidade, sem aspas ou caracteres conflitantes com o Lattes."
+      });
+    }
+  } else {
+    alerts.push({
+      campo: "titulo",
+      nivel: "critico",
+      mensagem: "Título não informado. Campo obrigatório no Lattes."
+    });
+  }
+
+  // 3. Regra de Página Inicial e Volume (CAPES Sucupira)
+  if (tipo === "artigo" || tipo === "anais") {
+    if (!pagIni) {
+      alerts.push({
+        campo: "pagina_inicial",
+        nivel: "aviso",
+        mensagem: "Página inicial não informada. Importante para conferência nos relatórios Sucupira/CAPES."
+      });
+    } else {
+      alerts.push({
+        campo: "pagina_inicial",
+        nivel: "sucesso",
+        mensagem: `Página inicial (${pagIni}) registrada.`
+      });
+    }
+
+    if (!vol) {
+      alerts.push({
+        campo: "volume",
+        nivel: "aviso",
+        mensagem: "Volume não informado. Recomendado para citação bibliográfica completa."
+      });
+    } else {
+      alerts.push({
+        campo: "volume",
+        nivel: "sucesso",
+        mensagem: `Volume (${vol}) registrado.`
+      });
+    }
+  }
+
+  // 4. Regra de ISBN / ISSN (somente dígitos no Lattes)
+  if (isbn) {
+    if (/\D/.test(isbn)) {
+      alerts.push({
+        campo: "isbn_issn",
+        nivel: "aviso",
+        mensagem: `ISBN/ISSN '${isbn}' contém caracteres não numéricos (como hífens). O campo f_isbn do Lattes exige apenas dígitos.`
+      });
+    } else {
+      alerts.push({
+        campo: "isbn_issn",
+        nivel: "sucesso",
+        mensagem: `ISBN/ISSN formatado com dígitos (${isbn}), em conformidade com o Lattes.`
+      });
+    }
+  }
+
+  // 5. Preenchimento Duplo (Protocolo 3V)
+  if (data.f_sta_divulgacao_cientifica === "S") {
+    alerts.push({
+      campo: "f_sta_divulgacao_cientifica",
+      nivel: "sucesso",
+      mensagem: "Preenchimento Duplo Ativo: Configurado para replicação na aba Educação e Popularização de C&T."
+    });
+  }
+  if (data.f_inovacao === "S") {
+    alerts.push({
+      campo: "f_inovacao",
+      nivel: "sucesso",
+      mensagem: "Preenchimento Duplo Ativo: Configurado para replicação na aba Atividade de Inovação Tecnológica."
+    });
+  }
+
+  return alerts;
+}
+
+function updateComplianceUI() {
+  const data = getFormData();
+  const alerts = evaluateCompliance(data);
+  const pill = $("compliancePill");
+  const miniPill = $("compliancePillMini");
+  const card = $("complianceCard");
+  const container = $("complianceAlerts");
+
+  const hasCritico = alerts.some((a) => a.nivel === "critico");
+  const hasAviso = alerts.some((a) => a.nivel === "aviso");
+
+  let statusLevel = "sucesso";
+  let statusText = "🛡️ Conformidade CNPq: Conforme";
+  if (hasCritico) {
+    statusLevel = "critico";
+    statusText = "🚨 Conformidade CNPq: Risco Crítico";
+  } else if (hasAviso) {
+    statusLevel = "aviso";
+    statusText = "⚠️ Conformidade CNPq: Atenção (Pendências)";
+  }
+
+  if (pill) {
+    pill.className = `compliance-pill ${statusLevel}`;
+    pill.textContent = statusText;
+  }
+  if (miniPill) {
+    miniPill.className = `compliance-pill-mini ${statusLevel}`;
+    miniPill.textContent = hasCritico ? "🚨 CNPq: Crítico" : (hasAviso ? "⚠️ CNPq: Ajustes" : "🛡️ CNPq: Conforme");
+  }
+  if (card) {
+    card.classList.remove("has-critico", "has-aviso", "is-ok");
+    if (hasCritico) card.classList.add("has-critico");
+    else if (hasAviso) card.classList.add("has-aviso");
+    else card.classList.add("is-ok");
+  }
+
+  if (container) {
+    container.innerHTML = "";
+    alerts.forEach((alt) => {
+      const item = document.createElement("div");
+      item.className = `compliance-alert-item ${alt.nivel}`;
+      const icon = alt.nivel === "critico" ? "🚨" : (alt.nivel === "aviso" ? "⚠️" : "✅");
+      const badge = document.createElement("span");
+      badge.className = "compliance-badge-level";
+      badge.textContent = alt.nivel;
+      
+      const textSpan = document.createElement("span");
+      textSpan.textContent = ` ${icon} ${alt.mensagem}`;
+      
+      item.appendChild(badge);
+      item.appendChild(textSpan);
+      container.appendChild(item);
+    });
+  }
+}
+
 function buildLattesAutofillScript(data) {
   // "<" escapado para o JSON nunca fechar uma tag script caso o texto seja colado em HTML
   const usuario = $("ownerName") ? $("ownerName").value : "";
-  const payload = JSON.stringify({ ...data, __usuario: usuario, __origem: location.origin }).replace(/</g, "\\u003c");
+  const sanitized = sanitizeDataPayload(data);
+  const payload = JSON.stringify({ ...sanitized, __usuario: usuario, __origem: location.origin }).replace(/</g, "\\u003c");
   return AUTOFILL_TEMPLATE.replace("__DATA__", () => payload);
 }
 
@@ -630,6 +898,8 @@ async function uploadEvidenceFile(file) {
   }
   cadernoFile = null;
   cadernoUploadId = null;
+  currentUploadedFile = file;
+  currentUploadId = uploadId;
   $("cadernoResults").innerHTML = "";
   setFormData(json.extracted);
   const notes = (json.extracted.extraction_notes || []).join(" ");
@@ -965,7 +1235,7 @@ $("btnExtractText").onclick = () => {
   if (txt) extractFromRawText(txt);
 };
 
-$("btnLoadSample").onclick = () => {
+$("btnLoadSample").onclick = async () => {
   const sampleText = `XXXVI SEMINÁRIO DE INICIAÇÃO CIENTÍFICA E XVI SEMINÁRIO DE INICIAÇÃO AO DESENVOLVIMENTO TECNOLÓGICO E INOVAÇÃO
 POTENCIAL DO MESOCARPO DE BABAÇU COMO INIBIDOR DA PEROXIDAÇÃO LIPÍDICA E DE ENZIMAS PRÓ-OXIDANTES
 Aramys Silva Dos Reis¹
@@ -977,6 +1247,13 @@ CIÊNCIAS BIOLÓGICAS
 193`;
   $("rawTextInput").value = sampleText;
   extractFromRawText(sampleText);
+  try {
+    const resp = await fetch("/exemplos/2024-SEMICresumo.pdf");
+    if (resp.ok) {
+      currentUploadedFile = await resp.blob();
+      currentUploadId = "sample";
+    }
+  } catch (e) {}
 };
 
 $("btnEnrich").onclick = enrichMissing;
@@ -994,6 +1271,7 @@ $("btnAddAuthor").onclick = () => {
   renderChips();
   updateCompleteness();
   updateBookmarklet();
+  updateStandardizedDossieName();
 };
 
 $("btnAddKeyword").onclick = () => {
@@ -1004,6 +1282,7 @@ $("btnAddKeyword").onclick = () => {
   renderChips();
   updateCompleteness();
   updateBookmarklet();
+  updateStandardizedDossieName();
 };
 
 document.querySelectorAll(".copy-btn").forEach((btn) => {
@@ -1021,6 +1300,7 @@ FIELD_IDS.forEach((id) => {
     el.addEventListener("input", () => {
       updateCompleteness();
       updateBookmarklet();
+      updateStandardizedDossieName();
     });
   }
 });
@@ -1244,13 +1524,147 @@ $("btnToggleHistory").onclick = () => {
 };
 $("btnCloseHistory").onclick = () => $("historyPanel").classList.add("hidden");
 
-// Modal de Avaliação & Diagnóstico Lattes (Lattes Shield)
+// Modal de Avaliação & Diagnóstico Lattes (Lattes Shield) & Radar Online
 const auditModal = $("auditModal");
+const KNOWN_ORCIDS = {
+  "Aramys Silva dos Reis": "0000-0003-4999-6382",
+};
+
+let radarObrasCache = [];
+
+function carregarObraNoForm(obra) {
+  if (auditModal) auditModal.classList.add("hidden");
+  const tipo = "artigo";
+  $("tipo_producao").value = tipo;
+  applyTipoProducao(tipo);
+
+  if ($("titulo")) $("titulo").value = obra.titulo || "";
+  if ($("doi")) $("doi").value = obra.doi || "";
+  if ($("ano")) $("ano").value = obra.ano || "";
+  if ($("periodico")) $("periodico").value = obra.veiculo || "";
+  if ($("idioma")) $("idioma").value = "Português";
+  if ($("pais")) $("pais").value = "Brasil";
+  if ($("meio_divulgacao")) $("meio_divulgacao").value = "meio digital";
+
+  if (Array.isArray(obra.autores) && obra.autores.length > 0) {
+    const skip = new Set(["da", "de", "do", "das", "dos", "e"]);
+    state.autores = obra.autores.map((nomeStr) => {
+      const trimmed = String(nomeStr).trim();
+      const parts = trimmed.split(/\s+/);
+      const cit = parts.length > 1
+        ? `${parts[parts.length - 1].toUpperCase()}, ${parts.slice(0, -1).filter((p) => !skip.has(p.toLowerCase())).map((p) => p[0].toUpperCase() + ".").join(" ")}`
+        : trimmed.toUpperCase();
+      return { nome: trimmed, citacao: cit };
+    });
+  } else {
+    state.autores = [];
+  }
+
+  renderChips();
+  updateCompleteness();
+  updateBookmarklet();
+  showToast(`✨ Obra resgatada pelo Radar carregada no formulário!`);
+  const form = $("lattesForm");
+  if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function carregarRadarObras(force = false) {
+  const container = $("auditRadarItems");
+  if (!container) return;
+  const user = $("ownerName") ? $("ownerName").value.trim() : "Aramys Silva dos Reis";
+  const orcid = KNOWN_ORCIDS[user] || "";
+
+  if (container.dataset.loadedUser === user && !force && radarObrasCache.length > 0) {
+    return;
+  }
+
+  container.innerHTML = `
+    <div style="text-align: center; padding: 14px; color: #475569;">
+      <span style="display:inline-block; margin-right:6px;">⏳</span>
+      Varrendo OpenAlex & CrossRef em busca de produções reais de <strong>${user}</strong>...
+    </div>
+  `;
+  const badge = $("auditRadarBadge");
+  if (badge) badge.textContent = "Buscando...";
+
+  try {
+    const params = new URLSearchParams({ autor: user });
+    if (orcid) params.set("orcid", orcid);
+    const resp = await fetch(`/api/radar?${params.toString()}`);
+    if (!resp.ok) throw new Error("Falha na resposta do servidor");
+    const json = await resp.json();
+    const obras = json.obras || [];
+    radarObrasCache = obras;
+    container.dataset.loadedUser = user;
+
+    if (obras.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 12px; color: #64748b;">
+          Nenhuma obra recente localizada nas APIs para este autor.
+        </div>
+      `;
+      if (badge) badge.textContent = "0 Encontradas";
+      return;
+    }
+
+    if (badge) badge.textContent = `+${obras.length * 10} Pontos (${obras.length} Obras)`;
+    container.innerHTML = "";
+
+    obras.forEach((obra) => {
+      const itemEl = document.createElement("div");
+      itemEl.className = "radar-item";
+
+      const infoDiv = document.createElement("div");
+      infoDiv.style.flex = "1";
+      infoDiv.style.minWidth = "0";
+
+      const titleStrong = document.createElement("strong");
+      titleStrong.textContent = (obra.veiculo ? "Artigo: " : "Trabalho: ");
+      infoDiv.appendChild(titleStrong);
+
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = obra.titulo;
+      infoDiv.appendChild(titleSpan);
+
+      const metaSpan = document.createElement("span");
+      metaSpan.className = "radar-meta";
+      const metaParts = [];
+      if (obra.ano) metaParts.push(`Ano: ${obra.ano}`);
+      if (obra.veiculo) metaParts.push(obra.veiculo);
+      if (obra.doi) metaParts.push(`DOI: ${obra.doi}`);
+      if (obra.autores && obra.autores.length > 0) {
+        metaParts.push(`Autores: ${obra.autores.slice(0, 3).join(", ")}${obra.autores.length > 3 ? " et al." : ""}`);
+      }
+      metaSpan.textContent = metaParts.join(" • ");
+      infoDiv.appendChild(metaSpan);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-sm btn-accent";
+      btn.textContent = "📥 Carregar no Form";
+      btn.onclick = () => carregarObraNoForm(obra);
+
+      itemEl.appendChild(infoDiv);
+      itemEl.appendChild(btn);
+      container.appendChild(itemEl);
+    });
+  } catch (err) {
+    console.error("Falha ao buscar obras do radar:", err);
+    container.innerHTML = `
+      <div style="text-align: center; padding: 12px; color: #dc2626;">
+        ⚠️ Erro ao consultar bases online. Clique em "Escanear Obras" para tentar novamente.
+      </div>
+    `;
+    if (badge) badge.textContent = "Erro na Busca";
+  }
+}
+
 if ($("btnOpenAuditModal") && auditModal) {
   $("btnOpenAuditModal").onclick = () => {
     const user = $("ownerName") ? $("ownerName").value : "Aramys Silva dos Reis";
     if ($("auditModalUser")) $("auditModalUser").textContent = user;
     auditModal.classList.remove("hidden");
+    carregarRadarObras();
   };
   if ($("btnCloseAuditModal")) {
     $("btnCloseAuditModal").onclick = () => auditModal.classList.add("hidden");
@@ -1260,27 +1674,343 @@ if ($("btnOpenAuditModal") && auditModal) {
   };
 }
 
+if ($("btnScanRadar")) {
+  $("btnScanRadar").onclick = () => carregarRadarObras(true);
+}
+
 if ($("btnLoadRadarItem")) {
   $("btnLoadRadarItem").onclick = () => {
-    if (auditModal) auditModal.classList.add("hidden");
-    $("tipo_producao").value = "artigo";
-    applyTipoProducao("artigo");
-    if ($("titulo")) $("titulo").value = "IMPORTÂNCIA DO FARMACÊUTICO NO CUIDADO AO PACIENTE HIPERTENSO: UMA REVISÃO DE LITERATURA";
-    if ($("doi")) $("doi").value = "10.29327/2239332.2.2-13";
-    if ($("ano")) $("ano").value = "2023";
-    if ($("idioma")) $("idioma").value = "Português";
-    if ($("pais")) $("pais").value = "Brasil";
-    if ($("meio_divulgacao")) $("meio_divulgacao").value = "meio digital";
-    autores = ["Reis, Aramys Silva dos"];
-    renderAutores();
-    updateCompleteness();
-    updateBookmarklet();
-    showToast("✨ Artigo resgatado pelo Radar carregado no formulário! Clique em 'Buscar Dados Faltantes' para enriquecer.");
-    const form = $("lattesForm");
-    if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+    carregarObraNoForm({
+      titulo: "IMPORTÂNCIA DO FARMACÊUTICO NO CUIDADO AO PACIENTE HIPERTENSO: UMA REVISÃO DE LITERATURA",
+      doi: "10.29327/2239332.2.2-13",
+      ano: "2023",
+      veiculo: "Revista Científica de Saúde",
+      autores: ["Aramys Silva dos Reis"]
+    });
   };
 }
 
 updateCompleteness();
 updateBookmarklet();
 loadRecords();
+updateStandardizedDossieName();
+
+// ==========================================================================
+// Dossiê Acadêmico & Padronizador de Comprovantes (CAPES / CNPq)
+// ==========================================================================
+
+let currentUploadedFile = null;
+let currentUploadId = null;
+let currentStandardFileName = "2024_ARTIGO_REIS_TITULO.pdf";
+
+const STOP_WORDS_SET = new Set([
+  "DE", "DO", "DA", "DOS", "DAS", "E", "EM", "NO", "NA", "NOS", "NAS",
+  "PARA", "POR", "COM", "UM", "UMA", "UNS", "UMAS", "O", "A", "OS", "AS",
+  "AO", "AOS", "SOBRE", "ENTRE", "SEM", "SOB", "THE", "OF", "AND", "IN", "ON", "AT", "TO", "FOR"
+]);
+
+const PARENTESCO_SET = new Set(["JUNIOR", "FILHO", "NETO", "SOBRINHO", "SEGUNDO", "TERCEIRO"]);
+
+function cleanAscii(str) {
+  return String(str || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase()
+    .replace(/[^A-Z0-9\s\-_]/g, " ")
+    .trim();
+}
+
+function generateStandardName(data) {
+  // Ano
+  const anoMatch = String(data.ano || data.ano_evento || "").match(/\b(19\d\d|20\d\d)\b/);
+  const ano = anoMatch ? anoMatch[1] : "SEM-ANO";
+
+  // Tipo
+  const mapaTipos = {
+    artigo: "ARTIGO",
+    periodico: "ARTIGO",
+    anais: "ANAIS",
+    resumo: "ANAIS",
+    apresentacao: "APRESENTACAO",
+    palestra: "APRESENTACAO",
+    conferencia: "APRESENTACAO",
+    orientacao: "ORIENTACAO",
+    certificado: "CERTIFICADO",
+    livro: "LIVRO",
+    capitulo: "CAPITULO",
+    patente: "PATENTE",
+    relatorio: "RELATORIO",
+  };
+  const tipoBruto = (data.tipo_producao || data.tipo || data.natureza || "").toLowerCase();
+  let tipo = "PRODUCAO";
+  for (const [k, v] of Object.entries(mapaTipos)) {
+    if (tipoBruto.includes(k)) {
+      tipo = v;
+      break;
+    }
+  }
+  if (tipo === "PRODUCAO") {
+    if (data.doi || data.periodico) tipo = "ARTIGO";
+    else if (data.nome_evento || data.titulo_anais) tipo = "ANAIS";
+    else if (data.nome_orientando || data.instituicao_orient) tipo = "ORIENTACAO";
+  }
+
+  // Primeiro autor
+  let autor = "AUTOR";
+  if (Array.isArray(state.autores) && state.autores.length > 0) {
+    const a0 = state.autores[0];
+    const raw = typeof a0 === "object" ? (a0.citacao?.split(",")[0] || a0.nome || "") : String(a0);
+    const tokens = cleanAscii(raw).split(/\s+/).filter(Boolean);
+    if (tokens.length > 0) {
+      const last = tokens[tokens.length - 1];
+      if (PARENTESCO_SET.has(last) && tokens.length > 1) {
+        autor = `${tokens[tokens.length - 2]}-${last}`;
+      } else {
+        autor = last;
+      }
+    }
+  } else if ($("ownerName") && $("ownerName").value) {
+    const tokens = cleanAscii($("ownerName").value).split(/\s+/).filter(Boolean);
+    if (tokens.length > 0) autor = tokens[tokens.length - 1];
+  }
+
+  // Slug título
+  const limpoTitulo = cleanAscii(data.titulo || "DOCUMENTO");
+  const words = limpoTitulo.split(/\s+/).filter(Boolean);
+  let relevantes = words.filter((w) => !STOP_WORDS_SET.has(w));
+  if (relevantes.length === 0) relevantes = words;
+
+  const selected = [];
+  let curLen = 0;
+  for (const w of relevantes.slice(0, 5)) {
+    const add = w.length + (selected.length ? 1 : 0);
+    if (curLen + add > 40 && selected.length) break;
+    selected.push(w);
+    curLen += add;
+  }
+  const slug = (selected.join("-") || "DOCUMENTO").replace(/-+/g, "-");
+
+  const base = `${ano}_${tipo}_${autor}_${slug}`
+    .replace(/[^A-Z0-9_\-]/g, "")
+    .replace(/_{2,}/g, "_")
+    .replace(/-{2,}/g, "-");
+  return `${base}.pdf`;
+}
+
+function updateStandardizedDossieName() {
+  const data = getFormData();
+  currentStandardFileName = generateStandardName(data);
+  const el = $("standardFileName");
+  if (el) {
+    el.textContent = currentStandardFileName;
+  }
+}
+
+async function downloadStandardizedFile() {
+  const data = getFormData();
+  const nome = currentStandardFileName || generateStandardName(data);
+
+  // 1. Se temos o blob/arquivo carregado na memória do navegador
+  if (currentUploadedFile) {
+    const url = URL.createObjectURL(currentUploadedFile);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nome;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast(`📥 Comprovante padronizado baixado: ${nome}`);
+    return;
+  }
+
+  // 2. Se temos o uploadId registrado no servidor
+  if (currentUploadId) {
+    const downloadUrl = `/api/dossie/download?id=${encodeURIComponent(currentUploadId)}&nome=${encodeURIComponent(nome)}`;
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = nome;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast(`📥 Baixando comprovante do servidor: ${nome}`);
+    return;
+  }
+
+  // 3. Se foi carregado exemplo ou formulário manual sem arquivo, tenta obter o exemplo do SEMIC ou gera stub
+  try {
+    const resp = await fetch("/exemplos/2024-SEMICresumo.pdf");
+    if (resp.ok) {
+      currentUploadedFile = await resp.blob();
+      const url = URL.createObjectURL(currentUploadedFile);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nome;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast(`📥 Comprovante de exemplo baixado padronizado: ${nome}`);
+      return;
+    }
+  } catch (err) {}
+
+  // Fallback: gera stub PDF descritivo
+  const stubText = `%PDF-1.4\n% Dossiê Acadêmico CAPES / CNPq\n% Arquivo: ${nome}\n% Título: ${data.titulo || "Sem título"}\n% Autor: ${state.autores?.[0]?.nome || "Autor"}\n% Ano: ${data.ano || "2024"}\n`;
+  const blob = new Blob([stubText], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nome;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`📥 Comprovante padronizado baixado: ${nome}`);
+}
+
+const dossieModal = $("dossieModal");
+
+async function renderDossieTree() {
+  const preview = $("dossieTreePreview");
+  if (!preview) return;
+  preview.innerHTML = "Carregando estrutura do dossiê...";
+
+  try {
+    const rResp = await fetch("/api/records");
+    const rData = await rResp.json();
+    const records = rData.records || [];
+
+    const lote = [];
+    const atual = getFormData();
+    if (atual.titulo || atual.ano) {
+      lote.push({ dados: atual, nome_original: "producao_atual.pdf" });
+    }
+    records.forEach((r, idx) => {
+      lote.push({ dados: r.data, nome_original: `registro_${idx + 1}.pdf` });
+    });
+
+    const res = await fetch("/api/dossie/padronizar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lote }),
+    });
+    const org = await res.json();
+
+    if (!org.anos || Object.keys(org.anos).length === 0) {
+      preview.innerHTML = `<span class="tree-meta">Nenhum comprovante cadastrado ainda. Envie um arquivo no Passo 1.</span>`;
+      return;
+    }
+
+    let html = "";
+    for (const [ano, itens] of Object.entries(org.anos)) {
+      html += `<div class="tree-folder">📁 ${ano}/ <span class="tree-meta">(${itens.length} arquivo${itens.length > 1 ? "s" : ""})</span></div>`;
+      itens.forEach((it, i) => {
+        const isLast = i === itens.length - 1;
+        const prefix = isLast ? "└──" : "├──";
+        html += `<div class="tree-file">&nbsp;&nbsp;${prefix} 📄 <strong>${it.nome_padronizado}</strong> <span class="tree-meta">(${it.tipo})</span></div>`;
+      });
+    }
+    preview.innerHTML = html;
+    window.__lastDossieMd = org.relatorio_markdown || "";
+    window.__lastDossieLote = lote;
+  } catch (e) {
+    preview.innerHTML = `<span style="color:#f87171;">Erro ao carregar estrutura: ${e.message}</span>`;
+  }
+}
+
+if ($("btnOpenDossieModal") && dossieModal) {
+  $("btnOpenDossieModal").onclick = () => {
+    dossieModal.classList.remove("hidden");
+    renderDossieTree();
+  };
+  if ($("btnCloseDossieModal")) {
+    $("btnCloseDossieModal").onclick = () => dossieModal.classList.add("hidden");
+  }
+  dossieModal.onclick = (e) => {
+    if (e.target === dossieModal) dossieModal.classList.add("hidden");
+  };
+}
+
+if ($("btnDownloadStandardized")) {
+  $("btnDownloadStandardized").onclick = downloadStandardizedFile;
+}
+if ($("btnDownloadStandardizedPasso3")) {
+  $("btnDownloadStandardizedPasso3").onclick = downloadStandardizedFile;
+}
+if ($("btnCopyStandardName")) {
+  $("btnCopyStandardName").onclick = async () => {
+    await navigator.clipboard.writeText(currentStandardFileName);
+    showToast(`📋 Nome copiado: ${currentStandardFileName}`);
+  };
+}
+
+if ($("btnCopyDossieMd")) {
+  $("btnCopyDossieMd").onclick = async () => {
+    if (window.__lastDossieMd) {
+      await navigator.clipboard.writeText(window.__lastDossieMd);
+      showToast("📋 Relatório do dossiê em Markdown copiado!");
+    } else {
+      showToast("Abra a árvore do dossiê primeiro.");
+    }
+  };
+}
+
+if ($("btnDownloadDossieZip")) {
+  $("btnDownloadDossieZip").onclick = async () => {
+    showToast("📦 Gerando pacote ZIP do dossiê acadêmico...");
+    try {
+      const lote = window.__lastDossieLote || [{ dados: getFormData() }];
+      const resp = await fetch("/api/dossie/zip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lote }),
+      });
+      if (resp.ok) {
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "dossie_academico_capes.zip";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast("📦 Pacote ZIP baixado com sucesso!");
+      } else {
+        showToast("Erro ao gerar ZIP do dossiê.");
+      }
+    } catch (e) {
+      showToast("Falha na geração do ZIP.");
+    }
+  };
+}
+
+// ==========================================================================
+// Protocolo 3V - Conformidade CNPq Ativa & Preenchimento Duplo
+// ==========================================================================
+if ($("btnSanitizeForm")) {
+  $("btnSanitizeForm").onclick = () => {
+    const raw = getFormData();
+    const sanitized = sanitizeDataPayload(raw);
+    setFormData(sanitized);
+    updateComplianceUI();
+    showToast("✨ Metadados sanitizados com sucesso! Aspas e travessões removidos, DOI e ISBN formatados.");
+  };
+}
+
+const lattesFormEl = $("lattesForm");
+if (lattesFormEl) {
+  lattesFormEl.addEventListener("input", () => {
+    updateComplianceUI();
+    updateCompleteness();
+    updateBookmarklet();
+  });
+  lattesFormEl.addEventListener("change", () => {
+    updateComplianceUI();
+    updateCompleteness();
+    updateBookmarklet();
+  });
+}
+
+updateComplianceUI();
+

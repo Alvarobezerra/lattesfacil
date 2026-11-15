@@ -6,34 +6,12 @@
   "formularios": [
     {
       "url": "prc_area_atuacao?f_cod=<codigo_do_cv>",
-      "total_campos": 5,
-      "campos": [
+      "total_campos_nomeados": 0,
+      "abas": [
         {
-          "tipo": "text",
-          "rotulo_provavel": "Visibilidade",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 86,
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 85,
-          "rotulo_provavel": "Área:",
-          "anonimo": true
+          "aba": "(sem aba)",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 5
         }
       ],
       "ocultos": [
@@ -45,19 +23,6 @@
       ],
       "grades": [
         "áreas do conhecimento"
-      ],
-      "abas": [
-        "Áreas Clássicas de Fenomenologia e suas Aplicações",
-        "Produção de Radioisótopos",
-        "Financiamento de Transportes",
-        "Produção de Mudas",
-        "Produção e Beneficiamento de Sementes",
-        "Produção Animal",
-        "Outras Sociologias Específicas",
-        "Orientação e Aconselhamento",
-        "Orientação Educacional",
-        "Orientação Vocacional",
-        "Outras Literaturas Vernáculas"
       ],
       "salvar": [
         "check();return false;"

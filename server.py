@@ -23,6 +23,9 @@ from artigo import doi_only, is_article, parse_artigo
 from orientacao import is_orientacao, parse_orientacao
 from certificado import is_certificate, parse_certificado
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
+from radar import buscar_obras_radar
+from compliance import sanitizar_metadados, verificar_conformidade
+from organizer import extrair_ano, gerar_nome_padronizado, gerar_zip_dossie, organizar_lote_comprovantes
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
@@ -134,7 +137,16 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
         extracted = parse_orientacao(raw_text, usuario)
     else:
         extracted = parse_evidence_text(raw_text, filename=filename)
-    return {"extracted": extracted, "raw_text": raw_text[:4000], "filename": filename}
+    extracted = sanitizar_metadados(extracted)
+    nome_padrao = gerar_nome_padronizado(extracted)
+    ano = extrair_ano(extracted)
+    return {
+        "extracted": extracted,
+        "raw_text": raw_text[:4000],
+        "filename": filename,
+        "nome_padronizado": nome_padrao,
+        "caminho_sugerido": f"{ano}/{nome_padrao}",
+    }
 
 
 def run_caderno(file_bytes: bytes, filename: str, pesquisador: str) -> tuple[dict[str, Any], int]:
@@ -192,6 +204,17 @@ class LattesHandler(BaseHTTPRequestHandler):
             self._send_json({"ok": True, "service": "LattesFácil"})
             return
 
+        if path == "/api/radar":
+            qs = parse_qs(parsed.query)
+            autor = (qs.get("autor") or [""])[0].strip()
+            orcid = (qs.get("orcid") or [""])[0].strip() or None
+            try:
+                obras = buscar_obras_radar(autor, orcid=orcid)
+                self._send_json({"ok": True, "obras": obras})
+            except Exception as exc:
+                self._send_json({"ok": False, "error": str(exc), "obras": []}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if path == "/api/lattes/ping":
             # Sinal do conector (roda na aba do Lattes). GET para funcionar como "beacon" de imagem, sem CORS.
             qs = parse_qs(parsed.query)
@@ -236,6 +259,63 @@ class LattesHandler(BaseHTTPRequestHandler):
             ]
             self._send_json({"records": records})
             return
+
+        if path == "/api/dossie/download":
+            qs = parse_qs(parsed.query)
+            uid = (qs.get("id") or [""])[0]
+            nome = (qs.get("nome") or [""])[0]
+            data = None
+            with UPLOADS_LOCK:
+                up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                if up and up.get("data"):
+                    data = up["data"]
+                    if not nome and up.get("name"):
+                        nome = up["name"]
+            if not data:
+                # Se for download do exemplo oficial (SEMIC UFMA)
+                if uid == "sample" or (qs.get("sample") or [""])[0] == "1":
+                    sample_file = BASE_DIR / "exemplos" / "2024-SEMICresumo.pdf"
+                    if sample_file.exists():
+                        data = sample_file.read_bytes()
+            if not data:
+                self._send_json({"error": "Arquivo não encontrado ou sessão expirada."}, HTTPStatus.NOT_FOUND)
+                return
+            if not nome:
+                nome = "comprovante_padronizado.pdf"
+            if not nome.lower().endswith(".pdf"):
+                nome += ".pdf"
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "application/pdf")
+            self.send_header("Content-Disposition", f'attachment; filename="{nome}"')
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+
+        if path == "/api/dossie/padronizar":
+            qs = parse_qs(parsed.query)
+            params = {k: v[0] for k, v in qs.items()}
+            nome = gerar_nome_padronizado(params)
+            ano = extrair_ano(params)
+            self._send_json({
+                "ok": True,
+                "nome_padronizado": nome,
+                "caminho_sugerido": f"{ano}/{nome}",
+            })
+            return
+
+        if path.startswith("/exemplos/"):
+            rel_exemplo = path.replace("/exemplos/", "", 1).lstrip("/")
+            target_ex = (BASE_DIR / "exemplos" / rel_exemplo).resolve()
+            if target_ex.is_relative_to((BASE_DIR / "exemplos").resolve()) and target_ex.is_file():
+                ctype, _ = mimetypes.guess_type(str(target_ex))
+                raw = target_ex.read_bytes()
+                self.send_response(HTTPStatus.OK)
+                self.send_header("Content-Type", f"{ctype or 'application/octet-stream'}")
+                self.send_header("Content-Length", str(len(raw)))
+                self.end_headers()
+                self.wfile.write(raw)
+                return
 
         # Serve static files
         rel_path = "index.html" if path == "/" else path.lstrip("/")
@@ -312,7 +392,13 @@ class LattesHandler(BaseHTTPRequestHandler):
                     if not parsed_file:
                         self._send_json({"error": "Nenhum arquivo encontrado no envio."}, HTTPStatus.BAD_REQUEST)
                         return
-                    self._send_json(process_extract(parsed_file[0], parsed_file[1], form_fields.get("usuario", "").strip()))
+                    uid = str(uuid.uuid4()).replace("-", "")[:16]
+                    with UPLOADS_LOCK:
+                        _purge_uploads()
+                        UPLOADS[uid] = {"chunks": {}, "n": 1, "name": parsed_file[0], "ts": time.time(), "data": parsed_file[1]}
+                    res = process_extract(parsed_file[0], parsed_file[1], form_fields.get("usuario", "").strip())
+                    res["upload_id"] = uid
+                    self._send_json(res)
                     return
 
                 payload = json.loads(body.decode("utf-8") or "{}")
@@ -331,7 +417,14 @@ class LattesHandler(BaseHTTPRequestHandler):
                     extracted = parse_orientacao(raw_text, usuario_txt)
                 else:
                     extracted = parse_evidence_text(raw_text, filename=payload.get("filename", ""))
-                self._send_json({"extracted": extracted, "raw_text": raw_text[:4000]})
+                nome_padrao = gerar_nome_padronizado(extracted)
+                ano = extrair_ano(extracted)
+                self._send_json({
+                    "extracted": extracted,
+                    "raw_text": raw_text[:4000],
+                    "nome_padronizado": nome_padrao,
+                    "caminho_sugerido": f"{ano}/{nome_padrao}",
+                })
             except Exception:
                 self._send_json({"error": "Falha na extração do arquivo. Verifique se é um PDF válido."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
@@ -361,6 +454,60 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json(result, status)
             except Exception:
                 self._send_json({"error": "Falha ao ler o caderno de resumos."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/compliance":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                alerts = verificar_conformidade(payload)
+                self._send_json({"alerts": alerts})
+            except Exception:
+                self._send_json({"error": "Falha na verificação de conformidade."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/sanitize":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                sanitized = sanitizar_metadados(payload)
+                alerts = verificar_conformidade(sanitized)
+                self._send_json({"sanitized": sanitized, "alerts": alerts})
+            except Exception:
+                self._send_json({"error": "Falha na sanitização de metadados."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/dossie/padronizar":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                if "lote" in payload or "arquivos" in payload:
+                    itens = payload.get("lote") or payload.get("arquivos") or []
+                    res = organizar_lote_comprovantes(itens)
+                    self._send_json(res)
+                    return
+                dados = payload.get("dados") if isinstance(payload.get("dados"), dict) else payload
+                nome = gerar_nome_padronizado(dados)
+                ano = extrair_ano(dados)
+                self._send_json({
+                    "ok": True,
+                    "nome_padronizado": nome,
+                    "caminho_sugerido": f"{ano}/{nome}",
+                })
+            except Exception as exc:
+                self._send_json({"error": f"Falha na padronização: {str(exc)}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/dossie/zip":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                itens = payload.get("lote") or payload.get("arquivos") or []
+                zip_bytes = gerar_zip_dossie(itens)
+                self.send_response(HTTPStatus.OK)
+                self.send_header("Content-Type", "application/zip")
+                self.send_header("Content-Disposition", 'attachment; filename="dossie_academico_capes.zip"')
+                self.send_header("Content-Length", str(len(zip_bytes)))
+                self.end_headers()
+                self.wfile.write(zip_bytes)
+            except Exception as exc:
+                self._send_json({"error": f"Falha ao gerar ZIP do dossiê: {str(exc)}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/enrich":

@@ -6,72 +6,81 @@
   "formularios": [
     {
       "url": "PKG_REVISOR.inclui?f_cod=<codigo_do_cv>&f_natur=MB&f_origem=L",
-      "total_campos": 10,
-      "campos": [
+      "total_campos_nomeados": 8,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_nme_agencia",
-          "maxlength": 255,
-          "desabilitado": true,
-          "rotulo_provavel": "Periódico"
+          "aba": "Periódico",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_nme_agencia",
+              "maxlength": 255,
+              "desabilitado": true,
+              "rotulo_provavel": "Periódico"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_mes_ini",
-          "maxlength": 2,
-          "rotulo_provavel": "Mês"
+          "aba": "Período",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_mes_ini",
+              "maxlength": 2,
+              "rotulo_provavel": "Mês"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_ini",
+              "maxlength": 4,
+              "rotulo_provavel": "Ano"
+            },
+            {
+              "tipo": "radio",
+              "name": "f_status",
+              "opcoes": {
+                "S": "S",
+                "N": "N"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_mes_fim",
+              "maxlength": 2,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Mês"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_fim",
+              "maxlength": 4,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Ano"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_ano_ini",
-          "maxlength": 4,
-          "rotulo_provavel": "Ano"
+          "aba": "Outras informações",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "f_outras_inf",
+              "maxlength": 3950,
+              "rotulo_provavel": "Outras informações"
+            }
+          ]
         },
         {
-          "tipo": "radio",
-          "name": "f_status",
-          "opcoes": {
-            "S": "S",
-            "N": "N"
-          },
-          "rotulo_provavel": "Ano"
-        },
-        {
-          "tipo": "text",
-          "name": "f_mes_fim",
-          "maxlength": 2,
-          "rotulo_provavel": "Mês"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ano_fim",
-          "maxlength": 4,
-          "rotulo_provavel": "Ano"
-        },
-        {
-          "tipo": "textarea",
-          "name": "f_outras_inf",
-          "maxlength": 3950,
-          "rotulo_provavel": "Outras informações"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -92,15 +101,29 @@
         "f_seq_hist",
         "f_seq_per"
       ],
-      "abas": [
-        "Outras informaç...",
-        "Visibilidade"
-      ],
       "janelas_auxiliares": [
         "periodico();"
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Campo Periódico obrigatório não informado.",
+        "Campo Início obrigatório não informado.",
+        "Ano início não pode ser maior que ano atual.",
+        "Ano início não pode ser menor que ano nascimento.",
+        "Campo Fim obrigatório não informado.",
+        "Mês início inválido.",
+        "Ano de início inválido. O ano deve estar no formato 9999.",
+        "Mês fim inválido.",
+        "Ano fim inválido. Ano deve estar no formato 9999.",
+        "Data de início deve ser menor que data fim.",
+        "Não informe ano fim se o status do período for atual."
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Periódico",
+        "Início",
+        "Fim"
       ]
     }
   ],

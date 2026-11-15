@@ -815,3 +815,352 @@ body {
   align-items: center;
   gap: 10px;
 }
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Protocolo 3V - Conformidade CNPq & Preenchimento Duplo
+   ========================================================================== */
+
+.compliance-card {
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.compliance-card.has-critico {
+  border-color: #f87171;
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.08);
+}
+
+.compliance-card.has-aviso {
+  border-color: #fbbf24;
+}
+
+.compliance-card.is-ok {
+  border-color: #34d399;
+}
+
+.compliance-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.compliance-pill.sucesso {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.compliance-pill.aviso {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.compliance-pill.critico {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+  animation: pulse-danger 2s infinite;
+}
+
+@keyframes pulse-danger {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15); }
+}
+
+.compliance-pill-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.compliance-pill-mini.sucesso { background: #dcfce7; color: #166534; }
+.compliance-pill-mini.aviso { background: #fef3c7; color: #854d0e; }
+.compliance-pill-mini.critico { background: #fee2e2; color: #991b1b; }
+
+.compliance-panel {
+  margin: 12px 0 18px 0;
+}
+
+.compliance-alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.compliance-alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  border: 1px solid transparent;
+}
+
+.compliance-alert-item.critico {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #7f1d1d;
+}
+
+.compliance-alert-item.aviso {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #78350f;
+}
+
+.compliance-alert-item.sucesso {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #14532d;
+}
+
+.compliance-badge-level {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.compliance-alert-item.critico .compliance-badge-level {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.compliance-alert-item.aviso .compliance-badge-level {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.compliance-alert-item.sucesso .compliance-badge-level {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.dual-fill-card {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.dual-fill-header h4 {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.dual-fill-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .dual-fill-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dual-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #dce3ee;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dual-checkbox-label:hover {
+  border-color: var(--primary);
+  background: #f9fafb;
+}
+
+.dual-checkbox-label input[type="checkbox"] {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dual-check-content {
+  font-size: 0.84rem;
+  color: #334155;
+}
+
+.dual-check-content strong {
+  color: #0f172a;
+}
+
+.dual-check-content .hint {
+  margin-top: 4px;
+  font-size: 0.77rem;
+  color: #64748b;
+}
+
+.code-tag {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #0369a1;
+  font-family: monospace;
+  font-size: 0.72rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ==========================================================================
+   Dossiê Acadêmico & Padronizador de Comprovantes (CAPES / CNPq)
+   ========================================================================== */
+
+.dossie-card {
+  margin-top: 18px;
+  background: linear-gradient(135deg, #f0f7ff, #f8fafc);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.05);
+}
+
+.dossie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.dossie-badge-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dossie-icon {
+  font-size: 1.5rem;
+}
+
+.badge-capes {
+  background: #1e40af;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.dossie-filename-row {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.dossie-filename-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.dossie-filename-val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  word-break: break-all;
+  background: #eff6ff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #bfdbfe;
+}
+
+.dossie-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dossie-modal-info {
+  margin-bottom: 16px;
+}
+
+.tree-preview {
+  background: #0f172a;
+  color: #38bdf8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin-top: 10px;
+  max-height: 320px;
+  border: 1px solid #334155;
+}
+
+.tree-preview .tree-folder {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.tree-preview .tree-file {
+  color: #e2e8f0;
+}
+
+.tree-preview .tree-meta {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.dossie-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}

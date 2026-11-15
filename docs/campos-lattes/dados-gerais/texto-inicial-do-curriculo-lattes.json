@@ -6,21 +6,31 @@
   "formularios": [
     {
       "url": "pkg_resume.form?f_cod=<codigo_do_cv>",
-      "total_campos": 2,
-      "campos": [
+      "total_campos_nomeados": 2,
+      "abas": [
         {
-          "tipo": "textarea",
-          "name": "F_TEXTO",
-          "id": "f_texto",
-          "maxlength": 4000,
-          "rotulo_provavel": "Texto inicial"
+          "aba": "Texto inicial",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "F_TEXTO",
+              "id": "f_texto",
+              "maxlength": 4000,
+              "rotulo_provavel": "Texto inicial"
+            }
+          ]
         },
         {
-          "tipo": "textarea",
-          "name": "F_TEXTO_EN",
-          "id": "f_texto_trad",
-          "maxlength": 4000,
-          "rotulo_provavel": "Tradução"
+          "aba": "Tradução",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "F_TEXTO_EN",
+              "id": "f_texto_trad",
+              "maxlength": 4000,
+              "rotulo_provavel": "Tradução"
+            }
+          ]
         }
       ],
       "ocultos": [
@@ -32,6 +42,9 @@
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o texto"
       ]
     }
   ],

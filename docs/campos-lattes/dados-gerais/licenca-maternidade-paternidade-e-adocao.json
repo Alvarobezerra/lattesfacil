@@ -6,58 +6,56 @@
   "formularios": [
     {
       "url": "pkg_licenca.form?f_cod=<codigo_do_cv>",
-      "total_campos": 7,
-      "campos": [
+      "total_campos_nomeados": 5,
+      "abas": [
         {
-          "tipo": "select",
-          "name": "f_tipo_licenca",
-          "rotulo_provavel": "Tipo",
-          "opcoes": [
-            "=",
-            "M=Maternidade",
-            "P=Paternidade",
-            "A=Adoção"
+          "aba": "Licença",
+          "campos": [
+            {
+              "tipo": "select",
+              "name": "f_tipo_licenca",
+              "rotulo_provavel": "Tipo",
+              "opcoes": [
+                "=",
+                "M=Maternidade",
+                "P=Paternidade",
+                "A=Adoção"
+              ]
+            },
+            {
+              "tipo": "text",
+              "name": "f_dta_inicio",
+              "id": "dp1794762476611",
+              "maxlength": 10,
+              "rotulo_provavel": "Data Fim"
+            },
+            {
+              "tipo": "text",
+              "name": "f_dta_fim",
+              "id": "dp1794762476612",
+              "maxlength": 10,
+              "rotulo_provavel": "Data Fim"
+            },
+            {
+              "tipo": "text",
+              "name": "f_dta_nasc_adoc",
+              "id": "dp1794762476613",
+              "maxlength": 10,
+              "rotulo_provavel": "Data de nascimento/adoção"
+            }
           ]
         },
         {
-          "tipo": "text",
-          "name": "f_dta_inicio",
-          "id": "dp1794759971061",
-          "maxlength": 10,
-          "rotulo_provavel": "Data Fim"
-        },
-        {
-          "tipo": "text",
-          "name": "f_dta_fim",
-          "id": "dp1794759971062",
-          "maxlength": 10,
-          "rotulo_provavel": "Data Fim"
-        },
-        {
-          "tipo": "text",
-          "name": "f_dta_nasc_adoc",
-          "id": "dp1794759971063",
-          "maxlength": 10,
-          "rotulo_provavel": "Data de nascimento/adoção"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Privado",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -65,11 +63,23 @@
         "f_ctr",
         "f_seq"
       ],
-      "abas": [
-        "Visibilidade"
-      ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "O tipo de licença deve ser escolhido.",
+        "A data de início deve estar preenchida.",
+        "A data fim deve estar preenchida.",
+        "A data de nascimento ou adoção deve estar preenchida.",
+        "O tipo de licença deve ser válido.",
+        "Data de início inválida. Digite a data no formato dd/mm/aaaa",
+        "Data fim inválida. Digite a data no formato dd/mm/aaaa",
+        "Data de nascimento ou adoção inválida. Digite a data no formato dd/mm/aaaa",
+        "A data fim deve ser maior que a data início.",
+        "A data início deve ser maior ou igual à data de nascimento/adoção.",
+        "A data início deve ser menor ou igual à data corrente.",
+        "A data de nascimento/adoção deve ser menor ou igual à data corrente.",
+        "O período de licença não deve exceder 180 dias."
       ]
     }
   ],

@@ -104,6 +104,35 @@
       <div id="cadernoResults" class="records-list"></div>
 
       <div id="extractStatus" class="status-banner hidden"></div>
+
+      <!-- Dossiê Acadêmico: Nome Padronizado CAPES / CNPq -->
+      <div id="dossieBanner" class="dossie-card">
+        <div class="dossie-header">
+          <div class="dossie-badge-title">
+            <span class="dossie-icon">📁</span>
+            <div>
+              <strong>Dossiê Acadêmico (Padrão CAPES / CNPq)</strong>
+              <p class="hint">Nomenclatura oficial padronizada para comissões Sucupira e prestação de contas</p>
+            </div>
+          </div>
+          <span class="badge badge-capes">CAPES & CNPq Ready</span>
+        </div>
+        <div class="dossie-filename-row">
+          <span class="dossie-filename-label">📁 Nome Padronizado CAPES:</span>
+          <code id="standardFileName" class="dossie-filename-val">2024_ARTIGO_REIS_TITULO.pdf</code>
+        </div>
+        <div class="dossie-actions">
+          <button type="button" class="btn btn-primary" id="btnDownloadStandardized" title="Baixar comprovante renomeado com a nomenclatura oficial">
+            📥 Baixar Comprovante Padronizado
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnCopyStandardName" title="Copiar nome do arquivo">
+            📋 Copiar Nome
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnOpenDossieModal" title="Visualizar estrutura de pastas sugerida por ano acadêmico">
+            🗂️ Ver Estrutura em Pastas
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Passo 2: Completude & Busca Automática -->
@@ -115,6 +144,7 @@
           <p id="completenessText" class="hint">Envie uma evidência ou preencha os campos abaixo.</p>
         </div>
         <div class="completeness-actions">
+          <span class="compliance-pill-mini sucesso" id="compliancePillMini">🛡️ CNPq: Conforme</span>
           <button class="btn btn-accent" id="btnEnrich" type="button">
             🔍 Buscar Dados Faltantes (Crossref / OpenAlex / Web)
           </button>
@@ -429,6 +459,54 @@
         </div>
       </section>
 
+      <!-- Bloco D: Preenchimento Duplo e Conformidade CNPq (Protocolo 3V) -->
+      <section class="card compliance-card" id="complianceCard">
+        <div class="card-header flex-between">
+          <div class="flex-align-gap">
+            <span class="compliance-pill" id="compliancePill">🛡️ Conformidade CNPq: Verificando...</span>
+            <h3>4. Conformidade CNPq & Preenchimento Duplo (Protocolo 3V)</h3>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary" id="btnSanitizeForm" title="Sanitizar títulos, remover aspas, formatar DOI e ISBN">
+            ✨ Sanitizar Metadados
+          </button>
+        </div>
+
+        <!-- Painel Dinâmico de Conformidade CNPq em Tempo Real -->
+        <div class="compliance-panel">
+          <div class="compliance-status-banner">
+            <div id="complianceAlerts" class="compliance-alerts-list">
+              <!-- Inserido dinamicamente via JS em tempo real -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Seletor de Preenchimento Duplo -->
+        <div class="dual-fill-card">
+          <div class="dual-fill-header">
+            <h4>🔄 Preenchimento Duplo (Replicação Automática no Lattes)</h4>
+            <p class="hint">Ao marcar, o Lattes replica este item na aba correspondente automaticamente sem duplicar na base do CNPq.</p>
+          </div>
+          <div class="dual-fill-options">
+            <label class="dual-checkbox-label">
+              <input type="checkbox" id="f_sta_divulgacao_cientifica" name="f_sta_divulgacao_cientifica" value="S" />
+              <div class="dual-check-content">
+                <strong>Produção para Educação e Popularização de C&T (Divulgação Científica)</strong>
+                <span class="code-tag">f_sta_divulgacao_cientifica</span>
+                <p class="hint">Ao marcar, o Lattes replica este item na aba correspondente automaticamente sem duplicar na base do CNPq.</p>
+              </div>
+            </label>
+            <label class="dual-checkbox-label">
+              <input type="checkbox" id="f_inovacao" name="f_inovacao" value="S" />
+              <div class="dual-check-content">
+                <strong>Atividade de Inovação Tecnológica</strong>
+                <span class="code-tag">f_inovacao</span>
+                <p class="hint">Ao marcar, o Lattes replica este item na aba correspondente automaticamente sem duplicar na base do CNPq.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
       <!-- Passo 4: Exportação e Preenchimento Direto no Lattes -->
       <section class="card action-card">
         <div class="card-header">
@@ -439,6 +517,9 @@
         </div>
 
         <div class="action-buttons">
+          <button type="button" class="btn btn-primary" id="btnDownloadStandardizedPasso3" title="Baixar comprovante renomeado para o padrão oficial CAPES/CNPq">
+            📥 Baixar Comprovante Padronizado
+          </button>
           <button type="button" class="btn btn-primary" id="btnSaveRecord">
             💾 Salvar Registro Compartilhado
           </button>
@@ -539,23 +620,19 @@
               <span class="radar-ping"></span>
               <strong>🎯 Radar de Coautorias Cruzadas: Produções Encontradas</strong>
             </div>
-            <span class="audit-badge-pill ok">+80 Pontos Potenciais</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button type="button" class="btn btn-sm btn-accent" id="btnScanRadar" style="font-size: 0.75rem; padding: 4px 10px;" title="Buscar obras reais no OpenAlex e CrossRef">🔄 Escanear Obras na Rede</button>
+              <span class="audit-badge-pill ok" id="auditRadarBadge">Radar Ativo</span>
+            </div>
           </div>
-          <p class="hint">O robô varreu a CrossRef, o OpenAlex e os currículos de orientandos e localizou produções onde você é coautor oficial, mas que <strong>ainda não estão no seu Lattes</strong>:</p>
-          <div class="audit-radar-items">
+          <p class="hint">O robô varre a CrossRef e o OpenAlex e localiza produções reais onde você é autor ou coautor, prontas para inclusão no seu Lattes:</p>
+          <div class="audit-radar-items" id="auditRadarItems">
             <div class="radar-item">
               <div>
                 <strong>Artigo:</strong> Importância do Farmacêutico no Cuidado ao Paciente Hipertenso
                 <span class="radar-meta">CrossRef DOI: 10.29327/2239332.2.2-13</span>
               </div>
               <button type="button" class="btn btn-sm btn-accent" id="btnLoadRadarItem">📥 Carregar no Form</button>
-            </div>
-            <div class="radar-item">
-              <div>
-                <strong>Capítulo:</strong> Estudos de Coorte (Sorianed)
-                <span class="radar-meta">DOI: 10.54466/sorianed.978-65-5453-098-9_011</span>
-              </div>
-              <span class="badge">Pronto p/ Injetar</span>
             </div>
           </div>
         </div>
@@ -568,6 +645,40 @@
           <a href="/auditoria.html" target="_blank" class="btn btn-primary" title="Command Center de Auditoria e Conformidade">
             🖥️ Abrir Central Completa (Command Center)
           </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Estrutura do Dossiê Acadêmico -->
+  <div id="dossieModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="dossieModalTitle">
+    <div class="audit-modal-card">
+      <div class="audit-modal-header">
+        <div class="flex-align-gap">
+          <span class="audit-icon-badge">📁</span>
+          <div>
+            <h2 id="dossieModalTitle" class="audit-modal-title">Organizador de Dossiê Acadêmico</h2>
+            <p class="hint">Estruturação por Ano de Publicação e Padrão Oficial CAPES / CNPq</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close" id="btnCloseDossieModal" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="audit-modal-body">
+        <div class="dossie-modal-info">
+          <p>Esta ferramenta organiza todos os seus comprovantes em pastas anuais com a nomenclatura exigida para auditorias e prestações de contas:</p>
+          <div class="tree-preview" id="dossieTreePreview">
+            <!-- Árvore gerada dinamicamente via JS -->
+          </div>
+        </div>
+
+        <div class="dossie-modal-actions">
+          <button type="button" class="btn btn-secondary" id="btnCopyDossieMd">
+            📋 Copiar Lista (Markdown)
+          </button>
+          <button type="button" class="btn btn-primary" id="btnDownloadDossieZip">
+            📦 Baixar Pacote ZIP do Dossiê
+          </button>
         </div>
       </div>
     </div>

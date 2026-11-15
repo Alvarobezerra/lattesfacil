@@ -6,84 +6,83 @@
   "formularios": [
     {
       "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=5",
-      "total_campos": 11,
-      "campos": [
+      "total_campos_nomeados": 7,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_inst",
-          "id": "f_inst",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Instituição"
+          "aba": "Dados Gerais",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "id": "f_inst",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Instituição"
+            },
+            {
+              "tipo": "radio",
+              "name": "F_STATUS",
+              "opcoes": {
+                "em andamento": "N",
+                "concluído": "S",
+                "incompleto": "I"
+              }
+            }
+          ]
         },
         {
-          "tipo": "radio",
-          "name": "F_STATUS",
-          "opcoes": {
-            "em andamento": "N",
-            "concluído": "S",
-            "incompleto": "I"
-          },
-          "rotulo_provavel": "Status do curso"
+          "aba": "Período",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_ano_ini",
+              "maxlength": 4,
+              "rotulo_provavel": "Início (ano)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_fim",
+              "maxlength": 4,
+              "rotulo_provavel": "Conclusão (ano)"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_ano_ini",
-          "maxlength": 4,
-          "rotulo_provavel": "Início (ano)"
+          "aba": "Bolsa",
+          "campos": [
+            {
+              "tipo": "radio",
+              "name": "F_BOLSA",
+              "opcoes": {
+                "Sim": "S",
+                "Não": "N"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_nme_agencia",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Agência financiadora"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_ano_fim",
-          "maxlength": 4,
-          "rotulo_provavel": "Conclusão (ano)"
+          "aba": "Áreas",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "radio",
-          "name": "F_BOLSA",
-          "opcoes": {
-            "Sim": "S",
-            "Não": "N"
-          },
-          "rotulo_provavel": "Com bolsa?"
-        },
-        {
-          "tipo": "text",
-          "name": "f_nme_agencia",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Agência financiadora"
-        },
-        {
-          "tipo": "text",
-          "maxlength": 86,
-          "rotulo_provavel": "Visibilidade",
-          "anonimo": true
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 85,
-          "rotulo_provavel": "Área:",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 3
         }
       ],
       "opcao": "Pós-Doutorado",
@@ -122,106 +121,135 @@
       "grades": [
         "áreas do conhecimento"
       ],
-      "abas": [
-        "Dados Gerais",
-        "Bolsa",
-        "Áreas",
-        "Visibilidade",
-        "Áreas Clássicas de Fenomenologia e suas Aplicações",
-        "Produção de Radioisótopos",
-        "Financiamento de Transportes",
-        "Produção de Mudas",
-        "Produção e Beneficiamento de Sementes",
-        "Produção Animal",
-        "Outras Sociologias Específicas",
-        "Orientação e Aconselhamento",
-        "Orientação Educacional",
-        "Orientação Vocacional"
-      ],
       "janelas_auxiliares": [
         "agencia();"
       ],
       "salvar": [
         "pre_check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o Nivel da Formacao",
+        "Campo Nível obrigatório não informado.",
+        "Informe o tipo de doutorado",
+        "Campo Tipo de doutorado obrigatório não informado.",
+        "Informe o tipo de graduação",
+        "Informe o tipo de mestrado",
+        "Carga Horaria Invalida.",
+        "Carga horária inválida.",
+        "Informe o Curso.",
+        "Campo Curso obrigatório não informado.",
+        "Informe o Status do curso",
+        "Campo Status do curso obrigatório não informado.",
+        "Status do curso nao deve ser informado no nivel de formação selecionado",
+        "O status do curso não deve ser informado no nível de formação selecionado.",
+        "Informe o Ano de Inicio.",
+        "Campo Início (ano) obrigatório não informado.",
+        "Ano Inicio invalido. Informe do formato 9999",
+        "Ano de início inválido. O ano deve estar no formato 9999.",
+        "Ano Inicio nao pode ser maior que Ano Atual.",
+        "Ano início não pode ser maior que ano atual.",
+        "Informe o",
+        "Informe o Ano de Termino somente o curso tiver sido concluido.",
+        "Informe o ano de término somente se o curso tiver sido concluído.",
+        "Campo mês de obtenção obrigatório, mas não foi informado.",
+        "Campo mês de obtenção inválido.",
+        "Informe o Ano de obtencao.",
+        "Campo Obtenção do título (mês/ano) obrigatório não informado.",
+        "Ano Fim invalido. Informe no formato 9999",
+        "Ano fim inválido. Ano deve estar no formato 9999.",
+        "Ano Inicio nao pode ser maior que",
+        "Ano início não pode ser maior que",
+        "Ano Inicio nao pode ser menor que Ano Nascimento",
+        "Ano início não pode ser menor que ano nascimento.",
+        "Ano Inicio nao pode ser maior que Ano Obtencao",
+        "Ano início não pode ser maior que ano obtenção.",
+        "Ano de Obtencao invalido. Informe o ano no formato 9999",
+        "Ano de obtenção inválido. Informe o ano no formato 9999.",
+        "Ano de Obtencao deve ser maior que Ano de Conclusao",
+        "Ano de obtenção deve ser maior que ano de conclusão.",
+        "Ano Fim nao pode ser menor que Ano Nascimento"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Nível",
+        "Tipo de doutorado",
+        "Curso",
+        "Status do curso",
+        "Início (ano)",
+        "mês de obtenção",
+        "Obtenção do título (mês/ano)"
       ]
     },
     {
       "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=6",
-      "total_campos": 12,
-      "campos": [
+      "total_campos_nomeados": 5,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_inst",
-          "id": "f_inst",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Instituição"
+          "aba": "Dados Gerais",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "id": "f_inst",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Instituição"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_mes_obten",
-          "maxlength": 2,
-          "rotulo_provavel": "Obtenção do título (mês/ano)"
+          "aba": "Período",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_mes_obten",
+              "maxlength": 2,
+              "rotulo_provavel": "Obtenção do título (mês/ano)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_obten",
+              "maxlength": 4,
+              "rotulo_provavel": "Obtenção do título (mês/ano)"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_ano_obten",
-          "maxlength": 4,
-          "rotulo_provavel": "Obtenção do título (mês/ano)"
+          "aba": "Detalhamento",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_titulo",
+              "maxlength": 254,
+              "rotulo_provavel": "Título do trabalho"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_titulo",
-          "maxlength": 254,
-          "rotulo_provavel": "Título do trabalho"
+          "aba": "Palavras-chave",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "maxlength": 50,
-          "rotulo_provavel": "Palavra-chave",
-          "anonimo": true
+          "aba": "Áreas",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "maxlength": 86,
-          "rotulo_provavel": "Visibilidade",
-          "anonimo": true
+          "aba": "Setores",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
-          "anonimo": true
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 50,
-          "rotulo_provavel": "Palavra-chave:",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 85,
-          "rotulo_provavel": "Área:",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 4
         }
       ],
       "opcao": "Livre Docência",
@@ -262,31 +290,71 @@
         "áreas do conhecimento",
         "setores de atividade"
       ],
-      "abas": [
-        "Dados Gerais",
-        "Detalhamento",
-        "Palavras-chave",
-        "Áreas",
-        "Setores",
-        "Visibilidade",
-        "Áreas Clássicas de Fenomenologia e suas Aplicações",
-        "Produção de Radioisótopos",
-        "Financiamento de Transportes",
-        "Produção de Mudas",
-        "Produção e Beneficiamento de Sementes",
-        "Produção Animal",
-        "Outras Sociologias Específicas",
-        "Orientação e Aconselhamento"
-      ],
       "salvar": [
         "pre_check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o Nivel da Formacao",
+        "Campo Nível obrigatório não informado.",
+        "Informe o tipo de doutorado",
+        "Campo Tipo de doutorado obrigatório não informado.",
+        "Informe o tipo de graduação",
+        "Informe o tipo de mestrado",
+        "Carga Horaria Invalida.",
+        "Carga horária inválida.",
+        "Informe o Curso.",
+        "Campo Curso obrigatório não informado.",
+        "Informe o Status do curso",
+        "Campo Status do curso obrigatório não informado.",
+        "Status do curso nao deve ser informado no nivel de formação selecionado",
+        "O status do curso não deve ser informado no nível de formação selecionado.",
+        "Informe o Ano de Inicio.",
+        "Campo Início (ano) obrigatório não informado.",
+        "Ano Inicio invalido. Informe do formato 9999",
+        "Ano de início inválido. O ano deve estar no formato 9999.",
+        "Ano Inicio nao pode ser maior que Ano Atual.",
+        "Ano início não pode ser maior que ano atual.",
+        "Informe o",
+        "Informe o Ano de Termino somente o curso tiver sido concluido.",
+        "Informe o ano de término somente se o curso tiver sido concluído.",
+        "Campo mês de obtenção obrigatório, mas não foi informado.",
+        "Campo mês de obtenção inválido.",
+        "Informe o Ano de obtencao.",
+        "Campo Obtenção do título (mês/ano) obrigatório não informado.",
+        "Ano Fim invalido. Informe no formato 9999",
+        "Ano fim inválido. Ano deve estar no formato 9999.",
+        "Ano Inicio nao pode ser maior que",
+        "Ano início não pode ser maior que",
+        "Ano Inicio nao pode ser menor que Ano Nascimento",
+        "Ano início não pode ser menor que ano nascimento.",
+        "Ano Inicio nao pode ser maior que Ano Obtencao",
+        "Ano início não pode ser maior que ano obtenção.",
+        "Ano de Obtencao invalido. Informe o ano no formato 9999",
+        "Ano de obtenção inválido. Informe o ano no formato 9999.",
+        "Ano de Obtencao deve ser maior que Ano de Conclusao",
+        "Ano de obtenção deve ser maior que ano de conclusão.",
+        "Ano Fim nao pode ser menor que Ano Nascimento"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Nível",
+        "Tipo de doutorado",
+        "Curso",
+        "Status do curso",
+        "Início (ano)",
+        "mês de obtenção",
+        "Obtenção do título (mês/ano)"
       ]
     }
   ],
   "observacoes": [],
+  "lista": "pkg_formacao.lista?f_tipo=AP&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+  },
   "opcoes_da_janela": [
     "Pós-Doutorado => pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=5",
     "Livre Docência => pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=6"
-  ],
-  "funcao_da_janela": "selecionarNivel"
+  ]
 }

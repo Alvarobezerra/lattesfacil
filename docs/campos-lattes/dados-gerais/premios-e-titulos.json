@@ -6,44 +6,42 @@
   "formularios": [
     {
       "url": "pkg_premio.form?f_cod=<codigo_do_cv>",
-      "total_campos": 6,
-      "campos": [
+      "total_campos_nomeados": 4,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_titulo",
-          "maxlength": 200,
-          "rotulo_provavel": "Nome do prêmio ou título"
+          "aba": "Prêmios e títulos honoríficos recebidos",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_titulo",
+              "maxlength": 200,
+              "rotulo_provavel": "Nome do prêmio ou título"
+            },
+            {
+              "tipo": "text",
+              "name": "f_agencia",
+              "maxlength": 100,
+              "rotulo_provavel": "Entidade promotora"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano",
+              "maxlength": 4,
+              "rotulo_provavel": "Ano da premiação ou do título"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_agencia",
-          "maxlength": 100,
-          "rotulo_provavel": "Entidade promotora"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ano",
-          "maxlength": 4,
-          "rotulo_provavel": "Ano da premiação ou do título"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -51,14 +49,27 @@
         "f_ctr",
         "f_seq"
       ],
-      "abas": [
-        "Visibilidade"
-      ],
       "janelas_auxiliares": [
         "del();"
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o Nome do titulo",
+        "Campo Nome do prêmio ou título obrigatório não informado.",
+        "Informe o Ano da Premiacao",
+        "Campo Ano da premiação ou do título obrigatório não informado.",
+        "Ano invalido. Informe do formato 9999",
+        "Ano inválido. O ano deve estar no formato 9999.",
+        "Ano nao pode ser menor que Ano Nascimento",
+        "Ano não pode ser menor que ano nascimento.",
+        "Ano nao pode ser maior que Ano Atual",
+        "Ano da premiação inválido. Ano não pode ser maior que o ano atual e deve estar no formato 9999"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Nome do prêmio ou título",
+        "Ano da premiação ou do título"
       ]
     }
   ],

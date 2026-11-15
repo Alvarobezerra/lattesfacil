@@ -6,49 +6,53 @@
   "formularios": [
     {
       "url": "PKG_FORMACAO_COMPL.form?f_cod=<codigo_do_cv>&f_tipo=FA",
-      "total_campos": 5,
-      "campos": [
+      "total_campos_nomeados": 5,
+      "abas": [
         {
-          "tipo": "select",
-          "name": "f_nivel",
-          "rotulo_provavel": "Nível",
-          "opcoes": [
-            "=",
-            "F=Curso De Curta Duração",
-            "8=Extensão Universitária",
-            "E=Mba",
-            "Y=Outros"
+          "aba": "Dados gerais",
+          "campos": [
+            {
+              "tipo": "select",
+              "name": "f_nivel",
+              "rotulo_provavel": "Nível",
+              "opcoes": [
+                "=",
+                "F=Curso De Curta Duração",
+                "8=Extensão Universitária",
+                "E=Mba",
+                "Y=Outros"
+              ]
+            },
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Instituição"
+            },
+            {
+              "tipo": "text",
+              "name": "f_curso",
+              "maxlength": 50,
+              "desabilitado": true,
+              "rotulo_provavel": "Curso"
+            },
+            {
+              "tipo": "text",
+              "name": "f_carga",
+              "maxlength": 4,
+              "rotulo_provavel": "Carga Horária"
+            },
+            {
+              "tipo": "radio",
+              "name": "F_STATUS",
+              "opcoes": {
+                "em andamento": "N",
+                "concluído": "S",
+                "incompleto": "I"
+              }
+            }
           ]
-        },
-        {
-          "tipo": "text",
-          "name": "f_inst",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Instituição"
-        },
-        {
-          "tipo": "text",
-          "name": "f_curso",
-          "maxlength": 50,
-          "desabilitado": true,
-          "rotulo_provavel": "Curso"
-        },
-        {
-          "tipo": "text",
-          "name": "f_carga",
-          "maxlength": 4,
-          "rotulo_provavel": "Carga Horária"
-        },
-        {
-          "tipo": "radio",
-          "name": "F_STATUS",
-          "opcoes": {
-            "em andamento": "N",
-            "concluído": "S",
-            "incompleto": "I"
-          },
-          "rotulo_provavel": "Status do curso"
         }
       ],
       "ocultos": [
@@ -65,6 +69,21 @@
       ],
       "janelas_auxiliares": [
         "sele_inst();"
+      ],
+      "validacao_mensagens": [
+        "Campo Nível obrigatório não informado.",
+        "Campo Curso obrigatório não informado.",
+        "Carga horária inválida.",
+        "O curso não deve ser informado quando o nível for livre docência.",
+        "Campo Instituição obrigatório não informado.",
+        "Campo Status do curso obrigatório não informado.",
+        "Status do curso nao deve ser informado no nivel de formação selecionado"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Nível",
+        "Curso",
+        "Instituição",
+        "Status do curso"
       ]
     }
   ],

@@ -23,6 +23,7 @@ Projeto iniciado em 15/11/2026 para simplificar a extração de metadados de pro
 ## Documentação e Base de Conhecimento
 
 - `docs/base-conhecimento-auditoria-lattes.md` — **Base de Conhecimento Oficial**: Auditoria Estratégica e Otimização do Currículo Lattes (Conformidade Métrica, Interoperabilidade Sucupira/Bases Internacionais, Mapeamento dos 21 PTTs da CAPES e Protocolo de Manutenção).
+- `docs/especificacao-modulo-barema-editais.md` — **Especificação do EditalScore**: Arquitetura e fluxo da Calculadora Automática de Editais & Baremas com geração de Dossiê Paginado.
 - `docs/melhorias-e-roadmap.md` — Benchmark de mercado, proposta de valor e roadmap técnico do LattesFácil.
 - `docs/auditoria-lattes-checklist.md` — Checklist de auditoria baseado em normas CAPES/CNPq.
 - `docs/mockup-auditoria-lattes-v2.html` — Mockup visual interativo da Central de Conformidade (Command Center / Split-screen).

@@ -6,109 +6,122 @@
   "formularios": [
     {
       "url": "PKG_ATIV.inclui?f_cod=<codigo_do_cv>",
-      "total_campos": 15,
-      "campos": [
+      "total_campos_nomeados": 13,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_inst",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Nome da Instituição"
-        },
-        {
-          "tipo": "text",
-          "name": "f_vinc",
-          "maxlength": 30,
-          "desabilitado": true,
-          "rotulo_provavel": "Tipo do vínculo"
-        },
-        {
-          "tipo": "select",
-          "name": "f_stavinc",
-          "rotulo_provavel": "Possui vínculo empregatício",
-          "opcoes": [
-            "=",
-            "0=Não",
-            "1=Sim"
+          "aba": "Instituição",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Nome da Instituição"
+            }
           ]
         },
         {
-          "tipo": "text",
-          "name": "f_enqua",
-          "maxlength": 45,
-          "rotulo_provavel": "Enquadramento funcional"
+          "aba": "Vínculo",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_vinc",
+              "maxlength": 30,
+              "desabilitado": true,
+              "rotulo_provavel": "Tipo do vínculo"
+            },
+            {
+              "tipo": "select",
+              "name": "f_stavinc",
+              "rotulo_provavel": "Possui vínculo empregatício",
+              "opcoes": [
+                "=",
+                "0=Não",
+                "1=Sim"
+              ]
+            },
+            {
+              "tipo": "text",
+              "name": "f_enqua",
+              "maxlength": 45,
+              "rotulo_provavel": "Enquadramento funcional"
+            },
+            {
+              "tipo": "text",
+              "name": "f_carga",
+              "maxlength": 3,
+              "rotulo_provavel": "Carga horária semanal"
+            },
+            {
+              "tipo": "checkbox",
+              "name": "f_regime",
+              "opcoes": {
+                "Dedicação exclusiva": "3"
+              }
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_carga",
-          "maxlength": 3,
-          "rotulo_provavel": "Carga horária semanal"
+          "aba": "Período",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_mes_ini",
+              "maxlength": 2,
+              "rotulo_provavel": "Mês"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_ini",
+              "maxlength": 4,
+              "rotulo_provavel": "Ano"
+            },
+            {
+              "tipo": "radio",
+              "name": "f_status",
+              "opcoes": {
+                "Atual (não finalizado)": "S",
+                "Anterior (finalizado)": "N"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_mes_fim",
+              "maxlength": 2,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Mês"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ano_fim",
+              "maxlength": 4,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Ano"
+            }
+          ]
         },
         {
-          "tipo": "checkbox",
-          "name": "f_regime",
-          "opcoes": {
-            "Dedicação exclusiva": "3"
-          },
-          "rotulo_provavel": "Carga horária semanal"
+          "aba": "Outras informações",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "f_outras_inf",
+              "maxlength": 3950,
+              "rotulo_provavel": "Outras informações"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_mes_ini",
-          "maxlength": 2,
-          "rotulo_provavel": "Mês"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ano_ini",
-          "maxlength": 4,
-          "rotulo_provavel": "Ano"
-        },
-        {
-          "tipo": "radio",
-          "name": "f_status",
-          "opcoes": {
-            "Atual (não finalizado)": "S",
-            "Anterior (finalizado)": "N"
-          },
-          "rotulo_provavel": "Ano"
-        },
-        {
-          "tipo": "text",
-          "name": "f_mes_fim",
-          "maxlength": 2,
-          "rotulo_provavel": "Mês"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ano_fim",
-          "maxlength": 4,
-          "rotulo_provavel": "Ano"
-        },
-        {
-          "tipo": "textarea",
-          "name": "f_outras_inf",
-          "maxlength": 3950,
-          "rotulo_provavel": "Outras informações"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -123,16 +136,38 @@
         "f_seq_hist",
         "f_vinculo"
       ],
-      "abas": [
-        "Outras informaç...",
-        "Visibilidade"
-      ],
       "janelas_auxiliares": [
         "dominio()",
         "sele_inst();"
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Campo Instituição obrigatório não informado.",
+        "Campo Tipo do vínculo obrigatório não informado.",
+        "Campo Início obrigatório não informado.",
+        "Ano início não pode ser maior que ano atual.",
+        "Ano início não pode ser menor que ano nascimento.",
+        "Campo Fim obrigatório não informado.",
+        "Mês início inválido.",
+        "Ano início inválido. Ano não pode ser maior que ano atual e deve estar no formato 9999.",
+        "Mês fim inválido.",
+        "Ano fim inválido. Ano deve estar no formato 9999.",
+        "Data de início deve ser menor que data fim.",
+        "Não informe ano fim se o status do período for atual.",
+        "Campo Enquadramento funcional obrigatório não informado.",
+        "Campo Vínculo obrigatório não informado.",
+        "Carga horária inválida.",
+        "\\nServidores públicos (estatutários ou não) ou Celetistas\\n(de instituições não públicas) devem selecionar novamente\\n o tipo de vínculo, indicando uma das duas alternativas."
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Instituição",
+        "Tipo do vínculo",
+        "Início",
+        "Fim",
+        "Enquadramento funcional",
+        "Vínculo"
       ]
     }
   ],

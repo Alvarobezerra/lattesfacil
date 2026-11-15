@@ -1,0 +1,4648 @@
+{
+ "catalogo": "areas-do-conhecimento",
+ "fonte": "janela 'Seleção de área' (Listar todos) das grades de Áreas",
+ "niveis": [
+  "grande_area",
+  "area",
+  "subarea",
+  "especialidade"
+ ],
+ "contagem": {
+  "grande_area": 9,
+  "area": 86,
+  "subarea": 375,
+  "especialidade": 884
+ },
+ "total": 1354,
+ "observacao": "O Lattes grava a área escolhida pelo nome exato; no preenchimento automático digite o nome e clique na sugestão idêntica.",
+ "arvore": [
+  {
+   "nome": "Ciências Exatas e da Terra",
+   "filhos": [
+    {
+     "nome": "Matemática",
+     "filhos": [
+      {
+       "nome": "Álgebra",
+       "filhos": [
+        {
+         "nome": "Álgebra Comutativa"
+        },
+        {
+         "nome": "Conjuntos"
+        },
+        {
+         "nome": "Geometria Algébrica"
+        },
+        {
+         "nome": "Grupos de Álgebra Não-Comutaviva"
+        },
+        {
+         "nome": "Lógica Matemática"
+        },
+        {
+         "nome": "Teoria dos Números"
+        }
+       ]
+      },
+      {
+       "nome": "Análise",
+       "filhos": [
+        {
+         "nome": "Análise Complexa"
+        },
+        {
+         "nome": "Análise Funcional"
+        },
+        {
+         "nome": "Análise Funcional Não-Linear"
+        },
+        {
+         "nome": "Equações Diferenciais Funcionais"
+        },
+        {
+         "nome": "Equações Diferenciais Ordinárias"
+        },
+        {
+         "nome": "Equações Diferenciais Parciais"
+        }
+       ]
+      },
+      {
+       "nome": "Geometria e Topologia",
+       "filhos": [
+        {
+         "nome": "Geometria Diferencial"
+        },
+        {
+         "nome": "Sistemas Dinâmicos"
+        },
+        {
+         "nome": "Teoria das Folheações"
+        },
+        {
+         "nome": "Teoria das Singularidades e Teoria das Catástrofes"
+        },
+        {
+         "nome": "Topologia Algébrica"
+        },
+        {
+         "nome": "Topologia das Variedades"
+        }
+       ]
+      },
+      {
+       "nome": "Matemática Aplicada",
+       "filhos": [
+        {
+         "nome": "Análise Numérica"
+        },
+        {
+         "nome": "Biomatemática"
+        },
+        {
+         "nome": "Física Matemática"
+        },
+        {
+         "nome": "Matemática Discreta e Combinatória"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Probabilidade e Estatística",
+     "filhos": [
+      {
+       "nome": "Estatística",
+       "filhos": [
+        {
+         "nome": "Análise de Dados"
+        },
+        {
+         "nome": "Análise Multivariada"
+        },
+        {
+         "nome": "Fundamentos da Estatística"
+        },
+        {
+         "nome": "Inferência em Processos Estocásticos"
+        },
+        {
+         "nome": "Inferência Não-Paramétrica"
+        },
+        {
+         "nome": "Inferência Paramétrica"
+        },
+        {
+         "nome": "Planejamento de Experimentos"
+        },
+        {
+         "nome": "Regressão e Correlação"
+        }
+       ]
+      },
+      {
+       "nome": "Probabilidade",
+       "filhos": [
+        {
+         "nome": "Análise Estocástica"
+        },
+        {
+         "nome": "Processos Estocásticos Especiais"
+        },
+        {
+         "nome": "Processos Markovianos"
+        },
+        {
+         "nome": "Teoremas de Limite"
+        },
+        {
+         "nome": "Teoria Geral e Fundamentos da Probabilidade"
+        },
+        {
+         "nome": "Teoria Geral e Processos Estocásticos"
+        }
+       ]
+      },
+      {
+       "nome": "Probabilidade e Estatística Aplicadas"
+      }
+     ]
+    },
+    {
+     "nome": "Ciência da Computação",
+     "filhos": [
+      {
+       "nome": "Matemática da Computação",
+       "filhos": [
+        {
+         "nome": "Matemática Simbólica"
+        },
+        {
+         "nome": "Modelos Analíticos e de Simulação"
+        }
+       ]
+      },
+      {
+       "nome": "Metodologia e Técnicas da Computação",
+       "filhos": [
+        {
+         "nome": "Banco de Dados"
+        },
+        {
+         "nome": "Engenharia de Software"
+        },
+        {
+         "nome": "Linguagens de Programação"
+        },
+        {
+         "nome": "Processamento Gráfico (Graphics)"
+        },
+        {
+         "nome": "Sistemas de Informação"
+        }
+       ]
+      },
+      {
+       "nome": "Sistemas de Computação",
+       "filhos": [
+        {
+         "nome": "Arquitetura de Sistemas de Computação"
+        },
+        {
+         "nome": "Hardware"
+        },
+        {
+         "nome": "Software Básico"
+        },
+        {
+         "nome": "Teleinformática"
+        }
+       ]
+      },
+      {
+       "nome": "Teoria da Computação",
+       "filhos": [
+        {
+         "nome": "Análise de Algoritmos e Complexidade de Computação"
+        },
+        {
+         "nome": "Computabilidade e Modelos de Computação"
+        },
+        {
+         "nome": "Linguagem Formais e Autômatos"
+        },
+        {
+         "nome": "Lógicas e Semântica de Programas"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Astronomia",
+     "filhos": [
+      {
+       "nome": "Astrofísica do Meio Interestelar",
+       "filhos": [
+        {
+         "nome": "Meio Interestelar"
+        },
+        {
+         "nome": "Nebulosa"
+        }
+       ]
+      },
+      {
+       "nome": "Astrofísica do Sistema Solar",
+       "filhos": [
+        {
+         "nome": "Física Solar"
+        },
+        {
+         "nome": "Movimento da Terra"
+        },
+        {
+         "nome": "Sistema Planetário"
+        }
+       ]
+      },
+      {
+       "nome": "Astrofísica Estelar"
+      },
+      {
+       "nome": "Astrofísica Extragalactica",
+       "filhos": [
+        {
+         "nome": "Aglomerados de Galáxias"
+        },
+        {
+         "nome": "Cosmologia"
+        },
+        {
+         "nome": "Galáxias"
+        },
+        {
+         "nome": "Quasares"
+        }
+       ]
+      },
+      {
+       "nome": "Astronomia de Posição e Mecânica Celeste",
+       "filhos": [
+        {
+         "nome": "Astronomia Dinâmica"
+        },
+        {
+         "nome": "Astronomia Fundamental"
+        }
+       ]
+      },
+      {
+       "nome": "Instrumentação Astronômica",
+       "filhos": [
+        {
+         "nome": "Astronomia Espacial"
+        },
+        {
+         "nome": "Astronomia Ótica"
+        },
+        {
+         "nome": "Processamento de Dados Astronômicos"
+        },
+        {
+         "nome": "Radioastronomia"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Física",
+     "filhos": [
+      {
+       "nome": "Áreas Clássicas de Fenomenologia e suas Aplicações",
+       "filhos": [
+        {
+         "nome": "Acústica"
+        },
+        {
+         "nome": "Dinâmica dos Fluídos"
+        },
+        {
+         "nome": "Eletricidade e Magnetismo; Campos e Partículas Carregadas"
+        },
+        {
+         "nome": "Mecânica, Elasticidade e Reologia"
+        },
+        {
+         "nome": "Ótica"
+        },
+        {
+         "nome": "Transferência de Calor; Processos Térmicos e Termodinâmicos"
+        }
+       ]
+      },
+      {
+       "nome": "Física Atômica e Molecular",
+       "filhos": [
+        {
+         "nome": "Espectros Atômicos e Integração de Fótons"
+        },
+        {
+         "nome": "Espectros Moleculares e Interações de Fótons com Moléculas"
+        },
+        {
+         "nome": "Estrutura Eletrônica de Átomos e Moléculas; Teoria"
+        },
+        {
+         "nome": "Estudos de Átomos e Moléculas Especiais"
+        },
+        {
+         "nome": "Inf. sobre Átomos e Moléculas Obtidos Experimentalmente; Instrumentação e Técnicas"
+        },
+        {
+         "nome": "Processos de Colisão e Interações de Átomos e Moléculas"
+        }
+       ]
+      },
+      {
+       "nome": "Física da Matéria Condensada",
+       "filhos": [
+        {
+         "nome": "Campos Quânticos e Sólidos, Hélio, Líquido, Sólido"
+        },
+        {
+         "nome": "Dinâmica da Rede e Estatística de Cristais"
+        },
+        {
+         "nome": "Emissão Eletrônica e Iônica por Líquidos e Sólidos; Fenômenos de Impacto"
+        },
+        {
+         "nome": "Equação de Estado, Equilíbrio de Fases e Transições de Fase"
+        },
+        {
+         "nome": "Estados Eletrônicos"
+        },
+        {
+         "nome": "Estrutura de Líquidos e Sólidos; Cristalografia"
+        },
+        {
+         "nome": "Estruturas Eletrônicas e Propriedades Elétricas de Superfícies; Interf. e Partículas"
+        },
+        {
+         "nome": "Materiais Dielétricos e Propriedades Dielétricas"
+        },
+        {
+         "nome": "Materiais Magnéticos e Propriedades Magnéticas"
+        },
+        {
+         "nome": "Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part."
+        },
+        {
+         "nome": "Propriedades de Transportes de Matéria Condensada (Não Eletrônica)"
+        },
+        {
+         "nome": "Propriedades Mecânicas e Acústicas da Matéria Condensada"
+        },
+        {
+         "nome": "Propriedades Térmicas da Matéria Condensada"
+        },
+        {
+         "nome": "Ressonância Mag. e Relax. na Mat. Condens; Efeitos Mosbauer; Corr. Ang. Pertubada"
+        },
+        {
+         "nome": "Supercondutividade"
+        },
+        {
+         "nome": "Superfícies e Interfaces; Películas e Filamentos"
+        },
+        {
+         "nome": "Transp. Eletrônicos e Prop. Elétricas de Superfícies; Interfaces e Películas"
+        }
+       ]
+      },
+      {
+       "nome": "Física das Partículas Elementares e Campos",
+       "filhos": [
+        {
+         "nome": "Propriedades de Partículas Específicas e Ressonâncias"
+        },
+        {
+         "nome": "Reações Específicas e Fenomiologia de Partículas"
+        },
+        {
+         "nome": "Teoria Geral de Partículas e Campos"
+        },
+        {
+         "nome": "Teorias Específicas e Modelos de Interação; Sistemática de Partículas; Raios Cósmicos"
+        }
+       ]
+      },
+      {
+       "nome": "Física dos Fluídos, Física de Plasmas e Descargas Elétricas",
+       "filhos": [
+        {
+         "nome": "Cinética e Teoria de Transporte de Fluídos; Propriedades Físicas de Gases"
+        },
+        {
+         "nome": "Física de Plasmas e Descargas Elétricas"
+        }
+       ]
+      },
+      {
+       "nome": "Física Geral",
+       "filhos": [
+        {
+         "nome": "Física Clássica e Física Quântica; Mecânica e Campos"
+        },
+        {
+         "nome": "Física Estatística e Termodinâmica"
+        },
+        {
+         "nome": "Instrumentação Específica de Uso Geral em Física"
+        },
+        {
+         "nome": "Métodos Matemáticos da Física"
+        },
+        {
+         "nome": "Metrologia, Técnicas Gerais de Laboratório, Sistema de Instrumentação"
+        },
+        {
+         "nome": "Relatividade e Gravitação"
+        }
+       ]
+      },
+      {
+       "nome": "Física Nuclear",
+       "filhos": [
+        {
+         "nome": "Desintegração Nuclear e Radioatividade"
+        },
+        {
+         "nome": "Estrutura Nuclear"
+        },
+        {
+         "nome": "Métodos Experimentais e Instrumentação para Partículas Elementares e Física Nuclear"
+        },
+        {
+         "nome": "Propriedades de Núcleos Específicos"
+        },
+        {
+         "nome": "Reações Nucleares e Espalhamento Geral"
+        },
+        {
+         "nome": "Reações Nucleares e Espalhamento (Reações Específicas)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Química",
+     "filhos": [
+      {
+       "nome": "Físico-Química",
+       "filhos": [
+        {
+         "nome": "Cinética Química e Catálise"
+        },
+        {
+         "nome": "Eletroquímica"
+        },
+        {
+         "nome": "Espectroscopia"
+        },
+        {
+         "nome": "Química de Interfaces"
+        },
+        {
+         "nome": "Química do Estado Condensado"
+        },
+        {
+         "nome": "Química Nuclear e Radioquímica"
+        },
+        {
+         "nome": "Química Teórica"
+        },
+        {
+         "nome": "Termodinâmica Química"
+        }
+       ]
+      },
+      {
+       "nome": "Química Analítica",
+       "filhos": [
+        {
+         "nome": "Análise de Traços e Química Ambiental"
+        },
+        {
+         "nome": "Eletroanalítica"
+        },
+        {
+         "nome": "Gravimetria"
+        },
+        {
+         "nome": "Instrumentação Analítica"
+        },
+        {
+         "nome": "Métodos Óticos de Análise"
+        },
+        {
+         "nome": "Separação"
+        },
+        {
+         "nome": "Titimetria"
+        }
+       ]
+      },
+      {
+       "nome": "Química Inorgânica",
+       "filhos": [
+        {
+         "nome": "Campos de Coordenação"
+        },
+        {
+         "nome": "Compostos Organo-Metálicos"
+        },
+        {
+         "nome": "Determinação de Estrutura de Compostos Inorgânicos"
+        },
+        {
+         "nome": "Físico Química Inorgânica"
+        },
+        {
+         "nome": "Foto-Química Inorgânica"
+        },
+        {
+         "nome": "Não-Metais e Seus Compostos"
+        },
+        {
+         "nome": "Química Bio-Inorgânica"
+        }
+       ]
+      },
+      {
+       "nome": "Química Orgânica",
+       "filhos": [
+        {
+         "nome": "Estrutura, Conformação e Estereoquímica"
+        },
+        {
+         "nome": "Evolução, Sistemática e Ecologia Química"
+        },
+        {
+         "nome": "Físico-Química Orgânica"
+        },
+        {
+         "nome": "Fotoquímica Orgânica"
+        },
+        {
+         "nome": "Polímeros e Colóides"
+        },
+        {
+         "nome": "Química dos Produtos Naturais"
+        },
+        {
+         "nome": "Síntese Orgânica"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Geociências",
+     "filhos": [
+      {
+       "nome": "Geodésia",
+       "filhos": [
+        {
+         "nome": "Cartografia Básica"
+        },
+        {
+         "nome": "Fotogrametria"
+        },
+        {
+         "nome": "Geodésia Celeste"
+        },
+        {
+         "nome": "Geodésia Física"
+        },
+        {
+         "nome": "Geodésia Geométrica"
+        }
+       ]
+      },
+      {
+       "nome": "Geofísica",
+       "filhos": [
+        {
+         "nome": "Aeronomia"
+        },
+        {
+         "nome": "Desenvolvimento de Instrumentação Geofísica"
+        },
+        {
+         "nome": "Geofísica Aplicada"
+        },
+        {
+         "nome": "Geofísica Nuclear"
+        },
+        {
+         "nome": "Geomagnetismo"
+        },
+        {
+         "nome": "Geotermia e Fluxo Térmico"
+        },
+        {
+         "nome": "Gravimetria"
+        },
+        {
+         "nome": "Propriedades Físicas das Rochas"
+        },
+        {
+         "nome": "Sensoriamento Remoto"
+        },
+        {
+         "nome": "Sismologia"
+        }
+       ]
+      },
+      {
+       "nome": "Geografia Física",
+       "filhos": [
+        {
+         "nome": "Climatologia Geográfica"
+        },
+        {
+         "nome": "Fotogeografia (Físico-Ecológica)"
+        },
+        {
+         "nome": "Geocartografia"
+        },
+        {
+         "nome": "Geoecologia"
+        },
+        {
+         "nome": "Geomorfologia"
+        },
+        {
+         "nome": "Hidrogeografia"
+        },
+        {
+         "nome": "Pedologia"
+        }
+       ]
+      },
+      {
+       "nome": "Geologia",
+       "filhos": [
+        {
+         "nome": "Cartografia Geológica"
+        },
+        {
+         "nome": "Estratigrafia"
+        },
+        {
+         "nome": "Geocronologia"
+        },
+        {
+         "nome": "Geologia Ambiental"
+        },
+        {
+         "nome": "Geologia Regional"
+        },
+        {
+         "nome": "Geoquímica"
+        },
+        {
+         "nome": "Geotectônica"
+        },
+        {
+         "nome": "Hidrogeologia"
+        },
+        {
+         "nome": "Metalogenia"
+        },
+        {
+         "nome": "Mineralogia"
+        },
+        {
+         "nome": "Paleontologia Estratigráfica"
+        },
+        {
+         "nome": "Petrologia"
+        },
+        {
+         "nome": "Prospecção Mineral"
+        },
+        {
+         "nome": "Sedimentologia"
+        }
+       ]
+      },
+      {
+       "nome": "Meteorologia",
+       "filhos": [
+        {
+         "nome": "Climatologia"
+        },
+        {
+         "nome": "Instrumentação Meteorológica"
+        },
+        {
+         "nome": "Meteorologia Aplicada"
+        },
+        {
+         "nome": "Meteorologia Dinâmica"
+        },
+        {
+         "nome": "Meteorologia Física"
+        },
+        {
+         "nome": "Meteorologia Sinótica"
+        },
+        {
+         "nome": "Micrometeorologia"
+        },
+        {
+         "nome": "Química da Atmosfera"
+        },
+        {
+         "nome": "Sensoriamento Remoto da Atmosfera"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Oceanografia",
+     "filhos": [
+      {
+       "nome": "Oceanografia Biológica",
+       "filhos": [
+        {
+         "nome": "Interação entre os Organismos Marinhos e os Parâmetros Ambientais"
+        }
+       ]
+      },
+      {
+       "nome": "Oceanografia Física",
+       "filhos": [
+        {
+         "nome": "Interação do Oceano com a Atmosfera"
+        },
+        {
+         "nome": "Interação do Oceano com o Leito do Mar"
+        },
+        {
+         "nome": "Movimento da Água do Mar"
+        },
+        {
+         "nome": "Origem das Massas de Água"
+        },
+        {
+         "nome": "Variáveis Físicas da Água do Mar"
+        }
+       ]
+      },
+      {
+       "nome": "Oceanografia Geológica",
+       "filhos": [
+        {
+         "nome": "Geofísica Marinha"
+        },
+        {
+         "nome": "Geomorfologia Submarina"
+        },
+        {
+         "nome": "Geoquímica Marinha"
+        },
+        {
+         "nome": "Sedimentologia Marinha"
+        }
+       ]
+      },
+      {
+       "nome": "Oceanografia Química",
+       "filhos": [
+        {
+         "nome": "Interações Químico-Biológicas/Geológicas das Substâncias Químicas da Água do Mar"
+        },
+        {
+         "nome": "Propriedades Químicas da Água do Mar"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Ciências Biológicas",
+   "filhos": [
+    {
+     "nome": "Biologia Geral"
+    },
+    {
+     "nome": "Genética",
+     "filhos": [
+      {
+       "nome": "Genética Animal"
+      },
+      {
+       "nome": "Genética Humana e Médica"
+      },
+      {
+       "nome": "Genética Molecular e de Microorganismos"
+      },
+      {
+       "nome": "Genética Quantitativa"
+      },
+      {
+       "nome": "Genética Vegetal"
+      },
+      {
+       "nome": "Mutagenese"
+      }
+     ]
+    },
+    {
+     "nome": "Botânica",
+     "filhos": [
+      {
+       "nome": "Botânica Aplicada"
+      },
+      {
+       "nome": "Fisiologia Vegetal",
+       "filhos": [
+        {
+         "nome": "Ecofisiologia Vegetal"
+        },
+        {
+         "nome": "Nutrição e Crescimento Vegetal"
+        },
+        {
+         "nome": "Reprodução Vegetal"
+        }
+       ]
+      },
+      {
+       "nome": "Fitogeografia"
+      },
+      {
+       "nome": "Morfologia Vegetal",
+       "filhos": [
+        {
+         "nome": "Anatomia Vegetal"
+        },
+        {
+         "nome": "Citologia Vegetal"
+        },
+        {
+         "nome": "Morfologia Externa"
+        },
+        {
+         "nome": "Palinologia"
+        }
+       ]
+      },
+      {
+       "nome": "Paleobotânica"
+      },
+      {
+       "nome": "Taxonomia Vegetal",
+       "filhos": [
+        {
+         "nome": "Taxonomia de Criptógamos"
+        },
+        {
+         "nome": "Taxonomia de Fanerógamos"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Zoologia",
+     "filhos": [
+      {
+       "nome": "Comportamento Animal"
+      },
+      {
+       "nome": "Fisiologia dos Grupos Recentes"
+      },
+      {
+       "nome": "Morfologia dos Grupos Recentes"
+      },
+      {
+       "nome": "Paleozoologia"
+      },
+      {
+       "nome": "Taxonomia dos Grupos Recentes"
+      },
+      {
+       "nome": "Zoologia Aplicada",
+       "filhos": [
+        {
+         "nome": "Conservação das Espécies Animais"
+        },
+        {
+         "nome": "Controle Populacional de Animais"
+        },
+        {
+         "nome": "Utilização dos Animais"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Ecologia",
+     "filhos": [
+      {
+       "nome": "Ecologia Aplicada"
+      },
+      {
+       "nome": "Ecologia de Ecossistemas"
+      },
+      {
+       "nome": "Ecologia Teórica"
+      }
+     ]
+    },
+    {
+     "nome": "Morfologia",
+     "filhos": [
+      {
+       "nome": "Anatomia",
+       "filhos": [
+        {
+         "nome": "Anatomia Animal"
+        },
+        {
+         "nome": "Anatomia Humana"
+        }
+       ]
+      },
+      {
+       "nome": "Citologia e Biologia Celular"
+      },
+      {
+       "nome": "Embriologia"
+      },
+      {
+       "nome": "Histologia"
+      }
+     ]
+    },
+    {
+     "nome": "Fisiologia",
+     "filhos": [
+      {
+       "nome": "Fisiologia Comparada"
+      },
+      {
+       "nome": "Fisiologia de Órgãos e Sistemas",
+       "filhos": [
+        {
+         "nome": "Cinesiologia"
+        },
+        {
+         "nome": "Fisiologia Cardiovascular"
+        },
+        {
+         "nome": "Fisiologia da Digestão"
+        },
+        {
+         "nome": "Fisiologia da Respiração"
+        },
+        {
+         "nome": "Fisiologia Endócrina"
+        },
+        {
+         "nome": "Fisiologia Renal"
+        },
+        {
+         "nome": "Neurofisiologia"
+        }
+       ]
+      },
+      {
+       "nome": "Fisiologia do Esforço"
+      },
+      {
+       "nome": "Fisiologia Geral"
+      }
+     ]
+    },
+    {
+     "nome": "Bioquímica",
+     "filhos": [
+      {
+       "nome": "Biologia Molecular"
+      },
+      {
+       "nome": "Bioquímica dos Microorganismos"
+      },
+      {
+       "nome": "Enzimologia"
+      },
+      {
+       "nome": "Metabolismo e Bioenergética"
+      },
+      {
+       "nome": "Química de Macromoléculas",
+       "filhos": [
+        {
+         "nome": "Glicídeos"
+        },
+        {
+         "nome": "Lipídeos"
+        },
+        {
+         "nome": "Proteínas"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Biofísica",
+     "filhos": [
+      {
+       "nome": "Biofísica Celular"
+      },
+      {
+       "nome": "Biofísica de Processos e Sistemas"
+      },
+      {
+       "nome": "Biofísica Molecular"
+      },
+      {
+       "nome": "Radiologia e Fotobiologia"
+      }
+     ]
+    },
+    {
+     "nome": "Farmacologia",
+     "filhos": [
+      {
+       "nome": "Etnofarmacologia"
+      },
+      {
+       "nome": "Farmacologia Autonômica"
+      },
+      {
+       "nome": "Farmacologia Bioquímica e Molecular"
+      },
+      {
+       "nome": "Farmacologia Cardiorenal"
+      },
+      {
+       "nome": "Farmacologia Clínica"
+      },
+      {
+       "nome": "Farmacologia Geral",
+       "filhos": [
+        {
+         "nome": "Biodisponibilidade"
+        },
+        {
+         "nome": "Farmacocinética"
+        }
+       ]
+      },
+      {
+       "nome": "Neuropsicofarmacologia"
+      },
+      {
+       "nome": "Toxicologia"
+      }
+     ]
+    },
+    {
+     "nome": "Imunologia",
+     "filhos": [
+      {
+       "nome": "Imunogenética"
+      },
+      {
+       "nome": "Imunologia Aplicada"
+      },
+      {
+       "nome": "Imunologia Celular"
+      },
+      {
+       "nome": "Imunoquímica"
+      }
+     ]
+    },
+    {
+     "nome": "Microbiologia",
+     "filhos": [
+      {
+       "nome": "Biologia e Fisiologia dos Microorganismos",
+       "filhos": [
+        {
+         "nome": "Bacteriologia"
+        },
+        {
+         "nome": "Micologia"
+        },
+        {
+         "nome": "Virologia"
+        }
+       ]
+      },
+      {
+       "nome": "Microbiologia Aplicada",
+       "filhos": [
+        {
+         "nome": "Microbiologia Industrial e de Fermentação"
+        },
+        {
+         "nome": "Microbiologia Médica"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Parasitologia",
+     "filhos": [
+      {
+       "nome": "Entomologia e Malacologia de Parasitos e Vetores"
+      },
+      {
+       "nome": "Helmintologia de Parasitos",
+       "filhos": [
+        {
+         "nome": "Helmintologia Animal"
+        },
+        {
+         "nome": "Helmintologia Humana"
+        }
+       ]
+      },
+      {
+       "nome": "Protozoologia de Parasitos",
+       "filhos": [
+        {
+         "nome": "Protozoologia Parasitária Animal"
+        },
+        {
+         "nome": "Protozoologia Parasitária Humana"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Biotecnologia",
+     "filhos": [
+      {
+       "nome": "Biotecnologia Ambiental e Recursos Naturais",
+       "filhos": [
+        {
+         "nome": "Biodiversidade"
+        },
+        {
+         "nome": "Bioprospecção"
+        },
+        {
+         "nome": "Tratamento Biológico de Residuos"
+        }
+       ]
+      },
+      {
+       "nome": "Biotecnologia em Saúde Humana e Animal",
+       "filhos": [
+        {
+         "nome": "Ciências de Animais de Laboratórios"
+        },
+        {
+         "nome": "Engenharia de Tecidos"
+        },
+        {
+         "nome": "Metodologias Alternativas ao Uso de Animais"
+        },
+        {
+         "nome": "Novas Drogas Terapêuticas"
+        },
+        {
+         "nome": "Técnicas de Reprodução"
+        },
+        {
+         "nome": "Vacinas e Kits para Diagnósticos"
+        }
+       ]
+      },
+      {
+       "nome": "Biotecnologia Industrial",
+       "filhos": [
+        {
+         "nome": "Biocombustíveis"
+        },
+        {
+         "nome": "Bioprocessos"
+        }
+       ]
+      },
+      {
+       "nome": "Biotecnologia Vegetal",
+       "filhos": [
+        {
+         "nome": "Conservação e Multiplicação de Germoplasma"
+        },
+        {
+         "nome": "Melhoramento de Plantas"
+        },
+        {
+         "nome": "Plantas Transgênicas"
+        },
+        {
+         "nome": "Tecnologia de Processos e Produtos"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Engenharias",
+   "filhos": [
+    {
+     "nome": "Engenharia Civil",
+     "filhos": [
+      {
+       "nome": "Construção Civil",
+       "filhos": [
+        {
+         "nome": "Instalações Prediais"
+        },
+        {
+         "nome": "Materiais e Componentes de Construção"
+        },
+        {
+         "nome": "Processos Construtivos"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia Hidráulica",
+       "filhos": [
+        {
+         "nome": "Hidráulica"
+        },
+        {
+         "nome": "Hidrologia"
+        }
+       ]
+      },
+      {
+       "nome": "Estruturas",
+       "filhos": [
+        {
+         "nome": "Estruturas de Concreto"
+        },
+        {
+         "nome": "Estruturas de Madeiras"
+        },
+        {
+         "nome": "Estruturas Metálicas"
+        },
+        {
+         "nome": "Mecânica das Estruturas"
+        }
+       ]
+      },
+      {
+       "nome": "Geotécnica",
+       "filhos": [
+        {
+         "nome": "Fundações e Escavações"
+        },
+        {
+         "nome": "Mecânicas das Rochas"
+        },
+        {
+         "nome": "Mecânicas dos Solos"
+        },
+        {
+         "nome": "Obras de Terra e Enrocamento"
+        },
+        {
+         "nome": "Pavimentos"
+        }
+       ]
+      },
+      {
+       "nome": "Infra-Estrutura de Transportes",
+       "filhos": [
+        {
+         "nome": "Aeroportos; Projeto e Construção"
+        },
+        {
+         "nome": "Ferrovias; Projetos e Construção"
+        },
+        {
+         "nome": "Portos e Vias Navegáveis; Projeto e Construção"
+        },
+        {
+         "nome": "Rodovias; Projeto e Construção"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia de Minas",
+     "filhos": [
+      {
+       "nome": "Lavra",
+       "filhos": [
+        {
+         "nome": "Equipamentos de Lavra"
+        },
+        {
+         "nome": "Lavra a Céu Aberto"
+        },
+        {
+         "nome": "Lavra de Mina Subterrânea"
+        }
+       ]
+      },
+      {
+       "nome": "Pesquisa Mineral",
+       "filhos": [
+        {
+         "nome": "Caracterização do Minério"
+        },
+        {
+         "nome": "Dimensionamento de Jazidas"
+        }
+       ]
+      },
+      {
+       "nome": "Tratamento de Minérios",
+       "filhos": [
+        {
+         "nome": "Equipamentos de Beneficiamento de Minérios"
+        },
+        {
+         "nome": "Métodos de Concentração e Enriquecimento de Minérios"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia de Materiais e Metalúrgica",
+     "filhos": [
+      {
+       "nome": "Instalações e Equipamentos Metalúrgicos",
+       "filhos": [
+        {
+         "nome": "Equipamentos Metalúrgicos"
+        },
+        {
+         "nome": "Instalações Metalúrgicas"
+        }
+       ]
+      },
+      {
+       "nome": "Materiais Não-Metálicos",
+       "filhos": [
+        {
+         "nome": "Cerâmicos"
+        },
+        {
+         "nome": "Extração e Transformação de Materiais"
+        },
+        {
+         "nome": "Materiais Conjugados Não-Metálicos"
+        },
+        {
+         "nome": "Polímeros, Aplicações"
+        }
+       ]
+      },
+      {
+       "nome": "Metalurgia de Transformação",
+       "filhos": [
+        {
+         "nome": "Conformação Mecânica"
+        },
+        {
+         "nome": "Fundição"
+        },
+        {
+         "nome": "Metalurgia de Pó"
+        },
+        {
+         "nome": "Recobrimentos"
+        },
+        {
+         "nome": "Soldagem"
+        },
+        {
+         "nome": "Tratamentos Térmicos, Mecânicos e Químicos"
+        },
+        {
+         "nome": "Usinagem"
+        }
+       ]
+      },
+      {
+       "nome": "Metalurgia Extrativa",
+       "filhos": [
+        {
+         "nome": "Aglomeração"
+        },
+        {
+         "nome": "Eletrometalurgia"
+        },
+        {
+         "nome": "Hidrometalurgia"
+        },
+        {
+         "nome": "Pirometalurgia"
+        },
+        {
+         "nome": "Tratamento de Minérios"
+        }
+       ]
+      },
+      {
+       "nome": "Metalurgia Física",
+       "filhos": [
+        {
+         "nome": "Corrosão"
+        },
+        {
+         "nome": "Estrutura dos Metais e Ligas"
+        },
+        {
+         "nome": "Propriedades Físicas dos Metais e Ligas"
+        },
+        {
+         "nome": "Propriedades Mecânicas dos Metais e Ligas"
+        },
+        {
+         "nome": "Transformação de Fases"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Elétrica",
+     "filhos": [
+      {
+       "nome": "Controle e Automação",
+       "filhos": [
+        {
+         "nome": "Instrumentação para controle e automação"
+        },
+        {
+         "nome": "Inteligência artificial para controle e automação"
+        },
+        {
+         "nome": "Modelagem, identificação e controle de processos dinâmicos contínuos e amostrados"
+        },
+        {
+         "nome": "Otimização para controle e automação"
+        },
+        {
+         "nome": "Robótica e mecatrônica"
+        },
+        {
+         "nome": "Sistemas de automação e controle de sistemas a eventos discretos"
+        },
+        {
+         "nome": "Tecnologias de Informação e comunicação para controle e automação"
+        }
+       ]
+      },
+      {
+       "nome": "Eletromagnetismo e suas Aplicações",
+       "filhos": [
+        {
+         "nome": "Antenas, propagação e microondas"
+        },
+        {
+         "nome": "Aplicações em dispositivos de alta frequência (domínios elétricos e óticos)"
+        },
+        {
+         "nome": "Eletromagnetismo de baixa frequência"
+        },
+        {
+         "nome": "Fotônica, sistemas óticos, redes e comunicações óticas"
+        },
+        {
+         "nome": "Instrumentação/sensores (não biomédicos)"
+        },
+        {
+         "nome": "Propriedades elétricas, magnéticas e óticas de materiais e novos materiais"
+        }
+       ]
+      },
+      {
+       "nome": "Eletrônica de Potência",
+       "filhos": [
+        {
+         "nome": "Aplicações de eletrônica de potência"
+        },
+        {
+         "nome": "Compatibilidade eletromagnética e qualidade da energia elétrica"
+        },
+        {
+         "nome": "Controle aplicado a conversores"
+        },
+        {
+         "nome": "Controle e acionamento de máquinas elétricas"
+        },
+        {
+         "nome": "Máquinas, circuitos e dispositivos eletromagnéticos"
+        },
+        {
+         "nome": "Topologias e análise de conversores"
+        }
+       ]
+      },
+      {
+       "nome": "Sistemas Elétricos de Potência",
+       "filhos": [
+        {
+         "nome": "Dinâmica, proteção, controle e monitoramento de sistemas elétricos de potência"
+        },
+        {
+         "nome": "Geração eólica e solar e armazenamento de energia"
+        },
+        {
+         "nome": "Geração, transmissão e distribuição de energia elétrica"
+        },
+        {
+         "nome": "Máquinas elétricas, linhas de transmissão e dispositivos de eletrônica de potência"
+        },
+        {
+         "nome": "Mercado e comercialização de energia elétrica"
+        },
+        {
+         "nome": "Microrredes, recursos energéticos distribuídos e cidades inteligentes"
+        },
+        {
+         "nome": "Planejamento e operação de sistemas elétricos de potência"
+        },
+        {
+         "nome": "Qualidade de energia e instalações elétricas e industriais"
+        }
+       ]
+      },
+      {
+       "nome": "Telecomunicações e Processamento de Sinais",
+       "filhos": [
+        {
+         "nome": "Inteligência artificial/computacional"
+        },
+        {
+         "nome": "IoT, redes de comunicações"
+        },
+        {
+         "nome": "Multimídia"
+        },
+        {
+         "nome": "Processamento de sinais/imagens"
+        },
+        {
+         "nome": "Sistemas de telecomunicações"
+        },
+        {
+         "nome": "Teoria da informação e códigos"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Mecânica",
+     "filhos": [
+      {
+       "nome": "Engenharia Térmica",
+       "filhos": [
+        {
+         "nome": "Aproveitamento da Energia"
+        },
+        {
+         "nome": "Controle Ambiental"
+        },
+        {
+         "nome": "Termodinâmica"
+        }
+       ]
+      },
+      {
+       "nome": "Fenômenos de Transporte",
+       "filhos": [
+        {
+         "nome": "Dinâmica dos Gases"
+        },
+        {
+         "nome": "Mecânica dos Fluídos"
+        },
+        {
+         "nome": "Princípios Variacionais e Métodos Numéricos"
+        },
+        {
+         "nome": "Transferência de Calor"
+        }
+       ]
+      },
+      {
+       "nome": "Mecânica dos Sólidos",
+       "filhos": [
+        {
+         "nome": "Análise de Tensões"
+        },
+        {
+         "nome": "Dinâmica dos Corpos Rígidos, Elásticos e Plásticos"
+        },
+        {
+         "nome": "Mecânica dos Corpos Sólidos, Elásticos e Plásticos"
+        },
+        {
+         "nome": "Termoelasticidade"
+        }
+       ]
+      },
+      {
+       "nome": "Processos de Fabricação",
+       "filhos": [
+        {
+         "nome": "Controle Numérico"
+        },
+        {
+         "nome": "Maquinas de Usinagem e Conformação"
+        },
+        {
+         "nome": "Matrizes e Ferramentas"
+        },
+        {
+         "nome": "Processos de Fabricação, Seleção Econômica"
+        },
+        {
+         "nome": "Robotização"
+        }
+       ]
+      },
+      {
+       "nome": "Projetos de Máquinas",
+       "filhos": [
+        {
+         "nome": "Aproveitamento de Energia"
+        },
+        {
+         "nome": "Controle de Sistemas Mecânicos"
+        },
+        {
+         "nome": "Elementos de Máquinas"
+        },
+        {
+         "nome": "Estática e Dinâmica Aplicada"
+        },
+        {
+         "nome": "Fundamentos Gerais de Projetos das Máquinas"
+        },
+        {
+         "nome": "Máquinas, Motores e Equipamentos"
+        },
+        {
+         "nome": "Métodos de Síntese e Otimização Aplicados ao Projeto Mecânico"
+        },
+        {
+         "nome": "Teoria dos Mecanismos"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Química",
+     "filhos": [
+      {
+       "nome": "Engenharia de Reações Químicas e Catálise"
+      },
+      {
+       "nome": "Engenharia de Separações e Termodinâmica"
+      },
+      {
+       "nome": "Fenômenos de Transporte, Materiais e Particulados"
+      },
+      {
+       "nome": "Modelagem, Simulação, Síntese, Otimização e Controle de Processos"
+      },
+      {
+       "nome": "Processos Ambientais e Tecnologias Limpas"
+      },
+      {
+       "nome": "Processos Biotecnológicos e Alimentos"
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Sanitária",
+     "filhos": [
+      {
+       "nome": "Recursos Hídricos",
+       "filhos": [
+        {
+         "nome": "Águas Subterráneas e Poços Profundos"
+        },
+        {
+         "nome": "Controle de Enchentes e de Barragens"
+        },
+        {
+         "nome": "Planejamento Integrado dos Recursos Hídricos"
+        },
+        {
+         "nome": "Sedimentologia"
+        },
+        {
+         "nome": "Tecnologia e Problemas Sanitários de Irrigação"
+        }
+       ]
+      },
+      {
+       "nome": "Saneamento Ambiental",
+       "filhos": [
+        {
+         "nome": "Controle da Poluição"
+        },
+        {
+         "nome": "Ecologia Aplicada a Engenharia Sanitária"
+        },
+        {
+         "nome": "Legislação Ambiental"
+        },
+        {
+         "nome": "Microbiologia Aplicada e Engenharia Sanitária"
+        },
+        {
+         "nome": "Parasitologia Aplicada a Engenharia Sanitária"
+        },
+        {
+         "nome": "Qualidade do Ar, das Águas e do Solo"
+        }
+       ]
+      },
+      {
+       "nome": "Saneamento Básico",
+       "filhos": [
+        {
+         "nome": "Drenagem de Águas Residuárias"
+        },
+        {
+         "nome": "Drenagem Urbana de Águas Pluviais"
+        },
+        {
+         "nome": "Instalações Hidráulico-Sanitárias"
+        },
+        {
+         "nome": "Limpeza Pública"
+        },
+        {
+         "nome": "Residuos Sólidos, Domésticos e Industriais"
+        },
+        {
+         "nome": "Técnicas de Abastecimento da Água"
+        }
+       ]
+      },
+      {
+       "nome": "Tratamento de Águas de Abastecimento e Residuárias",
+       "filhos": [
+        {
+         "nome": "Estudos e Caracterização de Efluentes Industriais"
+        },
+        {
+         "nome": "Layout de Processos Industriais"
+        },
+        {
+         "nome": "Processos Simplificados de Tratamento de Águas"
+        },
+        {
+         "nome": "Química Sanitária"
+        },
+        {
+         "nome": "Resíduos Radioativos"
+        },
+        {
+         "nome": "Técnicas Avançadas de Tratamento de Águas"
+        },
+        {
+         "nome": "Técnicas Convencionais de Tratamento de Águas"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia de Produção",
+     "filhos": [
+      {
+       "nome": "Engenharia de Operações, Processos e Qualidade",
+       "filhos": [
+        {
+         "nome": "Gestão da qualidade, confiabilidade, metrologia e manutenção"
+        },
+        {
+         "nome": "Planejamento e controle da produção em manufatura e serviços"
+        },
+        {
+         "nome": "Sistemas de Produção, operações sustentáveis e excelência operacional"
+        },
+        {
+         "nome": "Tecnologias de processo e automação"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia do Trabalho e do Produto",
+       "filhos": [
+        {
+         "nome": "Desenvolvimento de produtos e serviços"
+        },
+        {
+         "nome": "Ecodesign e análise de ciclo de vida"
+        },
+        {
+         "nome": "Ergonomia, fatores humanos e interação humano-máquina"
+        },
+        {
+         "nome": "Gestão de projetos"
+        },
+        {
+         "nome": "Organização do trabalho"
+        },
+        {
+         "nome": "Segurança e saúde ocupacional"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia Econômica",
+       "filhos": [
+        {
+         "nome": "Avaliação de projetos, viabilidade, riscos e incertezas"
+        },
+        {
+         "nome": "Custos e investimentos em operações e serviços"
+        },
+        {
+         "nome": "Gestão de portfólio"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia Organizacional e Estratégia",
+       "filhos": [
+        {
+         "nome": "Estruturas e estratégias das organizações"
+        },
+        {
+         "nome": "Gestão da inovação e da informação em sistemas produtivos"
+        }
+       ]
+      },
+      {
+       "nome": "Gestão da Cadeia de Suprimentos e Logística",
+       "filhos": [
+        {
+         "nome": "Cadeias globais de suprimentos e logística empresarial"
+        },
+        {
+         "nome": "Fluxos de materiais e informações na cadeia de suprimentos"
+        },
+        {
+         "nome": "Logística reversa e sustentável"
+        }
+       ]
+      },
+      {
+       "nome": "Pesquisa Operacional",
+       "filhos": [
+        {
+         "nome": "Modelagem e Otimização em sistemas produtivos"
+        },
+        {
+         "nome": "Processos decisórios e ciência de dados para operações e serviços"
+        },
+        {
+         "nome": "Simulação e estatística aplicada em operações e serviços"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Nuclear",
+     "filhos": [
+      {
+       "nome": "Aplicações de Radioisótopos",
+       "filhos": [
+        {
+         "nome": "Aplicações Industriais de Radioisótopos"
+        },
+        {
+         "nome": "Instrumentação para Medida e Controle de Radiação"
+        },
+        {
+         "nome": "Produção de Radioisótopos"
+        }
+       ]
+      },
+      {
+       "nome": "Combustível Nuclear",
+       "filhos": [
+        {
+         "nome": "Conversão, Enriquecimento e Fabricação de Combustível Nuclear"
+        },
+        {
+         "nome": "Extração de Combustível Nuclear"
+        },
+        {
+         "nome": "Rejeitos de Combustível Nuclear"
+        },
+        {
+         "nome": "Reprocessamento de Combustível Nuclear"
+        }
+       ]
+      },
+      {
+       "nome": "Fusão Controlada",
+       "filhos": [
+        {
+         "nome": "Problemas Tecnológicos da Fusão Controlada"
+        },
+        {
+         "nome": "Processos Industriais da Fusão Controlada"
+        }
+       ]
+      },
+      {
+       "nome": "Tecnologia dos Reatores",
+       "filhos": [
+        {
+         "nome": "Aspectos Econômicos de Reatores"
+        },
+        {
+         "nome": "Geração e Integração com Sistemas Elétricos em Reatores"
+        },
+        {
+         "nome": "Instrumentação para Operação e Controle de Reatores"
+        },
+        {
+         "nome": "Materiais Nucleares e Blindagem de Reatores"
+        },
+        {
+         "nome": "Núcleo do Reator"
+        },
+        {
+         "nome": "Segurança, Localização e Licenciamento de Reatores"
+        },
+        {
+         "nome": "Transferência de Calor em Reatores"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia de Transportes",
+     "filhos": [
+      {
+       "nome": "Economia de Transportes",
+       "filhos": [
+        {
+         "nome": "Financiamento de Transportes"
+        },
+        {
+         "nome": "Regulação de Transportes"
+        }
+       ]
+      },
+      {
+       "nome": "Operações de Transportes",
+       "filhos": [
+        {
+         "nome": "Engenharia e Segurança de Tráfego"
+        },
+        {
+         "nome": "Operação do Transporte de Carga"
+        },
+        {
+         "nome": "Operação do Transporte de Pessoas"
+        }
+       ]
+      },
+      {
+       "nome": "Planejamento de Transportes",
+       "filhos": [
+        {
+         "nome": "Planejamento do Transporte de Carga"
+        },
+        {
+         "nome": "Planejamento do Transporte de Pessoas"
+        },
+        {
+         "nome": "Planejamento Integrado do Transporte e Uso do Solo"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Naval e Oceânica",
+     "filhos": [
+      {
+       "nome": "Estruturas Navais e Oceânicas",
+       "filhos": [
+        {
+         "nome": "Análise Teórica e Experimental de Estrutura"
+        },
+        {
+         "nome": "Dinâmica Estrutural Naval e Oceânica"
+        },
+        {
+         "nome": "Síntese Estrutural Naval e Oceânica"
+        }
+       ]
+      },
+      {
+       "nome": "Hidrodinâmica de Navios e Sistemas Oceânicos",
+       "filhos": [
+        {
+         "nome": "Propulsão de Navios"
+        },
+        {
+         "nome": "Resistência Hidrodinâmica"
+        }
+       ]
+      },
+      {
+       "nome": "Máquinas Marítimas",
+       "filhos": [
+        {
+         "nome": "Análise de Sistemas Propulsores"
+        },
+        {
+         "nome": "Controle e Automação de Sistemas Propulsores"
+        },
+        {
+         "nome": "Equipamentos Auxiliares do Sistema Propulsivo"
+        },
+        {
+         "nome": "Motor de Propulsão"
+        }
+       ]
+      },
+      {
+       "nome": "Projeto de Navios e de Sistemas Oceânicos",
+       "filhos": [
+        {
+         "nome": "Projetos de Embarcações Não-Convencionais"
+        },
+        {
+         "nome": "Projetos de Navios"
+        },
+        {
+         "nome": "Projetos de Sistemas Oceânicos Fixos e Semi-Fixos"
+        }
+       ]
+      },
+      {
+       "nome": "Tecnologia de Construção Naval e de Sistemas Oceânicos",
+       "filhos": [
+        {
+         "nome": "Custos de Construção Naval"
+        },
+        {
+         "nome": "Métodos de Fabricação de Navios e Sistemas Oceânicos"
+        },
+        {
+         "nome": "Normatização e Certificação de Qualidade de Navios"
+        },
+        {
+         "nome": "Soldagem de Estruturas Navais e Oceânicos"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Aeroespacial",
+     "filhos": [
+      {
+       "nome": "Aerodinâmica",
+       "filhos": [
+        {
+         "nome": "Aerodinâmica de Aeronaves Espaciais"
+        },
+        {
+         "nome": "Aerodinâmica dos Processos Geofísicos e Interplanetários"
+        }
+       ]
+      },
+      {
+       "nome": "Dinâmica de Vôo",
+       "filhos": [
+        {
+         "nome": "Estabilidade e Controle"
+        },
+        {
+         "nome": "Trajetórias e Órbitas"
+        }
+       ]
+      },
+      {
+       "nome": "Estruturas Aeroespaciais",
+       "filhos": [
+        {
+         "nome": "Aeroelasticicidade"
+        },
+        {
+         "nome": "Fadiga"
+        },
+        {
+         "nome": "Projeto de Estruturas Aeroespaciais"
+        }
+       ]
+      },
+      {
+       "nome": "Materiais e Processos para Engenharia Aeronáutica e Aeroespacial"
+      },
+      {
+       "nome": "Propulsão Aeroespacial",
+       "filhos": [
+        {
+         "nome": "Combustão e Escoamento com Reações Químicas"
+        },
+        {
+         "nome": "Máquinas de Fluxo"
+        },
+        {
+         "nome": "Motores Alternativos"
+        },
+        {
+         "nome": "Propulsão de Foguetes"
+        }
+       ]
+      },
+      {
+       "nome": "Sistemas Aeroespaciais",
+       "filhos": [
+        {
+         "nome": "Aviões"
+        },
+        {
+         "nome": "Foguetes"
+        },
+        {
+         "nome": "Helicópteros"
+        },
+        {
+         "nome": "Hovercraft"
+        },
+        {
+         "nome": "Manutenção de Sistemas Aeroespaciais"
+        },
+        {
+         "nome": "Normatização e Certificação de Qualidade de Aeronaves e Componentes"
+        },
+        {
+         "nome": "Satélites e Outros Dispositivos Aeroespaciais"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Biomédica",
+     "filhos": [
+      {
+       "nome": "Bioengenharia",
+       "filhos": [
+        {
+         "nome": "Bioeletricidade e Biomagnetismo"
+        },
+        {
+         "nome": "Biomecânica"
+        },
+        {
+         "nome": "Eletrofisiologia de Sistemas Biológicos"
+        },
+        {
+         "nome": "Modelagem de fenômenos e sistemas biológicos"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia de Tecidos",
+       "filhos": [
+        {
+         "nome": "Biomateriais e Biofabricação"
+        },
+        {
+         "nome": "Nanopartículas em Diagnóstico e Terapia"
+        },
+        {
+         "nome": "Órgãos Artificiais"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia Médica",
+       "filhos": [
+        {
+         "nome": "Biossensores e transdutores para aplicação biomédica"
+        },
+        {
+         "nome": "Engenharia de Reabilitação e Tecnologias Assistivas"
+        },
+        {
+         "nome": "Instrumentação odontológica e médico-hospitalar"
+        },
+        {
+         "nome": "Telemedicina e Telessaúde"
+        }
+       ]
+      },
+      {
+       "nome": "Imagens e Sinais Biomédicos",
+       "filhos": [
+        {
+         "nome": "Aquisição e Reconstrução de Sinais e Imagens Biomédicas"
+        },
+        {
+         "nome": "Processamento e Análise de Imagens e Sinais Biomédicos"
+        },
+        {
+         "nome": "Síntese e Visualização de Imagens Biomédicas"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia de Energia",
+     "filhos": [
+      {
+       "nome": "Fontes Renováveis de Energia",
+       "filhos": [
+        {
+         "nome": "Energia das Ondas e Marés"
+        },
+        {
+         "nome": "Energia de Biomassa"
+        },
+        {
+         "nome": "Energia Eólica"
+        },
+        {
+         "nome": "Energia Solar Fotovoltáica"
+        },
+        {
+         "nome": "Energia Solar Térmica"
+        },
+        {
+         "nome": "Micro-centrais Hidrelétricas"
+        },
+        {
+         "nome": "Sistemas Híbridos e Sistemas Não-convencionais de Armazenagem de Energia"
+        }
+       ]
+      },
+      {
+       "nome": "Planejamento Energético",
+       "filhos": [
+        {
+         "nome": "Análise de Impactos Produzidos por Sistemas Energéticos"
+        },
+        {
+         "nome": "Política Energética Regional e Nacional"
+        },
+        {
+         "nome": "Sistemas Energéticos"
+        },
+        {
+         "nome": "Uso Eficiente de Energia"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Ciências da Saúde",
+   "filhos": [
+    {
+     "nome": "Medicina",
+     "filhos": [
+      {
+       "nome": "Anatomia Patológica e Patologia Clínica"
+      },
+      {
+       "nome": "Cirurgia",
+       "filhos": [
+        {
+         "nome": "Anestesiologia"
+        },
+        {
+         "nome": "Cirurgia Cardiovascular"
+        },
+        {
+         "nome": "Cirurgia Experimental"
+        },
+        {
+         "nome": "Cirurgia Gastroenterologia"
+        },
+        {
+         "nome": "Cirurgia Oftalmológica"
+        },
+        {
+         "nome": "Cirurgia Ortopédica"
+        },
+        {
+         "nome": "Cirurgia Otorrinolaringológica"
+        },
+        {
+         "nome": "Cirurgia Pediátrica"
+        },
+        {
+         "nome": "Cirurgia Plástica e Restauradora"
+        },
+        {
+         "nome": "Cirurgia Proctológica"
+        },
+        {
+         "nome": "Cirurgia Toráxica"
+        },
+        {
+         "nome": "Cirurgia Traumatológica"
+        },
+        {
+         "nome": "Cirurgia Urológica"
+        },
+        {
+         "nome": "Neurocirurgia"
+        }
+       ]
+      },
+      {
+       "nome": "Clínica Médica",
+       "filhos": [
+        {
+         "nome": "Alergologia e Imunologia Clínica"
+        },
+        {
+         "nome": "Angiologia"
+        },
+        {
+         "nome": "Cancerologia"
+        },
+        {
+         "nome": "Cardiologia"
+        },
+        {
+         "nome": "Dermatologia"
+        },
+        {
+         "nome": "Doenças Infecciosas e Parasitárias"
+        },
+        {
+         "nome": "Endocrinologia"
+        },
+        {
+         "nome": "Fisiatria"
+        },
+        {
+         "nome": "Gastroenterologia"
+        },
+        {
+         "nome": "Ginecologia e Obstetrícia"
+        },
+        {
+         "nome": "Hematologia"
+        },
+        {
+         "nome": "Nefrologia"
+        },
+        {
+         "nome": "Neurologia"
+        },
+        {
+         "nome": "Oftalmologia"
+        },
+        {
+         "nome": "Ortopedia"
+        },
+        {
+         "nome": "Pediatria"
+        },
+        {
+         "nome": "Pneumologia"
+        },
+        {
+         "nome": "Reumatologia"
+        }
+       ]
+      },
+      {
+       "nome": "Medicina Legal e Deontologia"
+      },
+      {
+       "nome": "Psiquiatria"
+      },
+      {
+       "nome": "Radiologia Médica"
+      },
+      {
+       "nome": "Saúde Materno-Infantil"
+      }
+     ]
+    },
+    {
+     "nome": "Odontologia",
+     "filhos": [
+      {
+       "nome": "Cirurgia Buco-Maxilo-Facial"
+      },
+      {
+       "nome": "Clínica Odontológica"
+      },
+      {
+       "nome": "Endodontia"
+      },
+      {
+       "nome": "Materiais Odontológicos"
+      },
+      {
+       "nome": "Odontologia Social e Preventiva"
+      },
+      {
+       "nome": "Odontopediatria"
+      },
+      {
+       "nome": "Ortodontia"
+      },
+      {
+       "nome": "Periodontia"
+      },
+      {
+       "nome": "Radiologia Odontológica"
+      }
+     ]
+    },
+    {
+     "nome": "Farmácia",
+     "filhos": [
+      {
+       "nome": "Avaliação e analises toxicológicas"
+      },
+      {
+       "nome": "Famácia Hospitalar"
+      },
+      {
+       "nome": "Farmácia Clínica"
+      },
+      {
+       "nome": "Farmácia clínica, assistência e atenção farmacêuticas"
+      },
+      {
+       "nome": "Farmacognosia"
+      },
+      {
+       "nome": "FARMACOLOGIA"
+      },
+      {
+       "nome": "Farmacotécnica e tecnologia farmacêutica"
+      },
+      {
+       "nome": "Fisiopatologia e diagnóstico laboratorial"
+      },
+      {
+       "nome": "Garantia e controle de qualidade farmacêuticos"
+      },
+      {
+       "nome": "Química Farmacêutica Medicinal"
+      }
+     ]
+    },
+    {
+     "nome": "Enfermagem",
+     "filhos": [
+      {
+       "nome": "Enfermagem em Doenças Emergentes, Reemergentes e Negligenciadas"
+      },
+      {
+       "nome": "Enfermagem em Saúde Coletiva"
+      },
+      {
+       "nome": "Enfermagem em Saúde da Criança e do Adolescente"
+      },
+      {
+       "nome": "Enfermagem em Saúde da Mulher"
+      },
+      {
+       "nome": "Enfermagem em Saúde do Adulto e do Idoso"
+      },
+      {
+       "nome": "Enfermagem em Saúde Mental"
+      },
+      {
+       "nome": "Enfermagem Fundamental"
+      },
+      {
+       "nome": "Enfermagem na Gestão e Gerenciamento"
+      }
+     ]
+    },
+    {
+     "nome": "Nutrição",
+     "filhos": [
+      {
+       "nome": "Alimentos e alimentação coletiva"
+      },
+      {
+       "nome": "Ciências humanas e sociais em alimentação e nutrição"
+      },
+      {
+       "nome": "Epidemiologia e políticas de alimentação e nutrição"
+      },
+      {
+       "nome": "Nutrição básica e experimental"
+      },
+      {
+       "nome": "Nutrição clínica"
+      }
+     ]
+    },
+    {
+     "nome": "Saúde Coletiva",
+     "filhos": [
+      {
+       "nome": "Ciências Sociais e Humanidades em Saúde"
+      },
+      {
+       "nome": "Epidemiologia"
+      },
+      {
+       "nome": "Política, Planejamento, Gestão e Avaliação"
+      }
+     ]
+    },
+    {
+     "nome": "Fonoaudiologia"
+    },
+    {
+     "nome": "Fisioterapia e Terapia Ocupacional"
+    },
+    {
+     "nome": "Educação Física"
+    }
+   ]
+  },
+  {
+   "nome": "Ciências Agrárias",
+   "filhos": [
+    {
+     "nome": "Agronomia",
+     "filhos": [
+      {
+       "nome": "Agrometeorologia"
+      },
+      {
+       "nome": "Ciência do Solo",
+       "filhos": [
+        {
+         "nome": "Fertilidade do Solo e Adubação"
+        },
+        {
+         "nome": "Física do Solo"
+        },
+        {
+         "nome": "Gênese, Morfologia e Classificação dos Solos"
+        },
+        {
+         "nome": "Manejo e Conservação do Solo"
+        },
+        {
+         "nome": "Microbiologia e Bioquímica do Solo"
+        },
+        {
+         "nome": "Química do Solo"
+        }
+       ]
+      },
+      {
+       "nome": "Extensão Rural"
+      },
+      {
+       "nome": "Fitossanidade",
+       "filhos": [
+        {
+         "nome": "Defesa Fitossanitária"
+        },
+        {
+         "nome": "Entomologia Agrícola"
+        },
+        {
+         "nome": "Fitopatologia"
+        },
+        {
+         "nome": "Microbiologia Agrícola"
+        },
+        {
+         "nome": "Parasitologia Agrícola"
+        }
+       ]
+      },
+      {
+       "nome": "Fitotecnia",
+       "filhos": [
+        {
+         "nome": "Fisiologia de Plantas Cultivadas"
+        },
+        {
+         "nome": "Manejo e Tratos Culturais"
+        },
+        {
+         "nome": "Matologia"
+        },
+        {
+         "nome": "Mecanização Agrícola"
+        },
+        {
+         "nome": "Melhoramento Vegetal"
+        },
+        {
+         "nome": "Produção de Mudas"
+        },
+        {
+         "nome": "Produção e Beneficiamento de Sementes"
+        }
+       ]
+      },
+      {
+       "nome": "Floricultura, Parques e Jardins",
+       "filhos": [
+        {
+         "nome": "Arborização de Vias Públicas"
+        },
+        {
+         "nome": "Floricultura"
+        },
+        {
+         "nome": "Parques e Jardins"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Recursos Florestais e Engenharia Florestal",
+     "filhos": [
+      {
+       "nome": "Conservação da Natureza",
+       "filhos": [
+        {
+         "nome": "Conservação de Áreas Silvestres"
+        },
+        {
+         "nome": "Conservação de Bacias Hidrográficas"
+        },
+        {
+         "nome": "Hidrologia Florestal"
+        },
+        {
+         "nome": "Recuperação de Areas Degradadas"
+        }
+       ]
+      },
+      {
+       "nome": "Energia de Biomassa Florestal"
+      },
+      {
+       "nome": "Manejo Florestal",
+       "filhos": [
+        {
+         "nome": "Administração Florestal"
+        },
+        {
+         "nome": "Dendrometria e Inventário Florestal"
+        },
+        {
+         "nome": "Economia Florestal"
+        },
+        {
+         "nome": "Fotointerpretação Florestal"
+        },
+        {
+         "nome": "Ordenamento Florestal"
+        },
+        {
+         "nome": "Política e Legislação Florestal"
+        }
+       ]
+      },
+      {
+       "nome": "Silvicultura",
+       "filhos": [
+        {
+         "nome": "Dendrologia"
+        },
+        {
+         "nome": "Fisiologia Florestal"
+        },
+        {
+         "nome": "Florestamento e Reflorestamento"
+        },
+        {
+         "nome": "Genética e Melhoramento Florestal"
+        },
+        {
+         "nome": "Nutrição Florestal"
+        },
+        {
+         "nome": "Proteção Florestal"
+        },
+        {
+         "nome": "Sementes Florestais"
+        },
+        {
+         "nome": "Solos Florestais"
+        }
+       ]
+      },
+      {
+       "nome": "Técnicas e Operações Florestais",
+       "filhos": [
+        {
+         "nome": "Exploração Florestal"
+        },
+        {
+         "nome": "Mecanização Florestal"
+        }
+       ]
+      },
+      {
+       "nome": "Tecnologia e Utilização de Produtos Florestais",
+       "filhos": [
+        {
+         "nome": "Anatomia e Identificação de Produtos Florestais"
+        },
+        {
+         "nome": "Processamento Mecânico da Madeira"
+        },
+        {
+         "nome": "Propriedades Fisico-Mecânicas da Madeira"
+        },
+        {
+         "nome": "Química da Madeira"
+        },
+        {
+         "nome": "Relações Água-Madeira e Secagem"
+        },
+        {
+         "nome": "Resinas de Madeiras"
+        },
+        {
+         "nome": "Tecnologia de Celulose e Papel"
+        },
+        {
+         "nome": "Tecnologia de Chapas"
+        },
+        {
+         "nome": "Tratamento da Madeira"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Engenharia Agrícola",
+     "filhos": [
+      {
+       "nome": "Construções Rurais e Ambiência",
+       "filhos": [
+        {
+         "nome": "Assentamento Rural"
+        },
+        {
+         "nome": "Engenharia de Construções Rurais"
+        },
+        {
+         "nome": "Saneamento Rural"
+        }
+       ]
+      },
+      {
+       "nome": "Energização Rural"
+      },
+      {
+       "nome": "Engenharia de Água e Solo",
+       "filhos": [
+        {
+         "nome": "Conservação de Solo e Água"
+        },
+        {
+         "nome": "Irrigação e Drenagem"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia de Processamento de Produtos Agrícolas",
+       "filhos": [
+        {
+         "nome": "Armazenamento de Produtos Agrícolas"
+        },
+        {
+         "nome": "Pré-Processamento de Produtos Agrícolas"
+        },
+        {
+         "nome": "Transferência de Produtos Agrícolas"
+        }
+       ]
+      },
+      {
+       "nome": "Máquinas e Implementos Agrícolas"
+      }
+     ]
+    },
+    {
+     "nome": "Zootecnia",
+     "filhos": [
+      {
+       "nome": "Ecologia dos Animais Domésticos e Etologia"
+      },
+      {
+       "nome": "Genética e Melhoramento dos Animais Domésticos"
+      },
+      {
+       "nome": "Nutrição e Alimentação Animal",
+       "filhos": [
+        {
+         "nome": "Avaliação de Alimentos para Animais"
+        },
+        {
+         "nome": "Conservação de Alimentos para Animais"
+        },
+        {
+         "nome": "Exigências Nutricionais dos Animais"
+        }
+       ]
+      },
+      {
+       "nome": "Pastagem e Forragicultura",
+       "filhos": [
+        {
+         "nome": "Avaliação, Produção e Conservação de Forragens"
+        },
+        {
+         "nome": "Fisiologia de Plantas Forrageiras"
+        },
+        {
+         "nome": "Manejo e Conservação de Pastagens"
+        },
+        {
+         "nome": "Melhoramento de Plantas Forrageiras e Produção de Sementes"
+        },
+        {
+         "nome": "Toxicologia e Plantas Tóxicas"
+        }
+       ]
+      },
+      {
+       "nome": "Produção Animal",
+       "filhos": [
+        {
+         "nome": "Criação de Animais"
+        },
+        {
+         "nome": "Instalações para Produção Animal"
+        },
+        {
+         "nome": "Manejo de Animais"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Medicina Veterinária",
+     "filhos": [
+      {
+       "nome": "Clínica e Cirurgia Animal",
+       "filhos": [
+        {
+         "nome": "Anestesiologia Animal"
+        },
+        {
+         "nome": "Clínica Cirúrgica Animal"
+        },
+        {
+         "nome": "Clínica Veterinária"
+        },
+        {
+         "nome": "Farmacologia e Terapêutica Animal"
+        },
+        {
+         "nome": "Obstetrícia Animal"
+        },
+        {
+         "nome": "Radiologia de Animais"
+        },
+        {
+         "nome": "Técnica Cirúrgica Animal"
+        },
+        {
+         "nome": "Toxicologia Animal"
+        }
+       ]
+      },
+      {
+       "nome": "Inspeção de Produtos de Origem Animal"
+      },
+      {
+       "nome": "Medicina Veterinária Preventiva",
+       "filhos": [
+        {
+         "nome": "Doenças Infecciosas de Animais"
+        },
+        {
+         "nome": "Doenças Parasitárias de Animais"
+        },
+        {
+         "nome": "Epidemiologia Animal"
+        },
+        {
+         "nome": "Saneamento Aplicado a Saúde do Homem"
+        },
+        {
+         "nome": "Saúde Animal (Programas Sanitários)"
+        }
+       ]
+      },
+      {
+       "nome": "Patologia Animal",
+       "filhos": [
+        {
+         "nome": "Anatomia Patologia Animal"
+        },
+        {
+         "nome": "Patologia Aviária"
+        },
+        {
+         "nome": "Patologia Clínica Animal"
+        }
+       ]
+      },
+      {
+       "nome": "Reprodução Animal",
+       "filhos": [
+        {
+         "nome": "Fisiopatologia da Reprodução Animal"
+        },
+        {
+         "nome": "Ginecologia e Andrologia Animal"
+        },
+        {
+         "nome": "Inseminação Artificial Animal"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Recursos Pesqueiros e Engenharia de Pesca",
+     "filhos": [
+      {
+       "nome": "Aqüicultura",
+       "filhos": [
+        {
+         "nome": "Carcinocultura"
+        },
+        {
+         "nome": "Maricultura"
+        },
+        {
+         "nome": "Ostreicultura"
+        },
+        {
+         "nome": "Piscicultura"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia de Pesca"
+      },
+      {
+       "nome": "Recursos Pesqueiros de Águas Interiores",
+       "filhos": [
+        {
+         "nome": "Avaliação de Estoques Pesqueiros de Águas Interiores"
+        },
+        {
+         "nome": "Explotação Pesqueira de Águas Interiores"
+        },
+        {
+         "nome": "Fatores Abióticos de Águas Interiores"
+        },
+        {
+         "nome": "Manejo e Conservação de Recursos Pesqueiros de Águas Interiores"
+        }
+       ]
+      },
+      {
+       "nome": "Recursos Pesqueiros Marinhos",
+       "filhos": [
+        {
+         "nome": "Avaliação de Estoques Pesqueiros Marinhos"
+        },
+        {
+         "nome": "Exploração Pesqueira Marinha"
+        },
+        {
+         "nome": "Fatores Abióticos do Mar"
+        },
+        {
+         "nome": "Manejo e Conservação de Recursos Pesqueiros Marinhos"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Ciência e Tecnologia de Alimentos",
+     "filhos": [
+      {
+       "nome": "Ciência de Alimentos",
+       "filhos": [
+        {
+         "nome": "Avaliação e Controle de Qualidade de Alimentos"
+        },
+        {
+         "nome": "Fisiologia Pós-Colheita"
+        },
+        {
+         "nome": "Microbiologia de Alimentos"
+        },
+        {
+         "nome": "Padrões, Legislação e Fiscalização de Alimentos"
+        },
+        {
+         "nome": "Química, Física, Fisico-Química e Bioquímica dos Alim. e das Mat-Primas Alimentares"
+        },
+        {
+         "nome": "Toxicidade e Resíduos de Pesticidas em Alimentos"
+        },
+        {
+         "nome": "Valor Nutritivo de Alimentos"
+        }
+       ]
+      },
+      {
+       "nome": "Engenharia de Alimentos",
+       "filhos": [
+        {
+         "nome": "Armazenamento de Alimentos"
+        },
+        {
+         "nome": "Instalações Industriais de Produção de Alimentos"
+        }
+       ]
+      },
+      {
+       "nome": "Tecnologia de Alimentos",
+       "filhos": [
+        {
+         "nome": "Aproveitamento de Subprodutos"
+        },
+        {
+         "nome": "Embalagens de Produtos Alimentares"
+        },
+        {
+         "nome": "Tecnologia das Bebidas"
+        },
+        {
+         "nome": "Tecnologia de Alimentos Dietéticos e Nutricionais"
+        },
+        {
+         "nome": "Tecnologia de Produtos de Origem Animal"
+        },
+        {
+         "nome": "Tecnologia de Produtos de Origem Vegetal"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Ciências Sociais Aplicadas",
+   "filhos": [
+    {
+     "nome": "Direito",
+     "filhos": [
+      {
+       "nome": "Direito Privado",
+       "filhos": [
+        {
+         "nome": "Direito Civil"
+        },
+        {
+         "nome": "Direito Comercial"
+        },
+        {
+         "nome": "Direito do Trabalho"
+        },
+        {
+         "nome": "Direito Internacional Privado"
+        }
+       ]
+      },
+      {
+       "nome": "Direito Público",
+       "filhos": [
+        {
+         "nome": "Direito Administrativo"
+        },
+        {
+         "nome": "Direito Constitucional"
+        },
+        {
+         "nome": "Direito Internacional Público"
+        },
+        {
+         "nome": "Direito Penal"
+        },
+        {
+         "nome": "Direito Processual Civil"
+        },
+        {
+         "nome": "Direito Processual Penal"
+        },
+        {
+         "nome": "Direito Tributário"
+        }
+       ]
+      },
+      {
+       "nome": "Direitos Especiais"
+      },
+      {
+       "nome": "Teoria do Direito",
+       "filhos": [
+        {
+         "nome": "Antropologia Jurídica"
+        },
+        {
+         "nome": "Filosofia do Direito"
+        },
+        {
+         "nome": "História do Direito"
+        },
+        {
+         "nome": "Lógica Jurídica"
+        },
+        {
+         "nome": "Sociologia Jurídica"
+        },
+        {
+         "nome": "Teoria do Estado"
+        },
+        {
+         "nome": "Teoria Geral do Direito"
+        },
+        {
+         "nome": "Teoria Geral do Processo"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Administração",
+     "filhos": [
+      {
+       "nome": "Administração de Empresas",
+       "filhos": [
+        {
+         "nome": "Administração da Produção"
+        },
+        {
+         "nome": "Administração de Recursos Humanos"
+        },
+        {
+         "nome": "Administração Financeira"
+        },
+        {
+         "nome": "Mercadologia"
+        },
+        {
+         "nome": "Negócios Internacionais"
+        }
+       ]
+      },
+      {
+       "nome": "Administração de Setores Específicos"
+      },
+      {
+       "nome": "Administração Pública",
+       "filhos": [
+        {
+         "nome": "Administração de Pessoal"
+        },
+        {
+         "nome": "Contabilidade e Finanças Públicas"
+        },
+        {
+         "nome": "Organizações Públicas"
+        },
+        {
+         "nome": "Planejamento em Ciência e Tecnologia"
+        },
+        {
+         "nome": "Política e Planejamento Governamentais"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Economia",
+     "filhos": [
+      {
+       "nome": "Crescimento, Flutuações e Planejamento Econômico",
+       "filhos": [
+        {
+         "nome": "Crescimento e Desenvolvimento Econômico"
+        },
+        {
+         "nome": "Flutuações Cíclicas e Projeções Econômicas"
+        },
+        {
+         "nome": "Inflação"
+        },
+        {
+         "nome": "Teoria e Política de Planejamento Econômico"
+        }
+       ]
+      },
+      {
+       "nome": "Economia do Bem-Estar Social",
+       "filhos": [
+        {
+         "nome": "Economia do Consumidor"
+        },
+        {
+         "nome": "Economia dos Programas de Bem-Estar Social"
+        }
+       ]
+      },
+      {
+       "nome": "Economia dos Recursos Humanos",
+       "filhos": [
+        {
+         "nome": "Capital Humano"
+        },
+        {
+         "nome": "Demografia Econômica"
+        },
+        {
+         "nome": "Mercado de Trabalho; Política do Governo"
+        },
+        {
+         "nome": "Sindicatos, Dissídios Coletivos, Relações de Emprego (Empregador/Empregado)"
+        },
+        {
+         "nome": "Treinamento e Alocação de Mão-de-Obra; Oferta de Mão-de-Obra e Força de Trabalho"
+        }
+       ]
+      },
+      {
+       "nome": "Economia Industrial",
+       "filhos": [
+        {
+         "nome": "Mudança Tecnológica"
+        },
+        {
+         "nome": "Organização Industrial e Estudos Industriais"
+        }
+       ]
+      },
+      {
+       "nome": "Economia Internacional",
+       "filhos": [
+        {
+         "nome": "Balanço de Pagamentos; Finanças Internacionais"
+        },
+        {
+         "nome": "Investimentos Internacionais e Ajuda Externa"
+        },
+        {
+         "nome": "Relações do Comércio; Política Comercial; Integração Econômica"
+        },
+        {
+         "nome": "Teoria do Comércio Internacional"
+        }
+       ]
+      },
+      {
+       "nome": "Economia Monetária e Fiscal",
+       "filhos": [
+        {
+         "nome": "Finanças Públicas Internas"
+        },
+        {
+         "nome": "Instituições Monetárias e Financeiras do Brasil"
+        },
+        {
+         "nome": "Política Fiscal do Brasil"
+        },
+        {
+         "nome": "Teoria Monetária e Financeira"
+        }
+       ]
+      },
+      {
+       "nome": "Economia Regional e Urbana",
+       "filhos": [
+        {
+         "nome": "Economia Regional"
+        },
+        {
+         "nome": "Economia Urbana"
+        },
+        {
+         "nome": "Renda e Tributação"
+        }
+       ]
+      },
+      {
+       "nome": "Economias Agrária e dos Recursos Naturais",
+       "filhos": [
+        {
+         "nome": "Economia Agrária"
+        },
+        {
+         "nome": "Economia dos Recursos Naturais"
+        }
+       ]
+      },
+      {
+       "nome": "Métodos Quantitativos em Economia",
+       "filhos": [
+        {
+         "nome": "Contabilidade Nacional"
+        },
+        {
+         "nome": "Economia Matemática"
+        },
+        {
+         "nome": "Estatística Sócio-Econômica"
+        },
+        {
+         "nome": "Métodos e Modelos Matemáticos, Econométricos e Estatísticos"
+        }
+       ]
+      },
+      {
+       "nome": "Teoria Econômica",
+       "filhos": [
+        {
+         "nome": "Economia Geral"
+        },
+        {
+         "nome": "História do Pensamento Econômico"
+        },
+        {
+         "nome": "História Econômica"
+        },
+        {
+         "nome": "Sistemas Econômicos"
+        },
+        {
+         "nome": "Teoria Geral da Economia"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Arquitetura e Urbanismo",
+     "filhos": [
+      {
+       "nome": "Fundamentos de Arquitetura e Urbanismo",
+       "filhos": [
+        {
+         "nome": "História da Arquitetura e Urbanismo"
+        },
+        {
+         "nome": "História do Urbanismo"
+        },
+        {
+         "nome": "Teoria da Arquitetura"
+        },
+        {
+         "nome": "Teoria do Urbanismo"
+        }
+       ]
+      },
+      {
+       "nome": "Paisagismo",
+       "filhos": [
+        {
+         "nome": "Conceituação de Paisagísmo e Metodologia do Paisagismo"
+        },
+        {
+         "nome": "Desenvolvimento Histórico do Paisagismo"
+        },
+        {
+         "nome": "Estudos de Organização do Espaço Exterior"
+        },
+        {
+         "nome": "Projetos de Espaços Livres Urbanos"
+        }
+       ]
+      },
+      {
+       "nome": "Projeto de Arquitetura e Urbanismo",
+       "filhos": [
+        {
+         "nome": "Planejamento e Projeto do Equipamento"
+        },
+        {
+         "nome": "Planejamento e Projeto do Espaço Urbano"
+        },
+        {
+         "nome": "Planejamento e Projetos da Edificação"
+        }
+       ]
+      },
+      {
+       "nome": "Tecnologia de Arquitetura e Urbanismo",
+       "filhos": [
+        {
+         "nome": "Adequação Ambiental"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Planejamento Urbano e Regional",
+     "filhos": [
+      {
+       "nome": "Fundamentos do Planejamento Urbano e Regional",
+       "filhos": [
+        {
+         "nome": "História Urbana"
+        },
+        {
+         "nome": "Política Urbana"
+        },
+        {
+         "nome": "Teoria da Urbanização"
+        },
+        {
+         "nome": "Teoria do Planejamento Urbano e Regional"
+        }
+       ]
+      },
+      {
+       "nome": "Métodos e Técnicas do Planejamento Urbano e Regional",
+       "filhos": [
+        {
+         "nome": "Informação, Cadastro e Mapeamento"
+        },
+        {
+         "nome": "Técnica de Previsão Urbana e Regional"
+        },
+        {
+         "nome": "Técnicas de Análise e Avaliação Urbana e Regional"
+        },
+        {
+         "nome": "Técnicas de Planejamento e Projeto Urbanos e Regionais"
+        }
+       ]
+      },
+      {
+       "nome": "Serviços Urbanos e Regionais",
+       "filhos": [
+        {
+         "nome": "Administração Municipal e Urbana"
+        },
+        {
+         "nome": "Aspectos Econômicos do Planejamento Urbano e Regional"
+        },
+        {
+         "nome": "Aspectos Físico-Ambientais do Planejamento Urbano e Regional"
+        },
+        {
+         "nome": "Aspectos Sociais do Planejamento Urbano e Regional"
+        },
+        {
+         "nome": "Estudos da Habitação"
+        },
+        {
+         "nome": "Infra-Estruturas Urbanas e Regionais"
+        },
+        {
+         "nome": "Legislação Urbana e Regional"
+        },
+        {
+         "nome": "Serviços Comunitários"
+        },
+        {
+         "nome": "Transporte e Tráfego Urbano e Regional"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Demografia",
+     "filhos": [
+      {
+       "nome": "Componentes da Dinâmica Demográfica",
+       "filhos": [
+        {
+         "nome": "Fecundidade"
+        },
+        {
+         "nome": "Migração"
+        },
+        {
+         "nome": "Mortalidade"
+        }
+       ]
+      },
+      {
+       "nome": "Demografia Histórica",
+       "filhos": [
+        {
+         "nome": "Distribuição Espacial"
+        },
+        {
+         "nome": "Métodos e Técnicas de Demografia Histórica"
+        },
+        {
+         "nome": "Natalidade, Mortalidade, Migração"
+        },
+        {
+         "nome": "Nupcialidade e Família"
+        }
+       ]
+      },
+      {
+       "nome": "Distribuição Espacial",
+       "filhos": [
+        {
+         "nome": "Distribuição Espacial Geral"
+        },
+        {
+         "nome": "Distribuição Espacial Rural"
+        },
+        {
+         "nome": "Distribuição Espacial Urbana"
+        }
+       ]
+      },
+      {
+       "nome": "Fontes de Dados Demográficos"
+      },
+      {
+       "nome": "Nupcialidade e Família",
+       "filhos": [
+        {
+         "nome": "Casamento e Divórcio"
+        },
+        {
+         "nome": "Família e Reprodução"
+        }
+       ]
+      },
+      {
+       "nome": "Política Pública e População",
+       "filhos": [
+        {
+         "nome": "Política Populacional"
+        },
+        {
+         "nome": "Políticas de Planejamento Familiar"
+        },
+        {
+         "nome": "Políticas de Redistribuição de População"
+        }
+       ]
+      },
+      {
+       "nome": "Tendência Populacional",
+       "filhos": [
+        {
+         "nome": "Projeções"
+        },
+        {
+         "nome": "Taxas e Estimativas Correntes"
+        },
+        {
+         "nome": "Tendências Passadas"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Ciência da Informação",
+     "filhos": [
+      {
+       "nome": "Arquivologia",
+       "filhos": [
+        {
+         "nome": "Organização de Arquivos"
+        }
+       ]
+      },
+      {
+       "nome": "Biblioteconomia",
+       "filhos": [
+        {
+         "nome": "Métodos Quantitativos. Bibliometria"
+        },
+        {
+         "nome": "Processos de Disseminação da Informação"
+        },
+        {
+         "nome": "Técnicas de Recuperação de Informação"
+        },
+        {
+         "nome": "Teoria da Classificação"
+        }
+       ]
+      },
+      {
+       "nome": "Teoria da Informação",
+       "filhos": [
+        {
+         "nome": "Processos da Comunicação"
+        },
+        {
+         "nome": "Representação da Informação"
+        },
+        {
+         "nome": "Teoria Geral da Informação"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Museologia"
+    },
+    {
+     "nome": "Comunicação",
+     "filhos": [
+      {
+       "nome": "Comunicação Visual e Cinema"
+      },
+      {
+       "nome": "Jornalismo e Editoração",
+       "filhos": [
+        {
+         "nome": "Jornalismo Especializado (Comunitário, Rural, Empresarial, Científico)"
+        },
+        {
+         "nome": "Organização Comercial de Jornais"
+        },
+        {
+         "nome": "Organização Editorial de Jornais"
+        },
+        {
+         "nome": "Teoria e Ética do Jornalismo"
+        }
+       ]
+      },
+      {
+       "nome": "Rádio e Televisão",
+       "filhos": [
+        {
+         "nome": "Radiodifusão"
+        },
+        {
+         "nome": "Videodifusão"
+        }
+       ]
+      },
+      {
+       "nome": "Relações Públicas e Propaganda"
+      },
+      {
+       "nome": "Teoria da Comunicação"
+      }
+     ]
+    },
+    {
+     "nome": "Serviço Social",
+     "filhos": [
+      {
+       "nome": "Fundamentos do Serviço Social"
+      },
+      {
+       "nome": "Serviço Social Aplicado",
+       "filhos": [
+        {
+         "nome": "Serviço Social da Educação"
+        },
+        {
+         "nome": "Serviço Social da Habitação"
+        },
+        {
+         "nome": "Serviço Social da Saúde"
+        },
+        {
+         "nome": "Serviço Social do Menor"
+        },
+        {
+         "nome": "Serviço Social do Trabalho"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Economia Doméstica"
+    },
+    {
+     "nome": "Desenho Industrial",
+     "filhos": [
+      {
+       "nome": "Desenho de Produto"
+      },
+      {
+       "nome": "Programação Visual"
+      }
+     ]
+    },
+    {
+     "nome": "Turismo"
+    },
+    {
+     "nome": "Ciências Contábeis",
+     "filhos": [
+      {
+       "nome": "Auditoria e Perícia"
+      },
+      {
+       "nome": "Contabilidade Financeira"
+      },
+      {
+       "nome": "Contabilidade Gerencial e Controladoria"
+      },
+      {
+       "nome": "Contabilidade Governamental e Terceiro Setor"
+      },
+      {
+       "nome": "Contabilidade Tributária"
+      },
+      {
+       "nome": "Educação e Pesquisa em Ciências Contábeis"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Ciências Humanas",
+   "filhos": [
+    {
+     "nome": "Filosofia",
+     "filhos": [
+      {
+       "nome": "Epistemologia"
+      },
+      {
+       "nome": "Estética e Filosofia da Arte"
+      },
+      {
+       "nome": "Ética"
+      },
+      {
+       "nome": "Filosofia Brasileira"
+      },
+      {
+       "nome": "História da Filosofia"
+      },
+      {
+       "nome": "Lógica"
+      },
+      {
+       "nome": "Metafísica"
+      }
+     ]
+    },
+    {
+     "nome": "Sociologia",
+     "filhos": [
+      {
+       "nome": "Fundamentos da Sociologia",
+       "filhos": [
+        {
+         "nome": "História da Sociologia"
+        },
+        {
+         "nome": "Teoria Sociológica"
+        }
+       ]
+      },
+      {
+       "nome": "Outras Sociologias Específicas"
+      },
+      {
+       "nome": "Sociologia da Saúde"
+      },
+      {
+       "nome": "Sociologia do Conhecimento"
+      },
+      {
+       "nome": "Sociologia do Desenvolvimento"
+      },
+      {
+       "nome": "Sociologia Rural"
+      },
+      {
+       "nome": "Sociologia Urbana"
+      }
+     ]
+    },
+    {
+     "nome": "Antropologia",
+     "filhos": [
+      {
+       "nome": "Antropologia das Populações Afro-Brasileiras"
+      },
+      {
+       "nome": "Antropologia Rural"
+      },
+      {
+       "nome": "Antropologia Urbana"
+      },
+      {
+       "nome": "Etnologia Indígena"
+      },
+      {
+       "nome": "Teoria Antropológica"
+      }
+     ]
+    },
+    {
+     "nome": "Arqueologia",
+     "filhos": [
+      {
+       "nome": "Arqueologia Histórica"
+      },
+      {
+       "nome": "Arqueologia Pré-Histórica"
+      },
+      {
+       "nome": "Teoria e Método em Arqueologia"
+      }
+     ]
+    },
+    {
+     "nome": "História",
+     "filhos": [
+      {
+       "nome": "História Antiga e Medieval"
+      },
+      {
+       "nome": "História da América",
+       "filhos": [
+        {
+         "nome": "História dos Estados Unidos"
+        },
+        {
+         "nome": "História Latino-Americana"
+        }
+       ]
+      },
+      {
+       "nome": "História das Ciências"
+      },
+      {
+       "nome": "História do Brasil",
+       "filhos": [
+        {
+         "nome": "História do Brasil Colônia"
+        },
+        {
+         "nome": "História do Brasil Império"
+        },
+        {
+         "nome": "História do Brasil República"
+        },
+        {
+         "nome": "História Regional do Brasil"
+        }
+       ]
+      },
+      {
+       "nome": "História Moderna e Contemporânea"
+      },
+      {
+       "nome": "Teoria e Filosofia da História"
+      }
+     ]
+    },
+    {
+     "nome": "Geografia",
+     "filhos": [
+      {
+       "nome": "Geografia Humana",
+       "filhos": [
+        {
+         "nome": "Geografia Agrária"
+        },
+        {
+         "nome": "Geografia da População"
+        },
+        {
+         "nome": "Geografia Econômica"
+        },
+        {
+         "nome": "Geografia Política"
+        },
+        {
+         "nome": "Geografia Urbana"
+        }
+       ]
+      },
+      {
+       "nome": "Geografia Regional",
+       "filhos": [
+        {
+         "nome": "Análise Regional"
+        },
+        {
+         "nome": "Regionalização"
+        },
+        {
+         "nome": "Teoria do Desenvolvimento Regional"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Psicologia",
+     "filhos": [
+      {
+       "nome": "Fundamentos e Medidas da Psicologia",
+       "filhos": [
+        {
+         "nome": "Construção e Validade de Testes, Escalas e Outras Medidas Psicológicas"
+        },
+        {
+         "nome": "História, Teorias e Sistemas em Psicologia"
+        },
+        {
+         "nome": "Metodologia, Instrumentação e Equipamento em Psicologia"
+        },
+        {
+         "nome": "Técnicas de Processamento Estatístico, Matemático e Computacional em Psicologia"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia Cognitiva"
+      },
+      {
+       "nome": "Psicologia Comparativa",
+       "filhos": [
+        {
+         "nome": "Estudos Naturalísticos do Comportamento Animal"
+        },
+        {
+         "nome": "Mecanismos Instintivos e Processos Sociais em Animais"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia do Desenvolvimento Humano",
+       "filhos": [
+        {
+         "nome": "Desenvolvimento Social e da Personalidade"
+        },
+        {
+         "nome": "Processos Perceptuais e Cognitivos; Desenvolvimento"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia do Ensino e da Aprendizagem",
+       "filhos": [
+        {
+         "nome": "Aprendizagem e Desempenho Acadêmicos"
+        },
+        {
+         "nome": "Ensino e Aprendizagem na Sala de Aula"
+        },
+        {
+         "nome": "Planejamento Institucional"
+        },
+        {
+         "nome": "Programação de Condições de Ensino"
+        },
+        {
+         "nome": "Treinamento de Pessoal"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia do Trabalho e Organizacional",
+       "filhos": [
+        {
+         "nome": "Análise Institucional"
+        },
+        {
+         "nome": "Fatores Humanos no Trabalho"
+        },
+        {
+         "nome": "Planejamento Ambiental e Comportamento Humano"
+        },
+        {
+         "nome": "Recrutamento e Seleção de Pessoal"
+        },
+        {
+         "nome": "Treinamento e Avaliação"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia Experimental",
+       "filhos": [
+        {
+         "nome": "Estados Subjetivos e Emoção"
+        },
+        {
+         "nome": "Processos Cognitivos e Atencionais"
+        },
+        {
+         "nome": "Processos de Aprendizagem, Memória e Motivação"
+        },
+        {
+         "nome": "Processos Perceptuais e Motores"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia Fisiológica",
+       "filhos": [
+        {
+         "nome": "Estimulação Elétrica e com Drogas; Comportamento"
+        },
+        {
+         "nome": "Neurologia, Eletrofisiologia e Comportamento"
+        },
+        {
+         "nome": "Processos Psico-Fisiológicos"
+        },
+        {
+         "nome": "Psicobiologia"
+        }
+       ]
+      },
+      {
+       "nome": "Psicologia Social",
+       "filhos": [
+        {
+         "nome": "Papéis e Estruturas Sociais; Indivíduo"
+        },
+        {
+         "nome": "Processos Grupais e de Comunicação"
+        },
+        {
+         "nome": "Relações Interpessoais"
+        }
+       ]
+      },
+      {
+       "nome": "Tratamento e Prevenção Psicológica",
+       "filhos": [
+        {
+         "nome": "Desvios da Conduta"
+        },
+        {
+         "nome": "Distúrbios da Linguagem"
+        },
+        {
+         "nome": "Distúrbios Psicossomáticos"
+        },
+        {
+         "nome": "Intervenção Terapêutica"
+        },
+        {
+         "nome": "Programas de Atendimento Comunitário"
+        },
+        {
+         "nome": "Treinamento e Reabilitação"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Educação",
+     "filhos": [
+      {
+       "nome": "Administração Educacional",
+       "filhos": [
+        {
+         "nome": "Administração de Sistemas Educacionais"
+        },
+        {
+         "nome": "Administração de Unidades Educativas"
+        }
+       ]
+      },
+      {
+       "nome": "Currículo",
+       "filhos": [
+        {
+         "nome": "Currículos Específicos para Níveis e Tipos de Educação"
+        },
+        {
+         "nome": "Teoria Geral de Planejamento e Desenvolvimento Curricular"
+        }
+       ]
+      },
+      {
+       "nome": "Educação e Diversidade",
+       "filhos": [
+        {
+         "nome": "Educação e Relações Étnico-Raciais"
+        },
+        {
+         "nome": "Educação Escolar Indígena"
+        },
+        {
+         "nome": "Educação, Gênero e Diversidade Sexual"
+        },
+        {
+         "nome": "Educação Inclusiva"
+        }
+       ]
+      },
+      {
+       "nome": "Ensino-Aprendizagem",
+       "filhos": [
+        {
+         "nome": "Avaliação da Aprendizagem"
+        },
+        {
+         "nome": "Métodos e Técnicas de Ensino"
+        },
+        {
+         "nome": "Tecnologia Educacional"
+        },
+        {
+         "nome": "Teorias da Instrução"
+        }
+       ]
+      },
+      {
+       "nome": "Fundamentos da Educação",
+       "filhos": [
+        {
+         "nome": "Antropologia Educacional"
+        },
+        {
+         "nome": "Economia da Educação"
+        },
+        {
+         "nome": "Filosofia da Educação"
+        },
+        {
+         "nome": "História da Educação"
+        },
+        {
+         "nome": "Psicologia Educacional"
+        },
+        {
+         "nome": "Sociologia da Educação"
+        }
+       ]
+      },
+      {
+       "nome": "Orientação e Aconselhamento",
+       "filhos": [
+        {
+         "nome": "Orientação Educacional"
+        },
+        {
+         "nome": "Orientação Vocacional"
+        }
+       ]
+      },
+      {
+       "nome": "Política, Planejamento e Avaliação Educacional",
+       "filhos": [
+        {
+         "nome": "Avaliação de Sistemas, Instituições, Planos e Programas Educacionais"
+        },
+        {
+         "nome": "Planejamento Educacional"
+        },
+        {
+         "nome": "Política Educacional"
+        }
+       ]
+      },
+      {
+       "nome": "Tópicos Específicos de Educação",
+       "filhos": [
+        {
+         "nome": "Educação de Adultos"
+        },
+        {
+         "nome": "Educação em Periferias Urbanas"
+        },
+        {
+         "nome": "Educação Especial"
+        },
+        {
+         "nome": "Educação Permanente"
+        },
+        {
+         "nome": "Educação Pré-Escolar"
+        },
+        {
+         "nome": "Educação Rural"
+        },
+        {
+         "nome": "Ensino Profissionalizante"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Ciência Política",
+     "filhos": [
+      {
+       "nome": "Comportamento Político",
+       "filhos": [
+        {
+         "nome": "Atitude e Ideologias Políticas"
+        },
+        {
+         "nome": "Classes Sociais e Grupos de Interesse"
+        },
+        {
+         "nome": "Comportamento Legislativo"
+        },
+        {
+         "nome": "Conflitos e Coalizões Políticas"
+        },
+        {
+         "nome": "Estudos Eleitorais e Partidos Políticos"
+        }
+       ]
+      },
+      {
+       "nome": "Estado e Governo",
+       "filhos": [
+        {
+         "nome": "Estrutura e Transformação do Estado"
+        },
+        {
+         "nome": "Estudos do Poder Local"
+        },
+        {
+         "nome": "Instituições Governamentais Específicas"
+        },
+        {
+         "nome": "Relações Intergovernamentais"
+        },
+        {
+         "nome": "Sistemas Governamentais Comparados"
+        }
+       ]
+      },
+      {
+       "nome": "Política Internacional",
+       "filhos": [
+        {
+         "nome": "Integração Internacional, Conflito, Guerra e Paz"
+        },
+        {
+         "nome": "Organizações Internacionais"
+        },
+        {
+         "nome": "Política Externa do Brasil"
+        },
+        {
+         "nome": "Relações Internacionais, Bilaterais e Multilaterais"
+        }
+       ]
+      },
+      {
+       "nome": "Políticas Públicas",
+       "filhos": [
+        {
+         "nome": "Análise do Processo Decisório"
+        },
+        {
+         "nome": "Análise Institucional"
+        },
+        {
+         "nome": "Técnicas de Antecipação"
+        }
+       ]
+      },
+      {
+       "nome": "Teoria Política",
+       "filhos": [
+        {
+         "nome": "Teoria Política Clássica"
+        },
+        {
+         "nome": "Teoria Política Contemporânea"
+        },
+        {
+         "nome": "Teoria Política Medieval"
+        },
+        {
+         "nome": "Teoria Política Moderna"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "nome": "Teologia",
+     "filhos": [
+      {
+       "nome": "Ciências da Linguagem Religiosa"
+      },
+      {
+       "nome": "Ciências da Religião Aplicada"
+      },
+      {
+       "nome": "Epistemologia das Ciências da Religião"
+      },
+      {
+       "nome": "História das Teologias e Religiões"
+      },
+      {
+       "nome": "Teologia Fundamental Sistemática"
+      },
+      {
+       "nome": "Teologia Prática"
+      },
+      {
+       "nome": "Tradições e Escrituras Sagradas"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Lingüística, Letras e Artes",
+   "filhos": [
+    {
+     "nome": "Lingüística",
+     "filhos": [
+      {
+       "nome": "Filosofia da Linguagem"
+      },
+      {
+       "nome": "Lingüística Aplicada"
+      },
+      {
+       "nome": "Lingüística Histórica"
+      },
+      {
+       "nome": "Psicolingüística"
+      },
+      {
+       "nome": "Sociolingüística e Dialetologia"
+      },
+      {
+       "nome": "Teoria e Análise Lingüística"
+      }
+     ]
+    },
+    {
+     "nome": "Letras",
+     "filhos": [
+      {
+       "nome": "Língua Portuguesa"
+      },
+      {
+       "nome": "Línguas Clássicas"
+      },
+      {
+       "nome": "Línguas Estrangeiras Modernas"
+      },
+      {
+       "nome": "Línguas Indígenas"
+      },
+      {
+       "nome": "Literatura Brasileira"
+      },
+      {
+       "nome": "Literatura Comparada"
+      },
+      {
+       "nome": "Literaturas Clássicas"
+      },
+      {
+       "nome": "Literaturas Estrangeiras Modernas"
+      },
+      {
+       "nome": "Outras Literaturas Vernáculas"
+      },
+      {
+       "nome": "Teoria Literária"
+      }
+     ]
+    },
+    {
+     "nome": "Artes",
+     "filhos": [
+      {
+       "nome": "Artes do Vídeo"
+      },
+      {
+       "nome": "Artes Plásticas",
+       "filhos": [
+        {
+         "nome": "Cerâmica"
+        },
+        {
+         "nome": "Desenho"
+        },
+        {
+         "nome": "Escultura"
+        },
+        {
+         "nome": "Gravura"
+        },
+        {
+         "nome": "Pintura"
+        },
+        {
+         "nome": "Tecelagem"
+        }
+       ]
+      },
+      {
+       "nome": "Cinema",
+       "filhos": [
+        {
+         "nome": "Administração e Produção de Filmes"
+        },
+        {
+         "nome": "Interpretação Cinematográfica"
+        },
+        {
+         "nome": "Roteiro e Direção Cinematográficos"
+        },
+        {
+         "nome": "Técnicas de Registro e Processamento de Filmes"
+        }
+       ]
+      },
+      {
+       "nome": "Dança",
+       "filhos": [
+        {
+         "nome": "Coreografia"
+        },
+        {
+         "nome": "Execução da Dança"
+        }
+       ]
+      },
+      {
+       "nome": "Educação Artística"
+      },
+      {
+       "nome": "Fotografia"
+      },
+      {
+       "nome": "Fundamentos e Crítica das Artes",
+       "filhos": [
+        {
+         "nome": "Crítica da Arte"
+        },
+        {
+         "nome": "História da Arte"
+        },
+        {
+         "nome": "Teoria da Arte"
+        }
+       ]
+      },
+      {
+       "nome": "Música",
+       "filhos": [
+        {
+         "nome": "Canto"
+        },
+        {
+         "nome": "Composição Musical"
+        },
+        {
+         "nome": "Instrumentação Musical"
+        },
+        {
+         "nome": "Regência"
+        }
+       ]
+      },
+      {
+       "nome": "Ópera"
+      },
+      {
+       "nome": "Teatro",
+       "filhos": [
+        {
+         "nome": "Cenografia"
+        },
+        {
+         "nome": "Direção Teatral"
+        },
+        {
+         "nome": "Dramaturgia"
+        },
+        {
+         "nome": "Interpretação Teatral"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nome": "Outra",
+   "filhos": [
+    {
+     "nome": "Secretariado Executivo"
+    },
+    {
+     "nome": "Defesa"
+    },
+    {
+     "nome": "Bioética"
+    },
+    {
+     "nome": "Ciências Ambientais"
+    },
+    {
+     "nome": "Divulgação Científica"
+    },
+    {
+     "nome": "Microeletrônica",
+     "filhos": [
+      {
+       "nome": "Dispositivos"
+      },
+      {
+       "nome": "EDA"
+      },
+      {
+       "nome": "Processos de Fabricação"
+      },
+      {
+       "nome": "Projeto"
+      },
+      {
+       "nome": "Teste e Tolerância a Falhas"
+      }
+     ]
+    },
+    {
+     "nome": "Segurança Contra Incêndio"
+    }
+   ]
+  }
+ ]
+}

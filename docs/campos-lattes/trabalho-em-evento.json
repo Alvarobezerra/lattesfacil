@@ -19,6 +19,7 @@
     {"chave": "homepage", "rotulo": "Home page do trabalho (URL)", "name": "f_homepage", "tipo": "text", "maxlength": 250},
     {"chave": "relevante", "rotulo": "É um dos 10 trabalhos mais relevantes?", "name": "F_RELEV", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
     {"chave": "divulgacao_cientifica", "rotulo": "Produção para educação e popularização de C&T?", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "inovacao", "rotulo": "Atividade de inovação tecnológica?", "name": "f_inovacao", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
     {"chave": "classificacao_evento", "rotulo": "Classificação do evento", "name": "f_tipo_evento", "tipo": "radio", "opcoes": {"Internacional": "I", "Nacional": "N", "Regional": "R", "Local": "L"}},
     {"chave": "nome_evento", "rotulo": "Nome do evento", "name": "f_evento", "tipo": "text", "maxlength": 255},
     {"chave": "cidade_evento", "rotulo": "Cidade do evento", "name": "f_cidade_evento", "tipo": "text", "maxlength": 30},

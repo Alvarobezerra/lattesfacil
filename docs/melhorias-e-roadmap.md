@@ -138,11 +138,26 @@ Para assegurar total compliance com a Portaria CNPq nº 2.664/2026 e evitar autu
   - Renomeação automática e padronização dos arquivos PDF no disco do usuário.
   - Estruturação em pastas organizadas por ano acadêmico (`2024/`, `2025/`, etc.).
 
-### Fase 5: Módulo de Alto Valor — Simulador de Barema e Dossiê para Concursos
-*Substitui os pacotes de consultoria mais caros do mercado (R$ 400 a R$ 800).*
-- [ ] **Simulador de Pontuação em Baremas**:
-  - Criação ou importação de tabelas de pontuação de editais (Mestrado, Doutorado, Concursos Docentes, Residências Médicas).
-  - Cálculo instantâneo da pontuação do candidato com base nas produções cadastradas.
-  - Identificação de lacunas de pontuação máxima (ex: teto atingido em eventos, carência de artigos Qualis A).
-- [ ] **Gerador de Dossiê Comprobatório Paginado**:
-  - Compilação automática de todos os certificados em um único PDF sequencial e indexado, exatamente na ordem exigida pelo edital do concurso.
+### Fase 5: Módulo de Alto Valor — EditalScore & Dossiê para Concursos e Seleções
+*Substitui os pacotes de assessoria acadêmica mais caros do mercado (R$ 400 a R$ 800 por processo seletivo). Documentação técnica completa em [Especificação do Módulo de Baremas](file:///c:/Users/icrim/Downloads/Projeto/lattes-facil/docs/especificacao-modulo-barema-editais.md).*
+
+- [ ] **EditalScore: Leitor Inteligente de Editais e Baremas**:
+  - Upload do PDF do edital ou anexo de pontuação (Concursos Docentes EBTT/Magistério Superior, Mestrado/Doutorado, Residências ENARE, Bolsas CNPq/FAPESP).
+  - Extração automática de tabelas de pontuação para o padrão estruturado `barema_schema.json` (blocos, itens, pesos unitários, subtetos e teto global).
+  - Editor visual rápido para o candidato revisar, calibrar ou personalizar os critérios de pontuação da banca.
+
+- [ ] **Motor de Matching e Cálculo Instantâneo de Pontuação**:
+  - Cruzamento do barema com o `curriculo.xml` do candidato e com os comprovantes já indexados no LattesFácil.
+  - Aplicação automática de **janelas temporais** (ex.: últimos 3, 5 ou 10 anos) e classificação de periódicos pelo **Qualis-CAPES** mais recente.
+  - Tratamento determinístico de **subtetos e tetos de blocos**, evitando falsa sensação de pontos em itens saturados.
+  - Alerta de status por item: *Pontuou com comprovante*, *Pontuou pendente de comprovante*, *Excedente ao teto* e *Desqualificado*.
+
+- [ ] **Painel de Oportunidades & Gap Analysis ("What-If")**:
+  - Exibição de Score Total vs. Teto Máximo com gráfico de radar por competências (Ensino, Pesquisa, Extensão, Gestão).
+  - Recomendações estratégicas: alerta onde faltam pontos para atingir o teto e onde não vale a pena gastar tempo submetendo comprovantes por teto já esgotado.
+  - Simulação de cenários: quanto a nota aumentará se for adicionado determinado artigo, certificado ou tempo de docência.
+
+- [ ] **Gerador de Dossiê Comprobatório Paginado e Indexado**:
+  - Compilação automatizada de todos os comprovantes (artigos, certificados, declarações de docência e atas) em um **PDF único consolidado**.
+  - Folha de rosto e sumário com tabela de autodeclaração preenchida item a item.
+  - Cabeçalho carimbado no topo de cada página vinculando ao item do edital (ex.: `[Item 2.1] Artigo em Periódico A1 — Página 12 de 85`), pronto para envio à banca examinadora.

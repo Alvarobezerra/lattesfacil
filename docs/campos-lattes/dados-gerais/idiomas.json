@@ -6,145 +6,95 @@
   "formularios": [
     {
       "url": "pkg_idioma.form?f_cod=<codigo_do_cv>",
-      "total_campos": 12,
-      "campos": [
+      "total_campos_nomeados": 10,
+      "abas": [
         {
-          "tipo": "select",
-          "name": "F_COD_IDIOMA",
-          "rotulo_provavel": "Selecione o idioma :",
-          "opcoes": [
-            "=",
-            "DE=Alemão",
-            "FR=Francês",
-            "IT=Italiano",
-            "LB=Libras",
-            "AB=Abhkazian",
-            "AA=Afar",
-            "AF=Afrikaans",
-            "AY=Aimara",
-            "SQ=Albanês",
-            "AM=Amarico",
-            "AR=Árabe",
-            "AN=Armênio",
-            "AS=Assames",
-            "AZ=Azerbaidjano",
-            "BC=Baluchi",
-            "EU=Basco",
-            "BA=Bashquir",
-            "BN=Bengali",
-            "BB=Berbere",
-            "BE=Bielo-Russo",
-            "BH=Bihari",
-            "BM=Birmanês",
-            "BI=Bislama",
-            "BR=Bretão",
-            "BG=Búlgaro",
-            "CB=Cabie",
-            "KS=Cachemiriano",
-            "KM=Cambodjano",
-            "KN=Canadá",
-            "KK=Casaque",
-            "CA=Catalão",
-            "ZH=Chinês",
-            "SI=Cingalês",
-            "KO=Coreano",
-            "CO=Corsico",
-            "CR=Crioulo",
-            "HR=Croata",
-            "KU=Curdo",
-            "DA=Dinamarquês"
+          "aba": "Idioma",
+          "campos": [
+            {
+              "tipo": "select",
+              "name": "F_COD_IDIOMA",
+              "rotulo_provavel": "Selecione o idioma :",
+              "catalogo": "catalogos/idiomas-149.json",
+              "total_opcoes": 150
+            },
+            {
+              "tipo": "checkbox",
+              "name": "FC_LE",
+              "opcoes": {
+                "Lê": "on"
+              }
+            },
+            {
+              "tipo": "radio",
+              "name": "F_LE",
+              "opcoes": {
+                "Pouco": "P",
+                "Razoavelmente": "R",
+                "Bem": "B"
+              }
+            },
+            {
+              "tipo": "checkbox",
+              "name": "FC_CONVERSA",
+              "opcoes": {
+                "Fala": "on"
+              }
+            },
+            {
+              "tipo": "radio",
+              "name": "F_CONVERSA",
+              "opcoes": {
+                "Pouco": "P",
+                "Razoavelmente": "R",
+                "Bem": "B"
+              }
+            },
+            {
+              "tipo": "checkbox",
+              "name": "FC_ESCREVE",
+              "opcoes": {
+                "Escreve": "on"
+              }
+            },
+            {
+              "tipo": "radio",
+              "name": "F_ESCREVE",
+              "opcoes": {
+                "Pouco": "P",
+                "Razoavelmente": "R",
+                "Bem": "B"
+              }
+            },
+            {
+              "tipo": "checkbox",
+              "name": "FC_COMPR",
+              "opcoes": {
+                "Compreende": "on"
+              }
+            },
+            {
+              "tipo": "radio",
+              "name": "F_COMPR",
+              "opcoes": {
+                "Pouco": "P",
+                "Razoavelmente": "R",
+                "Bem": "B"
+              }
+            }
+          ]
+        },
+        {
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "total_opcoes": 150
-        },
-        {
-          "tipo": "checkbox",
-          "name": "FC_LE",
-          "opcoes": {
-            "Lê": "on"
-          }
-        },
-        {
-          "tipo": "radio",
-          "name": "F_LE",
-          "opcoes": {
-            "Pouco": "P",
-            "Razoavelmente": "R",
-            "Bem": "B"
-          },
-          "rotulo_provavel": "Lê"
-        },
-        {
-          "tipo": "checkbox",
-          "name": "FC_CONVERSA",
-          "opcoes": {
-            "Fala": "on"
-          },
-          "rotulo_provavel": "Bem"
-        },
-        {
-          "tipo": "radio",
-          "name": "F_CONVERSA",
-          "opcoes": {
-            "Pouco": "P",
-            "Razoavelmente": "R",
-            "Bem": "B"
-          },
-          "rotulo_provavel": "Fala"
-        },
-        {
-          "tipo": "checkbox",
-          "name": "FC_ESCREVE",
-          "opcoes": {
-            "Escreve": "on"
-          },
-          "rotulo_provavel": "Bem"
-        },
-        {
-          "tipo": "radio",
-          "name": "F_ESCREVE",
-          "opcoes": {
-            "Pouco": "P",
-            "Razoavelmente": "R",
-            "Bem": "B"
-          },
-          "rotulo_provavel": "Escreve"
-        },
-        {
-          "tipo": "checkbox",
-          "name": "FC_COMPR",
-          "opcoes": {
-            "Compreende": "on"
-          },
-          "rotulo_provavel": "Bem"
-        },
-        {
-          "tipo": "radio",
-          "name": "F_COMPR",
-          "opcoes": {
-            "Pouco": "P",
-            "Razoavelmente": "R",
-            "Bem": "B"
-          },
-          "rotulo_provavel": "Compreende"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
-          ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -152,11 +102,17 @@
         "f_ctr",
         "f_seq"
       ],
-      "abas": [
-        "Visibilidade"
-      ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe o Idioma",
+        "Campo Idioma obrigatório não informado.",
+        "Informe ao menos uma das modalidades de nivel",
+        "Informe ao menos uma das modalidades de nível."
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Idioma"
       ]
     }
   ],

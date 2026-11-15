@@ -6,369 +6,258 @@
   "formularios": [
     {
       "url": "prc_endereco?f_cod=<codigo_do_cv>&modal2=1",
-      "total_campos": 45,
-      "campos": [
+      "total_campos_nomeados": 38,
+      "abas": [
         {
-          "tipo": "select",
-          "name": "f_pais_r",
-          "rotulo_provavel": "País",
-          "opcoes": [
-            "RFA=Alemanha",
-            "ARG=Argentina",
-            "AUS=Austrália",
-            "BRA=Brasil",
-            "CAN=Canadá",
-            "ESP=Espanha",
-            "EUA=Estados Unidos",
-            "FRA=França",
-            "GBR=Grã-Bretanha",
-            "HOL=Holanda",
-            "ING=Inglaterra",
-            "ITA=Itália",
-            "POR=Portugal",
-            "AFG=Afeganistão",
-            "AFS=África Do Sul",
-            "ALB=Albânia",
-            "AND=Andorra",
-            "ANG=Angola",
-            "ATC=Antartida",
-            "ANB=Antigua",
-            "AHL=Antilhas Holandesas",
-            "ARA=Arábia Saudita",
-            "ARL=Argélia",
-            "ARM=Armênia",
-            "ABW=Aruba",
-            "AUT=Austria",
-            "AZE=Azerbaijão",
-            "BHS=Bahamas",
-            "BGD=Bangladesh",
-            "BRB=Barbados",
-            "BAR=Barein",
-            "BEA=Belarus",
-            "BEL=Bélgica",
-            "BLZ=Belize",
-            "BEN=Benin",
-            "BER=Bermudas",
-            "BIR=Birmânia",
-            "BOL=Bolívia",
-            "BOS=Bósnia",
-            "BOT=Botsuana"
+          "aba": "Residencial",
+          "campos": [
+            {
+              "tipo": "select",
+              "name": "f_pais_r",
+              "rotulo_provavel": "País",
+              "catalogo": "catalogos/paises-244.json",
+              "total_opcoes": 244
+            },
+            {
+              "tipo": "text",
+              "name": "f_cep_r",
+              "maxlength": 15,
+              "rotulo_provavel": "Não sei meu CEP"
+            },
+            {
+              "tipo": "text",
+              "name": "f_rua_r",
+              "maxlength": 180,
+              "rotulo_provavel": "Logradouro (Rua, Avenida, etc.)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_bairro_r",
+              "maxlength": 255,
+              "rotulo_provavel": "Bairro"
+            },
+            {
+              "tipo": "text",
+              "name": "f_munic_r",
+              "maxlength": 45,
+              "rotulo_provavel": "Cidade"
+            },
+            {
+              "tipo": "text",
+              "name": "f_estado_r",
+              "maxlength": 10,
+              "rotulo_provavel": "Estado/província"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ddd_r",
+              "maxlength": 5,
+              "rotulo_provavel": "DDD"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fone_r",
+              "maxlength": 10,
+              "rotulo_provavel": "Telefone"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ramal_r",
+              "maxlength": 5,
+              "rotulo_provavel": "Ramal"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fax_r",
+              "maxlength": 10,
+              "rotulo_provavel": "Fax"
+            },
+            {
+              "tipo": "text",
+              "name": "f_caixa_r",
+              "maxlength": 10,
+              "rotulo_provavel": "Caixa postal"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ddd_cel_r",
+              "maxlength": 5,
+              "rotulo_provavel": "DDD"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fone_cel_r",
+              "maxlength": 10,
+              "rotulo_provavel": "Celular"
+            },
+            {
+              "tipo": "text",
+              "name": "f_homepage_r",
+              "maxlength": 250,
+              "rotulo_provavel": "Home page"
+            },
+            {
+              "tipo": "radio",
+              "name": "f_end_corr",
+              "opcoes": {
+                "utilizar este endereço para correspondência": "R"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_priv_residencial",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Visibilidade"
+            }
           ],
-          "total_opcoes": 244
+          "campos_de_busca_ou_visibilidade": 2
         },
         {
-          "tipo": "text",
-          "name": "f_cep_r",
-          "maxlength": 15,
-          "rotulo_provavel": "Não sei meu CEP"
-        },
-        {
-          "tipo": "text",
-          "name": "f_rua_r",
-          "maxlength": 180,
-          "rotulo_provavel": "Logradouro (Rua, Avenida, etc.)"
-        },
-        {
-          "tipo": "text",
-          "name": "f_bairro_r",
-          "maxlength": 255,
-          "rotulo_provavel": "Bairro"
-        },
-        {
-          "tipo": "text",
-          "name": "f_munic_r",
-          "maxlength": 45,
-          "rotulo_provavel": "Cidade"
-        },
-        {
-          "tipo": "text",
-          "name": "f_estado_r",
-          "maxlength": 10,
-          "rotulo_provavel": "Estado/província"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ddd_r",
-          "maxlength": 5,
-          "rotulo_provavel": "DDD"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fone_r",
-          "maxlength": 10,
-          "rotulo_provavel": "Telefone"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ramal_r",
-          "maxlength": 5,
-          "rotulo_provavel": "Ramal"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fax_r",
-          "maxlength": 10,
-          "rotulo_provavel": "Fax"
-        },
-        {
-          "tipo": "text",
-          "name": "f_caixa_r",
-          "maxlength": 10,
-          "rotulo_provavel": "Caixa postal"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ddd_cel_r",
-          "maxlength": 5,
-          "rotulo_provavel": "DDD"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fone_cel_r",
-          "maxlength": 10,
-          "rotulo_provavel": "Celular"
-        },
-        {
-          "tipo": "text",
-          "name": "f_homepage_r",
-          "maxlength": 250,
-          "rotulo_provavel": "Home page"
-        },
-        {
-          "tipo": "radio",
-          "name": "f_end_corr",
-          "opcoes": {
-            "utilizar este endereço para correspondência": "I"
-          },
-          "rotulo_provavel": "Home page"
-        },
-        {
-          "tipo": "select",
-          "desabilitado": true,
-          "rotulo_provavel": "Visibilidade",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Profissional",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "maxlength": 75,
+              "desabilitado": true,
+              "rotulo_provavel": "Instituição/Empresa"
+            },
+            {
+              "tipo": "text",
+              "name": "f_orgao",
+              "desabilitado": true,
+              "rotulo_provavel": "Órgão/Unidade"
+            },
+            {
+              "tipo": "select",
+              "name": "f_pais_i",
+              "rotulo_provavel": "País",
+              "catalogo": "catalogos/paises-244.json",
+              "total_opcoes": 245
+            },
+            {
+              "tipo": "text",
+              "name": "f_cep_i",
+              "maxlength": 15,
+              "rotulo_provavel": "Não sei meu CEP"
+            },
+            {
+              "tipo": "text",
+              "name": "f_rua_i",
+              "maxlength": 180,
+              "rotulo_provavel": "Logradouro (Rua, Avenida, etc.) e complemento (laboratório, sala, etc.)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_bairro_i",
+              "maxlength": 255,
+              "rotulo_provavel": "Bairro"
+            },
+            {
+              "tipo": "text",
+              "name": "f_munic_i",
+              "maxlength": 45,
+              "rotulo_provavel": "Cidade"
+            },
+            {
+              "tipo": "text",
+              "name": "f_estado_i",
+              "maxlength": 10,
+              "rotulo_provavel": "Estado/província"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ddd_i",
+              "maxlength": 5,
+              "rotulo_provavel": "DDD"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fone_i",
+              "maxlength": 10,
+              "rotulo_provavel": "Telefone"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ramal_i",
+              "maxlength": 5,
+              "rotulo_provavel": "Ramal"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fax_i",
+              "maxlength": 10,
+              "rotulo_provavel": "Fax"
+            },
+            {
+              "tipo": "text",
+              "name": "f_caixa_i",
+              "maxlength": 10,
+              "rotulo_provavel": "Caixa postal"
+            },
+            {
+              "tipo": "text",
+              "name": "f_ddd_cel_i",
+              "maxlength": 5,
+              "rotulo_provavel": "DDD"
+            },
+            {
+              "tipo": "text",
+              "name": "f_fone_cel_i",
+              "maxlength": 10,
+              "rotulo_provavel": "Celular"
+            },
+            {
+              "tipo": "text",
+              "name": "f_homepage_i",
+              "maxlength": 250,
+              "rotulo_provavel": "Home page"
+            },
+            {
+              "tipo": "radio",
+              "name": "f_end_corr",
+              "opcoes": {
+                "utilizar este endereço para correspondência": "I"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_priv_profissional",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Visibilidade"
+            }
           ],
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         },
         {
-          "tipo": "text",
-          "name": "f_priv_residencial",
-          "rotulo_provavel": "Visibilidade"
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Privado",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_inst",
-          "maxlength": 75,
-          "desabilitado": true,
-          "rotulo_provavel": "Instituição/Empresa"
-        },
-        {
-          "tipo": "text",
-          "name": "f_orgao",
-          "desabilitado": true,
-          "rotulo_provavel": "Órgão/Unidade"
-        },
-        {
-          "tipo": "select",
-          "name": "f_pais_i",
-          "rotulo_provavel": "País",
-          "opcoes": [
-            "=",
-            "RFA=Alemanha",
-            "ARG=Argentina",
-            "AUS=Austrália",
-            "BRA=Brasil",
-            "CAN=Canadá",
-            "ESP=Espanha",
-            "EUA=Estados Unidos",
-            "FRA=França",
-            "GBR=Grã-Bretanha",
-            "HOL=Holanda",
-            "ING=Inglaterra",
-            "ITA=Itália",
-            "POR=Portugal",
-            "AFG=Afeganistão",
-            "AFS=África Do Sul",
-            "ALB=Albânia",
-            "AND=Andorra",
-            "ANG=Angola",
-            "ATC=Antartida",
-            "ANB=Antigua",
-            "AHL=Antilhas Holandesas",
-            "ARA=Arábia Saudita",
-            "ARL=Argélia",
-            "ARM=Armênia",
-            "ABW=Aruba",
-            "AUT=Austria",
-            "AZE=Azerbaijão",
-            "BHS=Bahamas",
-            "BGD=Bangladesh",
-            "BRB=Barbados",
-            "BAR=Barein",
-            "BEA=Belarus",
-            "BEL=Bélgica",
-            "BLZ=Belize",
-            "BEN=Benin",
-            "BER=Bermudas",
-            "BIR=Birmânia",
-            "BOL=Bolívia",
-            "BOS=Bósnia"
+          "aba": "Eletrônico",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_email_i",
+              "maxlength": 70,
+              "rotulo_provavel": "e-mail para contato"
+            },
+            {
+              "tipo": "text",
+              "name": "f_priv_email_i",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "e-mail para contato"
+            },
+            {
+              "tipo": "text",
+              "name": "f_email_r",
+              "maxlength": 70,
+              "rotulo_provavel": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_priv_email_r",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)"
+            }
           ],
-          "total_opcoes": 245
-        },
-        {
-          "tipo": "text",
-          "name": "f_cep_i",
-          "maxlength": 15,
-          "rotulo_provavel": "Não sei meu CEP"
-        },
-        {
-          "tipo": "text",
-          "name": "f_rua_i",
-          "maxlength": 180,
-          "rotulo_provavel": "Logradouro (Rua, Avenida, etc.) e complemento (laboratório, sala, etc.)"
-        },
-        {
-          "tipo": "text",
-          "name": "f_bairro_i",
-          "maxlength": 255,
-          "rotulo_provavel": "Bairro"
-        },
-        {
-          "tipo": "text",
-          "name": "f_munic_i",
-          "maxlength": 45,
-          "rotulo_provavel": "Cidade"
-        },
-        {
-          "tipo": "text",
-          "name": "f_estado_i",
-          "maxlength": 10,
-          "rotulo_provavel": "Estado/província"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ddd_i",
-          "maxlength": 5,
-          "rotulo_provavel": "DDD"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fone_i",
-          "maxlength": 10,
-          "rotulo_provavel": "Telefone"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ramal_i",
-          "maxlength": 5,
-          "rotulo_provavel": "Ramal"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fax_i",
-          "maxlength": 10,
-          "rotulo_provavel": "Fax"
-        },
-        {
-          "tipo": "text",
-          "name": "f_caixa_i",
-          "maxlength": 10,
-          "rotulo_provavel": "Caixa postal"
-        },
-        {
-          "tipo": "text",
-          "name": "f_ddd_cel_i",
-          "maxlength": 5,
-          "rotulo_provavel": "DDD"
-        },
-        {
-          "tipo": "text",
-          "name": "f_fone_cel_i",
-          "maxlength": 10,
-          "rotulo_provavel": "Celular"
-        },
-        {
-          "tipo": "text",
-          "name": "f_homepage_i",
-          "maxlength": 250,
-          "rotulo_provavel": "Home page"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Visibilidade",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
-          ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_priv_profissional",
-          "rotulo_provavel": "Visibilidade"
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_email_i",
-          "maxlength": 70,
-          "rotulo_provavel": "e-mail para contato"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "e-mail para contato",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
-          ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_priv_email_i",
-          "rotulo_provavel": "e-mail para contato"
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Privado",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_email_r",
-          "maxlength": 70,
-          "rotulo_provavel": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
-          ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_priv_email_r",
-          "rotulo_provavel": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)"
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Privado",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 4
         }
       ],
       "ocultos": [
@@ -405,6 +294,59 @@
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe a Rua/Avenida do endereço residencial",
+        "Campo Logradouro (Rua, Avenida, etc.) obrigatório não informado.",
+        "Campo Bairro obrigatório não informado.",
+        "Informe a Cidade do endereço residencial",
+        "Campo Cidade obrigatório não informado.",
+        "DDD inválido residencial. Informe apenas números",
+        "DDD residencial inválido. Informe apenas números.",
+        "Telefone residencial inválido. Informe apenas números",
+        "Telefone residencial inválido. Informe apenas números.",
+        "Ramal residencial inválido. Informe apenas números",
+        "Ramal residencial inválido. Informe apenas números.",
+        "Fax residencial inválido. Informe apenas números",
+        "Fax residencial inválido. Informe apenas números.",
+        "Caixa Postal residencial inválida. Informe apenas números",
+        "Caixa postal residencial inválida. Informe apenas números.",
+        "CEP do endereço residencial inválido.Informe no formato 99999-999",
+        "CEP do endereço residencial inválido.Informe no formato 99999-999.",
+        "Informe o CEP do endereço residencial",
+        "Campo CEP obrigatório não informado.",
+        "Informe o País do endereço residencial",
+        "Campo País obrigatório não informado.",
+        "Informe a UF do endereço residencial.",
+        "Campo Estado/província obrigatório não informado.",
+        "Unidade Federativa INVÁLIDA",
+        "Unidade Federativa INVÁLIDA.",
+        "Email residencial inválido.",
+        "E-mail residencial inválido.",
+        "Campo DDD residencial obrigatório não informado.",
+        "Campo Telefone residencial obrigatório não informado.",
+        "Informe a Rua/Avenida do endereço institucional.",
+        "Informe a Cidade do endereço institucional.",
+        "Informe o CEP do endereço institucional",
+        "Informe o Pais do endereço institucional",
+        "Informe a UF do endereço institucional.",
+        "Informe a Instituição.",
+        "Campo Instituição/Empresa obrigatório não informado.",
+        "CEP do endereço profissional inválido. Informe no formato 99999-999",
+        "CEP do endereço profissional inválido. Informe no formato 99999-999.",
+        "Unidade Federativa inválida",
+        "DDD institucional invalido. Informe apenas números"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Logradouro (Rua, Avenida, etc.)",
+        "Bairro",
+        "Cidade",
+        "CEP",
+        "País",
+        "Estado/província",
+        "DDD residencial",
+        "Telefone residencial",
+        "Instituição/Empresa"
       ]
     }
   ],

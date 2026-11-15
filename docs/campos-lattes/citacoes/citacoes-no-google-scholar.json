@@ -6,51 +6,49 @@
   "formularios": [
     {
       "url": "prc_indicadores?f_base=4&f_cod=<codigo_do_cv>",
-      "total_campos": 7,
-      "campos": [
+      "total_campos_nomeados": 5,
+      "abas": [
         {
-          "tipo": "text",
-          "name": "f_qtd_citacoes",
-          "maxlength": 6,
-          "rotulo_provavel": "Número total de citações"
+          "aba": "Dados da busca",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_qtd_citacoes",
+              "maxlength": 6,
+              "rotulo_provavel": "Número total de citações"
+            },
+            {
+              "tipo": "text",
+              "name": "f_qtd_trabalhos",
+              "maxlength": 6,
+              "rotulo_provavel": "Número de trabalhos"
+            },
+            {
+              "tipo": "text",
+              "name": "f_data",
+              "id": "dp1794763276075",
+              "maxlength": 10,
+              "rotulo_provavel": "Data"
+            },
+            {
+              "tipo": "text",
+              "name": "f_query",
+              "maxlength": 400,
+              "rotulo_provavel": "Endereço na Web(URL) do perfil do autor"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "name": "f_qtd_trabalhos",
-          "maxlength": 6,
-          "rotulo_provavel": "Número de trabalhos"
-        },
-        {
-          "tipo": "text",
-          "name": "f_data",
-          "id": "dp1794761519063",
-          "maxlength": 10,
-          "rotulo_provavel": "Data"
-        },
-        {
-          "tipo": "text",
-          "name": "f_query",
-          "maxlength": 400,
-          "rotulo_provavel": "Endereço na Web(URL) do perfil do autor"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            }
           ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "ocultos": [
@@ -63,12 +61,37 @@
         "f_sta_validado",
         "f_txt_base"
       ],
-      "abas": [
-        "Dados da busca",
-        "Visibilidade"
-      ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Informe a teste",
+        "Campo ResearcherID obrigatório não informado.",
+        "Informe a base bibliográfica",
+        "Campo Base bibliográfica obrigatório não informado.",
+        "Informe a quantidade de citações",
+        "Campo Número total de citações obrigatório não informado.",
+        "Quantidade de citações inválida. Informe apenas números.",
+        "Número total de citações inválida. Informe apenas números",
+        "Informe a quantidade de trabalhos",
+        "Campo Número de trabalhos obrigatório não informado.",
+        "Quantidade de trabalhos inválida. Informe apenas números.",
+        "Número de trabalhos inválida. Informe apenas números.",
+        "Informe a data",
+        "Campo Data obrigatório não informado.",
+        "A data não pode ser maior que o dia atual",
+        "Fator H inválido. Informe apenas números.",
+        "Informe o(s) nome(s) do autor utilizado(s) na consulta",
+        "Campo Endereço na Web(URL) do perfil do autor obrigatório não informado.",
+        "Campo Data inválido"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "ResearcherID",
+        "Base bibliográfica",
+        "Número total de citações",
+        "Número de trabalhos",
+        "Data",
+        "Endereço na Web(URL) do perfil do autor"
       ]
     }
   ],

@@ -6,382 +6,296 @@
   "formularios": [
     {
       "url": "pkg_patente_registro.form?f_sta_inovacao=&f_cod=<codigo_do_cv>&f_cod_tipo=PC&f_inst=INPI%20-%20Instituto%20Nacional%20da%20Propriedade%20Industrial&f_cod_reg=BR1020200000001&f_ctr=R",
-      "total_campos": 41,
-      "campos": [
+      "total_campos_nomeados": 30,
+      "abas": [
         {
-          "tipo": "radio",
-          "name": "f_natureza",
-          "opcoes": {
-            "Computacional": "Computacional",
-            "Multimídia": "Multimídia",
-            "Outro": "Outro"
-          },
-          "rotulo_provavel": "Natureza"
-        },
-        {
-          "tipo": "text",
-          "name": "f_cod_reg",
-          "maxlength": 16,
-          "rotulo_provavel": "Número do registro"
-        },
-        {
-          "tipo": "button",
-          "name": "f_botao",
-          "id": "btnRecDadRegisto",
-          "desabilitado": true,
-          "rotulo_provavel": "Número do registro"
-        },
-        {
-          "tipo": "text",
-          "name": "f_inst",
-          "maxlength": 75,
-          "rotulo_provavel": "Instituição de registro"
-        },
-        {
-          "tipo": "select",
-          "name": "f_pais",
-          "rotulo_provavel": "País",
-          "opcoes": [
-            "ARG=Argentina",
-            "AUS=Austrália",
-            "BRA=Brasil",
-            "CAN=Canadá",
-            "ESP=Espanha",
-            "EUA=Estados Unidos",
-            "FRA=França",
-            "GBR=Grã-Bretanha",
-            "HOL=Holanda",
-            "ING=Inglaterra",
-            "ITA=Itália",
-            "POR=Portugal",
-            "RFA=Alemanha",
-            "ABW=Aruba",
-            "AFG=Afeganistão",
-            "AFS=África Do Sul",
-            "AHL=Antilhas Holandesas",
-            "ALB=Albânia",
-            "ANB=Antigua",
-            "AND=Andorra",
-            "ANG=Angola",
-            "ARA=Arábia Saudita",
-            "ARL=Argélia",
-            "ARM=Armênia",
-            "ASM=Samoa Americana",
-            "ATC=Antartida",
-            "AUT=Austria",
-            "AZE=Azerbaijão",
-            "BAR=Barein",
-            "BEA=Belarus",
-            "BEL=Bélgica",
-            "BEN=Benin",
-            "BER=Bermudas",
-            "BGD=Bangladesh",
-            "BHS=Bahamas",
-            "BIR=Birmânia",
-            "BKF=Burkina Fasso",
-            "BLZ=Belize",
-            "BOL=Bolívia",
-            "BOS=Bósnia"
+          "aba": "Dados gerais",
+          "campos": [
+            {
+              "tipo": "radio",
+              "name": "f_natureza",
+              "opcoes": {
+                "Computacional": "Computacional",
+                "Multimídia": "Multimídia",
+                "Outro": "Outro"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_cod_reg",
+              "maxlength": 16,
+              "rotulo_provavel": "Número do registro"
+            },
+            {
+              "tipo": "button",
+              "name": "f_botao",
+              "id": "btnRecDadRegisto",
+              "desabilitado": true,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Número do registro"
+            },
+            {
+              "tipo": "text",
+              "name": "f_inst",
+              "maxlength": 75,
+              "rotulo_provavel": "Instituição de registro"
+            },
+            {
+              "tipo": "select",
+              "name": "f_pais",
+              "rotulo_provavel": "País",
+              "catalogo": "catalogos/paises-244.json",
+              "total_opcoes": 244
+            },
+            {
+              "tipo": "text",
+              "name": "f_titulo",
+              "id": "f_titulo",
+              "maxlength": 400,
+              "rotulo_provavel": "Título"
+            },
+            {
+              "tipo": "text",
+              "name": "f_dta_dep",
+              "id": "f_dta_dep",
+              "maxlength": 10,
+              "rotulo_provavel": "Data do registro"
+            },
+            {
+              "tipo": "text",
+              "name": "f_dta_conc",
+              "id": "dp1794763112074",
+              "maxlength": 10,
+              "rotulo_provavel": "Data do certificado de registro"
+            },
+            {
+              "tipo": "text",
+              "name": "f_finalidade",
+              "id": "f_finalidade",
+              "maxlength": 255,
+              "rotulo_provavel": "Finalidade"
+            },
+            {
+              "tipo": "radio",
+              "name": "F_STA_DIVULGACAO_CIENTIFICA",
+              "opcoes": {
+                "sim": "S",
+                "não": "N"
+              }
+            },
+            {
+              "tipo": "radio",
+              "name": "f_sta_inovacao",
+              "opcoes": {
+                "Não": "S",
+                "N": "N"
+              }
+            },
+            {
+              "tipo": "text",
+              "name": "f_txt_potencial",
+              "maxlength": 400,
+              "rotulo_provavel": "Qual o potencial de inovação?"
+            },
+            {
+              "tipo": "radio",
+              "name": "F_RELEV",
+              "opcoes": {
+                "sim": "S",
+                "não": "N"
+              }
+            },
+            {
+              "tipo": "textarea",
+              "name": "f_inst_financ",
+              "maxlength": 380,
+              "rotulo_provavel": "Instituição(ões) financiadora(s) (separadas por ponto e vírgula)"
+            },
+            {
+              "tipo": "text",
+              "name": "f_plataforma",
+              "maxlength": 255,
+              "rotulo_provavel": "Linguagens"
+            }
           ],
-          "total_opcoes": 244
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "name": "f_titulo",
-          "id": "f_titulo",
-          "maxlength": 400,
-          "rotulo_provavel": "Título"
+          "aba": "Depositante/Titular",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 2
         },
         {
-          "tipo": "text",
-          "name": "f_dta_dep",
-          "id": "f_dta_dep",
-          "maxlength": 10,
-          "rotulo_provavel": "Data do registro"
+          "aba": "Autores",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "name": "f_dta_conc",
-          "id": "dp1794761649086",
-          "maxlength": 10,
-          "rotulo_provavel": "Data do certificado de registro"
+          "aba": "Palavras-chave",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "text",
-          "name": "f_finalidade",
-          "id": "f_finalidade",
-          "maxlength": 255,
-          "rotulo_provavel": "Finalidade"
+          "aba": "Áreas",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "radio",
-          "name": "F_STA_DIVULGACAO_CIENTIFICA",
-          "opcoes": {
-            "sim": "S",
-            "não": "N"
-          },
-          "rotulo_provavel": "É uma produção para educação e popularização de CeT?"
+          "aba": "Setores",
+          "campos": [],
+          "campos_de_busca_ou_visibilidade": 1
         },
         {
-          "tipo": "radio",
-          "name": "f_sta_inovacao",
-          "opcoes": {
-            "Não": "S",
-            "N": "N"
-          },
-          "rotulo_provavel": "Sim"
-        },
-        {
-          "tipo": "text",
-          "name": "f_txt_potencial",
-          "maxlength": 400,
-          "rotulo_provavel": "Qual o potencial de inovação?"
-        },
-        {
-          "tipo": "radio",
-          "name": "F_RELEV",
-          "opcoes": {
-            "sim": "S",
-            "não": "N"
-          },
-          "rotulo_provavel": "É um dos 10 trabalhos mais relevantes de sua produção?"
-        },
-        {
-          "tipo": "textarea",
-          "name": "f_inst_financ",
-          "maxlength": 380,
-          "rotulo_provavel": "Instituição(ões) financiadora(s) (separadas por ponto e vírgula)"
-        },
-        {
-          "tipo": "text",
-          "name": "f_plataforma",
-          "maxlength": 255,
-          "rotulo_provavel": "Linguagens"
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Tipo de programa",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 60,
-          "rotulo_provavel": "Pessoas",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 60,
-          "rotulo_provavel": "Instituições",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome dos inventores",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 50,
-          "rotulo_provavel": "Palavra-chave",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 86,
-          "rotulo_provavel": "Visibilidade",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
-          "anonimo": true
-        },
-        {
-          "tipo": "textarea",
-          "name": "f_ref",
-          "maxlength": 3950,
-          "rotulo_provavel": "Outras informações"
-        },
-        {
-          "tipo": "text",
-          "name": "f_titulo_en",
-          "maxlength": 400,
-          "rotulo_provavel": "Title"
-        },
-        {
-          "tipo": "textarea",
-          "name": "f_ref_en",
-          "maxlength": 3800,
-          "rotulo_provavel": "Other information"
-        },
-        {
-          "tipo": "select",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
-          "opcoes": [
-            "1=Público",
-            "2=Privado"
-          ],
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "name": "f_tipo_privacidade",
-          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
-        },
-        {
-          "tipo": "text",
-          "rotulo_provavel": "Público",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "id": "nometitularPessoa",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome completo:"
-        },
-        {
-          "tipo": "text",
-          "id": "nometitularPessoaComoCitado",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome como citado:"
-        },
-        {
-          "tipo": "text",
-          "id": "nometitularInst",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome completo:"
-        },
-        {
-          "tipo": "text",
-          "id": "nometitularInstComoCitado",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome como citado:"
-        },
-        {
-          "tipo": "text",
-          "name": "f_nome",
-          "rotulo_provavel": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedade Científi"
-        },
-        {
-          "tipo": "text",
-          "name": "f_nme_inst",
-          "maxlength": 75,
-          "rotulo_provavel": "Nome da instituição"
-        },
-        {
-          "tipo": "text",
-          "name": "f_sigla",
-          "maxlength": 16,
-          "rotulo_provavel": "Sigla"
-        },
-        {
-          "tipo": "select",
-          "name": "f_pais_inst",
-          "rotulo_provavel": "País",
-          "opcoes": [
-            "=",
-            "RFA=Alemanha",
-            "ARG=Argentina",
-            "AUS=Austrália",
-            "BRA=Brasil",
-            "CAN=Canadá",
-            "ESP=Espanha",
-            "EUA=Estados Unidos",
-            "FRA=França",
-            "GBR=Grã-Bretanha",
-            "HOL=Holanda",
-            "ING=Inglaterra",
-            "ITA=Itália",
-            "POR=Portugal",
-            "AFG=Afeganistão",
-            "AFS=África Do Sul",
-            "ALB=Albânia",
-            "AND=Andorra",
-            "ANG=Angola",
-            "ATC=Antartida",
-            "ANB=Antigua",
-            "AHL=Antilhas Holandesas",
-            "ARA=Arábia Saudita",
-            "ARL=Argélia",
-            "ARM=Armênia",
-            "ABW=Aruba",
-            "AUT=Austria",
-            "AZE=Azerbaijão",
-            "BHS=Bahamas",
-            "BGD=Bangladesh",
-            "BRB=Barbados",
-            "BAR=Barein",
-            "BEA=Belarus",
-            "BEL=Bélgica",
-            "BLZ=Belize",
-            "BEN=Benin",
-            "BER=Bermudas",
-            "BIR=Birmânia",
-            "BOL=Bolívia",
-            "BOS=Bósnia"
-          ],
-          "total_opcoes": 245
-        },
-        {
-          "tipo": "select",
-          "name": "f_uf",
-          "rotulo_provavel": "UF",
-          "opcoes": [
-            "=",
-            "AC=AC",
-            "AL=AL",
-            "AM=AM",
-            "AP=AP",
-            "BA=BA",
-            "CE=CE",
-            "DF=DF",
-            "ES=ES",
-            "GO=GO",
-            "MA=MA",
-            "MG=MG",
-            "MS=MS",
-            "MT=MT",
-            "PA=PA",
-            "PB=PB",
-            "PE=PE",
-            "PI=PI",
-            "PR=PR",
-            "RJ=RJ",
-            "RN=RN",
-            "RO=RO",
-            "RR=RR",
-            "RS=RS",
-            "SC=SC",
-            "SE=SE",
-            "SP=SP",
-            "TO=TO"
+          "aba": "Outras informações",
+          "campos": [
+            {
+              "tipo": "textarea",
+              "name": "f_ref",
+              "maxlength": 3950,
+              "rotulo_provavel": "Outras informações"
+            }
           ]
         },
         {
-          "tipo": "text",
-          "id": "nomeAutor",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome completo:"
+          "aba": "Traduções",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_titulo_en",
+              "maxlength": 400,
+              "rotulo_provavel": "Title"
+            },
+            {
+              "tipo": "textarea",
+              "name": "f_ref_en",
+              "maxlength": 3800,
+              "rotulo_provavel": "Other information"
+            }
+          ]
         },
         {
-          "tipo": "text",
-          "id": "nomeAutorComoCitado",
-          "maxlength": 60,
-          "rotulo_provavel": "Nome como citado:"
+          "aba": "Visibilidade",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_tipo_privacidade",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+            },
+            {
+              "tipo": "text",
+              "id": "nometitularPessoa",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome completo:"
+            },
+            {
+              "tipo": "text",
+              "id": "nometitularPessoaComoCitado",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome como citado:"
+            },
+            {
+              "tipo": "text",
+              "id": "nometitularInst",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome completo:"
+            },
+            {
+              "tipo": "text",
+              "id": "nometitularInstComoCitado",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome como citado:"
+            }
+          ],
+          "campos_de_busca_ou_visibilidade": 2
         },
         {
-          "tipo": "text",
-          "maxlength": 50,
-          "rotulo_provavel": "Palavra-chave:",
-          "anonimo": true
-        },
-        {
-          "tipo": "text",
-          "maxlength": 85,
-          "rotulo_provavel": "Área:",
-          "anonimo": true
+          "aba": "Instituições",
+          "campos": [
+            {
+              "tipo": "text",
+              "name": "f_nome",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedade Científi"
+            },
+            {
+              "tipo": "text",
+              "name": "f_nme_inst",
+              "maxlength": 75,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome da instituição"
+            },
+            {
+              "tipo": "text",
+              "name": "f_sigla",
+              "maxlength": 16,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Sigla"
+            },
+            {
+              "tipo": "select",
+              "name": "f_pais_inst",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "País",
+              "catalogo": "catalogos/paises-244.json",
+              "total_opcoes": 245
+            },
+            {
+              "tipo": "select",
+              "name": "f_uf",
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "UF",
+              "opcoes": [
+                "=",
+                "AC=AC",
+                "AL=AL",
+                "AM=AM",
+                "AP=AP",
+                "BA=BA",
+                "CE=CE",
+                "DF=DF",
+                "ES=ES",
+                "GO=GO",
+                "MA=MA",
+                "MG=MG",
+                "MS=MS",
+                "MT=MT",
+                "PA=PA",
+                "PB=PB",
+                "PE=PE",
+                "PI=PI",
+                "PR=PR",
+                "RJ=RJ",
+                "RN=RN",
+                "RO=RO",
+                "RR=RR",
+                "RS=RS",
+                "SC=SC",
+                "SE=SE",
+                "SP=SP",
+                "TO=TO"
+              ]
+            },
+            {
+              "tipo": "text",
+              "id": "nomeAutor",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome completo:"
+            },
+            {
+              "tipo": "text",
+              "id": "nomeAutorComoCitado",
+              "maxlength": 60,
+              "oculto_inicialmente": true,
+              "rotulo_provavel": "Nome como citado:"
+            }
+          ],
+          "campos_de_busca_ou_visibilidade": 2
         }
       ],
       "opcao": "f_cod_tipo=PC",
@@ -415,22 +329,6 @@
         "áreas do conhecimento",
         "setores de atividade"
       ],
-      "abas": [
-        "Dados gerais",
-        "Autores",
-        "Palavras-chave",
-        "Áreas",
-        "Setores",
-        "Outras informaç...",
-        "Traduções",
-        "Visibilidade",
-        "Áreas Clássicas de Fenomenologia e suas Aplicações",
-        "Produção de Radioisótopos",
-        "Financiamento de Transportes",
-        "Produção de Mudas",
-        "Produção e Beneficiamento de Sementes",
-        "Produção Animal"
-      ],
       "janelas_auxiliares": [
         "checkCI()",
         "escolhe_inst();",
@@ -438,6 +336,60 @@
       ],
       "salvar": [
         "check();return false;"
+      ],
+      "validacao_mensagens": [
+        "Campo Data de Registro obrigatório não informado.",
+        "Campo Data do certificado de registro obrigatório não informado.",
+        "Data de Registro inválida. Digite no formato dd/mm/aaaa",
+        "Data de Concessão inválida. Digite no formato dd/mm/aaaa",
+        "Data do certificado de registro inválida. Digite no formato dd/mm/aaaa",
+        "Data de concessão deve ser maior ou igual a Data de registro",
+        "Data do certificado de registro deve ser maior ou igual a Data de registro",
+        "Campo \\\"Qual o potencial de inovação?\\\" obrigatório não informado",
+        "Campo \\\"Possui potencial de inovação de produtos, processos ou serviços?\\\" obrigatório não informado",
+        "Informe o Titulo",
+        "Informe o Ano da Producao",
+        "Ano invalido. Informe do formato 9999",
+        "Ano inválido. O ano deve estar no formato 9999.",
+        "Ano da producao nao pode ser menor que Ano Nascimento",
+        "Ano da produção não pode ser menor que ano nascimento.",
+        "Ano da produção nao pode ser maior que Ano Atual",
+        "Ano da produção não pode ser maior que ano atual.",
+        "Informe o Pais da Publicacao",
+        "Campo País obrigatório não informado.",
+        "Campo Instituição de registro obrigatório não informado.",
+        "Campo Número do processo obrigatório não informado.",
+        "Campo Número de registro obrigatório não informado.",
+        "Campo Número do processo inválido.",
+        "Campo Número de registro inválido.",
+        "Campo Instituição(ções) financiadora(s) obrigatório não informado.",
+        "Campo Finalidade obrigatório não informado.",
+        "Campo Linguagens obrigatório não informado.",
+        "Campo tipo de programa obrigatório não informado.",
+        "O seu nome deverá ser incluído na lista de melhoristas.",
+        "O seu nome deverá ser incluído na lista de inventores.",
+        "Data de concessão não pode ser maior do que a data atual.",
+        "Data de deposito não pode ser maior do que a data atual.",
+        "Data de depósito PCT não pode ser maior do que a data atual.",
+        "Data de Expiração não pode ser maior do que a data atual.",
+        "Campo Ano de Desenvolvimento Obrigatório não informado",
+        "Campo Ano de Desenvolvimento não pode ser maior que o ano atual",
+        "Campo Ano de Desenvolvimento inválido"
+      ],
+      "campos_obrigatorios_segundo_mensagens": [
+        "Data de Registro",
+        "Data do certificado de registro",
+        "\\\"Qual o potencial de inovação?\\\"",
+        "\\\"Possui potencial de inovação de produtos, processos ou serviços?\\\"",
+        "País",
+        "Instituição de registro",
+        "Número do processo",
+        "Número de registro",
+        "Instituição(ções) financiadora(s)",
+        "Finalidade",
+        "Linguagens",
+        "tipo de programa",
+        "Ano de Desenvolvimento"
       ]
     }
   ],
