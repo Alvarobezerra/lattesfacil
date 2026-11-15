@@ -528,22 +528,42 @@
             <span class="step-pill">Passo 4</span>
             <h2>Aplicar no Lattes ou Salvar para Teste</h2>
           </div>
+          <span id="extStatusBadge" class="badge-compliance">🧩 Modo 1-Clique disponível</span>
         </div>
+
+        <label class="dual-checkbox-label" style="margin-bottom: 14px; padding: 10px 14px;">
+          <input type="checkbox" id="autoSaveLattes" checked />
+          <div class="dual-check-content">
+            <strong>Efetuar o cadastro e clicar em Salvar automaticamente no Lattes</strong>
+            <p class="hint">Se marcado, o LattesData abre o formulário correto sozinho, preenche todos os campos e já aciona o botão <strong>Salvar</strong> (se não houver nenhuma escolha pendente na lupa).</p>
+          </div>
+        </label>
 
         <div class="action-buttons">
           <button type="button" class="btn btn-primary" id="btnOpenLattes">
-            🚀 Enviar para o Lattes (guia passo a passo)
+            🚀 Enviar e Cadastrar no Lattes
+          </button>
+          <button type="button" class="btn btn-accent hidden" id="btnEnviarExtensao" title="Abre o formulário no Lattes (aguarda login na 1ª vez) e efetua o cadastro automaticamente">
+            ⚡ Cadastrar Agora (1-Clique)
           </button>
           <button type="button" class="btn btn-primary" id="btnSaveRecord">
             💾 Salvar registro
           </button>
         </div>
 
+        <div id="extInstallBox" class="bookmarklet-box" style="margin-top: 12px;">
+          <p style="margin: 0 0 8px;"><strong>⚡ Quer cadastro 100% automático (sem precisar usar F12)?</strong> Instale a extensão do LattesData uma única vez: ao clicar em <em>Enviar</em>, ela abre o Lattes, aguarda seu login na 1ª vez, abre o formulário certo sozinha e efetua o cadastro:</p>
+          <div class="action-buttons" style="margin-top: 6px;">
+            <a class="btn btn-secondary btn-sm" href="/api/extensao.zip" download="lattesdata-extensao.zip">🧩 Baixar Extensão LattesData (.zip)</a>
+            <span class="hint">Extraia o ZIP e carregue em <code>chrome://extensions</code> ou <code>edge://extensions</code> → <em>Modo do desenvolvedor</em> → <em>Carregar sem compactação</em>.</span>
+          </div>
+        </div>
+
         <ol id="lattesGuide" class="lattes-guide hidden">
-          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesData nunca os vê). Ao executar o script, ele confere se o currículo aberto é desse usuário e não preenche nada se for outro.</li>
-          <li class="guide-step" data-step="2"><span id="guideStep2" data-doi="">Vá em <em>Produções → Trabalhos publicados em anais de eventos → Incluir novo item</em> para abrir o formulário.</span></li>
-          <li class="guide-step" data-step="3">Pressione <code>F12</code> → aba <em>Console</em>, cole o script (já copiado para sua área de transferência) e tecle Enter.</li>
-          <li class="guide-step" data-step="4">Confira os campos, adicione autores/palavras-chave se faltarem e clique em <strong>Salvar</strong> no Lattes.</li>
+          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesData nunca os vê).</li>
+          <li class="guide-step" data-step="2"><span id="guideStep2" data-doi="">Você <strong>não precisa procurar no menu</strong>: na tela inicial do Lattes já logado, o script abre o formulário correto sozinho!</span></li>
+          <li class="guide-step" data-step="3">Pressione <code>F12</code> → aba <em>Console</em>, cole o script (já copiado automaticamente) e tecle Enter (ou clique no favorito na barra).</li>
+          <li class="guide-step" data-step="4">O sistema abrirá o formulário, preencherá todos os campos e salvará automaticamente (ou destacará o botão <strong>Salvar</strong> em verde).</li>
         </ol>
 
         <details class="mais-opcoes">
@@ -560,8 +580,8 @@
           </button>
           </div>
         <div class="bookmarklet-box">
-          <p><strong>Como usar no Lattes em 5 segundos:</strong> Abra o formulário <em>Trabalhos publicados em anais de eventos</em> no Lattes já logado, clique em <strong>Copiar Script Auto-Preenchimento</strong>, abra o Console do navegador (<code>F12</code> → Console) no iframe do formulário e cole, ou arraste o botão abaixo para sua barra de favoritos:</p>
-          <a id="bookmarkletLink" class="bookmarklet-btn" href="#">✨ Preencher Lattes (Arraste aos Favoritos)</a>
+          <p><strong>Favorito de 1 clique (sem extensão):</strong> Arraste o botão abaixo para sua barra de favoritos. Quando estiver logado na tela inicial do Lattes, basta clicar nele — ele abre o formulário certo sozinho e preenche tudo:</p>
+          <a id="bookmarkletLink" class="bookmarklet-btn" href="#">✨ Cadastrar no Lattes (Arraste aos Favoritos)</a>
         </div>
         </details>
       </section>

@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "LattesData — Automação Currículo Lattes",
+  "version": "0.2.0",
+  "description": "Conecta o LattesData ao Currículo Lattes: aguarda login na 1ª vez, abre o formulário certo sozinho e cadastra com 1 clique.",
+  "permissions": ["scripting", "tabs", "storage"],
+  "host_permissions": [
+    "https://wwws.cnpq.br/*",
+    "https://lattes.cnpq.br/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "https://*.onrender.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/*",
+        "http://127.0.0.1/*",
+        "https://*.onrender.com/*"
+      ],
+      "js": ["content-app.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://wwws.cnpq.br/*"
+      ],
+      "js": ["content-lattes.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

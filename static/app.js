@@ -68,7 +68,7 @@ const NATUREZAS = {
 const TIPO_INFO = {
   anais: {
     badge: "Trabalhos publicados em anais de eventos",
-    guide: "Vá em <em>Produções → Trabalhos publicados em anais de eventos → Incluir novo item</em> para abrir o formulário.",
+    guide: "Na tela inicial do Lattes logado, o sistema <strong>abre sozinho</strong> o formulário de <em>Trabalhos publicados em anais de eventos</em>.",
     bloco: "2. Evento e Publicação",
     issn: "ISBN / ISSN dos Anais",
     ano: "Ano de Publicação",
@@ -77,7 +77,7 @@ const TIPO_INFO = {
   },
   apresentacao: {
     badge: "Apresentação de trabalho e palestra",
-    guide: "Vá em <em>Produções → Apresentação de trabalho e palestra → Incluir novo item</em> para abrir o formulário.",
+    guide: "Na tela inicial do Lattes logado, o sistema <strong>abre sozinho</strong> o formulário de <em>Apresentação de trabalho e palestra</em>.",
     bloco: "2. Evento",
     issn: "ISBN / ISSN dos Anais",
     ano: "Ano de Publicação",
@@ -86,7 +86,7 @@ const TIPO_INFO = {
   },
   artigo: {
     badge: "Artigos completos publicados em periódicos",
-    guide: "Vá em <em>Produções → Artigos completos publicados em periódicos → Incluir novo item</em>, digite o DOI <strong>@DOI@</strong> na janela e confirme para abrir o formulário.",
+    guide: "Na tela inicial do Lattes logado, o sistema <strong>abre sozinho</strong> o formulário de <em>Artigos completos em periódicos</em> já recuperando o DOI <strong>@DOI@</strong>.",
     bloco: "2. Periódico",
     issn: "ISSN do periódico",
     ano: "Ano de Publicação",
@@ -95,7 +95,7 @@ const TIPO_INFO = {
   },
   orientacao: {
     badge: "Orientações e supervisões",
-    guide: "Vá em <em>Orientações → Orientações e supervisões concluídas (ou em andamento) → Incluir novo item</em> para abrir o formulário.",
+    guide: "Na tela inicial do Lattes logado, o sistema <strong>abre sozinho</strong> o formulário de <em>Orientações e supervisões</em>.",
     bloco: "2. Orientação",
     issn: "ISBN / ISSN dos Anais",
     ano: "Ano de término (em andamento: ano de início)",
@@ -289,12 +289,24 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     for (var i = 0; i < w.frames.length; i++) { var f = findDoc(w.frames[i]); if (f) return f; }
     return null;
   }
-  var doc = findDoc(window);
-  if (!doc) {
-    alert('LattesData: formulário não encontrado. Abra Trabalhos publicados em anais de eventos > Incluir novo item e execute de novo.');
-    return;
+  function formTypeOf(dc) {
+    if (!dc) return '';
+    if (dc.querySelector('[name="f_titulo_periodico"]')) return 'artigo';
+    if (dc.querySelector('[name="f_nme_orient"]')) return 'orientacao';
+    if (dc.querySelector('[name="f_nme_evento"]')) return 'apresentacao';
+    return 'anais';
   }
-  // Confere se o currículo aberto no Lattes é do usuário selecionado no LattesData antes de preencher qualquer coisa.
+  function findCvCode(topDoc) {
+    try {
+      var el = topDoc.querySelector('[name="f_cod"]');
+      if (el && el.value) return el.value.trim();
+      var html = topDoc.documentElement ? topDoc.documentElement.innerHTML : '';
+      var m = html.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i);
+      if (m) return m[1];
+    } catch (e) {}
+    return '';
+  }
+  // Confere se o currículo aberto no Lattes é do usuário selecionado no LattesData antes de abrir ou preencher qualquer coisa.
   var wanted = String(d.__usuario || '');
   var loggedName = '';
   try {
@@ -302,7 +314,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var nameEl = topDoc.getElementById('nmeLt') || topDoc.querySelector('.dadosPrinc .nome');
     loggedName = nameEl ? nameEl.textContent.trim() : '';
   } catch (e) {}
-  if (wanted) {
+  if (wanted && loggedName) {
     var tok = function (s) { return norm(s).split(' ').filter(function (t) { return t && ['da', 'de', 'do', 'das', 'dos', 'e'].indexOf(t) < 0; }); };
     var wa = tok(wanted), lb = tok(loggedName);
     var same = wa.length > 0 && lb.length > 0 && wa[0] === lb[0] && wa[wa.length - 1] === lb[lb.length - 1] &&
@@ -313,9 +325,79 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     }
   }
   try { var tp = window.top.opener || window.opener; if (tp && d.__origem) tp.postMessage({ type: 'lattesfacil-status', online: !!loggedName, name: loggedName }, d.__origem); } catch (e) {}
+  var want = d.tipo_producao || 'anais';
+  var wantAndamento = want === 'orientacao' && norm(d.situacao_orient).indexOf('andamento') >= 0;
+  var doc = findDoc(window);
+  var precisaAbrir = !doc || formTypeOf(doc) !== want;
+  if (!precisaAbrir && want === 'orientacao') {
+    var r0 = doc.querySelector('input[type="radio"][name="F_COD_PROD"]');
+    var jaAndamento = !!(r0 && /^A/.test(r0.value));
+    if (wantAndamento !== jaAndamento) precisaAbrir = true;
+  }
+  if (precisaAbrir) {
+    var cv = findCvCode(window.top.document);
+    var modal = window.top.modalCV2;
+    if (cv && modal && typeof modal.setarUrl === 'function') {
+      var targetUrl = '';
+      if (want === 'artigo') {
+        var doiClean = String(d.doi || '').trim();
+        targetUrl = 'PKG_ARTIGO.form?f_sta_divulgacao_cientifica=&F_COD_DOI=' + encodeURIComponent(doiClean) + '&F_CTR=' + (doiClean ? 'D' : 'I') + '&F_COD=' + cv + '&f_cod=' + cv;
+      } else if (want === 'apresentacao') {
+        targetUrl = 'prc_tec_apres?f_cod=' + cv;
+      } else if (want === 'orientacao') {
+        targetUrl = 'pkg_orient.form?f_cod=' + cv + '&f_tipo=' + (wantAndamento ? 'A' : 'C');
+      } else {
+        targetUrl = 'pkg_trabalho.form?f_cod=' + cv + '&F_STA_DIVULGACAO_CIENTIFICA=&f_seq_ev=';
+      }
+      modal.setarUrl(targetUrl, true);
+      var tOpen = Date.now();
+      doc = null;
+      while (Date.now() - tOpen < 15000) {
+        await sleep(350);
+        var cand = findDoc(window);
+        if (cand && cand.readyState === 'complete' && formTypeOf(cand) === want) {
+          doc = cand;
+          break;
+        }
+      }
+      if (doc) await sleep(600);
+    }
+  }
+  if (!doc) {
+    alert('LattesData: formulário não encontrado. Faça login no Lattes para abrir o painel principal e tente novamente.');
+    return;
+  }
   var report = [];
   var fire = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
   var visible = function (el) { return el.offsetParent !== null; };
+  // Escolha automática em cadastros controlados: nome idêntico; senão, a opção mais parecida, só se for clara e única.
+  var STOPW = ['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'a', 'o'];
+  var toks = function (s) { return norm(s).replace(/[^a-z0-9 ]/g, ' ').split(' ').filter(function (t) { return t && STOPW.indexOf(t) < 0; }); };
+  function melhor(itens, alvo, txt) {
+    var a = norm(alvo);
+    if (!a) return null;
+    var ex = itens.filter(function (i) { return norm(txt(i)) === a; })[0];
+    if (ex) return ex;
+    var ta = toks(alvo);
+    if (!ta.length) return null;
+    var pts = itens.map(function (i) {
+      var tb = toks(txt(i));
+      var inter = ta.filter(function (t) { return tb.indexOf(t) >= 0; }).length;
+      var uni = ta.length + tb.length - inter;
+      return { i: i, s: uni ? inter / uni : 0 };
+    }).sort(function (x, y) { return y.s - x.s; });
+    if (pts.length && pts[0].s >= 0.75 && (pts.length < 2 || pts[1].s <= pts[0].s - 0.15)) return pts[0].i;
+    return null;
+  }
+  async function esperaQuadro(rx, ms) {
+    var t1 = Date.now();
+    while (Date.now() - t1 < ms) {
+      var fr = [].slice.call(window.top.document.querySelectorAll('iframe')).filter(function (f) { return rx.test(f.src) && f.offsetParent !== null; })[0];
+      if (fr && fr.contentDocument && fr.contentDocument.readyState === 'complete') return fr;
+      await sleep(300);
+    }
+    return null;
+  }
 
   function setVal(name, val) {
     if (!val) return;
@@ -399,7 +481,34 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       setSelect('F_IDIOMA', lookup(IDIOMA, d.idioma, 'idioma'));
       setSelect('f_meio', lookup(MEIO, d.meio_divulgacao, 'meio de divulgação'));
       setVal('f_issn', d.isbn_issn); setVal('f_volume', d.volume); setVal('f_serie', d.serie); setVal('f_pag_ini', d.pagina_inicial);
-      if (d.periodico) report.push('periódico "' + d.periodico + '": escolha na lupa do Lattes (o campo é um cadastro controlado)');
+      if (d.periodico) {
+        // Melhor esforço: o DOM da lupa de periódicos não está documentado; qualquer falha vira aviso, nunca erro.
+        var perOk = false;
+        try {
+          var lupa = [].slice.call(doc.querySelectorAll('a, img, input[type="button"]')).filter(function (x) {
+            var h = (x.getAttribute('href') || '') + ' ' + (x.getAttribute('onclick') || '');
+            return /periodico/i.test(h) && visible(x);
+          })[0];
+          if (lupa) {
+            lupa.click();
+            var fp = await esperaQuadro(/periodico/i, 8000);
+            if (fp) {
+              var fd = fp.contentDocument;
+              var campo = [].slice.call(fd.querySelectorAll('input[type="text"]')).filter(function (x) { return visible(x); })[0];
+              if (campo) {
+                campo.value = d.isbn_issn || d.periodico; fire(campo);
+                var busca = [].slice.call(fd.querySelectorAll('a, input[type="button"], input[type="submit"], button')).filter(function (x) { return /pesquis|busc|consult|localiz/i.test(x.textContent + ' ' + (x.value || '') + ' ' + (x.getAttribute('onclick') || '')); })[0];
+                if (busca) busca.click();
+                await sleep(3500);
+                var cands = [].slice.call(fd.querySelectorAll('a')).filter(function (a) { return /selecion|retorn|escolh/i.test((a.getAttribute('href') || '') + ' ' + (a.getAttribute('onclick') || '')); });
+                var pa = melhor(cands, d.periodico, function (a) { return a.textContent; }) || (d.isbn_issn && cands.length === 1 ? cands[0] : null);
+                if (pa) { pa.click(); await sleep(1500); perOk = !!(doc.querySelector('[name="f_titulo_periodico"]') || {}).value; }
+              }
+            }
+          }
+        } catch (e) {}
+        if (!perOk) report.push('periódico "' + d.periodico + '": não consegui escolher sozinho; escolha na lupa do Lattes (cadastro controlado)');
+      }
     }
     var pf = doc.querySelector('[name="f_pag_fim"]');
     if (pf && !pf.value) setVal('f_pag_fim', d.pagina_final);
@@ -454,7 +563,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         try { fi.contentWindow.recuperaInstMacro(); } catch (e) {}
         await sleep(3500);
         var links = [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return /seleciona\(/.test(a.getAttribute('href') || ''); });
-        var achei = links.filter(function (a) { return normNome(a.textContent) === normNome(d.instituicao_orient); })[0];
+        var achei = melhor(links, normNome(d.instituicao_orient), function (a) { return normNome(a.textContent); });
         if (achei) { achei.click(); await sleep(1500); }
         else report.push('instituição "' + d.instituicao_orient + '" não encontrada no cadastro do Lattes' + (links.length ? ' (opções: ' + links.slice(0, 4).map(function (a) { return a.textContent.trim(); }).join('; ') + ')' : '') + '; escolha na lupa');
       }
@@ -468,7 +577,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
           var selc = fc.contentDocument.querySelector('select[name="f_curso"]');
           var opts2 = [].slice.call(selc.options);
           var alvo = normCurso(d.curso_orient);
-          var oc = opts2.filter(function (o) { return normCurso(o.text) === alvo; })[0] || opts2.filter(function (o) { return alvo.length > 4 && normCurso(o.text).indexOf(alvo) >= 0; })[0];
+          var oc = opts2.filter(function (o) { return normCurso(o.text) === alvo; })[0] || opts2.filter(function (o) { return alvo.length > 4 && normCurso(o.text).indexOf(alvo) >= 0; })[0] || melhor(opts2, alvo, function (o) { return normCurso(o.text); });
           if (oc) { selc.value = oc.value; fc.contentWindow.selecionar(); await sleep(1500); }
           else report.push('curso "' + d.curso_orient + '" não encontrado para essa instituição e nível; escolha na lupa');
         }
@@ -579,7 +688,8 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     await sleep(1200);
     var box = ainp.parentElement.querySelector('.suggest-content');
     var opts = box ? [].slice.call(box.querySelectorAll('a')) : [];
-    var hit = opts.filter(function (o) { return norm(o.textContent) === norm(areas[m]); })[0];
+    if (!opts.length) { await sleep(1500); box = ainp.parentElement.querySelector('.suggest-content'); opts = box ? [].slice.call(box.querySelectorAll('a')) : []; }
+    var hit = melhor(opts, areas[m], function (o) { return o.textContent; });
     if (hit) { hit.click(); okArea++; await sleep(600); }
     else { report.push('área sem correspondência exata no Lattes: ' + areas[m] + ' (escolha em Áreas)'); ainp.value = ''; }
   }
@@ -591,8 +701,26 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       ? 'ATENÇÃO: o Lattes não reconheceu o nome do titular entre os autores do DOI. Confira o campo "Nome em citações bibliográficas" do currículo (o Lattes mostra a lista de autores do DOI na tela).'
       : 'autores importados do DOI pelo Lattes');
   }
+  try { if (doc.defaultView && window.top && window.top.alert) doc.defaultView.alert = window.top.alert.bind(window.top); } catch (e) {}
+  var btnSalvar = [].slice.call(doc.querySelectorAll('a, input[type="button"], input[type="submit"], button')).filter(function (el) {
+    var act = (el.getAttribute('onclick') || '') + ' ' + (el.getAttribute('href') || '');
+    return /pre_check|check\s*\(/i.test(act) || /^salvar$/i.test((el.textContent || el.value || '').trim());
+  })[0];
+  if (btnSalvar) {
+    try {
+      btnSalvar.style.outline = '3px solid #10b981';
+      btnSalvar.style.boxShadow = '0 0 0 6px rgba(16,185,129,0.35)';
+      btnSalvar.style.borderRadius = '6px';
+      btnSalvar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (e) {}
+  }
+  var avisosCriticos = report.filter(function (r) { return !/^autores importados do DOI/i.test(r); });
+  if (d.__autoSalvar && btnSalvar && avisosCriticos.length === 0) {
+    await sleep(600);
+    try { btnSalvar.click(); return; } catch (e) {}
+  }
   alert('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
-    (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
+    (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique no botão Salvar (destacado em verde) no Lattes.');
 })();`;
 
 function sanitizeDataPayload(raw) {
@@ -830,8 +958,9 @@ function updateComplianceUI() {
 function buildLattesAutofillScript(data) {
   // "<" escapado para o JSON nunca fechar uma tag script caso o texto seja colado em HTML
   const usuario = $("ownerName") ? $("ownerName").value : "";
+  const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
   const sanitized = sanitizeDataPayload(data);
-  const payload = JSON.stringify({ ...sanitized, __usuario: usuario, __origem: location.origin }).replace(/</g, "\\u003c");
+  const payload = JSON.stringify({ ...sanitized, __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar }).replace(/</g, "\\u003c");
   return AUTOFILL_TEMPLATE.replace("__DATA__", () => payload);
 }
 
@@ -1702,7 +1831,7 @@ function openLattesTab() {
 }
 
 window.addEventListener("message", (e) => {
-  if (e.origin !== LATTES_ORIGIN) return; // só aceita sinais vindos do próprio Lattes
+  if (e.origin !== LATTES_ORIGIN && e.origin !== location.origin) return; // sinais do Lattes ou da extensão LattesData
   const m = e.data;
   if (!m || m.type !== "lattesfacil-status") return;
   lattesState.opened = true;
@@ -1780,10 +1909,31 @@ pollLattesStatus();
 
 renderLattesStatus();
 
+function dispararEnvioExtensao() {
+  const data = getFormData();
+  if (!data.titulo) {
+    showToast("Carregue ou preencha ao menos o título antes de enviar ao Lattes.");
+    return false;
+  }
+  const usuario = $("ownerName") ? $("ownerName").value : "";
+  const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
+  const dados = { ...sanitizeDataPayload(data), __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar };
+  const btnExt = $("btnEnviarExtensao");
+  const btnOpen = $("btnOpenLattes");
+  if (btnExt) btnExt.disabled = true;
+  if (btnOpen) btnOpen.disabled = true;
+  window.postMessage({ type: "lattesdata-ext-fill", data: dados }, location.origin);
+  return true;
+}
+
 $("btnOpenLattes").onclick = async () => {
   const data = getFormData();
   if (!data.titulo) {
     showToast("Carregue ou preencha ao menos o título antes de enviar ao Lattes.");
+    return;
+  }
+  if (window.__lattesExtAtiva) {
+    dispararEnvioExtensao();
     return;
   }
   // Abre a aba primeiro (dentro do clique) para o navegador não bloquear o pop-up.
@@ -1791,7 +1941,7 @@ $("btnOpenLattes").onclick = async () => {
   $("lattesGuide").classList.remove("hidden");
   try {
     await navigator.clipboard.writeText(buildLattesAutofillScript(data));
-    showToast("Lattes aberto em nova aba e script copiado! Siga o passo a passo.");
+    showToast("Lattes aberto e script copiado! Cole no Console (F12) na tela inicial do Lattes (ele abre o formulário sozinho) ou instale a extensão 1-Clique.");
   } catch (e) {
     showToast("Lattes aberto. Use o botão 'Copiar Script' para copiar manualmente.");
   }
@@ -2310,3 +2460,35 @@ if (lattesFormEl) {
 
 updateComplianceUI();
 
+// Extensão LattesData: se instalada, o botão "Enviar ao Lattes" abre o formulário no Lattes, aguarda login se necessário e preenche tudo sem colar script.
+(function iniciarExtensao() {
+  const btn = $("btnEnviarExtensao");
+  const btnOpen = $("btnOpenLattes");
+  const extBox = $("extInstallBox");
+  const autoSaveChk = $("autoSaveLattes");
+  if (autoSaveChk) {
+    autoSaveChk.addEventListener("change", () => updateBookmarklet());
+  }
+  window.addEventListener("message", (e) => {
+    if (e.source !== window || e.origin !== location.origin) return;
+    const m = e.data;
+    if (!m) return;
+    if (m.type === "lattesdata-ext-pong") {
+      window.__lattesExtAtiva = true;
+      if (btn) btn.classList.remove("hidden");
+      if (btnOpen) btnOpen.textContent = "🚀 Enviar e Cadastrar no Lattes (1-Clique)";
+      if (extBox) extBox.classList.add("ext-active");
+      const badge = $("extStatusBadge");
+      if (badge) badge.textContent = "✅ Extensão 1-Clique Ativa";
+    }
+    if (m.type === "lattesdata-ext-result") {
+      if (btn) btn.disabled = false;
+      if (btnOpen) btnOpen.disabled = false;
+      showToast(m.message || (m.ok ? "Enviado ao Lattes." : "A extensão não conseguiu preencher."));
+    }
+  });
+  if (btn) {
+    btn.onclick = () => dispararEnvioExtensao();
+  }
+  window.postMessage({ type: "lattesdata-ext-ping" }, location.origin);
+})();

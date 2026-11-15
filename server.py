@@ -540,6 +540,25 @@ class LattesHandler(BaseHTTPRequestHandler):
                                  "age": round(time.time() - entry["ts"], 1)})
             return
 
+        if path == "/api/extensao.zip":
+            import io
+            import zipfile
+            ext_dir = BASE_DIR / "extensao"
+            buf = io.BytesIO()
+            with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+                if ext_dir.is_dir():
+                    for f in sorted(ext_dir.iterdir()):
+                        if f.is_file() and f.name != "build.py":
+                            zf.write(f, arcname=f"lattesdata-extensao/{f.name}")
+            raw_zip = buf.getvalue()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "application/zip")
+            self.send_header("Content-Disposition", 'attachment; filename="lattesdata-extensao.zip"')
+            self.send_header("Content-Length", str(len(raw_zip)))
+            self.end_headers()
+            self.wfile.write(raw_zip)
+            return
+
         if path == "/api/records":
             with db() as conn:
                 rows = conn.execute(
