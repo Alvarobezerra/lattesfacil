@@ -39,6 +39,7 @@ MAX_SINGLE_ABSTRACT_PAGES = 12  # acima disso (e com vários resumos), o PDF é 
 MIN_ABSTRACTS_FOR_CADERNO = 10
 SID_RE = re.compile(r"^[a-z0-9]{8,40}$")
 LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sinal do conector (só em memória)
+LATTES_JOBS: dict[str, dict[str, Any]] = {}    # job_id de uso único -> payload temporário para o protocolo lattesdata://
 
 # ---------------------------------------------------------------- segurança
 ACCESS_FILE = BASE_DIR / ".acesso"          # código de acesso gerado na 1ª execução (fora do git)
@@ -59,40 +60,36 @@ LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><m
 body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:#0b192c;color:#f8fafc;display:grid;place-items:center;min-height:100vh;margin:0}
 form{background:#10233d;border:1px solid #1b365d;padding:30px 28px;border-radius:14px;width:min(360px,90vw);display:grid;gap:14px}
 .wm{display:flex;align-items:center;gap:12px}
-.wm b{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:600;font-size:1.7rem}
-.wm i{font-style:normal;font-weight:900;color:#00a3c4;font-size:1.3rem;margin-left:5px}
+.wt{display:flex;flex-direction:column;line-height:1;gap:2px}
+.wm b{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:700;font-size:1.9rem}
+.wm i{font-style:normal;font-weight:800;color:#00a3c4;font-size:1.05rem;text-align:justify;text-align-last:justify;letter-spacing:.04em}
 p{margin:0;color:#9fb0c8;font-size:.9rem}
 input{padding:12px;border-radius:8px;border:1px solid #1b365d;background:#0b192c;color:#fff;font-size:1rem}
 input:focus{outline:2px solid #00a3c4;border-color:#00a3c4}
 button{padding:12px;border:0;border-radius:8px;background:#00a3c4;color:#04202a;font-weight:700;font-size:1rem;cursor:pointer}
 button:hover{background:#38bdf8}
 .erro{color:#ff9b8a;font-size:.9rem}</style></head><body>
-<form method="post" action="/login"><div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56" fill="none">
-    <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" 
-          stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
-    
-    <path d="M43 19L56 50" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M26 35L54 55" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M18 55L52 60" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M22 75L54 65" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M36 92L58 70" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M56 103L62 72" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M78 98L66 70" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M96 82L68 64" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M102 60L68 58" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
-
-    <circle cx="60" cy="60" r="15" fill="#0369A1" stroke="#38BDF8" stroke-width="3"/>
-    
-    <line x1="60" y1="49" x2="60" y2="71" stroke="#38BDF8" stroke-width="1.8"/>
-    <line x1="49" y1="60" x2="71" y2="60" stroke="#38BDF8" stroke-width="1.8"/>
-
-    <circle cx="60" cy="49" r="2.2" fill="#38BDF8"/>
-    <circle cx="60" cy="71" r="2.2" fill="#38BDF8"/>
-    <circle cx="49" cy="60" r="2.2" fill="#38BDF8"/>
-    <circle cx="71" cy="60" r="2.2" fill="#38BDF8"/>
-
-    <circle cx="60" cy="60" r="5.5" fill="#10B981"/>
-  </svg><span><b>Lattes</b><i>DATA</i></span></div><p>Acesso restrito. Digite o código de acesso.</p>
+<form method="post" action="/login"><div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60" fill="none">
+  <defs>
+    <radialGradient id="ld-core-l" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#2CF0B4"/>
+      <stop offset="0.38" stop-color="#14A38E"/>
+      <stop offset="0.75" stop-color="#0C5470"/>
+      <stop offset="1" stop-color="#0B2A4A"/>
+    </radialGradient>
+  </defs>
+  <!-- Concha náutilo: espiral logarítmica áurea (razão φ por quarto de volta), abertura no canto superior direito -->
+  <path d="M81.7 48.9 L82.5 49.3 L83.1 49.8 L83.8 50.2 L84.5 50.7 L85.2 51.2 L85.8 51.8 L86.5 52.3 L87.1 52.9 L87.7 53.5 L88.3 54.1 L88.9 54.8 L89.4 55.4 L90.0 56.1 L90.5 56.8 L91.0 57.5 L91.5 58.2 L92.0 58.9 L92.4 59.7 L92.9 60.5 L93.3 61.3 L93.7 62.1 L94.0 62.9 L94.4 63.7 L94.7 64.6 L95.0 65.4 L95.3 66.3 L95.5 67.2 L95.8 68.1 L96.0 69.0 L96.2 69.9 L96.3 70.8 L96.4 71.7 L96.5 72.6 L96.6 73.6 L96.7 74.5 L96.7 75.5 L96.7 76.4 L96.7 77.4 L96.6 78.3 L96.5 79.3 L96.4 80.3 L96.3 81.2 L96.1 82.2 L95.9 83.1 L95.7 84.1 L95.4 85.1 L95.1 86.0 L94.8 86.9 L94.5 87.9 L94.1 88.8 L93.7 89.7 L93.3 90.7 L92.8 91.6 L92.4 92.5 L91.9 93.4 L91.3 94.2 L90.8 95.1 L90.2 96.0 L89.6 96.8 L88.9 97.6 L88.3 98.4 L87.6 99.2 L86.9 100.0 L86.1 100.8 L85.3 101.5 L84.6 102.2 L83.7 102.9 L82.9 103.6 L82.0 104.3 L81.2 104.9 L80.3 105.5 L79.3 106.1 L78.4 106.7 L77.4 107.2 L76.4 107.7 L75.4 108.2 L74.4 108.7 L73.4 109.1 L72.3 109.5 L71.3 109.9 L70.2 110.2 L69.1 110.6 L68.0 110.8 L66.9 111.1 L65.7 111.3 L64.6 111.5 L63.4 111.7 L62.3 111.8 L61.1 111.9 L59.9 112.0 L58.7 112.0 L57.6 112.0 L56.4 112.0 L55.2 111.9 L54.0 111.8 L52.8 111.6 L51.6 111.5 L50.4 111.2 L49.2 111.0 L48.0 110.7 L46.8 110.4 L45.6 110.1 L44.4 109.7 L43.3 109.2 L42.1 108.8 L41.0 108.3 L39.8 107.8 L38.7 107.2 L37.6 106.6 L36.4 106.0 L35.3 105.3 L34.3 104.6 L33.2 103.9 L32.2 103.1 L31.1 102.3 L30.1 101.5 L29.1 100.6 L28.2 99.7 L27.2 98.8 L26.3 97.8 L25.4 96.9 L24.5 95.8 L23.7 94.8 L22.9 93.7 L22.1 92.6 L21.3 91.5 L20.6 90.4 L19.9 89.2 L19.2 88.0 L18.6 86.8 L17.9 85.5 L17.4 84.2 L16.8 83.0 L16.3 81.6 L15.9 80.3 L15.4 79.0 L15.0 77.6 L14.7 76.2 L14.4 74.8 L14.1 73.4 L13.8 72.0 L13.6 70.6 L13.5 69.1 L13.3 67.7 L13.3 66.2 L13.2 64.7 L13.2 63.2 L13.3 61.7 L13.4 60.3 L13.5 58.8 L13.7 57.3 L13.9 55.8 L14.2 54.3 L14.5 52.8 L14.8 51.3 L15.2 49.8 L15.7 48.4 L16.1 46.9 L16.7 45.4 L17.2 44.0 L17.8 42.5 L18.5 41.1 L19.2 39.7 L19.9 38.3 L20.7 36.9 L21.6 35.6 L22.4 34.2 L23.3 32.9 L24.3 31.6 L25.3 30.3 L26.3 29.0 L27.4 27.8 L28.5 26.6 L29.7 25.4 L30.9 24.3 L32.1 23.2 L33.4 22.1 L34.7 21.0 L36.0 20.0 L37.4 19.0 L38.8 18.1 L40.2 17.1 L41.7 16.3 L43.2 15.4 L44.7 14.6 L46.2 13.9 L47.8 13.2 L49.4 12.5 L51.1 11.9 L52.7 11.3 L54.4 10.7 L56.1 10.2 L57.8 9.8 L59.6 9.4 L61.3 9.0 L63.1 8.7 L64.9 8.5 L66.7 8.3 L68.5 8.1 L70.3 8.0 L72.1 8.0 L74.0 8.0 L75.8 8.1 L77.7 8.2 L79.6 8.3 L81.4 8.6 L83.3 8.8 L85.1 9.2 L87.0 9.5 L88.8 10.0 L90.7 10.5 L92.5 11.0 L94.4 11.6 L96.2 12.3 L98.0 13.0 L99.8 13.8 L101.5 14.6 L103.3 15.4 L105.0 16.4 L106.8 17.4 Z" fill="#E4EDF5"/>
+  <g stroke="#7F9AB4" stroke-width="1.5" stroke-linecap="round"><path d="M92.7 60.2 Q83.5 61.4 75.9 66.7"/><path d="M96.7 75.1 Q87.4 71.7 77.6 72.8"/><path d="M93.1 91.1 Q86.0 83.3 76.1 79.5"/><path d="M81.7 104.6 Q78.8 93.6 71.3 85.1"/><path d="M64.2 111.6 Q66.9 99.8 64.1 88.0"/><path d="M44.1 109.5 Q52.6 99.7 55.7 87.1"/><path d="M26.1 97.6 Q39.0 92.6 48.3 82.2"/><path d="M15.0 77.4 Q29.7 79.1 43.7 73.8"/><path d="M14.5 52.7 Q27.7 61.6 43.5 63.6"/><path d="M26.3 29.1 Q34.4 44.1 48.4 53.8"/><path d="M49.3 12.6 Q49.5 30.8 57.9 46.9"/><path d="M79.2 8.3 Q70.4 25.7 70.3 45.1"/></g>
+  <path d="M81.7 48.9 L82.5 49.3 L83.1 49.8 L83.8 50.2 L84.5 50.7 L85.2 51.2 L85.8 51.8 L86.5 52.3 L87.1 52.9 L87.7 53.5 L88.3 54.1 L88.9 54.8 L89.4 55.4 L90.0 56.1 L90.5 56.8 L91.0 57.5 L91.5 58.2 L92.0 58.9 L92.4 59.7 L92.9 60.5 L93.3 61.3 L93.7 62.1 L94.0 62.9 L94.4 63.7 L94.7 64.6 L95.0 65.4 L95.3 66.3 L95.5 67.2 L95.8 68.1 L96.0 69.0 L96.2 69.9 L96.3 70.8 L96.4 71.7 L96.5 72.6 L96.6 73.6 L96.7 74.5 L96.7 75.5 L96.7 76.4 L96.7 77.4 L96.6 78.3 L96.5 79.3 L96.4 80.3 L96.3 81.2 L96.1 82.2 L95.9 83.1 L95.7 84.1 L95.4 85.1 L95.1 86.0 L94.8 86.9 L94.5 87.9 L94.1 88.8 L93.7 89.7 L93.3 90.7 L92.8 91.6 L92.4 92.5 L91.9 93.4 L91.3 94.2 L90.8 95.1 L90.2 96.0 L89.6 96.8 L88.9 97.6 L88.3 98.4 L87.6 99.2 L86.9 100.0 L86.1 100.8 L85.3 101.5 L84.6 102.2 L83.7 102.9 L82.9 103.6 L82.0 104.3 L81.2 104.9 L80.3 105.5 L79.3 106.1 L78.4 106.7 L77.4 107.2 L76.4 107.7 L75.4 108.2 L74.4 108.7 L73.4 109.1 L72.3 109.5 L71.3 109.9 L70.2 110.2 L69.1 110.6 L68.0 110.8 L66.9 111.1 L65.7 111.3 L64.6 111.5 L63.4 111.7 L62.3 111.8 L61.1 111.9 L59.9 112.0 L58.7 112.0 L57.6 112.0 L56.4 112.0 L55.2 111.9 L54.0 111.8 L52.8 111.6 L51.6 111.5 L50.4 111.2 L49.2 111.0 L48.0 110.7 L46.8 110.4 L45.6 110.1 L44.4 109.7 L43.3 109.2 L42.1 108.8 L41.0 108.3 L39.8 107.8 L38.7 107.2 L37.6 106.6 L36.4 106.0 L35.3 105.3 L34.3 104.6 L33.2 103.9 L32.2 103.1 L31.1 102.3 L30.1 101.5 L29.1 100.6 L28.2 99.7 L27.2 98.8 L26.3 97.8 L25.4 96.9 L24.5 95.8 L23.7 94.8 L22.9 93.7 L22.1 92.6 L21.3 91.5 L20.6 90.4 L19.9 89.2 L19.2 88.0 L18.6 86.8 L17.9 85.5 L17.4 84.2 L16.8 83.0 L16.3 81.6 L15.9 80.3 L15.4 79.0 L15.0 77.6 L14.7 76.2 L14.4 74.8 L14.1 73.4 L13.8 72.0 L13.6 70.6 L13.5 69.1 L13.3 67.7 L13.3 66.2 L13.2 64.7 L13.2 63.2 L13.3 61.7 L13.4 60.3 L13.5 58.8 L13.7 57.3 L13.9 55.8 L14.2 54.3 L14.5 52.8 L14.8 51.3 L15.2 49.8 L15.7 48.4 L16.1 46.9 L16.7 45.4 L17.2 44.0 L17.8 42.5 L18.5 41.1 L19.2 39.7 L19.9 38.3 L20.7 36.9 L21.6 35.6 L22.4 34.2 L23.3 32.9 L24.3 31.6 L25.3 30.3 L26.3 29.0 L27.4 27.8 L28.5 26.6 L29.7 25.4 L30.9 24.3 L32.1 23.2 L33.4 22.1 L34.7 21.0 L36.0 20.0 L37.4 19.0 L38.8 18.1 L40.2 17.1 L41.7 16.3 L43.2 15.4 L44.7 14.6 L46.2 13.9 L47.8 13.2 L49.4 12.5 L51.1 11.9 L52.7 11.3 L54.4 10.7 L56.1 10.2 L57.8 9.8 L59.6 9.4 L61.3 9.0 L63.1 8.7 L64.9 8.5 L66.7 8.3 L68.5 8.1 L70.3 8.0 L72.1 8.0 L74.0 8.0 L75.8 8.1 L77.7 8.2 L79.6 8.3 L81.4 8.6 L83.3 8.8 L85.1 9.2 L87.0 9.5 L88.8 10.0 L90.7 10.5 L92.5 11.0 L94.4 11.6 L96.2 12.3 L98.0 13.0 L99.8 13.8 L101.5 14.6 L103.3 15.4 L105.0 16.4 L106.8 17.4" stroke="#0B2A4A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M106.8 17.4 L81.7 48.9" stroke="#0B2A4A" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Núcleo de dados -->
+  <circle cx="64.0" cy="71.3" r="17.5" fill="url(#ld-core-l)" stroke="#0B2A4A" stroke-width="2.6"/>
+  <g stroke="#7CF5D4" stroke-width="1.2" stroke-linecap="round"><path d="M64.0 71.3 L64.0 60.4"/><path d="M64.0 71.3 L73.4 65.8"/><path d="M64.0 71.3 L73.4 76.7"/><path d="M64.0 71.3 L64.0 82.1"/><path d="M64.0 71.3 L54.6 76.7"/><path d="M64.0 71.3 L54.6 65.8"/></g>
+  <g fill="#9FF7E2"><circle cx="64.0" cy="60.4" r="2.3"/><circle cx="73.4" cy="65.8" r="2.3"/><circle cx="73.4" cy="76.7" r="2.3"/><circle cx="64.0" cy="82.1" r="2.3"/><circle cx="54.6" cy="76.7" r="2.3"/><circle cx="54.6" cy="65.8" r="2.3"/></g>
+  <circle cx="64.0" cy="71.3" r="4.4" fill="#34F0B0"/>
+</svg>
+<span class="wt"><b>Lattes</b><i>DATA</i></span></div><p>Acesso restrito. Digite o código de acesso.</p>
 <input type="password" name="codigo" autocomplete="current-password" autofocus required aria-label="Código de acesso">
 %ERRO%<button type="submit">Entrar</button></form></body></html>"""
 
@@ -496,7 +493,20 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/health":
             self._send_json({"ok": True})
             return
-        if path not in ("/api/lattes/ping", "/mockup-ia.html") and not self._gate():
+        if path not in ("/api/lattes/ping", "/api/lattes/job", "/mockup-ia.html") and not self._gate():
+            return
+
+        if path == "/api/lattes/job":
+            qs = parse_qs(parsed.query)
+            jid = (qs.get("id") or [""])[0].strip()
+            now_ts = time.time()
+            for k in [k for k, v in LATTES_JOBS.items() if now_ts - v.get("ts", 0) > 600]:
+                LATTES_JOBS.pop(k, None)
+            entry = LATTES_JOBS.pop(jid, None)
+            if not entry:
+                self._send_json({"ok": False, "error": "Job expirado ou inexistente."}, HTTPStatus.NOT_FOUND)
+            else:
+                self._send_json({"ok": True, "data": entry["data"]})
             return
 
         if path == "/api/radar":
@@ -939,6 +949,19 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json(result)
             except Exception as exc:
                 self._send_json({"error": "Falha ao buscar dados faltantes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/lattes/job":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                now_ts = time.time()
+                for k in [k for k, v in LATTES_JOBS.items() if now_ts - v.get("ts", 0) > 600]:
+                    LATTES_JOBS.pop(k, None)
+                jid = secrets.token_urlsafe(16)
+                LATTES_JOBS[jid] = {"data": payload, "ts": now_ts}
+                self._send_json({"ok": True, "job_id": jid})
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao criar job."}, HTTPStatus.BAD_REQUEST)
             return
 
         if path == "/api/records":

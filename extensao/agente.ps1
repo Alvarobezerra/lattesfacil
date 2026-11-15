@@ -1,14 +1,30 @@
-﻿param([string]$AppUrl = "https://lattesfacil.onrender.com")
+﻿param(
+  [string]$AppUrl = "https://lattesfacil.onrender.com",
+  [string]$ProtocolUri = ""
+)
 $ErrorActionPreference = "SilentlyContinue"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $ldDir = Join-Path $env:LOCALAPPDATA "LattesData"
 $profileDir = Join-Path $ldDir "perfil-navegador"
 $corePath = Join-Path $ldDir "autofill_core.js"
+$ps1Path = Join-Path $ldDir "agente.ps1"
 $coreJs = [System.IO.File]::ReadAllText($corePath, [System.Text.Encoding]::UTF8)
 $cdpPort = 19229
 
-# Cria atalho na Área de Trabalho
+# 1. Registra o protocolo lattesdata:// no Windows (por usuario, sem precisar de Admin)
+try {
+  $regBase = "HKCU:\Software\Classes\lattesdata"
+  New-Item -Path $regBase -Force | Out-Null
+  Set-ItemProperty -Path $regBase -Name "(Default)" -Value "URL:LattesData Automation Protocol" -Force
+  Set-ItemProperty -Path $regBase -Name "URL Protocol" -Value "" -Force
+  $cmdKey = Join-Path $regBase "shell\open\command"
+  New-Item -Path $cmdKey -Force | Out-Null
+  $cmdVal = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$ps1Path`" -ProtocolUri `"%1`""
+  Set-ItemProperty -Path $cmdKey -Name "(Default)" -Value $cmdVal -Force
+} catch {}
+
+# 2. Cria atalho na Area de Trabalho
 try {
   $desktop = [Environment]::GetFolderPath("Desktop")
   $lnkPath = Join-Path $desktop "LattesData Automático.lnk"
@@ -16,11 +32,35 @@ try {
     $wsh = New-Object -ComObject WScript.Shell
     $sc = $wsh.CreateShortcut($lnkPath)
     $sc.TargetPath = "powershell.exe"
-    $sc.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$ldDir\agente.ps1`" -AppUrl `"$AppUrl`""
+    $sc.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$ps1Path`" -AppUrl `"$AppUrl`""
     $sc.Description = "Abrir LattesData com Automação de Cadastro no Lattes"
     $sc.Save()
   }
 } catch {}
+
+# 3. Se foi disparado pelo clique em "Enviar" via lattesdata://fill?job=...&server=...
+$pendingPayload = ""
+if ($ProtocolUri -match "^lattesdata://") {
+  try {
+    $u = [Uri]$ProtocolUri
+    $qs = [System.Web.HttpUtility]::ParseQueryString($u.Query)
+  } catch {}
+  $jobMatch = [regex]::Match($ProtocolUri, "[?&]job=([^&]+)")
+  $srvMatch = [regex]::Match($ProtocolUri, "[?&]server=([^&]+)")
+  if ($srvMatch.Success) {
+    $AppUrl = [Uri]::UnescapeDataString($srvMatch.Groups[1].Value)
+  }
+  if ($jobMatch.Success) {
+    $jobId = [Uri]::UnescapeDataString($jobMatch.Groups[1].Value)
+    $jobUrl = "$($AppUrl.TrimEnd('/'))/api/lattes/job?id=$jobId"
+    try {
+      $resp = Invoke-RestMethod -Uri $jobUrl -TimeoutSec 8 -ErrorAction Stop
+      if ($resp.ok -and $resp.data) {
+        $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
+      }
+    } catch {}
+  }
+}
 
 $browsers = @(
   "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
@@ -42,23 +82,32 @@ try {
   $cdpAlive = $true
 } catch {}
 
+$initialTarget = if ($pendingPayload) { "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" } else { $AppUrl }
+
 if (-not $cdpAlive) {
   Write-Host "==========================================================" -ForegroundColor Cyan
   Write-Host "  LattesData — Navegador Automatico de Cadastro no Lattes" -ForegroundColor Cyan
   Write-Host "==========================================================" -ForegroundColor Cyan
-  Write-Host "Abrindo navegador dedicado ($AppUrl)..." -ForegroundColor Green
-  Write-Host "Mantenha esta janela minimizada enquanto usar o LattesData." -ForegroundColor Yellow
+  Write-Host "Abrindo navegador dedicado ($initialTarget)..." -ForegroundColor Green
+  Write-Host "Protocolo lattesdata:// registrado no Windows com sucesso!" -ForegroundColor Green
   Start-Process -FilePath $browserExe -ArgumentList @(
     "--user-data-dir=$profileDir",
     "--remote-debugging-port=$cdpPort",
     "--remote-allow-origins=*",
     "--no-first-run",
     "--no-default-browser-check",
-    $AppUrl
+    $initialTarget
   ) | Out-Null
   Start-Sleep -Seconds 2
-} else {
-  Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?$AppUrl" -TimeoutSec 2 | Out-Null
+} elseif ($pendingPayload) {
+  # Se o navegador ja estava aberto e chegou um job via protocolo lattesdata://
+  $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
+  $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
+  if ($lt.Count -eq 0) {
+    Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+  } else {
+    Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lt[0].id)" -TimeoutSec 2 | Out-Null
+  }
 }
 
 function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
@@ -89,7 +138,6 @@ function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
   }
 }
 
-$pendingPayload = ""
 $nextToast = ""
 $failCount = 0
 

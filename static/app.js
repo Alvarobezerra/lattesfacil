@@ -1936,14 +1936,36 @@ $("btnOpenLattes").onclick = async () => {
     dispararEnvioExtensao();
     return;
   }
-  // Abre a aba primeiro (dentro do clique) para o navegador não bloquear o pop-up.
-  openLattesTab();
+  // Dispara também pelo protocolo lattesdata:// (caso o usuário tenha rodado o Ativador 1 vez no PC, abre igual ao Zoom!)
+  try {
+    const usuario = $("ownerName") ? $("ownerName").value : "";
+    const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
+    const dados = { ...sanitizeDataPayload(data), __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar };
+    const r = await fetch("/api/lattes/job", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+    if (r.ok) {
+      const j = await r.json();
+      if (j.job_id) {
+        let ifr = document.getElementById("ldProtoFrame");
+        if (!ifr) {
+          ifr = document.createElement("iframe");
+          ifr.id = "ldProtoFrame";
+          ifr.style.display = "none";
+          document.body.appendChild(ifr);
+        }
+        ifr.src = `lattesdata://fill?job=${encodeURIComponent(j.job_id)}&server=${encodeURIComponent(location.origin)}`;
+      }
+    }
+  } catch (e) {}
   $("lattesGuide").classList.remove("hidden");
   try {
     await navigator.clipboard.writeText(buildLattesAutofillScript(data));
-    showToast("Lattes aberto e script copiado! Cole no Console (F12) na tela inicial do Lattes (ele abre o formulário sozinho) ou instale a extensão 1-Clique.");
+    showToast("🚀 Acionando o LattesData no seu computador! (Se ainda não instalou o Ativador, baixe abaixo ou use o script já copiado).");
   } catch (e) {
-    showToast("Lattes aberto. Use o botão 'Copiar Script' para copiar manualmente.");
+    showToast("Acionando o LattesData! Se ainda não instalou o Ativador, baixe-o no Passo 4.");
   }
   $("lattesGuide").scrollIntoView({ behavior: "smooth", block: "center" });
 };
