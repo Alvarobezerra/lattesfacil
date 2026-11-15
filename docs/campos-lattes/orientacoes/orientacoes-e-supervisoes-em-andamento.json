@@ -1,0 +1,332 @@
+{
+  "secao": "Orientações",
+  "item": "Orientações e supervisões em andamento",
+  "menu": "megamenu11",
+  "como_abrir": "Orientações > Orientações e supervisões em andamento",
+  "formularios": [
+    {
+      "url": "pkg_orient.form?f_cod=<codigo_do_cv>&f_tipo=A",
+      "total_campos": 25,
+      "campos": [
+        {
+          "tipo": "radio",
+          "name": "F_COD_PROD",
+          "opcoes": {
+            "Dissertação de mestrado": "A41",
+            "Tese de doutorado": "A42",
+            "Monografia de conclusão de curso de aperfeiçoament": "A43",
+            "Trabalho de conclusão de curso de graduação": "A44",
+            "Iniciação Científica": "A45",
+            "Supervisão de pós-doutorado": "A46",
+            "Orientação de outra natureza": "A49"
+          },
+          "rotulo_provavel": "Dados Gerais"
+        },
+        {
+          "tipo": "text",
+          "name": "f_dsc_outra",
+          "maxlength": 100,
+          "somente_leitura": true,
+          "rotulo_provavel": "(apenas para dissertação de mestrado e orientação de outra natureza)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo",
+          "maxlength": 400,
+          "rotulo_provavel": "Título do trabalho orientado"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano de início da orientação"
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "RFA=Alemanha",
+            "ABW=Aruba",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "AHL=Antilhas Holandesas",
+            "ALB=Albânia",
+            "ANB=Antigua",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ASM=Samoa Americana",
+            "ATC=Antartida",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BGD=Bangladesh",
+            "BHS=Bahamas",
+            "BIR=Birmânia",
+            "BKF=Burkina Fasso",
+            "BLZ=Belize",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 244
+        },
+        {
+          "tipo": "select",
+          "name": "F_IDIOMA",
+          "rotulo_provavel": "Idioma",
+          "opcoes": [
+            "DE=Alemão",
+            "ES=Espanhol",
+            "FR=Francês",
+            "EN=Inglês",
+            "IT=Italiano",
+            "LB=Libras",
+            "PT=Português",
+            "AB=Abhkazian",
+            "AA=Afar",
+            "AF=Afrikaans",
+            "AY=Aimara",
+            "SQ=Albanês",
+            "AM=Amarico",
+            "AR=Árabe",
+            "AN=Armênio",
+            "AS=Assames",
+            "AZ=Azerbaidjano",
+            "BC=Baluchi",
+            "EU=Basco",
+            "BA=Bashquir",
+            "BN=Bengali",
+            "BB=Berbere",
+            "BE=Bielo-Russo",
+            "BH=Bihari",
+            "BM=Birmanês",
+            "BI=Bislama",
+            "BR=Bretão",
+            "BG=Búlgaro",
+            "CB=Cabie",
+            "KS=Cachemiriano",
+            "KM=Cambodjano",
+            "KN=Canadá",
+            "KK=Casaque",
+            "CA=Catalão",
+            "ZH=Chinês",
+            "SI=Cingalês",
+            "KO=Coreano",
+            "CO=Corsico",
+            "CR=Crioulo",
+            "HR=Croata"
+          ],
+          "total_opcoes": 152
+        },
+        {
+          "tipo": "text",
+          "name": "f_homepage",
+          "maxlength": 250,
+          "rotulo_provavel": "Home page do trabalho (URL)"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_RELEV",
+          "opcoes": {
+            "sim": "S",
+            "não": "N"
+          },
+          "rotulo_provavel": "É um dos 10 trabalhos mais relevantes de sua produção?"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_tpo_orient",
+          "opcoes": {
+            "Orientador principal": "O",
+            "coorientador": "C"
+          },
+          "rotulo_provavel": "(apenas para dissertação de mestrado e tese de doutorado)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nme_orient",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome do orientando"
+        },
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_curso",
+          "maxlength": 50,
+          "desabilitado": true,
+          "rotulo_provavel": "Curso"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_BOLSA",
+          "opcoes": {
+            "sim": "S",
+            "não": "N"
+          },
+          "rotulo_provavel": "Com bolsa?"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nme_agencia",
+          "maxlength": 75,
+          "rotulo_provavel": "Agência financiadora"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
+          "anonimo": true
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref",
+          "maxlength": 3950,
+          "rotulo_provavel": "Outras informações"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo_en",
+          "maxlength": 400,
+          "rotulo_provavel": "Title"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref_en",
+          "maxlength": 3800,
+          "rotulo_provavel": "Other information"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave:",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "f_agencia",
+        "f_area_l",
+        "f_cod",
+        "f_cod_chk",
+        "f_cod_curso",
+        "f_cod_curso2",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_ctr",
+        "f_ctr_natur",
+        "f_curso_old",
+        "f_id_orientado",
+        "f_inst_old",
+        "f_nme_orientado",
+        "f_plv_l",
+        "f_seq",
+        "f_seq_chk",
+        "f_seq_form_orientado",
+        "f_setor_l",
+        "f_sub_prod",
+        "f_tipo",
+        "finish",
+        "start",
+        "status"
+      ],
+      "grades": [
+        "palavras-chave",
+        "áreas do conhecimento",
+        "setores de atividade"
+      ],
+      "abas": [
+        "Dados Gerais",
+        "Detalhamento",
+        "Bolsa",
+        "Palavras-chave",
+        "Áreas",
+        "Setores",
+        "Outras informaç...",
+        "Traduções",
+        "Visibilidade",
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes"
+      ],
+      "janelas_auxiliares": [
+        "agencia();",
+        "capesdados();",
+        "curso();",
+        "dominio();",
+        "sele_inst();"
+      ],
+      "salvar": [
+        "pre_check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_orient.lista?f_tipo=A&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "pkg_orient.form?f_cod=<codigo_do_cv>&f_tipo=A",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

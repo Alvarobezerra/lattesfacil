@@ -1,0 +1,78 @@
+{
+  "secao": "Formação",
+  "item": "Formação complementar",
+  "menu": "megamenu3",
+  "como_abrir": "Formação > Formação complementar",
+  "formularios": [
+    {
+      "url": "PKG_FORMACAO_COMPL.form?f_cod=<codigo_do_cv>&f_tipo=FA",
+      "total_campos": 5,
+      "campos": [
+        {
+          "tipo": "select",
+          "name": "f_nivel",
+          "rotulo_provavel": "Nível",
+          "opcoes": [
+            "=",
+            "F=Curso De Curta Duração",
+            "8=Extensão Universitária",
+            "E=Mba",
+            "Y=Outros"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_curso",
+          "maxlength": 50,
+          "desabilitado": true,
+          "rotulo_provavel": "Curso"
+        },
+        {
+          "tipo": "text",
+          "name": "f_carga",
+          "maxlength": 4,
+          "rotulo_provavel": "Carga Horária"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_STATUS",
+          "opcoes": {
+            "em andamento": "N",
+            "concluído": "S",
+            "incompleto": "I"
+          },
+          "rotulo_provavel": "Status do curso"
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_cod_curso",
+        "f_cod_curso2",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_ctr",
+        "f_curso_old",
+        "f_inst_old",
+        "f_seq",
+        "f_tipo"
+      ],
+      "janelas_auxiliares": [
+        "sele_inst();"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_formacao_compl.lista?f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_FORMACAO_COMPL.form?f_cod=<codigo_do_cv>&f_tipo=FA",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

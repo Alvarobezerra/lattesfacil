@@ -1,0 +1,68 @@
+{
+  "secao": "Atuação",
+  "item": "Áreas de atuação",
+  "menu": "megamenu4",
+  "como_abrir": "Atuação > Áreas de atuação",
+  "formularios": [
+    {
+      "url": "prc_area_atuacao?f_cod=<codigo_do_cv>",
+      "total_campos": 5,
+      "campos": [
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "f_area_l",
+        "f_cod",
+        "f_ctr",
+        "f_privacidade",
+        "f_setor_prod"
+      ],
+      "grades": [
+        "áreas do conhecimento"
+      ],
+      "abas": [
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes",
+        "Produção Animal",
+        "Outras Sociologias Específicas",
+        "Orientação e Aconselhamento",
+        "Orientação Educacional",
+        "Orientação Vocacional",
+        "Outras Literaturas Vernáculas"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": []
+}

@@ -1,0 +1,39 @@
+{
+  "secao": "Dados gerais",
+  "item": "Texto inicial do Currículo Lattes",
+  "menu": "megamenu2",
+  "como_abrir": "Dados gerais > Texto inicial do Currículo Lattes",
+  "formularios": [
+    {
+      "url": "pkg_resume.form?f_cod=<codigo_do_cv>",
+      "total_campos": 2,
+      "campos": [
+        {
+          "tipo": "textarea",
+          "name": "F_TEXTO",
+          "id": "f_texto",
+          "maxlength": 4000,
+          "rotulo_provavel": "Texto inicial"
+        },
+        {
+          "tipo": "textarea",
+          "name": "F_TEXTO_EN",
+          "id": "f_texto_trad",
+          "maxlength": 4000,
+          "rotulo_provavel": "Tradução"
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_ctr",
+        "f_resume_auto",
+        "f_resume_auto_en",
+        "f_ret"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": []
+}

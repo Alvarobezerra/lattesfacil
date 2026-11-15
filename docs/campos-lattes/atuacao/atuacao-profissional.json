@@ -1,0 +1,146 @@
+{
+  "secao": "Atuação",
+  "item": "Atuação profissional",
+  "menu": "megamenu4",
+  "como_abrir": "Atuação > Atuação profissional",
+  "formularios": [
+    {
+      "url": "PKG_ATIV.inclui?f_cod=<codigo_do_cv>",
+      "total_campos": 15,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Nome da Instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_vinc",
+          "maxlength": 30,
+          "desabilitado": true,
+          "rotulo_provavel": "Tipo do vínculo"
+        },
+        {
+          "tipo": "select",
+          "name": "f_stavinc",
+          "rotulo_provavel": "Possui vínculo empregatício",
+          "opcoes": [
+            "=",
+            "0=Não",
+            "1=Sim"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "f_enqua",
+          "maxlength": 45,
+          "rotulo_provavel": "Enquadramento funcional"
+        },
+        {
+          "tipo": "text",
+          "name": "f_carga",
+          "maxlength": 3,
+          "rotulo_provavel": "Carga horária semanal"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "f_regime",
+          "opcoes": {
+            "Dedicação exclusiva": "3"
+          },
+          "rotulo_provavel": "Carga horária semanal"
+        },
+        {
+          "tipo": "text",
+          "name": "f_mes_ini",
+          "maxlength": 2,
+          "rotulo_provavel": "Mês"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_ini",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_status",
+          "opcoes": {
+            "Atual (não finalizado)": "S",
+            "Anterior (finalizado)": "N"
+          },
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "text",
+          "name": "f_mes_fim",
+          "maxlength": 2,
+          "rotulo_provavel": "Mês"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_fim",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_outras_inf",
+          "maxlength": 3950,
+          "rotulo_provavel": "Outras informações"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_codinst",
+        "f_ctr",
+        "f_inst_old",
+        "f_instold",
+        "f_seq_ativ",
+        "f_seq_hist",
+        "f_vinculo"
+      ],
+      "abas": [
+        "Outras informaç...",
+        "Visibilidade"
+      ],
+      "janelas_auxiliares": [
+        "dominio()",
+        "sele_inst();"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_ativ.lista?f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_ATIV.inclui?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

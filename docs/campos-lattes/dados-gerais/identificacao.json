@@ -1,0 +1,535 @@
+{
+  "secao": "Dados gerais",
+  "item": "Identificação",
+  "menu": "megamenu2",
+  "como_abrir": "Dados gerais > Identificação",
+  "formularios": [
+    {
+      "url": "prc_ident?f_cod=<codigo_do_cv>&f_pcd=X",
+      "total_campos": 46,
+      "campos": [
+        {
+          "tipo": "select",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_foto"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_nome",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_nome_social_r",
+          "opcoes": {
+            "Não": "N",
+            "Sim": "S"
+          },
+          "rotulo_provavel": "Deseja utilizar o nome social?"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nome_social",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome social"
+        },
+        {
+          "tipo": "text",
+          "id": "nmeCitacao",
+          "maxlength": 255,
+          "rotulo_provavel": "SANTOS, A. A. B."
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais_nacio",
+          "id": "sPNacio",
+          "rotulo_provavel": "País de Nacionalidade",
+          "opcoes": [
+            "RFA=Alemanha",
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "AFG=Afeganistão",
+            "AFS=África do Sul",
+            "ALB=Albânia",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ATC=Antartida",
+            "ANB=Antigua",
+            "AHL=Antilhas Holandesas",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ABW=Aruba",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BHS=Bahamas",
+            "BGD=Bangladesh",
+            "BRB=Barbados",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BLZ=Belize",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BIR=Birmânia",
+            "BOL=Bolívia",
+            "BOS=Bósnia",
+            "BOT=Botsuana"
+          ],
+          "total_opcoes": 244
+        },
+        {
+          "tipo": "select",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_nacionalidade"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "select",
+          "id": "f_priv_cpf",
+          "desabilitado": true,
+          "rotulo_provavel": "02542643369",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ]
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "02542643369",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Privado",
+          "anonimo": true
+        },
+        {
+          "tipo": "radio",
+          "name": "f_sexo",
+          "opcoes": {
+            "M": "M",
+            "F": "F"
+          },
+          "rotulo_provavel": "Masculino"
+        },
+        {
+          "tipo": "select",
+          "name": "fnro_id_raca_cor",
+          "rotulo_provavel": "Cor ou raça",
+          "opcoes": [
+            "=",
+            "1=Branca",
+            "2=Preta",
+            "3=Parda",
+            "4=Indígena",
+            "5=Amarela",
+            "6=Não desejo declarar"
+          ]
+        },
+        {
+          "tipo": "select",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_cor"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Privado",
+          "anonimo": true
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais_nasc",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "=",
+            "RFA=Alemanha",
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "AFG=Afeganistão",
+            "AFS=África do Sul",
+            "ALB=Albânia",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ATC=Antartida",
+            "ANB=Antigua",
+            "AHL=Antilhas Holandesas",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ABW=Aruba",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BHS=Bahamas",
+            "BGD=Bangladesh",
+            "BRB=Barbados",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BLZ=Belize",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BIR=Birmânia",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 245
+        },
+        {
+          "tipo": "select",
+          "name": "f_uf_nasc",
+          "rotulo_provavel": "UF",
+          "opcoes": [
+            "=",
+            "AC=AC",
+            "AL=AL",
+            "AP=AP",
+            "AM=AM",
+            "BA=BA",
+            "CE=CE",
+            "DF=DF",
+            "ES=ES",
+            "GO=GO",
+            "MA=MA",
+            "MT=MT",
+            "MS=MS",
+            "MG=MG",
+            "PA=PA",
+            "PB=PB",
+            "PR=PR",
+            "PE=PE",
+            "PI=PI",
+            "RJ=RJ",
+            "RN=RN",
+            "RS=RS",
+            "RO=RO",
+            "RR=RR",
+            "SC=SC",
+            "SP=SP",
+            "SE=SE",
+            "TO=TO"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "f_cidade_nasc",
+          "maxlength": 30,
+          "rotulo_provavel": "Cidade"
+        },
+        {
+          "tipo": "text",
+          "name": "f_dta_nasc",
+          "maxlength": 10,
+          "rotulo_provavel": "Data"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Visibilidade",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_nascimento",
+          "rotulo_provavel": "Visibilidade"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Privado",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_rg_nro",
+          "maxlength": 15,
+          "rotulo_provavel": "Número"
+        },
+        {
+          "tipo": "text",
+          "name": "f_orgao_rg",
+          "maxlength": 8,
+          "rotulo_provavel": "Órgão emissor"
+        },
+        {
+          "tipo": "select",
+          "name": "f_uf_rg",
+          "rotulo_provavel": "Unidade Federativa",
+          "opcoes": [
+            "=",
+            "AC=AC",
+            "AL=AL",
+            "AP=AP",
+            "AM=AM",
+            "BA=BA",
+            "CE=CE",
+            "DF=DF",
+            "ES=ES",
+            "GO=GO",
+            "MA=MA",
+            "MT=MT",
+            "MS=MS",
+            "MG=MG",
+            "PA=PA",
+            "PB=PB",
+            "PR=PR",
+            "PE=PE",
+            "PI=PI",
+            "RJ=RJ",
+            "RN=RN",
+            "RS=RS",
+            "RO=RO",
+            "RR=RR",
+            "SC=SC",
+            "SP=SP",
+            "SE=SE",
+            "TO=TO"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "f_dta_rg",
+          "id": "dp1794759867617",
+          "maxlength": 10,
+          "rotulo_provavel": "Data de emissão"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Visibilidade",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_identidade",
+          "rotulo_provavel": "Visibilidade"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Privado",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_passaporte",
+          "maxlength": 20,
+          "rotulo_provavel": "Número do passaporte"
+        },
+        {
+          "tipo": "text",
+          "name": "f_dta_val_passaporte",
+          "id": "dp1794759867618",
+          "maxlength": 10,
+          "rotulo_provavel": "Data de validade"
+        },
+        {
+          "tipo": "text",
+          "name": "f_dta_emissao_doc",
+          "id": "dp1794759867619",
+          "maxlength": 10,
+          "rotulo_provavel": "Data de emissão"
+        },
+        {
+          "tipo": "select",
+          "name": "fpaispassaporte",
+          "id": "sPPaisPass",
+          "rotulo_provavel": "Pais de emissão",
+          "opcoes": [
+            "=",
+            "RFA=Alemanha",
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "ALB=Albânia",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ATC=Antartida",
+            "ANB=Antigua",
+            "AHL=Antilhas Holandesas",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ABW=Aruba",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BHS=Bahamas",
+            "BGD=Bangladesh",
+            "BRB=Barbados",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BLZ=Belize",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BIR=Birmânia",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 245
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Visibilidade",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_passaporte",
+          "rotulo_provavel": "Visibilidade"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Privado",
+          "anonimo": true
+        },
+        {
+          "tipo": "radio",
+          "name": "f_pcd_r",
+          "opcoes": {
+            "Não": "N",
+            "Sim": "S"
+          },
+          "rotulo_provavel": "Você é uma pessoa com Deficiência?"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "f_pcd",
+          "opcoes": {
+            "Deficiência Auditiva": "A",
+            "Deficiência Física": "F",
+            "Deficiência Intelectual": "I",
+            "Deficiência Visual": "V",
+            "Transtorno do Espectro Autista": "E",
+            "Deficiência Múltipla": "M"
+          },
+          "rotulo_provavel": "Sim"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "(associação de duas ou mais deficiências - Decreto nº. 3.298/1999)",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_priv_pcd",
+          "rotulo_provavel": "(associação de duas ou mais deficiências - Decreto nº. 3.298/1999)"
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "file",
+          "name": "file",
+          "rotulo_provavel": "Selecione uma imagem no formato JPEG com tamanho de até 70kB ou clique no botão Excluir pa"
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_cpf",
+        "f_ctr",
+        "f_dados_grid",
+        "f_nacionalidade",
+        "f_nme_old",
+        "f_nome_citacao",
+        "f_nome_citacao_h",
+        "f_nome_mae",
+        "f_nome_pai",
+        "f_pcd",
+        "f_ret",
+        "fdados_new"
+      ],
+      "grades": [
+        "holder"
+      ],
+      "abas": [
+        "Dados pessoais",
+        "Dados do nascim...",
+        "Identidade"
+      ],
+      "janelas_auxiliares": [
+        "update_img();"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": []
+}

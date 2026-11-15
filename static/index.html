@@ -20,10 +20,13 @@
         <label class="tester-badge">
           <span>Usuário em teste:</span>
           <select id="ownerName" aria-label="Usuário em teste">
-            <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
             <option value="Aramys Silva dos Reis">Aramys Silva dos Reis</option>
+            <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
           </select>
         </label>
+        <button class="btn btn-eval" id="btnOpenAuditModal" type="button" title="Auditoria de Conformidade e Oportunidades do Currículo">
+          🛡️ Avaliação do Lattes
+        </button>
         <button class="lattes-pill state-off" id="lattesPill" type="button" title="Estado da conexão com o Lattes">● Lattes OFF</button>
         <button class="btn btn-ghost" id="btnToggleHistory" type="button">
           📚 Registros Salvos (<span id="recordsCount">0</span>)
@@ -464,6 +467,111 @@
       </section>
     </form>
   </main>
+
+  <!-- Modal de Avaliação & Diagnóstico Lattes -->
+  <div id="auditModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="auditModalTitle">
+    <div class="audit-modal-card">
+      <div class="audit-modal-header">
+        <div class="flex-align-gap">
+          <span class="audit-icon-badge">🛡️</span>
+          <div>
+            <h2 id="auditModalTitle" class="audit-modal-title">Central de Avaliação & Diagnóstico Lattes</h2>
+            <p class="hint">Conformidade com a Portaria CNPq 2.664/2026 e Diretrizes CAPES Sucupira</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close" id="btnCloseAuditModal" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="audit-modal-body">
+        <!-- Banner do Usuário e Score -->
+        <div class="audit-hero-card">
+          <div class="audit-user-info">
+            <span class="audit-tag">Pesquisador Auditado</span>
+            <h3 id="auditModalUser" class="audit-user-name">Prof. Dr. Aramys Silva dos Reis</h3>
+            <p class="hint">Universidade Federal do Maranhão (UFMA) • Coord. PPGST</p>
+          </div>
+          <div class="audit-score-pill">
+            <span class="audit-score-label">Índice de Saúde</span>
+            <div class="audit-score-val"><span id="auditScoreVal">72</span><small>/100</small></div>
+            <span class="audit-score-status">⚠️ 19 Pendências</span>
+          </div>
+        </div>
+
+        <!-- Grade de Inconsistências -->
+        <div class="audit-grid">
+          <div class="audit-item audit-item-danger">
+            <div class="audit-item-top">
+              <strong>🚨 12 Artigos sem DOI</strong>
+              <span class="audit-badge-pill danger">Risco Crítico</span>
+            </div>
+            <p>Artigos sem DOI não são importados pelo Sucupira, gerando perda estimada de <strong>-120 pontos</strong> na avaliação do PPG.</p>
+          </div>
+
+          <div class="audit-item audit-item-warn">
+            <div class="audit-item-top">
+              <strong>⏳ 7 Projetos Vencidos</strong>
+              <span class="audit-badge-pill warn">Alerta CNPq</span>
+            </div>
+            <p>Projetos com vigência encerrada marcados como "Em andamento". Infração ao Art. 8º da Portaria 2.664/2026.</p>
+          </div>
+
+          <div class="audit-item audit-item-info">
+            <div class="audit-item-top">
+              <strong>💡 3 Patentes INPI</strong>
+              <span class="audit-badge-pill info">PTT / CAPES</span>
+            </div>
+            <p>Formatos divergentes no número do depósito nacional. Necessária padronização BR10... para pontuação.</p>
+          </div>
+
+          <div class="audit-item audit-item-purple">
+            <div class="audit-item-top">
+              <strong>👥 Inserção Discente</strong>
+              <span class="audit-badge-pill purple">Ficha CAPES</span>
+            </div>
+            <p>Produções conjuntas com orientandos de mestrado/doutorado sem anotação explícita na linha do programa.</p>
+          </div>
+        </div>
+
+        <!-- Radar de Coautorias Esquecidas -->
+        <div class="audit-radar-box">
+          <div class="audit-radar-header">
+            <div class="flex-align-gap">
+              <span class="radar-ping"></span>
+              <strong>🎯 Radar de Coautorias Cruzadas: Produções Encontradas</strong>
+            </div>
+            <span class="audit-badge-pill ok">+80 Pontos Potenciais</span>
+          </div>
+          <p class="hint">O robô varreu a CrossRef, o OpenAlex e os currículos de orientandos e localizou produções onde você é coautor oficial, mas que <strong>ainda não estão no seu Lattes</strong>:</p>
+          <div class="audit-radar-items">
+            <div class="radar-item">
+              <div>
+                <strong>Artigo:</strong> Importância do Farmacêutico no Cuidado ao Paciente Hipertenso
+                <span class="radar-meta">CrossRef DOI: 10.29327/2239332.2.2-13</span>
+              </div>
+              <button type="button" class="btn btn-sm btn-accent" id="btnLoadRadarItem">📥 Carregar no Form</button>
+            </div>
+            <div class="radar-item">
+              <div>
+                <strong>Capítulo:</strong> Estudos de Coorte (Sorianed)
+                <span class="radar-meta">DOI: 10.54466/sorianed.978-65-5453-098-9_011</span>
+              </div>
+              <span class="badge">Pronto p/ Injetar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações e Links para Relatórios -->
+        <div class="audit-modal-actions">
+          <a href="/apresentacao.html" target="_blank" class="btn btn-secondary" title="Apresentação em slides com proposta comercial para o cliente">
+            📊 Abrir Apresentação Comercial
+          </a>
+          <a href="/auditoria.html" target="_blank" class="btn btn-primary" title="Command Center de Auditoria e Conformidade">
+            🖥️ Abrir Central Completa (Command Center)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="toast" class="toast hidden"></div>
   <script src="/app.js"></script>

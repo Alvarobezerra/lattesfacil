@@ -1,0 +1,437 @@
+{
+  "secao": "Projetos",
+  "item": "Projeto de ensino",
+  "menu": "megamenu5",
+  "como_abrir": "Projetos > Projeto de ensino",
+  "formularios": [
+    {
+      "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=N&f_cod=<codigo_do_cv>",
+      "total_campos": 41,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_titulo",
+          "maxlength": 255,
+          "rotulo_provavel": "Nome do projeto"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref",
+          "maxlength": 3900,
+          "rotulo_provavel": "Descrição"
+        },
+        {
+          "tipo": "select",
+          "name": "F_TPO_NATUREZA",
+          "rotulo_provavel": "Natureza",
+          "opcoes": [
+            "=",
+            "D=Desenvolvimento",
+            "E=Extensão",
+            "P=Pesquisa",
+            "N=Ensino",
+            "O=Outra"
+          ]
+        },
+        {
+          "tipo": "select",
+          "name": "F_TPO_SITUACAO",
+          "rotulo_provavel": "Situação",
+          "opcoes": [
+            "=",
+            "D=Desativado",
+            "C=Concluído",
+            "A=Em andamento"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "F_ANO_INIC",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano início"
+        },
+        {
+          "tipo": "text",
+          "name": "F_ANO_FIM",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano fim"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_tpo_pesq_emp",
+          "opcoes": {
+            "S": "S",
+            "N": "N"
+          },
+          "rotulo_provavel": "Ano fim"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "f_tpo_cooperacao",
+          "opcoes": {
+            "Instituição de ensino": "IE",
+            "Agência de fomento": "AF",
+            "Empresa": "EM"
+          },
+          "rotulo_provavel": "É um projeto em cooperação com:"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_sta_inovacao",
+          "opcoes": {
+            "Não": "S",
+            "N": "N"
+          },
+          "rotulo_provavel": "Sim"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "f_tpo_acao_inov",
+          "opcoes": {
+            "Ensino Fundamental(1º grau)": "EF",
+            "Ensino Médio(2º grau)": "EM",
+            "Graduação": "GR",
+            "Especialização": "ES",
+            "Mestrado": "GM",
+            "Mestado Profissional": "MP",
+            "Doutorado": "GD"
+          },
+          "rotulo_provavel": "O projeto possui ações inovadoras na:"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "f_tematica",
+          "opcoes": {
+            "Ensino e aprendizagem": "EA",
+            "Aprendizagem por projetos": "AP",
+            "Projetos de curso": "PC",
+            "Formação inicial ou continuada de professores": "FI",
+            "Inserção de tecnologias no ensino": "IT",
+            "Ação inclusiva": "AI",
+            "Integração social(escola, família, comunidade)": "IS",
+            "Projeto de intervenção": "PI",
+            "Mobilidade e internacionalização": "MI",
+            "Avaliação": "A",
+            "Gestão": "G",
+            "Outra": "O"
+          },
+          "rotulo_provavel": "Em relação a temática:"
+        },
+        {
+          "tipo": "text",
+          "name": "f_especifique",
+          "id": "idEspec",
+          "maxlength": 50,
+          "rotulo_provavel": "Especifique:"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_objetivos_metas",
+          "maxlength": 3900,
+          "rotulo_provavel": "Objetivos e metas"
+        },
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Instituição de execução"
+        },
+        {
+          "tipo": "text",
+          "name": "f_orgao",
+          "desabilitado": true,
+          "rotulo_provavel": "Órgão/Unidade"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Coordenador",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Pessoas",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Instituições envolvidas no projeto",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_PRIMEIRO_GRAU",
+          "maxlength": 2,
+          "rotulo_provavel": "Ensino Fundamental(1º grau)"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_SEGUNDO_GRAU",
+          "maxlength": 2,
+          "rotulo_provavel": "Ensino Médio(2º grau)"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_GRADUACAO",
+          "maxlength": 2,
+          "rotulo_provavel": "Graduação"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_ESPECIALIZACAO",
+          "maxlength": 2,
+          "rotulo_provavel": "Especialização"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_MESTRADO_ACAD",
+          "maxlength": 2,
+          "rotulo_provavel": "Mestrado acadêmico"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_MESTRADO_PROF",
+          "maxlength": 2,
+          "rotulo_provavel": "Mestrado profissionalizante"
+        },
+        {
+          "tipo": "text",
+          "name": "F_NRO_DOUTORADO",
+          "maxlength": 2,
+          "rotulo_provavel": "Doutorado"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo_en",
+          "maxlength": 255,
+          "rotulo_provavel": "Project Name"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref_en",
+          "maxlength": 3900,
+          "rotulo_provavel": "Description"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularPessoa",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularPessoaComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularInst",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularInstComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nome",
+          "id": "f_nome",
+          "rotulo_provavel": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nme_inst",
+          "maxlength": 75,
+          "rotulo_provavel": "Nome da instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_sigla",
+          "maxlength": 16,
+          "rotulo_provavel": "Sigla"
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais_inst",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "=",
+            "RFA=Alemanha",
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "ALB=Albânia",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ATC=Antartida",
+            "ANB=Antigua",
+            "AHL=Antilhas Holandesas",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ABW=Aruba",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BHS=Bahamas",
+            "BGD=Bangladesh",
+            "BRB=Barbados",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BLZ=Belize",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BIR=Birmânia",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 245
+        },
+        {
+          "tipo": "select",
+          "name": "f_uf",
+          "rotulo_provavel": "UF",
+          "opcoes": [
+            "=",
+            "AC=AC",
+            "AL=AL",
+            "AM=AM",
+            "AP=AP",
+            "BA=BA",
+            "CE=CE",
+            "DF=DF",
+            "ES=ES",
+            "GO=GO",
+            "MA=MA",
+            "MG=MG",
+            "MS=MS",
+            "MT=MT",
+            "PA=PA",
+            "PB=PB",
+            "PE=PE",
+            "PI=PI",
+            "PR=PR",
+            "RJ=RJ",
+            "RN=RN",
+            "RO=RO",
+            "RR=RR",
+            "RS=RS",
+            "SC=SC",
+            "SE=SE",
+            "SP=SP",
+            "TO=TO"
+          ]
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutor",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutorComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        }
+      ],
+      "ocultos": [
+        "f_autores_l",
+        "f_carga",
+        "f_cod",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_cod_tipo",
+        "f_codinst",
+        "f_codorgao",
+        "f_codorgao2",
+        "f_ctr",
+        "f_enqua",
+        "f_inst_l",
+        "f_inst_old",
+        "f_instituicoes",
+        "f_instold",
+        "f_nro_tec_nivel_medio",
+        "f_orgao_old",
+        "f_orientacoes_d",
+        "f_orientacoes_l",
+        "f_producoes_d",
+        "f_producoes_l",
+        "f_regime",
+        "f_seq_ativ",
+        "f_seq_funcao",
+        "f_seq_proj",
+        "f_stavinc",
+        "f_tematica",
+        "f_tpo_acao_inov",
+        "f_tpo_cooperacao",
+        "f_txt_email_institucional",
+        "f_txt_setor",
+        "f_vinc"
+      ],
+      "grades": [
+        "autores",
+        "titularPessoaHolder",
+        "titularInstHolder"
+      ],
+      "abas": [
+        "Dados gerais",
+        "Produção C & T",
+        "Orientações",
+        "Traduções",
+        "Visibilidade"
+      ],
+      "janelas_auxiliares": [
+        "checkCI();",
+        "orgao();"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_projeto.lista?f_cod_tipo=N&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=N&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

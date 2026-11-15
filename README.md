@@ -8,6 +8,7 @@ Projeto iniciado em 15/11/2026 para simplificar a extração de metadados de pro
 - `caderno.py` — Segmentação de cadernos de resumos (um resumo por página): título, autores, palavras-chave, eixo, idioma e dados do evento (nome, cidade, ISSN, ano); busca por nome do pesquisador.
 - `certificado.py` — Leitor de certificados de apresentação ("Certificamos que..."): título, evento, promotora, cidade, forma de apresentação, autores com papéis; confere se o usuário selecionado consta no certificado.
 - `artigo.py` — Leitor de artigos de periódico (PDF ou DOI colado): consulta o DOI no Crossref (título, autores, periódico, ISSN, volume, páginas), lê as palavras-chave do PDF e confere o autor selecionado.
+- `orientacao.py` — Leitor de declarações, atas de defesa e certificados de orientação (mestrado, doutorado, TCC, IC...): natureza, orientando, instituição, curso, ano e papel do usuário (orientador/coorientador).
 - `extractor.py` — Motor de extração de texto e metadados de PDFs (PyMuPDF), identificação de título, autores, palavras-chave, evento, ano, ISBN/ISSN, páginas e área do conhecimento.
 - `requirements.txt` — Dependências Python (`pymupdf`, `requests`).
 - `lattes_records.db` — Banco de dados SQLite local com os registros extraídos/salvos.
@@ -18,6 +19,14 @@ Projeto iniciado em 15/11/2026 para simplificar a extração de metadados de pro
 - `exemplos/` — Arquivos PDF de teste utilizados na validação do projeto:
   - `2024-SEMICresumo.pdf` — Resumo individual (SEMIC 2024 / UFMA).
   - `bbr.ptm.23.384_FeSBE2026.pdf` — Caderno/anais com múltiplos resumos (FeSBE 2026) para rastreamento por nome de pesquisador/autor.
+
+## Documentação e Base de Conhecimento
+
+- `docs/base-conhecimento-auditoria-lattes.md` — **Base de Conhecimento Oficial**: Auditoria Estratégica e Otimização do Currículo Lattes (Conformidade Métrica, Interoperabilidade Sucupira/Bases Internacionais, Mapeamento dos 21 PTTs da CAPES e Protocolo de Manutenção).
+- `docs/melhorias-e-roadmap.md` — Benchmark de mercado, proposta de valor e roadmap técnico do LattesFácil.
+- `docs/auditoria-lattes-checklist.md` — Checklist de auditoria baseado em normas CAPES/CNPq.
+- `docs/mockup-auditoria-lattes-v2.html` — Mockup visual interativo da Central de Conformidade (Command Center / Split-screen).
+- `docs/campos-lattes/` — Mapeamento detalhado dos campos dos formulários da plataforma Lattes (`pkg_trabalho.form`, etc.).
 
 ## Como Executar
 

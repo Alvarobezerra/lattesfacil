@@ -120,7 +120,7 @@ Para assegurar total compliance com a Portaria CNPq nº 2.664/2026 e evitar autu
 - [ ] Interface integrada e responsiva com preview lado a lado (PDF do comprovante à esquerda, campos detectados à direita).
 
 ### Fase 3: Anti-Duplicação, Auditoria e Diagnóstico (Lattes Audit)
-*Garante conformidade com as novas regras punitivas do CNPq.*
+*Garante conformidade com as novas regras punitivas do CNPq e fundamenta-se na [Base de Conhecimento de Auditoria Estratégica](file:///c:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-auditoria-lattes.md).*
 - [ ] **Importação do XML do Lattes**:
   - Leitura do currículo exportado pelo próprio pesquisador.
   - Checagem automática de duplicações antes de preencher novos itens.

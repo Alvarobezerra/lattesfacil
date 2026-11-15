@@ -1,0 +1,317 @@
+{
+  "secao": "Produções",
+  "item": "Outra produção bibliográfica",
+  "menu": "megamenu6",
+  "como_abrir": "Produções > Outra produção bibliográfica",
+  "formularios": [
+    {
+      "url": "prc_bib_outraprod?f_cod=<codigo_do_cv>",
+      "total_campos": 27,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_natureza",
+          "maxlength": 100,
+          "rotulo_provavel": "Natureza"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo",
+          "maxlength": 400,
+          "rotulo_provavel": "Título"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "RFA=Alemanha",
+            "ABW=Aruba",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "AHL=Antilhas Holandesas",
+            "ALB=Albânia",
+            "ANB=Antigua",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ASM=Samoa Americana",
+            "ATC=Antartida",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BGD=Bangladesh",
+            "BHS=Bahamas",
+            "BIR=Birmânia",
+            "BKF=Burkina Fasso",
+            "BLZ=Belize",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 244
+        },
+        {
+          "tipo": "select",
+          "name": "F_IDIOMA",
+          "rotulo_provavel": "Idioma",
+          "opcoes": [
+            "DE=Alemão",
+            "ES=Espanhol",
+            "FR=Francês",
+            "EN=Inglês",
+            "IT=Italiano",
+            "LB=Libras",
+            "PT=Português",
+            "AB=Abhkazian",
+            "AA=Afar",
+            "AF=Afrikaans",
+            "AY=Aimara",
+            "SQ=Albanês",
+            "AM=Amarico",
+            "AR=Árabe",
+            "AN=Armênio",
+            "AS=Assames",
+            "AZ=Azerbaidjano",
+            "BC=Baluchi",
+            "EU=Basco",
+            "BA=Bashquir",
+            "BN=Bengali",
+            "BB=Berbere",
+            "BE=Bielo-Russo",
+            "BH=Bihari",
+            "BM=Birmanês",
+            "BI=Bislama",
+            "BR=Bretão",
+            "BG=Búlgaro",
+            "CB=Cabie",
+            "KS=Cachemiriano",
+            "KM=Cambodjano",
+            "KN=Canadá",
+            "KK=Casaque",
+            "CA=Catalão",
+            "ZH=Chinês",
+            "SI=Cingalês",
+            "KO=Coreano",
+            "CO=Corsico",
+            "CR=Crioulo",
+            "HR=Croata"
+          ],
+          "total_opcoes": 152
+        },
+        {
+          "tipo": "select",
+          "name": "f_meio",
+          "rotulo_provavel": "Meio de divulgação",
+          "opcoes": [
+            "=",
+            "I=Impresso",
+            "M=meio magnético",
+            "D=meio digital",
+            "F=filme",
+            "H=hipertexto",
+            "O=outro",
+            "V=impresso e mídia eletrônica"
+          ]
+        },
+        {
+          "tipo": "text",
+          "name": "f_homepage",
+          "maxlength": 250,
+          "rotulo_provavel": "Home page do trabalho (URL)"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_RELEV",
+          "opcoes": {
+            "sim": "S",
+            "não": "N"
+          },
+          "rotulo_provavel": "É um dos 10 trabalhos mais relevantes de sua produção?"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_STA_DIVULGACAO_CIENTIFICA",
+          "opcoes": {
+            "sim": "S",
+            "não": "N"
+          },
+          "rotulo_provavel": "É uma produção para educação e popularização de CeT?"
+        },
+        {
+          "tipo": "text",
+          "name": "f_editora",
+          "maxlength": 100,
+          "rotulo_provavel": "Editora"
+        },
+        {
+          "tipo": "text",
+          "name": "f_cidade",
+          "maxlength": 30,
+          "rotulo_provavel": "Cidade da editora"
+        },
+        {
+          "tipo": "text",
+          "name": "f_paginas",
+          "maxlength": 5,
+          "rotulo_provavel": "Número de páginas"
+        },
+        {
+          "tipo": "text",
+          "name": "f_issn",
+          "maxlength": 13,
+          "rotulo_provavel": "ISSN/ISBN"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Autores",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
+          "anonimo": true
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref",
+          "maxlength": 3950,
+          "rotulo_provavel": "Outras informações"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo_en",
+          "maxlength": 400,
+          "rotulo_provavel": "Title"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref_en",
+          "maxlength": 3800,
+          "rotulo_provavel": "Other information"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutor",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutorComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave:",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "F_COD_PROD",
+        "f_area_l",
+        "f_autores_l",
+        "f_cod",
+        "f_ctr",
+        "f_plv_l",
+        "f_seq",
+        "f_setor_l"
+      ],
+      "grades": [
+        "autores",
+        "palavras-chave",
+        "áreas do conhecimento",
+        "setores de atividade"
+      ],
+      "abas": [
+        "Dados gerais",
+        "Detalhamento",
+        "Autores",
+        "Palavras-chave",
+        "Áreas",
+        "Setores",
+        "Outras informaç...",
+        "Traduções",
+        "Visibilidade",
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "prc_bib_demais_lista?f_cod_tipo=1Z&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "prc_bib_outraprod?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

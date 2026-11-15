@@ -1,0 +1,292 @@
+{
+  "secao": "Formação",
+  "item": "Pós-doutorado e/ou livre-docência",
+  "menu": "megamenu3",
+  "como_abrir": "Formação > Pós-doutorado e/ou livre-docência",
+  "formularios": [
+    {
+      "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=5",
+      "total_campos": 11,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "id": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Instituição"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_STATUS",
+          "opcoes": {
+            "em andamento": "N",
+            "concluído": "S",
+            "incompleto": "I"
+          },
+          "rotulo_provavel": "Status do curso"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_ini",
+          "maxlength": 4,
+          "rotulo_provavel": "Início (ano)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_fim",
+          "maxlength": 4,
+          "rotulo_provavel": "Conclusão (ano)"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_BOLSA",
+          "opcoes": {
+            "Sim": "S",
+            "Não": "N"
+          },
+          "rotulo_provavel": "Com bolsa?"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nme_agencia",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Agência financiadora"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "opcao": "Pós-Doutorado",
+      "ocultos": [
+        "f_agencia",
+        "f_ano_obten",
+        "f_area_l",
+        "f_carga",
+        "f_cod",
+        "f_cod_chk",
+        "f_cod_curso",
+        "f_cod_curso2",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_ctr",
+        "f_curso",
+        "f_curso_old",
+        "f_id_orientador",
+        "f_inst_old",
+        "f_mes_obten",
+        "f_nivel",
+        "f_nme_orientador",
+        "f_orient",
+        "f_plv_l",
+        "f_seq",
+        "f_seq_chk",
+        "f_seq_orientacao",
+        "f_setor_l",
+        "f_tipo",
+        "f_titulo",
+        "f_tpo_doutorado",
+        "finish",
+        "start",
+        "status"
+      ],
+      "grades": [
+        "áreas do conhecimento"
+      ],
+      "abas": [
+        "Dados Gerais",
+        "Bolsa",
+        "Áreas",
+        "Visibilidade",
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes",
+        "Produção Animal",
+        "Outras Sociologias Específicas",
+        "Orientação e Aconselhamento",
+        "Orientação Educacional",
+        "Orientação Vocacional"
+      ],
+      "janelas_auxiliares": [
+        "agencia();"
+      ],
+      "salvar": [
+        "pre_check();return false;"
+      ]
+    },
+    {
+      "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=6",
+      "total_campos": 12,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "id": "f_inst",
+          "maxlength": 75,
+          "desabilitado": true,
+          "rotulo_provavel": "Instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_mes_obten",
+          "maxlength": 2,
+          "rotulo_provavel": "Obtenção do título (mês/ano)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_obten",
+          "maxlength": 4,
+          "rotulo_provavel": "Obtenção do título (mês/ano)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo",
+          "maxlength": 254,
+          "rotulo_provavel": "Título do trabalho"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
+          "anonimo": true
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave:",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "opcao": "Livre Docência",
+      "ocultos": [
+        "F_BOLSA",
+        "F_STATUS",
+        "f_agencia",
+        "f_ano_fim",
+        "f_ano_ini",
+        "f_area_l",
+        "f_carga",
+        "f_cod",
+        "f_cod_chk",
+        "f_cod_curso",
+        "f_cod_curso2",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_ctr",
+        "f_curso",
+        "f_curso_old",
+        "f_id_orientador",
+        "f_inst_old",
+        "f_nivel",
+        "f_nme_orientador",
+        "f_plv_l",
+        "f_seq",
+        "f_seq_chk",
+        "f_seq_orientacao",
+        "f_setor_l",
+        "f_tipo",
+        "f_tpo_doutorado",
+        "finish",
+        "start",
+        "status"
+      ],
+      "grades": [
+        "palavras-chave",
+        "áreas do conhecimento",
+        "setores de atividade"
+      ],
+      "abas": [
+        "Dados Gerais",
+        "Detalhamento",
+        "Palavras-chave",
+        "Áreas",
+        "Setores",
+        "Visibilidade",
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes",
+        "Produção Animal",
+        "Outras Sociologias Específicas",
+        "Orientação e Aconselhamento"
+      ],
+      "salvar": [
+        "pre_check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "opcoes_da_janela": [
+    "Pós-Doutorado => pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=5",
+    "Livre Docência => pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=6"
+  ],
+  "funcao_da_janela": "selecionarNivel"
+}

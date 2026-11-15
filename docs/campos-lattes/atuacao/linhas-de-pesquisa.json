@@ -1,0 +1,11 @@
+{
+  "secao": "Atuação",
+  "item": "Linhas de pesquisa",
+  "menu": "megamenu4",
+  "como_abrir": "Atuação > Linhas de pesquisa",
+  "formularios": [],
+  "observacoes": [
+    "Não existe formulário próprio: o Lattes orienta incluir a linha em Atuação > Atuação profissional, escolhendo a instituição e criando uma natureza de atividade 'Pesquisa e Desenvolvimento'."
+  ],
+  "lista": "pkg_linhapesq.lista?f_cod=<codigo_do_cv>"
+}

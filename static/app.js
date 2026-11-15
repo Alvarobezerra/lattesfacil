@@ -217,10 +217,12 @@ function updateCompleteness() {
       el.classList.add("missing-highlight");
     }
   });
-  if (state.autores.length > 0) filled += 1;
+  // orientações e artigos por DOI não têm grade de autores para preencher
+  const contaAutores = !["orientacao", "artigo"].includes($("tipo_producao").value);
+  if (contaAutores && state.autores.length > 0) filled += 1;
   if (state.palavras_chave.length > 0) filled += 1;
 
-  const total = tracked.length + 2;
+  const total = tracked.length + (contaAutores ? 2 : 1);
   const pct = Math.round((filled / total) * 100);
   $("progressFill").style.width = `${pct}%`;
   $("completenessText").textContent = `${filled} de ${total} campos principais preenchidos (${pct}%) — campos em amarelo estão pendentes.`;
@@ -1241,6 +1243,43 @@ $("btnToggleHistory").onclick = () => {
   loadRecords();
 };
 $("btnCloseHistory").onclick = () => $("historyPanel").classList.add("hidden");
+
+// Modal de Avaliação & Diagnóstico Lattes (Lattes Shield)
+const auditModal = $("auditModal");
+if ($("btnOpenAuditModal") && auditModal) {
+  $("btnOpenAuditModal").onclick = () => {
+    const user = $("ownerName") ? $("ownerName").value : "Aramys Silva dos Reis";
+    if ($("auditModalUser")) $("auditModalUser").textContent = user;
+    auditModal.classList.remove("hidden");
+  };
+  if ($("btnCloseAuditModal")) {
+    $("btnCloseAuditModal").onclick = () => auditModal.classList.add("hidden");
+  }
+  auditModal.onclick = (e) => {
+    if (e.target === auditModal) auditModal.classList.add("hidden");
+  };
+}
+
+if ($("btnLoadRadarItem")) {
+  $("btnLoadRadarItem").onclick = () => {
+    if (auditModal) auditModal.classList.add("hidden");
+    $("tipo_producao").value = "artigo";
+    applyTipoProducao("artigo");
+    if ($("titulo")) $("titulo").value = "IMPORTÂNCIA DO FARMACÊUTICO NO CUIDADO AO PACIENTE HIPERTENSO: UMA REVISÃO DE LITERATURA";
+    if ($("doi")) $("doi").value = "10.29327/2239332.2.2-13";
+    if ($("ano")) $("ano").value = "2023";
+    if ($("idioma")) $("idioma").value = "Português";
+    if ($("pais")) $("pais").value = "Brasil";
+    if ($("meio_divulgacao")) $("meio_divulgacao").value = "meio digital";
+    autores = ["Reis, Aramys Silva dos"];
+    renderAutores();
+    updateCompleteness();
+    updateBookmarklet();
+    showToast("✨ Artigo resgatado pelo Radar carregado no formulário! Clique em 'Buscar Dados Faltantes' para enriquecer.");
+    const form = $("lattesForm");
+    if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+}
 
 updateCompleteness();
 updateBookmarklet();

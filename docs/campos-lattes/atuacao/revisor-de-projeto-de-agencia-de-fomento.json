@@ -1,0 +1,114 @@
+{
+  "secao": "Atuação",
+  "item": "Revisor de projeto de agência de fomento",
+  "menu": "megamenu4",
+  "como_abrir": "Atuação > Revisor de projeto de agência de fomento",
+  "formularios": [
+    {
+      "url": "PKG_REVISOR.inclui?f_cod=<codigo_do_cv>&f_natur=RA&f_origem=L",
+      "total_campos": 10,
+      "campos": [
+        {
+          "tipo": "text",
+          "name": "f_nme_agencia",
+          "maxlength": 255,
+          "desabilitado": true,
+          "rotulo_provavel": "Agência de fomento"
+        },
+        {
+          "tipo": "text",
+          "name": "f_mes_ini",
+          "maxlength": 2,
+          "rotulo_provavel": "Mês"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_ini",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_status",
+          "opcoes": {
+            "S": "S",
+            "N": "N"
+          },
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "text",
+          "name": "f_mes_fim",
+          "maxlength": 2,
+          "rotulo_provavel": "Mês"
+        },
+        {
+          "tipo": "text",
+          "name": "f_ano_fim",
+          "maxlength": 4,
+          "rotulo_provavel": "Ano"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_outras_inf",
+          "maxlength": 3950,
+          "rotulo_provavel": "Outras informações"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_cod_inst",
+        "f_cod_inst2",
+        "f_codinst",
+        "f_ctr",
+        "f_inst_old",
+        "f_instold",
+        "f_issn",
+        "f_issn_h",
+        "f_natur",
+        "f_nme_agencia_h",
+        "f_origem",
+        "f_seq_ativ",
+        "f_seq_funcao_ativ",
+        "f_seq_hist",
+        "f_seq_per"
+      ],
+      "abas": [
+        "Outras informaç...",
+        "Visibilidade"
+      ],
+      "janelas_auxiliares": [
+        "agencia();"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_revisor.lista?f_natur=RA&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_REVISOR.inclui?f_cod=<codigo_do_cv>&f_natur=RA&f_origem=L",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

@@ -1,0 +1,429 @@
+{
+  "secao": "Patentes e Registros",
+  "item": "Patente",
+  "menu": "megamenu7",
+  "como_abrir": "Patentes e Registros > Patente",
+  "formularios": [
+    {
+      "url": "pkg_patente_registro.form?f_sta_inovacao=&f_cod=<codigo_do_cv>&f_cod_tipo=PP&f_inst=INPI%20-%20Instituto%20Nacional%20da%20Propriedade%20Industrial&f_cod_reg=BR1020200000001&f_ctr=R",
+      "total_campos": 38,
+      "campos": [
+        {
+          "tipo": "radio",
+          "name": "f_natureza",
+          "opcoes": {
+            "Produto": "Produto",
+            "Processo": "Processo",
+            "Produto e Processo": "Produto e Processo",
+            "Outra": "Outra"
+          },
+          "rotulo_provavel": "Categoria"
+        },
+        {
+          "tipo": "text",
+          "name": "f_cod_reg",
+          "maxlength": 16,
+          "rotulo_provavel": "Número do registro"
+        },
+        {
+          "tipo": "button",
+          "name": "f_botao",
+          "id": "btnRecDadRegisto",
+          "desabilitado": true,
+          "rotulo_provavel": "Número do registro"
+        },
+        {
+          "tipo": "text",
+          "name": "f_inst",
+          "maxlength": 75,
+          "rotulo_provavel": "Instituição onde foi depositada"
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "RFA=Alemanha",
+            "ABW=Aruba",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "AHL=Antilhas Holandesas",
+            "ALB=Albânia",
+            "ANB=Antigua",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ASM=Samoa Americana",
+            "ATC=Antartida",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BGD=Bangladesh",
+            "BHS=Bahamas",
+            "BIR=Birmânia",
+            "BKF=Burkina Fasso",
+            "BLZ=Belize",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 244
+        },
+        {
+          "tipo": "radio",
+          "name": "f_tipo",
+          "opcoes": {
+            "Patente de Invenção": "PI",
+            "Patente de Modelo de Utilidade": "MU"
+          },
+          "rotulo_provavel": "Natureza"
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo",
+          "id": "f_titulo",
+          "maxlength": 400,
+          "rotulo_provavel": "Título"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nro_deposito_pct",
+          "maxlength": 16,
+          "rotulo_provavel": "Número do depósito PCT(caso exista)"
+        },
+        {
+          "tipo": "radio",
+          "name": "f_sta_inovacao",
+          "opcoes": {
+            "Não": "S",
+            "N": "N"
+          },
+          "rotulo_provavel": "Sim"
+        },
+        {
+          "tipo": "text",
+          "name": "f_txt_potencial",
+          "maxlength": 400,
+          "rotulo_provavel": "Qual o potencial de inovação?"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Pessoas",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Instituições",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome dos inventores",
+          "anonimo": true
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref",
+          "maxlength": 3950,
+          "rotulo_provavel": "Resumo"
+        },
+        {
+          "tipo": "text",
+          "name": "f_home_page",
+          "maxlength": 255,
+          "rotulo_provavel": "Home page (URL)"
+        },
+        {
+          "tipo": "text",
+          "name": "f_finalidade",
+          "maxlength": 255,
+          "rotulo_provavel": "Finalidade"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_inst_financ",
+          "maxlength": 380,
+          "rotulo_provavel": "Instituição(ões) financiadora(s) (separadas por ponto e vírgula)"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 86,
+          "rotulo_provavel": "Visibilidade",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Setor de aplicação da Tabela CNAE",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_titulo_en",
+          "maxlength": 400,
+          "rotulo_provavel": "Title"
+        },
+        {
+          "tipo": "textarea",
+          "name": "f_ref_en",
+          "maxlength": 3800,
+          "rotulo_provavel": "Other information"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularPessoa",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularPessoaComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularInst",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nometitularInstComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nome",
+          "rotulo_provavel": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedade Científi"
+        },
+        {
+          "tipo": "text",
+          "name": "f_nme_inst",
+          "maxlength": 75,
+          "rotulo_provavel": "Nome da instituição"
+        },
+        {
+          "tipo": "text",
+          "name": "f_sigla",
+          "maxlength": 16,
+          "rotulo_provavel": "Sigla"
+        },
+        {
+          "tipo": "select",
+          "name": "f_pais_inst",
+          "rotulo_provavel": "País",
+          "opcoes": [
+            "=",
+            "RFA=Alemanha",
+            "ARG=Argentina",
+            "AUS=Austrália",
+            "BRA=Brasil",
+            "CAN=Canadá",
+            "ESP=Espanha",
+            "EUA=Estados Unidos",
+            "FRA=França",
+            "GBR=Grã-Bretanha",
+            "HOL=Holanda",
+            "ING=Inglaterra",
+            "ITA=Itália",
+            "POR=Portugal",
+            "AFG=Afeganistão",
+            "AFS=África Do Sul",
+            "ALB=Albânia",
+            "AND=Andorra",
+            "ANG=Angola",
+            "ATC=Antartida",
+            "ANB=Antigua",
+            "AHL=Antilhas Holandesas",
+            "ARA=Arábia Saudita",
+            "ARL=Argélia",
+            "ARM=Armênia",
+            "ABW=Aruba",
+            "AUT=Austria",
+            "AZE=Azerbaijão",
+            "BHS=Bahamas",
+            "BGD=Bangladesh",
+            "BRB=Barbados",
+            "BAR=Barein",
+            "BEA=Belarus",
+            "BEL=Bélgica",
+            "BLZ=Belize",
+            "BEN=Benin",
+            "BER=Bermudas",
+            "BIR=Birmânia",
+            "BOL=Bolívia",
+            "BOS=Bósnia"
+          ],
+          "total_opcoes": 245
+        },
+        {
+          "tipo": "select",
+          "name": "f_uf",
+          "rotulo_provavel": "UF",
+          "opcoes": [
+            "=",
+            "AC=AC",
+            "AL=AL",
+            "AM=AM",
+            "AP=AP",
+            "BA=BA",
+            "CE=CE",
+            "DF=DF",
+            "ES=ES",
+            "GO=GO",
+            "MA=MA",
+            "MG=MG",
+            "MS=MS",
+            "MT=MT",
+            "PA=PA",
+            "PB=PB",
+            "PE=PE",
+            "PI=PI",
+            "PR=PR",
+            "RJ=RJ",
+            "RN=RN",
+            "RO=RO",
+            "RR=RR",
+            "RS=RS",
+            "SC=SC",
+            "SE=SE",
+            "SP=SP",
+            "TO=TO"
+          ]
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutor",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome completo:"
+        },
+        {
+          "tipo": "text",
+          "id": "nomeAutorComoCitado",
+          "maxlength": 60,
+          "rotulo_provavel": "Nome como citado:"
+        },
+        {
+          "tipo": "text",
+          "maxlength": 50,
+          "rotulo_provavel": "Palavra-chave:",
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "maxlength": 85,
+          "rotulo_provavel": "Área:",
+          "anonimo": true
+        }
+      ],
+      "opcao": "f_cod_tipo=PP",
+      "ocultos": [
+        "F_COD_PROD",
+        "f_ano",
+        "f_area_l",
+        "f_autores_l",
+        "f_cod",
+        "f_cod_tipo",
+        "f_ctr",
+        "f_dados_grid_datas",
+        "f_depositante_inst_l",
+        "f_depositante_pessoa_l",
+        "f_dta_conc",
+        "f_dta_dep",
+        "f_dta_dep_pct",
+        "f_dta_exp",
+        "f_origem",
+        "f_plv_l",
+        "f_seq",
+        "f_setor_l",
+        "f_sta_validado",
+        "f_sta_validado_mapa"
+      ],
+      "grades": [
+        "titularPessoaHolder",
+        "titularInstHolder",
+        "autores",
+        "palavras-chave",
+        "áreas do conhecimento",
+        "setores de atividade"
+      ],
+      "abas": [
+        "Dados gerais",
+        "Palavras-chave",
+        "Áreas",
+        "Setores",
+        "Traduções",
+        "Visibilidade",
+        "Áreas Clássicas de Fenomenologia e suas Aplicações",
+        "Produção de Radioisótopos",
+        "Financiamento de Transportes",
+        "Produção de Mudas",
+        "Produção e Beneficiamento de Sementes",
+        "Produção Animal",
+        "Outras Sociologias Específicas",
+        "Orientação e Aconselhamento"
+      ],
+      "janelas_auxiliares": [
+        "checkCI()",
+        "escolhe_inst();",
+        "recuperaInstMacro();"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=PP&f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "infDadPat",
+    "descricao": "janela pede instituição de depósito + número do registro; depois abre o formulário"
+  }
+}

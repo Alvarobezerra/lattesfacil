@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apresentação Executiva | Diagnóstico & Blindagem Lattes - Prof. Dr. Aramys Silva dos Reis</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+    .card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- Header Fixo da Apresentação -->
+  <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-white font-black text-sm shadow-sm">
+        ✦
+      </div>
+      <div>
+        <span class="font-extrabold text-sm text-slate-900 tracking-tight">LATTES SHIELD</span>
+        <span class="text-xs text-slate-400 ml-2 hidden sm:inline">| Diagnóstico Executivo de Conformidade Acadêmica</span>
+      </div>
+    </div>
+
+    <!-- Indicador de Slide e Controles -->
+    <div class="flex items-center gap-3">
+      <span id="slide-indicator" class="text-xs font-mono font-bold text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-200">
+        Slide 1 de 8
+      </span>
+      <div class="flex items-center gap-1">
+        <button onclick="mudarSlide(-1)" class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-600 font-bold transition-all shadow-sm">
+          ‹
+        </button>
+        <button onclick="mudarSlide(1)" class="w-8 h-8 rounded-lg border border-slate-200 bg-emerald-600 hover:bg-emerald-500 flex items-center justify-center text-white font-bold transition-all shadow-sm">
+          ›
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container Principal dos Slides -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-8 max-w-6xl w-full mx-auto">
+
+    <!-- ================= SLIDE 1: CAPA ================= -->
+    <section class="slide active w-full flex-col justify-center items-center text-center py-8">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 mb-6 shadow-sm">
+        <span>🛡️</span> Relatório Confidencial de Auditoria Curricular
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight max-w-3xl leading-tight">
+        Diagnóstico Estratégico e Blindagem do Currículo Lattes
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 max-w-2xl leading-relaxed">
+        Uma análise executiva de conformidade regulatória (CNPq / CAPES), resgate de produções esquecidas e otimização métrica preparada exclusivamente para:
+      </p>
+
+      <div class="mt-8 p-6 rounded-3xl bg-white border border-slate-200 card-shadow max-w-md w-full text-left flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center font-black text-xl shadow-md">
+          AS
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Prof. Dr. Aramys Silva dos Reis</h2>
+          <p class="text-xs text-slate-500">Universidade Federal do Maranhão (UFMA)</p>
+          <p class="text-[11px] text-emerald-700 font-semibold mt-0.5">Coordenador do PPG em Saúde e Tecnologia (PPGST)</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex gap-3">
+        <button onclick="mudarSlide(1)" class="px-7 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs shadow-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+          <span>Iniciar Apresentação</span>
+          <span>→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 2: O CONTEXTO E O RISCO ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div>
+          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Cenário Regulatório Atual</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">O Lattes deixou de ser apenas um currículo.</h2>
+          <p class="text-sm text-slate-600 mt-1">Agora ele é um documento com presunção de fé pública sob fiscalização estrita.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg border border-rose-200">
+              ⚖️
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">Portaria CNPq 2.664/2026</h3>
+            <p class="text-slate-600 leading-relaxed">
+              O Art. 8º instituiu sanções expressas para dados inconsistentes, duplicados ou defasados. Infrações podem resultar em advertência, cancelamento de bolsas de Produtividade (PQ) e suspensão do Lattes por até 1 ano.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-lg border border-amber-200">
+              📊
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">Princípio da Verificação Estrita</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Examinadores da CAPES e Sucupira não corrigem itens cadastrados na aba errada. Artigos sem DOI ou cadastrados apenas em anais de congressos são simplesmente desconsiderados da pontuação do quadriênio do PPG.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-lg border border-blue-200">
+              ⏱️
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">O Custo do Retrabalho Manual</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Manter dezenas de artigos, projetos e orientações rigorosamente em dia no sistema antigo do CNPq consome mais de 16 horas de esforço braçal do pesquisador todo ano — tempo precioso que deveria estar em pesquisas.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-xs text-slate-300">
+            Nossa missão é trazer <strong>clareza, segurança e tempo livre</strong> para você, eliminando qualquer risco de glosa.
+          </p>
+          <button onclick="mudarSlide(1)" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shrink-0 transition-all">
+            Ver o Raio-X do seu Perfil →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 3: O RAIO-X DE PRODUTIVIDADE ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div>
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Trajetória e Liderança Científica</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Professor Aramys, seu impacto científico é extraordinário.</h2>
+          <p class="text-sm text-slate-600 mt-1">Auditamos seu currículo público e identificamos métricas de alto prestígio nacional e internacional.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow">
+            <span class="text-3xl font-black text-slate-900 block font-mono">61</span>
+            <span class="text-xs font-extrabold text-slate-700 mt-1 block">Artigos em Periódicos</span>
+            <span class="text-[11px] text-slate-400 mt-0.5 block">Scientific Reports, Foods, ACS</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow">
+            <span class="text-3xl font-black text-emerald-700 block font-mono">16</span>
+            <span class="text-xs font-extrabold text-slate-700 mt-1 block">Fator H (Web of Science)</span>
+            <span class="text-[11px] text-slate-400 mt-0.5 block">702 citações globais</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow">
+            <span class="text-3xl font-black text-blue-700 block font-mono">3</span>
+            <span class="text-xs font-extrabold text-slate-700 mt-1 block">Patentes INPI</span>
+            <span class="text-[11px] text-slate-400 mt-0.5 block">Inovação e Bioprodutos</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow">
+            <span class="text-3xl font-black text-purple-700 block font-mono">34</span>
+            <span class="text-xs font-extrabold text-slate-700 mt-1 block">Projetos de Pesquisa</span>
+            <span class="text-[11px] text-slate-400 mt-0.5 block">FAPEMA, CNPq e Redes</span>
+          </div>
+        </div>
+
+        <!-- Síntese Qualitativa -->
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow text-xs space-y-2">
+          <h4 class="font-extrabold text-slate-900 flex items-center gap-2 text-sm">
+            <span>✨</span> Destaques da sua Liderança:
+          </h4>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600">
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span> Coordenação ativa do PPGST / UFMA (2025-2027)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span> Mais de 200 orientações concluídas e 85 bancas
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span> Coordenação do Laboratório LaFIT
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span> Vínculos sólidos de cooperação (USP, Fiocruz, FAPEMA)
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-right">
+          <button onclick="mudarSlide(1)" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all">
+            Descobrir os Pontos Cegos Detectados →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 4: OS PONTOS CEGOS (SCORE 72/100) ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block mb-1">Diagnóstico de Conformidade</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Porém, há 19 pontos cegos colocando sua nota em risco.</h2>
+          </div>
+          <div class="px-4 py-2 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-center shrink-0">
+            <span class="text-xs font-bold block">Health Score Lattes</span>
+            <span class="text-2xl font-black font-mono">72 / 100</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <!-- Falha 1: DOIs Faltantes -->
+          <div class="p-4 rounded-2xl bg-white border border-rose-200 card-shadow space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900 text-sm">🚨 12 Artigos sem Link DOI no Lattes</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800">Crítico</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              O Sucupira importa a produção do quadriênio a partir do DOI. Artigos sem DOI exigem digitação manual no relatório e sofrem frequente descarte na avaliação do PPGST.
+            </p>
+            <span class="text-rose-600 font-mono font-bold block text-[11px]">-120 pontos potenciais na CAPES</span>
+          </div>
+
+          <!-- Falha 2: Projetos Vencidos -->
+          <div class="p-4 rounded-2xl bg-white border border-amber-200 card-shadow space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900 text-sm">⏳ 7 Projetos Vencidos em Aberto</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Alerta CNPq</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Projetos financiados pela FAPEMA/CNPq com vigência encerrada continuam marcados como <em>"Em andamento"</em> sem data de término, ferindo a Portaria 2.664/2026.
+            </p>
+            <span class="text-amber-700 font-mono font-bold block text-[11px]">Risco de diligência formal em chamadas PQ</span>
+          </div>
+
+          <!-- Falha 3: Patentes INPI -->
+          <div class="p-4 rounded-2xl bg-white border border-blue-200 card-shadow space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900 text-sm">💡 Patentes sem Código INPI Unificado</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">PTT</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Suas 3 patentes têm números com pontuações divergentes, dificultando a indexação no banco de patentes da CAPES e a pontuação no Qualis Tecnológico.
+            </p>
+            <span class="text-blue-700 font-mono font-bold block text-[11px]">Solução: Formatação oficial BR10...</span>
+          </div>
+
+          <!-- Falha 4: Inserção Discente -->
+          <div class="p-4 rounded-2xl bg-white border border-purple-200 card-shadow space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900 text-sm">👥 Coautorias Discentes não Vinculadas</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Quesito PPG</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Artigos produzidos com orientandos de mestrado/doutorado não estão amarrados à linha de pesquisa do programa, enfraquecendo a nota do Quesito 2 na CAPES.
+            </p>
+            <span class="text-purple-700 font-mono font-bold block text-[11px]">Impacto na Ficha de Avaliação do PPGST</span>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button onclick="mudarSlide(1)" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all">
+            Ver a Grande Descoberta do Radar →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 5: O RADAR DE PRODUÇÕES ESQUECIDAS ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div>
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Descoberta Exclusiva Lattes Shield</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Seus coautores registraram produções que não estão no seu Lattes.</h2>
+          <p class="text-sm text-slate-600 mt-1">Varremos as bases do CrossRef, OpenAlex e currículos da sua rede de orientandos.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-teal-50 border-2 border-emerald-300 card-shadow space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-emerald-100">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+              <span class="text-xs font-black text-emerald-950 uppercase tracking-wide">Radar de Coautorias Cruzadas:</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-200 text-emerald-900">
+              Obras Localizadas na Rede
+            </span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3 rounded-xl bg-white border border-emerald-200 flex items-start justify-between gap-3">
+              <div>
+                <span class="font-bold text-slate-900 block">Artigo: Importância do Farmacêutico no Cuidado ao Paciente Hipertenso</span>
+                <span class="text-slate-500 text-[11px]">Indexado na CrossRef com DOI: 10.29327/2239332.2.2-13</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200 shrink-0">
+                Pronto para Importar
+              </span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-emerald-200 flex items-start justify-between gap-3">
+              <div>
+                <span class="font-bold text-slate-900 block">Capítulo de Livro: Estudos de Coorte</span>
+                <span class="text-slate-500 text-[11px]">Editora Sorianed • DOI: 10.54466/sorianed.978-65-5453-098-9_011</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200 shrink-0">
+                Pronto para Importar
+              </span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-emerald-200 flex items-start justify-between gap-3">
+              <div>
+                <span class="font-bold text-slate-900 block">Resumos em Congressos (SEMIC / FeSBE) de Orientandos</span>
+                <span class="text-slate-500 text-[11px]">Cadastrados pelos alunos no Lattes deles com o Prof. Aramys como orientador/coautor</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200 shrink-0">
+                Pronto para Importar
+              </span>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-between text-xs text-emerald-900 font-medium">
+            <span>Esses trabalhos já existem oficialmente, mas você não está recebendo a pontuação deles!</span>
+            <span class="font-bold text-emerald-700 font-mono text-sm">+80 Pontos Imediatos</span>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button onclick="mudarSlide(1)" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all">
+            Como Resolvemos Isso em 1 Clique →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 6: A SOLUÇÃO LATTESFÁCIL ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div>
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">A Tecnologia ao Seu Serviço</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">O LattesFácil resolve tudo sem que você digite nada.</h2>
+          <p class="text-sm text-slate-600 mt-1">Segurança absoluta baseada no Protocolo 3V de não-alucinação.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 text-xs">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg border border-emerald-200">
+              01
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">Verificar (Sem Alucinação)</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Recuperamos os DOIs oficiais da base CrossRef e checamos os PDFs dos certificados. O sistema só preenche o que está matematicamente comprovado.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold text-lg border border-teal-200">
+              02
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">Injeção em 1 Segundo</h3>
+            <p class="text-slate-600 leading-relaxed">
+              O script preenche diretamente todos os campos, botões de rádio e a grade de coautores do formulário do Lattes na sua tela aberta.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 card-shadow space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-lg border border-blue-200">
+              03
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-sm">Sua Senha Nunca Sai de Você</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Você não nos entrega senha nem login gov.br. O LattesFácil opera no seu navegador; você confere os dados na tela e clica em Salvar.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tabela Comparativa -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <span class="font-bold text-rose-700 block mb-1">❌ Fazendo Manualmente:</span>
+              <ul class="space-y-1 text-slate-500 text-[11px]">
+                <li>• Mais de 16 horas abrindo dezenas de formulários</li>
+                <li>• Busca manual de DOIs e ISSNs na internet</li>
+                <li>• Incerteza sobre exigências da Portaria 2.664</li>
+              </ul>
+            </div>
+            <div>
+              <span class="font-bold text-emerald-800 block mb-1">✅ Com o LattesFácil:</span>
+              <ul class="space-y-1 text-slate-700 text-[11px]">
+                <li>• Saneamento completo em menos de 10 minutos</li>
+                <li>• 100% dos DOIs validados automaticamente</li>
+                <li>• Blindagem jurídica e conformidade CAPES/CNPq</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button onclick="mudarSlide(1)" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all">
+            Conhecer a Proposta Comercial →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 7: A PROPOSTA COMERCIAL ================= -->
+    <section class="slide w-full flex-col justify-center py-6">
+      <div class="max-w-4xl mx-auto w-full space-y-6">
+        <div class="text-center max-w-xl mx-auto">
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Investimento Inteligente</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Proposta de Blindagem & Otimização Completa</h2>
+          <p class="text-xs text-slate-600 mt-1">Tudo incluído para elevar seu score de 72 para 98 pontos imediatamente.</p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-white border-2 border-emerald-400 card-shadow max-w-lg mx-auto w-full text-center space-y-5">
+          <div class="inline-block px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">
+            PACOTE PREMIUM DE BLINDAGEM CURRICULAR
+          </div>
+
+          <div class="space-y-2 text-left text-xs text-slate-700 pt-2 border-t border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Correção dos 12 Artigos:</strong> Inserção automatizada de DOIs e ISSNs.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Saneamento de Projetos:</strong> Encerramento de vigências e adequação CNPq.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Padronização de Patentes:</strong> Formatação unificada no padrão INPI BR10...</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Radar de Coautorias:</strong> Importação das produções esquecidas na rede.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><strong>Garantia Total:</strong> Se seu score não subir para 95+, 100% de reembolso.</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-slate-400 text-xs block line-through">De R$ 247,00</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-slate-900 text-sm font-bold">Por apenas</span>
+              <span class="text-4xl font-black text-emerald-700 font-mono">R$ 97,00</span>
+            </div>
+            <span class="text-[11px] text-slate-500 block mt-0.5">Pagamento único • Sem assinatura em dólar</span>
+          </div>
+
+          <button onclick="mudarSlide(1)" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-lg shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95">
+            CONTRATAR BLINDAGEM AGORA
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 8: PRÓXIMOS PASSOS ================= -->
+    <section class="slide w-full flex-col justify-center items-center text-center py-6">
+      <div class="max-w-xl mx-auto w-full space-y-6">
+        <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-3xl mx-auto font-black shadow-inner">
+          ✦
+        </div>
+        <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+          Próximos Passos para Ativação
+        </h2>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Professor Aramys, em menos de 10 minutos deixamos seu Lattes completamente saneado, protegido e com todas as produções resgatadas.
+        </p>
+
+        <div class="p-6 rounded-3xl bg-white border border-slate-200 card-shadow text-left text-xs space-y-3">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shrink-0">1</span>
+            <p class="text-slate-700"><strong>Aprovação da Proposta:</strong> Confirmação do serviço pelo WhatsApp ou link seguro.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shrink-0">2</span>
+            <p class="text-slate-700"><strong>Execução Assistida:</strong> O LattesFácil gera o script e você executa no seu próprio navegador aberto no Lattes em 1 clique.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shrink-0">3</span>
+            <p class="text-slate-700"><strong>Conferência e Envio:</strong> Você visualiza todas as 19 correções na tela e clica em "Enviar ao CNPq" com total tranquilidade.</p>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button onclick="alert('Ativação Comercial: Redirecionando para contato direto via WhatsApp/Pix com o time LattesFácil.');" class="px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/30 transition-all hover:scale-105 active:scale-95">
+            CONVERSAR DIRETAMENTE NO WHATSAPP
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé Fixo da Apresentação com Navegação por Teclado -->
+  <footer class="bg-white border-t border-slate-200 px-6 py-3 flex items-center justify-between text-xs text-slate-400">
+    <span>Dica: Use as setas do teclado (← e →) para navegar pelos slides</span>
+    <span>LattesFácil © 2026 • Todos os direitos reservados</span>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const indicator = document.getElementById('slide-indicator');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+      indicator.textContent = `Slide ${currentSlide + 1} de ${totalSlides}`;
+    }
+
+    function mudarSlide(delta) {
+      currentSlide += delta;
+      if (currentSlide < 0) currentSlide = 0;
+      if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+      updateSlide();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        mudarSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        mudarSlide(-1);
+      }
+    });
+  </script>
+</body>
+</html>

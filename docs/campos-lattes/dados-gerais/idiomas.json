@@ -1,0 +1,170 @@
+{
+  "secao": "Dados gerais",
+  "item": "Idiomas",
+  "menu": "megamenu2",
+  "como_abrir": "Dados gerais > Idiomas",
+  "formularios": [
+    {
+      "url": "pkg_idioma.form?f_cod=<codigo_do_cv>",
+      "total_campos": 12,
+      "campos": [
+        {
+          "tipo": "select",
+          "name": "F_COD_IDIOMA",
+          "rotulo_provavel": "Selecione o idioma :",
+          "opcoes": [
+            "=",
+            "DE=Alemão",
+            "FR=Francês",
+            "IT=Italiano",
+            "LB=Libras",
+            "AB=Abhkazian",
+            "AA=Afar",
+            "AF=Afrikaans",
+            "AY=Aimara",
+            "SQ=Albanês",
+            "AM=Amarico",
+            "AR=Árabe",
+            "AN=Armênio",
+            "AS=Assames",
+            "AZ=Azerbaidjano",
+            "BC=Baluchi",
+            "EU=Basco",
+            "BA=Bashquir",
+            "BN=Bengali",
+            "BB=Berbere",
+            "BE=Bielo-Russo",
+            "BH=Bihari",
+            "BM=Birmanês",
+            "BI=Bislama",
+            "BR=Bretão",
+            "BG=Búlgaro",
+            "CB=Cabie",
+            "KS=Cachemiriano",
+            "KM=Cambodjano",
+            "KN=Canadá",
+            "KK=Casaque",
+            "CA=Catalão",
+            "ZH=Chinês",
+            "SI=Cingalês",
+            "KO=Coreano",
+            "CO=Corsico",
+            "CR=Crioulo",
+            "HR=Croata",
+            "KU=Curdo",
+            "DA=Dinamarquês"
+          ],
+          "total_opcoes": 150
+        },
+        {
+          "tipo": "checkbox",
+          "name": "FC_LE",
+          "opcoes": {
+            "Lê": "on"
+          }
+        },
+        {
+          "tipo": "radio",
+          "name": "F_LE",
+          "opcoes": {
+            "Pouco": "P",
+            "Razoavelmente": "R",
+            "Bem": "B"
+          },
+          "rotulo_provavel": "Lê"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "FC_CONVERSA",
+          "opcoes": {
+            "Fala": "on"
+          },
+          "rotulo_provavel": "Bem"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_CONVERSA",
+          "opcoes": {
+            "Pouco": "P",
+            "Razoavelmente": "R",
+            "Bem": "B"
+          },
+          "rotulo_provavel": "Fala"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "FC_ESCREVE",
+          "opcoes": {
+            "Escreve": "on"
+          },
+          "rotulo_provavel": "Bem"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_ESCREVE",
+          "opcoes": {
+            "Pouco": "P",
+            "Razoavelmente": "R",
+            "Bem": "B"
+          },
+          "rotulo_provavel": "Escreve"
+        },
+        {
+          "tipo": "checkbox",
+          "name": "FC_COMPR",
+          "opcoes": {
+            "Compreende": "on"
+          },
+          "rotulo_provavel": "Bem"
+        },
+        {
+          "tipo": "radio",
+          "name": "F_COMPR",
+          "opcoes": {
+            "Pouco": "P",
+            "Razoavelmente": "R",
+            "Bem": "B"
+          },
+          "rotulo_provavel": "Compreende"
+        },
+        {
+          "tipo": "select",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública.",
+          "opcoes": [
+            "1=Público",
+            "2=Privado"
+          ],
+          "anonimo": true
+        },
+        {
+          "tipo": "text",
+          "name": "f_tipo_privacidade",
+          "rotulo_provavel": "Privado: As informações não serão exibidas na consulta pública."
+        },
+        {
+          "tipo": "text",
+          "rotulo_provavel": "Público",
+          "anonimo": true
+        }
+      ],
+      "ocultos": [
+        "f_cod",
+        "f_ctr",
+        "f_seq"
+      ],
+      "abas": [
+        "Visibilidade"
+      ],
+      "salvar": [
+        "check();return false;"
+      ]
+    }
+  ],
+  "observacoes": [],
+  "lista": "pkg_idioma.lista?f_cod=<codigo_do_cv>",
+  "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "pkg_idioma.form?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+  }
+}

@@ -8,3 +8,6 @@ env/
 *.log
 *.db
 .render/
+
+# Mapeamento bruto do Lattes (contém trechos do currículo do usuário de teste)
+docs/campos-lattes/_raw/
