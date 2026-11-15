@@ -540,6 +540,39 @@ class LattesHandler(BaseHTTPRequestHandler):
                                  "age": round(time.time() - entry["ts"], 1)})
             return
 
+        if path == "/api/ativador.bat":
+            import base64
+            ext_dir = BASE_DIR / "extensao"
+            core_bytes = (ext_dir / "autofill_core.js").read_bytes()
+            ps1_bytes = (ext_dir / "agente.ps1").read_bytes()
+            b64_core = base64.b64encode(core_bytes).decode("ascii")
+            b64_ps1 = base64.b64encode(ps1_bytes).decode("ascii")
+            scheme = "https" if self._https() else "http"
+            host_hdr = self.headers.get("Host", "lattesfacil.onrender.com")
+            app_url = f"{scheme}://{host_hdr}"
+            bat_lines = [
+                "@echo off",
+                "chcp 65001 >nul",
+                "title LattesData - Navegador Automatico",
+                'set "LD_DIR=%LOCALAPPDATA%\\LattesData"',
+                'set "LD_BAT=%~f0"',
+                'if not exist "%LD_DIR%" mkdir "%LD_DIR%"',
+                'powershell -NoProfile -ExecutionPolicy Bypass -Command "$txt = [IO.File]::ReadAllText($env:LD_BAT); $m1 = [regex]::Match($txt, \'::CORE_B64:(\\S+)\'); $m2 = [regex]::Match($txt, \'::PS1_B64:(\\S+)\'); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\autofill_core.js\\\", [Convert]::FromBase64String($m1.Groups[1].Value)); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\agente.ps1\\\", [Convert]::FromBase64String($m2.Groups[1].Value));"',
+                f'powershell -NoProfile -ExecutionPolicy Bypass -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}"',
+                "goto :eof",
+                f"::CORE_B64:{b64_core}",
+                f"::PS1_B64:{b64_ps1}",
+                "",
+            ]
+            raw_bat = "\r\n".join(bat_lines).encode("utf-8")
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "application/octet-stream")
+            self.send_header("Content-Disposition", 'attachment; filename="Ativador-LattesData.bat"')
+            self.send_header("Content-Length", str(len(raw_bat)))
+            self.end_headers()
+            self.wfile.write(raw_bat)
+            return
+
         if path == "/api/extensao.zip":
             import io
             import zipfile
