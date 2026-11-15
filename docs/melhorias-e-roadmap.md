@@ -131,6 +131,16 @@ Para assegurar total compliance com a Portaria CNPq nº 2.664/2026 e evitar autu
 
 ### Fase 4: Caixa de Entrada Acadêmica e Lote Inteligente
 *Captura a dor dos usuários que acumulam dezenas de comprovantes no ano.*
+- [ ] **Integração Inteligente de E-mail (Privacidade Estrita — Sem IMAP Invasivo)**:
+  - **Mecanismo 1 · Suporte Nativo a Arquivos de E-mail (`.eml` / `.msg`)**:
+    - Permite ao usuário arrastar o e-mail salvo do Gmail, Outlook ou Thunderbird diretamente no Passo 1 da plataforma.
+    - O extrator analisa o formato MIME, extrai automaticamente os PDFs anexos (certificados) e rastreia links de emissão de certificados (Even3, Doity, Sympla, Galoá).
+    - *Vantagem:* 100% processado no ambiente do usuário, sem risco de acesso à caixa de entrada completa e sem necessidade de senhas de aplicativo.
+  - **Mecanismo 2 · Encaminhamento Rápido ("Encaminhe para o LattesFácil")**:
+    - Endereço de recepção seguro (`certificados@lattesfacil.com.br` ou `inbox+{id}@lattesfacil.com.br`).
+    - O pesquisador apenas clica em "Encaminhar" no seu próprio e-mail (web ou celular).
+    - Webhook de entrada processa a mensagem isolada, extrai os comprovantes e notifica o usuário com os dados prontos no formulário.
+    - *Vantagem:* Simplicidade extrema (1 toque), sem exigir configurações complexas de 2FA/senhas de aplicativo e com consentimento expresso a cada envio (compliance total com LGPD).
 - [ ] **Upload em Lote de Certificados (ZIP ou Arrastar Pasta)**:
   - Fila de processamento em background com OCR/PyMuPDF para certificados de participação, ouvinte e apresentação.
   - Classificação automática por categoria do Lattes.

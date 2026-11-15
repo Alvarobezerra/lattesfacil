@@ -118,7 +118,8 @@ def _purge_uploads() -> None:
 
 
 def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str, Any]:
-    """Lê um arquivo de evidência e devolve o JSON de resposta de /api/extract."""
+    """Lê um arquivo de evidência (PDF, TXT ou E-mail .eml) e devolve o JSON de resposta de /api/extract."""
+    orig_filename = filename
     if filename.lower().endswith(".pdf"):
         pdf_info = extract_text_from_pdf_bytes(file_bytes)
         if pdf_info["page_count"] > MAX_SINGLE_ABSTRACT_PAGES and len(
@@ -127,6 +128,18 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
             # PDF longo = caderno de anais com vários trabalhos; o cliente segue para a busca por autor
             return {"caderno": True, "page_count": pdf_info["page_count"], "filename": filename}
         raw_text = pdf_info["text"]
+    elif filename.lower().endswith((".eml", ".msg")):
+        from email_parser import parse_eml_bytes
+        eml_info = parse_eml_bytes(file_bytes)
+        if eml_info.get("first_pdf"):
+            # Se tem anexo PDF (certificado), extrai e processa o PDF anexo
+            pdf_anexo = eml_info["first_pdf"]
+            pdf_info = extract_text_from_pdf_bytes(pdf_anexo["data"])
+            raw_text = pdf_info["text"]
+            filename = pdf_anexo["filename"]
+        else:
+            # Caso contrário, utiliza o corpo do e-mail e assunto
+            raw_text = f"{eml_info.get('subject', '')}\n\n{eml_info.get('body', '')}".strip()
     else:
         raw_text = file_bytes.decode("utf-8", errors="replace")
     if is_certificate(raw_text):
