@@ -29,6 +29,13 @@ LATTES_AREAS = [
     ("endocrinology", "Endocrinologia"), ("nutrition", "Nutrição"), ("toxicology", "Toxicologia"),
     ("biophysics", "Biofísica"), ("morphology", "Morfologia"), ("ecology", "Ecologia"),
     ("zoology", "Zoologia"), ("botany", "Botânica"),
+    # Equivalentes em português (o texto é normalizado, sem acento)
+    ("(?:imunologia|imunologic\\w*)", "Imunologia"), ("(?:microbiologia|microbian\\w*)", "Microbiologia"),
+    ("(?:parasitologia|parasit\\w*)", "Parasitologia"), ("(?:farmacologia|farmacologic\\w*)", "Farmacologia"),
+    ("fisiologia", "Fisiologia"), ("(?:bioquimica|antioxidante\\w*|oxidativo)", "Bioquímica"),
+    ("(?:genetica|genomic\\w*)", "Genética"), ("(?:toxicologia|toxicidade)", "Toxicologia"),
+    ("(?:extrato\\w*|fitoterap\\w*|planta\\w* medicina\\w*)", "Farmacognosia"),
+    ("(?:nutricao|nutricional|farinha|dieta)", "Nutrição"), ("botanica", "Botânica"),
 ]
 AFFIL_RE =re.compile(r"^1\s+\S")
 AXIS_RE = re.compile(r"^(\d{1,2})\.\s+(\S.*)$")
