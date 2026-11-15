@@ -5,60 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LattesData — Cadastro Inteligente de Resumos</title>
   <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
-        <img class="logo" src="/img/isotipo-dark.svg" alt="" width="44" height="44" />
-        <div>
-          <h1 class="wordmark" aria-label="LattesData"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></h1>
-          <p class="subtitle">Extração de evidências + busca automática para o Currículo Lattes</p>
-        </div>
-      </div>
+      <a class="brand" href="/" aria-label="LattesData — início">
+        <img class="logo" src="/img/isotipo.svg" alt="" width="34" height="34" />
+        <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span>
+      </a>
+
+      <nav class="topnav" aria-label="Principal">
+        <a class="nav-link" href="/" aria-current="page">Cadastrar</a>
+        <button class="nav-link" id="btnOpenDossieModal" type="button" title="Comprovantes organizados por ano (padrão CAPES/CNPq)">Dossiê</button>
+        <button class="nav-link" id="btnToggleHistory" type="button">Registros <span class="nav-count" id="recordsCount">0</span></button>
+        <button class="nav-link" id="btnOpenAuditModal" type="button" title="Auditoria de Conformidade e Oportunidades do Currículo">Avaliação</button>
+      </nav>
+
       <div class="topbar-actions">
-        <label class="tester-badge">
-          <span>Usuário em teste:</span>
-          <select id="ownerName" aria-label="Usuário em teste">
-            <option value="Aramys Silva dos Reis">Aramys Silva dos Reis</option>
-            <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
-          </select>
-        </label>
-        <button class="btn btn-eval" id="btnOpenAuditModal" type="button" title="Auditoria de Conformidade e Oportunidades do Currículo">
-          🛡️ Avaliação do Lattes
-        </button>
         <div class="lattes-wrap">
-          <button class="lattes-pill state-off" id="lattesPill" type="button" aria-expanded="false" aria-controls="lattesConnect" title="Estado da conexão com o Lattes">● Lattes OFF</button>
-        <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
-        <section id="lattesConnect" class="lattes-pop state-off hidden" aria-live="polite">
-          <div class="lc-main">
-            <span class="lc-dot" aria-hidden="true"></span>
-            <div class="lc-text">
-              <strong id="lcTitle">Lattes: desconectado</strong>
-              <p id="lcDetail" class="hint">Nenhum sinal do Lattes ainda. Clique em Entrar no Lattes, faça o login e conecte.</p>
+          <button class="lattes-pill state-off" id="lattesPill" type="button" aria-expanded="false" aria-controls="lattesConnect" title="Estado da conexão com o Lattes"><i class="pill-dot" aria-hidden="true"></i><span id="lattesPillText">Lattes desconectado</span></button>
+          <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
+          <section id="lattesConnect" class="lattes-pop state-off hidden" aria-live="polite">
+            <div class="lc-main">
+              <span class="lc-dot" aria-hidden="true"></span>
+              <div class="lc-text">
+                <strong id="lcTitle">Lattes: desconectado</strong>
+                <p id="lcDetail" class="hint">Nenhum sinal do Lattes ainda. Clique em Entrar no Lattes, faça o login e conecte.</p>
+              </div>
+              <div class="lc-actions">
+                <button type="button" class="btn btn-primary" id="btnLoginLattes">Entrar no Lattes</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
+              </div>
             </div>
-            <div class="lc-actions">
-              <button type="button" class="btn btn-primary" id="btnLoginLattes">🔐 Entrar no Lattes</button>
-              <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
-            </div>
-          </div>
-          <details class="lc-steps">
-            <summary>Como conectar (3 passos)</summary>
-            <ol>
-              <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesData nunca vê sua senha.</li>
-              <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesData</a> para os favoritos e clique nele.</li>
-              <li><strong>Pronto:</strong> o selo muda para ON com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
-            </ol>
-            <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
-          </details>
-        </section>
+            <details class="lc-steps">
+              <summary>Como conectar (3 passos)</summary>
+              <ol>
+                <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesData nunca vê sua senha.</li>
+                <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesData</a> para os favoritos e clique nele.</li>
+                <li><strong>Pronto:</strong> o selo muda para conectado com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
+              </ol>
+              <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
+            </details>
+          </section>
         </div>
-        <a class="btn btn-ghost" href="/logout" title="Encerrar a sessão">Sair</a>
-        <button class="btn btn-ghost" id="btnOpenDossieModal" type="button" title="Comprovantes organizados por ano (padrão CAPES/CNPq)">📁 Dossiê</button>
-        <button class="btn btn-ghost" id="btnToggleHistory" type="button">
-          📚 Registros Salvos (<span id="recordsCount">0</span>)
-        </button>
+
+        <div class="user-wrap">
+          <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="userMenu" title="Usuário e sessão">
+            <span class="avatar-ini" id="avatarIni">AR</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </button>
+          <div class="user-menu hidden" id="userMenu" role="menu">
+            <div class="um-who">
+              <label for="ownerName">Usuário em teste</label>
+              <select id="ownerName" aria-label="Usuário em teste">
+                <option value="Aramys Silva dos Reis">Aramys Silva dos Reis</option>
+                <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
+              </select>
+            </div>
+            <a class="um-item" href="/logout" title="Encerrar a sessão" role="menuitem">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H4.5A1.5 1.5 0 003 4.5v11A1.5 1.5 0 004.5 17H8M13 14l4-4-4-4M17 10H8"/></svg>Sair
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </header>

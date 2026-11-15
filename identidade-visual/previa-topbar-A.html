@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prévia — Topbar A (claro e editorial)</title>
+<!-- Só nesta prévia: fontes da marca via Google Fonts. No portal real elas serão self-hosted (CSP). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&family=JetBrains+Mono:wght@500&family=Newsreader:ital,opsz,wght@1,6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b192c; --blue:#1b365d; --cyan:#00a3c4; --cyan-d:#00829c; --emerald:#10b981;
+  --bg:#f8fafc; --surface:#fff; --line:#e3e9f1; --muted:#5b6b84; --text:#0b192c;
+  --ui:"Inter","Helvetica Neue",Arial,sans-serif; --serif:"Newsreader",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* ---------- TOPBAR ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1120px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:36px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand svg{width:34px;height:34px;flex:none}
+.wm{display:flex;align-items:baseline;gap:4px;line-height:1}
+.wm .l{font-family:var(--serif);font-style:italic;font-weight:600;font-size:1.55rem;letter-spacing:-.01em;color:var(--navy)}
+.wm .d{font-weight:900;font-size:1.05rem;letter-spacing:-.01em;color:var(--cyan)}
+
+nav{display:flex;gap:4px;height:100%}
+nav a{position:relative;display:flex;align-items:center;padding:0 14px;font-size:.9rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+nav a:hover{color:var(--navy)}
+nav a[aria-current="page"]{color:var(--navy);font-weight:600}
+nav a[aria-current="page"]::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--cyan);border-radius:2px}
+nav .count{margin-left:6px;font-family:var(--mono);font-size:.72rem;color:var(--muted);background:#eef2f7;border-radius:999px;padding:1px 7px}
+
+.right{margin-left:auto;display:flex;align-items:center;gap:18px}
+.status{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);background:none;border:0;cursor:pointer;font-family:inherit;padding:6px 8px;border-radius:8px}
+.status:hover{background:#f0f4f9}
+.dot{width:8px;height:8px;border-radius:50%;background:#c3ccd8}
+.status.on .dot{background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.18)}
+.status.on{color:#0a7a56}
+
+.user{position:relative}
+.avatar{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px 4px 4px;cursor:pointer;font-family:inherit;color:var(--navy);transition:border-color .15s}
+.avatar:hover{border-color:#c5d0de}
+.avatar .ini{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:600}
+.avatar svg{width:14px;height:14px;color:var(--muted)}
+.menu{position:absolute;right:0;top:calc(100% + 10px);width:280px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 36px rgba(11,25,44,.12);padding:8px;display:none}
+.menu.open{display:block}
+.menu .who{padding:10px 12px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.menu .who small{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+.menu select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:.88rem;color:var(--navy);background:#fff}
+.menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.88rem;color:var(--navy);text-decoration:none}
+.menu a:hover{background:#f0f4f9}
+.menu svg{width:16px;height:16px;color:var(--muted)}
+
+/* ---------- PÁGINA (contexto) ---------- */
+main{max-width:1120px;margin:0 auto;padding:44px 24px 80px}
+.eyebrow{font-family:var(--mono);font-size:.72rem;color:var(--cyan-d);letter-spacing:.08em;text-transform:uppercase}
+h1{font-family:var(--serif);font-weight:600;font-style:italic;font-size:2.3rem;line-height:1.15;margin:8px 0 8px;letter-spacing:-.01em}
+.lead{max-width:620px;color:var(--muted);margin:0 0 28px}
+.actions{display:flex;gap:12px;margin-bottom:36px}
+.btn{font:inherit;font-weight:600;font-size:.9rem;border-radius:10px;padding:10px 18px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:8px}
+.btn svg{width:16px;height:16px}
+.btn-primary{background:var(--cyan);color:#04202a}
+.btn-primary:hover{background:#19b4d4}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--navy)}
+.btn-ghost:hover{border-color:#c5d0de}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 4px;font-size:.98rem}
+.card p{margin:0;color:var(--muted);font-size:.86rem}
+.card .n{font-family:var(--mono);font-size:.78rem;color:var(--cyan-d);margin-bottom:10px;display:block}
+
+@media (max-width:860px){
+  .bar{gap:12px;padding:0 16px}
+  nav{display:none}
+  .status span{display:none}
+  .cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="bar">
+    <a class="brand" href="#" aria-label="LattesData">
+      <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <path d="M60 15C84.85 15 105 35.15 105 60C105 84.85 84.85 105 60 105C35.15 105 15 84.85 15 60C15 41.5 26.5 25.5 43 19" stroke="#0B192C" stroke-width="5" stroke-linecap="round"/>
+        <g stroke="#1B365D" stroke-width="3" stroke-linecap="round"><path d="M43 19L56 50"/><path d="M26 35L54 55"/><path d="M18 55L52 60"/><path d="M22 75L54 65"/><path d="M36 92L58 70"/><path d="M56 103L62 72"/><path d="M78 98L66 70"/><path d="M96 82L68 64"/><path d="M102 60L68 58"/><path d="M92 40L65 54"/><path d="M75 24L62 52"/></g>
+        <circle cx="60" cy="60" r="15" fill="#0B192C" stroke="#00A3C4" stroke-width="3.5"/>
+        <circle cx="60" cy="60" r="5.5" fill="#10B981"/>
+        <g fill="#38BDF8"><circle cx="60" cy="49" r="2.4"/><circle cx="60" cy="71" r="2.4"/><circle cx="49" cy="60" r="2.4"/><circle cx="71" cy="60" r="2.4"/></g>
+      </svg>
+      <span class="wm"><span class="l">Lattes</span><span class="d">DATA</span></span>
+    </a>
+
+    <nav aria-label="Principal">
+      <a href="#" aria-current="page">Cadastrar</a>
+      <a href="#">Dossiê</a>
+      <a href="#">Registros<span class="count">0</span></a>
+      <a href="#">Avaliação</a>
+    </nav>
+
+    <div class="right">
+      <button class="status" id="status" type="button" title="Clique para conectar ao Lattes">
+        <i class="dot"></i><span>Lattes desconectado</span>
+      </button>
+
+      <div class="user">
+        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="ini">AR</span>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l5 5 5-5"/></svg>
+        </button>
+        <div class="menu" id="menu" role="menu">
+          <div class="who">
+            <small>Usuário em teste</small>
+            <select aria-label="Usuário em teste">
+              <option>Aramys Silva dos Reis</option>
+              <option>Álvaro Antônio Bezerra dos Santos</option>
+            </select>
+          </div>
+          <a href="#"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H4.5A1.5 1.5 0 003 4.5v11A1.5 1.5 0 004.5 17H8M13 14l4-4-4-4M17 10H8"/></svg>Sair</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <span class="eyebrow">Passo 1 · O que adicionar hoje</span>
+  <h1>Cadastro inteligente de produções</h1>
+  <p class="lead">Envie um PDF, cole um DOI ou encaminhe um e-mail. Extraímos as evidências, buscamos os metadados e preparamos o preenchimento no seu Currículo Lattes.</p>
+  <div class="actions">
+    <button class="btn btn-primary" type="button">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13V4M6 8l4-4 4 4M4 16h12"/></svg>Enviar documento
+    </button>
+    <button class="btn btn-ghost" type="button">Colar DOI</button>
+  </div>
+  <div class="cards">
+    <div class="card"><span class="n">01</span><h3>Resumo em anais</h3><p>Evento, ISSN, autores e palavras-chave.</p></div>
+    <div class="card"><span class="n">02</span><h3>Artigo em periódico</h3><p>DOI verificado na Crossref.</p></div>
+    <div class="card"><span class="n">03</span><h3>Orientação</h3><p>Natureza, orientando e instituição.</p></div>
+  </div>
+</main>
+
+<script>
+const avatar=document.getElementById('avatar'),menu=document.getElementById('menu'),status=document.getElementById('status');
+avatar.onclick=e=>{e.stopPropagation();const o=menu.classList.toggle('open');avatar.setAttribute('aria-expanded',o)};
+document.addEventListener('click',e=>{if(!menu.contains(e.target)){menu.classList.remove('open');avatar.setAttribute('aria-expanded',false)}});
+status.onclick=()=>{const on=status.classList.toggle('on');status.querySelector('span').textContent=on?'Lattes conectado':'Lattes desconectado'};
+</script>
+</body>
+</html>

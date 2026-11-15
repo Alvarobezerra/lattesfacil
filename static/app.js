@@ -1691,7 +1691,7 @@ function renderLattesStatus() {
   $("lcDetail").textContent = detail;
   const pill = $("lattesPill");
   pill.className = `lattes-pill state-${state}`;
-  pill.textContent = { on: "● Lattes ON", mismatch: "● Lattes: outro usuário", wait: "● Lattes: aguardando", off: "● Lattes OFF" }[state];
+  $("lattesPillText").textContent = { on: "Lattes conectado", mismatch: "Lattes: outro usuário", wait: "Lattes: aguardando", off: "Lattes desconectado" }[state];
 }
 
 function openLattesTab() {
@@ -1740,6 +1740,24 @@ $("lattesPill").onclick = (e) => { e.stopPropagation(); togglePopLattes(); };
 document.addEventListener("click", (e) => { if (!e.target.closest(".lattes-wrap")) togglePopLattes(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") togglePopLattes(false); });
 $("ownerName").addEventListener("change", renderLattesStatus);
+
+// Menu do usuário (avatar): troca de usuário em teste e saída.
+function atualizarAvatar() {
+  const partes = nameTokens($("ownerName").value);
+  const ini = partes.length ? (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : "")).toUpperCase() : "?";
+  $("avatarIni").textContent = ini;
+}
+function toggleUserMenu(abrir) {
+  const menu = $("userMenu"), btn = $("avatarBtn");
+  const open = abrir === undefined ? menu.classList.contains("hidden") : abrir;
+  menu.classList.toggle("hidden", !open);
+  btn.setAttribute("aria-expanded", String(open));
+}
+$("avatarBtn").onclick = (e) => { e.stopPropagation(); toggleUserMenu(); };
+document.addEventListener("click", (e) => { if (!e.target.closest(".user-wrap")) toggleUserMenu(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggleUserMenu(false); });
+$("ownerName").addEventListener("change", atualizarAvatar);
+atualizarAvatar();
 setInterval(renderLattesStatus, 5000);
 
 async function pollLattesStatus() {
