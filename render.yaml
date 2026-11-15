@@ -8,5 +8,9 @@ services:
     envVars:
       - key: HOST
         value: 0.0.0.0
+      - key: LATTESFACIL_CODIGO
+        sync: false  # defina no painel do Render; nunca no repositório
+      - key: LATTESFACIL_HTTPS
+        value: "1"
       - key: PYTHON_VERSION
         value: 3.11.8

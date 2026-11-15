@@ -11,3 +11,7 @@ env/
 
 # Mapeamento bruto do Lattes (contém trechos do currículo do usuário de teste)
 docs/campos-lattes/_raw/
+
+# Segurança: código de acesso local e backups do banco
+.acesso
+backups/

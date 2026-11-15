@@ -28,6 +28,7 @@
           🛡️ Avaliação do Lattes
         </button>
         <button class="lattes-pill state-off" id="lattesPill" type="button" title="Estado da conexão com o Lattes">● Lattes OFF</button>
+        <a class="btn btn-ghost" href="/logout" title="Encerrar a sessão">Sair</a>
         <button class="btn btn-ghost" id="btnToggleHistory" type="button">
           📚 Registros Salvos (<span id="recordsCount">0</span>)
         </button>
@@ -157,7 +158,7 @@
     </section>
 
     <!-- Passo 3: Formulário Simplificado Espelhado no Lattes -->
-    <form id="lattesForm" class="form-grid" onsubmit="return false;">
+    <form id="lattesForm" class="form-grid">
       <!-- Bloco A: Dados Gerais -->
       <section class="card">
         <div class="card-header">

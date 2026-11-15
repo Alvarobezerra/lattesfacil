@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import mimetypes
 import os
 import re
+import secrets
 import sqlite3
 import uuid
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -16,7 +19,7 @@ from pathlib import Path
 from typing import Any
 import threading
 import time
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 from caderno import abstract_to_record, name_tokens, scan_caderno
 from artigo import doi_only, is_article, parse_artigo
@@ -35,6 +38,75 @@ MAX_SINGLE_ABSTRACT_PAGES = 12  # acima disso (e com vários resumos), o PDF é 
 MIN_ABSTRACTS_FOR_CADERNO = 10
 SID_RE = re.compile(r"^[a-z0-9]{8,40}$")
 LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sinal do conector (só em memória)
+
+# ---------------------------------------------------------------- segurança
+ACCESS_FILE = BASE_DIR / ".acesso"          # código de acesso gerado na 1ª execução (fora do git)
+BACKUP_DIR = BASE_DIR / "backups"           # cópias automáticas do banco (fora do git)
+BACKUP_KEEP = 30
+SESSION_TTL = 12 * 3600
+LOGIN_MAX_FAILS, LOGIN_WINDOW = 5, 300      # 5 erros em 5 min bloqueiam o IP por 5 min
+SESSIONS: dict[str, float] = {}             # token de sessão -> expiração
+LOGIN_FAILS: dict[str, list[float]] = {}
+ACCESS_CODE = ""                            # definido em main()
+FORCE_SECURE_COOKIE = os.environ.get("LATTESFACIL_HTTPS", "") == "1"
+CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+       "connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
+ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
+LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LattesFácil — Acesso</title><style>
+body{font-family:system-ui,sans-serif;background:#0f1b2a;color:#e6edf5;display:grid;place-items:center;min-height:100vh;margin:0}
+form{background:#16263a;padding:28px;border-radius:14px;width:min(360px,90vw);display:grid;gap:14px}
+h1{margin:0;font-size:1.3rem}p{margin:0;color:#98a6b6;font-size:.9rem}
+input{padding:12px;border-radius:8px;border:1px solid #2c4160;background:#0f1b2a;color:#fff;font-size:1rem}
+button{padding:12px;border:0;border-radius:8px;background:#1f6feb;color:#fff;font-weight:700;font-size:1rem;cursor:pointer}
+.erro{color:#ff9b8a;font-size:.9rem}</style></head><body>
+<form method="post" action="/login"><h1>LattesFácil</h1><p>Acesso restrito. Digite o código de acesso.</p>
+<input type="password" name="codigo" autocomplete="current-password" autofocus required aria-label="Código de acesso">
+%ERRO%<button type="submit">Entrar</button></form></body></html>"""
+
+
+def load_access_code() -> str:
+    """Código de acesso: variável LATTESFACIL_CODIGO, senão o arquivo .acesso, senão gera um novo (aleatório)."""
+    code = os.environ.get("LATTESFACIL_CODIGO", "").strip()
+    if code:
+        if len(code) < 10:
+            raise SystemExit("LATTESFACIL_CODIGO precisa ter ao menos 10 caracteres.")
+        return code
+    if ACCESS_FILE.exists():
+        code = ACCESS_FILE.read_text(encoding="utf-8").strip()
+        if len(code) >= 10:
+            return code
+    code = secrets.token_urlsafe(12)
+    ACCESS_FILE.write_text(code + "\n", encoding="utf-8")
+    try:
+        os.chmod(ACCESS_FILE, 0o600)
+    except OSError:
+        pass
+    print(f"\n>>> Código de acesso gerado e salvo em {ACCESS_FILE.name}: {code}\n")
+    return code
+
+
+def backup_db() -> Path | None:
+    """Cópia consistente do banco (API de backup do SQLite) em backups/, mantendo as BACKUP_KEEP mais recentes."""
+    if not DB_PATH.exists():
+        return None
+    BACKUP_DIR.mkdir(exist_ok=True)
+    dest = BACKUP_DIR / f"lattes_records-{datetime.now():%Y%m%d-%H%M%S}.db"
+    with closing(sqlite3.connect(DB_PATH)) as src, closing(sqlite3.connect(dest)) as dst:
+        src.backup(dst)
+    for old in sorted(BACKUP_DIR.glob("lattes_records-*.db"))[:-BACKUP_KEEP]:
+        old.unlink(missing_ok=True)
+    return dest
+
+
+def _backup_loop() -> None:
+    while True:
+        time.sleep(6 * 3600)
+        try:
+            backup_db()
+        except Exception as exc:  # nunca derrubar o servidor por causa do backup
+            print("backup falhou:", type(exc).__name__)
 
 
 @contextmanager
@@ -58,10 +130,14 @@ def init_db() -> None:
                 owner TEXT NOT NULL,
                 titulo TEXT NOT NULL,
                 payload TEXT NOT NULL,
-                created_at TEXT NOT NULL
+                created_at TEXT NOT NULL,
+                deleted_at TEXT
             )
             """
         )
+        cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
+        if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
+            conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
         conn.commit()
 
 
@@ -181,10 +257,117 @@ def run_caderno(file_bytes: bytes, filename: str, pesquisador: str) -> tuple[dic
 class LattesHandler(BaseHTTPRequestHandler):
     """HTTP request handler for LattesFácil API and static frontend."""
 
-    server_version = "LattesFacil/1.0"
+    server_version = "LattesFacil"
+    sys_version = ""
+    timeout = 60  # conexões paradas são derrubadas (evita conexões penduradas)
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
-        print(f"[{self.log_date_time_string()}] {format % args}")
+        # nunca registra a query string (ela pode carregar identificadores)
+        msg = format % args
+        msg = re.sub(r"\?[^ \"]*", "?…", msg)
+        print(f"[{self.log_date_time_string()}] {self.client_address[0]} {msg}")
+
+    def end_headers(self) -> None:
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        if self._https():
+            self.send_header("Strict-Transport-Security", "max-age=31536000")
+        super().end_headers()
+
+    # ---- identidade e proteção
+    def _https(self) -> bool:
+        return FORCE_SECURE_COOKIE or self.headers.get("X-Forwarded-Proto", "").lower() == "https"
+
+    def _client_ip(self) -> str:
+        ip = self.client_address[0]
+        if ip in ("127.0.0.1", "::1"):  # atrás do túnel/proxy local, usa o IP repassado
+            xff = self.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+            if xff:
+                return xff[:45]
+        return ip
+
+    def _sess(self) -> str:
+        for part in self.headers.get("Cookie", "").split(";"):
+            k, _, v = part.strip().partition("=")
+            if k == "lf_sess" and SESSIONS.get(v, 0) > time.time():
+                return v
+        return ""
+
+    def _sess_tag(self) -> str:
+        t = self._sess()
+        return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
+
+    def _origin_ok(self) -> bool:
+        """Anti-CSRF: pedidos que alteram dados só valem se vierem da própria página."""
+        origin = self.headers.get("Origin")
+        if origin:
+            return urlparse(origin).netloc == self.headers.get("Host", "")
+        return self.headers.get("Sec-Fetch-Site") in (None, "same-origin", "none")
+
+    def _locked(self, ip: str) -> bool:
+        now = time.time()
+        recent = [t for t in LOGIN_FAILS.get(ip, []) if now - t < LOGIN_WINDOW]
+        LOGIN_FAILS[ip] = recent
+        return len(recent) >= LOGIN_MAX_FAILS
+
+    def _send_html(self, html: str, status: int = HTTPStatus.OK) -> None:
+        raw = html.encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(raw)))
+        self.send_header("Content-Security-Policy", CSP)
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def _redirect(self, where: str, cookie: str = "") -> None:
+        self.send_response(HTTPStatus.SEE_OTHER)
+        self.send_header("Location", where)
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
+    def _gate(self, public: bool = False, mutating: bool = False) -> bool:
+        """True se o pedido pode seguir. Sem sessão válida: 401 (API) ou redireciona ao login."""
+        if public:
+            return True
+        if not self._sess():
+            if urlparse(self.path).path.startswith("/api/"):
+                self._send_json({"error": "Acesso não autorizado. Entre com o código de acesso."}, HTTPStatus.UNAUTHORIZED)
+            else:
+                self._redirect("/login")
+            return False
+        if mutating and not self._origin_ok():
+            self._send_json({"error": "Origem não permitida."}, HTTPStatus.FORBIDDEN)
+            return False
+        return True
+
+    def _handle_login(self) -> None:
+        ip = self._client_ip()
+        if self._locked(ip):
+            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro">Muitas tentativas. Aguarde 5 minutos.</p>'), HTTPStatus.TOO_MANY_REQUESTS)
+            return
+        try:
+            n = min(int(self.headers.get("Content-Length", "0")), 4096)
+        except ValueError:
+            n = 0
+        code = parse_qs(self.rfile.read(n).decode("utf-8", errors="replace")).get("codigo", [""])[0]
+        if hmac.compare_digest(code.encode(), ACCESS_CODE.encode()):
+            LOGIN_FAILS.pop(ip, None)
+            now = time.time()
+            for k in [k for k, v in SESSIONS.items() if v < now]:
+                SESSIONS.pop(k, None)
+            token = secrets.token_urlsafe(32)
+            SESSIONS[token] = now + SESSION_TTL
+            cookie = f"lf_sess={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
+            self._redirect("/", cookie)
+        else:
+            LOGIN_FAILS.setdefault(ip, []).append(time.time())
+            time.sleep(0.6)  # freia tentativa automatizada
+            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro">Código incorreto.</p>'), HTTPStatus.UNAUTHORIZED)
 
     def _send_json(self, data: Any, status: int = HTTPStatus.OK) -> None:
         raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -206,26 +389,40 @@ class LattesHandler(BaseHTTPRequestHandler):
         return self.rfile.read(length) if length > 0 else b""
 
     def do_OPTIONS(self) -> None:
-        self.send_response(HTTPStatus.NO_CONTENT)
+        self.send_response(HTTPStatus.NO_CONTENT)  # sem CORS: nenhum outro site pode chamar a API
+        self.send_header("Content-Length", "0")
         self.end_headers()
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
         path = parsed.path
 
+        if path == "/login":
+            self._send_html(LOGIN_HTML.replace("%ERRO%", ""))
+            return
+        if path == "/logout":
+            tok = self._sess()
+            SESSIONS.pop(tok, None)
+            self._redirect("/login", "lf_sess=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0")
+            return
         if path == "/api/health":
-            self._send_json({"ok": True, "service": "LattesFácil"})
+            self._send_json({"ok": True})
+            return
+        if path != "/api/lattes/ping" and not self._gate():
             return
 
         if path == "/api/radar":
             qs = parse_qs(parsed.query)
-            autor = (qs.get("autor") or [""])[0].strip()
+            autor = (qs.get("autor") or [""])[0].strip()[:120]
             orcid = (qs.get("orcid") or [""])[0].strip() or None
+            if orcid and not ORCID_RE.match(orcid):
+                self._send_json({"ok": False, "error": "ORCID inválido (formato 0000-0000-0000-0000).", "obras": []}, HTTPStatus.BAD_REQUEST)
+                return
             try:
                 obras = buscar_obras_radar(autor, orcid=orcid)
                 self._send_json({"ok": True, "obras": obras})
-            except Exception as exc:
-                self._send_json({"ok": False, "error": str(exc), "obras": []}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao consultar as bases externas.", "obras": []}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/lattes/ping":
@@ -258,7 +455,7 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/records":
             with db() as conn:
                 rows = conn.execute(
-                    "SELECT id, owner, titulo, payload, created_at FROM records ORDER BY created_at DESC LIMIT 50"
+                    "SELECT id, owner, titulo, payload, created_at FROM records WHERE deleted_at IS NULL ORDER BY created_at DESC LIMIT 50"
                 ).fetchall()
             records = [
                 {
@@ -280,6 +477,8 @@ class LattesHandler(BaseHTTPRequestHandler):
             data = None
             with UPLOADS_LOCK:
                 up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                if up and up.get("sess") and up["sess"] != self._sess_tag():
+                    up = None  # o arquivo pertence a outra sessão
                 if up and up.get("data"):
                     data = up["data"]
                     if not nome and up.get("name"):
@@ -295,11 +494,13 @@ class LattesHandler(BaseHTTPRequestHandler):
                 return
             if not nome:
                 nome = "comprovante_padronizado.pdf"
+            nome = re.sub(r"[^\w.\- ]", "_", nome, flags=re.UNICODE)[:120].strip() or "comprovante"
             if not nome.lower().endswith(".pdf"):
                 nome += ".pdf"
+            ascii_nome = re.sub(r"[^A-Za-z0-9._-]", "_", nome)
             self.send_response(HTTPStatus.OK)
             self.send_header("Content-Type", "application/pdf")
-            self.send_header("Content-Disposition", f'attachment; filename="{nome}"')
+            self.send_header("Content-Disposition", f"attachment; filename=\"{ascii_nome}\"; filename*=UTF-8''{quote(nome)}")
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)
@@ -342,12 +543,19 @@ class LattesHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", f"{ctype or 'application/octet-stream'}; charset=utf-8")
         self.send_header("Content-Length", str(len(raw)))
+        if (ctype or "").startswith("text/html"):
+            self.send_header("Content-Security-Policy", CSP)
         self.end_headers()
         self.wfile.write(raw)
 
     def do_POST(self) -> None:
         parsed = urlparse(self.path)
         path = parsed.path
+        if path == "/login":
+            self._handle_login()
+            return
+        if not self._gate(mutating=True):
+            return
         body = self._read_body()
         if body is None:
             return
@@ -366,7 +574,10 @@ class LattesHandler(BaseHTTPRequestHandler):
                 return
             with UPLOADS_LOCK:
                 _purge_uploads()
-                up = UPLOADS.setdefault(uid, {"chunks": {}, "n": n, "name": "", "ts": time.time(), "data": None})
+                up = UPLOADS.setdefault(uid, {"chunks": {}, "n": n, "name": "", "ts": time.time(), "data": None, "sess": self._sess_tag()})
+                if up.get("sess") != self._sess_tag():
+                    self._send_json({"error": "Envio pertence a outra sessão."}, HTTPStatus.FORBIDDEN)
+                    return
                 up["name"] = (qs.get("name") or [""])[0][:200] or up["name"]
                 up["n"], up["ts"] = n, time.time()
                 up["chunks"][i] = body
@@ -381,6 +592,8 @@ class LattesHandler(BaseHTTPRequestHandler):
                 usuario = str(payload.get("usuario", "")).strip()
                 with UPLOADS_LOCK:
                     up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                    if up and up.get("sess") != self._sess_tag():
+                        up = None
                     if not up:
                         self._send_json({"error": "Envio não encontrado ou vencido. Envie o arquivo de novo.", "expired": True}, HTTPStatus.GONE)
                         return
@@ -449,6 +662,8 @@ class LattesHandler(BaseHTTPRequestHandler):
                     uid = str(payload.get("upload_id", ""))
                     with UPLOADS_LOCK:
                         up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                        if up and up.get("sess") != self._sess_tag():
+                            up = None
                         data = up["data"] if up else None
                         if up:
                             up["ts"] = time.time()
@@ -504,14 +719,17 @@ class LattesHandler(BaseHTTPRequestHandler):
                     "nome_padronizado": nome,
                     "caminho_sugerido": f"{ano}/{nome}",
                 })
-            except Exception as exc:
-                self._send_json({"error": f"Falha na padronização: {str(exc)}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            except Exception:
+                self._send_json({"error": "Falha na padronização."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/dossie/zip":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
                 itens = payload.get("lote") or payload.get("arquivos") or []
+                if not isinstance(itens, list) or len(itens) > 300:
+                    self._send_json({"error": "Lote inválido ou grande demais (máximo 300 itens)."}, HTTPStatus.BAD_REQUEST)
+                    return
                 zip_bytes = gerar_zip_dossie(itens)
                 self.send_response(HTTPStatus.OK)
                 self.send_header("Content-Type", "application/zip")
@@ -519,8 +737,8 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-Length", str(len(zip_bytes)))
                 self.end_headers()
                 self.wfile.write(zip_bytes)
-            except Exception as exc:
-                self._send_json({"error": f"Falha ao gerar ZIP do dossiê: {str(exc)}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            except Exception:
+                self._send_json({"error": "Falha ao gerar o ZIP do dossiê."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/enrich":
@@ -555,10 +773,13 @@ class LattesHandler(BaseHTTPRequestHandler):
 
     def do_DELETE(self) -> None:
         parsed = urlparse(self.path)
+        if not self._gate(mutating=True):
+            return
         if parsed.path.startswith("/api/records/"):
-            rec_id = parsed.path.split("/")[-1]
+            rec_id = parsed.path.split("/")[-1][:64]
+            # exclusão lógica: o registro some da lista, mas continua no banco (e nos backups) para ser recuperado
             with db() as conn:
-                conn.execute("DELETE FROM records WHERE id = ?", (rec_id,))
+                conn.execute("UPDATE records SET deleted_at = ? WHERE id = ?", (datetime.now(timezone.utc).isoformat(), rec_id))
                 conn.commit()
             self._send_json({"ok": True})
             return
@@ -566,10 +787,19 @@ class LattesHandler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
+    global ACCESS_CODE
     init_db()
-    host = os.environ.get("HOST", "0.0.0.0")
+    ACCESS_CODE = load_access_code()
+    try:
+        backup_db()  # cópia ao iniciar
+    except Exception as exc:
+        print("backup inicial falhou:", type(exc).__name__)
+    threading.Thread(target=_backup_loop, daemon=True).start()
+    host = os.environ.get("HOST", "127.0.0.1")  # por padrão só esta máquina; hospedagem define HOST=0.0.0.0
     port = int(os.environ.get("PORT", "8765"))
     server = ThreadingHTTPServer((host, port), LattesHandler)
+    if host not in ("127.0.0.1", "localhost", "::1"):
+        print("Atenção: escutando fora do localhost. O acesso exige o código; use sempre HTTPS (LATTESFACIL_HTTPS=1).")
     print(f"LattesFácil rodando em http://{host}:{port}")
     server.serve_forever()
 

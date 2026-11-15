@@ -1,3 +1,17 @@
+// Segurança: identificadores aleatórios criptográficos e volta ao login quando a sessão acabar.
+function randomId(bytes = 16) {
+  const arr = new Uint8Array(bytes);
+  crypto.getRandomValues(arr);
+  return [...arr].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+const _fetchOriginal = window.fetch.bind(window);
+window.fetch = async (...args) => {
+  const resp = await _fetchOriginal(...args);
+  if (resp.status === 401) window.location.href = "/login";
+  return resp;
+};
+document.addEventListener("submit", (e) => e.preventDefault());
+
 const FIELD_IDS = [
   "tipo_producao",
   "natureza",
@@ -825,7 +839,7 @@ function showFileAdded(file) {
 const UPLOAD_CHUNK = 1024 * 1024;
 
 async function uploadChunks(file, onProgress) {
-  const id = Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+  const id = randomId(16);
   const n = Math.max(1, Math.ceil(file.size / UPLOAD_CHUNK));
   for (let i = 0; i < n; i += 1) {
     const blob = file.slice(i * UPLOAD_CHUNK, (i + 1) * UPLOAD_CHUNK);
@@ -1354,14 +1368,14 @@ const CONNECTOR_TEMPLATE = String.raw`(function () {
 function getSid() {
   // Identifica este navegador junto ao servidor, para o aviso do conector chegar só a esta página.
   try {
-    let s = localStorage.getItem("lf-sid");
+    let s = localStorage.getItem("lf-sid2");
     if (!s) {
-      s = Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
-      localStorage.setItem("lf-sid", s);
+      s = randomId(16);
+      localStorage.setItem("lf-sid2", s);
     }
     return s;
   } catch (e) {
-    window.__lfSidMem = window.__lfSidMem || Math.random().toString(36).slice(2, 14);
+    window.__lfSidMem = window.__lfSidMem || randomId(16);
     return window.__lfSidMem;
   }
 }
@@ -1693,7 +1707,7 @@ if ($("btnLoadRadarItem")) {
 updateCompleteness();
 updateBookmarklet();
 loadRecords();
-updateStandardizedDossieName();
+// (updateStandardizedDossieName() é chamada logo depois de STOP_WORDS_SET, abaixo: antes dava erro de inicialização)
 
 // ==========================================================================
 // Dossiê Acadêmico & Padronizador de Comprovantes (CAPES / CNPq)
@@ -1710,6 +1724,8 @@ const STOP_WORDS_SET = new Set([
 ]);
 
 const PARENTESCO_SET = new Set(["JUNIOR", "FILHO", "NETO", "SOBRINHO", "SEGUNDO", "TERCEIRO"]);
+
+updateStandardizedDossieName();
 
 function cleanAscii(str) {
   return String(str || "")
