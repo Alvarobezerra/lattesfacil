@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesFácil — Cadastro Inteligente de Resumos</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="logo">LF</span>
+        <div>
+          <h1>LattesFácil</h1>
+          <p class="subtitle">Extração de evidências + busca automática para o Currículo Lattes</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <label class="tester-badge">
+          <span>Usuário em teste:</span>
+          <select id="ownerName" aria-label="Usuário em teste">
+            <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
+            <option value="Aramys Silva dos Reis">Aramys Silva dos Reis</option>
+          </select>
+        </label>
+        <button class="lattes-pill state-off" id="lattesPill" type="button" title="Estado da conexão com o Lattes">● Lattes OFF</button>
+        <button class="btn btn-ghost" id="btnToggleHistory" type="button">
+          📚 Registros Salvos (<span id="recordsCount">0</span>)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
+    <section id="lattesConnect" class="card lattes-connect state-off" aria-live="polite">
+      <div class="lc-main">
+        <span class="lc-dot" aria-hidden="true"></span>
+        <div class="lc-text">
+          <strong id="lcTitle">Lattes: desconectado</strong>
+          <p id="lcDetail" class="hint">Nenhum sinal do Lattes ainda. Clique em Entrar no Lattes, faça o login e conecte.</p>
+        </div>
+        <div class="lc-actions">
+          <button type="button" class="btn btn-primary" id="btnLoginLattes">🔐 Entrar no Lattes</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
+        </div>
+      </div>
+      <details class="lc-steps">
+        <summary>Como conectar (3 passos)</summary>
+        <ol>
+          <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesFácil nunca vê sua senha.</li>
+          <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesFácil</a> para os favoritos e clique nele.</li>
+          <li><strong>Pronto:</strong> o selo muda para ON com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
+        </ol>
+        <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
+      </details>
+    </section>
+
+    <!-- Painel de Histórico Compartilhado -->
+    <section id="historyPanel" class="card hidden">
+      <div class="card-header">
+        <h2>📚 Registros Compartilhados (Testes em Equipe)</h2>
+        <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">Fechar</button>
+      </div>
+      <p class="hint">Qualquer registro salvo aqui fica visível para você e seu amigo testarem juntos.</p>
+      <div id="recordsList" class="records-list"></div>
+    </section>
+
+    <!-- Passo 1: Upload de Evidência -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="step-pill">Passo 1</span>
+          <h2>Envie o arquivo de evidência (PDF ou texto do resumo)</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btnLoadSample" type="button">
+          ⚡ Carregar Exemplo (SEMIC UFMA)
+        </button>
+      </div>
+
+      <div id="dropZone" class="drop-zone">
+        <input type="file" id="fileInput" accept=".pdf,.txt" hidden />
+        <div class="drop-content">
+          <div class="drop-icon">📄</div>
+          <p><strong>Arraste o PDF do resumo ou do caderno de anais aqui</strong> ou <button type="button" class="link-btn" id="btnPickFile">clique para escolher o arquivo</button></p>
+          <span class="hint">Extraímos título, autores, evento, palavras-chave, páginas e área automaticamente.</span>
+        </div>
+      </div>
+
+      <details class="paste-box">
+        <summary>Ou colar o DOI de um artigo (ou o texto da evidência)</summary>
+        <textarea id="rawTextInput" rows="4" placeholder="Cole um DOI (ex.: 10.1371/journal.pmed.0020124) ou o texto do certificado, resumo ou página dos anais..."></textarea>
+        <div class="row-end">
+          <button class="btn btn-primary btn-sm" id="btnExtractText" type="button">Extrair do Texto</button>
+        </div>
+      </details>
+
+      <p class="search-for">Se o PDF for um caderno de anais com vários trabalhos, procuramos os resumos de <strong id="searchUser"></strong> (usuário selecionado no topo).</p>
+      <p id="fileAdded" class="file-added hidden"></p>
+      <div id="cadernoResults" class="records-list"></div>
+
+      <div id="extractStatus" class="status-banner hidden"></div>
+    </section>
+
+    <!-- Passo 2: Completude & Busca Automática -->
+    <section class="card status-card">
+      <div class="completeness-row">
+        <div>
+          <span class="step-pill">Passo 2</span>
+          <h2>Revisão e Busca de Dados Faltantes</h2>
+          <p id="completenessText" class="hint">Envie uma evidência ou preencha os campos abaixo.</p>
+        </div>
+        <div class="completeness-actions">
+          <button class="btn btn-accent" id="btnEnrich" type="button">
+            🔍 Buscar Dados Faltantes (Crossref / OpenAlex / Web)
+          </button>
+        </div>
+      </div>
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+      </div>
+      <div id="enrichStatus" class="status-banner hidden"></div>
+    </section>
+
+    <!-- Passo 3: Formulário Simplificado Espelhado no Lattes -->
+    <form id="lattesForm" class="form-grid" onsubmit="return false;">
+      <!-- Bloco A: Dados Gerais -->
+      <section class="card">
+        <div class="card-header">
+          <h3>1. Dados Gerais do Trabalho</h3>
+          <span class="badge" id="tipoBadge">Trabalhos publicados em anais de eventos</span>
+        </div>
+
+        <div class="field-grid">
+          <div class="field col-span-2">
+            <label for="tipo_producao">Tipo de produção no Lattes</label>
+            <select id="tipo_producao" name="tipo_producao">
+              <option value="anais">Trabalho publicado em anais de eventos</option>
+              <option value="apresentacao">Apresentação de trabalho e palestra</option>
+              <option value="artigo">Artigo completo em periódico</option>
+              <option value="orientacao">Orientação / supervisão (mestrado, doutorado, TCC...)</option>
+            </select>
+          </div>
+
+          <div class="field" data-tipos="anais apresentacao orientacao">
+            <label for="natureza">Natureza <span class="req">*</span></label>
+            <select id="natureza" name="natureza">
+              <option value="Resumo">Resumo</option>
+              <option value="Resumo Expandido">Resumo Expandido</option>
+              <option value="Completo">Completo</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="ano" id="lblAno">Ano de Publicação <span class="req">*</span></label>
+            <div class="input-copy">
+              <input type="text" id="ano" name="ano" maxlength="4" placeholder="Ex: 2024" />
+              <button type="button" class="copy-btn" data-copy="ano" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2">
+            <label for="titulo" id="lblTitulo">Título do Trabalho <span class="req">*</span></label>
+            <div class="input-copy">
+              <input type="text" id="titulo" name="titulo" placeholder="Título completo do resumo" />
+              <button type="button" class="copy-btn" data-copy="titulo" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais apresentacao artigo">
+            <label for="meio_divulgacao">Meio de Divulgação <span class="req">*</span></label>
+            <select id="meio_divulgacao" name="meio_divulgacao">
+              <option value="meio digital">Meio digital</option>
+              <option value="Impresso">Impresso</option>
+              <option value="hipertexto">Hipertexto</option>
+              <option value="impresso e mídia eletrônica">Impresso e mídia eletrônica</option>
+              <option value="meio magnético">Meio magnético</option>
+              <option value="filme">Filme</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="doi">DOI (opcional)</label>
+            <div class="input-copy">
+              <input type="text" id="doi" name="doi" placeholder="Ex: 10.xxxx/xxxxx" />
+              <button type="button" class="copy-btn" data-copy="doi" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais apresentacao orientacao">
+            <label for="pais">País de Publicação</label>
+            <input type="text" id="pais" name="pais" value="Brasil" />
+          </div>
+
+          <div class="field">
+            <label for="idioma">Idioma</label>
+            <input type="text" id="idioma" name="idioma" value="Português" />
+          </div>
+
+          <div class="field col-span-2">
+            <label for="homepage">Home Page / Link do Trabalho (URL)</label>
+            <div class="input-copy">
+              <input type="url" id="homepage" name="homepage" placeholder="https://..." />
+              <button type="button" class="copy-btn" data-copy="homepage" title="Copiar">📋</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bloco B: Evento e Publicação -->
+      <section class="card">
+        <div class="card-header">
+          <h3 id="blocoBTitulo">2. Evento e Publicação</h3>
+        </div>
+
+        <div class="field-grid">
+          <div class="field type-hidden" data-tipos="orientacao">
+            <label for="situacao_orientacao">Situação</label>
+            <select id="situacao_orientacao" name="situacao_orientacao">
+              <option value="Concluída">Concluída</option>
+              <option value="Em andamento">Em andamento</option>
+            </select>
+          </div>
+
+          <div class="field type-hidden" data-tipos="orientacao">
+            <label for="papel_orientacao">Tipo de orientação (mestrado e doutorado)</label>
+            <select id="papel_orientacao" name="papel_orientacao">
+              <option value="Orientador principal">Orientador principal</option>
+              <option value="Coorientador">Coorientador</option>
+            </select>
+          </div>
+
+          <div class="field type-hidden" data-tipos="orientacao">
+            <label for="tipo_mestrado">Tipo do mestrado (só dissertação)</label>
+            <select id="tipo_mestrado" name="tipo_mestrado">
+              <option value="">—</option>
+              <option value="Acadêmico">Acadêmico</option>
+              <option value="Profissional">Profissional</option>
+            </select>
+          </div>
+
+          <div class="field col-span-2 type-hidden" data-tipos="orientacao">
+            <label for="nome_orientando">Nome do orientando (até 60)</label>
+            <div class="input-copy">
+              <input type="text" id="nome_orientando" name="nome_orientando" maxlength="60" placeholder="Ex: Maria José da Silva Souza" />
+              <button type="button" class="copy-btn" data-copy="nome_orientando" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2 type-hidden" data-tipos="orientacao">
+            <label for="instituicao_orient">Instituição (nome igual ao cadastro do Lattes)</label>
+            <div class="input-copy">
+              <input type="text" id="instituicao_orient" name="instituicao_orient" placeholder="Ex: Universidade Federal do Maranhão" />
+              <button type="button" class="copy-btn" data-copy="instituicao_orient" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2 type-hidden" data-tipos="orientacao">
+            <label for="curso_orient">Curso (nome igual ao cadastro do Lattes)</label>
+            <div class="input-copy">
+              <input type="text" id="curso_orient" name="curso_orient" placeholder="Ex: Ciências da Saúde" />
+              <button type="button" class="copy-btn" data-copy="curso_orient" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2 type-hidden" data-tipos="artigo">
+            <label for="periodico">Título do periódico/revista</label>
+            <div class="input-copy">
+              <input type="text" id="periodico" name="periodico" placeholder="Preenchido pelo DOI; no Lattes é escolhido no cadastro de periódicos" />
+              <button type="button" class="copy-btn" data-copy="periodico" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais">
+            <label for="classificacao_evento">Classificação do Evento <span class="req">*</span></label>
+            <select id="classificacao_evento" name="classificacao_evento">
+              <option value="Local">Local</option>
+              <option value="Regional">Regional</option>
+              <option value="Nacional">Nacional</option>
+              <option value="Internacional">Internacional</option>
+            </select>
+          </div>
+
+          <div class="field" data-tipos="anais">
+            <label for="ano_evento">Ano do Evento</label>
+            <div class="input-copy">
+              <input type="text" id="ano_evento" name="ano_evento" maxlength="4" placeholder="Ex: 2024" />
+              <button type="button" class="copy-btn" data-copy="ano_evento" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2" data-tipos="anais apresentacao">
+            <label for="nome_evento">Nome do Evento <span class="req">*</span></label>
+            <div class="input-copy">
+              <input type="text" id="nome_evento" name="nome_evento" placeholder="Ex: XXXVI Seminário de Iniciação Científica" />
+              <button type="button" class="copy-btn" data-copy="nome_evento" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field type-hidden col-span-2" data-tipos="apresentacao">
+            <label for="instituicao_promotora">Instituição promotora</label>
+            <div class="input-copy">
+              <input type="text" id="instituicao_promotora" name="instituicao_promotora" maxlength="255" placeholder="Ex: Associação dos Estudantes de Medicina do Maranhão (AEMMA)" />
+              <button type="button" class="copy-btn" data-copy="instituicao_promotora" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field type-hidden col-span-2" data-tipos="apresentacao">
+            <label for="local_evento">Local</label>
+            <div class="input-copy">
+              <input type="text" id="local_evento" name="local_evento" maxlength="255" placeholder="Ex: Centro de Convenções" />
+              <button type="button" class="copy-btn" data-copy="local_evento" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais apresentacao">
+            <label for="cidade_evento">Cidade do Evento</label>
+            <div class="input-copy">
+              <input type="text" id="cidade_evento" name="cidade_evento" placeholder="Ex: São Luís" />
+              <button type="button" class="copy-btn" data-copy="cidade_evento" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="isbn_issn" id="lblIsbn">ISBN / ISSN dos Anais</label>
+            <div class="input-copy">
+              <input type="text" id="isbn_issn" name="isbn_issn" placeholder="Ex: 978-65-5363-471-8" />
+              <button type="button" class="copy-btn" data-copy="isbn_issn" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field col-span-2" data-tipos="anais">
+            <label for="titulo_anais">Título dos Anais do Evento</label>
+            <div class="input-copy">
+              <input type="text" id="titulo_anais" name="titulo_anais" placeholder="Ex: Anais do XXXVI SEMIC: Caderno de Resumos" />
+              <button type="button" class="copy-btn" data-copy="titulo_anais" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais">
+            <label for="editora">Nome da Editora</label>
+            <div class="input-copy">
+              <input type="text" id="editora" name="editora" placeholder="Ex: EDUFMA" />
+              <button type="button" class="copy-btn" data-copy="editora" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais">
+            <label for="cidade_editora">Cidade da Editora</label>
+            <div class="input-copy">
+              <input type="text" id="cidade_editora" name="cidade_editora" placeholder="Ex: São Luís" />
+              <button type="button" class="copy-btn" data-copy="cidade_editora" title="Copiar">📋</button>
+            </div>
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="pagina_inicial">Página Inicial</label>
+            <input type="text" id="pagina_inicial" name="pagina_inicial" placeholder="Ex: 193" />
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="pagina_final">Página Final</label>
+            <input type="text" id="pagina_final" name="pagina_final" placeholder="Ex: 193" />
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="volume">Volume (até 6)</label>
+            <input type="text" id="volume" name="volume" maxlength="6" />
+          </div>
+
+          <div class="field" data-tipos="anais">
+            <label for="fasciculo">Fascículo (até 10)</label>
+            <input type="text" id="fasciculo" name="fasciculo" maxlength="10" />
+          </div>
+
+          <div class="field" data-tipos="anais artigo">
+            <label for="serie">Série (até 5)</label>
+            <input type="text" id="serie" name="serie" maxlength="5" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Bloco C: Autores, Palavras-chave e Área -->
+      <section class="card">
+        <div class="card-header">
+          <h3>3. Autores, Palavras-chave e Área</h3>
+        </div>
+
+        <div class="field">
+          <label>Autores (com nome de citação Lattes)</label>
+          <div id="authorsList" class="chips-list"></div>
+          <div class="inline-add">
+            <input type="text" id="newAuthorInput" placeholder="Adicionar autor (Ex: Maria Silva)" />
+            <button type="button" class="btn btn-sm btn-secondary" id="btnAddAuthor">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Palavras-chave</label>
+          <div id="keywordsList" class="chips-list"></div>
+          <div class="inline-add">
+            <input type="text" id="newKeywordInput" placeholder="Adicionar palavra-chave" />
+            <button type="button" class="btn btn-sm btn-secondary" id="btnAddKeyword">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="outras_informacoes">Outras informações relevantes</label>
+          <textarea id="outras_informacoes" name="outras_informacoes" rows="2" maxlength="3950" placeholder="Ex: Eixo temático do evento"></textarea>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="area_conhecimento">Áreas do conhecimento (separe com ;)</label>
+            <input type="text" id="area_conhecimento" name="area_conhecimento" placeholder="Ex: Parasitologia; Imunologia" />
+          </div>
+          <div class="field">
+            <label for="visibilidade">Visibilidade</label>
+            <select id="visibilidade" name="visibilidade">
+              <option value="Público">Público</option>
+              <option value="Privado">Privado</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Passo 4: Exportação e Preenchimento Direto no Lattes -->
+      <section class="card action-card">
+        <div class="card-header">
+          <div>
+            <span class="step-pill">Passo 3</span>
+            <h2>Aplicar no Lattes ou Salvar para Teste</h2>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button type="button" class="btn btn-primary" id="btnSaveRecord">
+            💾 Salvar Registro Compartilhado
+          </button>
+          <button type="button" class="btn btn-primary" id="btnOpenLattes">
+            🚀 Enviar para o Lattes (guia passo a passo)
+          </button>
+          <button type="button" class="btn btn-accent" id="btnCopyLattesScript">
+            ⚡ Copiar Script Auto-Preenchimento Lattes
+          </button>
+          <button type="button" class="btn btn-secondary" id="btnExportJson">
+            📥 Baixar JSON
+          </button>
+        </div>
+
+        <ol id="lattesGuide" class="lattes-guide hidden">
+          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesFácil nunca os vê). Ao executar o script, ele confere se o currículo aberto é desse usuário e não preenche nada se for outro.</li>
+          <li class="guide-step" data-step="2"><span id="guideStep2" data-doi="">Vá em <em>Produções → Trabalhos publicados em anais de eventos → Incluir novo item</em> para abrir o formulário.</span></li>
+          <li class="guide-step" data-step="3">Pressione <code>F12</code> → aba <em>Console</em>, cole o script (já copiado para sua área de transferência) e tecle Enter.</li>
+          <li class="guide-step" data-step="4">Confira os campos, adicione autores/palavras-chave se faltarem e clique em <strong>Salvar</strong> no Lattes.</li>
+        </ol>
+
+        <div class="bookmarklet-box">
+          <p><strong>Como usar no Lattes em 5 segundos:</strong> Abra o formulário <em>Trabalhos publicados em anais de eventos</em> no Lattes já logado, clique em <strong>Copiar Script Auto-Preenchimento</strong>, abra o Console do navegador (<code>F12</code> → Console) no iframe do formulário e cole, ou arraste o botão abaixo para sua barra de favoritos:</p>
+          <a id="bookmarkletLink" class="bookmarklet-btn" href="#">✨ Preencher Lattes (Arraste aos Favoritos)</a>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

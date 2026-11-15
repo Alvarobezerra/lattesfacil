@@ -1,0 +1,80 @@
+{
+  "tipo": "Trabalhos publicados em anais de eventos",
+  "verificado_em": "2026-11-15",
+  "como_abrir": "Login Único CNPq -> Produções -> Trabalhos publicados em anais de eventos -> Incluir novo item",
+  "url_login": "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form",
+  "formulario": {
+    "url": "https://wwws.cnpq.br/cvlattesweb/pkg_trabalho.form?f_cod=<codigo_do_cv>&F_STA_DIVULGACAO_CIENTIFICA=&f_seq_ev=",
+    "frame": "iframe dentro de PKG_MENU.menu (mesma origem wwws.cnpq.br, acessível pelo Console)",
+    "salvar": "link 'Salvar' chama pre_check(); o LattesFácil nunca clica nele"
+  },
+  "campos": [
+    {"chave": "natureza", "rotulo": "Natureza", "name": "F_COD_PROD", "tipo": "radio", "opcoes": {"Completo": "121", "Resumo": "122", "Resumo Expandido": "123"}},
+    {"chave": "doi", "rotulo": "DOI", "name": "f_cod_doi", "tipo": "text", "maxlength": 250},
+    {"chave": "titulo", "rotulo": "Título", "name": "f_titulo", "tipo": "text", "maxlength": 400},
+    {"chave": "ano", "rotulo": "Ano", "name": "f_ano", "tipo": "text", "maxlength": 4},
+    {"chave": "pais", "rotulo": "País de publicação", "name": "f_pais", "tipo": "select", "opcoes": {"Brasil": "BRA", "Portugal": "POR"}, "observacao": "244 opções; mapeados só Brasil e Portugal"},
+    {"chave": "idioma", "rotulo": "Idioma", "name": "F_IDIOMA", "tipo": "select", "opcoes": {"Português": "PT", "Inglês": "EN"}, "observacao": "152 opções; ES/FR/DE/IT presumidos pelo padrão ISO e ainda não confirmados"},
+    {"chave": "meio_divulgacao", "rotulo": "Meio de divulgação", "name": "f_meio", "tipo": "select", "opcoes": {"Impresso": "I", "meio magnético": "M", "meio digital": "D", "filme": "F", "hipertexto": "H", "outro": "O", "impresso e mídia eletrônica": "V"}},
+    {"chave": "homepage", "rotulo": "Home page do trabalho (URL)", "name": "f_homepage", "tipo": "text", "maxlength": 250},
+    {"chave": "relevante", "rotulo": "É um dos 10 trabalhos mais relevantes?", "name": "F_RELEV", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "divulgacao_cientifica", "rotulo": "Produção para educação e popularização de C&T?", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "classificacao_evento", "rotulo": "Classificação do evento", "name": "f_tipo_evento", "tipo": "radio", "opcoes": {"Internacional": "I", "Nacional": "N", "Regional": "R", "Local": "L"}},
+    {"chave": "nome_evento", "rotulo": "Nome do evento", "name": "f_evento", "tipo": "text", "maxlength": 255},
+    {"chave": "cidade_evento", "rotulo": "Cidade do evento", "name": "f_cidade_evento", "tipo": "text", "maxlength": 30},
+    {"chave": "ano_evento", "rotulo": "Ano do evento", "name": "f_ano_evento", "tipo": "text", "maxlength": 4},
+    {"chave": "titulo_anais", "rotulo": "Título dos anais do evento", "name": "f_titulo_pub", "tipo": "text", "maxlength": 255},
+    {"chave": "volume", "rotulo": "Volume", "name": "f_volume", "tipo": "text", "maxlength": 6},
+    {"chave": "fasciculo", "rotulo": "Fascículo", "name": "f_fasciculo", "tipo": "text", "maxlength": 10},
+    {"chave": "serie", "rotulo": "Série", "name": "f_serie", "tipo": "text", "maxlength": 5},
+    {"chave": "pagina_inicial", "rotulo": "Página inicial", "name": "f_pag_ini", "tipo": "text", "maxlength": 15},
+    {"chave": "pagina_final", "rotulo": "Página final", "name": "f_pag_fim", "tipo": "text", "maxlength": 15},
+    {"chave": "isbn_issn", "rotulo": "ISBN/ISSN", "name": "f_isbn", "tipo": "text", "maxlength": 13, "regra": "somente dígitos (sem hífen); ISSN vira 8 dígitos"},
+    {"chave": "editora", "rotulo": "Nome da editora", "name": "f_editora", "tipo": "text", "maxlength": 100},
+    {"chave": "cidade_editora", "rotulo": "Cidade da editora", "name": "f_cidade_ed", "tipo": "text", "maxlength": 30},
+    {"chave": "outras_informacoes", "rotulo": "Outras informações relevantes", "name": "f_ref", "tipo": "textarea", "maxlength": 3950},
+    {"chave": "titulo_en", "rotulo": "Title (tradução)", "name": "f_titulo_en", "tipo": "text", "maxlength": 400},
+    {"chave": "outras_informacoes_en", "rotulo": "Other information (tradução)", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800},
+    {"chave": "visibilidade", "rotulo": "Visibilidade", "name": "(select sem name; espelha f_tipo_privacidade)", "tipo": "select", "opcoes": {"Público": "1", "Privado": "2"}, "status": "nao_automatizado"}
+  ],
+  "grades": {
+    "autores": {
+      "container": "#autorHolder",
+      "adicionar": "link 'Incluir novo' dentro de #autorHolder",
+      "campos": {"nome_completo": "#nomeAutor (max 60)", "nome_citacao": "#nomeAutorComoCitado (max 60)"},
+      "confirmar": "link 'confirmar' visível (o último)",
+      "resultado": "linha 'CITACAO (Nome completo)' na grade; ordem de autoria = ordem de inserção",
+      "campo_oculto": "f_autores_l (preenchido pelo Lattes)",
+      "status": "verificado"
+    },
+    "palavras_chave": {
+      "container": "#palavraHolder",
+      "adicionar": "link 'Incluir nova' dentro de #palavraHolder",
+      "campo": "input text sem name/id, maxlength 50, visível (o último)",
+      "confirmar": "link 'confirmar' visível (o último)",
+      "campo_oculto": "f_plv_l",
+      "status": "verificado"
+    },
+    "areas": {
+      "container": "#areaHolder",
+      "campo": "input texto maxlength 86 (o último input da grade) com autocompletar em .suggest-content",
+      "como_preencher": "digitar o nome da área, disparar keydown/keypress/input/keyup, esperar ~1,2 s e clicar na sugestão de texto IGUAL ao digitado (sem acentos/caixa)",
+      "observacao": "só áreas específicas (Parasitologia, Imunologia, Microbiologia, Farmacologia, Fisiologia, Bioquímica, Genética, Biologia Molecular, Toxicologia...). Grandes áreas como 'Ciências Biológicas' não aparecem como sugestão. 'Incluir nova' cria área nova e NÃO deve ser usada.",
+      "campo_oculto": "f_area_l",
+      "status": "verificado"
+    },
+    "setores": {
+      "container": "#setorHolder",
+      "campo": "input com autocompletar (códigos de atividade econômica, ex.: 'Atividades de atenção à Saúde humana')",
+      "campo_oculto": "f_setor_l",
+      "status": "nao_automatizado",
+      "observacao": "opcional no Lattes; não há dado equivalente no caderno de resumos"
+    }
+  },
+  "nao_confirmado": [
+    "Preenchimento de Setores de atividade (opcional)",
+    "Valores de F_IDIOMA para espanhol, francês, alemão e italiano",
+    "Valores de f_pais além de BRA e POR",
+    "Comportamento de campos obrigatórios ao clicar em Salvar (o teste nunca salva)"
+  ]
+}

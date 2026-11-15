@@ -1,0 +1,39 @@
+{
+  "tipo": "Apresentação de trabalho e palestra (Produção técnica)",
+  "verificado_em": "2026-11-15",
+  "como_abrir": "Produções -> Produção técnica -> Apresentação de trabalho e palestra -> Incluir novo item",
+  "formulario": {
+    "url": "https://wwws.cnpq.br/cvlattesweb/prc_tec_apres?f_cod=<codigo_do_cv>",
+    "lista": "prc_tec_demais_lista?f_cod_tipo=2J",
+    "frame": "iframe dentro de PKG_MENU.menu (mesma origem wwws.cnpq.br)",
+    "salvar": "link 'Salvar' chama check(); o LattesFácil nunca clica nele"
+  },
+  "campos": [
+    {"chave": "natureza", "rotulo": "Natureza", "name": "F_COD_PROD", "tipo": "radio", "opcoes": {"Comunicação": "2J1", "Conferência ou palestra": "2J2", "Congresso": "2J3", "Seminário": "2J4", "Simpósio": "2J5", "Outra": "2J9"}},
+    {"chave": "titulo", "rotulo": "Título", "name": "f_titulo", "tipo": "text", "maxlength": 400},
+    {"chave": "ano", "rotulo": "Ano", "name": "f_ano", "tipo": "text", "maxlength": 4},
+    {"chave": "pais", "rotulo": "País de publicação", "name": "f_pais", "tipo": "select", "opcoes": {"Brasil": "BRA"}},
+    {"chave": "idioma", "rotulo": "Idioma", "name": "F_IDIOMA", "tipo": "select", "opcoes": {"Português": "PT", "Inglês": "EN"}},
+    {"chave": "meio_divulgacao", "rotulo": "Meio de divulgação", "name": "f_meio", "tipo": "select", "opcoes": {"Impresso": "I", "meio magnético": "M", "meio digital": "D", "filme": "F", "hipertexto": "H", "outro": "O", "impresso e mídia eletrônica": "V"}},
+    {"chave": "homepage", "rotulo": "Home page do trabalho (URL)", "name": "f_homepage", "tipo": "text", "maxlength": 250},
+    {"chave": "relevante", "rotulo": "Um dos 10 trabalhos mais relevantes?", "name": "F_RELEV", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "divulgacao_cientifica", "rotulo": "Educação e popularização de C&T?", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "nome_evento", "rotulo": "Nome do evento", "name": "f_nme_evento", "tipo": "text", "maxlength": 255},
+    {"chave": "instituicao_promotora", "rotulo": "Instituição promotora", "name": "f_inst", "tipo": "text", "maxlength": 255},
+    {"chave": "local_evento", "rotulo": "Local", "name": "f_local", "tipo": "text", "maxlength": 255},
+    {"chave": "cidade_evento", "rotulo": "Cidade", "name": "f_cidade", "tipo": "text", "maxlength": 255},
+    {"chave": "outras_informacoes", "rotulo": "Outras informações relevantes", "name": "f_ref", "tipo": "textarea", "maxlength": 3950},
+    {"chave": "titulo_en", "rotulo": "Title (tradução)", "name": "f_titulo_en", "tipo": "text", "maxlength": 400},
+    {"chave": "outras_informacoes_en", "rotulo": "Other information (tradução)", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800}
+  ],
+  "grades": {
+    "autores": "igual ao formulário de anais: #autorHolder, 'Incluir novo', #nomeAutor, #nomeAutorComoCitado, 'confirmar'",
+    "palavras_chave": "igual ao de anais: #palavraHolder, 'Incluir nova', input maxlength 50, 'confirmar'",
+    "areas": "igual ao de anais: #areaHolder, autocompletar, clicar na sugestão de nome idêntico",
+    "setores": "#setorHolder (não automatizado)"
+  },
+  "observacoes": [
+    "Não existe campo próprio para 'forma de apresentação' (oral/pôster): vai em Outras informações relevantes.",
+    "Não existe campo de datas do evento; só ano, cidade e local."
+  ]
+}

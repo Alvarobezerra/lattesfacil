@@ -1,0 +1,43 @@
+{
+  "tipo": "Orientações e supervisões (concluídas e em andamento)",
+  "verificado_em": "2026-11-15",
+  "como_abrir": "Orientações -> Orientações e supervisões concluídas (ou em andamento) -> Incluir novo item (o formulário abre direto)",
+  "formulario": {
+    "url": "https://wwws.cnpq.br/cvlattesweb/pkg_orient.form?f_cod=<codigo_do_cv>&f_tipo=C  (C = concluídas, A = em andamento)",
+    "frame": "iframe dentro de PKG_MENU.menu (mesma origem wwws.cnpq.br); janelas auxiliares são iframes do documento de topo",
+    "salvar": "link 'Salvar' chama pre_check(); o LattesFácil nunca clica nele"
+  },
+  "natureza": {
+    "name": "F_COD_PROD",
+    "tipo": "radio",
+    "concluidas": {"Dissertação de mestrado": "41", "Tese de doutorado": "42", "Monografia de conclusão de curso de aperfeiçoamento/especialização": "43", "Trabalho de conclusão de curso de graduação": "44", "Iniciação Científica": "45", "Supervisão de pós-doutorado": "46", "Orientação de outra natureza": "49"},
+    "em_andamento": "mesmos códigos com prefixo A: A41, A42, A43, A44, A45, A46, A49"
+  },
+  "campos": [
+    {"chave": "tipo_mestrado", "rotulo": "Tipo (só dissertação de mestrado)", "name": "f_dsc_outra", "tipo": "text somente leitura com lupa", "como_preencher": "chamar atribui('29#Acadêmico') ou atribui('30#Profissional') na janela do formulário"},
+    {"chave": "titulo", "rotulo": "Título do trabalho orientado", "name": "f_titulo", "tipo": "text", "maxlength": 400},
+    {"chave": "ano", "rotulo": "Ano de término da orientação (em andamento: ano de início)", "name": "f_ano", "tipo": "text", "maxlength": 4},
+    {"chave": "pais", "rotulo": "País", "name": "f_pais", "tipo": "select", "opcoes": {"Brasil": "BRA"}},
+    {"chave": "idioma", "rotulo": "Idioma", "name": "F_IDIOMA", "tipo": "select", "opcoes": {"Português": "PT", "Inglês": "EN"}},
+    {"chave": "homepage", "rotulo": "Home page do trabalho (URL)", "name": "f_homepage", "tipo": "text", "maxlength": 250},
+    {"chave": "relevante", "rotulo": "Um dos 10 trabalhos mais relevantes?", "name": "F_RELEV", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "papel_orientacao", "rotulo": "Tipo de orientação (só mestrado e doutorado)", "name": "f_tpo_orient", "tipo": "radio", "opcoes": {"Orientador principal": "O", "Coorientador": "C"}},
+    {"chave": "nome_orientando", "rotulo": "Nome do orientando", "name": "f_nme_orient", "tipo": "text", "maxlength": 60},
+    {"chave": "instituicao_orient", "rotulo": "Instituição", "name": "f_inst", "tipo": "text desabilitado; escolhido por busca", "oculto": "f_cod_inst (código)", "como_preencher": "chamar sele_inst() na janela do formulário (exige natureza marcada); no iframe prc_inst_form digitar em input[name=f_nome], chamar recuperaInstMacro() e clicar no link cujo href é seleciona('<codigo>','<nome>') com nome IGUAL ao pedido (existem duplicatas com acentuação quebrada, ex.: 'MaranhÃ£o')"},
+    {"chave": "curso_orient", "rotulo": "Curso", "name": "f_curso", "tipo": "text desabilitado; escolhido em lista", "oculto": "f_cod_curso", "como_preencher": "depois da instituição, chamar curso(); no iframe prc_curso_form escolher a option de select[name=f_curso] cujo texto (sem o código entre parênteses) é igual ao pedido e chamar selecionar(). Não se aplica a 'Supervisão de pós-doutorado'"},
+    {"chave": "bolsa", "rotulo": "Com bolsa?", "name": "F_BOLSA", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "agencia", "rotulo": "Agência financiadora", "name": "f_nme_agencia", "tipo": "text", "maxlength": 75, "observacao": "escolhida por janela prc_agencia; não automatizado"},
+    {"chave": "outras_informacoes", "rotulo": "Outras informações relevantes", "name": "f_ref", "tipo": "textarea", "maxlength": 3950},
+    {"chave": "titulo_en", "rotulo": "Title (tradução)", "name": "f_titulo_en", "tipo": "text", "maxlength": 400}
+  ],
+  "grades": {
+    "palavras_chave": "#palavraHolder, 'Incluir nova', input maxlength 50, 'confirmar'",
+    "areas": "#areaHolder, autocompletar, clicar na sugestão de nome idêntico",
+    "setores": "#setorHolder (não automatizado)"
+  },
+  "dados_capes": "capesdados() abre prc_dados_orient para importar dissertações/teses do banco da CAPES (só mestrado e doutorado); não automatizado",
+  "validacoes_do_lattes": [
+    "Natureza deve ser marcada antes de escolher instituição e curso ('Informe a natureza.')",
+    "Trocar a natureza depois de escolher instituição/curso limpa os dois (confirmação do Lattes)"
+  ]
+}

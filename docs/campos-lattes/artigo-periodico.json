@@ -1,0 +1,51 @@
+{
+  "tipo": "Artigos completos publicados em periódicos (Produção bibliográfica)",
+  "verificado_em": "2026-11-15",
+  "como_abrir": "Produções -> Produção bibliográfica -> Artigos completos publicados em periódicos -> Incluir novo item -> informar DOI/ISSN/nome do periódico -> Confirmar",
+  "formulario": {
+    "url": "https://wwws.cnpq.br/cvlattesweb/PKG_ARTIGO.form?f_sta_divulgacao_cientifica=&F_COD_DOI=<doi>",
+    "lista": "pkg_artigo.lista",
+    "frame": "iframe dentro de PKG_MENU.menu (mesma origem wwws.cnpq.br)",
+    "salvar": "link 'Salvar' chama pre_check(); o LattesFácil nunca clica nele",
+    "natureza": "campo oculto F_COD_PROD=111 (não há escolha de natureza)"
+  },
+  "recuperacao_por_doi": {
+    "como": "preencher input[name=f_cod_doi] e chamar window.call_doi() no iframe do formulário (alert() deve ser capturado)",
+    "preenche": ["f_titulo", "f_ano", "F_IDIOMA", "f_meio", "f_titulo_periodico", "f_issn", "f_volume", "f_serie", "f_pag_ini", "f_jcr (somente leitura)"],
+    "ocultos_preenchidos": ["f_origem_ws=NOVO", "f_seq_per (id do periódico no cadastro do Lattes)", "f_hash_doi"],
+    "nao_preenche": ["autores", "palavras-chave", "áreas", "f_pag_fim", "outras informações"],
+    "validacoes": [
+      "DOI de livro é recusado: 'Este DOI não é de artigo, é um DOI de livro' (visto com 10.1038/nature14539)",
+      "DOI já cadastrado em outra produção é recusado",
+      "DOI deve começar com '10.' e conter '/'"
+    ],
+    "tempo": "cerca de 5 a 8 s"
+  },
+  "campos": [
+    {"chave": "doi", "rotulo": "DOI", "name": "f_cod_doi", "tipo": "text", "maxlength": 250},
+    {"chave": "titulo", "rotulo": "Título", "name": "f_titulo", "tipo": "text", "maxlength": 400},
+    {"chave": "ano", "rotulo": "Ano", "name": "f_ano", "tipo": "text", "maxlength": 4},
+    {"chave": "idioma", "rotulo": "Idioma", "name": "F_IDIOMA", "tipo": "select", "opcoes": {"Português": "PT", "Inglês": "EN"}},
+    {"chave": "meio_divulgacao", "rotulo": "Meio de divulgação", "name": "f_meio", "tipo": "select", "opcoes": {"Impresso": "I", "meio digital": "D", "Impresso e mídia eletrônica": "V"}},
+    {"chave": "homepage", "rotulo": "Home page do trabalho (URL)", "name": "f_homepage", "tipo": "text", "maxlength": 250},
+    {"chave": "relevante", "rotulo": "Um dos 10 trabalhos mais relevantes?", "name": "F_RELEV", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "divulgacao_cientifica", "rotulo": "Educação e popularização de C&T?", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "opcoes": {"sim": "S", "não": "N"}},
+    {"chave": "periodico", "rotulo": "Título do periódico", "name": "f_titulo_periodico", "tipo": "text", "status": "desabilitado: só preenchido pela recuperação por DOI ou pela lupa (prc_periodico_jcr); oculto f_seq_per guarda o id"},
+    {"chave": "jcr", "rotulo": "Fator de impacto (JCR)", "name": "f_jcr", "tipo": "text", "status": "desabilitado, vem do periódico"},
+    {"chave": "issn", "rotulo": "ISSN", "name": "f_issn", "tipo": "text", "maxlength": 10},
+    {"chave": "volume", "rotulo": "Volume", "name": "f_volume", "tipo": "text", "maxlength": 6},
+    {"chave": "serie", "rotulo": "Série", "name": "f_serie", "tipo": "text", "maxlength": 5, "observacao": "o Lattes pode colocar o número (issue) aqui"},
+    {"chave": "pagina_inicial", "rotulo": "Página inicial / Número artigo eletrônico", "name": "f_pag_ini", "tipo": "text", "maxlength": 15},
+    {"chave": "pagina_final", "rotulo": "Página final", "name": "f_pag_fim", "tipo": "text", "maxlength": 15},
+    {"chave": "outras_informacoes", "rotulo": "Outras informações relevantes", "name": "f_ref", "tipo": "textarea", "maxlength": 3950},
+    {"chave": "titulo_en", "rotulo": "Title (tradução)", "name": "f_titulo_en", "tipo": "text", "maxlength": 400},
+    {"chave": "outras_informacoes_en", "rotulo": "Other information (tradução)", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800}
+  ],
+  "grades": {
+    "autores": "igual aos outros formulários: #autorHolder, 'Incluir novo', #nomeAutor, #nomeAutorComoCitado, 'confirmar'",
+    "palavras_chave": "igual: #palavraHolder, 'Incluir nova', input maxlength 50, 'confirmar'",
+    "areas": "igual: #areaHolder, autocompletar",
+    "setores": "#setorHolder (não automatizado)"
+  },
+  "sem_doi": "Sem DOI o periódico precisa ser escolhido na lupa (prc_periodico_jcr) ou pelo ISSN/nome no diálogo inicial; não automatizado."
+}

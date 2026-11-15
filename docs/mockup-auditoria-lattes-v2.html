@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lattes Shield | Central de Conformidade e Auditoria Acadêmica</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-emerald {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.03); }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .tab-active {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+      border-color: #0f172a !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- Topbar Minimalista e Iluminada -->
+  <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 text-lg">
+        ✦
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-sm tracking-tight text-slate-900">LATTES SHIELD</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            AUDITORIA OFICIAL
+          </span>
+        </div>
+        <span class="text-[11px] text-slate-400 block -mt-0.5">Em conformidade com a Portaria CNPq 2.664/2026 e CAPES Sucupira</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>Pesquisador: <strong>Aramys Silva dos Reis</strong></span>
+      </div>
+      <button onclick="abrirCheckout()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5">
+        <span>🛡️</span>
+        <span>Blindar Currículo</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Layout Principal: Split-Screen Command Center -->
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- ================= COLUNA ESQUERDA: Raio-X & Ação (4 colunas) ================= -->
+      <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+        
+        <!-- Card 1: Score de Saúde Acadêmica -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm relative overflow-hidden">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Índice de Saúde Lattes</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-50 text-amber-800 border border-amber-200">
+              Atenção
+            </span>
+          </div>
+
+          <!-- Gauge Circular Luminoso -->
+          <div class="py-6 flex flex-col items-center justify-center relative">
+            <div class="relative w-40 h-40 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" stroke="#f1f5f9" stroke-width="7" class="fill-none" />
+                <circle cx="50" cy="50" r="42" stroke="#10b981" stroke-width="7" stroke-dasharray="263.8" stroke-dashoffset="73.8" stroke-linecap="round" class="fill-none shadow-sm transition-all duration-1000" />
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span class="text-4xl font-black text-slate-900 tracking-tight">72</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">De 100</span>
+              </div>
+            </div>
+            <p class="text-xs text-center text-slate-600 mt-2 max-w-xs">
+              <strong class="text-slate-900">19 inconsistências</strong> detectadas. Você pode elevar seu score para <strong>98/100</strong> hoje.
+            </p>
+          </div>
+
+          <!-- Breakdown por Dimensões -->
+          <div class="space-y-3 pt-2 border-t border-slate-100 text-xs">
+            <div>
+              <div class="flex justify-between text-slate-600 mb-1">
+                <span class="font-medium">DOIs em Artigos</span>
+                <span class="font-bold text-rose-600">80% (12 pendentes)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-rose-500 h-full w-[80%] rounded-full"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-600 mb-1">
+                <span class="font-medium">Projetos & Relatórios</span>
+                <span class="font-bold text-amber-600">79% (7 vencidos)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-amber-500 h-full w-[79%] rounded-full"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-600 mb-1">
+                <span class="font-medium">Patentes e Inovação</span>
+                <span class="font-bold text-emerald-600">85% (3 INPI)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full w-[85%] rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Perfil do Pesquisador -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-4 text-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-black text-base shadow-sm">
+              AS
+            </div>
+            <div>
+              <h2 class="text-sm font-extrabold text-slate-900">Prof. Dr. Aramys Silva dos Reis</h2>
+              <span class="text-slate-500 block">UFMA • Medicina / Coord. PPGST</span>
+              <span class="text-slate-400 font-mono text-[10px] block mt-0.5">Lattes: 1040580590566490</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px]">Artigos Periódicos</span>
+              <span class="font-bold text-slate-900 text-sm">61</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px]">Fator H (WoS)</span>
+              <span class="font-bold text-emerald-700 text-sm">16</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px]">Patentes Depositadas</span>
+              <span class="font-bold text-slate-900 text-sm">3</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px]">Projetos Totais</span>
+              <span class="font-bold text-slate-900 text-sm">34</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Call to Action de Conversão Rápida -->
+        <div class="bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-700 text-white rounded-3xl p-6 shadow-xl shadow-emerald-600/20 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider">
+              Solução Imediata
+            </span>
+          </div>
+          <h3 class="text-lg font-black leading-snug">
+            Corrija todas as 19 inconsistências agora.
+          </h3>
+          <p class="text-xs text-emerald-50 leading-relaxed">
+            O LattesFácil recupera os DOIs oficiais da CrossRef e gera o script de preenchimento automático para o seu currículo em segundos.
+          </p>
+          <div class="pt-2">
+            <button onclick="abrirCheckout()" class="w-full py-3.5 rounded-2xl bg-white hover:bg-emerald-50 text-slate-900 font-extrabold text-xs shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <span>✦</span> BLINDAR POR R$ 97,00
+            </button>
+            <span class="text-[10px] text-emerald-100 text-center block mt-2">Sem mensalidade • Garantia de satisfação</span>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ================= COLUNA DIREITA: Feed Interativo de Auditoria (8 colunas) ================= -->
+      <main class="lg:col-span-8 space-y-6">
+
+        <!-- Barra de Impacto e Métricas de Recuperação -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Impacto na CAPES & CNPq</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-2xl font-black text-rose-600 font-mono">-180 Pontos</span>
+              <span class="text-xs text-slate-500 font-medium">em risco no quadriênio do PPGST</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1">
+              Tempo de correção manual estimado: <strong class="text-slate-900">14 horas</strong> • Com LattesFácil: <strong class="text-emerald-700">10 minutos</strong>.
+            </p>
+          </div>
+          <div class="sm:text-right shrink-0">
+            <button onclick="abrirCheckout()" class="px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all shadow-sm">
+              Recuperar Pontuação
+            </button>
+          </div>
+        </div>
+
+        <!-- Abas de Filtro Reativo -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scroll text-xs">
+          <button onclick="filtrar('todas', this)" class="tab-btn tab-active px-4 py-2 rounded-xl border border-slate-300 font-bold whitespace-nowrap transition-all">
+            Todas as Pendências (19)
+          </button>
+          <button onclick="filtrar('doi', this)" class="tab-btn bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 font-bold whitespace-nowrap transition-all">
+            🚨 12 DOIs Faltantes
+          </button>
+          <button onclick="filtrar('projeto', this)" class="tab-btn bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 font-bold whitespace-nowrap transition-all">
+            ⏳ 7 Projetos Vencidos
+          </button>
+          <button onclick="filtrar('patente', this)" class="tab-btn bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 font-bold whitespace-nowrap transition-all">
+            💡 3 Patentes INPI
+          </button>
+          <button onclick="filtrar('discente', this)" class="tab-btn bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 font-bold whitespace-nowrap transition-all">
+            👥 Coautoria PPG
+          </button>
+        </div>
+
+        <!-- Lista de Itens Auditados -->
+        <div id="lista-pendencias" class="space-y-3">
+
+          <!-- Item 1: DOIs Faltantes -->
+          <div class="item-pendencia card-doi bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-slate-300 shadow-sm transition-all space-y-3">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-black text-base border border-rose-200 shrink-0">
+                  ✕
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="text-sm font-extrabold text-slate-900">12 Artigos Periódicos sem Link DOI no Lattes</h4>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                      RISCO CRÍTICO • SUCUPIRA
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Artigos sem identificador DOI não são coletados automaticamente pela CAPES, gerando necessidade de coleta manual e frequente descarte na avaliação do quadriênio do PPGST.
+                  </p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-rose-600 font-mono font-bold text-xs block">-120 pts</span>
+                <span class="text-[10px] text-slate-400">Quadriênio CAPES</span>
+              </div>
+            </div>
+
+            <!-- Solução e Ação Inline -->
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-emerald-800">
+                <span>✦</span>
+                <span class="font-medium">O LattesFácil localizou os 12 DOIs correspondentes na base CrossRef oficial.</span>
+              </div>
+              <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
+                Aplicar Correção →
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 2: Projetos Vencidos -->
+          <div class="item-pendencia card-projeto bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-slate-300 shadow-sm transition-all space-y-3">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-black text-base border border-amber-200 shrink-0">
+                  ⏳
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="text-sm font-extrabold text-slate-900">7 Projetos de Pesquisa com Vigência Expirada sem Baixa</h4>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                      PORTARIA CNPq 2.664/2026
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Projetos financiados (FAPEMA/CNPq) iniciados antes de 2021 continuam registrados com a flag <em>"Em andamento"</em>, ferindo o Art. 8º da nova norma de atualização fidedigna do CNPq.
+                  </p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-amber-700 font-mono font-bold text-xs block">Risco Edital</span>
+                <span class="text-[10px] text-slate-400">Diligência CNPq</span>
+              </div>
+            </div>
+
+            <!-- Solução e Ação Inline -->
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-emerald-800">
+                <span>✦</span>
+                <span class="font-medium">O LattesFácil sugere o encerramento da vigência e vinculação aos artigos resultantes.</span>
+              </div>
+              <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
+                Encerrar Vigências →
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 3: Patentes INPI -->
+          <div class="item-pendencia card-patente bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-slate-300 shadow-sm transition-all space-y-3">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-black text-base border border-blue-200 shrink-0">
+                  💡
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="text-sm font-extrabold text-slate-900">3 Patentes INPI sem Padronização no Código de Depósito</h4>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">
+                      INOVAÇÃO TECNOLÓGICA
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Os depósitos de privilégio de invenção (Kombucha de vinagreira, complexos de cobre e bebidas de babaçu) utilizam formatos divergentes de número de processo no formulário.
+                  </p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-blue-700 font-mono font-bold text-xs block">Destaque</span>
+                <span class="text-[10px] text-slate-400">Farmácia / Biotec</span>
+              </div>
+            </div>
+
+            <!-- Solução e Ação Inline -->
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-emerald-800">
+                <span>✦</span>
+                <span class="font-medium">Formatação automática no padrão oficial brasileiro BR10...</span>
+              </div>
+              <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
+                Padronizar →
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 4: Coautoria Discente PPG -->
+          <div class="item-pendencia card-discente bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-slate-300 shadow-sm transition-all space-y-3">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-black text-base border border-purple-200 shrink-0">
+                  👥
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="text-sm font-extrabold text-slate-900">Coautoria de Orientandos não Vinculada nas Produções do Quadriênio</h4>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-800 border border-purple-200">
+                      FICHA CAPES QUESITO 2
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Artigos produzidos com alunos e egressos do PPG em Saúde e Tecnologia não trazem a anotação formal exigida pela comissão de área para pontuação de inserção discente.
+                  </p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-purple-700 font-mono font-bold text-xs block">Nota PPG</span>
+                <span class="text-[10px] text-slate-400">Avaliação CAPES</span>
+              </div>
+            </div>
+
+            <!-- Solução e Ação Inline -->
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-emerald-800">
+                <span>✦</span>
+                <span class="font-medium">O LattesFácil cruza sua lista de alunos orientados com os autores dos artigos.</span>
+              </div>
+              <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
+                Vincular Alunos →
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Banner Comparador Visual: Sem LattesFácil vs Com LattesFácil -->
+        <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                Garantia de 100% de Fidedignidade
+              </span>
+              <h3 class="text-xl font-black">Pronto para ter seu Lattes 100% Blindado?</h3>
+              <p class="text-xs text-slate-300 max-w-lg leading-relaxed">
+                Você não precisa gastar o seu fim de semana navegando em dezenas de páginas antigas do CNPq. O LattesFácil resolve tudo com segurança.
+              </p>
+            </div>
+            <button onclick="abrirCheckout()" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 active:scale-95 shrink-0">
+              BLINDAR MEU LATTES AGORA
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Modal de Checkout / Ativação -->
+  <div id="checkout-modal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-7 text-center space-y-4 shadow-2xl relative">
+      <button onclick="fecharModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
+      
+      <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl mx-auto font-black shadow-inner">
+        ✦
+      </div>
+      
+      <h3 class="text-lg font-black text-slate-900">Ativação Lattes Shield</h3>
+      <p class="text-xs text-slate-600">
+        Você está a um passo de resolver as 19 inconsistências do currículo de <strong>Prof. Dr. Aramys Silva dos Reis</strong>.
+      </p>
+
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2.5">
+        <div class="flex justify-between text-slate-600">
+          <span>Serviço Selecionado:</span>
+          <span class="font-bold text-slate-900">Blindagem & Autocompletar DOIs</span>
+        </div>
+        <div class="flex justify-between text-slate-600">
+          <span>Tempo de Execução:</span>
+          <span class="text-emerald-700 font-bold">Menos de 10 minutos</span>
+        </div>
+        <div class="border-t border-slate-200 pt-2 flex justify-between font-extrabold text-slate-900 text-sm">
+          <span>Valor do Acesso:</span>
+          <span class="text-emerald-700 text-base">R$ 97,00</span>
+        </div>
+      </div>
+
+      <button onclick="finalizarCompra()" class="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs transition-all shadow-lg shadow-emerald-600/20">
+        PROSSEGUIR COM SEGURANÇA
+      </button>
+      <p class="text-[10px] text-slate-400">Pagamento único • Sem assinaturas recorrentes em dólar</p>
+    </div>
+  </div>
+
+  <script>
+    function filtrar(tipo, btn) {
+      // Atualiza estilo das abas
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('tab-active');
+        b.classList.add('bg-white', 'text-slate-700');
+      });
+      btn.classList.add('tab-active');
+      btn.classList.remove('bg-white', 'text-slate-700');
+
+      // Filtra os itens
+      const itens = document.querySelectorAll('.item-pendencia');
+      itens.forEach(item => {
+        if (tipo === 'todas') {
+          item.style.display = 'block';
+        } else if (item.classList.contains('card-' + tipo)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function abrirCheckout() {
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
+    function fecharModal() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+    function finalizarCompra() {
+      alert('Mockup Comercial: Redirecionando para o gateway de pagamento (Pix / Cartão).');
+      fecharModal();
+    }
+  </script>
+</body>
+</html>

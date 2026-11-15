@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lattes Shield | Diagnóstico de Conformidade Acadêmica</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-light {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.85; }
+    }
+    .card-clean {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    }
+    .glow-light {
+      box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.15);
+    }
+    .glow-warning {
+      box-shadow: 0 10px 30px -5px rgba(245, 158, 11, 0.12);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-blue-50/50 via-white to-slate-50 text-slate-800 font-sans antialiased min-h-screen p-4 md:p-8">
+
+  <!-- Top Banner / Scanner Status Bar (Claro & Iluminado) -->
+  <header class="max-w-5xl mx-auto mb-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white/95 border border-slate-200 shadow-md backdrop-blur-md">
+      <div class="flex items-center gap-3.5">
+        <div class="h-11 w-11 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 flex items-center justify-center font-bold text-xl text-white shadow-md shadow-emerald-500/20">
+          🛡️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base tracking-tight text-slate-900">LATTES SHIELD AUDITOR</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+              Varredura Concluída
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">Clareza e conformidade com a Portaria CNPq 2.664/2026 e Diretrizes CAPES Sucupira</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <div class="text-right">
+          <span class="text-slate-400 block text-[10px] font-semibold uppercase tracking-wider">Status do Diagnóstico</span>
+          <span class="text-amber-700 font-bold flex items-center gap-1.5 justify-end">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            19 Inconsistências Detectadas
+          </span>
+        </div>
+        <button onclick="scrollToCTA()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold shadow-lg shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95 text-xs">
+          Blindar Currículo Agora
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto space-y-8">
+
+    <!-- Card Principal: Dados do Pesquisador + Medidor de Saúde -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Detalhes do Pesquisador (Luminoso e Acadêmico) -->
+      <div class="lg:col-span-2 p-7 rounded-3xl card-clean relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute -right-20 -top-20 w-72 h-72 bg-blue-100/50 rounded-full blur-3xl pointer-events-none"></div>
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+            <div class="flex items-center gap-3.5">
+              <div class="w-13 h-13 p-3 rounded-2xl bg-blue-50 border border-blue-200/80 flex items-center justify-center text-blue-700 font-black text-lg shadow-sm">
+                AS
+              </div>
+              <div>
+                <h1 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                  Prof. Dr. Aramys Silva dos Reis
+                  <span class="text-emerald-700 text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 font-semibold">CV Auditado</span>
+                </h1>
+                <p class="text-xs text-slate-600 mt-0.5">Universidade Federal do Maranhão (UFMA) • Coord. PPG em Saúde e Tecnologia</p>
+              </div>
+            </div>
+            <div class="hidden sm:block text-right">
+              <span class="text-[11px] text-slate-500 font-mono block">ID Lattes: 1040580590566490</span>
+              <span class="text-[11px] text-slate-400">Atualização no CNPq: 23/08/2026</span>
+            </div>
+          </div>
+
+          <!-- Métricas Resumidas -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs mb-5">
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <span class="text-slate-500 block text-[11px] font-medium">Artigos em Periódicos</span>
+              <span class="text-lg font-black text-slate-900">61</span>
+              <span class="text-[10px] text-rose-600 font-semibold block mt-0.5">⚠️ 12 sem DOI</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <span class="text-slate-500 block text-[11px] font-medium">Patentes Registradas</span>
+              <span class="text-lg font-black text-slate-900">3 INPI</span>
+              <span class="text-[10px] text-blue-700 font-semibold block mt-0.5">Inovação Tecnológica</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <span class="text-slate-500 block text-[11px] font-medium">Projetos de Pesquisa</span>
+              <span class="text-lg font-black text-slate-900">34</span>
+              <span class="text-[10px] text-amber-700 font-semibold block mt-0.5">⚠️ 7 com prazo vencido</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <span class="text-slate-500 block text-[11px] font-medium">Fator H (WoS)</span>
+              <span class="text-lg font-black text-emerald-700">16</span>
+              <span class="text-[10px] text-slate-500 font-semibold block mt-0.5">702 citações totais</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta de Segurança e Luz sobre os Riscos -->
+        <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 flex items-start gap-3 mt-1">
+          <div class="p-2 rounded-xl bg-amber-100 text-amber-800 text-base font-bold shrink-0">
+            ☀️
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-amber-900">Iluminando os Pontos Cegos do seu Currículo</h4>
+            <p class="text-[11px] text-amber-800/90 mt-0.5 leading-relaxed">
+              Com as novas regras da <strong>Portaria CNPq nº 2.664/2026</strong>, produções sem comprovação digital (DOI) e projetos vencidos sem relatório são alvos automáticos de diligência em editais de bolsas de Produtividade e avaliações quadrienais da CAPES.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medidor de Saúde / Risco (Claro & Alto Contraste) -->
+      <div class="p-7 rounded-3xl card-clean flex flex-col items-center justify-between text-center glow-warning">
+        <div class="w-full flex justify-between items-center text-xs text-slate-500 mb-1">
+          <span class="font-bold tracking-wider uppercase text-[10px]">Índice de Conformidade</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 border border-amber-300 font-bold">
+            Atenção Necessária
+          </span>
+        </div>
+
+        <!-- Gauge Circular -->
+        <div class="relative my-3 flex items-center justify-center">
+          <svg class="w-44 h-44 transform -rotate-90" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" class="fill-none" />
+            <circle cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="70" stroke-linecap="round" class="fill-none transition-all duration-1000 shadow-sm" />
+          </svg>
+          <div class="absolute flex flex-col items-center">
+            <span class="text-5xl font-black text-slate-900 tracking-tight">72</span>
+            <span class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">De 100 Pontos</span>
+          </div>
+        </div>
+
+        <div class="w-full space-y-2">
+          <div class="flex justify-between text-xs text-slate-600 font-medium">
+            <span>Pontos em risco na CAPES:</span>
+            <span class="text-rose-600 font-bold font-mono">-180 pts</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200">
+            <div class="bg-gradient-to-r from-amber-400 to-emerald-500 h-full w-[72%] rounded-full"></div>
+          </div>
+          <p class="text-[11px] text-slate-600 mt-2">
+            72% do currículo está regular. <strong class="text-amber-800">28% possui falhas cadastrais</strong> que podem ser corrigidas automaticamente.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Inconsistências / Diagnóstico Claro -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <h2 class="text-lg font-extrabold text-slate-900">Diagnóstico Detalhado de Vulnerabilidades</h2>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+            4 Áreas de Atenção
+          </span>
+        </div>
+        <span class="text-xs text-slate-500 hidden sm:inline">Tempo estimado para correção manual: <strong>14 horas</strong></span>
+      </div>
+
+      <div class="space-y-3">
+
+        <!-- Item 1: DOIs Faltantes -->
+        <div class="p-5 rounded-2xl bg-white border border-rose-200 hover:border-rose-400 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-rose-50 text-rose-600 border border-rose-200 text-lg font-bold shrink-0 mt-0.5 sm:mt-0">
+              🚨
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="text-sm font-extrabold text-slate-900">12 Artigos Científicos sem Link DOI no Lattes</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">RISCO ALTO • SUCUPIRA</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed max-w-2xl">
+                O Sucupira/CAPES importa automaticamente a produção intelectual do quadriênio do PPGST a partir do DOI. Artigos sem esse identificador exigem digitação manual e sofrem frequente descarte na avaliação do programa.
+              </p>
+              <div class="mt-2 flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+                <span>Afeta produções publicadas em periódicos de 2014, 2016 e 2018</span>
+              </div>
+            </div>
+          </div>
+          <div class="sm:text-right shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <span class="text-rose-600 font-mono text-xs font-black block mb-0.5">Impacto: -120 pts CAPES</span>
+            <span class="text-[11px] text-emerald-700 font-medium block">Solução: Inserção Automática CrossRef</span>
+          </div>
+        </div>
+
+        <!-- Item 2: Projetos Vencidos -->
+        <div class="p-5 rounded-2xl bg-white border border-amber-200 hover:border-amber-400 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200 text-lg font-bold shrink-0 mt-0.5 sm:mt-0">
+              ⏳
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="text-sm font-extrabold text-slate-900">7 Projetos Financiados (FAPEMA/CNPq) com Período Vencido em Aberto</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">ALERTA CNPq</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed max-w-2xl">
+                Projetos com vigência encerrada continuam sinalizados como <em>"Em andamento"</em> sem data de término ou associação com os produtos e orientações geradas.
+              </p>
+              <div class="mt-2 flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+                <span>Exigência: Art. 8º da Portaria CNPq 2.664/2026 (Atualização e Fidedignidade das Informações)</span>
+              </div>
+            </div>
+          </div>
+          <div class="sm:text-right shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <span class="text-amber-700 font-mono text-xs font-black block mb-0.5">Risco de Glosa em Editais</span>
+            <span class="text-[11px] text-emerald-700 font-medium block">Solução: Fechamento de Vigência</span>
+          </div>
+        </div>
+
+        <!-- Item 3: Patentes INPI -->
+        <div class="p-5 rounded-2xl bg-white border border-blue-200 hover:border-blue-400 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-blue-50 text-blue-700 border border-blue-200 text-lg font-bold shrink-0 mt-0.5 sm:mt-0">
+              💡
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="text-sm font-extrabold text-slate-900">Patentes de Inovação sem Código Padronizado do INPI</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">VALORIZAÇÃO TÉCNICA</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed max-w-2xl">
+                As 3 patentes de privilégio de invenção (Kombucha de vinagreira, complexos de cobre e bebidas de babaçu) estão cadastradas com formatações diferentes, dificultando a indexação no banco de patentes CAPES.
+              </p>
+            </div>
+          </div>
+          <div class="sm:text-right shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <span class="text-blue-700 font-mono text-xs font-black block mb-0.5">Destaque na Área de Farmácia</span>
+            <span class="text-[11px] text-emerald-700 font-medium block">Solução: Padrão BR10...</span>
+          </div>
+        </div>
+
+        <!-- Item 4: Coautoria Discente -->
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="p-3 rounded-2xl bg-slate-50 text-slate-600 border border-slate-200 text-lg font-bold shrink-0 mt-0.5 sm:mt-0">
+              👥
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="text-sm font-extrabold text-slate-900">Inserção Discente não Vinculada nas Produções Recentes</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">QUESITO PPG</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed max-w-2xl">
+                Trabalhos publicados em coautoria com orientandos de Mestrado e Doutorado não possuem o vínculo explícito com as linhas de pesquisa do programa, enfraquecendo a nota no Quesito 2 da Ficha de Avaliação CAPES.
+              </p>
+            </div>
+          </div>
+          <div class="sm:text-right shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <span class="text-slate-700 font-mono text-xs font-black block mb-0.5">Nota do Programa PPGST</span>
+            <span class="text-[11px] text-emerald-700 font-medium block">Solução: Cruzamento com Relação de Alunos</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pitch Comercial: "Somos a Luz que Resolve seu Lattes" (Claro, Nobre e Convincente) -->
+    <section id="cta-section" class="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-white via-emerald-50/40 to-teal-50/60 border-2 border-emerald-300 shadow-xl relative overflow-hidden text-center glow-light">
+      <div class="max-w-2xl mx-auto space-y-5 relative z-10">
+        
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+          <span>✨</span> Clareza Total e Blindagem Acadêmica
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+          Traga luz ao seu Lattes sem gastar dias de retrabalho manual.
+        </h2>
+        
+        <p class="text-slate-600 text-sm leading-relaxed">
+          O <strong>LattesFácil</strong> resolve automaticamente as 19 inconsistências identificadas no currículo de <strong>Prof. Dr. Aramys Silva dos Reis</strong>, localiza os DOIs oficiais na CrossRef, padroniza as patentes e atualiza os formulários com total conformidade CAPES e CNPq.
+        </p>
+
+        <!-- Comparação Antes vs Depois (Cards Claros) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left my-6">
+          <div class="p-5 rounded-2xl bg-white border border-rose-200 shadow-sm text-xs space-y-2.5">
+            <div class="font-extrabold text-rose-700 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs">✕</span>
+              Sem a Blindagem (Risco)
+            </div>
+            <ul class="space-y-1.5 text-slate-600 text-[11px]">
+              <li>• 12 artigos sem pontuação automática no Sucupira</li>
+              <li>• Projetos com risco de glosa na Portaria 2.664/2026</li>
+              <li>• Mais de 14 horas de esforço manual nos formulários</li>
+              <li>• Incerteza sobre exigências de agências de fomento</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border-2 border-emerald-300 shadow-md text-xs space-y-2.5">
+            <div class="font-extrabold text-emerald-800 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs">✓</span>
+              Com o LattesFácil (A Luz)
+            </div>
+            <ul class="space-y-1.5 text-slate-700 text-[11px]">
+              <li>• <strong>100% dos DOIs validados e inseridos</strong></li>
+              <li>• Conformidade garantida com normas CAPES e CNPq</li>
+              <li>• Injeção dos dados no formulário em 1 clique</li>
+              <li>• Você confere tudo na tela e clica em Salvar</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="contratarPlano('auditoria_completa')" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+            <span>🛡️</span> CORRIGIR E BLINDAR MEU LATTES AGORA
+          </button>
+          <button onclick="baixarRelatorio()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs border border-slate-300 shadow-sm transition-all">
+            Baixar Relatório em PDF
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-500 mt-2">
+          Garantia de Satisfação: Se o LattesFácil não apontar e resolver todas as inconsistências do seu currículo, você recebe 100% do seu dinheiro de volta.
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Interativo de Checkout / Blindagem (Claro & Seguro) -->
+  <div id="checkout-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-7 text-center space-y-4 shadow-2xl relative">
+      <button onclick="fecharModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      
+      <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto font-bold border border-emerald-200 shadow-sm">
+        ✨
+      </div>
+      
+      <h3 class="text-lg font-black text-slate-900">Ativação do Lattes Shield</h3>
+      <p class="text-xs text-slate-600">
+        Você está a um passo de resolver as 19 inconsistências do currículo de <strong>Prof. Dr. Aramys Silva dos Reis</strong>.
+      </p>
+
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
+        <div class="flex justify-between text-slate-600">
+          <span>Serviço:</span>
+          <span class="font-bold text-slate-900">Auditoria Completa & Injeção de DOIs</span>
+        </div>
+        <div class="flex justify-between text-slate-600">
+          <span>Tempo de processamento:</span>
+          <span class="text-emerald-700 font-semibold">Instantâneo</span>
+        </div>
+        <div class="border-t border-slate-200 pt-2 flex justify-between font-extrabold text-slate-900 text-sm">
+          <span>Investimento único:</span>
+          <span class="text-emerald-700 text-base">R$ 97,00</span>
+        </div>
+      </div>
+
+      <button onclick="confirmarPedido()" class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs transition-all shadow-lg shadow-emerald-600/20">
+        CONTINUAR PARA O PAGAMENTO
+      </button>
+      <p class="text-[10px] text-slate-400">Sem mensalidades • Sem assinatura em dólar • 100% Seguro</p>
+    </div>
+  </div>
+
+  <script>
+    function scrollToCTA() {
+      document.getElementById('cta-section').scrollIntoView({ behavior: 'smooth' });
+    }
+    function contratarPlano(tipo) {
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
+    function fecharModal() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+    function confirmarPedido() {
+      alert('Mockup de Demonstração: O botão redirecionará o pesquisador para o gateway de pagamento (Pix/Cartão).');
+      fecharModal();
+    }
+    function baixarRelatorio() {
+      alert('Gerando o PDF do Diagnóstico de Conformidade do Prof. Aramys Silva dos Reis...');
+    }
+  </script>
+</body>
+</html>
