@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesFácil AI — Agente Autônomo para Currículo Lattes</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Efeito de brilho de IA sutil */
+    .ai-gradient-text {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .ai-glow {
+      box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.15), 0 0 30px -10px rgba(124, 58, 237, 0.12);
+    }
+    .ai-glow-focus:focus-within {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), 0 10px 30px -5px rgba(59, 130, 246, 0.15);
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.88; transform: scale(1.02); }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 4s infinite ease-in-out;
+    }
+    /* Estilização da barra de rolagem */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- ================= TOPBAR ================= -->
+  <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Mode Switcher -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-[1.5px] shadow-sm shadow-indigo-500/20">
+          <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center font-black text-indigo-600 text-lg">
+            LF
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-slate-900 tracking-tight text-base">LattesFácil</span>
+            <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 border border-indigo-200/60 shadow-xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"></span>
+              Agente IA 2.0
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Copiloto Inteligente para Currículo Lattes & CAPES</p>
+        </div>
+      </div>
+
+      <!-- Topbar Actions & Context Status -->
+      <div class="flex items-center gap-2.5 sm:gap-4">
+        
+        <!-- Status Conexão Lattes -->
+        <div id="lattesStatusPill" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold cursor-pointer hover:bg-emerald-100 transition-colors" title="Clique para detalhes da sincronização com a aba do Lattes">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="hidden md:inline">Lattes Conectado:</span>
+          <span class="font-bold">Aramys Silva</span>
+        </div>
+
+        <!-- Seletor do Pesquisador -->
+        <div class="relative hidden sm:block">
+          <select id="userSelector" class="bg-slate-100 hover:bg-slate-200/70 text-slate-700 text-xs font-semibold rounded-xl px-3 py-2 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer transition">
+            <option value="Aramys Silva dos Reis" selected>👤 Aramys Silva dos Reis</option>
+            <option value="Álvaro Antônio Bezerra dos Santos">👤 Álvaro Antônio Bezerra</option>
+            <option value="+ Novo Pesquisador">+ Adicionar Pesquisador</option>
+          </select>
+        </div>
+
+        <!-- Botão Alternar para Modo Clássico -->
+        <a href="/" class="text-xs font-medium text-slate-500 hover:text-slate-800 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition flex items-center gap-1.5 border border-transparent hover:border-slate-200" title="Ver visualização clássica com formulários">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+          <span class="hidden lg:inline">Modo Clássico</span>
+        </a>
+
+        <!-- Botão Novo Chat / Reset -->
+        <button id="btnResetView" onclick="resetMockupToHome()" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition" title="Nova conversa / Tela inicial">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= CONTAINER PRINCIPAL ================= -->
+  <main class="flex-1 flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden py-8 sm:py-12">
+    
+    <!-- Elementos Decorativos de Fundo (Backdrop Blur & Mesh) -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-indigo-200/40 via-blue-200/30 to-cyan-200/30 blur-3xl pointer-events-none rounded-full -z-10 animate-pulse-subtle"></div>
+    <div class="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-purple-200/20 blur-3xl pointer-events-none rounded-full -z-10"></div>
+
+    <!-- ================= ESTADO 1: TELA INICIAL (HERO + PROMPT DE IA) ================= -->
+    <div id="homeState" class="w-full max-w-3xl flex flex-col items-center text-center transition-all duration-300">
+      
+      <!-- LOGO CENTRAL EM DESTAQUE -->
+      <div class="mb-6 relative group">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-[3px] shadow-xl shadow-indigo-500/25 transition-transform duration-300 group-hover:scale-105">
+          <div class="w-full h-full bg-white rounded-[21px] flex items-center justify-center relative overflow-hidden">
+            <span class="font-extrabold text-3xl sm:text-4xl ai-gradient-text tracking-tighter">LF</span>
+            <div class="absolute -bottom-2 -right-2 w-7 h-7 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 text-xs shadow">
+              ✦
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERGUNTA PRINCIPAL / CALLOUT -->
+      <div class="mb-8 space-y-2">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+          O que posso te ajudar hoje?
+        </h1>
+        <p class="text-sm sm:text-base text-slate-500 max-w-xl mx-auto font-medium">
+          Envie certificados, artigos, DOIs ou diga o que precisa registrar. O agente lê, estrutura e preenche no seu Lattes.
+        </p>
+      </div>
+
+      <!-- ================= CAIXA DE TEXTO / PROMPT DO AGENTE ================= -->
+      <div class="w-full bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/70 p-3 sm:p-4 ai-glow ai-glow-focus transition-all duration-300 text-left">
+        
+        <!-- Arquivo anexado preview (invisível por padrão) -->
+        <div id="attachedFilePill" class="hidden mb-3 items-center justify-between bg-indigo-50/80 border border-indigo-200/80 rounded-2xl px-3.5 py-2">
+          <div class="flex items-center gap-2.5 overflow-hidden">
+            <span class="text-lg">📄</span>
+            <div class="truncate">
+              <span id="attachedFileName" class="text-xs font-bold text-indigo-950 block truncate">2024-SEMICresumo.pdf</span>
+              <span class="text-[10px] text-indigo-600 font-medium">PDF Acadêmico • Pronto para análise do agente</span>
+            </div>
+          </div>
+          <button onclick="removeAttachedFile()" class="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition" title="Remover anexo">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Área de Input Textual -->
+        <div class="relative">
+          <textarea 
+            id="promptInput" 
+            rows="3" 
+            placeholder="Ex: 'Cadastre este certificado do SEMIC UFMA', ou cole um DOI como 10.1016/j.jbi.2024.104... ou arraste um PDF aqui" 
+            class="w-full text-slate-800 placeholder-slate-400 text-sm sm:text-base resize-none border-0 focus:outline-none focus:ring-0 bg-transparent px-2 py-1 leading-relaxed"
+          ></textarea>
+        </div>
+
+        <!-- Barra Inferior de Ações do Prompt -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 mt-2 px-1">
+          
+          <!-- Botões de Anexo / Ferramentas Rápidas -->
+          <div class="flex items-center gap-1.5">
+            <!-- Anexar Arquivo -->
+            <label class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 text-slate-600 text-xs font-semibold transition border border-transparent hover:border-slate-200">
+              <input type="file" id="fileUploadInput" class="hidden" accept=".pdf,.txt,.eml,.msg" onchange="handleFileSelected(event)" />
+              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+              <span>Anexar PDF / E-mail</span>
+            </label>
+
+            <!-- Inserir DOI Rápido -->
+            <button onclick="insertSampleDoi()" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 text-slate-600 text-xs font-semibold transition border border-transparent hover:border-slate-200">
+              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+              <span>Colar DOI</span>
+            </button>
+
+            <!-- Exemplo Pronto SEMIC -->
+            <button onclick="loadSampleSemic()" type="button" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 text-[11px] font-bold border border-amber-200/70 transition">
+              <span>⚡ Testar SEMIC</span>
+            </button>
+          </div>
+
+          <!-- Botão Enviar / Executar Agente -->
+          <button 
+            id="btnSubmitPrompt" 
+            onclick="executeAgentAction()" 
+            class="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/25 transition-all transform active:scale-95 cursor-pointer ml-auto"
+          >
+            <span>Executar Agente</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= SUGESTÕES RÁPIDAS / PROMPT CHIPS ================= -->
+      <div class="mt-8 w-full">
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Ações Mais Comuns de Pesquisadores</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-left">
+          
+          <!-- Card 1: Cadastrar Certificado / Resumo -->
+          <button onclick="selectSuggestion('Cadastrar resumo do congresso SEMIC UFMA a partir do PDF anexo', 'semic')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-blue-50 text-blue-600 text-base group-hover:scale-110 transition-transform">📄</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Cadastrar Resumo / Certificado</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Extrair autores, evento, ISSN e ano de PDF</span>
+            </div>
+          </button>
+
+          <!-- Card 2: Artigo via DOI -->
+          <button onclick="selectSuggestion('Buscar e cadastrar artigo publicado via DOI: 10.1371/journal.pmed.0020124', 'doi')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-purple-50 text-purple-600 text-base group-hover:scale-110 transition-transform">🌐</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Artigo Completo via DOI</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Busca automática no CrossRef, volume e páginas</span>
+            </div>
+          </button>
+
+          <!-- Card 3: Orientação / TCC -->
+          <button onclick="selectSuggestion('Registrar orientação concluída de TCC de graduação na UFMA', 'orientacao')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600 text-base group-hover:scale-110 transition-transform">🎓</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Orientação, Banca ou TCC</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Classificação oficial e vínculo institucional</span>
+            </div>
+          </button>
+
+          <!-- Card 4: Auditoria do Lattes -->
+          <button onclick="selectSuggestion('Auditar meu currículo em busca de inconsistências e regras CAPES/CNPq', 'auditoria')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-rose-50 text-rose-600 text-base group-hover:scale-110 transition-transform">🛡️</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Auditar Conformidade</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Evite glosa em editais e pontuação zerada</span>
+            </div>
+          </button>
+
+          <!-- Card 5: Calculadora Barema -->
+          <button onclick="selectSuggestion('Calcular minha pontuação no Barema do Edital de Pós-Graduação', 'barema')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-amber-50 text-amber-600 text-base group-hover:scale-110 transition-transform">📊</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Calculadora de Edital & Barema</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Simule sua nota e gere o espelho de pontuação</span>
+            </div>
+          </button>
+
+          <!-- Card 6: Organizar Dossiê -->
+          <button onclick="selectSuggestion('Organizar e renomear meus comprovantes no padrão CAPES/Sucupira', 'dossie')" class="group p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition text-left flex items-start gap-3">
+            <span class="p-2 rounded-xl bg-cyan-50 text-cyan-600 text-base group-hover:scale-110 transition-transform">📁</span>
+            <div>
+              <strong class="text-xs font-bold text-slate-800 group-hover:text-indigo-600 block transition-colors">Dossiê e Padronização de Arquivos</strong>
+              <span class="text-[11px] text-slate-500 line-clamp-1">Renomeação oficial: ANO_TIPO_TITULO.pdf</span>
+            </div>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= ESTADO 2: RESPOSTA / EXECUÇÃO DO AGENTE (INTERATIVO) ================= -->
+    <div id="conversationState" class="hidden w-full max-w-4xl space-y-6 transition-all duration-300">
+      
+      <!-- Mensagem do Usuário -->
+      <div class="flex items-start gap-3 justify-end">
+        <div class="bg-indigo-600 text-white rounded-3xl rounded-tr-sm px-5 py-3 shadow-md max-w-xl text-sm">
+          <p id="userMessageText" class="font-medium">Cadastre este certificado do SEMIC UFMA no meu Lattes.</p>
+          <div id="userAttachedPill" class="mt-2 inline-flex items-center gap-1.5 bg-indigo-700/80 px-2.5 py-1 rounded-lg text-xs font-semibold">
+            <span>📄</span>
+            <span id="userAttachedFileName">2024-SEMICresumo.pdf</span>
+          </div>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">
+          AR
+        </div>
+      </div>
+
+      <!-- Resposta do Agente LattesFácil -->
+      <div class="flex items-start gap-3 justify-start">
+        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-md shadow-indigo-500/20 shrink-0">
+          ✦
+        </div>
+
+        <div class="space-y-4 flex-1">
+          
+          <!-- Box de Pensamento do Agente (Reasoning Box) -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4 text-xs font-mono">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-2.5">
+              <span class="flex items-center gap-2 text-indigo-600 font-bold">
+                <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
+                Raciocínio do Agente Acadêmico (5 etapas concluídas)
+              </span>
+              <span class="text-[10px] text-slate-400">Tempo de execução: 0.8s</span>
+            </div>
+            
+            <div class="space-y-1.5 text-slate-600">
+              <div class="flex items-center gap-2 text-emerald-600 font-semibold">
+                <span>✓</span>
+                <span>1. Extração PyMuPDF de metadados e layout do PDF realizada com sucesso.</span>
+              </div>
+              <div class="flex items-center gap-2 text-emerald-600 font-semibold">
+                <span>✓</span>
+                <span>2. Classificação: Mapeado para <strong>Trabalhos em Eventos > Resumo Simples</strong> (Formulário CNPq: <code>pkg_trabalho.form</code>).</span>
+              </div>
+              <div class="flex items-center gap-2 text-emerald-600 font-semibold">
+                <span>✓</span>
+                <span>3. Verificação de Autoria: Pesquisador <strong>Aramys Silva dos Reis</strong> localizado como <strong>Autor Principal</strong>.</span>
+              </div>
+              <div class="flex items-center gap-2 text-emerald-600 font-semibold">
+                <span>✓</span>
+                <span>4. Auditoria de Conformidade: Título sanitizado (caixa mista), ISSN e Cidade validados sem restrições.</span>
+              </div>
+              <div class="flex items-center gap-2 text-indigo-600 font-bold">
+                <span>✓</span>
+                <span>5. Pronto para injeção automática no Lattes conectado!</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Principal de Entrega dos Metadados -->
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
+            
+            <!-- Header do Card -->
+            <div class="p-5 sm:p-6 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                    Extração Concluída
+                  </span>
+                  <span class="text-xs text-slate-400">• Confiança: 98%</span>
+                </div>
+                <h3 id="resultCardTitle" class="text-base sm:text-lg font-bold text-white line-clamp-2">
+                  AVALIAÇÃO DA ATIVIDADE ANTIMICROBIANA DE EXTRATOS VEGETAIS
+                </h3>
+              </div>
+
+              <!-- Badges de Ação -->
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-xl bg-white/10 text-white text-xs font-semibold backdrop-blur">
+                  SEMIC UFMA 2024
+                </span>
+              </div>
+            </div>
+
+            <!-- Dados Extraídos / Mapeados para o Formulário do Lattes -->
+            <div class="p-5 sm:p-6 space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                
+                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                  <span class="text-slate-400 font-semibold block mb-1">Formulário Alvo no Lattes:</span>
+                  <strong class="text-slate-800 text-sm flex items-center gap-1.5">
+                    <span>📌</span> Produção Bibliográfica &gt; Trabalho em Eventos
+                  </strong>
+                  <span class="text-[11px] text-slate-500 block mt-0.5">Natureza: Resumo Simples</span>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                  <span class="text-slate-400 font-semibold block mb-1">Nome do Evento:</span>
+                  <strong class="text-slate-800 text-sm">XXXVI Seminário de Iniciação Científica (SEMIC)</strong>
+                  <span class="text-[11px] text-slate-500 block mt-0.5">Ano: 2024 • Cidade: São Luís - MA</span>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                  <span class="text-slate-400 font-semibold block mb-1">Autores Identificados:</span>
+                  <div class="flex flex-wrap gap-1.5 mt-1">
+                    <span class="px-2 py-0.5 rounded-lg bg-indigo-100 text-indigo-800 font-bold text-[11px]">
+                      1. Aramys Silva dos Reis (Você)
+                    </span>
+                    <span class="px-2 py-0.5 rounded-lg bg-slate-200 text-slate-700 text-[11px]">
+                      2. Prof. Orientador da Silva
+                    </span>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                  <span class="text-slate-400 font-semibold block mb-1">Arquivo Padronizado (CAPES / CNPq):</span>
+                  <div class="flex items-center justify-between">
+                    <span class="font-mono text-emerald-700 font-bold text-[11px]">2024_RESUMO_AVALIACAO_ATIVIDADE.pdf</span>
+                    <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Padronizado</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Barra de Conformidade CNPq -->
+              <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-3 flex items-center justify-between text-xs text-emerald-900">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">🛡️</span>
+                  <span><strong>Conformidade Lattes:</strong> Sem pendências de ISBN, autoria ou caixa alta. Pronto para o Lattes.</span>
+                </div>
+                <span class="font-bold text-emerald-700">Nota 10/10</span>
+              </div>
+
+              <!-- Ações Principais com 1 Clique -->
+              <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                
+                <div class="flex items-center gap-2">
+                  <!-- Botão 1: Preencher no Lattes Aberto -->
+                  <button onclick="simulateLattesFill()" class="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                    <span>⚡ Preencher no Lattes Aberto (1 Clique)</span>
+                  </button>
+
+                  <!-- Botão 2: Baixar Comprovante Padronizado -->
+                  <button class="px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 transition flex items-center gap-1.5">
+                    <span>📥</span>
+                    <span>Baixar Dossiê PDF</span>
+                  </button>
+                </div>
+
+                <!-- Botão Secundário: Editar Campos -->
+                <button onclick="alert('Permite editar cada campo manualmente antes de submeter ao Lattes!')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+                  ✏️ Ajustar campos manualmente
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Mensagem de Sucesso após Simulação de Injeção -->
+          <div id="injectionSuccessBanner" class="hidden bg-emerald-600 text-white p-4 rounded-2xl shadow-lg flex items-center justify-between animate-fade-in text-xs sm:text-sm">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🎉</span>
+              <div>
+                <strong>Sucesso! Todos os 14 campos foram preenchidos no formulário do Lattes.</strong>
+                <p class="text-emerald-100 text-xs">Vá até a aba do CNPq, revise e clique em Salvar.</p>
+              </div>
+            </div>
+            <button onclick="document.getElementById('injectionSuccessBanner').classList.add('hidden')" class="text-emerald-200 hover:text-white font-bold text-xs">OK</button>
+          </div>
+
+          <!-- Prompt Box Secundário no final do Chat (Estilo ChatGPT / Claude) -->
+          <div class="pt-4">
+            <div class="w-full bg-white rounded-2xl border border-slate-200 shadow-md p-2.5 flex items-center gap-2 ai-glow-focus">
+              <input 
+                id="followUpInput" 
+                type="text" 
+                placeholder="Peça outro cadastro, ajuste um campo ou audite outro item..." 
+                class="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 text-sm text-slate-800 placeholder-slate-400 px-3"
+                onkeydown="if(event.key === 'Enter') handleFollowUp()"
+              />
+              <button onclick="handleFollowUp()" class="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= RODAPÉ DISCRETO ================= -->
+  <footer class="w-full bg-white border-t border-slate-200/80 py-4 text-center text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span>LattesFácil AI v2.0</span>
+        <span>•</span>
+        <span>Privacidade Garantida (Seus dados não saem da sua máquina)</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1 text-emerald-600 font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          Servidor Local Ativo (127.0.0.1:8765)
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT INTERATIVO DO MOCKUP ================= -->
+  <script>
+    let currentAttachedFile = null;
+
+    // Inserir sugestão de chip no prompt
+    function selectSuggestion(text, type) {
+      const input = document.getElementById('promptInput');
+      input.value = text;
+      
+      if (type === 'semic') {
+        loadSampleSemic();
+      } else if (type === 'doi') {
+        insertSampleDoi();
+      } else {
+        input.focus();
+      }
+    }
+
+    // Carregar Exemplo SEMIC
+    function loadSampleSemic() {
+      currentAttachedFile = "2024-SEMICresumo.pdf";
+      document.getElementById('attachedFileName').innerText = currentAttachedFile;
+      document.getElementById('attachedFilePill').classList.remove('hidden');
+      document.getElementById('attachedFilePill').classList.add('flex');
+      
+      const input = document.getElementById('promptInput');
+      if (!input.value.trim()) {
+        input.value = "Extrair dados deste resumo do SEMIC UFMA e preencher no meu Lattes";
+      }
+    }
+
+    // Inserir DOI de Exemplo
+    function insertSampleDoi() {
+      const input = document.getElementById('promptInput');
+      input.value = "Cadastrar artigo com DOI: 10.1371/journal.pmed.0020124";
+      input.focus();
+    }
+
+    // Seleção de Arquivo pelo input file
+    function handleFileSelected(event) {
+      const file = event.target.files[0];
+      if (file) {
+        currentAttachedFile = file.name;
+        document.getElementById('attachedFileName').innerText = file.name;
+        document.getElementById('attachedFilePill').classList.remove('hidden');
+        document.getElementById('attachedFilePill').classList.add('flex');
+        
+        const input = document.getElementById('promptInput');
+        if (!input.value.trim()) {
+          input.value = `Analisar e cadastrar o arquivo "${file.name}" no Lattes`;
+        }
+      }
+    }
+
+    // Remover anexo
+    function removeAttachedFile() {
+      currentAttachedFile = null;
+      document.getElementById('attachedFilePill').classList.add('hidden');
+      document.getElementById('attachedFilePill').classList.remove('flex');
+      document.getElementById('fileUploadInput').value = '';
+    }
+
+    // Executar Agente (Transição da Home para o Modo Conversação)
+    function executeAgentAction() {
+      const prompt = document.getElementById('promptInput').value.trim();
+      if (!prompt && !currentAttachedFile) {
+        alert('Por favor, digite o que precisa ou anexe um arquivo/exemplo!');
+        return;
+      }
+
+      // Atualiza texto da mensagem do usuário no chat
+      document.getElementById('userMessageText').innerText = prompt || `Cadastrar comprovante acadêmico no Lattes.`;
+      
+      if (currentAttachedFile) {
+        document.getElementById('userAttachedFileName').innerText = currentAttachedFile;
+        document.getElementById('userAttachedPill').classList.remove('hidden');
+      } else {
+        document.getElementById('userAttachedPill').classList.add('hidden');
+      }
+
+      // Oculta a Home e exibe o Chat
+      document.getElementById('homeState').classList.add('hidden');
+      document.getElementById('conversationState').classList.remove('hidden');
+
+      // Scroll suave para o resultado
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Simulação do clique "Preencher no Lattes Aberto"
+    function simulateLattesFill() {
+      const banner = document.getElementById('injectionSuccessBanner');
+      banner.classList.remove('hidden');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Novo input no chat
+    function handleFollowUp() {
+      const followUp = document.getElementById('followUpInput');
+      if (!followUp.value.trim()) return;
+      alert(`O Agente recebeu o comando: "${followUp.value}"\n\nNeste mockup de pré-visualização, você já pode testar o fluxo central!`);
+      followUp.value = '';
+    }
+
+    // Resetar para a tela inicial
+    function resetMockupToHome() {
+      document.getElementById('conversationState').classList.add('hidden');
+      document.getElementById('homeState').classList.remove('hidden');
+      document.getElementById('promptInput').value = '';
+      removeAttachedFile();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
