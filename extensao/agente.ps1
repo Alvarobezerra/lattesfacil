@@ -143,15 +143,26 @@ function Focus-LattesBrowser {
 }
 
 function Start-LattesBrowser([string]$targetUrl) {
-  Start-Process -FilePath $browserExe -WindowStyle Normal -ArgumentList @(
-    "--user-data-dir=$profileDir",
-    "--remote-debugging-port=$cdpPort",
-    "--remote-allow-origins=*",
-    "--no-first-run",
-    "--no-default-browser-check",
-    "--new-window",
-    $targetUrl
-  ) | Out-Null
+  try {
+    $wsh = New-Object -ComObject WScript.Shell
+    $lnk = Join-Path $ldDir "AbrirChromeLattes.lnk"
+    $sc = $wsh.CreateShortcut($lnk)
+    $sc.TargetPath = $browserExe
+    $sc.Arguments = "--user-data-dir=`"$profileDir`" --remote-debugging-port=$cdpPort --remote-allow-origins=* --no-first-run --no-default-browser-check --new-window `"$targetUrl`""
+    $sc.WindowStyle = 1
+    $sc.Save()
+    Start-Process -FilePath "explorer.exe" -ArgumentList @("`"$lnk`"") | Out-Null
+  } catch {
+    Start-Process -FilePath $browserExe -WindowStyle Normal -ArgumentList @(
+      "--user-data-dir=$profileDir",
+      "--remote-debugging-port=$cdpPort",
+      "--remote-allow-origins=*",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--new-window",
+      $targetUrl
+    ) | Out-Null
+  }
   Start-Sleep -Seconds 2
   Focus-LattesBrowser
 }
