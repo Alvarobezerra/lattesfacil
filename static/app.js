@@ -360,7 +360,18 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     try { gw.alert = function (m) { rel.push('Lattes: ' + m); }; gw.confirm = function () { return true; }; } catch (e) {}
     for (var gi = 0; gi < (G.campos || []).length; gi++) {
       var c = G.campos[gi];
-      if (c.valor === '' || c.valor === undefined || c.valor === null || c.valor === false) continue;
+      if (c.valor === '' || c.valor === undefined || c.valor === null || c.valor === false) {
+        // campo cuja lista o Lattes monta a partir de outro (ex.: tipo da participação depende da forma): escolhe a opção mais próxima
+        var selA = c.auto && c.tipo === 'select' ? gdoc.querySelector('select[name="' + c.name + '"]') : null;
+        if (selA) {
+          var opsA = [].slice.call(selA.options).filter(function (o) { return o.value; });
+          var refA = (G.campos || []).filter(function (x) { return x.name === c.auto_de; })[0];
+          var escA = (refA && refA.valor && melhor(opsA, refA.valor, function (o) { return o.text; })) || opsA.filter(function (o) { return refA && refA.valor && norm(o.text).indexOf(norm(refA.valor)) >= 0; })[0] || opsA[0];
+          if (escA) { selA.value = escA.value; fireG(selA); ok++; rel.push('"' + (c.rotulo || c.name) + '" escolhido automaticamente: ' + escA.text + ' (confira)'); }
+          else rel.push('não consegui escolher: ' + (c.rotulo || c.name));
+        }
+        continue;
+      }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
       if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
       if (c.tipo === 'radio') {
@@ -379,7 +390,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         if (t.maxLength > 0 && v.length > t.maxLength) { rel.push((c.rotulo || c.name) + ' cortado em ' + t.maxLength + ' caracteres'); v = v.slice(0, t.maxLength); }
         t.value = v; fireG(t); ok++;
       }
-      await sleep(250);
+      await sleep(c.tipo === 'radio' ? 700 : 250);
     }
     (G.faltam || []).forEach(function (f) { rel.push('obrigatório sem valor: ' + f); });
     alert('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
@@ -2058,6 +2069,27 @@ if ($("ativadorModal")) {
     if (e.target === $("ativadorModal")) fecharModalAtivador();
   };
 }
+if ($("btnModalCopyWinR")) {
+  $("btnModalCopyWinR").onclick = async () => {
+    const statusBox = $("ativadorModalStatus");
+    try {
+      const r = await fetch("/api/lattes/pair", { cache: "no-store" });
+      const j = r.ok ? await r.json() : {};
+      const tok = j.token || "";
+      const cmd = `powershell -NoProfile -Command "irm '${location.origin}/api/ativar?t=${tok}' | iex"`;
+      await navigator.clipboard.writeText(cmd);
+      if (statusBox) {
+        statusBox.style.background = "#ecfdf5";
+        statusBox.style.borderColor = "#6ee7b7";
+        statusBox.style.color = "#065f46";
+        statusBox.innerHTML = "✅ <strong>Comando copiado!</strong> Agora aperte <strong>Tecla Windows + R</strong> no teclado, pressione <strong>Ctrl + V</strong> e tecle <strong>Enter</strong> (sem nenhum alerta do Windows!).";
+      }
+      showToast("⚡ Comando copiado! Aperte Windows + R, cole (Ctrl+V) e dê Enter!");
+    } catch (e) {
+      showToast("Não foi possível copiar automaticamente. Use o botão Baixar Ativador abaixo.");
+    }
+  };
+}
 if ($("btnModalDownloadAtivador")) {
   $("btnModalDownloadAtivador").onclick = () => {
     const statusBox = $("ativadorModalStatus");
@@ -2787,8 +2819,8 @@ function genColetar() {
     const e = $("gen_" + c.name);
     if (!e) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
-    if (c.obrigatorio && !valor) faltam.push(c.rotulo);
-    campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "" });
+    if (c.obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
+    campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "", auto: !!c.automatico, auto_de: c.auto_de || "" });
   });
   return { campos, faltam };
 }

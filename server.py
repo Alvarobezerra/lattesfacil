@@ -538,7 +538,7 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path in ("/", "/inicio") and (path == "/inicio" or not self._sess()):
             path = "/inicio.html"
         public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/"))
-        if path not in ("/api/lattes/ping", "/api/lattes/job", "/mockup-ia.html") and not public_static and not self._gate():
+        if path not in ("/api/lattes/ping", "/api/lattes/job", "/api/ativar", "/mockup-ia.html") and not public_static and not self._gate():
             return
 
         if path == "/api/lattes/job":
@@ -629,13 +629,43 @@ class LattesHandler(BaseHTTPRequestHandler):
                                  "age": round(time.time() - entry["ts"], 1)})
             return
 
-        if path == "/api/ativador.bat":
-            import base64
+        if path == "/api/ativar":
+            qs = parse_qs(parsed.query)
+            tok_q = (qs.get("t") or [""])[0].strip()
+            expected_tok = self._master_agent_token()
+            valid_tok = bool(tok_q and hmac.compare_digest(tok_q.encode("utf-8"), expected_tok.encode("utf-8")))
+            if not (valid_tok or self._agent_owner() or self._sess()):
+                self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
+                return
             ext_dir = BASE_DIR / "extensao"
-            core_bytes = (ext_dir / "autofill_core.js").read_bytes()
-            ps1_bytes = (ext_dir / "agente.ps1").read_bytes()
-            b64_core = base64.b64encode(core_bytes).decode("ascii")
-            b64_ps1 = base64.b64encode(ps1_bytes).decode("ascii")
+            which = (qs.get("file") or [""])[0].strip()
+            if which == "core":
+                raw_out = (ext_dir / "autofill_core.js").read_bytes()
+            elif which == "ps1":
+                raw_out = (ext_dir / "agente.ps1").read_bytes()
+            else:
+                scheme = "https" if self._https() else "http"
+                host_hdr = self.headers.get("Host", "")
+                if not HOST_RE.match(host_hdr):
+                    host_hdr = "lattesfacil.onrender.com"
+                app_url = f"{scheme}://{host_hdr}"
+                ps_bootstrap = (
+                    '$ldDir = Join-Path $env:LOCALAPPDATA "LattesData"; '
+                    'New-Item -ItemType Directory -Force -Path $ldDir | Out-Null; '
+                    f'$hdr = @{{ "X-LD-Token" = "{expected_tok}" }}; '
+                    f'Invoke-WebRequest -Uri "{app_url}/api/ativar?file=core" -Headers $hdr -UseBasicParsing -OutFile (Join-Path $ldDir "autofill_core.js"); '
+                    f'Invoke-WebRequest -Uri "{app_url}/api/ativar?file=ps1" -Headers $hdr -UseBasicParsing -OutFile (Join-Path $ldDir "agente.ps1"); '
+                    f'& (Join-Path $ldDir "agente.ps1") -AppUrl "{app_url}" -Token "{expected_tok}"\r\n'
+                )
+                raw_out = ps_bootstrap.encode("utf-8")
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Content-Length", str(len(raw_out)))
+            self.end_headers()
+            self.wfile.write(raw_out)
+            return
+
+        if path == "/api/ativador.bat":
             scheme = "https" if self._https() else "http"
             host_hdr = self.headers.get("Host", "")
             if not HOST_RE.match(host_hdr):
@@ -647,13 +677,10 @@ class LattesHandler(BaseHTTPRequestHandler):
                 "chcp 65001 >nul",
                 "title LattesData - Navegador Automatico",
                 'set "LD_DIR=%LOCALAPPDATA%\\LattesData"',
-                'set "LD_BAT=%~f0"',
                 'if not exist "%LD_DIR%" mkdir "%LD_DIR%"',
-                'powershell -NoProfile -ExecutionPolicy Bypass -Command "$txt = [IO.File]::ReadAllText($env:LD_BAT); $m1 = [regex]::Match($txt, \'(?m)^::CORE_B64:([A-Za-z0-9+/=]+)\'); $m2 = [regex]::Match($txt, \'(?m)^::PS1_B64:([A-Za-z0-9+/=]+)\'); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\autofill_core.js\\\", [Convert]::FromBase64String($m1.Groups[1].Value)); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\agente.ps1\\\", [Convert]::FromBase64String($m2.Groups[1].Value));"',
-                f'powershell -NoProfile -ExecutionPolicy Bypass -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}" -Token "{token}"',
-                "goto :eof",
-                f"::CORE_B64:{b64_core}",
-                f"::PS1_B64:{b64_ps1}",
+                f'curl.exe -fsSL -H "X-LD-Token: {token}" "{app_url}/api/ativar?file=core" -o "%LD_DIR%\\autofill_core.js"',
+                f'curl.exe -fsSL -H "X-LD-Token: {token}" "{app_url}/api/ativar?file=ps1" -o "%LD_DIR%\\agente.ps1"',
+                f'powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}" -Token "{token}"',
                 "",
             ]
             raw_bat = "\r\n".join(bat_lines).encode("utf-8")
