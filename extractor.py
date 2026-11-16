@@ -224,12 +224,28 @@ def parse_evidence_text(text: str, filename: str = "") -> dict[str, Any]:
 
     result["autores"] = authors
 
+    # Áreas específicas (as que o autocompletar do Lattes aceita) a partir do título e das palavras-chave.
+    # "Ciências Biológicas" e afins são grandes áreas e não são aceitas pelo campo.
+    from caderno import LATTES_AREAS, normalize
+    hay = normalize(" ".join([result["titulo"]] + result["palavras_chave"]))
+    especificas = [lat for term, lat in LATTES_AREAS if re.search(r"\b" + term + r"\b", hay)]
+    if especificas:
+        result["area_conhecimento"] = "; ".join(especificas[:3])
+
+    # O ano costuma estar só no nome do arquivo (ex.: 2024-SEMICresumo.pdf), pois o resumo traz apenas a folha do caderno.
+    if not result["ano"]:
+        m_fn = re.match(r"\s*(20[0-3]\d|199\d)(?!\d)", filename or "")
+        if m_fn:
+            result["ano"] = result["ano_evento"] = m_fn.group(1)
+            result["extraction_notes"].append(f"Ano {m_fn.group(1)} deduzido do nome do arquivo; confira.")
     if not result["ano"]:
         result["extraction_notes"].append("Ano não encontrado no documento; use 'Buscar Dados Faltantes'.")
     if not result["isbn_issn"]:
         result["extraction_notes"].append("ISBN/ISSN dos anais não encontrado no documento.")
     if not result["cidade_evento"]:
         result["extraction_notes"].append("Cidade do evento não identificada no documento.")
+    if not result["nome_evento"]:
+        result["extraction_notes"].append("Nome do evento não consta nesta página (resumo avulso de caderno); envie também a capa/ficha do caderno ou preencha.")
 
     return result
 
