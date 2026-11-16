@@ -1798,7 +1798,7 @@ $("btnSaveRecord").onclick = async () => {
   }
 };
 
-const LATTES_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio";
+const LATTES_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form";
 const LATTES_ORIGIN = "https://wwws.cnpq.br";
 const LATTES_STALE_MS = 45000; // sem sinal do conector por esse tempo = estado incerto
 
