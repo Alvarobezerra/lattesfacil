@@ -162,7 +162,7 @@ try {
   $cdpAlive = $true
 } catch {}
 
-$initialTarget = if ($pendingPayload) { "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" } else { $AppUrl }
+$initialTarget = if ($pendingPayload) { "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio" } else { $AppUrl }
 
 if (-not $cdpAlive -and -not $Daemon) {
   Write-Host "==========================================================" -ForegroundColor Cyan
@@ -176,7 +176,7 @@ if (-not $cdpAlive -and -not $Daemon) {
   $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
   $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($lt.Count -eq 0) {
-    Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+    Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio" -TimeoutSec 2 | Out-Null
   } else {
     Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lt[0].id)" -TimeoutSec 2 | Out-Null
   }
@@ -255,7 +255,7 @@ while ($true) {
   if (-not $browserRunning) {
     if ($pendingPayload) {
       Write-Host ">> Abrindo navegador automatico no Lattes para executar o cadastro..." -ForegroundColor Cyan
-      Start-LattesBrowser "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
+      Start-LattesBrowser "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio"
       continue
     }
     continue
@@ -265,7 +265,7 @@ while ($true) {
   $lattesTabsCheck = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($pendingPayload -and $lattesTabsCheck.Count -eq 0) {
     try {
-      Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+      Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio" -TimeoutSec 2 | Out-Null
       Start-Sleep -Milliseconds 800
       $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
       Focus-LattesBrowser
@@ -335,7 +335,7 @@ while ($true) {
       $pendingPayload = $queued
       Write-Host ">> Recebido pedido de cadastro do LattesData!" -ForegroundColor Green
       if ($lattesTabs.Count -eq 0) {
-        $loginUrl = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
+        $loginUrl = "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio"
         Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?$loginUrl" -TimeoutSec 2 | Out-Null
         $nextToast = "🔐 Abri o Lattes! Faça seu login (1ª vez) — assim que entrar, o formulário será aberto e preenchido sozinho!"
       } else {

@@ -1798,7 +1798,7 @@ $("btnSaveRecord").onclick = async () => {
   }
 };
 
-const LATTES_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form";
+const LATTES_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio";
 const LATTES_ORIGIN = "https://wwws.cnpq.br";
 const LATTES_STALE_MS = 45000; // sem sinal do conector por esse tempo = estado incerto
 
@@ -2361,6 +2361,42 @@ if ($("btnOpenAuditModal") && auditModal) {
     if (e.target === auditModal) auditModal.classList.add("hidden");
   };
 }
+
+function escCit(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+async function buscarCitacoes() {
+  const out = $("citacoesResultado");
+  const orcid = ($("citOrcid").value || "").trim();
+  const dois = ($("citDois").value || "").trim();
+  if (!orcid && !dois) { out.textContent = "Informe um ORCID ou ao menos um DOI."; return; }
+  out.textContent = "Consultando as bases…";
+  const qs = new URLSearchParams();
+  if (orcid) qs.set("orcid", orcid);
+  if (dois) qs.set("doi", dois);
+  try {
+    const r = await fetch(`/api/citacoes?${qs}`);
+    const d = await r.json();
+    if (!d.ok) { out.textContent = d.error || "Falha na consulta."; return; }
+    const s = d.resumo;
+    const anos = Object.entries(s.por_ano).map(([a, n]) => `${escCit(a)}: ${n}`).join(" · ");
+    let html = `<p><strong>${s.citacoes_unicas}</strong> citações únicas em ${s.obras} obra(s) (${s.autocitacoes} autocitações). ${anos ? "Por ano — " + anos : ""}</p>`;
+    html += d.obras.map((o) => {
+      const f = o.contagem_fontes;
+      const lista = o.citantes.slice(0, 15).map((c) =>
+        `<li>${escCit(c.titulo || c.doi || "(sem título)")} ${c.ano ? "(" + escCit(c.ano) + ")" : ""}` +
+        `${c.doi ? ` — <a href="https://doi.org/${encodeURIComponent(c.doi).replace(/%2F/g, "/")}" target="_blank" rel="noopener">DOI</a>` : ""}` +
+        ` <small>[${c.fontes.map(escCit).join(", ")}${c.autocitacao ? ", autocitação" : ""}]</small></li>`).join("");
+      return `<details><summary><strong>${escCit(o.titulo || o.doi)}</strong> — ${o.total_unico}${o.truncado ? "+" : ""} únicas ` +
+        `<small>(OpenAlex ${f.openalex}, OpenCitations ${f.opencitations}, Crossref ${f.crossref ?? "—"}${o.truncado ? "; lista parcial, total estimado " + o.total_estimado : ""})</small></summary><ul>${lista}</ul></details>`;
+    }).join("");
+    out.innerHTML = html;
+  } catch (e) {
+    out.textContent = "Erro de rede ao consultar citações.";
+  }
+}
+if ($("btnBuscarCitacoes")) $("btnBuscarCitacoes").onclick = buscarCitacoes;
 
 if ($("btnScanRadar")) {
   $("btnScanRadar").onclick = () => carregarRadarObras(true);

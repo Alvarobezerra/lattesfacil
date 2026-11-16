@@ -1,5 +1,5 @@
 // Service worker: gerencia a conexão com o Lattes, fila pós-login e execução em 1 clique.
-const LATTES_LOGIN_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form";
+const LATTES_LOGIN_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_cv_estr.inicio";
 const LATTES_PATTERNS = ["https://wwws.cnpq.br/*", "https://lattes.cnpq.br/*"];
 const APP_PATTERNS = ["http://localhost/*", "http://127.0.0.1/*", "https://*.onrender.com/*"];
 
