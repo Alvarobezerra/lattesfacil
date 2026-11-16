@@ -32,7 +32,7 @@ $authHeaders = @{ "X-LD-Token" = $Token }
 $appHostRe = "^https?://" + [regex]::Escape($trustedUri.Authority) + "(/|$)"
 $lattesRe = "^https://wwws\.cnpq\.br/"
 
-# 1. Registra o protocolo lattesdata:// no Windows (por usuario, sem precisar de Admin)
+# 1. Registra o protocolo lattesdata:// e inicializacao automatica no Windows (por usuario, sem precisar de Admin)
 try {
   $regBase = "HKCU:\Software\Classes\lattesdata"
   New-Item -Path $regBase -Force | Out-Null
@@ -40,8 +40,12 @@ try {
   Set-ItemProperty -Path $regBase -Name "URL Protocol" -Value "" -Force
   $cmdKey = Join-Path $regBase "shell\open\command"
   New-Item -Path $cmdKey -Force | Out-Null
-  $cmdVal = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$ps1Path`" -ProtocolUri `"%1`""
+  $cmdVal = "powershell.exe -WindowStyle Hidden -NoProfile -ExecutionPolicy RemoteSigned -File `"$ps1Path`" -ProtocolUri `"%1`""
   Set-ItemProperty -Path $cmdKey -Name "(Default)" -Value $cmdVal -Force
+
+  $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+  $runVal = "powershell.exe -WindowStyle Hidden -NoProfile -ExecutionPolicy RemoteSigned -File `"$ps1Path`" -AppUrl `"$AppUrl`" -Token `"$Token`" -Daemon"
+  Set-ItemProperty -Path $runKey -Name "LattesDataAgent" -Value $runVal -Force
 } catch {}
 
 # 2. Cria atalho na Area de Trabalho
@@ -225,10 +229,6 @@ while ($true) {
       Write-Host ">> Abrindo navegador automatico no Lattes para executar o cadastro..." -ForegroundColor Cyan
       Start-LattesBrowser "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
       continue
-    }
-    if (-not $Daemon) {
-      $failCount++
-      if ($failCount -gt 6) { break }
     }
     continue
   }

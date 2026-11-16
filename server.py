@@ -58,7 +58,7 @@ LOGIN_FAILS: dict[str, list[float]] = {}
 ACCESS_CODE = ""                            # definido em main()
 FORCE_SECURE_COOKIE = os.environ.get("LATTESFACIL_HTTPS", "") == "1"
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
-       "connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+       "connect-src 'self'; frame-src 'self' lattesdata:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
 PUBLIC_LANDING = {"/inicio.html", "/inicio.css", "/inicio.js"}  # vitrine pública (sem sessão)
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
@@ -622,11 +622,13 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/lattes/status":
             sid = (parse_qs(parsed.query).get("sid") or [""])[0]
             entry = LATTES_STATUS.get(sid) if SID_RE.match(sid) else None
+            last_agent = max(AGENT_LAST_SEEN.get("master", 0.0), AGENT_LAST_SEEN.get(self._sess_tag(), 0.0))
+            agent_online = (time.time() - last_agent) < 6.0
             if not entry:
-                self._send_json({"seen": False})
+                self._send_json({"seen": False, "agent_online": agent_online})
             else:
                 self._send_json({"seen": True, "online": entry["online"], "name": entry["name"],
-                                 "age": round(time.time() - entry["ts"], 1)})
+                                 "age": round(time.time() - entry["ts"], 1), "agent_online": agent_online})
             return
 
         if path == "/api/ativar":

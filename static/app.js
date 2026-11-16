@@ -1976,6 +1976,12 @@ async function pollLattesStatus() {
   try {
     const r = await fetch("/api/lattes/status?sid=" + encodeURIComponent(getSid()), { cache: "no-store" });
     const j = await r.json();
+    if (j.agent_online) {
+      const badge = $("extStatusBadge");
+      if (badge) badge.textContent = "✅ Ativador Local Ativo";
+      const box = $("extInstallBox");
+      if (box) box.style.display = "none";
+    }
     if (!j.seen) return;
     const when = Date.now() - j.age * 1000;
     if (when < lattesState.last) return; // já temos um sinal mais novo
@@ -2067,27 +2073,6 @@ if ($("btnCloseAtivadorModal")) {
 if ($("ativadorModal")) {
   $("ativadorModal").onclick = (e) => {
     if (e.target === $("ativadorModal")) fecharModalAtivador();
-  };
-}
-if ($("btnModalCopyWinR")) {
-  $("btnModalCopyWinR").onclick = async () => {
-    const statusBox = $("ativadorModalStatus");
-    try {
-      const r = await fetch("/api/lattes/pair", { cache: "no-store" });
-      const j = r.ok ? await r.json() : {};
-      const tok = j.token || "";
-      const cmd = `powershell -NoProfile -Command "irm '${location.origin}/api/ativar?t=${tok}' | iex"`;
-      await navigator.clipboard.writeText(cmd);
-      if (statusBox) {
-        statusBox.style.background = "#ecfdf5";
-        statusBox.style.borderColor = "#6ee7b7";
-        statusBox.style.color = "#065f46";
-        statusBox.innerHTML = "✅ <strong>Comando copiado!</strong> Agora aperte <strong>Tecla Windows + R</strong> no teclado, pressione <strong>Ctrl + V</strong> e tecle <strong>Enter</strong> (sem nenhum alerta do Windows!).";
-      }
-      showToast("⚡ Comando copiado! Aperte Windows + R, cole (Ctrl+V) e dê Enter!");
-    } catch (e) {
-      showToast("Não foi possível copiar automaticamente. Use o botão Baixar Ativador abaixo.");
-    }
   };
 }
 if ($("btnModalDownloadAtivador")) {
