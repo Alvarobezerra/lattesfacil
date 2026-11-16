@@ -2114,17 +2114,11 @@ $("btnOpenLattes").onclick = async () => {
     dispararEnvioExtensao();
     return;
   }
-  // Se o Ativador já está online, abre imediatamente a aba do Lattes neste navegador (síncrono no clique para não ser bloqueado!)
-  let tabAlreadyOpened = false;
-  if (window.__lattesAgentOnline) {
-    openLattesTab();
-    tabAlreadyOpened = true;
-  }
   const btnOpen = $("btnOpenLattes");
   const origTxt = btnOpen ? btnOpen.textContent : "";
   if (btnOpen) {
     btnOpen.disabled = true;
-    btnOpen.textContent = "⏳ Verificando Ativador no seu computador...";
+    btnOpen.textContent = "⏳ Abrindo Navegador Automático no Lattes...";
   }
   let jobId = "";
   try {
@@ -2182,9 +2176,7 @@ $("btnOpenLattes").onclick = async () => {
   if (consumedByAgent) {
     const badge = $("extStatusBadge");
     if (badge) badge.textContent = "✅ Ativador Local Ativo";
-    if (!tabAlreadyOpened) openLattesTab();
-    $("lattesGuide").classList.remove("hidden");
-    showToast("🚀 Ativador acionado e aba do Currículo Lattes aberta!");
+    showToast("🚀 Navegador Automático aberto no Currículo Lattes! Faça login na janela do Chrome que abriu.");
     return;
   }
 

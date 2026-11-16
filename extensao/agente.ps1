@@ -29,7 +29,7 @@ if ($Token) {
 $cdpPort = if ($cfg -and $cfg.cdpPort) { [int]$cfg.cdpPort } else { Get-Random -Minimum 20000 -Maximum 60000 }
 $trustedUri = [Uri]$AppUrl
 $authHeaders = @{ "X-LD-Token" = $Token }
-$appHostRe = "^https?://" + [regex]::Escape($trustedUri.Authority) + "(/|$)"
+$appHostRe = "^https?://(127\.0\.0\.1(:\d+)?|localhost(:\d+)?|" + [regex]::Escape($trustedUri.Authority) + ")(/|$)"
 $lattesRe = "^https://(wwws\.cnpq\.br|login\.cnpq\.br|lattes\.cnpq\.br|memoria\.cnpq\.br|sso\.acesso\.gov\.br)/"
 
 # 1. Registra o protocolo lattesdata:// e inicializacao automatica no Windows (por usuario, sem precisar de Admin)
@@ -162,7 +162,7 @@ try {
   $cdpAlive = $true
 } catch {}
 
-$initialTarget = if ($pendingPayload) { "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" } else { $AppUrl }
+$initialTarget = if ($pendingPayload) { "https://memoria.cnpq.br/web/portal-lattes/" } else { $AppUrl }
 
 if (-not $cdpAlive -and -not $Daemon) {
   Write-Host "==========================================================" -ForegroundColor Cyan
@@ -176,7 +176,7 @@ if (-not $cdpAlive -and -not $Daemon) {
   $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
   $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($lt.Count -eq 0) {
-    Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+    Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://memoria.cnpq.br/web/portal-lattes/" -TimeoutSec 2 | Out-Null
   } else {
     Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lt[0].id)" -TimeoutSec 2 | Out-Null
   }
@@ -255,7 +255,7 @@ while ($true) {
   if (-not $browserRunning) {
     if ($pendingPayload) {
       Write-Host ">> Abrindo navegador automatico no Lattes para executar o cadastro..." -ForegroundColor Cyan
-      Start-LattesBrowser "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
+      Start-LattesBrowser "https://memoria.cnpq.br/web/portal-lattes/"
       continue
     }
     continue
@@ -265,7 +265,7 @@ while ($true) {
   $lattesTabsCheck = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($pendingPayload -and $lattesTabsCheck.Count -eq 0) {
     try {
-      Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+      Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://memoria.cnpq.br/web/portal-lattes/" -TimeoutSec 2 | Out-Null
       Start-Sleep -Milliseconds 800
       $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
       Focus-LattesBrowser
@@ -335,7 +335,7 @@ while ($true) {
       $pendingPayload = $queued
       Write-Host ">> Recebido pedido de cadastro do LattesData!" -ForegroundColor Green
       if ($lattesTabs.Count -eq 0) {
-        $loginUrl = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
+        $loginUrl = "https://memoria.cnpq.br/web/portal-lattes/"
         Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?$loginUrl" -TimeoutSec 2 | Out-Null
         $nextToast = "🔐 Abri o Lattes! Faça seu login (1ª vez) — assim que entrar, o formulário será aberto e preenchido sozinho!"
       } else {
@@ -353,7 +353,7 @@ while ($true) {
     $ltTab = $lattesTabs[0]
     if (-not $lattesOnline) {
       if ($ltTab.url -match "lattes\.cnpq\.br|memoria\.cnpq\.br|pkg_cv_estr\.inicio") {
-        $fixCookieJs = "document.cookie='imp=cnpqrestritos; path=/; domain=.cnpq.br'; document.cookie='idioma=PT; path=/; domain=.cnpq.br'; window.top.location.replace('https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form');"
+        $fixCookieJs = "document.cookie='imp=cnpqrestritos; path=/; domain=.cnpq.br'; document.cookie='idioma=PT; path=/; domain=.cnpq.br'; window.top.location.replace('https://wwws.cnpq.br/cvlattesweb/pkg_login.oauth2_redirect');"
         Invoke-CdpEval $ltTab.webSocketDebuggerUrl $fixCookieJs | Out-Null
       } else {
         $bannerJs = "(function(){if(document.getElementById('ld-cdp-ban'))return;var b=document.createElement('div');b.id='ld-cdp-ban';b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:2147483647;background:linear-gradient(90deg,#0b192c,#0369a1);color:#fff;padding:12px 20px;font:600 14px system-ui,sans-serif;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.3);border-bottom:2px solid #38bdf8';b.textContent='🚀 LattesData: Faça seu login no Lattes. Assim que entrar, o formulário será aberto e preenchido automaticamente!';if(document.body)document.body.appendChild(b);})()"
