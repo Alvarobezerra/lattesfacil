@@ -1976,6 +1976,7 @@ async function pollLattesStatus() {
   try {
     const r = await fetch("/api/lattes/status?sid=" + encodeURIComponent(getSid()), { cache: "no-store" });
     const j = await r.json();
+    window.__lattesAgentOnline = !!j.agent_online;
     if (j.agent_online) {
       const badge = $("extStatusBadge");
       if (badge) badge.textContent = "✅ Ativador Local Ativo";
@@ -2060,6 +2061,7 @@ function abrirModalAtivador(jobId) {
             statusBox.textContent = "✅ Ativador detectado! Abrindo o Currículo Lattes e iniciando o cadastro...";
           }
           showToast("🚀 Ativador detectado! Abrindo o Currículo Lattes automaticamente!");
+          openLattesTab();
           setTimeout(() => fecharModalAtivador(), 1200);
         }
       } catch (e) {}
@@ -2111,6 +2113,12 @@ $("btnOpenLattes").onclick = async () => {
   if (window.__lattesExtAtiva) {
     dispararEnvioExtensao();
     return;
+  }
+  // Se o Ativador já está online, abre imediatamente a aba do Lattes neste navegador (síncrono no clique para não ser bloqueado!)
+  let tabAlreadyOpened = false;
+  if (window.__lattesAgentOnline) {
+    openLattesTab();
+    tabAlreadyOpened = true;
   }
   const btnOpen = $("btnOpenLattes");
   const origTxt = btnOpen ? btnOpen.textContent : "";
@@ -2174,7 +2182,9 @@ $("btnOpenLattes").onclick = async () => {
   if (consumedByAgent) {
     const badge = $("extStatusBadge");
     if (badge) badge.textContent = "✅ Ativador Local Ativo";
-    showToast("🚀 Ativador detectado! Confira a janela do Currículo Lattes que acabou de abrir.");
+    if (!tabAlreadyOpened) openLattesTab();
+    $("lattesGuide").classList.remove("hidden");
+    showToast("🚀 Ativador acionado e aba do Currículo Lattes aberta!");
     return;
   }
 
