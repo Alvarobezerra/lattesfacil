@@ -116,16 +116,44 @@ if (-not $browserExe) {
   exit 1
 }
 
+try {
+  Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class LdWinFocus {
+  [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+  [DllImport("user32.dll")] public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
+}
+"@
+} catch {}
+
+function Focus-LattesBrowser {
+  try {
+    $procs = Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match "perfil-navegador" }
+    foreach ($p in $procs) {
+      $gp = Get-Process -Id $p.ProcessId -ErrorAction SilentlyContinue
+      if ($gp -and $gp.MainWindowHandle -ne [IntPtr]::Zero) {
+        [LdWinFocus]::ShowWindowAsync($gp.MainWindowHandle, 9) | Out-Null
+        [LdWinFocus]::SwitchToThisWindow($gp.MainWindowHandle, $true)
+        [LdWinFocus]::SetForegroundWindow($gp.MainWindowHandle) | Out-Null
+      }
+    }
+  } catch {}
+}
+
 function Start-LattesBrowser([string]$targetUrl) {
-  Start-Process -FilePath $browserExe -ArgumentList @(
+  Start-Process -FilePath $browserExe -WindowStyle Normal -ArgumentList @(
     "--user-data-dir=$profileDir",
     "--remote-debugging-port=$cdpPort",
     "--remote-allow-origins=*",
     "--no-first-run",
     "--no-default-browser-check",
+    "--new-window",
     $targetUrl
   ) | Out-Null
   Start-Sleep -Seconds 2
+  Focus-LattesBrowser
 }
 
 $cdpAlive = $false
@@ -240,10 +268,12 @@ while ($true) {
       Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
       Start-Sleep -Milliseconds 800
       $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
+      Focus-LattesBrowser
     } catch {}
   } elseif ($justReceivedJob -and $lattesTabsCheck.Count -gt 0) {
     try {
       Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lattesTabsCheck[0].id)" -TimeoutSec 2 | Out-Null
+      Focus-LattesBrowser
     } catch {}
   }
 
