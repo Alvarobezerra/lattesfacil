@@ -1,0 +1,172 @@
+{
+ "id": "artigo_aceito",
+ "secao": "Produções",
+ "item": "Artigos aceitos para publicação",
+ "como_abrir": "Produções > Artigos aceitos para publicação",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_ARTIGO_PR.form?f_cod=<codigo_do_cv>&F_STA_DIVULGACAO_CIENTIFICA=",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_ARTIGO_PR.form?f_cod=<codigo_do_cv>&F_STA_DIVULGACAO_CIENTIFICA=",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "periodico();"
+   ],
+   "campos": [
+    {
+     "chave": "cod_doi",
+     "name": "f_cod_doi",
+     "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+     "aba": "D.O.I",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano previsto para publicação",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-152.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "relev",
+     "name": "F_RELEV",
+     "rotulo": "F_RELEV",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_divulgacao_cientifica",
+     "name": "F_STA_DIVULGACAO_CIENTIFICA",
+     "rotulo": "F_STA_DIVULGACAO_CIENTIFICA",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_periodico",
+     "name": "f_titulo_periodico",
+     "rotulo": "Título do periódico/revista em que o artigo será publicado",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "jcr",
+     "name": "f_jcr",
+     "rotulo": "Fator de Impacto(JCR)",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "obrigatorio": false
+    },
+    {
+     "chave": "issn",
+     "name": "f_issn",
+     "rotulo": "ISSN",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "T tulo",
+    "Ano previsto para publicação",
+    "Idioma",
+    "Título do periódico/revista em que o artigo será publicado"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

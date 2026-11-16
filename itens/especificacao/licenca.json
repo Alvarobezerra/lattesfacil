@@ -1,0 +1,72 @@
+{
+ "id": "licenca",
+ "secao": "Dados gerais",
+ "item": "Licença Maternidade, Paternidade e Adoção",
+ "como_abrir": "Dados gerais > Licença Maternidade, Paternidade e Adoção",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "pkg_licenca.form?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "pkg_licenca.form?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "tipo_licenca",
+     "name": "f_tipo_licenca",
+     "rotulo": "Tipo",
+     "aba": "Licença",
+     "tipo": "select",
+     "opcoes": {
+      "Maternidade": "M",
+      "Paternidade": "P",
+      "Adoção": "A"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "dta_inicio",
+     "name": "f_dta_inicio",
+     "rotulo": "Data Fim",
+     "aba": "Licença",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "dta_fim",
+     "name": "f_dta_fim",
+     "rotulo": "Data Fim",
+     "aba": "Licença",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "dta_nasc_adoc",
+     "name": "f_dta_nasc_adoc",
+     "rotulo": "Data de nascimento/adoção",
+     "aba": "Licença",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": []
+  }
+ ],
+ "curadoria": {}
+}

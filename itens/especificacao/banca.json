@@ -1,0 +1,189 @@
+{
+ "id": "banca",
+ "secao": "Bancas",
+ "item": "Participação em bancas de trabalhos de conclusão",
+ "como_abrir": "Bancas > Participação em bancas de trabalhos de conclusão",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_BANCA_TRAB.form?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_BANCA_TRAB.form?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "sele_inst();"
+   ],
+   "campos": [
+    {
+     "chave": "cod_prod",
+     "name": "F_COD_PROD",
+     "rotulo": "F_COD_PROD",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Mestrado": "A11",
+      "Doutorado": "A12",
+      "Exame de qualificação de doutorado": "A13",
+      "Exame de qualificação de mestrado": "A16",
+      "Curso de aperfeiçoamento/especialização": "A14",
+      "Graduação": "A15"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sub_prod",
+     "name": "f_sub_prod",
+     "rotulo": "(apenas para mestrado)",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Acadêmico": "34",
+      "Profissional": "35"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-152.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_orient",
+     "name": "f_nme_orient",
+     "rotulo": "Nome do candidato",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": true
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 50,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Natureza",
+    "Tipo",
+    "Título",
+    "Ano",
+    "País",
+    "Idioma",
+    "Nome do candidato"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

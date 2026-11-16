@@ -1,0 +1,531 @@
+{
+ "id": "livro_capitulo",
+ "secao": "Produções",
+ "item": "Livros e capítulos",
+ "como_abrir": "Produções > Livros e capítulos",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "Formulário 1",
+   "url": "PKG_LVR_CAP.FORM_LVR?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "informaDOI",
+    "descricao": "janela pede DOI/ISBN (livros e capítulos: também o tipo) antes do formulário"
+   },
+   "janelas_auxiliares": [
+    "dominio();"
+   ],
+   "campos": [
+    {
+     "chave": "cod_doi",
+     "name": "f_cod_doi",
+     "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+     "aba": "D.O.I",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "cod_prod",
+     "name": "F_COD_PROD",
+     "rotulo": "F_COD_PROD",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Livro publicado": "131",
+      "Organização de obra publicada": "133"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sub_prod",
+     "name": "f_sub_prod",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 20,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título do livro",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-152.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "meio",
+     "name": "f_meio",
+     "rotulo": "Meio de divulgação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Impresso": "I",
+      "meio magnético": "M",
+      "meio digital": "D",
+      "filme": "F",
+      "hipertexto": "H",
+      "outro": "O",
+      "impresso e mídia eletrônica": "V"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "relev",
+     "name": "F_RELEV",
+     "rotulo": "F_RELEV",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_divulgacao_cientifica",
+     "name": "F_STA_DIVULGACAO_CIENTIFICA",
+     "rotulo": "F_STA_DIVULGACAO_CIENTIFICA",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "volume_l",
+     "name": "f_volume_l",
+     "rotulo": "Número de volumes",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 6,
+     "obrigatorio": false
+    },
+    {
+     "chave": "paginas",
+     "name": "f_paginas",
+     "rotulo": "Número de páginas",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": false
+    },
+    {
+     "chave": "isbn",
+     "name": "f_isbn",
+     "rotulo": "ISBN",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 13,
+     "obrigatorio": true
+    },
+    {
+     "chave": "edicao",
+     "name": "f_edicao",
+     "rotulo": "Número da edição/revisão",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 3,
+     "obrigatorio": true
+    },
+    {
+     "chave": "serie",
+     "name": "f_serie",
+     "rotulo": "Série",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "cidade_ed",
+     "name": "f_cidade_ed",
+     "rotulo": "Cidade da editora",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 30,
+     "obrigatorio": false
+    },
+    {
+     "chave": "editora",
+     "name": "f_editora",
+     "rotulo": "Nome da editora",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 100,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Tipo",
+    "Título do livro",
+    "Ano",
+    "ISBN",
+    "Edição",
+    "País",
+    "Idioma"
+   ]
+  },
+  {
+   "variante": "Formulário 2",
+   "url": "PKG_LVR_CAP.FORM_CAP?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "informaDOI",
+    "descricao": "janela pede DOI/ISBN (livros e capítulos: também o tipo) antes do formulário"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "cod_doi",
+     "name": "f_cod_doi",
+     "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+     "aba": "DOI",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_cap",
+     "name": "f_titulo_cap",
+     "rotulo": "Título do capítulo",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-152.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "meio",
+     "name": "f_meio",
+     "rotulo": "Meio de divulgação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Impresso": "I",
+      "meio magnético": "M",
+      "meio digital": "D",
+      "filme": "F",
+      "hipertexto": "H",
+      "outro": "O",
+      "impresso e mídia eletrônica": "V"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "relev",
+     "name": "F_RELEV",
+     "rotulo": "F_RELEV",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_divulgacao_cientifica",
+     "name": "F_STA_DIVULGACAO_CIENTIFICA",
+     "rotulo": "F_STA_DIVULGACAO_CIENTIFICA",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "organizadores",
+     "name": "f_organizadores",
+     "rotulo": "(Se houver mais de um organizador, informe os nomes separados por ponto e vírgula)",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "volume_c",
+     "name": "f_volume_c",
+     "rotulo": "Número do volume",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 6,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pag_ini",
+     "name": "f_pag_ini",
+     "rotulo": "Página inicial",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": true
+    },
+    {
+     "chave": "pag_fim",
+     "name": "f_pag_fim",
+     "rotulo": "Página final",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": false
+    },
+    {
+     "chave": "edicao",
+     "name": "f_edicao",
+     "rotulo": "Número da edição/revisão",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 3,
+     "obrigatorio": true
+    },
+    {
+     "chave": "serie",
+     "name": "f_serie",
+     "rotulo": "Série",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "isbn",
+     "name": "f_isbn",
+     "rotulo": "ISBN",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 13,
+     "obrigatorio": true
+    },
+    {
+     "chave": "cidade_ed",
+     "name": "f_cidade_ed",
+     "rotulo": "Cidade da editora",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 30,
+     "obrigatorio": false
+    },
+    {
+     "chave": "editora",
+     "name": "f_editora",
+     "rotulo": "Nome da editora",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 100,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_cap_en",
+     "name": "f_titulo_cap_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Título do capítulo",
+    "Ano",
+    "País",
+    "Idioma",
+    "Título",
+    "ISBN",
+    "Edição",
+    "Página inicial"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

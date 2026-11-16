@@ -1,0 +1,160 @@
+{
+ "id": "atuacao_profissional",
+ "secao": "Atuação",
+ "item": "Atuação profissional",
+ "como_abrir": "Atuação > Atuação profissional",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_ATIV.inclui?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_ATIV.inclui?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "dominio()",
+    "sele_inst();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Nome da Instituição",
+     "aba": "Instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "vinc",
+     "name": "f_vinc",
+     "rotulo": "Tipo do vínculo",
+     "aba": "Vínculo",
+     "tipo": "text",
+     "maxlength": 30,
+     "obrigatorio": true
+    },
+    {
+     "chave": "stavinc",
+     "name": "f_stavinc",
+     "rotulo": "Possui vínculo empregatício",
+     "aba": "Vínculo",
+     "tipo": "select",
+     "opcoes": {
+      "Não": "0",
+      "Sim": "1"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "enqua",
+     "name": "f_enqua",
+     "rotulo": "Enquadramento funcional",
+     "aba": "Vínculo",
+     "tipo": "text",
+     "maxlength": 45,
+     "obrigatorio": true
+    },
+    {
+     "chave": "carga",
+     "name": "f_carga",
+     "rotulo": "Carga horária semanal",
+     "aba": "Vínculo",
+     "tipo": "text",
+     "maxlength": 3,
+     "obrigatorio": false
+    },
+    {
+     "chave": "regime",
+     "name": "f_regime",
+     "rotulo": "f_regime",
+     "aba": "Vínculo",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Dedicação exclusiva": "3"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_ini",
+     "name": "f_mes_ini",
+     "rotulo": "Mês",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Ano",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "f_status",
+     "rotulo": "f_status",
+     "aba": "Período",
+     "tipo": "radio",
+     "opcoes": {
+      "Atual (não finalizado)": "S",
+      "Anterior (finalizado)": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_fim",
+     "name": "f_mes_fim",
+     "rotulo": "Mês",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Ano",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "outras_inf",
+     "name": "f_outras_inf",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Instituição",
+    "Tipo do vínculo",
+    "Início",
+    "Fim",
+    "Enquadramento funcional",
+    "Vínculo"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

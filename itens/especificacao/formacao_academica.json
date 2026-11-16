@@ -1,0 +1,1552 @@
+{
+ "id": "formacao_academica",
+ "secao": "Formação",
+ "item": "Formação acadêmica/titulação",
+ "como_abrir": "Formação > Formação acadêmica/titulação",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "Formulário 1",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=4",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "tpo_doutorado",
+     "name": "f_tpo_doutorado",
+     "rotulo": "f_tpo_doutorado",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "normal": "N",
+      "sanduíche": "S",
+      "co-tutela": "C",
+      "co-tutela/sanduíche": "CS"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_obten",
+     "name": "f_mes_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_obten",
+     "name": "f_ano_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título da dissertação/tese",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "coorient",
+     "name": "f_coorient",
+     "rotulo": "Nome completo do coorientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout",
+     "name": "f_orient_dout",
+     "rotulo": "f_orient_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout",
+     "name": "f_inst_dout",
+     "rotulo": "f_inst_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw",
+     "name": "f_meses_sw",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_sw",
+     "name": "f_orient_dout_sw",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_sw",
+     "name": "f_inst_dout_sw",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw_aux",
+     "name": "f_meses_sw_aux",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_ct",
+     "name": "f_orient_dout_ct",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_ct",
+     "name": "f_inst_dout_ct",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 2",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=3",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "tpo_doutorado",
+     "name": "f_tpo_doutorado",
+     "rotulo": "f_tpo_doutorado",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "normal": "N",
+      "sanduíche": "S"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_obten",
+     "name": "f_mes_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_obten",
+     "name": "f_ano_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título da dissertação/tese",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "coorient",
+     "name": "f_coorient",
+     "rotulo": "Nome completo do coorientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout",
+     "name": "f_orient_dout",
+     "rotulo": "f_orient_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout",
+     "name": "f_inst_dout",
+     "rotulo": "f_inst_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw",
+     "name": "f_meses_sw",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_sw",
+     "name": "f_orient_dout_sw",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_sw",
+     "name": "f_inst_dout_sw",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw_aux",
+     "name": "f_meses_sw_aux",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_ct",
+     "name": "f_orient_dout_ct",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_ct",
+     "name": "f_inst_dout_ct",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 3",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=9",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "tpo_doutorado",
+     "name": "f_tpo_doutorado",
+     "rotulo": "f_tpo_doutorado",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "normal": "N",
+      "sanduíche": "S"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_obten",
+     "name": "f_mes_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_obten",
+     "name": "f_ano_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título da dissertação/tese",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "coorient",
+     "name": "f_coorient",
+     "rotulo": "Nome completo do coorientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout",
+     "name": "f_orient_dout",
+     "rotulo": "f_orient_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout",
+     "name": "f_inst_dout",
+     "rotulo": "f_inst_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw",
+     "name": "f_meses_sw",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_sw",
+     "name": "f_orient_dout_sw",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_sw",
+     "name": "f_inst_dout_sw",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw_aux",
+     "name": "f_meses_sw_aux",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_ct",
+     "name": "f_orient_dout_ct",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_ct",
+     "name": "f_inst_dout_ct",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 4",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=2",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "carga",
+     "name": "f_carga",
+     "rotulo": "Carga Horária",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título monografia",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 5",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=D",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Residência médica em",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Número do registro",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 6",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=1",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "tpo_doutorado",
+     "name": "f_tpo_doutorado",
+     "rotulo": "f_tpo_doutorado",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "normal": "N",
+      "sanduíche": "S"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título monografia",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout",
+     "name": "f_orient_dout",
+     "rotulo": "f_orient_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout",
+     "name": "f_inst_dout",
+     "rotulo": "f_inst_dout",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw",
+     "name": "f_meses_sw",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_sw",
+     "name": "f_orient_dout_sw",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_sw",
+     "name": "f_inst_dout_sw",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "meses_sw_aux",
+     "name": "f_meses_sw_aux",
+     "rotulo": "Duração em meses",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient_dout_ct",
+     "name": "f_orient_dout_ct",
+     "rotulo": "Orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst_dout_ct",
+     "name": "f_inst_dout_ct",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 7",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=7",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 8",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=C",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 9",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=B",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 10",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=FA&f_nivel=X",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "carga",
+     "name": "f_carga",
+     "rotulo": "Carga Horária",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título monografia",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orient",
+     "name": "f_orient",
+     "rotulo": "Nome completo do orientador",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

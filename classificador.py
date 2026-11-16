@@ -50,7 +50,7 @@ ITENS: list[Item] = [
     ], True, "Certificado COIMAMA 2024"),
     Item("participacao_evento", "Eventos", "Participação em eventos, congressos, exposições, feiras e olimpíadas", "Participei de um evento como ouvinte", [
         (r"participou (do|da|de|dos|das)|participacao (no|na|do|da)|na qualidade de (participante|ouvinte)|\bouvinte\b|\bparticipante\b", 3.0, "diz que participou do evento"),
-        (r"congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada", 1.0, "cita um evento"),
+        (r"congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada|reuniao anual", 1.0, "cita um evento"),
         (r"carga horaria", 0.5, "tem carga horária"),
         (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante", -2.0, "houve apresentação, não só participação"),
     ], False, "Certificado de participação no congresso"),
@@ -78,7 +78,8 @@ ITENS: list[Item] = [
         (r"defendeu|defesa|aprovad[oa]|concluiu|concluida", 1.5, "diz que foi defendido/concluído"),
         (r"disserta[c]ao|\btese\b|\btcc\b|trabalho de conclusao|iniciacao cientifica|monografia|pibic", 2.0, "cita o tipo de trabalho orientado"),
         (r"em andamento|em curso|atualmente orienta", -3.0, "está em andamento"),
-        (r"banca examinadora|membro da banca|examinador", -1.5, "fala de banca"),
+        (r"banca examinadora|membro da banca", -1.5, "fala de banca"),
+        (r"examinador(a)?|comissao de defesa|membros da banca", -3.0, "cita quem avaliou (examinador/comissão), não orientação"),
         (r"certificamos|declaramos que .{0,60}(apresentou|participou)", -1.0, "parece certificado de evento"),
     ], True, "Declaração de orientação de TCC"),
     Item("orientacao_andamento", "Orientações", "Orientações e supervisões em andamento", "Oriento um trabalho que ainda não terminou", [
@@ -101,6 +102,7 @@ ITENS: list[Item] = [
         (r"carga horaria", 1.5, "tem carga horária"),
         (r"ministrou|ministrante|palestrante|instrutor", -3.5, "ele ministrou, não cursou"),
         (r"congresso|simposio|jornada", -1.0, "parece evento, não curso"),
+        (r"participacao (no|na|em|do|da)\b.{0,80}(congresso|reuniao|simposio|jornada|encontro|semana|workshop|feira)", -3.5, "é participação em evento, não curso"),
     ], False, "Certificado de curso de extensão"),
     Item("formacao_academica", "Formação", "Formação acadêmica/titulação", "Concluí uma graduação, especialização, mestrado ou doutorado", [
         (r"\bdiploma\b|colacao de grau|conferiu o grau|historico escolar|grau de (mestre|doutor|bacharel|especialista|licenciado)|certificado de (conclusao|especializacao|pos-graduacao)", 4.0, "é diploma/histórico/certificado de titulação"),
@@ -197,6 +199,17 @@ def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no
     if top["id"] == "apresentacao":
         relacionados.append({"id": "participacao_evento", "motivo": "o mesmo certificado também comprova a participação no evento"})
     return {"decisao": decisao, "motivo_decisao": why, "candidatos": cands, "tambem_pode_gerar": relacionados}
+
+
+def _marcar_especificados() -> None:
+    """Itens com leitor + especificação (onda 1) passam a reconhecidos com formulário estruturado."""
+    from itens.leitores import LEITORES
+    for i in ITENS:
+        if i.id in LEITORES:
+            i.implementado = True
+
+
+_marcar_especificados()
 
 
 def catalogo_publico() -> list[dict[str, Any]]:

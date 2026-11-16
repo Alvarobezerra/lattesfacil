@@ -1,0 +1,106 @@
+{
+ "id": "revisor_periodico",
+ "secao": "Atuação",
+ "item": "Revisor de periódico",
+ "como_abrir": "Atuação > Revisor de periódico",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_REVISOR.inclui?f_cod=<codigo_do_cv>&f_natur=RV&f_origem=L",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_REVISOR.inclui?f_cod=<codigo_do_cv>&f_natur=RV&f_origem=L",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "periodico();"
+   ],
+   "campos": [
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Periódico",
+     "aba": "Periódico",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "mes_ini",
+     "name": "f_mes_ini",
+     "rotulo": "Mês",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Ano",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "f_status",
+     "rotulo": "f_status",
+     "aba": "Período",
+     "tipo": "radio",
+     "opcoes": {
+      "S": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_fim",
+     "name": "f_mes_fim",
+     "rotulo": "Mês",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Ano",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "outras_inf",
+     "name": "f_outras_inf",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Periódico",
+    "Início",
+    "Fim"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

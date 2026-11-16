@@ -1,0 +1,139 @@
+{
+ "id": "idioma",
+ "secao": "Dados gerais",
+ "item": "Idiomas",
+ "como_abrir": "Dados gerais > Idiomas",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "pkg_idioma.form?f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "pkg_idioma.form?f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "cod_idioma",
+     "name": "F_COD_IDIOMA",
+     "rotulo": "Selecione o idioma :",
+     "aba": "Idioma",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-149.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "fc_le",
+     "name": "FC_LE",
+     "rotulo": "FC_LE",
+     "aba": "Idioma",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Lê": "on"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "le",
+     "name": "F_LE",
+     "rotulo": "F_LE",
+     "aba": "Idioma",
+     "tipo": "radio",
+     "opcoes": {
+      "Pouco": "P",
+      "Razoavelmente": "R",
+      "Bem": "B"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "fc_conversa",
+     "name": "FC_CONVERSA",
+     "rotulo": "FC_CONVERSA",
+     "aba": "Idioma",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Fala": "on"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "conversa",
+     "name": "F_CONVERSA",
+     "rotulo": "F_CONVERSA",
+     "aba": "Idioma",
+     "tipo": "radio",
+     "opcoes": {
+      "Pouco": "P",
+      "Razoavelmente": "R",
+      "Bem": "B"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "fc_escreve",
+     "name": "FC_ESCREVE",
+     "rotulo": "FC_ESCREVE",
+     "aba": "Idioma",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Escreve": "on"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "escreve",
+     "name": "F_ESCREVE",
+     "rotulo": "F_ESCREVE",
+     "aba": "Idioma",
+     "tipo": "radio",
+     "opcoes": {
+      "Pouco": "P",
+      "Razoavelmente": "R",
+      "Bem": "B"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "fc_compr",
+     "name": "FC_COMPR",
+     "rotulo": "FC_COMPR",
+     "aba": "Idioma",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Compreende": "on"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "compr",
+     "name": "F_COMPR",
+     "rotulo": "F_COMPR",
+     "aba": "Idioma",
+     "tipo": "radio",
+     "opcoes": {
+      "Pouco": "P",
+      "Razoavelmente": "R",
+      "Bem": "B"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Idioma"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

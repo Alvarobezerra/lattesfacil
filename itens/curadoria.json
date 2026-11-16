@@ -1,0 +1,71 @@
+{
+  "participacao_evento": {
+    "campos": {
+      "F_FORMA": {
+        "rotulo": "Forma de participação",
+        "obrigatorio": true,
+        "origem": "documento",
+        "padrao": "Ouvinte"
+      },
+      "F_TPO": {
+        "obrigatorio": true,
+        "origem": "documento",
+        "automatico": true,
+        "auto_de": "F_FORMA"
+      },
+      "f_nme_evento": {
+        "origem": "documento"
+      },
+      "f_ano": {
+        "origem": "documento"
+      },
+      "F_COD_PROD": {
+        "origem": "documento"
+      },
+      "f_pais": {
+        "origem": "fixo",
+        "padrao": "Brasil"
+      },
+      "F_STA_DIVULGACAO_CIENTIFICA": {
+        "origem": "fixo",
+        "padrao": "não"
+      }
+    }
+  },
+  "projeto": {
+    "campos": {
+      "f_cnpj_empresa": {
+        "obrigatorio": false,
+        "condicional": "só quando o projeto envolve empresa/inovação"
+      },
+      "f_txt_nme_empresa": {
+        "obrigatorio": false,
+        "condicional": "só quando o projeto envolve empresa/inovação"
+      },
+      "f_txt_email_institucional": {
+        "obrigatorio": false,
+        "condicional": "só quando o projeto envolve empresa/inovação"
+      },
+      "f_txt_setor": {
+        "obrigatorio": false,
+        "condicional": "só quando o projeto envolve empresa/inovação"
+      },
+      "f_txt_potencial": {
+        "obrigatorio": false,
+        "condicional": "só quando o projeto envolve empresa/inovação"
+      }
+    }
+  },
+  "patente": {
+    "campos": {
+      "f_txt_potencial": {
+        "obrigatorio": false,
+        "condicional": "só quando há potencial de inovação"
+      },
+      "f_pais_inst": {
+        "obrigatorio": false,
+        "condicional": "país do depositante (grade de titulares)"
+      }
+    }
+  }
+}

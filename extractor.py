@@ -23,13 +23,24 @@ AREA_KEYWORDS = [
 ]
 
 
+# Ligaduras que alguns PDFs (SEI, Word) gravam como um só caractere e quebram as buscas por palavra.
+LIGADURAS = {"\u019f": "ti", "\u01a9": "tt", "\ufb00": "ff", "\ufb01": "fi", "\ufb02": "fl", "\ufb03": "ffi", "\ufb04": "ffl",
+             "\u01ab": "tt", "\u0183": "ti"}
+
+
+def corrigir_ligaduras(texto: str) -> str:
+    for k, v in LIGADURAS.items():
+        texto = texto.replace(k, v)
+    return texto
+
+
 def extract_text_from_pdf_bytes(pdf_bytes: bytes) -> dict[str, Any]:
     """Extract plain text and basic PDF metadata from raw PDF bytes."""
     doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
     pages_text: list[str] = []
     for page in doc:
         pages_text.append(page.get_text("text"))
-    full_text = "\n".join(pages_text).strip()
+    full_text = corrigir_ligaduras("\n".join(pages_text).strip())
     meta = doc.metadata or {}
     return {
         "text": full_text,

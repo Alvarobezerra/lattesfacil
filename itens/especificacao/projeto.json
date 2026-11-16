@@ -1,0 +1,2066 @@
+{
+ "id": "projeto",
+ "secao": "Projetos",
+ "item": "Outros tipos de projetos",
+ "como_abrir": "Projetos > Outros tipos de projetos",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "Projetos de pesquisa",
+   "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=P&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=P&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI();",
+    "orgao();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Nome do projeto",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Descrição",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_natureza",
+     "name": "F_TPO_NATUREZA",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desenvolvimento": "D",
+      "Extensão": "E",
+      "Pesquisa": "P",
+      "Ensino": "N",
+      "Outra": "O"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_situacao",
+     "name": "F_TPO_SITUACAO",
+     "rotulo": "Situação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desativado": "D",
+      "Concluído": "C",
+      "Em andamento": "A"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_inic",
+     "name": "F_ANO_INIC",
+     "rotulo": "Ano início",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "F_ANO_FIM",
+     "rotulo": "Ano fim",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_pesq_emp",
+     "name": "f_tpo_pesq_emp",
+     "rotulo": "f_tpo_pesq_emp",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cnpj_empresa",
+     "name": "f_cnpj_empresa",
+     "rotulo": "CNPJ da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 18,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_nme_empresa",
+     "name": "f_txt_nme_empresa",
+     "rotulo": "Nome da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_email_institucional",
+     "name": "f_txt_email_institucional",
+     "rotulo": "E-mail Institucional",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_setor",
+     "name": "f_txt_setor",
+     "rotulo": "Setor",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "txt_potencial",
+     "name": "f_txt_potencial",
+     "rotulo": "Qual o potencial de inovação do projeto?",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição de execução",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "obrigatorio": true
+    },
+    {
+     "chave": "nro_graduacao",
+     "name": "F_NRO_GRADUACAO",
+     "rotulo": "Graduação",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_especializacao",
+     "name": "F_NRO_ESPECIALIZACAO",
+     "rotulo": "Especialização",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_acad",
+     "name": "F_NRO_MESTRADO_ACAD",
+     "rotulo": "Mestrado acadêmico",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_prof",
+     "name": "F_NRO_MESTRADO_PROF",
+     "rotulo": "Mestrado profissionalizante",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_doutorado",
+     "name": "F_NRO_DOUTORADO",
+     "rotulo": "Doutorado",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Project Name",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Description",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Ano fim",
+    "Nome do projeto",
+    "Situação",
+    "Natureza",
+    "Ano início",
+    "Nome da empresa",
+    "E-mail Institucional",
+    "Setor",
+    "CNPJ da empresa",
+    "\\\"Qual o potencial de inovação do projeto\\\"",
+    "Órgão/Unidade",
+    "Instituição de execução"
+   ]
+  },
+  {
+   "variante": "Projeto de extensão",
+   "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=E&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=E&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI();",
+    "orgao();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Nome do projeto",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Descrição",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_natureza",
+     "name": "F_TPO_NATUREZA",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desenvolvimento": "D",
+      "Extensão": "E",
+      "Pesquisa": "P",
+      "Ensino": "N",
+      "Outra": "O"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_situacao",
+     "name": "F_TPO_SITUACAO",
+     "rotulo": "Situação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desativado": "D",
+      "Concluído": "C",
+      "Em andamento": "A"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_inic",
+     "name": "F_ANO_INIC",
+     "rotulo": "Ano início",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "F_ANO_FIM",
+     "rotulo": "Ano fim",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_pesq_emp",
+     "name": "f_tpo_pesq_emp",
+     "rotulo": "f_tpo_pesq_emp",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cnpj_empresa",
+     "name": "f_cnpj_empresa",
+     "rotulo": "CNPJ da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 18,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_nme_empresa",
+     "name": "f_txt_nme_empresa",
+     "rotulo": "Nome da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_email_institucional",
+     "name": "f_txt_email_institucional",
+     "rotulo": "E-mail Institucional",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_setor",
+     "name": "f_txt_setor",
+     "rotulo": "Setor",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "txt_potencial",
+     "name": "f_txt_potencial",
+     "rotulo": "Qual o potencial de inovação do projeto?",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição de execução",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "obrigatorio": true
+    },
+    {
+     "chave": "nro_graduacao",
+     "name": "F_NRO_GRADUACAO",
+     "rotulo": "Graduação",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_especializacao",
+     "name": "F_NRO_ESPECIALIZACAO",
+     "rotulo": "Especialização",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_acad",
+     "name": "F_NRO_MESTRADO_ACAD",
+     "rotulo": "Mestrado acadêmico",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_prof",
+     "name": "F_NRO_MESTRADO_PROF",
+     "rotulo": "Mestrado profissionalizante",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_doutorado",
+     "name": "F_NRO_DOUTORADO",
+     "rotulo": "Doutorado",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Project Name",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Description",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Ano fim",
+    "Nome do projeto",
+    "Situação",
+    "Natureza",
+    "Ano início",
+    "Nome da empresa",
+    "E-mail Institucional",
+    "Setor",
+    "CNPJ da empresa",
+    "\\\"Qual o potencial de inovação do projeto\\\"",
+    "Órgão/Unidade",
+    "Instituição de execução"
+   ]
+  },
+  {
+   "variante": "Projeto de ensino",
+   "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=N&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=N&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI();",
+    "orgao();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Nome do projeto",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Descrição",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_natureza",
+     "name": "F_TPO_NATUREZA",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desenvolvimento": "D",
+      "Extensão": "E",
+      "Pesquisa": "P",
+      "Ensino": "N",
+      "Outra": "O"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_situacao",
+     "name": "F_TPO_SITUACAO",
+     "rotulo": "Situação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desativado": "D",
+      "Concluído": "C",
+      "Em andamento": "A"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_inic",
+     "name": "F_ANO_INIC",
+     "rotulo": "Ano início",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "F_ANO_FIM",
+     "rotulo": "Ano fim",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_pesq_emp",
+     "name": "f_tpo_pesq_emp",
+     "rotulo": "f_tpo_pesq_emp",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "S": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_cooperacao",
+     "name": "f_tpo_cooperacao",
+     "rotulo": "f_tpo_cooperacao",
+     "aba": "Dados gerais",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Instituição de ensino": "IE",
+      "Agência de fomento": "AF",
+      "Empresa": "EM"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_acao_inov",
+     "name": "f_tpo_acao_inov",
+     "rotulo": "f_tpo_acao_inov",
+     "aba": "Dados gerais",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Ensino Fundamental(1º grau)": "EF",
+      "Ensino Médio(2º grau)": "EM",
+      "Graduação": "GR",
+      "Especialização": "ES",
+      "Mestrado": "GM",
+      "Mestado Profissional": "MP",
+      "Doutorado": "GD"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "tematica",
+     "name": "f_tematica",
+     "rotulo": "f_tematica",
+     "aba": "Dados gerais",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Ensino e aprendizagem": "EA",
+      "Aprendizagem por projetos": "AP",
+      "Projetos de curso": "PC",
+      "Formação inicial ou continuada de professores": "FI",
+      "Inserção de tecnologias no ensino": "IT",
+      "Ação inclusiva": "AI",
+      "Integração social(escola, família, comunidade)": "IS",
+      "Projeto de intervenção": "PI",
+      "Mobilidade e internacionalização": "MI",
+      "Avaliação": "A",
+      "Gestão": "G",
+      "Outra": "O"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "especifique",
+     "name": "f_especifique",
+     "rotulo": "Especifique:",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 50,
+     "obrigatorio": false
+    },
+    {
+     "chave": "objetivos_metas",
+     "name": "f_objetivos_metas",
+     "rotulo": "Objetivos e metas",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": true
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição de execução",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_primeiro_grau",
+     "name": "F_NRO_PRIMEIRO_GRAU",
+     "rotulo": "Ensino Fundamental(1º grau)",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_segundo_grau",
+     "name": "F_NRO_SEGUNDO_GRAU",
+     "rotulo": "Ensino Médio(2º grau)",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_graduacao",
+     "name": "F_NRO_GRADUACAO",
+     "rotulo": "Graduação",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_especializacao",
+     "name": "F_NRO_ESPECIALIZACAO",
+     "rotulo": "Especialização",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_acad",
+     "name": "F_NRO_MESTRADO_ACAD",
+     "rotulo": "Mestrado acadêmico",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_prof",
+     "name": "F_NRO_MESTRADO_PROF",
+     "rotulo": "Mestrado profissionalizante",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_doutorado",
+     "name": "F_NRO_DOUTORADO",
+     "rotulo": "Doutorado",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Project Name",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Description",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Ano fim",
+    "Nome do projeto",
+    "Situação",
+    "Natureza",
+    "Ano início",
+    "\\\"O projeto possui ações inovadoras e produtos, processos ou serviços\\\"",
+    "\\\"O projeto possui ações inovadoras na:\\\"",
+    "\\\"Em relação a temática:\\\"",
+    "Objetivos e metas",
+    "Nome da empresa",
+    "E-mail Institucional",
+    "Setor",
+    "CNPJ da empresa"
+   ]
+  },
+  {
+   "variante": "Projeto de desenvolvimento tecnológico",
+   "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=D&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=D&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI();",
+    "orgao();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Nome do projeto",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Descrição",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_natureza",
+     "name": "F_TPO_NATUREZA",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desenvolvimento": "D",
+      "Extensão": "E",
+      "Pesquisa": "P",
+      "Ensino": "N",
+      "Outra": "O"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_situacao",
+     "name": "F_TPO_SITUACAO",
+     "rotulo": "Situação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desativado": "D",
+      "Concluído": "C",
+      "Em andamento": "A"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_inic",
+     "name": "F_ANO_INIC",
+     "rotulo": "Ano início",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "F_ANO_FIM",
+     "rotulo": "Ano fim",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_pesq_emp",
+     "name": "f_tpo_pesq_emp",
+     "rotulo": "f_tpo_pesq_emp",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cnpj_empresa",
+     "name": "f_cnpj_empresa",
+     "rotulo": "CNPJ da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 18,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_nme_empresa",
+     "name": "f_txt_nme_empresa",
+     "rotulo": "Nome da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_email_institucional",
+     "name": "f_txt_email_institucional",
+     "rotulo": "E-mail Institucional",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_setor",
+     "name": "f_txt_setor",
+     "rotulo": "Setor",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "txt_potencial",
+     "name": "f_txt_potencial",
+     "rotulo": "Qual o potencial de inovação do projeto?",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição de execução",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "obrigatorio": true
+    },
+    {
+     "chave": "nro_tec_nivel_medio",
+     "name": "F_NRO_TEC_NIVEL_MEDIO",
+     "rotulo": "Técnico de nível médio",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_graduacao",
+     "name": "F_NRO_GRADUACAO",
+     "rotulo": "Graduação",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_especializacao",
+     "name": "F_NRO_ESPECIALIZACAO",
+     "rotulo": "Especialização",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_acad",
+     "name": "F_NRO_MESTRADO_ACAD",
+     "rotulo": "Mestrado acadêmico",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_prof",
+     "name": "F_NRO_MESTRADO_PROF",
+     "rotulo": "Mestrado profissionalizante",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_doutorado",
+     "name": "F_NRO_DOUTORADO",
+     "rotulo": "Doutorado",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Project Name",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Description",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Ano fim",
+    "Nome do projeto",
+    "Situação",
+    "Natureza",
+    "Ano início",
+    "Nome da empresa",
+    "E-mail Institucional",
+    "Setor",
+    "CNPJ da empresa",
+    "\\\"Qual o potencial de inovação do projeto\\\"",
+    "Órgão/Unidade",
+    "Instituição de execução"
+   ]
+  },
+  {
+   "variante": "Outros tipos de projetos",
+   "url": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=O&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PROJETO.form?f_tpo_cooperacao=X&f_tpo_acao_inov=X&f_tematica=X&F_sta_inovacao=&f_cod_tipo=O&f_cod=<codigo_do_cv>",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI();",
+    "orgao();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Nome do projeto",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Descrição",
+     "aba": "Dados gerais",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tpo_natureza",
+     "name": "F_TPO_NATUREZA",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desenvolvimento": "D",
+      "Extensão": "E",
+      "Pesquisa": "P",
+      "Ensino": "N",
+      "Outra": "O"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_situacao",
+     "name": "F_TPO_SITUACAO",
+     "rotulo": "Situação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Desativado": "D",
+      "Concluído": "C",
+      "Em andamento": "A"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_inic",
+     "name": "F_ANO_INIC",
+     "rotulo": "Ano início",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "F_ANO_FIM",
+     "rotulo": "Ano fim",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "tpo_pesq_emp",
+     "name": "f_tpo_pesq_emp",
+     "rotulo": "f_tpo_pesq_emp",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cnpj_empresa",
+     "name": "f_cnpj_empresa",
+     "rotulo": "CNPJ da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 18,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_nme_empresa",
+     "name": "f_txt_nme_empresa",
+     "rotulo": "Nome da empresa",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_email_institucional",
+     "name": "f_txt_email_institucional",
+     "rotulo": "E-mail Institucional",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "txt_setor",
+     "name": "f_txt_setor",
+     "rotulo": "Setor",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "txt_potencial",
+     "name": "f_txt_potencial",
+     "rotulo": "Qual o potencial de inovação do projeto?",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": false,
+     "condicional": "só quando o projeto envolve empresa/inovação"
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição de execução",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "obrigatorio": true
+    },
+    {
+     "chave": "nro_graduacao",
+     "name": "F_NRO_GRADUACAO",
+     "rotulo": "Graduação",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_especializacao",
+     "name": "F_NRO_ESPECIALIZACAO",
+     "rotulo": "Especialização",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_acad",
+     "name": "F_NRO_MESTRADO_ACAD",
+     "rotulo": "Mestrado acadêmico",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_mestrado_prof",
+     "name": "F_NRO_MESTRADO_PROF",
+     "rotulo": "Mestrado profissionalizante",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nro_doutorado",
+     "name": "F_NRO_DOUTORADO",
+     "rotulo": "Doutorado",
+     "aba": "Equipe",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Project Name",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Description",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3900,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedad",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Informe os dados da instituição",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Informe os dados da instituição",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Ano fim",
+    "Nome do projeto",
+    "Situação",
+    "Natureza",
+    "Ano início",
+    "Nome da empresa",
+    "E-mail Institucional",
+    "Setor",
+    "CNPJ da empresa",
+    "\\\"Qual o potencial de inovação do projeto\\\"",
+    "Órgão/Unidade",
+    "Instituição de execução"
+   ]
+  }
+ ],
+ "curadoria": {
+  "campos": {
+   "f_cnpj_empresa": {
+    "obrigatorio": false,
+    "condicional": "só quando o projeto envolve empresa/inovação"
+   },
+   "f_txt_nme_empresa": {
+    "obrigatorio": false,
+    "condicional": "só quando o projeto envolve empresa/inovação"
+   },
+   "f_txt_email_institucional": {
+    "obrigatorio": false,
+    "condicional": "só quando o projeto envolve empresa/inovação"
+   },
+   "f_txt_setor": {
+    "obrigatorio": false,
+    "condicional": "só quando o projeto envolve empresa/inovação"
+   },
+   "f_txt_potencial": {
+    "obrigatorio": false,
+    "condicional": "só quando o projeto envolve empresa/inovação"
+   }
+  }
+ }
+}

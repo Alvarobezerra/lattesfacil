@@ -43,6 +43,77 @@ window.__lfAutofill = async function (d) {
     }
   }
   try { var tp = window.top.opener || window.opener; if (tp && d.__origem) tp.postMessage({ type: 'lattesfacil-status', online: !!loggedName, name: loggedName }, d.__origem); } catch (e) {}
+  if (d.tipo_producao === 'generico') {
+    var G = d.__generico || {};
+    var pagina = String(G.url || '').split('?')[0].toLowerCase();
+    var achaQuadro = function (w) {
+      var lista = [];
+      try { lista = [].slice.call(w.document.querySelectorAll('iframe')); } catch (e) {}
+      for (var i = 0; i < lista.length; i++) {
+        try {
+          var cd = lista[i].contentDocument;
+          if (cd && lista[i].offsetParent !== null && String(lista[i].src || '').toLowerCase().indexOf(pagina) >= 0 && cd.readyState === 'complete') return cd;
+          var sub = lista[i].contentWindow && achaQuadro(lista[i].contentWindow);
+          if (sub) return sub;
+        } catch (e) {}
+      }
+      return null;
+    };
+    var gdoc = achaQuadro(window.top);
+    if (!gdoc) {
+      var cvG = findCvCode(window.top.document);
+      var modalG = window.top.modalCV2;
+      if (cvG && modalG && typeof modalG.setarUrl === 'function' && pagina) {
+        modalG.setarUrl(String(G.url).replace('<codigo_do_cv>', cvG), true);
+        var tG = Date.now();
+        while (Date.now() - tG < 15000 && !gdoc) { await sleep(400); gdoc = achaQuadro(window.top); }
+        if (gdoc) await sleep(600);
+      }
+    }
+    if (!gdoc) { alert('LattesData: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo.'); return; }
+    var rel = [];
+    var fireG = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
+    var ok = 0;
+    var gw = gdoc.defaultView;
+    try { gw.alert = function (m) { rel.push('Lattes: ' + m); }; gw.confirm = function () { return true; }; } catch (e) {}
+    for (var gi = 0; gi < (G.campos || []).length; gi++) {
+      var c = G.campos[gi];
+      if (c.valor === '' || c.valor === undefined || c.valor === null || c.valor === false) {
+        // campo cuja lista o Lattes monta a partir de outro (ex.: tipo da participação depende da forma): escolhe a opção mais próxima
+        var selA = c.auto && c.tipo === 'select' ? gdoc.querySelector('select[name="' + c.name + '"]') : null;
+        if (selA) {
+          var opsA = [].slice.call(selA.options).filter(function (o) { return o.value; });
+          var refA = (G.campos || []).filter(function (x) { return x.name === c.auto_de; })[0];
+          var escA = (refA && refA.valor && melhor(opsA, refA.valor, function (o) { return o.text; })) || opsA.filter(function (o) { return refA && refA.valor && norm(o.text).indexOf(norm(refA.valor)) >= 0; })[0] || opsA[0];
+          if (escA) { selA.value = escA.value; fireG(selA); ok++; rel.push('"' + (c.rotulo || c.name) + '" escolhido automaticamente: ' + escA.text + ' (confira)'); }
+          else rel.push('não consegui escolher: ' + (c.rotulo || c.name));
+        }
+        continue;
+      }
+      var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
+      if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
+      if (c.tipo === 'radio') {
+        var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
+        if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else if (c.tipo === 'checkbox') {
+        alvo[0].checked = true; fireG(alvo[0]); ok++;
+      } else if (c.tipo === 'select') {
+        var sel = alvo[0];
+        var ops = [].slice.call(sel.options);
+        var op = ops.filter(function (o) { return o.value === c.codigo; })[0] || ops.filter(function (o) { return norm(o.text) === norm(c.valor); })[0] || melhor(ops, c.valor, function (o) { return o.text; });
+        if (op) { sel.value = op.value; fireG(sel); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else {
+        var t = alvo[0];
+        var v = String(c.valor);
+        if (t.maxLength > 0 && v.length > t.maxLength) { rel.push((c.rotulo || c.name) + ' cortado em ' + t.maxLength + ' caracteres'); v = v.slice(0, t.maxLength); }
+        t.value = v; fireG(t); ok++;
+      }
+      await sleep(c.tipo === 'radio' ? 700 : 250);
+    }
+    (G.faltam || []).forEach(function (f) { rel.push('obrigatório sem valor: ' + f); });
+    alert('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
+    return;
+  }
   var want = d.tipo_producao || 'anais';
   var wantAndamento = want === 'orientacao' && norm(d.situacao_orient).indexOf('andamento') >= 0;
   var doc = findDoc(window);

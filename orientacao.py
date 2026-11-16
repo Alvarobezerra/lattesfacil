@@ -68,16 +68,23 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
     if re.search(r"em andamento|em curso|orienta atualmente|atualmente orienta", low):
         rec["situacao_orientacao"] = "Em andamento"
 
+    fim_periodo = ""
     m = re.search(r"[“\"«]([^”\"»]{15,300})[”\"»]", flat)
     if not m:
         m = re.search(r"(?:intitulad[oa]|t[ií]tulo)\s*[:\-]?\s*(.{15,300}?)(?:\.\s|,\s*(?:sob|orientad|defendid|apresentad|no\s)|;|$)", flat, re.I)
     if m:
         t = _clean_line(m.group(1)).strip(" .,;:\"“”")
+        per = re.search(r"\s+(?:de\s+)?[a-zç]+\s+de\s+(20[0-3]\d|19\d\d)\s+a\s+(?:\d{1,2}\s+de\s+)?[a-zç]+\s+de\s+(20[0-3]\d|19\d\d)\.?$", t, re.I)
+        if per:
+            fim_periodo = per.group(2)
+            t = t[: per.start()].strip(" .,;:")
         rec["titulo"] = (t[:1].upper() + t[1:].lower()) if t.isupper() else t
     else:
         notes.append("Título do trabalho orientado não identificado.")
 
     m = re.search(r"(?i:aluno|aluna|discente|mestrand[oa]|doutorand[oa]|orientand[oa]|acad[eê]mic[oa]|estudante)\s*(?:\(a\))?\s*[:\-]?\s*" + NAME, flat)
+    if not m:
+        m = re.search(r"(?i:co-?orientou|orientou)\s+(?:(?i:o\(a\)|o|a)\s+)?(?:(?i:mestr[ea]|doutor(?:a)?|graduand[oa]|bacharel|aluno\(a\)|aluno|aluna|discente)\s+)?" + NAME, flat)
     if m:
         rec["nome_orientando"] = _name(m.group(1))[:60]
     else:
@@ -94,6 +101,9 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
         elif coorientador and name_matches(usuario, coorientador):
             rec["papel_orientacao"] = "Coorientador"
             notes.insert(0, f"{usuario} consta como coorientador.")
+        elif (mv := re.search(r"(co-?orientou|orientou)", low)) and re.search(re.escape(normalize(usuario).split()[-1]), low[max(0, mv.start() - 140): mv.start()]):
+            rec["papel_orientacao"] = "Coorientador" if mv.group(1).startswith("co") else "Orientador principal"
+            notes.insert(0, f"{usuario} consta como {'coorientador' if mv.group(1).startswith('co') else 'orientador'} (pelo verbo '{mv.group(1)}').")
         elif re.search(re.escape(normalize(usuario).split()[-1]), low) and not (orientador or coorientador):
             notes.insert(0, f"{usuario} aparece no documento, mas não identifiquei o papel; confira orientador/coorientador.")
         else:
@@ -106,14 +116,14 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
         rec["instituicao_orient"] = _clean_line(m.group(1))
     else:
         notes.append("Instituição não identificada.")
-    m = re.search(r"(?:Programa de P[óo]s-?Gradua[cç][aã]o (?:em|de)|curso de(?: gradua[cç][aã]o em)?|mestrado em|doutorado em|bacharelado em|licenciatura em)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ,' ]{3,60}?)(?=\s*(?:,|\.|;|\(|\s+(?:d[aoe]s?\s+(?:Universidade|Instituto|Faculdade|Centro|Escola|Funda[cç][aã]o)|na\s|no\s|em\s|pela\s|pelo\s|sob\s|conclu\w+|defend\w+)|$))", flat)
+    m = re.search(r"(?i:Programa de P[óo]s-?Gradua[cç][aã]o (?:em|de)|curso de(?: gradua[cç][aã]o em)?|mestrado em|doutorado em|bacharelado em|licenciatura em)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ,' ]{3,60}?)(?=\s*(?:,|\.|;|\(|\s+(?:d[aoe]s?\s+(?:Universidade|Instituto|Faculdade|Centro|Escola|Funda[cç][aã]o)|na\s|no\s|em\s|pela\s|pelo\s|sob\s|conclu\w+|defend\w+)|$))", flat)
     if m:
         rec["curso_orient"] = _clean_line(m.group(1))
     else:
         notes.append("Curso não identificado.")
 
-    ano = None
-    m = re.search(r"(?:defend\w+|aprovad\w+|conclu\w+|realizad\w+).{0,80}?(\d{1,2}/\d{1,2}/(20[0-3]\d|19\d\d)|(?:de\s+)?[a-zç]+\s+de\s+(20[0-3]\d|19\d\d))", flat, re.I)
+    ano = fim_periodo or None
+    m = None if ano else re.search(r"(?:defend\w+|aprovad\w+|conclu\w+|realizad\w+).{0,80}?(\d{1,2}/\d{1,2}/(20[0-3]\d|19\d\d)|(?:de\s+)?[a-zç]+\s+de\s+(20[0-3]\d|19\d\d))", flat, re.I)
     if m:
         ano = re.search(r"(20[0-3]\d|19\d\d)", m.group(1)).group(1)
     if not ano:

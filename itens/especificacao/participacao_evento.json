@@ -1,0 +1,214 @@
+{
+ "id": "participacao_evento",
+ "secao": "Eventos",
+ "item": "Participação em eventos, congressos, exposições, feiras e olimpíadas",
+ "como_abrir": "Eventos > Participação em eventos, congressos, exposições, feiras e olimpíadas",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_EVENTO.form?f_cod=<codigo_do_cv>&F_STA_DIVULGACAO_CIENTIFICA=",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_EVENTO.form?f_cod=<codigo_do_cv>&F_STA_DIVULGACAO_CIENTIFICA=",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "evento_comunicacao();"
+   ],
+   "campos": [
+    {
+     "chave": "forma",
+     "name": "F_FORMA",
+     "rotulo": "Forma de participação",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Convidado": "38",
+      "Participante": "39",
+      "Ouvinte": "40"
+     },
+     "obrigatorio": true,
+     "origem": "documento",
+     "padrao": "Ouvinte"
+    },
+    {
+     "chave": "tpo",
+     "name": "F_TPO",
+     "rotulo": "Tipo da apresentação/participação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "obrigatorio": true,
+     "origem": "documento",
+     "automatico": true,
+     "auto_de": "F_FORMA"
+    },
+    {
+     "chave": "nme_evento",
+     "name": "f_nme_evento",
+     "rotulo": "Nome do evento",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": true,
+     "origem": "documento"
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true,
+     "origem": "documento"
+    },
+    {
+     "chave": "classif",
+     "name": "f_classif",
+     "rotulo": "f_classif",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Internacional": "I",
+      "Nacional": "N",
+      "Regional": "R",
+      "Local": "L"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cod_prod",
+     "name": "F_COD_PROD",
+     "rotulo": "Natureza",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Congresso": "A31",
+      "Seminário": "A32",
+      "Simpósio": "A33",
+      "Oficina": "A34",
+      "Encontro": "A35",
+      "Olimpíada": "A36",
+      "Feira": "A37",
+      "Exposição": "A38",
+      "Outra": "A39"
+     },
+     "obrigatorio": true,
+     "origem": "documento"
+    },
+    {
+     "chave": "cidade",
+     "name": "f_cidade",
+     "rotulo": "Cidade",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true,
+     "origem": "fixo",
+     "padrao": "Brasil"
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "(apenas para convidado e participante)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_divulgacao_cientifica",
+     "name": "F_STA_DIVULGACAO_CIENTIFICA",
+     "rotulo": "F_STA_DIVULGACAO_CIENTIFICA",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false,
+     "origem": "fixo",
+     "padrao": "não"
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Forma de participação",
+    "Tipo da apresentação/participação",
+    "Natureza",
+    "Nome do evento",
+    "Ano",
+    "País"
+   ]
+  }
+ ],
+ "curadoria": {
+  "campos": {
+   "F_FORMA": {
+    "rotulo": "Forma de participação",
+    "obrigatorio": true,
+    "origem": "documento",
+    "padrao": "Ouvinte"
+   },
+   "F_TPO": {
+    "obrigatorio": true,
+    "origem": "documento",
+    "automatico": true,
+    "auto_de": "F_FORMA"
+   },
+   "f_nme_evento": {
+    "origem": "documento"
+   },
+   "f_ano": {
+    "origem": "documento"
+   },
+   "F_COD_PROD": {
+    "origem": "documento"
+   },
+   "f_pais": {
+    "origem": "fixo",
+    "padrao": "Brasil"
+   },
+   "F_STA_DIVULGACAO_CIENTIFICA": {
+    "origem": "fixo",
+    "padrao": "não"
+   }
+  }
+ }
+}

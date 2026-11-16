@@ -1,0 +1,84 @@
+{
+ "id": "formacao_complementar",
+ "secao": "Formação",
+ "item": "Formação complementar",
+ "como_abrir": "Formação > Formação complementar",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_FORMACAO_COMPL.form?f_cod=<codigo_do_cv>&f_tipo=FA",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_FORMACAO_COMPL.form?f_cod=<codigo_do_cv>&f_tipo=FA",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "sele_inst();"
+   ],
+   "campos": [
+    {
+     "chave": "nivel",
+     "name": "f_nivel",
+     "rotulo": "Nível",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Curso De Curta Duração": "F",
+      "Extensão Universitária": "8",
+      "Mba": "E",
+      "Outros": "Y"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 50,
+     "obrigatorio": true
+    },
+    {
+     "chave": "carga",
+     "name": "f_carga",
+     "rotulo": "Carga Horária",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Curso",
+    "Instituição",
+    "Status do curso"
+   ]
+  }
+ ],
+ "curadoria": {}
+}
