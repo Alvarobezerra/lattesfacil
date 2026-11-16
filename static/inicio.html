@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesData — Seu Currículo Lattes em dia, sem digitar</title>
+  <meta name="description" content="Envie seus certificados, artigos e resumos em PDF. O LattesData lê, organiza e preenche o seu Currículo Lattes para você, com auditoria de conformidade e dossiê pronto para editais." />
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/inicio.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="/inicio" aria-label="LattesData — início">
+        <img src="/img/isotipo.svg" alt="" width="40" height="40" />
+        <span class="wm"><b>Lattes</b><i>DATA</i></span>
+      </a>
+      <nav class="links" aria-label="Seções">
+        <a href="#problema">Por que agora</a>
+        <a href="#como">Como funciona</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <a class="btn btn-ghost" href="/login">Entrar</a>
+      <a class="btn btn-solid nav-cta" href="#acesso">Quero acesso</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="chip"><i class="dot"></i> Atualização do Lattes sem retrabalho</span>
+          <h1>Seu currículo Lattes <em>em dia</em>, sem digitar um campo.</h1>
+          <p class="lead">Envie certificados, artigos e resumos em PDF. O LattesData lê cada documento, confere os dados e preenche o formulário do Lattes por você — com auditoria para você nunca ser pego de surpresa em edital ou avaliação.</p>
+          <div class="cta-row">
+            <a class="btn btn-solid btn-lg" href="#acesso">Começar agora</a>
+            <a class="btn btn-outline btn-lg" href="#como">Ver como funciona</a>
+          </div>
+          <ul class="trust">
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> Sua senha do gov.br nunca passa por aqui</li>
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> Você revisa tudo antes de salvar</li>
+          </ul>
+        </div>
+
+        <!-- Demonstração animada: PDF -> campos extraídos -> Lattes -->
+        <div class="demo" aria-hidden="true">
+          <div class="demo-card doc">
+            <div class="demo-tag">certificado.pdf</div>
+            <div class="line w90"></div><div class="line w70"></div>
+            <div class="line hl w80" data-k="0"></div>
+            <div class="line w60"></div>
+            <div class="line hl w50" data-k="1"></div>
+            <div class="line w75"></div>
+            <div class="line hl w40" data-k="2"></div>
+            <span class="scan"></span>
+          </div>
+          <div class="demo-arrow"><svg viewBox="0 0 40 24"><path d="M2 12h34M28 4l8 8-8 8"/></svg></div>
+          <div class="demo-card form">
+            <div class="demo-tag ok"><i class="dot"></i> Lattes · Trabalho em evento</div>
+            <label>Título<span class="fld" data-k="0"><s>Impactos do ensino híbrido na formação docente</s></span></label>
+            <label>Evento<span class="fld" data-k="1"><s>XII Encontro Nacional de Educação</s></span></label>
+            <label>Ano / Cidade<span class="fld" data-k="2"><s>2026 · São Luís – MA</s></span></label>
+            <div class="demo-ok">✓ Pronto para revisar e salvar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap stats">
+        <div><strong>PDF → Lattes</strong><span>em minutos, não em horas</span></div>
+        <div><strong>Rev. humana</strong><span>você aprova antes de salvar</span></div>
+        <div><strong>CAPES/CNPq</strong><span>dossiê no padrão de editais</span></div>
+        <div><strong>100% seu</strong><span>sem compartilhar login</span></div>
+      </div>
+    </section>
+
+    <!-- ============ PROBLEMA ============ -->
+    <section class="sec alt" id="problema">
+      <div class="wrap">
+        <p class="eyebrow">Por que agora</p>
+        <h2>O Lattes deixou de ser só burocracia.</h2>
+        <p class="sub">Dados desatualizados ou inconsistentes agora podem custar bolsa, edital e reputação. E o sistema oficial continua lento e cheio de telas.</p>
+        <div class="grid3">
+          <article class="card pain">
+            <span class="ico red"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/></svg></span>
+            <h3>Risco real</h3>
+            <p>Normas recentes do CNPq preveem penalidades para dados inverídicos ou desatualizados: advertência, devolução de bolsa e suspensão em editais.</p>
+          </article>
+          <article class="card pain">
+            <span class="ico amber"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <h3>Falta de tempo</h3>
+            <p>Dezenas de certificados e artigos espalhados em pastas e e-mails. Cada item exige várias telas, autores um a um e regras rígidas de campo.</p>
+          </article>
+          <article class="card pain">
+            <span class="ico blue"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
+            <h3>Medo de entregar o login</h3>
+            <p>Terceirizar exigia passar sua conta gov.br — que abre IRPF, CNH e bancos. Ninguém deveria ter que escolher entre tempo e segurança.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMO FUNCIONA ============ -->
+    <section class="sec" id="como">
+      <div class="wrap">
+        <p class="eyebrow">Como funciona</p>
+        <h2>Três passos. O trabalho pesado é nosso.</h2>
+        <ol class="steps">
+          <li>
+            <span class="num">1</span>
+            <h3>Envie seus documentos</h3>
+            <p>Arraste PDFs de certificados, artigos, cadernos de anais e declarações de orientação — ou cole um DOI.</p>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <h3>Revise o que foi lido</h3>
+            <p>Título, autores, evento, ISSN, ano e seu papel aparecem organizados em campos. Você corrige o que quiser.</p>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <h3>Preencha no Lattes</h3>
+            <p>Com um clique, o formulário do Lattes é aberto e preenchido no seu navegador, já logado por você.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ SERVIÇOS ============ -->
+    <section class="sec alt" id="servicos">
+      <div class="wrap">
+        <p class="eyebrow">O que você contrata</p>
+        <h2>Tudo para um currículo forte, em um só lugar.</h2>
+        <div class="grid3 svc">
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg></span>
+            <h3>Leitura inteligente de PDFs</h3>
+            <p>Resumos, certificados, artigos de periódico e declarações de orientação (mestrado, doutorado, TCC, IC). Detecta título, autores, evento e seu papel.</p>
+          </article>
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg></span>
+            <h3>Cadernos de anais</h3>
+            <p>Um PDF com centenas de resumos? Informe seu nome e o sistema encontra os seus trabalhos automaticamente.</p>
+          </article>
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <h3>Preenchimento automático</h3>
+            <p>Os campos do formulário do Lattes são preenchidos por você no seu navegador, respeitando limites como o ISBN de 13 dígitos.</p>
+          </article>
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <h3>Auditoria de conformidade</h3>
+            <p>Avaliação do currículo com base nas normas CAPES/CNPq: aponta inconsistências e oportunidades antes que virem problema.</p>
+          </article>
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"/></svg></span>
+            <h3>Dossiê por ano</h3>
+            <p>Comprovantes organizados por ano e padronizados, prontos para anexar em editais, progressão e prestação de contas.</p>
+          </article>
+          <article class="card">
+            <span class="ico teal"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>
+            <h3>Radar de produções</h3>
+            <p>Encontra obras suas em bases abertas (por nome ou ORCID) que ainda não estão no seu Lattes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SEGURANÇA ============ -->
+    <section class="sec dark" id="seguranca">
+      <div class="wrap sec-split">
+        <div>
+          <p class="eyebrow light">Segurança em primeiro lugar</p>
+          <h2>Você faz o login. Nós nunca vemos sua senha.</h2>
+          <p class="sub">Diferente de quem pede seu acesso ao gov.br, o LattesData trabalha dentro do seu navegador, na sessão que você mesmo abriu.</p>
+        </div>
+        <ul class="checks">
+          <li><b>Sem compartilhar credenciais.</b> O login único do CNPq é feito por você, direto no site oficial.</li>
+          <li><b>Você no controle.</b> Nada é salvo no Lattes sem a sua revisão e confirmação.</li>
+          <li><b>Proteção de conteúdo.</b> Acesso por código, sessão com expiração, proteção contra tentativas em massa e backups automáticos dos seus registros.</li>
+          <li><b>Confere se é você.</b> Avisa quando o currículo aberto pertence a outra pessoa e bloqueia o preenchimento.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PARA QUEM ============ -->
+    <section class="sec">
+      <div class="wrap">
+        <p class="eyebrow">Para quem é</p>
+        <h2>Feito para quem vive de currículo.</h2>
+        <div class="grid4">
+          <div class="who"><b>Docentes e pesquisadores</b><span>Progressão, estágio probatório e grupos de pesquisa.</span></div>
+          <div class="who"><b>Pós-graduandos</b><span>Seleções, bolsas e renovação de projetos.</span></div>
+          <div class="who"><b>Candidatos a editais</b><span>Baremas, pontuação e comprovação organizada.</span></div>
+          <div class="who"><b>Programas e coordenações</b><span>Padronização e conformidade de vários currículos.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PLANOS ============ -->
+    <section class="sec" id="planos">
+      <div class="wrap">
+        <p class="eyebrow">Planos</p>
+        <h2>Escolha o formato que cabe na sua rotina.</h2>
+        <p class="sub">Valores definidos conforme o volume de documentos e o número de currículos. Fale com a gente e receba a proposta.</p>
+        <div class="plans">
+          <article class="plan">
+            <h3>Essencial</h3>
+            <p class="who-for">Para atualizar o seu currículo com rapidez.</p>
+            <div class="price"><strong>Consulte</strong><span>valor</span></div>
+            <ul>
+              <li>Leitura de PDFs e DOI</li>
+              <li>Preenchimento assistido no Lattes</li>
+              <li>Registros e histórico</li>
+              <li>Revisão antes de salvar</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:contato@lattesdata.com.br?subject=Plano%20Essencial">Quero o Essencial</a>
+          </article>
+          <article class="plan featured">
+            <span class="badge">Mais escolhido</span>
+            <h3>Pesquisador</h3>
+            <p class="who-for">Para quem concorre a editais e progressões.</p>
+            <div class="price"><strong>Consulte</strong><span>valor</span></div>
+            <ul>
+              <li>Tudo do Essencial</li>
+              <li>Cadernos de anais e orientações</li>
+              <li>Auditoria de conformidade CAPES/CNPq</li>
+              <li>Dossiê de comprovantes por ano</li>
+              <li>Radar de produções (nome e ORCID)</li>
+            </ul>
+            <a class="btn btn-solid" href="mailto:contato@lattesdata.com.br?subject=Plano%20Pesquisador">Quero o Pesquisador</a>
+          </article>
+          <article class="plan">
+            <h3>Instituição</h3>
+            <p class="who-for">Para programas, grupos e coordenações.</p>
+            <div class="price"><strong>Sob medida</strong><span>proposta</span></div>
+            <ul>
+              <li>Vários currículos e usuários</li>
+              <li>Padronização e conformidade em lote</li>
+              <li>Suporte e implantação dedicados</li>
+            </ul>
+            <a class="btn btn-outline" href="mailto:contato@lattesdata.com.br?subject=Plano%20Institui%C3%A7%C3%A3o">Falar com a equipe</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="sec alt" id="faq">
+      <div class="wrap narrow">
+        <p class="eyebrow">Dúvidas frequentes</p>
+        <h2>Antes de começar</h2>
+        <details class="qa"><summary>Preciso informar minha senha do gov.br?</summary><p>Não. Você faz o login por conta própria no site oficial do Lattes. O LattesData apenas trabalha na sessão que você abriu, sem ver ou guardar sua senha.</p></details>
+        <details class="qa"><summary>O sistema salva no Lattes sozinho?</summary><p>Você revisa os campos antes de qualquer envio. O objetivo é eliminar a digitação, mantendo a decisão final com você.</p></details>
+        <details class="qa"><summary>Quais documentos posso enviar?</summary><p>Resumos de eventos, certificados de apresentação, artigos de periódico (PDF ou DOI), cadernos de anais e declarações ou atas de orientação.</p></details>
+        <details class="qa"><summary>Funciona em qualquer navegador?</summary><p>A integração com o Lattes é pensada para navegadores no computador. Há um navegador automático que abre o Lattes já preparado com um clique.</p></details>
+        <details class="qa"><summary>Meus arquivos ficam seguros?</summary><p>O acesso é protegido por código e sessão com expiração, e seus registros têm backup automático. Você mantém o controle do que envia.</p></details>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="sec cta" id="acesso">
+      <div class="wrap cta-box">
+        <img src="/img/isotipo.svg" alt="" width="72" height="72" />
+        <h2>Pronto para ter o Lattes em dia?</h2>
+        <p>Entre com seu código de acesso e comece a cadastrar suas produções hoje.</p>
+        <div class="cta-row center">
+          <a class="btn btn-solid btn-lg" href="/login">Entrar na plataforma</a>
+          <a class="btn btn-outline-light btn-lg" href="mailto:contato@lattesdata.com.br?subject=Quero%20acesso%20ao%20LattesData">Solicitar acesso</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span class="brand sm"><img src="/img/isotipo.svg" alt="" width="28" height="28" /><span class="wm"><b>Lattes</b><i>DATA</i></span></span>
+      <span>Ferramenta independente, sem vínculo oficial com o CNPq ou a Plataforma Lattes.</span>
+      <a href="/login">Acesso restrito</a>
+    </div>
+  </footer>
+
+  <script src="/inicio.js"></script>
+</body>
+</html>
