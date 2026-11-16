@@ -437,17 +437,88 @@ window.__lfAutofill = async function (d) {
   // Artigo recuperado por DOI: o Lattes importa os autores do DOI (não há grade para digitar) e liga o nome do
   // titular pelas "citações bibliográficas" do currículo.
   var autoresPeloDoi = want === 'artigo' && !gridLink('autorHolder', /^Incluir novo/);
+  // Lista curta dos campos visíveis, para diagnosticar quando o Lattes muda a tela (vai no relatório do painel).
+  function camposVisiveis() {
+    return [].slice.call(doc.querySelectorAll('input, select, textarea')).filter(function (x) { return visible(x) && x.type !== 'hidden'; })
+      .slice(0, 14).map(function (x) { return (x.id || x.name || x.type) + (x.value ? '=' + String(x.value).slice(0, 18) : ''); }).join(', ');
+  }
+  // Autores: primeiro procura no histórico do currículo ("Listar todos"), que traz o nome JÁ no formato que o Lattes
+  // reconhece (o do titular vem em azul). Só se não achar é que inclui um autor novo, digitando.
+  function mesmoNome(a, b) {
+    var x = toks(a), y = toks(b);
+    return x.length > 1 && y.length > 1 && x[0] === y[0] && x[x.length - 1] === y[y.length - 1] &&
+      x.every(function (t) { return y.indexOf(t) >= 0; });
+  }
+  function ehAzul(a) { return /00f|0,\s*0,\s*255/i.test(a.getAttribute('style') || ''); }
+  function fecharListaAutores(item) {
+    var el = item;
+    while (el && el !== doc.body) {
+      var c = el.querySelector && el.querySelector('a.tool.close');
+      if (c) { c.click(); return true; }
+      el = el.parentElement;
+    }
+    return false;
+  }
+  async function autorDoHistorico(autor, titular) {
+    var lk = gridLink('autorHolder', /^Listar todos/);
+    if (!lk) return 'sem-botao';
+    lk.click();
+    var itens = [];
+    for (var t = 0; t < 16 && !itens.length; t++) { await sleep(300); itens = [].slice.call(doc.querySelectorAll('li > a.label')); }
+    if (!itens.length) return 'lista-vazia';
+    var alvo = null, ambiguo = false;
+    if (titular) alvo = itens.filter(ehAzul)[0] || null;
+    if (!alvo) {
+      var nomeDe = function (a) { return a.textContent.replace(/\s*\([^()]*\)\s*$/, ''); };
+      var exatos = itens.filter(function (a) { return norm(nomeDe(a)) === norm(autor.nome); });
+      var parecidos = itens.filter(function (a) { return mesmoNome(autor.nome, nomeDe(a)); });
+      if (exatos.length === 1) alvo = exatos[0];
+      else if (!exatos.length && parecidos.length === 1) alvo = parecidos[0];
+      else if (exatos.length > 1 || parecidos.length > 1) ambiguo = true;
+    }
+    if (!alvo) { fecharListaAutores(itens[0]); await sleep(300); return ambiguo ? 'ambiguo' : 'nao-achou'; }
+    var m = alvo.textContent.match(/\(([^()]*)\)\s*$/);
+    var cit = m ? m[1] : '';
+    alvo.click();
+    var holder = doc.getElementById('autorHolder');
+    for (var u = 0; u < 12; u++) {
+      await sleep(250);
+      if (!cit || (holder && holder.innerText.indexOf(cit) >= 0)) { return 'ok'; }
+    }
+    return 'sem-confirmacao';
+  }
+
+  var logadoNome = '';
+  try { var ne = window.top.document.getElementById('nmeLt') || window.top.document.querySelector('.dadosPrinc .nome'); logadoNome = ne ? ne.textContent.trim() : ''; } catch (e) {}
+  var okHist = 0, titularNaLista = false;
+
   for (var i = 0; !autoresPeloDoi && i < autores.length; i++) {
+    var nomeAut = String(autores[i].nome || '').trim();
+    if (!nomeAut) { report.push('autor ' + (i + 1) + ' sem nome no certificado: ignorado'); continue; }
+    var ehTit = !!logadoNome && mesmoNome(logadoNome, nomeAut);
+    var hist = await autorDoHistorico(autores[i], ehTit);
+    if (hist === 'ok') { okAut++; okHist++; if (ehTit) titularNaLista = true; await sleep(450); continue; }
+    if (hist === 'ambiguo') report.push('há mais de um autor parecido com "' + nomeAut + '" no histórico: incluí como novo (confira)');
+    else if (hist === 'sem-confirmacao') report.push('selecionei "' + nomeAut + '" no histórico, mas a grade não confirmou. Confira os autores');
+    if (hist === 'sem-confirmacao') { continue; }
+    if (ehTit) report.push('ATENÇÃO: não achei o titular (azul) no histórico de autores; vou incluí-lo digitando e o Lattes pode recusar');
     var link = gridLink('autorHolder', /^Incluir novo/);
-    var nome = doc.getElementById('nomeAutor');
-    var cita = doc.getElementById('nomeAutorComoCitado');
     if (!link) { report.push('grade de autores não encontrada'); break; }
     link.click(); await sleep(450);
-    nome = doc.getElementById('nomeAutor'); cita = doc.getElementById('nomeAutorComoCitado');
-    nome.value = String(autores[i].nome || '').slice(0, 60); cita.value = String(autores[i].citacao || '').slice(0, 60);
+    var nome = doc.getElementById('nomeAutor'), cita = doc.getElementById('nomeAutorComoCitado');
+    for (var tentaCampos = 0; (!nome || !cita) && tentaCampos < 8; tentaCampos++) {
+      await sleep(300); nome = doc.getElementById('nomeAutor'); cita = doc.getElementById('nomeAutorComoCitado');
+    }
+    if (!nome || !cita) { report.push('os campos do autor não apareceram. Campos visíveis: ' + camposVisiveis()); break; }
+    nome.value = nomeAut.slice(0, 60); cita.value = String(autores[i].citacao || '').slice(0, 60);
     fire(nome); fire(cita);
-    if (clickConfirm()) okAut++; else report.push('não consegui confirmar o autor ' + autores[i].nome);
+    if (clickConfirm()) { okAut++; if (ehTit) titularNaLista = true; }
+    else { report.push('não consegui confirmar o autor ' + nomeAut + '. Campos visíveis: ' + camposVisiveis()); break; } // para: repetir só faria o Lattes piscar
     await sleep(450);
+  }
+
+  if (!autoresPeloDoi && logadoNome && !titularNaLista) {
+    report.push('ATENÇÃO: o titular (' + logadoNome + ') não ficou na lista de autores: o Lattes vai recusar ao salvar. Escolha-o em "Listar todos" (aparece em azul).');
   }
 
   var okKw = 0;
@@ -506,6 +577,7 @@ window.__lfAutofill = async function (d) {
   var avisosCriticos = report.filter(function (r) { return !/^autores importados do DOI/i.test(r); });
   if (d.__autoSalvar && btnSalvar && avisosCriticos.length === 0) {
     await sleep(600);
+    try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
     try { btnSalvar.click(); return; } catch (e) {}
   }
   alert('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +

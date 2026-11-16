@@ -37,21 +37,15 @@ from organizer import extrair_ano, gerar_nome_padronizado, gerar_zip_dossie, org
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
-DB_PATH = BASE_DIR / "lattes_records.db"
+DB_PATH = Path(os.environ["LATTESFACIL_DB"]) if os.environ.get("LATTESFACIL_DB") else BASE_DIR / "lattes_records.db"  # LATTESFACIL_DB: usado nos testes
 MAX_UPLOAD_BYTES = 60 * 1024 * 1024  # cadernos de anais podem ter centenas de páginas
 MAX_SINGLE_ABSTRACT_PAGES = 12  # acima disso (e com vários resumos), o PDF é tratado como caderno
 MIN_ABSTRACTS_FOR_CADERNO = 10
 SID_RE = re.compile(r"^[a-z0-9]{8,40}$")
 LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sinal do conector (só em memória)
-LATTES_JOBS: dict[str, dict[str, Any]] = {}    # job_id de uso único -> payload temporário para o protocolo lattesdata://
-LATTES_CONSUMED: dict[str, float] = {}         # job_id entregue ao agente -> instante (para o ?check=)
-AGENT_TOKENS: dict[str, str] = {}              # token de pareamento do agente -> token da sessão dona
-AGENT_LAST_SEEN: dict[str, float] = {}         # último sinal do agente local (heartbeat via polling)
+ENVIO_STATUS = {"enviando", "salvo", "preenchido", "atencao", "erro", "removendo", "removido", "falha_remocao"}
+ENVIO_ID_RE = re.compile(r"^[0-9a-f]{8,16}$")
 LOGIN_USUARIOS = {"alvaro", "aramys"}          # opções da tela de login (nomes completos no front)
-AGENT_TOKEN_TTL = 90 * 86400
-INSTALL_TOKEN_RE = re.compile(r"^([0-9a-f]{12})\.(\d{9,11})\.([0-9a-f]{32})$")
-REVOKED_INSTALLS = {x.strip() for x in os.environ.get("LATTESFACIL_REVOGADOS", "").split(",") if x.strip()}
-HOST_RE = re.compile(r"^[A-Za-z0-9.\-]{1,100}(:\d{1,5})?$")
 
 # ---------------------------------------------------------------- segurança
 ACCESS_FILE = BASE_DIR / ".acesso"          # código de acesso gerado na 1ª execução (fora do git)
@@ -135,7 +129,7 @@ def load_access_code() -> str:
 
 def backup_db() -> Path | None:
     """Cópia consistente do banco (API de backup do SQLite) em backups/, mantendo as BACKUP_KEEP mais recentes."""
-    if not DB_PATH.exists():
+    if not DB_PATH.exists() or os.environ.get("LATTESFACIL_DB"):  # banco de teste (LATTESFACIL_DB) não entra nos backups
         return None
     BACKUP_DIR.mkdir(exist_ok=True)
     dest = BACKUP_DIR / f"lattes_records-{datetime.now():%Y%m%d-%H%M%S}.db"
@@ -190,6 +184,24 @@ def init_db() -> None:
                 escolhido TEXT NOT NULL,
                 decisao TEXT NOT NULL,
                 confianca REAL
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS lattes_envios (
+                id TEXT PRIMARY KEY,
+                owner TEXT NOT NULL,
+                titulo TEXT NOT NULL,
+                tipo TEXT NOT NULL,
+                ano TEXT,
+                status TEXT NOT NULL,
+                mensagem TEXT,
+                lattes_seq TEXT,
+                enviado_em TEXT NOT NULL,
+                atualizado_em TEXT NOT NULL,
+                removido_em TEXT,
+                oculto_em TEXT
             )
             """
         )
@@ -405,42 +417,6 @@ class LattesHandler(BaseHTTPRequestHandler):
         t = self._sess()
         return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
 
-    @staticmethod
-    def _agent_sig(payload: str) -> str:
-        return hmac.new(ACCESS_CODE.encode("utf-8"), b"lattesdata-agent-v2:" + payload.encode("ascii"), hashlib.sha256).hexdigest()[:32]
-
-    def _new_install_token(self) -> str:
-        """Token POR INSTALAÇÃO do agente: id.expira.assinatura (sem estado no servidor, sobrevive a reinícios).
-        Não é derivado só do código: cada instalação tem id próprio, validade de 90 dias e pode ser
-        revogada listando o id em LATTESFACIL_REVOGADOS."""
-        payload = f"{secrets.token_hex(6)}.{int(time.time()) + AGENT_TOKEN_TTL}"
-        return f"{payload}.{self._agent_sig(payload)}"
-
-    def _install_token_ok(self, tok: str) -> bool:
-        m = INSTALL_TOKEN_RE.match(tok or "")
-        if not ACCESS_CODE or not m:
-            return False
-        iid, exp, sig = m.groups()
-        if int(exp) < time.time() or iid in REVOKED_INSTALLS:
-            return False
-        return hmac.compare_digest(sig.encode(), self._agent_sig(f"{iid}.{exp}").encode())
-
-    def _agent_owner(self) -> str:
-        """Dono do token do agente local (cabeçalho X-LD-Token): 'master' (= fila do código de acesso) se o token
-        por instalação for válido, ou a tag da sessão se for um token de pareamento antigo."""
-        tok = self.headers.get("X-LD-Token", "").strip()
-        if not tok:
-            return ""
-        if self._install_token_ok(tok):
-            AGENT_LAST_SEEN["master"] = time.time()
-            return "master"
-        sess = AGENT_TOKENS.get(tok, "")
-        if sess and SESSIONS.get(sess, 0) > time.time():
-            tag = hashlib.sha256(sess.encode()).hexdigest()[:16]
-            AGENT_LAST_SEEN[tag] = time.time()
-            return tag
-        return ""
-
     def _origin_ok(self) -> bool:
         """Anti-CSRF: pedidos que alteram dados só valem se vierem da própria página."""
         origin = self.headers.get("Origin")
@@ -572,54 +548,7 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path in ("/", "/inicio") and (path == "/inicio" or not self._sess()):
             path = "/inicio.html"
         public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/"))
-        if path not in ("/api/lattes/ping", "/api/lattes/job", "/api/ativar", "/mockup-ia.html") and not public_static and not self._gate():
-            return
-
-        if path == "/api/lattes/job":
-            # Quem chama: o navegador do usuário (cookie de sessão) ou o agente local (X-LD-Token pareado
-            # a uma sessão ou token HMAC master).
-            owner = self._agent_owner() or self._sess_tag()
-            if not owner:
-                self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
-                return
-            qs = parse_qs(parsed.query)
-            jid = (qs.get("id") or [""])[0].strip()
-            chk = (qs.get("check") or [""])[0].strip()
-            want_next = (qs.get("next") or [""])[0].strip() == "1"
-            now_ts = time.time()
-            for k in [k for k, v in list(LATTES_JOBS.items()) if now_ts - v.get("ts", 0) > 600]:
-                LATTES_JOBS.pop(k, None)
-            for k in [k for k, t in list(LATTES_CONSUMED.items()) if now_ts - t > 600]:
-                LATTES_CONSUMED.pop(k, None)
-            if chk:
-                last_seen = max(AGENT_LAST_SEEN.get("master", 0.0), AGENT_LAST_SEEN.get(owner, 0.0))
-                self._send_json({
-                    "ok": True,
-                    "consumed": chk in LATTES_CONSUMED and LATTES_CONSUMED[chk] > 0 and chk not in LATTES_JOBS,
-                    "agent_online": (now_ts - last_seen) < 5.0,
-                })
-                return
-            mine = list(LATTES_JOBS.keys()) if owner == "master" else [k for k, v in LATTES_JOBS.items() if v.get("owner") == owner]
-            if want_next and not jid:
-                if not mine:
-                    self._send_json({"ok": False})
-                    return
-                oldest_k = min(mine, key=lambda k: LATTES_JOBS[k].get("ts", 0))
-                entry = LATTES_JOBS.pop(oldest_k, None)
-                LATTES_CONSUMED[oldest_k] = now_ts
-                self._send_json({"ok": True, "job_id": oldest_k, "data": entry["data"]})
-                return
-            if jid in mine:
-                entry = LATTES_JOBS.pop(jid, None)
-                LATTES_CONSUMED[jid] = now_ts
-                self._send_json({"ok": True, "data": entry["data"]})
-            else:
-                self._send_json({"ok": False, "error": "Job expirado ou inexistente."}, HTTPStatus.NOT_FOUND)
-            return
-
-        if path == "/api/lattes/pair":
-            # Emite um token novo, exclusivo de uma instalação do agente (exige sessão: passa pelo _gate)
-            self._send_json({"ok": True, "token": self._new_install_token()})
+        if path not in ("/api/lattes/ping", "/mockup-ia.html") and not public_static and not self._gate():
             return
 
         if path == "/api/radar":
@@ -686,75 +615,11 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/lattes/status":
             sid = (parse_qs(parsed.query).get("sid") or [""])[0]
             entry = LATTES_STATUS.get(sid) if SID_RE.match(sid) else None
-            last_agent = max(AGENT_LAST_SEEN.get("master", 0.0), AGENT_LAST_SEEN.get(self._sess_tag(), 0.0))
-            agent_online = (time.time() - last_agent) < 6.0
             if not entry:
-                self._send_json({"seen": False, "agent_online": agent_online})
+                self._send_json({"seen": False})
             else:
                 self._send_json({"seen": True, "online": entry["online"], "name": entry["name"],
-                                 "age": round(time.time() - entry["ts"], 1), "agent_online": agent_online})
-            return
-
-        if path == "/api/ativar":
-            qs = parse_qs(parsed.query)
-            # Token só por cabeçalho (nunca na URL, que vai para logs e histórico)
-            if not (self._agent_owner() or self._sess()):
-                self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
-                return
-            expected_tok = self.headers.get("X-LD-Token", "").strip() if self._agent_owner() else self._new_install_token()
-            ext_dir = BASE_DIR / "extensao"
-            which = (qs.get("file") or [""])[0].strip()
-            if which == "core":
-                raw_out = (ext_dir / "autofill_core.js").read_bytes()
-            elif which == "ps1":
-                raw_out = (ext_dir / "agente.ps1").read_bytes()
-            else:
-                scheme = "https" if self._https() else "http"
-                host_hdr = self.headers.get("Host", "")
-                if not HOST_RE.match(host_hdr):
-                    host_hdr = "lattesfacil.onrender.com"
-                app_url = f"{scheme}://{host_hdr}"
-                ps_bootstrap = (
-                    '$ldDir = Join-Path $env:LOCALAPPDATA "LattesData"; '
-                    'New-Item -ItemType Directory -Force -Path $ldDir | Out-Null; '
-                    f'$hdr = @{{ "X-LD-Token" = "{expected_tok}" }}; '
-                    f'Invoke-WebRequest -Uri "{app_url}/api/ativar?file=core" -Headers $hdr -UseBasicParsing -OutFile (Join-Path $ldDir "autofill_core.js"); '
-                    f'Invoke-WebRequest -Uri "{app_url}/api/ativar?file=ps1" -Headers $hdr -UseBasicParsing -OutFile (Join-Path $ldDir "agente.ps1"); '
-                    f'& (Join-Path $ldDir "agente.ps1") -AppUrl "{app_url}" -Token "{expected_tok}"\r\n'
-                )
-                raw_out = ps_bootstrap.encode("utf-8")
-            self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", "text/plain; charset=utf-8")
-            self.send_header("Content-Length", str(len(raw_out)))
-            self.end_headers()
-            self.wfile.write(raw_out)
-            return
-
-        if path == "/api/ativador.bat":
-            scheme = "https" if self._https() else "http"
-            host_hdr = self.headers.get("Host", "")
-            if not HOST_RE.match(host_hdr):
-                host_hdr = "lattesfacil.onrender.com"
-            app_url = f"{scheme}://{host_hdr}"
-            token = self._new_install_token()
-            bat_lines = [
-                "@echo off",
-                "chcp 65001 >nul",
-                "title LattesData - Navegador Automatico",
-                'set "LD_DIR=%LOCALAPPDATA%\\LattesData"',
-                'if not exist "%LD_DIR%" mkdir "%LD_DIR%"',
-                f'curl.exe -fsSL -H "X-LD-Token: {token}" "{app_url}/api/ativar?file=core" -o "%LD_DIR%\\autofill_core.js"',
-                f'curl.exe -fsSL -H "X-LD-Token: {token}" "{app_url}/api/ativar?file=ps1" -o "%LD_DIR%\\agente.ps1"',
-                f'powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}" -Token "{token}"',
-                "",
-            ]
-            raw_bat = "\r\n".join(bat_lines).encode("utf-8")
-            self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Content-Disposition", 'attachment; filename="Ativador-LattesData.bat"')
-            self.send_header("Content-Length", str(len(raw_bat)))
-            self.end_headers()
-            self.wfile.write(raw_bat)
+                                 "age": round(time.time() - entry["ts"], 1)})
             return
 
         if path == "/api/extensao.zip":
@@ -765,7 +630,7 @@ class LattesHandler(BaseHTTPRequestHandler):
             with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
                 if ext_dir.is_dir():
                     for f in sorted(ext_dir.iterdir()):
-                        if f.is_file() and f.name != "build.py":
+                        if f.is_file() and f.name not in ("build.py", "remover-agente-antigo.ps1"):
                             zf.write(f, arcname=f"lattesdata-extensao/{f.name}")
             raw_zip = buf.getvalue()
             self.send_response(HTTPStatus.OK)
@@ -774,6 +639,18 @@ class LattesHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(raw_zip)))
             self.end_headers()
             self.wfile.write(raw_zip)
+            return
+
+        if path == "/api/lattes/envios":
+            owner = (parse_qs(parsed.query).get("owner") or [""])[0].strip()[:60]
+            with db() as conn:
+                rows = conn.execute(
+                    "SELECT id, owner, titulo, tipo, ano, status, mensagem, lattes_seq, enviado_em, atualizado_em, removido_em "
+                    "FROM lattes_envios WHERE oculto_em IS NULL AND (? = '' OR owner = ?) ORDER BY enviado_em DESC LIMIT 100",
+                    (owner, owner),
+                ).fetchall()
+            cols = ["id", "owner", "titulo", "tipo", "ano", "status", "mensagem", "lattes_seq", "enviado_em", "atualizado_em", "removido_em"]
+            self._send_json({"ok": True, "envios": [dict(zip(cols, r)) for r in rows]})
             return
 
         if path == "/api/records":
@@ -1125,17 +1002,54 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": "Falha ao buscar dados faltantes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
-        if path == "/api/lattes/job":
+        if path == "/api/lattes/envios":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
-                now_ts = time.time()
-                for k in [k for k, v in LATTES_JOBS.items() if now_ts - v.get("ts", 0) > 600]:
-                    LATTES_JOBS.pop(k, None)
-                jid = secrets.token_urlsafe(16)
-                LATTES_JOBS[jid] = {"data": payload, "ts": now_ts, "owner": self._sess_tag()}
-                self._send_json({"ok": True, "job_id": jid})
+                env_id = uuid.uuid4().hex[:12]
+                now = datetime.now(timezone.utc).isoformat()
+                owner = str(payload.get("owner") or "Convidado").strip()[:60]
+                titulo = str(payload.get("titulo") or "Sem título").strip()[:300]
+                tipo = re.sub(r"[^a-z_]", "", str(payload.get("tipo") or "anais").lower())[:30] or "anais"
+                ano = re.sub(r"\D", "", str(payload.get("ano") or ""))[:4]
+                with db() as conn:
+                    conn.execute(
+                        "INSERT INTO lattes_envios (id, owner, titulo, tipo, ano, status, mensagem, enviado_em, atualizado_em) "
+                        "VALUES (?, ?, ?, ?, ?, 'enviando', 'Enviado à extensão; aguardando o Lattes.', ?, ?)",
+                        (env_id, owner, titulo, tipo, ano, now, now),
+                    )
+                    conn.commit()
+                self._send_json({"ok": True, "id": env_id, "enviado_em": now})
             except Exception:
-                self._send_json({"ok": False, "error": "Falha ao criar job."}, HTTPStatus.BAD_REQUEST)
+                self._send_json({"error": "Falha ao registrar o envio."}, HTTPStatus.BAD_REQUEST)
+            return
+
+        if parsed.path.startswith("/api/lattes/envios/"):
+            env_id = parsed.path.rsplit("/", 1)[-1]
+            if not ENVIO_ID_RE.match(env_id):
+                self._send_json({"error": "Identificador inválido."}, HTTPStatus.BAD_REQUEST)
+                return
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                status = str(payload.get("status") or "")
+                if status not in ENVIO_STATUS:
+                    self._send_json({"error": "Status inválido."}, HTTPStatus.BAD_REQUEST)
+                    return
+                mensagem = str(payload.get("mensagem") or "")[:400]
+                seq = re.sub(r"\D", "", str(payload.get("lattes_seq") or ""))[:12]
+                now = datetime.now(timezone.utc).isoformat()
+                with db() as conn:
+                    cur = conn.execute(
+                        "UPDATE lattes_envios SET status = ?, mensagem = ?, lattes_seq = CASE WHEN ? != '' THEN ? ELSE lattes_seq END, "
+                        "atualizado_em = ?, removido_em = CASE WHEN ? = 'removido' THEN ? ELSE removido_em END WHERE id = ?",
+                        (status, mensagem, seq, seq, now, status, now, env_id),
+                    )
+                    conn.commit()
+                if cur.rowcount == 0:
+                    self._send_json({"error": "Envio não encontrado."}, HTTPStatus.NOT_FOUND)
+                    return
+                self._send_json({"ok": True, "atualizado_em": now})
+            except Exception:
+                self._send_json({"error": "Falha ao atualizar o envio."}, HTTPStatus.BAD_REQUEST)
             return
 
         if path == "/api/records":
@@ -1162,6 +1076,17 @@ class LattesHandler(BaseHTTPRequestHandler):
     def do_DELETE(self) -> None:
         parsed = urlparse(self.path)
         if not self._gate(mutating=True):
+            return
+        if parsed.path.startswith("/api/lattes/envios/"):
+            env_id = parsed.path.rsplit("/", 1)[-1]
+            if not ENVIO_ID_RE.match(env_id):
+                self._send_json({"error": "Identificador inválido."}, HTTPStatus.BAD_REQUEST)
+                return
+            # só tira da lista do LattesData; NÃO remove nada do Lattes (isso é feito pela extensão, com confirmação)
+            with db() as conn:
+                conn.execute("UPDATE lattes_envios SET oculto_em = ? WHERE id = ?", (datetime.now(timezone.utc).isoformat(), env_id))
+                conn.commit()
+            self._send_json({"ok": True})
             return
         if parsed.path.startswith("/api/records/"):
             rec_id = parsed.path.split("/")[-1][:64]

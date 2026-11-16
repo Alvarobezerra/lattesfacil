@@ -37,7 +37,7 @@
               </div>
               <div class="lc-actions">
                 <button type="button" class="btn btn-primary" id="btnLoginLattes">Entrar no Lattes</button>
-                <a class="btn btn-accent btn-sm" href="/api/ativador.bat" download="Ativador-LattesData.bat" title="Baixa um ativador leve para abrir o navegador já integrado ao Lattes">💻 Baixar Navegador Automático</a>
+                <a class="btn btn-accent btn-sm" href="/api/extensao.zip" download="lattesdata-extensao.zip" title="Extensão do navegador que abre o Lattes e preenche sozinha">🧩 Baixar extensão</a>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnCopyConnector">Copiar conector</button>
               </div>
             </div>
@@ -65,6 +65,9 @@
                 <option value="Álvaro Antônio Bezerra dos Santos">Álvaro Antônio Bezerra dos Santos</option>
                 <option value="Aramys Silva dos Reis">Aramys Silva dos Reis</option>
               </select>
+              <label for="citacaoNome" style="display:block;margin-top:10px">Nome em citações no Lattes</label>
+              <input id="citacaoNome" type="text" maxlength="60" autocomplete="off" placeholder="Ex.: SANTOS, A. A. B." aria-label="Nome em citações bibliográficas no Lattes" style="width:100%">
+              <p class="hint" style="margin:4px 0 0">Copie exatamente de Dados gerais › Nomes em citações bibliográficas. O Lattes só salva se o seu autor tiver um desses nomes.</p>
             </div>
             <a class="um-item" href="/logout" title="Encerrar a sessão" role="menuitem">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H4.5A1.5 1.5 0 003 4.5v11A1.5 1.5 0 004.5 17H8M13 14l4-4-4-4M17 10H8"/></svg>Sair
@@ -76,13 +79,32 @@
   </header>
 
   <main class="container">
+    <!-- Aviso: extensão LattesData ausente ou desatualizada -->
+    <div id="extAviso" class="hidden" role="status" style="display:none;margin:0 0 14px;padding:12px 14px;border-radius:10px;border:1px solid #fcd34d;background:#fffbeb;color:#92400e">
+      <strong id="extAvisoTitulo"></strong>
+      <span id="extAvisoTexto" style="display:block;margin-top:2px"></span>
+      <span style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+        <button type="button" class="btn btn-sm btn-primary" id="btnExtAvisoInstalar">🧩 Como instalar</button>
+        <a class="btn btn-sm btn-secondary" href="/api/extensao.zip" download="lattesdata-extensao.zip">📥 Baixar extensão</a>
+        <button type="button" class="btn btn-sm btn-ghost" id="btnExtAvisoDispensar">Dispensar</button>
+      </span>
+    </div>
     <!-- Painel de Histórico Compartilhado -->
     <section id="historyPanel" class="card hidden">
       <div class="card-header">
-        <h2>📚 Registros Compartilhados (Testes em Equipe)</h2>
+        <h2>📚 Registros</h2>
         <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">Fechar</button>
       </div>
-      <p class="hint">Qualquer registro salvo aqui fica visível para você e seu amigo testarem juntos.</p>
+
+      <div class="card-header" style="margin-top:6px">
+        <h3 style="margin:0">Envios ao Lattes</h3>
+        <button type="button" class="btn btn-secondary btn-sm" id="btnAtualizarEnvios">↻ Atualizar</button>
+      </div>
+      <p class="hint" style="margin-top:0">Tudo o que foi enviado ao Lattes pelo usuário selecionado, com o resultado de cada envio. Aqui você confere se o item está no currículo e, se precisar, manda removê-lo.</p>
+      <div id="enviosLista" aria-live="polite"></div>
+
+      <h3 style="margin:18px 0 4px">Registros salvos (testes em equipe)</h3>
+      <p class="hint" style="margin-top:0">Qualquer registro salvo aqui fica visível para você e seu amigo testarem juntos.</p>
       <div id="recordsList" class="records-list"></div>
     </section>
 
@@ -565,11 +587,12 @@
           </button>
         </div>
 
+        <div id="lattesResultado" class="hidden" role="status" aria-live="polite"></div>
+
         <div id="extInstallBox" class="bookmarklet-box" style="margin-top: 12px;">
-          <p style="margin: 0 0 8px;"><strong>💻 Quer abrir o navegador já integrado ao Lattes (sem precisar configurar extensão nem usar F12)?</strong> Baixe o Ativador leve para o seu computador e dê 2 cliques — ele abre o Chrome/Edge já conectado ao LattesData e cria um atalho na sua Área de Trabalho:</p>
+          <p style="margin: 0 0 8px;"><strong>🧩 Quer cadastrar com 1 clique?</strong> Instale a extensão LattesData no Chrome ou Edge (uma única vez). Depois, o botão <em>Enviar</em> abre o login do Lattes, espera você entrar e preenche tudo sozinho.</p>
           <div class="action-buttons" style="margin-top: 6px;">
-            <a class="btn btn-accent btn-sm" href="/api/ativador.bat" download="Ativador-LattesData.bat">💻 Baixar Ativador do Navegador (Windows)</a>
-            <a class="btn btn-secondary btn-sm" href="/api/extensao.zip" download="lattesdata-extensao.zip">🧩 Ou Baixar Extensão (.zip)</a>
+            <a class="btn btn-accent btn-sm" href="/api/extensao.zip" download="lattesdata-extensao.zip">🧩 Baixar extensão (.zip)</a>
           </div>
         </div>
 
@@ -599,6 +622,7 @@
         </div>
         </details>
       </section>
+
     </form>
   </main>
 
@@ -751,41 +775,35 @@
     </div>
   </div>
 
-  <!-- Modal de Verificação e Download do Ativador Local -->
+  <!-- Modal: instalar a extensão (uma única vez) -->
   <div id="ativadorModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="ativadorModalTitle">
     <div class="audit-modal-card" style="max-width: 560px;">
       <div class="audit-modal-header">
         <div class="flex-align-gap">
-          <span class="audit-icon-badge">💻</span>
+          <span class="audit-icon-badge">🧩</span>
           <div>
-            <h2 id="ativadorModalTitle" class="audit-modal-title">Ativador do Navegador não detectado</h2>
-            <p class="hint">Necessário apenas na 1ª vez neste computador para automatizar o Currículo Lattes</p>
+            <h2 id="ativadorModalTitle" class="audit-modal-title">Instale ou atualize a extensão LattesData</h2>
+            <p class="hint">Necessário apenas uma vez neste navegador (Chrome ou Edge)</p>
           </div>
         </div>
         <button type="button" class="btn-close" id="btnCloseAtivadorModal" aria-label="Fechar">✕</button>
       </div>
 
       <div class="audit-modal-body">
-        <p style="margin: 0 0 12px; color: #334155; line-height: 1.5;">
-          O LattesData verificou que o <strong>Ativador do Navegador</strong> ainda não está em execução neste computador. Para que o sistema abra o Currículo Lattes, aguarde seu login e preencha o trabalho sozinho:
-        </p>
-
-        <ol style="margin: 0 0 16px; padding-left: 20px; color: #1e293b; line-height: 1.65;">
-          <li>Clique no botão <strong>Baixar Ativador Agora</strong> abaixo.</li>
-          <li>Abra o arquivo <code>Ativador-LattesData.bat</code> que aparecerá nos seus Downloads.</li>
-          <li><strong>Pronto!</strong> Não precisa clicar em Enviar novamente: assim que o Ativador abrir, o seu cadastro começará automaticamente.</li>
+        <ol style="margin: 0 0 16px; padding-left: 20px; color: #1e293b; line-height: 1.7;">
+          <li>Baixe e <strong>extraia</strong> o arquivo <code>lattesdata-extensao.zip</code>.</li>
+          <li>Abra <code>chrome://extensions</code> (ou <code>edge://extensions</code>) e ative o <strong>Modo do desenvolvedor</strong>.</li>
+          <li>Clique em <strong>Carregar sem compactação</strong> e escolha a pasta extraída.</li>
+          <li><strong>Recarregue esta página</strong> (F5) e clique em Enviar de novo.</li>
+          <li>Já instalou e continua sem funcionar? Confirme que a extensão está <strong>ativada</strong> em <code>chrome://extensions</code> e, se atualizou os arquivos, clique em <strong>recarregar</strong> nela.</li>
         </ol>
 
-        <div id="ativadorModalStatus" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; padding: 12px 14px; border-radius: 10px; font-weight: 600; font-size: 0.92rem; margin-bottom: 16px;">
-          ⏳ Aguardando a execução do arquivo Ativador...
-        </div>
-
         <div class="dossie-modal-actions" style="display: flex; flex-direction: column; gap: 10px;">
-          <a href="/api/ativador.bat" download="Ativador-LattesData.bat" class="btn btn-primary" id="btnModalDownloadAtivador" style="justify-content: center; text-align: center; font-size: 1rem; padding: 12px 18px;">
-            📥 Baixar Ativador do Navegador (Ativador-LattesData.bat)
+          <a href="/api/extensao.zip" download="lattesdata-extensao.zip" class="btn btn-primary" style="justify-content: center; text-align: center; font-size: 1rem; padding: 12px 18px;">
+            📥 Baixar extensão (lattesdata-extensao.zip)
           </a>
           <button type="button" class="btn btn-secondary" id="btnModalManualLattes" style="justify-content: center;">
-            🔗 Ou abrir o Lattes manualmente sem o Ativador (modo F12 / Favorito)
+            🔗 Ou abrir o Lattes manualmente (modo F12 / Favorito)
           </button>
         </div>
       </div>

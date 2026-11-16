@@ -719,17 +719,88 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   // Artigo recuperado por DOI: o Lattes importa os autores do DOI (não há grade para digitar) e liga o nome do
   // titular pelas "citações bibliográficas" do currículo.
   var autoresPeloDoi = want === 'artigo' && !gridLink('autorHolder', /^Incluir novo/);
+  // Lista curta dos campos visíveis, para diagnosticar quando o Lattes muda a tela (vai no relatório do painel).
+  function camposVisiveis() {
+    return [].slice.call(doc.querySelectorAll('input, select, textarea')).filter(function (x) { return visible(x) && x.type !== 'hidden'; })
+      .slice(0, 14).map(function (x) { return (x.id || x.name || x.type) + (x.value ? '=' + String(x.value).slice(0, 18) : ''); }).join(', ');
+  }
+  // Autores: primeiro procura no histórico do currículo ("Listar todos"), que traz o nome JÁ no formato que o Lattes
+  // reconhece (o do titular vem em azul). Só se não achar é que inclui um autor novo, digitando.
+  function mesmoNome(a, b) {
+    var x = toks(a), y = toks(b);
+    return x.length > 1 && y.length > 1 && x[0] === y[0] && x[x.length - 1] === y[y.length - 1] &&
+      x.every(function (t) { return y.indexOf(t) >= 0; });
+  }
+  function ehAzul(a) { return /00f|0,\s*0,\s*255/i.test(a.getAttribute('style') || ''); }
+  function fecharListaAutores(item) {
+    var el = item;
+    while (el && el !== doc.body) {
+      var c = el.querySelector && el.querySelector('a.tool.close');
+      if (c) { c.click(); return true; }
+      el = el.parentElement;
+    }
+    return false;
+  }
+  async function autorDoHistorico(autor, titular) {
+    var lk = gridLink('autorHolder', /^Listar todos/);
+    if (!lk) return 'sem-botao';
+    lk.click();
+    var itens = [];
+    for (var t = 0; t < 16 && !itens.length; t++) { await sleep(300); itens = [].slice.call(doc.querySelectorAll('li > a.label')); }
+    if (!itens.length) return 'lista-vazia';
+    var alvo = null, ambiguo = false;
+    if (titular) alvo = itens.filter(ehAzul)[0] || null;
+    if (!alvo) {
+      var nomeDe = function (a) { return a.textContent.replace(/\s*\([^()]*\)\s*$/, ''); };
+      var exatos = itens.filter(function (a) { return norm(nomeDe(a)) === norm(autor.nome); });
+      var parecidos = itens.filter(function (a) { return mesmoNome(autor.nome, nomeDe(a)); });
+      if (exatos.length === 1) alvo = exatos[0];
+      else if (!exatos.length && parecidos.length === 1) alvo = parecidos[0];
+      else if (exatos.length > 1 || parecidos.length > 1) ambiguo = true;
+    }
+    if (!alvo) { fecharListaAutores(itens[0]); await sleep(300); return ambiguo ? 'ambiguo' : 'nao-achou'; }
+    var m = alvo.textContent.match(/\(([^()]*)\)\s*$/);
+    var cit = m ? m[1] : '';
+    alvo.click();
+    var holder = doc.getElementById('autorHolder');
+    for (var u = 0; u < 12; u++) {
+      await sleep(250);
+      if (!cit || (holder && holder.innerText.indexOf(cit) >= 0)) { return 'ok'; }
+    }
+    return 'sem-confirmacao';
+  }
+
+  var logadoNome = '';
+  try { var ne = window.top.document.getElementById('nmeLt') || window.top.document.querySelector('.dadosPrinc .nome'); logadoNome = ne ? ne.textContent.trim() : ''; } catch (e) {}
+  var okHist = 0, titularNaLista = false;
+
   for (var i = 0; !autoresPeloDoi && i < autores.length; i++) {
+    var nomeAut = String(autores[i].nome || '').trim();
+    if (!nomeAut) { report.push('autor ' + (i + 1) + ' sem nome no certificado: ignorado'); continue; }
+    var ehTit = !!logadoNome && mesmoNome(logadoNome, nomeAut);
+    var hist = await autorDoHistorico(autores[i], ehTit);
+    if (hist === 'ok') { okAut++; okHist++; if (ehTit) titularNaLista = true; await sleep(450); continue; }
+    if (hist === 'ambiguo') report.push('há mais de um autor parecido com "' + nomeAut + '" no histórico: incluí como novo (confira)');
+    else if (hist === 'sem-confirmacao') report.push('selecionei "' + nomeAut + '" no histórico, mas a grade não confirmou. Confira os autores');
+    if (hist === 'sem-confirmacao') { continue; }
+    if (ehTit) report.push('ATENÇÃO: não achei o titular (azul) no histórico de autores; vou incluí-lo digitando e o Lattes pode recusar');
     var link = gridLink('autorHolder', /^Incluir novo/);
-    var nome = doc.getElementById('nomeAutor');
-    var cita = doc.getElementById('nomeAutorComoCitado');
     if (!link) { report.push('grade de autores não encontrada'); break; }
     link.click(); await sleep(450);
-    nome = doc.getElementById('nomeAutor'); cita = doc.getElementById('nomeAutorComoCitado');
-    nome.value = String(autores[i].nome || '').slice(0, 60); cita.value = String(autores[i].citacao || '').slice(0, 60);
+    var nome = doc.getElementById('nomeAutor'), cita = doc.getElementById('nomeAutorComoCitado');
+    for (var tentaCampos = 0; (!nome || !cita) && tentaCampos < 8; tentaCampos++) {
+      await sleep(300); nome = doc.getElementById('nomeAutor'); cita = doc.getElementById('nomeAutorComoCitado');
+    }
+    if (!nome || !cita) { report.push('os campos do autor não apareceram. Campos visíveis: ' + camposVisiveis()); break; }
+    nome.value = nomeAut.slice(0, 60); cita.value = String(autores[i].citacao || '').slice(0, 60);
     fire(nome); fire(cita);
-    if (clickConfirm()) okAut++; else report.push('não consegui confirmar o autor ' + autores[i].nome);
+    if (clickConfirm()) { okAut++; if (ehTit) titularNaLista = true; }
+    else { report.push('não consegui confirmar o autor ' + nomeAut + '. Campos visíveis: ' + camposVisiveis()); break; } // para: repetir só faria o Lattes piscar
     await sleep(450);
+  }
+
+  if (!autoresPeloDoi && logadoNome && !titularNaLista) {
+    report.push('ATENÇÃO: o titular (' + logadoNome + ') não ficou na lista de autores: o Lattes vai recusar ao salvar. Escolha-o em "Listar todos" (aparece em azul).');
   }
 
   var okKw = 0;
@@ -788,6 +859,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var avisosCriticos = report.filter(function (r) { return !/^autores importados do DOI/i.test(r); });
   if (d.__autoSalvar && btnSalvar && avisosCriticos.length === 0) {
     await sleep(600);
+    try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
     try { btnSalvar.click(); return; } catch (e) {}
   }
   alert('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
@@ -1030,7 +1102,7 @@ function buildLattesAutofillScript(data) {
   // "<" escapado para o JSON nunca fechar uma tag script caso o texto seja colado em HTML
   const usuario = $("ownerName") ? $("ownerName").value : "";
   const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
-  const sanitized = sanitizeDataPayload(data);
+  const sanitized = aplicarCitacaoTitular(sanitizeDataPayload(data));
   const payload = JSON.stringify({ ...sanitized, __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar }).replace(/</g, "\\u003c");
   return AUTOFILL_TEMPLATE.replace("__DATA__", () => payload);
 }
@@ -1433,11 +1505,18 @@ async function enrichMissing() {
   statusEl.textContent = `Campos completados automaticamente (${keys.join(", ")}) via ${(json.sources || []).join(", ")}.`;
 }
 
+// O número ao lado de "Registros" soma os registros salvos e os envios ao Lattes.
+function atualizarContadorRegistros() {
+  const el = $("recordsCount");
+  if (el) el.textContent = (window.__nRegistros || 0) + (window.__nEnvios || 0);
+}
+
 async function loadRecords() {
   const resp = await fetch("/api/records");
   const json = await resp.json();
   const records = json.records || [];
-  $("recordsCount").textContent = records.length;
+  window.__nRegistros = records.length;
+  atualizarContadorRegistros();
   const list = $("recordsList");
   list.innerHTML = "";
   if (records.length === 0) {
@@ -1669,6 +1748,7 @@ $("tipo_producao").addEventListener("change", () => {
 // e titular esperado no Lattes). Guardado só neste navegador.
 function applyUser(name, { persist = true } = {}) {
   $("ownerName").value = name;
+  try { $("citacaoNome").value = localStorage.getItem("lf-citacao:" + name) || ""; } catch (e) {}
   $("searchUser").textContent = name;
   $("guideUser").textContent = name;
   if (persist) {
@@ -1677,6 +1757,25 @@ function applyUser(name, { persist = true } = {}) {
   $("cadernoResults").innerHTML = "";
   updateBookmarklet();
 }
+$("citacaoNome").addEventListener("input", () => {
+  try { localStorage.setItem("lf-citacao:" + $("ownerName").value, $("citacaoNome").value.trim()); } catch (e) {}
+  updateBookmarklet();
+});
+
+// O Lattes só aceita o cadastro se o nome em citações de UM autor for igual a um dos nomes cadastrados no currículo
+// do titular. Se o usuário informou o dele, ele vale para o autor que é o titular.
+function aplicarCitacaoTitular(d) {
+  const cit = $("citacaoNome") ? $("citacaoNome").value.trim() : "";
+  if (!cit || !d || !Array.isArray(d.autores)) return d;
+  const t = nameTokens($("ownerName").value);
+  const autores = d.autores.map((a) => {
+    const b = nameTokens(a && a.nome);
+    const ehTitular = t.length > 0 && b.length > 0 && t[0] === b[0] && t[t.length - 1] === b[b.length - 1];
+    return ehTitular ? { ...a, citacao: cit } : a;
+  });
+  return { ...d, autores };
+}
+
 let initialUser = $("ownerName").options[0].value;
 try {
   const savedUser = localStorage.getItem("lf-usuario");
@@ -1976,13 +2075,6 @@ async function pollLattesStatus() {
   try {
     const r = await fetch("/api/lattes/status?sid=" + encodeURIComponent(getSid()), { cache: "no-store" });
     const j = await r.json();
-    window.__lattesAgentOnline = !!j.agent_online;
-    if (j.agent_online) {
-      const badge = $("extStatusBadge");
-      if (badge) badge.textContent = "✅ Ativador Local Ativo";
-      const box = $("extInstallBox");
-      if (box) box.style.display = "none";
-    }
     if (!j.seen) return;
     const when = Date.now() - j.age * 1000;
     if (when < lattesState.last) return; // já temos um sinal mais novo
@@ -1998,7 +2090,204 @@ pollLattesStatus();
 
 renderLattesStatus();
 
-function dispararEnvioExtensao() {
+// Resultado do envio ao Lattes, que fica na tela (o aviso rápido some). Só textContent: o texto vem de outra página.
+function mostrarResultadoLattes(m) {
+  const box = $("lattesResultado");
+  if (!box || !m) return;
+  // Sem "estado" = resposta imediata da extensão (ainda em andamento); com estado = resultado final do preenchimento.
+  const VISUAL = { removido: "ok", ausente: "atencao", login: "atencao", divergente: "erro", "nao-suportado": "atencao" };
+  const estado = ["ok", "atencao", "erro"].includes(m.estado) ? m.estado : (VISUAL[m.estado] || (m.ok ? "andando" : "erro"));
+  const cores = { andando: ["#f0f9ff", "#bae6fd", "#0369a1", "⏳"], ok: ["#ecfdf5", "#6ee7b7", "#047857", "✅"], atencao: ["#fffbeb", "#fcd34d", "#92400e", "⚠️"], erro: ["#fef2f2", "#fca5a5", "#b91c1c", "❌"] }[estado];
+  box.style.cssText = `margin-top:12px;padding:12px 14px;border-radius:10px;border:1px solid ${cores[1]};background:${cores[0]};color:${cores[2]};`;
+  box.textContent = "";
+  const t = document.createElement("strong");
+  t.textContent = `${cores[3]} Lattes: ${String(m.message || "").slice(0, 300)}`;
+  box.appendChild(t);
+  const det = Array.isArray(m.detalhes) ? m.detalhes.slice(0, 8) : [];
+  if (det.length) {
+    const ul = document.createElement("ul");
+    ul.style.cssText = "margin:6px 0 0;padding-left:18px;font-size:0.9rem";
+    det.forEach((x) => { const li = document.createElement("li"); li.textContent = String(x).slice(0, 300); ul.appendChild(li); });
+    box.appendChild(ul);
+  }
+  if (["ok", "atencao", "erro"].includes(m.estado) || m.estado === "removido") {
+    const ver = document.createElement("button");
+    ver.type = "button";
+    ver.className = "btn btn-sm btn-secondary";
+    ver.style.marginTop = "8px";
+    ver.textContent = "📚 Ver em Registros";
+    ver.onclick = () => {
+      $("historyPanel").classList.remove("hidden");
+      carregarEnvios();
+      loadRecords();
+      $("historyPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    box.appendChild(ver);
+  }
+  box.classList.remove("hidden");
+  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// ---------- Envios ao Lattes: registro, verificação e remoção ----------
+const TIPO_ROTULO = { apresentacao: "Apresentação de trabalho", anais: "Trabalho em anais", artigo: "Artigo", orientacao: "Orientação", generico: "Outro item" };
+const STATUS_ENVIO = {
+  enviando: ["⏳ Enviando", "#0369a1"],
+  salvo: ["✅ Salvo no Lattes", "#047857"],
+  preenchido: ["📝 Preenchido (falta salvar)", "#92400e"],
+  atencao: ["⚠️ Conferir no Lattes", "#92400e"],
+  erro: ["❌ Erro", "#b91c1c"],
+  removendo: ["⏳ Removendo…", "#0369a1"],
+  removido: ["🗑️ Removido do Lattes", "#475569"],
+  falha_remocao: ["❌ Falha ao remover", "#b91c1c"],
+};
+const REMOCAO_SUPORTADA = new Set(["apresentacao"]); // tipos com leitura de lista e Excluir mapeados no Lattes
+let enviosCache = [];
+
+function fmtDataHora(iso) {
+  const d = new Date(iso);
+  return isNaN(d) ? "" : d.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+}
+
+async function carregarEnvios() {
+  const lista = $("enviosLista");
+  if (!lista) return;
+  try {
+    const r = await fetch("/api/lattes/envios?owner=" + encodeURIComponent($("ownerName").value), { cache: "no-store" });
+    const j = await r.json();
+    enviosCache = Array.isArray(j.envios) ? j.envios : [];
+  } catch (e) {
+    return;
+  }
+  window.__nEnvios = enviosCache.length;
+  atualizarContadorRegistros();
+  renderEnvios();
+}
+
+async function criarEnvio(dados) {
+  try {
+    const r = await fetch("/api/lattes/envios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ owner: $("ownerName").value, titulo: dados.titulo, tipo: dados.tipo_producao, ano: dados.ano }),
+    });
+    const j = await r.json();
+    return j.id || "";
+  } catch (e) {
+    return "";
+  }
+}
+
+async function atualizarEnvio(id, status, mensagem, seq) {
+  try {
+    await fetch("/api/lattes/envios/" + encodeURIComponent(id), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, mensagem: mensagem || "", lattes_seq: seq || "" }),
+    });
+  } catch (e) {}
+  await carregarEnvios();
+}
+
+// Resultado final vindo da extensão (preenchimento, verificação ou remoção) -> atualiza o registro.
+function processarResultadoEnvio(m) {
+  if (!m || !m.envioId || !m.estado) return; // resposta imediata (sem estado) não muda nada
+  const ev = m.evento || "preenchimento";
+  const msg = String(m.message || "");
+  const seq = String(m.seq || "");
+  if (ev === "preenchimento") {
+    const status = m.estado === "ok" ? (seq ? "salvo" : "preenchido") : m.estado === "atencao" ? "atencao" : "erro";
+    atualizarEnvio(m.envioId, status, msg, seq);
+  } else if (ev === "verificacao") {
+    if (m.estado === "ok") atualizarEnvio(m.envioId, "salvo", msg, seq);
+    else if (m.estado === "ausente") atualizarEnvio(m.envioId, "atencao", msg, "");
+    else carregarEnvios();
+  } else if (ev === "remocao") {
+    if (m.estado === "removido" || m.estado === "ausente") atualizarEnvio(m.envioId, "removido", msg, seq);
+    else if (m.estado === "login") atualizarEnvio(m.envioId, "salvo", msg, ""); // não chegou a remover: volta ao estado anterior
+    else atualizarEnvio(m.envioId, "falha_remocao", msg, seq);
+  }
+}
+
+function pedirVerificacao(e) {
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para verificar no Lattes."); return; }
+  window.postMessage({ type: "lattesdata-ext-verify", envioId: e.id, tipo: e.tipo, titulo: e.titulo, seq: e.lattes_seq || "" }, location.origin);
+  showToast("Verificando no Lattes…");
+}
+
+async function pedirRemocao(e) {
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para remover do Lattes."); return; }
+  const ok = window.confirm(
+    "Remover do Lattes?\n\n“" + e.titulo + "”\n\nIsto EXCLUI o item do seu Currículo Lattes e não pode ser desfeito pelo LattesData. Continuar?"
+  );
+  if (!ok) return;
+  await atualizarEnvio(e.id, "removendo", "Removendo no Lattes…", "");
+  window.postMessage({ type: "lattesdata-ext-remove", envioId: e.id, tipo: e.tipo, titulo: e.titulo, seq: e.lattes_seq || "" }, location.origin);
+  showToast("Pedido de remoção enviado ao Lattes. Acompanhe o painel na aba do Lattes.");
+}
+
+async function tirarDaLista(e) {
+  try { await fetch("/api/lattes/envios/" + encodeURIComponent(e.id), { method: "DELETE" }); } catch (err) {}
+  carregarEnvios();
+}
+
+function renderEnvios() {
+  const lista = $("enviosLista");
+  if (!lista) return;
+  lista.textContent = "";
+  if (!enviosCache.length) {
+    const p = document.createElement("p");
+    p.className = "hint";
+    p.textContent = "Nenhum envio registrado para este usuário ainda. Os próximos envios ao Lattes aparecem aqui.";
+    lista.appendChild(p);
+    return;
+  }
+  enviosCache.forEach((e) => {
+    const [rotulo, cor] = STATUS_ENVIO[e.status] || [e.status, "#475569"];
+    const box = document.createElement("div");
+    box.style.cssText = "border:1px solid #e2e8f0;border-left:5px solid " + cor + ";border-radius:10px;padding:10px 12px;margin:8px 0;background:#fff";
+    const tit = document.createElement("strong");
+    tit.textContent = e.titulo;
+    box.appendChild(tit);
+    const meta = document.createElement("div");
+    meta.className = "hint";
+    meta.style.margin = "2px 0 4px";
+    meta.textContent = [TIPO_ROTULO[e.tipo] || e.tipo, e.ano, "enviado em " + fmtDataHora(e.enviado_em), e.lattes_seq ? "item nº " + e.lattes_seq + " no Lattes" : ""].filter(Boolean).join(" • ");
+    box.appendChild(meta);
+    const st = document.createElement("div");
+    st.style.cssText = "font-weight:600;color:" + cor;
+    st.textContent = rotulo + (e.mensagem ? " — " + e.mensagem : "");
+    box.appendChild(st);
+
+    const acoes = document.createElement("div");
+    acoes.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-top:8px";
+    const btn = (txt, fn, classe) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn btn-sm " + (classe || "btn-secondary");
+      b.textContent = txt;
+      b.onclick = fn;
+      acoes.appendChild(b);
+    };
+    const suportado = REMOCAO_SUPORTADA.has(e.tipo);
+    if (e.status !== "removido" && suportado) btn("🔎 Verificar no Lattes", () => pedirVerificacao(e));
+    if (["salvo", "atencao", "falha_remocao"].includes(e.status) && suportado) btn("🗑️ Remover do Lattes", () => pedirRemocao(e), "btn-accent");
+    if (e.status !== "removido" && !suportado) {
+      const nota = document.createElement("span");
+      nota.className = "hint";
+      nota.textContent = "Verificação e remoção automáticas ainda não existem para este tipo: confira ou remova direto no Lattes.";
+      acoes.appendChild(nota);
+    }
+    if (e.status !== "removendo") btn("Tirar da lista", () => tirarDaLista(e));
+    box.appendChild(acoes);
+    lista.appendChild(box);
+  });
+}
+
+if ($("btnAtualizarEnvios")) $("btnAtualizarEnvios").onclick = carregarEnvios;
+$("ownerName").addEventListener("change", carregarEnvios);
+carregarEnvios();
+
+async function dispararEnvioExtensao() {
   const data = getFormData();
   if (!data.titulo) {
     showToast("Carregue ou preencha ao menos o título antes de enviar ao Lattes.");
@@ -2006,67 +2295,92 @@ function dispararEnvioExtensao() {
   }
   const usuario = $("ownerName") ? $("ownerName").value : "";
   const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
-  const dados = { ...sanitizeDataPayload(data), __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar };
+  const dados = { ...aplicarCitacaoTitular(sanitizeDataPayload(data)), __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar };
   const btnExt = $("btnEnviarExtensao");
   const btnOpen = $("btnOpenLattes");
   if (btnExt) btnExt.disabled = true;
   if (btnOpen) btnOpen.disabled = true;
+  const envioId = await criarEnvio(dados); // registra o envio; o resultado dele chega depois da extensão
+  if (envioId) dados.__envioId = envioId;
+  carregarEnvios();
   window.postMessage({ type: "lattesdata-ext-fill", data: dados }, location.origin);
   return true;
 }
 
-let ativadorWatchTimer = null;
+// ---------- Extensão LattesData: avisar quando não está instalada ou está desatualizada ----------
+const EXT_VERSAO_MINIMA = "0.5.1"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
+
+function versaoMenor(a, b) {
+  const x = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
+  const y = String(b || "0").split(".").map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) < (y[i] || 0);
+  }
+  return false;
+}
+
+let extAvisoDispensado = false;
+try { extAvisoDispensado = sessionStorage.getItem("lf-ext-aviso") === "1"; } catch (e) {}
+
+function mostrarAvisoExtensao(titulo, texto) {
+  const box = $("extAviso");
+  if (!box || extAvisoDispensado) return;
+  $("extAvisoTitulo").textContent = titulo;
+  $("extAvisoTexto").textContent = texto;
+  box.classList.remove("hidden");
+  box.style.display = "block";
+}
+
+function esconderAvisoExtensao() {
+  const box = $("extAviso");
+  if (!box) return;
+  box.classList.add("hidden");
+  box.style.display = "none";
+}
+
+// Chamada depois que a extensão respondeu (ou deixou de responder) ao ping.
+function avaliarExtensao() {
+  if (!window.__lattesExtAtiva) {
+    mostrarAvisoExtensao(
+      "🧩 Instale a extensão LattesData para enviar ao Lattes com 1 clique",
+      "Sem ela o envio e o registro automáticos não funcionam. A instalação leva 1 minuto e é feita uma única vez, no Chrome ou no Edge."
+    );
+    return;
+  }
+  if (versaoMenor(window.__lattesExtVersao, EXT_VERSAO_MINIMA)) {
+    mostrarAvisoExtensao(
+      "🔄 A extensão LattesData está desatualizada (versão " + (window.__lattesExtVersao || "?") + ")",
+      "Baixe a versão atual, substitua a pasta e clique em recarregar a extensão em chrome://extensions. Precisa da versão " + EXT_VERSAO_MINIMA + " ou mais nova."
+    );
+    return;
+  }
+  esconderAvisoExtensao();
+}
+
+if ($("btnExtAvisoInstalar")) $("btnExtAvisoInstalar").onclick = () => abrirModalExtensao();
+if ($("btnExtAvisoDispensar")) {
+  $("btnExtAvisoDispensar").onclick = () => {
+    extAvisoDispensado = true;
+    try { sessionStorage.setItem("lf-ext-aviso", "1"); } catch (e) {}
+    esconderAvisoExtensao();
+  };
+}
+// A extensão responde em milissegundos; se em 2 s não respondeu, considera ausente (e reavalia ao reconectar).
+window.setTimeout(avaliarExtensao, 2000);
 
 function fecharModalAtivador() {
   const modal = $("ativadorModal");
   if (modal) modal.classList.add("hidden");
-  if (ativadorWatchTimer) {
-    clearInterval(ativadorWatchTimer);
-    ativadorWatchTimer = null;
-  }
 }
 
-function abrirModalAtivador(jobId) {
+function abrirModalExtensao() {
   const modal = $("ativadorModal");
-  const statusBox = $("ativadorModalStatus");
   if (!modal) {
     openLattesTab();
     $("lattesGuide").classList.remove("hidden");
     return;
   }
-  if (statusBox) {
-    statusBox.style.background = "#f0f9ff";
-    statusBox.style.borderColor = "#bae6fd";
-    statusBox.style.color = "#0369a1";
-    statusBox.textContent = "⏳ Aguardando você baixar e executar o Ativador... (monitorando automaticamente)";
-  }
   modal.classList.remove("hidden");
-
-  if (ativadorWatchTimer) clearInterval(ativadorWatchTimer);
-  if (jobId) {
-    ativadorWatchTimer = setInterval(async () => {
-      try {
-        const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
-        if (!cr.ok) return;
-        const cj = await cr.json();
-        if (cj.consumed) {
-          clearInterval(ativadorWatchTimer);
-          ativadorWatchTimer = null;
-          const badge = $("extStatusBadge");
-          if (badge) badge.textContent = "✅ Ativador Local Ativo";
-          if (statusBox) {
-            statusBox.style.background = "#ecfdf5";
-            statusBox.style.borderColor = "#6ee7b7";
-            statusBox.style.color = "#047857";
-            statusBox.textContent = "✅ Ativador detectado! Abrindo o Currículo Lattes e iniciando o cadastro...";
-          }
-          showToast("🚀 Ativador detectado! Abrindo o Currículo Lattes automaticamente!");
-          openLattesTab();
-          setTimeout(() => fecharModalAtivador(), 1200);
-        }
-      } catch (e) {}
-    }, 1200);
-  }
 }
 
 if ($("btnCloseAtivadorModal")) {
@@ -2077,29 +2391,20 @@ if ($("ativadorModal")) {
     if (e.target === $("ativadorModal")) fecharModalAtivador();
   };
 }
-if ($("btnModalDownloadAtivador")) {
-  $("btnModalDownloadAtivador").onclick = () => {
-    const statusBox = $("ativadorModalStatus");
-    if (statusBox) {
-      statusBox.style.background = "#fef3c7";
-      statusBox.style.borderColor = "#fcd34d";
-      statusBox.style.color = "#92400e";
-      statusBox.textContent = "📥 Download iniciado! Dê 2 cliques no arquivo 'Ativador-LattesData.bat' nos seus Downloads — o cadastro começará sozinho assim que ele abrir!";
-    }
-    showToast("📥 Baixando Ativador-LattesData.bat... Dê 2 cliques nele quando concluir!");
-  };
-}
 if ($("btnModalManualLattes")) {
-  $("btnModalManualLattes").onclick = () => {
+  $("btnModalManualLattes").onclick = async () => {
     fecharModalAtivador();
     openLattesTab();
+    try { await navigator.clipboard.writeText(buildLattesAutofillScript(getFormData())); } catch (e) {}
     $("lattesGuide").classList.remove("hidden");
     showToast("Lattes aberto e script copiado! Faça login e cole no Console (F12) ou use o Favorito.");
     $("lattesGuide").scrollIntoView({ behavior: "smooth", block: "center" });
   };
 }
 
-$("btnOpenLattes").onclick = async () => {
+// Enviar ao Lattes: com a extensão instalada é 1 clique (ela abre o login, espera você entrar e preenche).
+// Sem a extensão, mostra como instalar (uma única vez).
+$("btnOpenLattes").onclick = () => {
   const data = getFormData();
   if (!data.titulo) {
     showToast("⚠️ Carregue um comprovante no Passo 2 ou preencha o campo Título antes de enviar ao Lattes.");
@@ -2110,78 +2415,11 @@ $("btnOpenLattes").onclick = async () => {
     }
     return;
   }
-  if (window.__lattesExtAtiva) {
+  if (window.__lattesExtAtiva && !versaoMenor(window.__lattesExtVersao, EXT_VERSAO_MINIMA)) {
     dispararEnvioExtensao();
     return;
   }
-  const btnOpen = $("btnOpenLattes");
-  const origTxt = btnOpen ? btnOpen.textContent : "";
-  if (btnOpen) {
-    btnOpen.disabled = true;
-    btnOpen.textContent = "⏳ Abrindo Navegador Automático no Lattes...";
-  }
-  let jobId = "";
-  try {
-    const usuario = $("ownerName") ? $("ownerName").value : "";
-    const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
-    const dados = { ...sanitizeDataPayload(data), __usuario: usuario, __origem: location.origin, __autoSalvar: autoSalvar };
-    const r = await fetch("/api/lattes/job", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados),
-    });
-    if (r.ok) {
-      const j = await r.json();
-      if (j.job_id) {
-        jobId = j.job_id;
-        let ifr = document.getElementById("ldProtoFrame");
-        if (!ifr) {
-          ifr = document.createElement("iframe");
-          ifr.id = "ldProtoFrame";
-          ifr.style.display = "none";
-          document.body.appendChild(ifr);
-        }
-        ifr.src = `lattesdata://fill?job=${encodeURIComponent(j.job_id)}&server=${encodeURIComponent(location.origin)}`;
-      }
-    }
-  } catch (e) {}
-
-  try {
-    await navigator.clipboard.writeText(buildLattesAutofillScript(data));
-  } catch (e) {}
-
-  // Verifica em até 2 segundos (5 checagens de 400ms) se o Ativador está rodando e consumiu o job
-  let consumedByAgent = false;
-  if (jobId) {
-    for (let i = 0; i < 5; i++) {
-      await new Promise((r) => setTimeout(r, 400));
-      try {
-        const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
-        if (cr.ok) {
-          const cj = await cr.json();
-          if (cj.consumed) {
-            consumedByAgent = true;
-            break;
-          }
-        }
-      } catch (e) {}
-    }
-  }
-
-  if (btnOpen) {
-    btnOpen.disabled = false;
-    btnOpen.textContent = origTxt || "🚀 Enviar e Cadastrar no Lattes";
-  }
-
-  if (consumedByAgent) {
-    const badge = $("extStatusBadge");
-    if (badge) badge.textContent = "✅ Ativador Local Ativo";
-    showToast("🚀 Navegador Automático aberto no Currículo Lattes! Faça login na janela do Chrome que abriu.");
-    return;
-  }
-
-  // Se o Ativador não está rodando no computador do usuário, abre o modal ofertando o download imediato!
-  abrirModalAtivador(jobId);
+  abrirModalExtensao();
 };
 
 $("btnCopyLattesScript").onclick = async () => {
@@ -2201,6 +2439,7 @@ $("btnExportJson").onclick = () => {
 $("btnToggleHistory").onclick = () => {
   $("historyPanel").classList.toggle("hidden");
   loadRecords();
+  carregarEnvios();
 };
 $("btnCloseHistory").onclick = () => $("historyPanel").classList.add("hidden");
 
@@ -2747,6 +2986,8 @@ updateComplianceUI();
     if (!m) return;
     if (m.type === "lattesdata-ext-pong") {
       window.__lattesExtAtiva = true;
+      window.__lattesExtVersao = String(m.version || "");
+      avaliarExtensao();
       if (btn) btn.classList.remove("hidden");
       if (btnOpen) btnOpen.textContent = "🚀 Enviar e Cadastrar no Lattes (1-Clique)";
       if (extBox) extBox.classList.add("ext-active");
@@ -2757,6 +2998,8 @@ updateComplianceUI();
       if (btn) btn.disabled = false;
       if (btnOpen) btnOpen.disabled = false;
       showToast(m.message || (m.ok ? "Enviado ao Lattes." : "A extensão não conseguiu preencher."));
+      mostrarResultadoLattes(m);
+      processarResultadoEnvio(m);
     }
   });
   if (btn) {
