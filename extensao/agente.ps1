@@ -110,14 +110,23 @@ if (-not $cdpAlive) {
   }
 }
 
+$script:wsPool = @{}
+$script:cdpMsgId = 0
+
 function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
   if (-not $wsUrl) { return $null }
-  $ws = New-Object System.Net.WebSockets.ClientWebSocket
   $ct = [System.Threading.CancellationToken]::None
   try {
-    $ws.ConnectAsync([Uri]$wsUrl, $ct).Wait(2500) | Out-Null
-    if ($ws.State -ne [System.Net.WebSockets.WebSocketState]::Open) { return $null }
-    $msg = @{ id = 1; method = "Runtime.evaluate"; params = @{ expression = $jsExpr; returnByValue = $true } } | ConvertTo-Json -Compress -Depth 5
+    $ws = $script:wsPool[$wsUrl]
+    if (-not $ws -or $ws.State -ne [System.Net.WebSockets.WebSocketState]::Open) {
+      if ($ws) { try { $ws.Dispose() } catch {} }
+      $ws = New-Object System.Net.WebSockets.ClientWebSocket
+      $ws.ConnectAsync([Uri]$wsUrl, $ct).Wait(2500) | Out-Null
+      if ($ws.State -ne [System.Net.WebSockets.WebSocketState]::Open) { return $null }
+      $script:wsPool[$wsUrl] = $ws
+    }
+    $script:cdpMsgId++
+    $msg = @{ id = $script:cdpMsgId; method = "Runtime.evaluate"; params = @{ expression = $jsExpr; returnByValue = $true } } | ConvertTo-Json -Compress -Depth 5
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($msg)
     $ws.SendAsync([ArraySegment[byte]]::new($bytes), [System.Net.WebSockets.WebSocketMessageType]::Text, $true, $ct).Wait(2500) | Out-Null
     $buf = New-Object byte[] 262144
@@ -132,9 +141,11 @@ function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
     $parsed = $sb.ToString() | ConvertFrom-Json
     return $parsed.result.result.value
   } catch {
+    if ($script:wsPool.ContainsKey($wsUrl)) {
+      try { $script:wsPool[$wsUrl].Dispose() } catch {}
+      $script:wsPool.Remove($wsUrl)
+    }
     return $null
-  } finally {
-    try { $ws.Dispose() } catch {}
   }
 }
 
