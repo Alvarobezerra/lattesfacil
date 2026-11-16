@@ -198,20 +198,20 @@ $failCount = 0
 $pollServers = @("http://127.0.0.1:8799", $AppUrl.TrimEnd('/')) | Select-Object -Unique
 
 while ($true) {
-  Start-Sleep -Milliseconds 1200
+  Start-Sleep -Milliseconds 1000
 
-  # Verifica se chegou algum job na fila do servidor (funciona de qualquer navegador!)
-  if (-not $pendingPayload) {
-    foreach ($srv in $pollServers) {
-      try {
-        $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 2 -ErrorAction Stop
-        if ($jResp -and $jResp.ok -and $jResp.data) {
-          $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
-          Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
-          break
-        }
-      } catch {}
-    }
+  # Sempre consulta a fila do servidor (mantem o sinal agent_online ativo e captura novos cliques em Enviar imediatamente!)
+  $justReceivedJob = $false
+  foreach ($srv in $pollServers) {
+    try {
+      $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 2 -ErrorAction Stop
+      if ($jResp -and $jResp.ok -and $jResp.data) {
+        $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
+        $justReceivedJob = $true
+        Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
+        break
+      }
+    } catch {}
   }
 
   $tabs = @()
@@ -241,7 +241,7 @@ while ($true) {
       Start-Sleep -Milliseconds 800
       $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
     } catch {}
-  } elseif ($pendingPayload -and $lattesTabsCheck.Count -gt 0) {
+  } elseif ($justReceivedJob -and $lattesTabsCheck.Count -gt 0) {
     try {
       Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lattesTabsCheck[0].id)" -TimeoutSec 2 | Out-Null
     } catch {}
