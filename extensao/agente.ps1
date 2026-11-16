@@ -1,6 +1,7 @@
 ﻿param(
   [string]$AppUrl = "https://lattesfacil.onrender.com",
-  [string]$ProtocolUri = ""
+  [string]$ProtocolUri = "",
+  [switch]$Daemon
 )
 $ErrorActionPreference = "SilentlyContinue"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -76,6 +77,18 @@ if (-not $browserExe) {
   exit 1
 }
 
+function Start-LattesBrowser([string]$targetUrl) {
+  Start-Process -FilePath $browserExe -ArgumentList @(
+    "--user-data-dir=$profileDir",
+    "--remote-debugging-port=$cdpPort",
+    "--remote-allow-origins=*",
+    "--no-first-run",
+    "--no-default-browser-check",
+    $targetUrl
+  ) | Out-Null
+  Start-Sleep -Seconds 2
+}
+
 $cdpAlive = $false
 try {
   $null = Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/version" -TimeoutSec 1 -ErrorAction Stop
@@ -84,22 +97,14 @@ try {
 
 $initialTarget = if ($pendingPayload) { "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" } else { $AppUrl }
 
-if (-not $cdpAlive) {
+if (-not $cdpAlive -and -not $Daemon) {
   Write-Host "==========================================================" -ForegroundColor Cyan
   Write-Host "  LattesData — Navegador Automatico de Cadastro no Lattes" -ForegroundColor Cyan
   Write-Host "==========================================================" -ForegroundColor Cyan
   Write-Host "Abrindo navegador dedicado ($initialTarget)..." -ForegroundColor Green
   Write-Host "Protocolo lattesdata:// registrado no Windows com sucesso!" -ForegroundColor Green
-  Start-Process -FilePath $browserExe -ArgumentList @(
-    "--user-data-dir=$profileDir",
-    "--remote-debugging-port=$cdpPort",
-    "--remote-allow-origins=*",
-    "--no-first-run",
-    "--no-default-browser-check",
-    $initialTarget
-  ) | Out-Null
-  Start-Sleep -Seconds 2
-} elseif ($pendingPayload) {
+  Start-LattesBrowser $initialTarget
+} elseif ($cdpAlive -and $pendingPayload) {
   # Se o navegador ja estava aberto e chegou um job via protocolo lattesdata://
   $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
   $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
@@ -151,16 +156,60 @@ function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
 
 $nextToast = ""
 $failCount = 0
+$pollServers = @("http://127.0.0.1:8799", $AppUrl.TrimEnd('/')) | Select-Object -Unique
 
 while ($true) {
   Start-Sleep -Milliseconds 1200
+
+  # Verifica se chegou algum job na fila do servidor (funciona de qualquer navegador!)
+  if (-not $pendingPayload) {
+    foreach ($srv in $pollServers) {
+      try {
+        $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -TimeoutSec 2 -ErrorAction Stop
+        if ($jResp -and $jResp.ok -and $jResp.data) {
+          $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
+          Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
+          break
+        }
+      } catch {}
+    }
+  }
+
+  $tabs = @()
+  $browserRunning = $false
   try {
     $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
+    $browserRunning = $true
     $failCount = 0
   } catch {
-    $failCount++
-    if ($failCount -gt 6) { break }
+    $browserRunning = $false
+  }
+
+  if (-not $browserRunning) {
+    if ($pendingPayload) {
+      Write-Host ">> Abrindo navegador automatico no Lattes para executar o cadastro..." -ForegroundColor Cyan
+      Start-LattesBrowser "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form"
+      continue
+    }
+    if (-not $Daemon) {
+      $failCount++
+      if ($failCount -gt 6) { break }
+    }
     continue
+  }
+
+  # Se chegou um job via fila e o navegador ja estava aberto mas sem aba do Lattes, abre/ativa a aba do Lattes
+  $lattesTabsCheck = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
+  if ($pendingPayload -and $lattesTabsCheck.Count -eq 0) {
+    try {
+      Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
+      Start-Sleep -Milliseconds 800
+      $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
+    } catch {}
+  } elseif ($pendingPayload -and $lattesTabsCheck.Count -gt 0) {
+    try {
+      Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json/activate/$($lattesTabsCheck[0].id)" -TimeoutSec 2 | Out-Null
+    } catch {}
   }
 
   $lattesTabs = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })

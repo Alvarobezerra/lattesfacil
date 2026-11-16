@@ -1929,14 +1929,25 @@ function dispararEnvioExtensao() {
 $("btnOpenLattes").onclick = async () => {
   const data = getFormData();
   if (!data.titulo) {
-    showToast("Carregue ou preencha ao menos o título antes de enviar ao Lattes.");
+    showToast("⚠️ Carregue um comprovante no Passo 2 ou preencha o campo Título antes de enviar ao Lattes.");
+    const titEl = $("titulo");
+    if (titEl) {
+      titEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      titEl.focus();
+    }
     return;
   }
   if (window.__lattesExtAtiva) {
     dispararEnvioExtensao();
     return;
   }
-  // Dispara também pelo protocolo lattesdata:// (caso o usuário tenha rodado o Ativador 1 vez no PC, abre igual ao Zoom!)
+  const btnOpen = $("btnOpenLattes");
+  const origTxt = btnOpen ? btnOpen.textContent : "";
+  if (btnOpen) {
+    btnOpen.disabled = true;
+    btnOpen.textContent = "⏳ Conectando ao Navegador Automático...";
+  }
+  let jobId = "";
   try {
     const usuario = $("ownerName") ? $("ownerName").value : "";
     const autoSalvar = !!($("autoSaveLattes") && $("autoSaveLattes").checked);
@@ -1949,6 +1960,7 @@ $("btnOpenLattes").onclick = async () => {
     if (r.ok) {
       const j = await r.json();
       if (j.job_id) {
+        jobId = j.job_id;
         let ifr = document.getElementById("ldProtoFrame");
         if (!ifr) {
           ifr = document.createElement("iframe");
@@ -1960,13 +1972,38 @@ $("btnOpenLattes").onclick = async () => {
       }
     }
   } catch (e) {}
-  $("lattesGuide").classList.remove("hidden");
+
   try {
     await navigator.clipboard.writeText(buildLattesAutofillScript(data));
-    showToast("🚀 Acionando o LattesData no seu computador! (Se ainda não instalou o Ativador, baixe abaixo ou use o script já copiado).");
-  } catch (e) {
-    showToast("Acionando o LattesData! Se ainda não instalou o Ativador, baixe-o no Passo 4.");
+  } catch (e) {}
+
+  // Aguarda 1.8s para verificar se o agente local consumiu o job automaticamente
+  let consumedByAgent = false;
+  if (jobId) {
+    await new Promise((r) => setTimeout(r, 1800));
+    try {
+      const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
+      if (cr.ok) {
+        const cj = await cr.json();
+        consumedByAgent = !!cj.consumed;
+      }
+    } catch (e) {}
   }
+
+  if (btnOpen) {
+    btnOpen.disabled = false;
+    btnOpen.textContent = origTxt || "🚀 Enviar e Cadastrar no Lattes";
+  }
+
+  if (consumedByAgent) {
+    showToast("🚀 Navegador Automático acionado! Confira a janela do Currículo Lattes que acabou de abrir.");
+    return;
+  }
+
+  // Fallback caso o Ativador ainda não esteja rodando na máquina: abre a aba do Lattes e exibe o guia
+  openLattesTab();
+  $("lattesGuide").classList.remove("hidden");
+  showToast("Lattes aberto e script copiado! Para 100% automático sem F12, clique em 'Baixar Ativador do Navegador' abaixo.");
   $("lattesGuide").scrollIntoView({ behavior: "smooth", block: "center" });
 };
 

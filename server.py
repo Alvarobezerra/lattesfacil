@@ -504,9 +504,22 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/lattes/job":
             qs = parse_qs(parsed.query)
             jid = (qs.get("id") or [""])[0].strip()
+            chk = (qs.get("check") or [""])[0].strip()
+            want_next = (qs.get("next") or [""])[0].strip() == "1"
             now_ts = time.time()
-            for k in [k for k, v in LATTES_JOBS.items() if now_ts - v.get("ts", 0) > 600]:
+            for k in [k for k, v in list(LATTES_JOBS.items()) if now_ts - v.get("ts", 0) > 600]:
                 LATTES_JOBS.pop(k, None)
+            if chk:
+                self._send_json({"ok": True, "consumed": chk not in LATTES_JOBS})
+                return
+            if want_next and not jid:
+                if not LATTES_JOBS:
+                    self._send_json({"ok": False})
+                    return
+                oldest_k = min(LATTES_JOBS.keys(), key=lambda k: LATTES_JOBS[k].get("ts", 0))
+                entry = LATTES_JOBS.pop(oldest_k, None)
+                self._send_json({"ok": True, "job_id": oldest_k, "data": entry["data"]})
+                return
             entry = LATTES_JOBS.pop(jid, None)
             if not entry:
                 self._send_json({"ok": False, "error": "Job expirado ou inexistente."}, HTTPStatus.NOT_FOUND)
