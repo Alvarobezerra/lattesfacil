@@ -172,6 +172,18 @@
     </section>
 
     <!-- Passo 3: Formulário Simplificado Espelhado no Lattes -->
+    <section id="formGenerico" class="card hidden" aria-live="polite">
+      <h2 id="genTitulo"></h2>
+      <p class="hint" id="genComo"></p>
+      <div id="genAvisos"></div>
+      <div id="genCampos"></div>
+      <div class="action-buttons">
+        <button type="button" class="btn btn-accent" id="btnGenEnviar">🚀 Enviar ao Lattes</button>
+        <button type="button" class="btn btn-secondary" id="btnGenCopiar">⚡ Copiar script de preenchimento</button>
+      </div>
+      <p class="hint">O LattesFácil abre o formulário e preenche os campos; <strong>você confere e clica em Salvar no Lattes</strong>.</p>
+    </section>
+
     <form id="lattesForm" class="form-grid hidden">
       <!-- Bloco A: Dados Gerais -->
       <section class="card">
@@ -718,6 +730,47 @@
           </button>
           <button type="button" class="btn btn-primary" id="btnDownloadDossieZip">
             📦 Baixar Pacote ZIP do Dossiê
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Verificação e Download do Ativador Local -->
+  <div id="ativadorModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="ativadorModalTitle">
+    <div class="audit-modal-card" style="max-width: 560px;">
+      <div class="audit-modal-header">
+        <div class="flex-align-gap">
+          <span class="audit-icon-badge">💻</span>
+          <div>
+            <h2 id="ativadorModalTitle" class="audit-modal-title">Ativador do Navegador não detectado</h2>
+            <p class="hint">Necessário apenas na 1ª vez neste computador para automatizar o Currículo Lattes</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close" id="btnCloseAtivadorModal" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="audit-modal-body">
+        <p style="margin: 0 0 12px; color: #334155; line-height: 1.5;">
+          O LattesData verificou que o <strong>Ativador do Navegador</strong> ainda não está em execução neste computador. Para que o sistema abra o Currículo Lattes, aguarde seu login e preencha o trabalho sozinho:
+        </p>
+
+        <ol style="margin: 0 0 16px; padding-left: 20px; color: #1e293b; line-height: 1.65;">
+          <li>Clique no botão <strong>Baixar Ativador Agora</strong> abaixo.</li>
+          <li>Abra o arquivo <code>Ativador-LattesData.bat</code> que aparecerá nos seus Downloads.</li>
+          <li><strong>Pronto!</strong> Não precisa clicar em Enviar novamente: assim que o Ativador abrir, o seu cadastro começará automaticamente.</li>
+        </ol>
+
+        <div id="ativadorModalStatus" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; padding: 12px 14px; border-radius: 10px; font-weight: 600; font-size: 0.92rem; margin-bottom: 16px;">
+          ⏳ Aguardando o Ativador iniciar no seu computador...
+        </div>
+
+        <div class="dossie-modal-actions" style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/api/ativador.bat" download="Ativador-LattesData.bat" class="btn btn-primary" id="btnModalDownloadAtivador" style="justify-content: center; text-align: center; font-size: 1rem; padding: 12px 18px;">
+            📥 Baixar Ativador Agora (Ativador-LattesData.bat)
+          </a>
+          <button type="button" class="btn btn-secondary" id="btnModalManualLattes" style="justify-content: center;">
+            🔗 Ou abrir o Lattes manualmente sem o Ativador (modo F12 / Favorito)
           </button>
         </div>
       </div>

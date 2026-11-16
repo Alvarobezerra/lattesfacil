@@ -25,6 +25,8 @@ from caderno import abstract_to_record, name_tokens, scan_caderno
 from artigo import doi_only, is_article, parse_artigo
 from orientacao import is_orientacao, parse_orientacao
 from certificado import is_certificate, parse_certificado
+from itens import especificacao as especificacao_item
+from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
@@ -42,6 +44,7 @@ LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sin
 LATTES_JOBS: dict[str, dict[str, Any]] = {}    # job_id de uso único -> payload temporário para o protocolo lattesdata://
 LATTES_CONSUMED: dict[str, float] = {}         # job_id entregue ao agente -> instante (para o ?check=)
 AGENT_TOKENS: dict[str, str] = {}              # token de pareamento do agente -> token da sessão dona
+AGENT_LAST_SEEN: dict[str, float] = {}         # último sinal do agente local (heartbeat via polling)
 HOST_RE = re.compile(r"^[A-Za-z0-9.\-]{1,100}(:\d{1,5})?$")
 
 # ---------------------------------------------------------------- segurança
@@ -254,6 +257,14 @@ def interpretar(item_id: str, raw_text: str, filename: str, usuario: str) -> dic
         extracted = parse_orientacao(raw_text, usuario)
         if item_id == "orientacao_andamento":
             extracted["situacao_orientacao"] = "Em andamento"
+    elif item_id in LEITORES_ITENS:
+        g = ler_item(item_id, raw_text, usuario)
+        v = g["valores"]
+        base = {"tipo_producao": item_id, "titulo": v.get("f_titulo") or v.get("f_nme_evento") or v.get("f_curso") or "",
+                "ano": v.get("f_ano", "")}
+        nome_padrao = gerar_nome_padronizado(base)
+        return {"generico": g, "extracted": base, "nome_padronizado": nome_padrao,
+                "caminho_sugerido": f"{extrair_ano(base)}/{nome_padrao}"}
     else:
         return None
     extracted = sanitizar_metadados(extracted)
@@ -385,12 +396,22 @@ class LattesHandler(BaseHTTPRequestHandler):
         t = self._sess()
         return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
 
+    def _master_agent_token(self) -> str:
+        return hmac.new(ACCESS_CODE.encode("utf-8"), b"lattesdata-agent-v1", hashlib.sha256).hexdigest()[:32]
+
     def _agent_owner(self) -> str:
-        """Tag da sessão dona do token do agente local (cabeçalho X-LD-Token), ou '' se inválido."""
-        tok = self.headers.get("X-LD-Token", "")
-        sess = AGENT_TOKENS.get(tok, "") if tok else ""
+        """Tag da sessão dona do token do agente local (cabeçalho X-LD-Token), ou 'master' se token HMAC válido."""
+        tok = self.headers.get("X-LD-Token", "").strip()
+        if not tok:
+            return ""
+        if ACCESS_CODE and hmac.compare_digest(tok.encode("utf-8"), self._master_agent_token().encode("utf-8")):
+            AGENT_LAST_SEEN["master"] = time.time()
+            return "master"
+        sess = AGENT_TOKENS.get(tok, "")
         if sess and SESSIONS.get(sess, 0) > time.time():
-            return hashlib.sha256(sess.encode()).hexdigest()[:16]
+            tag = hashlib.sha256(sess.encode()).hexdigest()[:16]
+            AGENT_LAST_SEEN[tag] = time.time()
+            return tag
         return ""
 
     def _origin_ok(self) -> bool:
@@ -493,6 +514,14 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/login":
             self._send_html(LOGIN_HTML.replace("%ERRO%", ""))
             return
+        if path.startswith("/api/itens/") and path.endswith("/spec"):
+            if self._gate():
+                spec = especificacao_item(path[len("/api/itens/"):-len("/spec")])
+                if spec:
+                    self._send_json(spec)
+                else:
+                    self._send_json({"error": "Item sem especificação."}, HTTPStatus.NOT_FOUND)
+            return
         if path == "/api/itens":
             if self._gate():
                 self._send_json({"itens": catalogo_publico()})
@@ -514,7 +543,7 @@ class LattesHandler(BaseHTTPRequestHandler):
 
         if path == "/api/lattes/job":
             # Quem chama: o navegador do usuário (cookie de sessão) ou o agente local (X-LD-Token pareado
-            # a uma sessão). Cada um só enxerga os jobs da PRÓPRIA sessão.
+            # a uma sessão ou token HMAC master).
             owner = self._agent_owner() or self._sess_tag()
             if not owner:
                 self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
@@ -529,9 +558,14 @@ class LattesHandler(BaseHTTPRequestHandler):
             for k in [k for k, t in list(LATTES_CONSUMED.items()) if now_ts - t > 600]:
                 LATTES_CONSUMED.pop(k, None)
             if chk:
-                self._send_json({"ok": True, "consumed": chk in LATTES_CONSUMED and LATTES_CONSUMED[chk] > 0 and chk not in LATTES_JOBS})
+                last_seen = max(AGENT_LAST_SEEN.get("master", 0.0), AGENT_LAST_SEEN.get(owner, 0.0))
+                self._send_json({
+                    "ok": True,
+                    "consumed": chk in LATTES_CONSUMED and LATTES_CONSUMED[chk] > 0 and chk not in LATTES_JOBS,
+                    "agent_online": (now_ts - last_seen) < 5.0,
+                })
                 return
-            mine = [k for k, v in LATTES_JOBS.items() if v.get("owner") == owner]
+            mine = list(LATTES_JOBS.keys()) if owner == "master" else [k for k, v in LATTES_JOBS.items() if v.get("owner") == owner]
             if want_next and not jid:
                 if not mine:
                     self._send_json({"ok": False})
@@ -550,15 +584,8 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/lattes/pair":
-            # Gera (uma vez por sessão) o token que o agente local usa para buscar jobs desta sessão.
-            sess = self._sess()
-            tok = next((t for t, s in AGENT_TOKENS.items() if s == sess), "")
-            if not tok:
-                if len(AGENT_TOKENS) > 500:
-                    AGENT_TOKENS.clear()
-                tok = secrets.token_urlsafe(24)
-                AGENT_TOKENS[tok] = sess
-            self._send_json({"ok": True, "token": tok})
+            # Devolve o token HMAC master (sobrevive a reinícios do servidor e novas sessões)
+            self._send_json({"ok": True, "token": self._master_agent_token()})
             return
 
         if path == "/api/radar":
@@ -614,11 +641,7 @@ class LattesHandler(BaseHTTPRequestHandler):
             if not HOST_RE.match(host_hdr):
                 host_hdr = "lattesfacil.onrender.com"
             app_url = f"{scheme}://{host_hdr}"
-            sess = self._sess()
-            token = next((t for t, s in AGENT_TOKENS.items() if s == sess), "")
-            if not token:
-                token = secrets.token_urlsafe(24)
-                AGENT_TOKENS[token] = sess
+            token = self._master_agent_token()
             bat_lines = [
                 "@echo off",
                 "chcp 65001 >nul",

@@ -325,6 +325,66 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     }
   }
   try { var tp = window.top.opener || window.opener; if (tp && d.__origem) tp.postMessage({ type: 'lattesfacil-status', online: !!loggedName, name: loggedName }, d.__origem); } catch (e) {}
+  if (d.tipo_producao === 'generico') {
+    var G = d.__generico || {};
+    var pagina = String(G.url || '').split('?')[0].toLowerCase();
+    var achaQuadro = function (w) {
+      var lista = [];
+      try { lista = [].slice.call(w.document.querySelectorAll('iframe')); } catch (e) {}
+      for (var i = 0; i < lista.length; i++) {
+        try {
+          var cd = lista[i].contentDocument;
+          if (cd && lista[i].offsetParent !== null && String(lista[i].src || '').toLowerCase().indexOf(pagina) >= 0 && cd.readyState === 'complete') return cd;
+          var sub = lista[i].contentWindow && achaQuadro(lista[i].contentWindow);
+          if (sub) return sub;
+        } catch (e) {}
+      }
+      return null;
+    };
+    var gdoc = achaQuadro(window.top);
+    if (!gdoc) {
+      var cvG = findCvCode(window.top.document);
+      var modalG = window.top.modalCV2;
+      if (cvG && modalG && typeof modalG.setarUrl === 'function' && pagina) {
+        modalG.setarUrl(String(G.url).replace('<codigo_do_cv>', cvG), true);
+        var tG = Date.now();
+        while (Date.now() - tG < 15000 && !gdoc) { await sleep(400); gdoc = achaQuadro(window.top); }
+        if (gdoc) await sleep(600);
+      }
+    }
+    if (!gdoc) { alert('LattesData: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo.'); return; }
+    var rel = [];
+    var fireG = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
+    var ok = 0;
+    var gw = gdoc.defaultView;
+    try { gw.alert = function (m) { rel.push('Lattes: ' + m); }; gw.confirm = function () { return true; }; } catch (e) {}
+    for (var gi = 0; gi < (G.campos || []).length; gi++) {
+      var c = G.campos[gi];
+      if (c.valor === '' || c.valor === undefined || c.valor === null || c.valor === false) continue;
+      var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
+      if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
+      if (c.tipo === 'radio') {
+        var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
+        if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else if (c.tipo === 'checkbox') {
+        alvo[0].checked = true; fireG(alvo[0]); ok++;
+      } else if (c.tipo === 'select') {
+        var sel = alvo[0];
+        var ops = [].slice.call(sel.options);
+        var op = ops.filter(function (o) { return o.value === c.codigo; })[0] || ops.filter(function (o) { return norm(o.text) === norm(c.valor); })[0] || melhor(ops, c.valor, function (o) { return o.text; });
+        if (op) { sel.value = op.value; fireG(sel); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else {
+        var t = alvo[0];
+        var v = String(c.valor);
+        if (t.maxLength > 0 && v.length > t.maxLength) { rel.push((c.rotulo || c.name) + ' cortado em ' + t.maxLength + ' caracteres'); v = v.slice(0, t.maxLength); }
+        t.value = v; fireG(t); ok++;
+      }
+      await sleep(250);
+    }
+    (G.faltam || []).forEach(function (f) { rel.push('obrigatório sem valor: ' + f); });
+    alert('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
+    return;
+  }
   var want = d.tipo_producao || 'anais';
   var wantAndamento = want === 'orientacao' && norm(d.situacao_orient).indexOf('andamento') >= 0;
   var doc = findDoc(window);
@@ -1137,7 +1197,12 @@ function aplicarResposta(json, ctx) {
   const statusEl = $("extractStatus");
   classCtx = { uploadId: ctx.uploadId || null, texto: ctx.texto || null, json };
   const cls = json.classificacao || { decisao: "escolher", candidatos: [] };
-  if (json.extracted) {
+  if (json.generico) {
+    genOcultar();
+    mostrarGenerico(json.generico);
+    statusEl.textContent = `Li ${ctx.nomeArquivo}. Revise o formulário abaixo e envie ao Lattes.`;
+  } else if (json.extracted) {
+    genOcultar();
     setFormData(json.extracted);
     const notes = (json.extracted.extraction_notes || []).join(" ");
     statusEl.textContent = `Li ${ctx.nomeArquivo}. ${notes || "Revise e clique em Buscar Dados Faltantes se necessário."}`;
@@ -1295,8 +1360,14 @@ async function escolherItem(itemId) {
     showToast(json.error || "Não consegui ler o documento como esse item.");
     return;
   }
-  setFormData(json.extracted);
-  const notes = (json.extracted.extraction_notes || []).join(" ");
+  let notes = "";
+  if (json.generico) {
+    mostrarGenerico(json.generico);
+  } else {
+    genOcultar();
+    setFormData(json.extracted);
+    notes = (json.extracted.extraction_notes || []).join(" ");
+  }
   statusEl.textContent = `Lido como: ${alvo.item}. ${notes}`;
   statusEl.classList.remove("hidden");
   if (notes.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
@@ -1926,6 +1997,89 @@ function dispararEnvioExtensao() {
   return true;
 }
 
+let ativadorWatchTimer = null;
+
+function fecharModalAtivador() {
+  const modal = $("ativadorModal");
+  if (modal) modal.classList.add("hidden");
+  if (ativadorWatchTimer) {
+    clearInterval(ativadorWatchTimer);
+    ativadorWatchTimer = null;
+  }
+}
+
+function abrirModalAtivador(jobId) {
+  const modal = $("ativadorModal");
+  const statusBox = $("ativadorModalStatus");
+  if (!modal) {
+    openLattesTab();
+    $("lattesGuide").classList.remove("hidden");
+    return;
+  }
+  if (statusBox) {
+    statusBox.style.background = "#f0f9ff";
+    statusBox.style.borderColor = "#bae6fd";
+    statusBox.style.color = "#0369a1";
+    statusBox.textContent = "⏳ Aguardando você baixar e executar o Ativador... (monitorando automaticamente)";
+  }
+  modal.classList.remove("hidden");
+
+  if (ativadorWatchTimer) clearInterval(ativadorWatchTimer);
+  if (jobId) {
+    ativadorWatchTimer = setInterval(async () => {
+      try {
+        const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
+        if (!cr.ok) return;
+        const cj = await cr.json();
+        if (cj.consumed) {
+          clearInterval(ativadorWatchTimer);
+          ativadorWatchTimer = null;
+          const badge = $("extStatusBadge");
+          if (badge) badge.textContent = "✅ Ativador Local Ativo";
+          if (statusBox) {
+            statusBox.style.background = "#ecfdf5";
+            statusBox.style.borderColor = "#6ee7b7";
+            statusBox.style.color = "#047857";
+            statusBox.textContent = "✅ Ativador detectado! Abrindo o Currículo Lattes e iniciando o cadastro...";
+          }
+          showToast("🚀 Ativador detectado! Abrindo o Currículo Lattes automaticamente!");
+          setTimeout(() => fecharModalAtivador(), 1200);
+        }
+      } catch (e) {}
+    }, 1200);
+  }
+}
+
+if ($("btnCloseAtivadorModal")) {
+  $("btnCloseAtivadorModal").onclick = fecharModalAtivador;
+}
+if ($("ativadorModal")) {
+  $("ativadorModal").onclick = (e) => {
+    if (e.target === $("ativadorModal")) fecharModalAtivador();
+  };
+}
+if ($("btnModalDownloadAtivador")) {
+  $("btnModalDownloadAtivador").onclick = () => {
+    const statusBox = $("ativadorModalStatus");
+    if (statusBox) {
+      statusBox.style.background = "#fef3c7";
+      statusBox.style.borderColor = "#fcd34d";
+      statusBox.style.color = "#92400e";
+      statusBox.textContent = "📥 Download iniciado! Dê 2 cliques no arquivo 'Ativador-LattesData.bat' nos seus Downloads — o cadastro começará sozinho assim que ele abrir!";
+    }
+    showToast("📥 Baixando Ativador-LattesData.bat... Dê 2 cliques nele quando concluir!");
+  };
+}
+if ($("btnModalManualLattes")) {
+  $("btnModalManualLattes").onclick = () => {
+    fecharModalAtivador();
+    openLattesTab();
+    $("lattesGuide").classList.remove("hidden");
+    showToast("Lattes aberto e script copiado! Faça login e cole no Console (F12) ou use o Favorito.");
+    $("lattesGuide").scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+}
+
 $("btnOpenLattes").onclick = async () => {
   const data = getFormData();
   if (!data.titulo) {
@@ -1945,7 +2099,7 @@ $("btnOpenLattes").onclick = async () => {
   const origTxt = btnOpen ? btnOpen.textContent : "";
   if (btnOpen) {
     btnOpen.disabled = true;
-    btnOpen.textContent = "⏳ Conectando ao Navegador Automático...";
+    btnOpen.textContent = "⏳ Verificando Ativador no seu computador...";
   }
   let jobId = "";
   try {
@@ -1977,17 +2131,22 @@ $("btnOpenLattes").onclick = async () => {
     await navigator.clipboard.writeText(buildLattesAutofillScript(data));
   } catch (e) {}
 
-  // Aguarda 1.8s para verificar se o agente local consumiu o job automaticamente
+  // Verifica em até 2 segundos (5 checagens de 400ms) se o Ativador está rodando e consumiu o job
   let consumedByAgent = false;
   if (jobId) {
-    await new Promise((r) => setTimeout(r, 1800));
-    try {
-      const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
-      if (cr.ok) {
-        const cj = await cr.json();
-        consumedByAgent = !!cj.consumed;
-      }
-    } catch (e) {}
+    for (let i = 0; i < 5; i++) {
+      await new Promise((r) => setTimeout(r, 400));
+      try {
+        const cr = await fetch(`/api/lattes/job?check=${encodeURIComponent(jobId)}`, { cache: "no-store" });
+        if (cr.ok) {
+          const cj = await cr.json();
+          if (cj.consumed) {
+            consumedByAgent = true;
+            break;
+          }
+        }
+      } catch (e) {}
+    }
   }
 
   if (btnOpen) {
@@ -1996,15 +2155,14 @@ $("btnOpenLattes").onclick = async () => {
   }
 
   if (consumedByAgent) {
-    showToast("🚀 Navegador Automático acionado! Confira a janela do Currículo Lattes que acabou de abrir.");
+    const badge = $("extStatusBadge");
+    if (badge) badge.textContent = "✅ Ativador Local Ativo";
+    showToast("🚀 Ativador detectado! Confira a janela do Currículo Lattes que acabou de abrir.");
     return;
   }
 
-  // Fallback caso o Ativador ainda não esteja rodando na máquina: abre a aba do Lattes e exibe o guia
-  openLattesTab();
-  $("lattesGuide").classList.remove("hidden");
-  showToast("Lattes aberto e script copiado! Para 100% automático sem F12, clique em 'Baixar Ativador do Navegador' abaixo.");
-  $("lattesGuide").scrollIntoView({ behavior: "smooth", block: "center" });
+  // Se o Ativador não está rodando no computador do usuário, abre o modal ofertando o download imediato!
+  abrirModalAtivador(jobId);
 };
 
 $("btnCopyLattesScript").onclick = async () => {
@@ -2551,3 +2709,124 @@ updateComplianceUI();
   }
   window.postMessage({ type: "lattesdata-ext-ping" }, location.origin);
 })();
+
+// ---------- Formulário genérico (itens descritos por especificação: itens/especificacao/<id>.json) ----------
+const GEN = { spec: null, variante: null, valores: {}, item: "" };
+
+function genOcultar() {
+  const f = $("formGenerico");
+  if (f) f.classList.add("hidden");
+}
+
+async function mostrarGenerico(g) {
+  let spec = null;
+  try { spec = await (await fetch(`/api/itens/${encodeURIComponent(g.item)}/spec`)).json(); } catch (e) {}
+  if (!spec || !spec.variantes) { showToast("Não consegui carregar o formulário deste item."); return; }
+  const variante = spec.variantes.find((v) => v.variante === g.variante) || spec.variantes[0];
+  GEN.spec = spec; GEN.variante = variante; GEN.valores = { ...g.valores }; GEN.item = g.item;
+  revelarPassos("form");
+  $("lattesForm").classList.add("hidden");
+  $("formGenerico").classList.remove("hidden");
+  $("genTitulo").textContent = spec.item;
+  $("genComo").textContent = "No Lattes: " + (spec.como_abrir || "");
+  const av = $("genAvisos");
+  av.innerHTML = "";
+  (g.notas || []).forEach((n) => av.appendChild(el("p", "hint", "• " + n)));
+  const box = $("genCampos");
+  box.innerHTML = "";
+  const abas = {};
+  variante.campos.forEach((c) => { if (!c.oculto) (abas[c.aba || "Dados"] = abas[c.aba || "Dados"] || []).push(c); });
+  Object.keys(abas).forEach((aba) => {
+    const det = document.createElement("details");
+    det.open = abas[aba].some((c) => c.obrigatorio || GEN.valores[c.name]);
+    det.appendChild(el("summary", "", aba));
+    const grid = el("div", "field-grid");
+    abas[aba].forEach((c) => grid.appendChild(genCampo(c)));
+    det.appendChild(grid);
+    box.appendChild(det);
+  });
+  genAtualizar();
+}
+
+function genCampo(c) {
+  const wrap = el("div", "field");
+  const lab = el("label", "", c.rotulo + (c.obrigatorio ? " *" : ""));
+  lab.htmlFor = "gen_" + c.name;
+  wrap.appendChild(lab);
+  let inp;
+  const ops = c.opcoes ? Object.keys(c.opcoes) : null;
+  if (c.tipo === "textarea") {
+    inp = document.createElement("textarea");
+    inp.rows = 3;
+  } else if (ops && (c.tipo === "select" || c.tipo === "radio")) {
+    inp = document.createElement("select");
+    ["", ...ops].forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o || "—"; inp.appendChild(op); });
+  } else if (c.tipo === "checkbox") {
+    inp = document.createElement("input");
+    inp.type = "checkbox";
+  } else {
+    inp = document.createElement("input");
+    inp.type = "text";
+    if (c.maxlength) inp.maxLength = c.maxlength;
+  }
+  inp.id = "gen_" + c.name;
+  inp.dataset.name = c.name;
+  const v = GEN.valores[c.name];
+  if (inp.type === "checkbox") inp.checked = !!v;
+  else inp.value = v || "";
+  inp.addEventListener("input", genAtualizar);
+  inp.addEventListener("change", genAtualizar);
+  wrap.appendChild(inp);
+  return wrap;
+}
+
+function genColetar() {
+  const campos = [];
+  const faltam = [];
+  GEN.variante.campos.forEach((c) => {
+    const e = $("gen_" + c.name);
+    if (!e) return;
+    const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
+    if (c.obrigatorio && !valor) faltam.push(c.rotulo);
+    campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "" });
+  });
+  return { campos, faltam };
+}
+
+function genAtualizar() {
+  if (!GEN.variante) return;
+  const { faltam } = genColetar();
+  GEN.variante.campos.forEach((c) => {
+    const e = $("gen_" + c.name);
+    if (e) e.classList.toggle("missing-highlight", c.obrigatorio && faltam.includes(c.rotulo));
+  });
+  $("btnGenEnviar").title = faltam.length ? "Faltam obrigatórios: " + faltam.join(", ") : "";
+  let b = $("genFaltam");
+  if (!b) { b = el("p", "hint"); b.id = "genFaltam"; $("genAvisos").appendChild(b); }
+  b.textContent = faltam.length ? "Obrigatórios do Lattes ainda vazios: " + faltam.join(", ") + "." : "Todos os campos obrigatórios estão preenchidos.";
+}
+
+function genPayload() {
+  const { campos, faltam } = genColetar();
+  const usuario = $("ownerName") ? $("ownerName").value : "";
+  return {
+    tipo_producao: "generico", __usuario: usuario, __origem: location.origin,
+    __generico: { item: GEN.spec.item, como_abrir: GEN.spec.como_abrir, url: GEN.variante.url, campos, faltam },
+  };
+}
+
+$("btnGenEnviar").onclick = () => {
+  const btn = $("btnGenEnviar");
+  btn.disabled = true;
+  window.postMessage({ type: "lattesdata-ext-fill", data: genPayload() }, location.origin);
+  setTimeout(() => { btn.disabled = false; }, 4000);
+};
+$("btnGenCopiar").onclick = async () => {
+  const payload = JSON.stringify(genPayload()).replace(/</g, "\\u003c");
+  try {
+    await navigator.clipboard.writeText(AUTOFILL_TEMPLATE.replace("__DATA__", () => payload));
+    showToast("Script copiado. Cole no Console (F12) da aba do Lattes já logada.");
+  } catch (e) {
+    showToast("Não foi possível copiar automaticamente.");
+  }
+};

@@ -58,6 +58,8 @@ try {
   }
 } catch {}
 
+$pollServers = @("http://127.0.0.1:8799", $AppUrl.TrimEnd('/')) | Select-Object -Unique
+
 # 3. Se foi disparado pelo clique em "Enviar" via lattesdata://fill?job=...&server=...
 $pendingPayload = ""
 if ($ProtocolUri -match "^lattesdata://") {
@@ -69,11 +71,28 @@ if ($ProtocolUri -match "^lattesdata://") {
   $jobMatch = [regex]::Match($ProtocolUri, "[?&]job=([A-Za-z0-9_-]{8,64})(&|$)")
   if ($jobMatch.Success -and $Token) {
     $jobId = $jobMatch.Groups[1].Value
-    $jobUrl = "$($AppUrl.TrimEnd('/'))/api/lattes/job?id=$jobId"
+    foreach ($srv in $pollServers) {
+      $jobUrl = "$srv/api/lattes/job?id=$jobId"
+      try {
+        $resp = Invoke-RestMethod -Uri $jobUrl -Headers $authHeaders -TimeoutSec 5 -ErrorAction Stop
+        if ($resp.ok -and $resp.data) {
+          $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
+          break
+        }
+      } catch {}
+    }
+  }
+}
+
+# Se ainda nao tem job via URL, verifica se ja ha um job aguardando na fila (ex: usuario clicou Enviar e acabou de baixar/abrir o Ativador)
+if (-not $pendingPayload -and $Token) {
+  foreach ($srv in $pollServers) {
     try {
-      $resp = Invoke-RestMethod -Uri $jobUrl -Headers $authHeaders -TimeoutSec 8 -ErrorAction Stop
-      if ($resp.ok -and $resp.data) {
-        $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
+      $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 3 -ErrorAction Stop
+      if ($jResp -and $jResp.ok -and $jResp.data) {
+        $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
+        Write-Host ">> Job pendente encontrado em $srv!" -ForegroundColor Green
+        break
       }
     } catch {}
   }
@@ -97,6 +116,7 @@ function Start-LattesBrowser([string]$targetUrl) {
   Start-Process -FilePath $browserExe -ArgumentList @(
     "--user-data-dir=$profileDir",
     "--remote-debugging-port=$cdpPort",
+    "--remote-allow-origins=*",
     "--no-first-run",
     "--no-default-browser-check",
     $targetUrl
@@ -171,7 +191,7 @@ function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
 
 $nextToast = ""
 $failCount = 0
-$pollServers = @($AppUrl.TrimEnd('/'))
+$pollServers = @("http://127.0.0.1:8799", $AppUrl.TrimEnd('/')) | Select-Object -Unique
 
 while ($true) {
   Start-Sleep -Milliseconds 1200
