@@ -65,13 +65,14 @@ ITENS: list[Item] = [
         (r"received|accepted|recebido em|aceito em|published", 1.2, "tem datas de recebimento/aceite"),
         (r"\bvolume\b|\bissn\b|\bvol\.", 1.2, "tem volume ou ISSN"),
         (r"certificamos|certificado|declaramos", -2.5, "parece certificado, não artigo"),
+        (r"carta de aceite|aceito para publicacao|accepted for publication|we are pleased to inform", -3.0, "é carta de aceite, ainda não publicado"),
     ], True, "DOI ou PDF de artigo"),
     Item("artigo_aceito", "Produções", "Artigos aceitos para publicação", "Meu artigo foi aceito, mas ainda não saiu", [
         (r"carta de aceite|aceito para publicacao|accepted for publication|temos o prazer de informar.{0,80}aceit", 4.5, "é uma carta/comunicado de aceite"),
     ], False, "Carta de aceite da revista"),
     Item("livro_capitulo", "Produções", "Livros e capítulos", "Publiquei um livro ou capítulo de livro", [
         (r"\bisbn\b", 3.0, "tem ISBN"),
-        (r"capitulo|organizador(es)?|\beditora\b|ficha catalografica", 1.5, "cita capítulo/editora"),
+        (r"capitulo|organizador(es)?|\beditora\b(?! associad)|ficha catalografica", 1.5, "cita capítulo/editora"),
     ], False, "Ficha catalográfica do livro"),
     Item("orientacao_concluida", "Orientações", "Orientações e supervisões concluídas", "Orientei um trabalho (mestrado, doutorado, TCC, IC)", [
         (r"orientou|orientador(a)?\b|orientacao d[oa]|orientando", 2.5, "cita orientador/orientando"),
@@ -117,7 +118,7 @@ ITENS: list[Item] = [
         (r"periodico|journal|revista", 1.0, "cita revista"),
     ], False, "Certificado de revisor"),
     Item("corpo_editorial", "Atuação", "Membro de corpo editorial", "Sou do corpo editorial de uma revista", [
-        (r"corpo editorial|editor associado|editor-chefe|editor chefe|editorial board|conselho editorial", 4.5, "cita corpo/conselho editorial"),
+        (r"corpo editorial|editor(a)? associad[oa]|editor(a)?-chefe|editor(a)? chefe|editorial board|conselho editorial", 4.5, "cita corpo/conselho editorial"),
     ], False, "Portaria de editor"),
     Item("patente", "Patentes e Registros", "Patente", "Depositei ou obtive uma patente", [
         (r"carta patente|pedido de patente|\bpatente\b|\binpi\b|modelo de utilidade|privilegio de invencao", 4.0, "cita patente/INPI"),

@@ -317,6 +317,10 @@ LEITORES: dict[str, TipoLeitor] = {
 }
 
 
+from .leitores_onda2 import LEITORES_ONDA2  # noqa: E402
+
+LEITORES.update(LEITORES_ONDA2)
+
 PADROES_COMUNS = {"f_tpo_pesq_emp": "Não", "f_sta_inovacao": "Não", "f_pais": "Brasil", "F_IDIOMA": "Português", "F_RELEV": "não", "F_STA_DIVULGACAO_CIENTIFICA": "não"}
 
 
