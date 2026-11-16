@@ -66,32 +66,36 @@ body {
 }
 
 .logo {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   flex: none;
 }
 
+/* Wordmark empilhado, como na marca: "Lattes" serifado e "DATA" justificado à mesma largura */
 .wordmark {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
   line-height: 1;
 }
 
 .wm-lattes {
   font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 600;
-  font-size: 1.55rem;
+  font-weight: 700;
+  font-size: 1.4rem;
   letter-spacing: -0.01em;
   color: var(--navy);
 }
 
 .wm-data {
-  font-weight: 900;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  font-size: 0.86rem;
   color: var(--cyan);
+  text-align: justify;
+  text-align-last: justify;
+  letter-spacing: 0.04em;
 }
 
 .topnav {
@@ -234,7 +238,6 @@ body {
 @media (max-width: 640px) {
   .topbar-inner { height: auto; flex-wrap: wrap; padding: 10px 16px 0; }
   .topnav { order: 3; width: 100%; overflow-x: auto; height: 44px; }
-  .wordmark { font-size: 0.95rem; }
 }
 
 .container {
