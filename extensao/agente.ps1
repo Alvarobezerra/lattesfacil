@@ -1,6 +1,7 @@
 ﻿param(
   [string]$AppUrl = "https://lattesfacil.onrender.com",
   [string]$ProtocolUri = "",
+  [string]$Token = "",
   [switch]$Daemon
 )
 $ErrorActionPreference = "SilentlyContinue"
@@ -10,8 +11,26 @@ $ldDir = Join-Path $env:LOCALAPPDATA "LattesData"
 $profileDir = Join-Path $ldDir "perfil-navegador"
 $corePath = Join-Path $ldDir "autofill_core.js"
 $ps1Path = Join-Path $ldDir "agente.ps1"
+$cfgPath = Join-Path $ldDir "config.json"
 $coreJs = [System.IO.File]::ReadAllText($corePath, [System.Text.Encoding]::UTF8)
-$cdpPort = 19229
+
+# Configuracao confiavel: servidor e token gravados na instalacao (o .bat passa -AppUrl/-Token).
+# Chamadas via lattesdata:// NAO podem trocar o servidor — usam apenas o que esta gravado aqui.
+$cfg = $null
+try { $cfg = Get-Content $cfgPath -Raw | ConvertFrom-Json } catch {}
+if ($Token) {
+  $cdpPortNew = if ($cfg -and $cfg.cdpPort) { [int]$cfg.cdpPort } else { Get-Random -Minimum 20000 -Maximum 60000 }
+  $cfg = [pscustomobject]@{ appUrl = $AppUrl.TrimEnd('/'); token = $Token; cdpPort = $cdpPortNew }
+  try { $cfg | ConvertTo-Json | Set-Content -Path $cfgPath -Encoding UTF8 } catch {}
+} elseif ($cfg -and $cfg.token) {
+  $Token = [string]$cfg.token
+  $AppUrl = [string]$cfg.appUrl
+}
+$cdpPort = if ($cfg -and $cfg.cdpPort) { [int]$cfg.cdpPort } else { Get-Random -Minimum 20000 -Maximum 60000 }
+$trustedUri = [Uri]$AppUrl
+$authHeaders = @{ "X-LD-Token" = $Token }
+$appHostRe = "^https?://" + [regex]::Escape($trustedUri.Authority) + "(/|$)"
+$lattesRe = "^https://wwws\.cnpq\.br/"
 
 # 1. Registra o protocolo lattesdata:// no Windows (por usuario, sem precisar de Admin)
 try {
@@ -46,16 +65,13 @@ if ($ProtocolUri -match "^lattesdata://") {
     $u = [Uri]$ProtocolUri
     $qs = [System.Web.HttpUtility]::ParseQueryString($u.Query)
   } catch {}
-  $jobMatch = [regex]::Match($ProtocolUri, "[?&]job=([^&]+)")
-  $srvMatch = [regex]::Match($ProtocolUri, "[?&]server=([^&]+)")
-  if ($srvMatch.Success) {
-    $AppUrl = [Uri]::UnescapeDataString($srvMatch.Groups[1].Value)
-  }
-  if ($jobMatch.Success) {
-    $jobId = [Uri]::UnescapeDataString($jobMatch.Groups[1].Value)
+  # O parametro server= da URL e IGNORADO (qualquer site pode disparar lattesdata://).
+  $jobMatch = [regex]::Match($ProtocolUri, "[?&]job=([A-Za-z0-9_-]{8,64})(&|$)")
+  if ($jobMatch.Success -and $Token) {
+    $jobId = $jobMatch.Groups[1].Value
     $jobUrl = "$($AppUrl.TrimEnd('/'))/api/lattes/job?id=$jobId"
     try {
-      $resp = Invoke-RestMethod -Uri $jobUrl -TimeoutSec 8 -ErrorAction Stop
+      $resp = Invoke-RestMethod -Uri $jobUrl -Headers $authHeaders -TimeoutSec 8 -ErrorAction Stop
       if ($resp.ok -and $resp.data) {
         $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
       }
@@ -81,7 +97,6 @@ function Start-LattesBrowser([string]$targetUrl) {
   Start-Process -FilePath $browserExe -ArgumentList @(
     "--user-data-dir=$profileDir",
     "--remote-debugging-port=$cdpPort",
-    "--remote-allow-origins=*",
     "--no-first-run",
     "--no-default-browser-check",
     $targetUrl
@@ -107,7 +122,7 @@ if (-not $cdpAlive -and -not $Daemon) {
 } elseif ($cdpAlive -and $pendingPayload) {
   # Se o navegador ja estava aberto e chegou um job via protocolo lattesdata://
   $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
-  $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
+  $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($lt.Count -eq 0) {
     Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
   } else {
@@ -156,7 +171,7 @@ function Invoke-CdpEval([string]$wsUrl, [string]$jsExpr) {
 
 $nextToast = ""
 $failCount = 0
-$pollServers = @("http://127.0.0.1:8799", $AppUrl.TrimEnd('/')) | Select-Object -Unique
+$pollServers = @($AppUrl.TrimEnd('/'))
 
 while ($true) {
   Start-Sleep -Milliseconds 1200
@@ -165,7 +180,7 @@ while ($true) {
   if (-not $pendingPayload) {
     foreach ($srv in $pollServers) {
       try {
-        $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -TimeoutSec 2 -ErrorAction Stop
+        $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 2 -ErrorAction Stop
         if ($jResp -and $jResp.ok -and $jResp.data) {
           $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
           Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
@@ -199,7 +214,7 @@ while ($true) {
   }
 
   # Se chegou um job via fila e o navegador ja estava aberto mas sem aba do Lattes, abre/ativa a aba do Lattes
-  $lattesTabsCheck = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
+  $lattesTabsCheck = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($pendingPayload -and $lattesTabsCheck.Count -eq 0) {
     try {
       Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form" -TimeoutSec 2 | Out-Null
@@ -212,8 +227,8 @@ while ($true) {
     } catch {}
   }
 
-  $lattesTabs = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match "wwws\.cnpq\.br" })
-  $appTabs = @($tabs | Where-Object { $_.type -eq "page" -and ($_.url -match "onrender\.com" -or $_.url -match "127\.0\.0\.1" -or $_.url -match "localhost") })
+  $lattesTabs = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
+  $appTabs = @($tabs | Where-Object { $_.type -eq "page" -and $_.url -match $appHostRe })
 
   $lattesOnline = $false
   $lattesName = ""

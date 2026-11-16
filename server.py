@@ -40,6 +40,9 @@ MIN_ABSTRACTS_FOR_CADERNO = 10
 SID_RE = re.compile(r"^[a-z0-9]{8,40}$")
 LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sinal do conector (só em memória)
 LATTES_JOBS: dict[str, dict[str, Any]] = {}    # job_id de uso único -> payload temporário para o protocolo lattesdata://
+LATTES_CONSUMED: dict[str, float] = {}         # job_id entregue ao agente -> instante (para o ?check=)
+AGENT_TOKENS: dict[str, str] = {}              # token de pareamento do agente -> token da sessão dona
+HOST_RE = re.compile(r"^[A-Za-z0-9.\-]{1,100}(:\d{1,5})?$")
 
 # ---------------------------------------------------------------- segurança
 ACCESS_FILE = BASE_DIR / ".acesso"          # código de acesso gerado na 1ª execução (fora do git)
@@ -382,6 +385,14 @@ class LattesHandler(BaseHTTPRequestHandler):
         t = self._sess()
         return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
 
+    def _agent_owner(self) -> str:
+        """Tag da sessão dona do token do agente local (cabeçalho X-LD-Token), ou '' se inválido."""
+        tok = self.headers.get("X-LD-Token", "")
+        sess = AGENT_TOKENS.get(tok, "") if tok else ""
+        if sess and SESSIONS.get(sess, 0) > time.time():
+            return hashlib.sha256(sess.encode()).hexdigest()[:16]
+        return ""
+
     def _origin_ok(self) -> bool:
         """Anti-CSRF: pedidos que alteram dados só valem se vierem da própria página."""
         origin = self.headers.get("Origin")
@@ -502,6 +513,12 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/lattes/job":
+            # Quem chama: o navegador do usuário (cookie de sessão) ou o agente local (X-LD-Token pareado
+            # a uma sessão). Cada um só enxerga os jobs da PRÓPRIA sessão.
+            owner = self._agent_owner() or self._sess_tag()
+            if not owner:
+                self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
+                return
             qs = parse_qs(parsed.query)
             jid = (qs.get("id") or [""])[0].strip()
             chk = (qs.get("check") or [""])[0].strip()
@@ -509,22 +526,39 @@ class LattesHandler(BaseHTTPRequestHandler):
             now_ts = time.time()
             for k in [k for k, v in list(LATTES_JOBS.items()) if now_ts - v.get("ts", 0) > 600]:
                 LATTES_JOBS.pop(k, None)
+            for k in [k for k, t in list(LATTES_CONSUMED.items()) if now_ts - t > 600]:
+                LATTES_CONSUMED.pop(k, None)
             if chk:
-                self._send_json({"ok": True, "consumed": chk not in LATTES_JOBS})
+                self._send_json({"ok": True, "consumed": chk in LATTES_CONSUMED and LATTES_CONSUMED[chk] > 0 and chk not in LATTES_JOBS})
                 return
+            mine = [k for k, v in LATTES_JOBS.items() if v.get("owner") == owner]
             if want_next and not jid:
-                if not LATTES_JOBS:
+                if not mine:
                     self._send_json({"ok": False})
                     return
-                oldest_k = min(LATTES_JOBS.keys(), key=lambda k: LATTES_JOBS[k].get("ts", 0))
+                oldest_k = min(mine, key=lambda k: LATTES_JOBS[k].get("ts", 0))
                 entry = LATTES_JOBS.pop(oldest_k, None)
+                LATTES_CONSUMED[oldest_k] = now_ts
                 self._send_json({"ok": True, "job_id": oldest_k, "data": entry["data"]})
                 return
-            entry = LATTES_JOBS.pop(jid, None)
-            if not entry:
-                self._send_json({"ok": False, "error": "Job expirado ou inexistente."}, HTTPStatus.NOT_FOUND)
-            else:
+            if jid in mine:
+                entry = LATTES_JOBS.pop(jid, None)
+                LATTES_CONSUMED[jid] = now_ts
                 self._send_json({"ok": True, "data": entry["data"]})
+            else:
+                self._send_json({"ok": False, "error": "Job expirado ou inexistente."}, HTTPStatus.NOT_FOUND)
+            return
+
+        if path == "/api/lattes/pair":
+            # Gera (uma vez por sessão) o token que o agente local usa para buscar jobs desta sessão.
+            sess = self._sess()
+            tok = next((t for t, s in AGENT_TOKENS.items() if s == sess), "")
+            if not tok:
+                if len(AGENT_TOKENS) > 500:
+                    AGENT_TOKENS.clear()
+                tok = secrets.token_urlsafe(24)
+                AGENT_TOKENS[tok] = sess
+            self._send_json({"ok": True, "token": tok})
             return
 
         if path == "/api/radar":
@@ -576,8 +610,15 @@ class LattesHandler(BaseHTTPRequestHandler):
             b64_core = base64.b64encode(core_bytes).decode("ascii")
             b64_ps1 = base64.b64encode(ps1_bytes).decode("ascii")
             scheme = "https" if self._https() else "http"
-            host_hdr = self.headers.get("Host", "lattesfacil.onrender.com")
+            host_hdr = self.headers.get("Host", "")
+            if not HOST_RE.match(host_hdr):
+                host_hdr = "lattesfacil.onrender.com"
             app_url = f"{scheme}://{host_hdr}"
+            sess = self._sess()
+            token = next((t for t, s in AGENT_TOKENS.items() if s == sess), "")
+            if not token:
+                token = secrets.token_urlsafe(24)
+                AGENT_TOKENS[token] = sess
             bat_lines = [
                 "@echo off",
                 "chcp 65001 >nul",
@@ -586,7 +627,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                 'set "LD_BAT=%~f0"',
                 'if not exist "%LD_DIR%" mkdir "%LD_DIR%"',
                 'powershell -NoProfile -ExecutionPolicy Bypass -Command "$txt = [IO.File]::ReadAllText($env:LD_BAT); $m1 = [regex]::Match($txt, \'(?m)^::CORE_B64:([A-Za-z0-9+/=]+)\'); $m2 = [regex]::Match($txt, \'(?m)^::PS1_B64:([A-Za-z0-9+/=]+)\'); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\autofill_core.js\\\", [Convert]::FromBase64String($m1.Groups[1].Value)); [IO.File]::WriteAllBytes(\\\"$env:LD_DIR\\agente.ps1\\\", [Convert]::FromBase64String($m2.Groups[1].Value));"',
-                f'powershell -NoProfile -ExecutionPolicy Bypass -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}"',
+                f'powershell -NoProfile -ExecutionPolicy Bypass -File "%LD_DIR%\\agente.ps1" -AppUrl "{app_url}" -Token "{token}"',
                 "goto :eof",
                 f"::CORE_B64:{b64_core}",
                 f"::PS1_B64:{b64_ps1}",
@@ -976,7 +1017,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                 for k in [k for k, v in LATTES_JOBS.items() if now_ts - v.get("ts", 0) > 600]:
                     LATTES_JOBS.pop(k, None)
                 jid = secrets.token_urlsafe(16)
-                LATTES_JOBS[jid] = {"data": payload, "ts": now_ts}
+                LATTES_JOBS[jid] = {"data": payload, "ts": now_ts, "owner": self._sess_tag()}
                 self._send_json({"ok": True, "job_id": jid})
             except Exception:
                 self._send_json({"ok": False, "error": "Falha ao criar job."}, HTTPStatus.BAD_REQUEST)
