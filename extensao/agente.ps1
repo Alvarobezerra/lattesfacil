@@ -184,7 +184,7 @@ if (-not $cdpAlive -and -not $Daemon) {
   Start-LattesBrowser $initialTarget
 } elseif ($cdpAlive -and $pendingPayload) {
   # Se o navegador ja estava aberto e chegou um job via protocolo lattesdata://
-  $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2)
+  $existingTabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 | ForEach-Object { $_ })
   $lt = @($existingTabs | Where-Object { $_.type -eq "page" -and $_.url -match $lattesRe })
   if ($lt.Count -eq 0) {
     Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://memoria.cnpq.br/web/portal-lattes/" -TimeoutSec 2 | Out-Null
@@ -256,7 +256,7 @@ while ($true) {
   $tabs = @()
   $browserRunning = $false
   try {
-    $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
+    $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop | ForEach-Object { $_ })
     $browserRunning = $true
     $failCount = 0
   } catch {
@@ -278,7 +278,7 @@ while ($true) {
     try {
       Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:$cdpPort/json/new?https://memoria.cnpq.br/web/portal-lattes/" -TimeoutSec 2 | Out-Null
       Start-Sleep -Milliseconds 800
-      $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop)
+      $tabs = @(Invoke-RestMethod -Uri "http://127.0.0.1:$cdpPort/json" -TimeoutSec 2 -ErrorAction Stop | ForEach-Object { $_ })
       Focus-LattesBrowser
     } catch {}
   } elseif ($justReceivedJob -and $lattesTabsCheck.Count -gt 0) {
