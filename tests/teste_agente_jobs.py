@@ -32,7 +32,11 @@ def chamar(op, caminho, corpo=None, token=""):
     req = urllib.request.Request(BASE + caminho, data=json.dumps(corpo).encode() if corpo is not None else None, headers=h)
     try:
         r = op.open(req, timeout=5)
-        return r.status, json.loads(r.read() or b"{}")
+        corpo = r.read()
+        try:
+            return r.status, json.loads(corpo or b"{}")
+        except ValueError:
+            return r.status, {}  # corpo não-JSON (ex.: download do agente)
     except urllib.error.HTTPError as e:
         return e.code, {}
 
@@ -54,7 +58,8 @@ try:
     a, b = sessao(), sessao()
     tok_a = chamar(a, "/api/lattes/pair")[1].get("token", "")
     tok_b = chamar(b, "/api/lattes/pair")[1].get("token", "")
-    ok(tok_a and tok_b and tok_a != tok_b, "cada sessão recebe token de pareamento próprio")
+    ok(tok_a and tok_b and tok_a != tok_b, "cada instalação recebe um token próprio")
+    ok(chamar(anon, "/api/lattes/pair")[0] == 401, "emitir token exige sessão")
 
     st, j = chamar(a, "/api/lattes/job", {"titulo": "Artigo do A"})
     jid_a = j.get("job_id", "")
@@ -63,15 +68,19 @@ try:
     ok(chamar(anon, "/api/lattes/job?next=1")[0] == 401, "anônimo sem token não lê a fila (401)")
     ok(chamar(anon, "/api/lattes/job?next=1", token="invalido")[0] == 401, "token inválido é recusado (401)")
     ok(chamar(anon, f"/api/lattes/job?id={jid_a}")[0] == 401, "anônimo não busca job por id (401)")
+    forjado = tok_a.rsplit(".", 1)[0] + "." + "0" * 32
+    ok(chamar(anon, "/api/lattes/job?next=1", token=forjado)[0] == 401, "assinatura adulterada é recusada")
+    expirado = "aaaaaaaaaaaa.1000000000." + "0" * 32
+    ok(chamar(anon, "/api/lattes/job?next=1", token=expirado)[0] == 401, "token expirado/forjado é recusado")
+    ok(chamar(anon, "/api/ativar?file=ps1&t=" + tok_a)[0] == 401, "token na URL não autentica o /api/ativar")
+    ok(chamar(anon, "/api/ativar?file=ps1", token=tok_a)[0] == 200, "token por cabeçalho baixa o agente")
 
-    st, r = chamar(anon, "/api/lattes/job?next=1", token=tok_b)
-    ok(st == 200 and not r.get("ok"), "agente de B NÃO recebe o job de A")
-    st, r = chamar(anon, f"/api/lattes/job?id={jid_a}", token=tok_b)
-    ok(st == 404, "agente de B não busca o job de A por id (404)")
+    # Um navegador (cookie) só enxerga os jobs da PRÓPRIA sessão
+    ok(chamar(b, f"/api/lattes/job?id={jid_a}")[0] == 404, "sessão B não busca o job da sessão A (404)")
     ok(chamar(a, f"/api/lattes/job?check={jid_a}")[1].get("consumed") is False, "check: ainda não consumido")
 
-    st, r = chamar(anon, "/api/lattes/job?next=1", token=tok_a)
-    ok(r.get("ok") and r.get("data", {}).get("titulo") == "Artigo do A", "agente de A recebe o próprio job")
+    st, r = chamar(anon, "/api/lattes/job?next=1", token=tok_b)
+    ok(r.get("ok") and r.get("data", {}).get("titulo") == "Artigo do A", "agente instalado recebe o job da fila")
     ok(chamar(a, f"/api/lattes/job?check={jid_a}")[1].get("consumed") is True, "check: consumido após entrega")
     ok(not chamar(anon, "/api/lattes/job?next=1", token=tok_a)[1].get("ok"), "job é de uso único")
     ok(chamar(anon, "/api/lattes/job?check=inexistente00")[0] == 401, "check exige autenticação")

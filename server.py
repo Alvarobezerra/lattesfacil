@@ -31,6 +31,7 @@ from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
+from abertura import montar_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
 from organizer import extrair_ano, gerar_nome_padronizado, gerar_zip_dossie, organizar_lote_comprovantes
 
@@ -46,6 +47,10 @@ LATTES_JOBS: dict[str, dict[str, Any]] = {}    # job_id de uso único -> payload
 LATTES_CONSUMED: dict[str, float] = {}         # job_id entregue ao agente -> instante (para o ?check=)
 AGENT_TOKENS: dict[str, str] = {}              # token de pareamento do agente -> token da sessão dona
 AGENT_LAST_SEEN: dict[str, float] = {}         # último sinal do agente local (heartbeat via polling)
+LOGIN_USUARIOS = {"alvaro", "aramys"}          # opções da tela de login (nomes completos no front)
+AGENT_TOKEN_TTL = 90 * 86400
+INSTALL_TOKEN_RE = re.compile(r"^([0-9a-f]{12})\.(\d{9,11})\.([0-9a-f]{32})$")
+REVOKED_INSTALLS = {x.strip() for x in os.environ.get("LATTESFACIL_REVOGADOS", "").split(",") if x.strip()}
 HOST_RE = re.compile(r"^[A-Za-z0-9.\-]{1,100}(:\d{1,5})?$")
 
 # ---------------------------------------------------------------- segurança
@@ -98,6 +103,9 @@ button:hover{background:#38bdf8}
   <circle cx="63.5" cy="72.0" r="4.4" fill="#34F0B0"/>
 </svg>
 <span class="wt"><b>Lattes</b><i>DATA</i></span></div><p>Acesso restrito. Digite o código de acesso.</p>
+<fieldset style="border:0;margin:0 0 14px;padding:0;text-align:left"><legend style="font-size:13px;margin-bottom:6px">Entrar como</legend>
+<label style="display:block;margin:4px 0;cursor:pointer"><input type="radio" name="usuario" value="alvaro" checked> Álvaro Antônio Bezerra dos Santos</label>
+<label style="display:block;margin:4px 0;cursor:pointer"><input type="radio" name="usuario" value="aramys"> Aramys Silva dos Reis</label></fieldset>
 <input type="password" name="codigo" autocomplete="current-password" autofocus required aria-label="Código de acesso">
 %ERRO%<button type="submit">Entrar</button></form></body></html>"""
 
@@ -397,15 +405,33 @@ class LattesHandler(BaseHTTPRequestHandler):
         t = self._sess()
         return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
 
-    def _master_agent_token(self) -> str:
-        return hmac.new(ACCESS_CODE.encode("utf-8"), b"lattesdata-agent-v1", hashlib.sha256).hexdigest()[:32]
+    @staticmethod
+    def _agent_sig(payload: str) -> str:
+        return hmac.new(ACCESS_CODE.encode("utf-8"), b"lattesdata-agent-v2:" + payload.encode("ascii"), hashlib.sha256).hexdigest()[:32]
+
+    def _new_install_token(self) -> str:
+        """Token POR INSTALAÇÃO do agente: id.expira.assinatura (sem estado no servidor, sobrevive a reinícios).
+        Não é derivado só do código: cada instalação tem id próprio, validade de 90 dias e pode ser
+        revogada listando o id em LATTESFACIL_REVOGADOS."""
+        payload = f"{secrets.token_hex(6)}.{int(time.time()) + AGENT_TOKEN_TTL}"
+        return f"{payload}.{self._agent_sig(payload)}"
+
+    def _install_token_ok(self, tok: str) -> bool:
+        m = INSTALL_TOKEN_RE.match(tok or "")
+        if not ACCESS_CODE or not m:
+            return False
+        iid, exp, sig = m.groups()
+        if int(exp) < time.time() or iid in REVOKED_INSTALLS:
+            return False
+        return hmac.compare_digest(sig.encode(), self._agent_sig(f"{iid}.{exp}").encode())
 
     def _agent_owner(self) -> str:
-        """Tag da sessão dona do token do agente local (cabeçalho X-LD-Token), ou 'master' se token HMAC válido."""
+        """Dono do token do agente local (cabeçalho X-LD-Token): 'master' (= fila do código de acesso) se o token
+        por instalação for válido, ou a tag da sessão se for um token de pareamento antigo."""
         tok = self.headers.get("X-LD-Token", "").strip()
         if not tok:
             return ""
-        if ACCESS_CODE and hmac.compare_digest(tok.encode("utf-8"), self._master_agent_token().encode("utf-8")):
+        if self._install_token_ok(tok):
             AGENT_LAST_SEEN["master"] = time.time()
             return "master"
         sess = AGENT_TOKENS.get(tok, "")
@@ -437,11 +463,12 @@ class LattesHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
 
-    def _redirect(self, where: str, cookie: str = "") -> None:
+    def _redirect(self, where: str, cookie: "str | tuple[str, ...]" = "") -> None:
         self.send_response(HTTPStatus.SEE_OTHER)
         self.send_header("Location", where)
-        if cookie:
-            self.send_header("Set-Cookie", cookie)
+        for c in ((cookie,) if isinstance(cookie, str) else cookie):
+            if c:
+                self.send_header("Set-Cookie", c)
         self.send_header("Content-Length", "0")
         self.end_headers()
 
@@ -469,7 +496,11 @@ class LattesHandler(BaseHTTPRequestHandler):
             n = min(int(self.headers.get("Content-Length", "0")), 4096)
         except ValueError:
             n = 0
-        code = parse_qs(self.rfile.read(n).decode("utf-8", errors="replace")).get("codigo", [""])[0]
+        form = parse_qs(self.rfile.read(n).decode("utf-8", errors="replace"))
+        code = form.get("codigo", [""])[0]
+        quem = form.get("usuario", [""])[0]
+        if quem not in LOGIN_USUARIOS:
+            quem = "alvaro"
         if hmac.compare_digest(code.encode(), ACCESS_CODE.encode()):
             LOGIN_FAILS.pop(ip, None)
             now = time.time()
@@ -478,7 +509,9 @@ class LattesHandler(BaseHTTPRequestHandler):
             token = secrets.token_urlsafe(32)
             SESSIONS[token] = now + SESSION_TTL
             cookie = f"lf_sess={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
-            self._redirect("/", cookie)
+            # Quem entrou (não é segredo): o front lê este cookie uma vez e o guarda como usuário ativo.
+            user_cookie = f"lf_user={quem}; SameSite=Strict; Path=/; Max-Age=300" + ("; Secure" if self._https() else "")
+            self._redirect("/abertura.html", (cookie, user_cookie))
         else:
             LOGIN_FAILS.setdefault(ip, []).append(time.time())
             time.sleep(0.6)  # freia tentativa automatizada
@@ -585,8 +618,8 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/lattes/pair":
-            # Devolve o token HMAC master (sobrevive a reinícios do servidor e novas sessões)
-            self._send_json({"ok": True, "token": self._master_agent_token()})
+            # Emite um token novo, exclusivo de uma instalação do agente (exige sessão: passa pelo _gate)
+            self._send_json({"ok": True, "token": self._new_install_token()})
             return
 
         if path == "/api/radar":
@@ -601,6 +634,20 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": True, "obras": obras})
             except Exception:
                 self._send_json({"ok": False, "error": "Falha ao consultar as bases externas.", "obras": []}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/abertura":
+            qs = parse_qs(parsed.query)
+            usuario = (qs.get("usuario") or [""])[0].strip()[:60] or "Convidado"
+            orcid = (qs.get("orcid") or [""])[0].strip().upper() or None
+            if orcid and not ORCID_RE.match(orcid):
+                self._send_json({"ok": False, "error": "ORCID inválido (formato 0000-0000-0000-0000)."}, HTTPStatus.BAD_REQUEST)
+                return
+            try:
+                with db() as conn:
+                    self._send_json({"ok": True, **montar_abertura(conn, usuario, orcid)})
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao montar a tela de abertura."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/citacoes":
@@ -650,12 +697,11 @@ class LattesHandler(BaseHTTPRequestHandler):
 
         if path == "/api/ativar":
             qs = parse_qs(parsed.query)
-            tok_q = (qs.get("t") or [""])[0].strip()
-            expected_tok = self._master_agent_token()
-            valid_tok = bool(tok_q and hmac.compare_digest(tok_q.encode("utf-8"), expected_tok.encode("utf-8")))
-            if not (valid_tok or self._agent_owner() or self._sess()):
+            # Token só por cabeçalho (nunca na URL, que vai para logs e histórico)
+            if not (self._agent_owner() or self._sess()):
                 self._send_json({"ok": False, "error": "Não autorizado."}, HTTPStatus.UNAUTHORIZED)
                 return
+            expected_tok = self.headers.get("X-LD-Token", "").strip() if self._agent_owner() else self._new_install_token()
             ext_dir = BASE_DIR / "extensao"
             which = (qs.get("file") or [""])[0].strip()
             if which == "core":
@@ -690,7 +736,7 @@ class LattesHandler(BaseHTTPRequestHandler):
             if not HOST_RE.match(host_hdr):
                 host_hdr = "lattesfacil.onrender.com"
             app_url = f"{scheme}://{host_hdr}"
-            token = self._master_agent_token()
+            token = self._new_install_token()
             bat_lines = [
                 "@echo off",
                 "chcp 65001 >nul",

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LattesData — Abertura (mockup)</title>
+<link rel="icon" type="image/svg+xml" href="../static/img/isotipo.svg" />
+<link rel="stylesheet" href="../static/fonts/fonts.css" />
+<style>
+:root{
+  --navy:#0b192c;--blue:#1b365d;--cyan:#00a3c4;--cyan-d:#00829c;--emerald:#10b981;--sky:#38bdf8;
+  --bg:#f4f8fb;--card:#fff;--border:#dbe4ee;--text:#0b192c;--muted:#546580;--warn:#b7791f;--warn-bg:#fdf6e3;
+  --serif:"Newsreader",Georgia,serif;--ui:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#08121f;--card:#0f1f35;--border:#1f3452;--text:#e8eff7;--muted:#93a6c0;--warn-bg:#2a2210;--warn:#e6b559}
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--ui);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{width:min(1240px,100% - 32px);margin:0 auto}
+
+/* topo */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.top-in{display:flex;align-items:center;gap:18px;height:62px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{width:34px;height:34px}
+.wm b{font-family:var(--serif);font-style:italic;font-weight:700;font-size:1.35rem}
+.wm i{font-style:normal;font-weight:800;font-size:.75rem;color:var(--cyan);letter-spacing:.06em;margin-left:3px}
+.nav{display:flex;gap:4px;margin-left:10px}
+.nav a{padding:7px 12px;border-radius:8px;color:var(--muted);font-weight:500;font-size:.9rem}
+.nav a.on{background:color-mix(in srgb,var(--cyan) 14%,transparent);color:var(--cyan-d);font-weight:600}
+.search{margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:10px;padding:7px 12px;color:var(--muted);font-size:.88rem;min-width:240px;background:var(--bg)}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.82rem;flex:none}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;border-radius:10px;padding:9px 16px;font-weight:600;font-size:.9rem}
+.btn-p{background:var(--cyan);color:#04202a;box-shadow:0 6px 16px rgba(0,163,196,.25)}
+.btn-o{border-color:var(--border);background:var(--card)}
+
+/* perfil */
+.profile{display:flex;align-items:center;gap:18px;padding:22px 0 8px;flex-wrap:wrap}
+.profile .avatar{width:64px;height:64px;font-size:1.3rem}
+.who h1{margin:0;font-size:1.45rem;letter-spacing:-.01em}
+.who h1 em{font-family:var(--serif);font-weight:600;color:var(--cyan-d)}
+.who p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.ids{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--emerald) 14%,transparent);color:#0a6b4d;border:1px solid color-mix(in srgb,var(--emerald) 35%,transparent)}
+@media (prefers-color-scheme:dark){.pill{color:#5be0b0}}
+.pill.neutral{background:var(--bg);color:var(--muted);border-color:var(--border)}
+.complete{margin-left:auto;min-width:240px}
+.complete .row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.complete .row b{color:var(--text)}
+.bar{height:8px;border-radius:99px;background:var(--border);overflow:hidden}
+.bar i{display:block;height:100%;width:86%;background:linear-gradient(90deg,var(--cyan),var(--emerald));border-radius:99px}
+.actions{display:flex;gap:10px}
+
+/* grade */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;padding:14px 0 48px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+.card h2{margin:0 0 12px;font-size:.95rem;letter-spacing:.01em}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}
+.sec-h h2{margin:0}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:5px 11px;font-size:.78rem;color:var(--muted);font-weight:600}
+.seg button.on{background:var(--cyan);color:#04202a}
+
+/* indicadores */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{padding:14px 14px 10px;cursor:pointer;transition:border-color .15s,transform .15s}
+.kpi:hover,.kpi.on{border-color:var(--cyan)}
+.kpi:hover{transform:translateY(-1px)}
+.kpi .lb{font-size:.76rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;display:flex;justify-content:space-between}
+.kpi .v{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:4px 0 0;line-height:1.1}
+.kpi .d{font-size:.8rem;font-weight:600;color:#0a8a63;display:flex;align-items:center;gap:4px}
+@media (prefers-color-scheme:dark){.kpi .d{color:#5be0b0}}
+.kpi .d.flat{color:var(--muted)}
+.kpi svg{width:100%;height:34px;margin-top:6px;display:block}
+.kpi .sub{font-size:.76rem;color:var(--muted);margin-top:4px}
+
+/* gráfico principal */
+.chart-card{margin-bottom:16px}
+.legend{display:flex;gap:16px;font-size:.78rem;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+#chart{width:100%;height:210px;display:block}
+.chart-foot{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.chart-foot div{font-size:.78rem;color:var(--muted)}
+.chart-foot b{display:block;font-size:1.15rem;color:var(--text);letter-spacing:-.01em}
+.src{font-size:.74rem;color:var(--muted);margin-top:10px}
+.src b{color:var(--cyan-d)}
+
+/* feed */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--border);background:var(--card);border-radius:99px;padding:4px 12px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media (prefers-color-scheme:dark){.chips button.on{background:var(--cyan);color:#04202a;border-color:var(--cyan)}}
+.feed{display:grid;gap:10px;margin-top:12px}
+.post{display:flex;gap:12px;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+.ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;font-size:1.05rem;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.post .b{min-width:0;flex:1}
+.post .t{font-size:.92rem}
+.post .t b{font-weight:700}
+.post .m{font-size:.76rem;color:var(--muted);margin-top:2px}
+.post blockquote{margin:8px 0 0;padding:6px 12px;border-left:3px solid var(--sky);font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--muted)}
+.post .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.post .acts a,.post .acts button{font-size:.78rem;font-weight:600;border:1px solid var(--border);background:transparent;border-radius:8px;padding:4px 10px;color:var(--cyan-d)}
+.post .acts a:hover,.post .acts button:hover{border-color:var(--cyan)}
+.conf{font-size:.7rem;font-weight:700;padding:1px 7px;border-radius:99px;background:var(--bg);border:1px solid var(--border);color:var(--muted);margin-left:6px;vertical-align:1px}
+
+/* lateral */
+.side{display:grid;gap:16px;align-content:start}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.todo li{display:flex;gap:10px;font-size:.86rem;align-items:flex-start}
+.todo .dot{width:8px;height:8px;border-radius:50%;background:var(--warn);margin-top:7px;flex:none}
+.todo .dot.red{background:#d9534f}
+.todo small{display:block;color:var(--muted);font-size:.76rem}
+.todo a{margin-left:auto;font-size:.76rem;font-weight:700;color:var(--cyan-d);white-space:nowrap}
+.ev{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.ev:last-child{margin-bottom:0}
+.date{width:46px;text-align:center;border:1px solid var(--border);border-radius:10px;padding:4px 0;flex:none;line-height:1.1}
+.date b{display:block;font-size:1.1rem}
+.date span{font-size:.64rem;color:var(--muted);text-transform:uppercase;font-weight:700}
+.ev .n{font-size:.86rem;font-weight:600}
+.ev .s{font-size:.76rem;color:var(--muted)}
+.tag-d{font-size:.7rem;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:1px 7px;border-radius:99px}
+.person{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.person .avatar{width:32px;height:32px;font-size:.72rem}
+.person .n{font-size:.85rem;font-weight:600;line-height:1.2}
+.person .s{font-size:.74rem;color:var(--muted)}
+.person button{margin-left:auto;font-size:.74rem;font-weight:700;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;padding:3px 10px}
+.soon{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:color-mix(in srgb,var(--sky) 18%,transparent);color:var(--cyan-d);padding:2px 8px;border-radius:99px;margin-left:6px}
+.goal .bar i{background:var(--cyan)}
+.goal p{margin:0 0 6px;font-size:.84rem}
+
+@media (max-width:1020px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.search,.nav{display:none}.complete{margin-left:0;width:100%}}
+@media (max-width:520px){.chart-foot{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#"><img src="../static/img/isotipo.svg" alt="" /><span class="wm"><b>Lattes</b><i>DATA</i></span></a>
+    <nav class="nav" aria-label="Principal">
+      <a class="on" href="#">Início</a><a href="#">Produção</a><a href="#">Citações</a><a href="#">Eventos</a><a href="#">Lattes</a>
+    </nav>
+    <div class="search">🔍 Buscar obras, pessoas, eventos…</div>
+    <div class="avatar" title="Maria Souza">MS</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Faixa do pesquisador -->
+  <section class="profile">
+    <div class="avatar">MS</div>
+    <div class="who">
+      <h1>Bom dia, <em>Maria</em></h1>
+      <p>Profa. Adjunta · Fisiologia do Exercício · Universidade Federal de Exemplo</p>
+      <div class="ids">
+        <span class="pill">✓ Lattes verificado</span>
+        <span class="pill">✓ ORCID 0000-0002-1825-0097</span>
+        <span class="pill neutral">Perfil privado</span>
+      </div>
+    </div>
+    <div class="complete">
+      <div class="row"><span>Currículo em dia</span><b>86% · 4 pendências</b></div>
+      <div class="bar"><i></i></div>
+    </div>
+    <div class="actions">
+      <a class="btn btn-o" href="#">Ver perfil</a>
+      <a class="btn btn-p" href="#">＋ Enviar documento</a>
+    </div>
+  </section>
+
+  <div class="grid">
+    <div>
+
+      <!-- Indicadores -->
+      <section class="kpis" aria-label="Indicadores">
+        <article class="card kpi on" data-k="prod">
+          <div class="lb">Produção <span>📄</span></div>
+          <div class="v">87</div>
+          <div class="d">▲ +6 em 2026</div>
+          <svg viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="#00a3c4" stroke-width="2.2" points="0,28 25,24 50,20 75,14 100,6"/></svg>
+          <div class="sub">52 artigos · 11 livros/cap. · 24 outras</div>
+        </article>
+        <article class="card kpi" data-k="cit">
+          <div class="lb">Citações <span>❝</span></div>
+          <div class="v">1.284</div>
+          <div class="d">▲ +142 em 2026</div>
+          <svg viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="#10b981" stroke-width="2.2" points="0,30 25,27 50,21 75,12 100,3"/></svg>
+          <div class="sub">h 17 · i10 29 · sem autocit. 1.103</div>
+        </article>
+        <article class="card kpi" data-k="ev">
+          <div class="lb">Eventos <span>🎤</span></div>
+          <div class="v">63</div>
+          <div class="d flat">— 4 em 2026</div>
+          <svg viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="#38bdf8" stroke-width="2.2" points="0,20 25,14 50,22 75,12 100,16"/></svg>
+          <div class="sub">41 apresentações · 9 organizações</div>
+        </article>
+        <article class="card kpi" data-k="imp">
+          <div class="lb">Alcance <span>🌍</span></div>
+          <div class="v">38</div>
+          <div class="d">▲ +5 países</div>
+          <svg viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="#1b365d" stroke-width="2.2" points="0,26 25,25 50,18 75,13 100,8"/></svg>
+          <div class="sub">países que citam · 2 patentes</div>
+        </article>
+      </section>
+
+      <!-- Gráfico -->
+      <section class="card chart-card">
+        <div class="sec-h">
+          <h2 id="chart-title">Produção por ano</h2>
+          <div class="seg" role="group" aria-label="Período">
+            <button data-n="5" class="on">5 anos</button><button data-n="10">10 anos</button><button data-n="0">Tudo</button>
+          </div>
+        </div>
+        <div class="legend" id="legend"></div>
+        <svg id="chart" viewBox="0 0 700 210" preserveAspectRatio="none" role="img" aria-label="Gráfico por ano"></svg>
+        <div class="chart-foot" id="foot"></div>
+        <p class="src">Citações unificadas de <b>OpenAlex</b>, <b>OpenCitations</b> e <b>Crossref</b> · atualizado há 2 dias · <a href="#" style="text-decoration:underline">como contamos</a></p>
+      </section>
+
+      <!-- Feed -->
+      <section class="card">
+        <div class="sec-h">
+          <h2>Novidades para você</h2>
+          <div class="chips" id="chips">
+            <button class="on" data-f="all">Tudo</button><button data-f="cit">Citações</button><button data-f="ev">Eventos</button><button data-f="lat">Lattes</button>
+          </div>
+        </div>
+        <div class="feed" id="feed">
+          <article class="post" data-t="cit" style="--c:#10b981">
+            <div class="ico">❝</div>
+            <div class="b">
+              <div class="t"><b>Nova citação</b> em <i>Exercise-induced myokines and cardiac remodeling</i> <span class="conf">DOI confirmado · 2 fontes</span></div>
+              <div class="m">Citada por Kowalski et al. · Journal of Applied Physiology · Qualis A1 · Polônia · há 2 dias</div>
+              <blockquote>“…conforme demonstrado por Souza e colaboradores (2021), a resposta miocínica é dose-dependente…”</blockquote>
+              <div class="acts"><a href="#">Ver artigo citante</a><button>Marcar autocitação</button></div>
+            </div>
+          </article>
+          <article class="post" data-t="ev" style="--c:#00a3c4">
+            <div class="ico">🎤</div>
+            <div class="b">
+              <div class="t"><b>Chamada aberta</b> · Congresso FeSBE 2027 na sua área</div>
+              <div class="m">Submissão de resumos termina em 12 dias · Campinas, SP</div>
+              <div class="acts"><a href="#">Preparar resumo</a><button>Salvar na agenda</button></div>
+            </div>
+          </article>
+          <article class="post" data-t="lat" style="--c:#b7791f">
+            <div class="ico">⚠</div>
+            <div class="b">
+              <div class="t"><b>3 obras suas no ORCID</b> ainda não estão no Lattes</div>
+              <div class="m">Encontradas pela varredura semanal · revisar leva ~2 min</div>
+              <div class="acts"><a href="#">Revisar e adicionar</a></div>
+            </div>
+          </article>
+          <article class="post" data-t="cit" style="--c:#10b981">
+            <div class="ico">📈</div>
+            <div class="b">
+              <div class="t"><b>Marco atingido:</b> 1.000 citações no total</div>
+              <div class="m">Você passou de 1.000 em 4 de novembro · seu artigo mais citado soma 212</div>
+            </div>
+          </article>
+          <article class="post" data-t="lat" style="--c:#b7791f">
+            <div class="ico">📎</div>
+            <div class="b">
+              <div class="t"><b>Certificado lido:</b> Curso de Bioestatística Avançada (40 h)</div>
+              <div class="m">Aguardando sua revisão antes de preencher a Formação Complementar</div>
+              <div class="acts"><a href="#">Revisar campos</a></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- Lateral -->
+    <aside class="side">
+      <section class="card">
+        <div class="sec-h"><h2>Pendências do Lattes</h2><span class="tag-d">4</span></div>
+        <ul class="todo">
+          <li><i class="dot red"></i><div>Edital PQ vence em 9 dias<small>Faltam 2 comprovantes de orientação</small></div><a href="#">Resolver</a></li>
+          <li><i class="dot"></i><div>5 artigos sem DOI no Lattes<small>Encontramos candidatos</small></div><a href="#">Revisar</a></li>
+          <li><i class="dot"></i><div>Projeto “Miocinas II” sem fim informado</div><a href="#">Corrigir</a></li>
+          <li><i class="dot"></i><div>Atualizado há 94 dias<small>Lattes pede revisão a cada 90</small></div><a href="#">Enviar</a></li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="sec-h"><h2>Agenda</h2><a href="#" style="font-size:.76rem;font-weight:700;color:var(--cyan-d)">Ver tudo</a></div>
+        <div class="ev"><div class="date"><b>28</b><span>nov</span></div><div><div class="n">Prazo · resumos FeSBE 2027</div><div class="s"><span class="tag-d">12 dias</span></div></div></div>
+        <div class="ev"><div class="date"><b>05</b><span>dez</span></div><div><div class="n">Banca de mestrado · J. Lima</div><div class="s">UFE · 14h</div></div></div>
+        <div class="ev"><div class="date"><b>14</b><span>mar</span></div><div><div class="n">Simpósio Internacional de Fisiologia</div><div class="s">Apresentação aceita · Lisboa</div></div></div>
+      </section>
+
+      <section class="card goal">
+        <h2>Minhas metas</h2>
+        <p>2 artigos publicados até dezembro</p>
+        <div class="bar"><i style="width:50%"></i></div>
+        <p style="margin-top:12px">Atingir h-index 18</p>
+        <div class="bar"><i style="width:94%"></i></div>
+      </section>
+
+      <section class="card">
+        <h2>Quem cita você <span class="soon">em breve: seguir</span></h2>
+        <div class="person"><div class="avatar">AK</div><div><div class="n">A. Kowalski</div><div class="s">3 citações · Univ. de Varsóvia</div></div><button disabled>Seguir</button></div>
+        <div class="person"><div class="avatar">RP</div><div><div class="n">R. Pereira</div><div class="s">5 citações · USP</div></div><button disabled>Seguir</button></div>
+        <div class="person"><div class="avatar">LC</div><div><div class="n">L. Chen</div><div class="s">2 citações · NUS Singapura</div></div><button disabled>Seguir</button></div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script>
+// Dados fictícios
+const anos = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+const DATA = {
+  prod: {titulo:'Produção por ano', cor:'#00a3c4', serie:[4,6,5,8,7,9,10,9,11,12,6],
+    legenda:[['Total por ano','#00a3c4']],
+    foot:[['Total','87'],['Artigos','52'],['Melhor ano','2025 (12)'],['Média/ano','7,9']]},
+  cit:  {titulo:'Citações por ano', cor:'#10b981', serie:[18,40,66,98,130,170,205,240,260,205,142],
+    legenda:[['Citações','#10b981']],
+    foot:[['Total','1.284'],['Sem autocitação','1.103'],['Índice h','17'],['Fontes','3']]},
+  ev:   {titulo:'Eventos por ano', cor:'#38bdf8', serie:[3,5,4,7,2,3,6,9,10,10,4],
+    legenda:[['Participações','#38bdf8']],
+    foot:[['Total','63'],['Apresentações','41'],['Organizações','9'],['Próximo','14 mar']]},
+  imp:  {titulo:'Países que citam, acumulado', cor:'#1b365d', serie:[2,4,7,11,15,19,24,29,33,36,38],
+    legenda:[['Países (acumulado)','#1b365d']],
+    foot:[['Países','38'],['Periódicos','214'],['Patentes','2'],['Menções na mídia','7']]}
+};
+let cur='prod', n=5;
+const svg=document.getElementById('chart');
+function desenhar(){
+  const d=DATA[cur];
+  const total=anos.length, k=n? Math.min(n,total):total;
+  const a=anos.slice(total-k), s=d.serie.slice(total-k);
+  document.getElementById('chart-title').textContent=d.titulo;
+  document.getElementById('legend').innerHTML=d.legenda.map(l=>`<span style="--c:${l[1]}">${l[0]}</span>`).join('');
+  document.getElementById('foot').innerHTML=d.foot.map(f=>`<div>${f[0]}<b>${f[1]}</b></div>`).join('');
+  const W=700,H=210,pl=34,pb=24,pt=10,max=Math.max(...s)*1.15;
+  const bw=(W-pl)/k, g='var(--border)';
+  let h='';
+  for(let i=0;i<=3;i++){const y=pt+(H-pb-pt)*i/3;h+=`<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="${g}" stroke-width="1"/><text x="0" y="${y+4}" font-size="10" fill="var(--muted)">${Math.round(max*(1-i/3))}</text>`;}
+  s.forEach((v,i)=>{
+    const bh=(H-pb-pt)*v/max, x=pl+i*bw+bw*.18, w=bw*.64, y=H-pb-bh;
+    const last=i===k-1;
+    h+=`<rect x="${x}" y="${y}" width="${w}" height="${bh}" rx="4" fill="${d.cor}" opacity="${last?.55:1}"><title>${a[i]}: ${v}${last?' (parcial)':''}</title></rect>`;
+    h+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)">${a[i]}</text>`;
+  });
+  svg.innerHTML=h;
+}
+document.querySelectorAll('.kpi').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('.kpi').forEach(x=>x.classList.remove('on'));el.classList.add('on');cur=el.dataset.k;desenhar();
+}));
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');n=+b.dataset.n;desenhar();
+}));
+document.querySelectorAll('#chips button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#chips button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('#feed .post').forEach(p=>p.style.display=(b.dataset.f==='all'||p.dataset.t===b.dataset.f)?'':'none');
+}));
+desenhar();
+</script>
+</body>
+</html>

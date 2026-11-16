@@ -29,7 +29,34 @@ if ($Token) {
 $cdpPort = if ($cfg -and $cfg.cdpPort) { [int]$cfg.cdpPort } else { Get-Random -Minimum 20000 -Maximum 60000 }
 $trustedUri = [Uri]$AppUrl
 $authHeaders = @{ "X-LD-Token" = $Token }
-$appHostRe = "^https?://(127\.0\.0\.1(:\d+)?|localhost(:\d+)?|" + [regex]::Escape($trustedUri.Authority) + ")(/|$)"
+$appHostRe = "^https?://(127\.0\.0\.1:8799|localhost:8799|" + [regex]::Escape($trustedUri.Authority) + ")(/|$)"
+
+# Log local (erros nao ficam mais silenciosos): %LOCALAPPDATA%\LattesData\agente.log
+$logPath = Join-Path $ldDir "agente.log"
+$script:lastLog = @{}
+function Write-LdLog([string]$key, [string]$msg) {
+  # registra so quando a mensagem daquela chave muda (evita 1 linha por segundo)
+  if ($script:lastLog[$key] -eq $msg) { return }
+  $script:lastLog[$key] = $msg
+  try {
+    if ((Test-Path $logPath) -and (Get-Item $logPath).Length -gt 200KB) { Move-Item $logPath "$logPath.old" -Force }
+    Add-Content -Path $logPath -Value ("{0} [{1}] {2}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $key, $msg) -Encoding UTF8
+  } catch {}
+}
+function Get-LdJob([string]$srv, [string]$query) {
+  try {
+    $r = Invoke-RestMethod -Uri "$srv/api/lattes/job?$query" -Headers $authHeaders -TimeoutSec 3 -ErrorAction Stop
+    Write-LdLog "job:$srv" "ok"
+    return $r
+  } catch {
+    $code = ""
+    try { $code = [int]$_.Exception.Response.StatusCode } catch {}
+    if ($code -eq 401) { Write-LdLog "job:$srv" "401 token recusado - baixe o Ativador novamente no app" }
+    elseif ($code) { Write-LdLog "job:$srv" "HTTP $code" }
+    else { Write-LdLog "job:$srv" "sem conexao: $($_.Exception.Message)" }
+    return $null
+  }
+}
 $lattesRe = "^https://(wwws\.cnpq\.br|login\.cnpq\.br|lattes\.cnpq\.br|memoria\.cnpq\.br|sso\.acesso\.gov\.br)/"
 
 # 1. Registra o protocolo lattesdata:// e inicializacao automatica no Windows (por usuario, sem precisar de Admin)
@@ -76,14 +103,12 @@ if ($ProtocolUri -match "^lattesdata://") {
   if ($jobMatch.Success -and $Token) {
     $jobId = $jobMatch.Groups[1].Value
     foreach ($srv in $pollServers) {
-      $jobUrl = "$srv/api/lattes/job?id=$jobId"
-      try {
-        $resp = Invoke-RestMethod -Uri $jobUrl -Headers $authHeaders -TimeoutSec 5 -ErrorAction Stop
-        if ($resp.ok -and $resp.data) {
-          $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
-          break
-        }
-      } catch {}
+      $resp = Get-LdJob $srv "id=$jobId"
+      if ($resp -and $resp.ok -and $resp.data) {
+        $pendingPayload = ($resp.data | ConvertTo-Json -Compress -Depth 10)
+        Write-LdLog "protocolo" "job $jobId recebido de $srv"
+        break
+      }
     }
   }
 }
@@ -91,14 +116,12 @@ if ($ProtocolUri -match "^lattesdata://") {
 # Se ainda nao tem job via URL, verifica se ja ha um job aguardando na fila (ex: usuario clicou Enviar e acabou de baixar/abrir o Ativador)
 if (-not $pendingPayload -and $Token) {
   foreach ($srv in $pollServers) {
-    try {
-      $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 3 -ErrorAction Stop
-      if ($jResp -and $jResp.ok -and $jResp.data) {
-        $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
-        Write-Host ">> Job pendente encontrado em $srv!" -ForegroundColor Green
-        break
-      }
-    } catch {}
+    $jResp = Get-LdJob $srv "next=1"
+    if ($jResp -and $jResp.ok -and $jResp.data) {
+      $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
+      Write-Host ">> Job pendente encontrado em $srv!" -ForegroundColor Green
+      break
+    }
   }
 }
 
@@ -148,7 +171,7 @@ function Start-LattesBrowser([string]$targetUrl) {
     $lnk = Join-Path $ldDir "AbrirChromeLattes.lnk"
     $sc = $wsh.CreateShortcut($lnk)
     $sc.TargetPath = $browserExe
-    $sc.Arguments = "--user-data-dir=`"$profileDir`" --remote-debugging-port=$cdpPort --remote-allow-origins=* --no-first-run --no-default-browser-check --new-window `"$targetUrl`""
+    $sc.Arguments = "--user-data-dir=`"$profileDir`" --remote-debugging-port=$cdpPort --no-first-run --no-default-browser-check --new-window `"$targetUrl`""
     $sc.WindowStyle = 1
     $sc.Save()
     Start-Process -FilePath "explorer.exe" -ArgumentList @("`"$lnk`"") | Out-Null
@@ -156,7 +179,6 @@ function Start-LattesBrowser([string]$targetUrl) {
     Start-Process -FilePath $browserExe -WindowStyle Normal -ArgumentList @(
       "--user-data-dir=$profileDir",
       "--remote-debugging-port=$cdpPort",
-      "--remote-allow-origins=*",
       "--no-first-run",
       "--no-default-browser-check",
       "--new-window",
@@ -242,15 +264,14 @@ while ($true) {
   # Sempre consulta a fila do servidor (mantem o sinal agent_online ativo e captura novos cliques em Enviar imediatamente!)
   $justReceivedJob = $false
   foreach ($srv in $pollServers) {
-    try {
-      $jResp = Invoke-RestMethod -Uri "$srv/api/lattes/job?next=1" -Headers $authHeaders -TimeoutSec 2 -ErrorAction Stop
-      if ($jResp -and $jResp.ok -and $jResp.data) {
-        $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
-        $justReceivedJob = $true
-        Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
-        break
-      }
-    } catch {}
+    $jResp = Get-LdJob $srv "next=1"
+    if ($jResp -and $jResp.ok -and $jResp.data) {
+      $pendingPayload = ($jResp.data | ConvertTo-Json -Compress -Depth 10)
+      $justReceivedJob = $true
+      Write-LdLog "fila" "job recebido de $srv"
+      Write-Host ">> Job recebido de $srv!" -ForegroundColor Green
+      break
+    }
   }
 
   $tabs = @()
