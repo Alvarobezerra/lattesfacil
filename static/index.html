@@ -689,6 +689,20 @@
           </div>
         </div>
 
+        <!-- Minhas citações -->
+        <div class="audit-radar-box" id="citacoesBox">
+          <div class="audit-radar-header">
+            <strong>📚 Minhas citações: quem cita seus trabalhos</strong>
+          </div>
+          <p class="hint">Busca em OpenAlex, OpenCitations e Crossref, unindo as fontes sem contar a mesma citação duas vezes. Informe o ORCID e/ou DOIs (separados por vírgula).</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+            <input type="text" id="citOrcid" placeholder="ORCID 0000-0000-0000-0000" style="flex:1; min-width:200px;" />
+            <input type="text" id="citDois" placeholder="DOIs (opcional)" style="flex:1; min-width:200px;" />
+            <button type="button" class="btn btn-sm btn-accent" id="btnBuscarCitacoes">🔎 Buscar citações</button>
+          </div>
+          <div id="citacoesResultado" aria-live="polite"></div>
+        </div>
+
         <!-- Ações e Links para Relatórios -->
         <div class="audit-modal-actions">
           <a href="/apresentacao.html" target="_blank" class="btn btn-secondary" title="Apresentação em slides com proposta comercial para o cliente">

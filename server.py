@@ -30,6 +30,7 @@ from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
+from citacoes.servico import citacoes_do_pesquisador
 from compliance import sanitizar_metadados, verificar_conformidade
 from organizer import extrair_ano, gerar_nome_padronizado, gerar_zip_dossie, organizar_lote_comprovantes
 
@@ -600,6 +601,22 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": True, "obras": obras})
             except Exception:
                 self._send_json({"ok": False, "error": "Falha ao consultar as bases externas.", "obras": []}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/citacoes":
+            qs = parse_qs(parsed.query)
+            orcid = (qs.get("orcid") or [""])[0].strip() or None
+            dois = [d.strip() for v in qs.get("doi", []) for d in v.split(",") if d.strip()][:25]
+            if orcid and not ORCID_RE.match(orcid):
+                self._send_json({"ok": False, "error": "ORCID inválido (formato 0000-0000-0000-0000)."}, HTTPStatus.BAD_REQUEST)
+                return
+            if not orcid and not dois:
+                self._send_json({"ok": False, "error": "Informe um ORCID ou ao menos um DOI."}, HTTPStatus.BAD_REQUEST)
+                return
+            try:
+                self._send_json({"ok": True, **citacoes_do_pesquisador(orcid=orcid, dois=dois)})
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao consultar as bases de citação."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/lattes/ping":
