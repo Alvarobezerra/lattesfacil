@@ -55,9 +55,12 @@ def _citacoes_da_obra(obra: dict[str, Any], max_citantes: int) -> dict[str, Any]
 
 
 def citacoes_do_pesquisador(orcid: str | None = None, dois: list[str] | None = None,
-                            max_obras: int = 25, max_citantes: int = 200) -> dict[str, Any]:
+                            max_obras: int = 25, max_citantes: int = 200,
+                            obras_prontas: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     obras: list[dict[str, Any]] = []
-    if orcid:
+    if obras_prontas is not None:  # quem chama já listou as obras: evita repetir a consulta ao OpenAlex
+        obras.extend(obras_prontas[:max_obras])
+    elif orcid:
         obras.extend(fontes.openalex_obras_por_orcid(orcid, max_obras))
     vistos = {o["doi"] for o in obras if o.get("doi")}
     for d in dois or []:
@@ -68,7 +71,7 @@ def citacoes_do_pesquisador(orcid: str | None = None, dois: list[str] | None = N
             obras.append(o)
             vistos.add(d)
 
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=8) as pool:
         resultados = list(pool.map(lambda o: _citacoes_da_obra(o, max_citantes), obras))
 
     por_ano: Counter[int] = Counter()

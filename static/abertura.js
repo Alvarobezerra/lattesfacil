@@ -44,7 +44,7 @@
       const v = input.value.trim().toUpperCase();
       if (!/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(v)) { input.setCustomValidity("Formato 0000-0000-0000-0000"); input.reportValidity(); return; }
       input.setCustomValidity("");
-      store.set("lf-orcid:" + usuario, v); orcid = v; carregar();
+      store.set("lf-orcid:" + usuario, v); orcid = v; dados = null; tentativas = 0; carregar();
     });
     $("banner").replaceChildren(el("div", { class: "banner" }, msg, f));
   }
@@ -134,29 +134,45 @@
       ...Object.entries(e.por_tipo).map(([k, n]) => el("div", { class: "row" }, el("div", { class: "s" }, TIPOS[k] || k), el("div", { class: "q" }, String(n)))));
   }
 
-  async function carregar() {
-    $("status").textContent = "Carregando seus indicadores…";
-    const qs = new URLSearchParams({ usuario });
-    if (orcid) qs.set("orcid", orcid);
-    try {
-      const r = await fetch("/api/abertura?" + qs);
-      if (r.status === 401) { location.href = "/login"; return; }
-      dados = await r.json();
-      if (!dados.ok) throw new Error(dados.error || "Falha");
-    } catch (e) {
-      $("banner").replaceChildren(el("div", { class: "banner" }, "Não foi possível carregar os indicadores agora. " + (e.message || "")));
-      return;
-    }
+  let tentativas = 0;
+  const CHAVE_SNAP = "lf-abertura:" + usuario + ":";
+  function mostrar() {
     const ids = [];
     if (dados.orcid) ids.push(el("span", { class: "pill" }, "ORCID " + dados.orcid));
     ids.push(el("span", { class: "pill neutral" }, "Perfil privado"));
     $("ids").replaceChildren(...ids);
-    $("status").textContent = "Atualizado em " + dados.consultado_em;
+    $("status").textContent = "Atualizado em " + dados.consultado_em + (dados.atualizando ? " · verificando novidades…" : "");
     const avisos = dados.avisos || [];
     if (!orcid) formOrcid("Informe seu ORCID para calcular produção e citações. Seus envios já aparecem abaixo.");
     else if (avisos.length) $("banner").replaceChildren(el("div", { class: "banner" }, avisos.join(" ")));
     else $("banner").replaceChildren();
     renderKpis(); desenhar(); renderFeed(); renderSide();
+  }
+  async function carregar() {
+    // Última foto guardada neste navegador: a tela abre instantaneamente e a verificação segue por trás.
+    if (!dados && orcid) {
+      try { const snap = JSON.parse(store.get(CHAVE_SNAP + orcid) || "null"); if (snap && snap.ok) { dados = snap; dados.atualizando = true; mostrar(); } } catch (e) {}
+    }
+    if (!dados) $("status").textContent = "Carregando seus indicadores…";
+    const qs = new URLSearchParams({ usuario });
+    if (orcid) qs.set("orcid", orcid);
+    let novo;
+    try {
+      const r = await fetch("/api/abertura?" + qs);
+      if (r.status === 401) { location.href = "/login"; return; }
+      novo = await r.json();
+      if (!novo.ok) throw new Error(novo.error || "Falha");
+    } catch (e) {
+      if (!dados) $("banner").replaceChildren(el("div", { class: "banner" }, "Não foi possível carregar os indicadores agora. " + (e.message || "")));
+      else { dados.atualizando = false; $("status").textContent = "Atualizado em " + dados.consultado_em + " · sem conexão para atualizar"; }
+      return;
+    }
+    if (novo.pendente && dados && dados.producao) novo = dados; // ainda calculando: mantém o que já está na tela
+    dados = novo;
+    if (!dados.pendente && orcid) store.set(CHAVE_SNAP + orcid, JSON.stringify(dados));
+    mostrar();
+    // Servidor ainda calculando/atualizando: confere de novo em instantes.
+    if ((dados.pendente || dados.atualizando) && tentativas++ < 12) setTimeout(carregar, 5000);
   }
 
   document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {

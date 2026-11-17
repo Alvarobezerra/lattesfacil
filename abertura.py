@@ -9,6 +9,7 @@ import json
 import sqlite3
 import threading
 import time
+from concurrent.futures import Future, ThreadPoolExecutor, TimeoutError
 from collections import Counter
 from datetime import datetime
 from typing import Any
@@ -18,8 +19,11 @@ from citacoes.servico import citacoes_do_pesquisador
 
 TTL = 1800
 ANOS = 11
-_cache: dict[tuple[str, str], tuple[float, dict[str, Any]]] = {}
+ESPERA = 4  # segundos que o pedido espera pelas bases externas antes de responder só com o que já tem
+_cache: dict[str, tuple[float, tuple[list, dict, list]]] = {}  # orcid -> (quando, (obras, citações, avisos))
+_jobs: dict[str, Future] = {}
 _lock = threading.Lock()
+_pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix="abertura")
 
 # tipo_producao dos registros -> grupo do indicador
 EVENTOS = {"anais", "apresentacao", "evento", "participacao_evento", "organizacao_evento"}
@@ -66,30 +70,98 @@ def _envios(conn: sqlite3.Connection, usuario: str) -> dict[str, Any]:
     }
 
 
-def montar_abertura(conn: sqlite3.Connection, usuario: str, orcid: str | None) -> dict[str, Any]:
-    chave = (usuario, orcid or "")
-    with _lock:
-        hit = _cache.get(chave)
-        if hit and time.time() - hit[0] < TTL:
-            return hit[1]
+def _db_path(conn: sqlite3.Connection) -> str:
+    try:
+        return conn.execute("PRAGMA database_list").fetchone()[2] or ""
+    except Exception:
+        return ""
 
-    ano_fim = datetime.now().year
+
+def _ler_disco(path: str, orcid: str) -> tuple[float, tuple[list, dict, list]] | None:
+    if not path:
+        return None
+    try:
+        with sqlite3.connect(path) as c:
+            c.execute("CREATE TABLE IF NOT EXISTS abertura_cache (orcid TEXT PRIMARY KEY, ts REAL, payload TEXT)")
+            r = c.execute("SELECT ts, payload FROM abertura_cache WHERE orcid = ?", (orcid,)).fetchone()
+        if r:
+            o, ci, av = json.loads(r[1])
+            return r[0], (o, ci, av)
+    except Exception:
+        pass
+    return None
+
+
+def _gravar_disco(path: str, orcid: str, ts: float, res: tuple[list, dict, list]) -> None:
+    if not path:
+        return
+    try:
+        with sqlite3.connect(path) as c:
+            c.execute("CREATE TABLE IF NOT EXISTS abertura_cache (orcid TEXT PRIMARY KEY, ts REAL, payload TEXT)")
+            c.execute("INSERT OR REPLACE INTO abertura_cache VALUES (?, ?, ?)", (orcid, ts, json.dumps(res, ensure_ascii=False)))
+    except Exception:
+        pass
+
+
+def _externo(orcid: str, path: str) -> tuple[list, dict, list]:
+    """Consulta lenta (OpenAlex/OpenCitations/Crossref). Roda em segundo plano e guarda o resultado (memória e disco)."""
     avisos: list[str] = []
-    envios = _envios(conn, usuario)
-
     obras: list[dict[str, Any]] = []
     cit: dict[str, Any] = {}
+    try:
+        obras = fontes.openalex_obras_por_orcid(orcid, 100)
+    except Exception:
+        avisos.append("Não foi possível listar as obras no OpenAlex.")
+    try:
+        cit = citacoes_do_pesquisador(orcid=orcid, max_obras=15, max_citantes=100, obras_prontas=obras)
+    except Exception:
+        avisos.append("Não foi possível consultar as bases de citação.")
+    if not obras and not cit.get("obras"):
+        avisos.append("Nenhuma obra encontrada para este ORCID.")
+    res = (obras, cit, avisos)
+    if not avisos:  # resposta parcial/falha nunca sobrescreve o que já estava salvo
+        agora = time.time()
+        with _lock:
+            _cache[orcid] = (agora, res)
+        _gravar_disco(path, orcid, agora, res)
+    return res
+
+
+def _externo_ou_pendente(orcid: str, path: str) -> tuple[list, dict, list, bool, bool]:
+    """(obras, citações, avisos, pendente, atualizando). Com qualquer resultado salvo, responde na hora."""
+    with _lock:
+        hit = _cache.get(orcid)
+    if not hit:
+        hit = _ler_disco(path, orcid)
+        if hit:
+            with _lock:
+                _cache[orcid] = hit
+    fresco = bool(hit and time.time() - hit[0] < TTL)
+    if not fresco:
+        with _lock:
+            job = _jobs.get(orcid)
+            if job is None or job.done():
+                job = _pool.submit(_externo, orcid, path)
+                _jobs[orcid] = job
+    if hit:  # instantâneo: dado salvo (mesmo velho) enquanto o job atualiza por trás
+        return (*hit[1], False, not fresco)
+    try:
+        return (*job.result(timeout=ESPERA), False, False)
+    except TimeoutError:
+        return [], {}, ["Calculando produção e citações nas bases externas…"], True, False
+    except Exception:
+        return [], {}, ["Não foi possível consultar as bases externas."], False, False
+
+
+def montar_abertura(conn: sqlite3.Connection, usuario: str, orcid: str | None) -> dict[str, Any]:
+    ano_fim = datetime.now().year
+    envios = _envios(conn, usuario)
+    obras: list[dict[str, Any]] = []
+    cit: dict[str, Any] = {}
+    avisos: list[str] = []
+    pendente = atualizando = False
     if orcid:
-        try:
-            obras = fontes.openalex_obras_por_orcid(orcid, 100)
-        except Exception:
-            avisos.append("Não foi possível listar as obras no OpenAlex.")
-        try:
-            cit = citacoes_do_pesquisador(orcid=orcid, max_obras=25)
-        except Exception:
-            avisos.append("Não foi possível consultar as bases de citação.")
-        if not obras and not cit.get("obras"):
-            avisos.append("Nenhuma obra encontrada para este ORCID.")
+        obras, cit, avisos, pendente, atualizando = _externo_ou_pendente(orcid, _db_path(conn))
 
     # produção por ano (obras indexadas no OpenAlex)
     prod_ano: Counter[int] = Counter(o["ano"] for o in obras if o.get("ano"))
@@ -114,7 +186,7 @@ def montar_abertura(conn: sqlite3.Connection, usuario: str, orcid: str | None) -
     citantes.sort(key=lambda c: c["ano"] or 0, reverse=True)
 
     res = {
-        "usuario": usuario, "orcid": orcid or "", "ano_atual": ano_fim, "avisos": avisos,
+        "usuario": usuario, "orcid": orcid or "", "ano_atual": ano_fim, "avisos": avisos, "pendente": pendente, "atualizando": atualizando,
         "consultado_em": resumo.get("consultado_em") or time.strftime("%Y-%m-%d %H:%M"),
         "producao": {
             "total": len(obras), "serie": _serie(prod_ano, ano_fim),
@@ -144,7 +216,25 @@ def montar_abertura(conn: sqlite3.Connection, usuario: str, orcid: str | None) -
         "citantes_recentes": citantes[:8],
         "envios": {"total": envios["total"], "por_tipo": envios["por_tipo"], "recentes": envios["recentes"]},
     }
-    if orcid and not avisos:  # não guarda resposta parcial/falha no cache
-        with _lock:
-            _cache[chave] = (time.time(), res)
     return res
+
+
+# Pesquisadores cujo painel é aquecido ao subir o servidor e renovado de tempos em tempos (entrada sempre instantânea).
+ORCIDS_AQUECIDOS = ("0000-0003-4999-6382",)  # Aramys Silva dos Reis
+
+
+def aquecer(path: str, orcids: tuple[str, ...] = ORCIDS_AQUECIDOS, a_cada: int = TTL - 120) -> None:
+    """Mantém o cache externo desses ORCIDs quente: carrega do disco, atualiza em segundo plano e repete."""
+    def ciclo() -> None:
+        while True:
+            for o in orcids:
+                try:
+                    hit = _ler_disco(path, o)
+                    if hit:
+                        with _lock:
+                            _cache.setdefault(o, hit)
+                    _externo(o, path)
+                except Exception:
+                    pass
+            time.sleep(a_cada)
+    threading.Thread(target=ciclo, daemon=True, name="abertura-aquecer").start()

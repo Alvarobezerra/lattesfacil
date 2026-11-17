@@ -31,7 +31,7 @@ from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
-from abertura import montar_abertura
+from abertura import montar_abertura, aquecer as aquecer_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
 import curriculo_store
 from lattes_pagina import ler_pagina
@@ -1410,6 +1410,7 @@ def main() -> None:
     print(f"LattesData rodando em http://{host}:{port}")
     server.serve_forever()
 
+    aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
 
 if __name__ == "__main__":
     main()
