@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LattesData — Instalar a extensão</title>
+<link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<style>
+:root{--navy:#0b192c;--blue:#1b365d;--cyan:#00a3c4;--cyan-d:#00829c;--emerald:#10b981;--red:#e5484d;
+  --bg:#f4f8fb;--card:#fff;--border:#dbe4ee;--text:#0b192c;--muted:#546580;--warn:#b7791f;--warn-bg:#fdf6e3;
+  --mock:#eef2f7;--mock-bar:#dfe6ef;--serif:"Newsreader",Georgia,serif;--ui:"Inter","Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#08121f;--card:#0f1f35;--border:#1f3452;--text:#e8eff7;--muted:#93a6c0;--warn-bg:#2a2210;--warn:#e6b559;--mock:#16283f;--mock-bar:#223a5a}}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--ui);background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
+.wrap{width:min(920px,100% - 32px);margin:0 auto}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.top-in{display:flex;align-items:center;gap:18px;height:62px}
+.brand{display:flex;align-items:center;gap:9px}.brand img{width:34px;height:34px}
+.wm b{font-family:var(--serif);font-style:italic;font-weight:700;font-size:1.35rem}
+.wm i{font-style:normal;font-weight:800;font-size:.75rem;color:var(--cyan);letter-spacing:.06em;margin-left:3px}
+.top-r{margin-left:auto;font-size:.85rem;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:10px 18px;font-weight:700;font-size:.95rem}
+.btn-p{background:var(--cyan);color:#04202a;box-shadow:0 6px 16px rgba(0,163,196,.25)}
+.btn-o{border-color:var(--border);background:var(--card);color:var(--text)}
+h1{font-size:1.7rem;letter-spacing:-.01em;margin:28px 0 6px}
+h1 em{font-family:var(--serif);color:var(--cyan-d)}
+.lead{color:var(--muted);margin:0 0 18px}
+.estado{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card);font-size:.92rem;margin-bottom:22px}
+.dot{width:12px;height:12px;border-radius:50%;background:#94a3b8;flex:none}
+.estado.ok{border-color:color-mix(in srgb,var(--emerald) 50%,transparent)}.estado.ok .dot{background:var(--emerald)}
+.estado.no .dot{background:var(--red)}
+.req{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px;padding:0;list-style:none}
+.req li{padding:5px 12px;border-radius:99px;background:var(--card);border:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+.req b{color:var(--text)}
+.passo{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;margin-bottom:22px}
+.num{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;position:relative}
+.passo:not(:last-of-type) .num::after{content:"";position:absolute;left:50%;top:48px;height:calc(100% + 150px);width:2px;background:var(--border);transform:translateX(-50%)}
+.cx{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.cx h2{margin:0 0 4px;font-size:1.1rem}.cx p{margin:0 0 12px;color:var(--muted);font-size:.92rem}
+code,.kbd{font-family:ui-monospace,Consolas,monospace;font-size:.85em;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px}
+.copia{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 12px}
+.dica{margin:12px 0 0;padding:10px 14px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-size:.86rem;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+/* "telas" ilustradas */
+.tela{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--mock);font-size:.8rem;user-select:none}
+.tela .barra{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--mock-bar)}
+.tela .barra i{width:9px;height:9px;border-radius:50%;background:#94a3b8;opacity:.7}
+.tela .url{flex:1;margin-left:8px;background:var(--card);border-radius:99px;padding:3px 12px;color:var(--muted);font-family:ui-monospace,Consolas,monospace;font-size:.76rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tela .corpo{padding:16px}
+.dest{outline:3px solid var(--red);outline-offset:2px;border-radius:8px;position:relative;animation:pisca 1.4s infinite}
+@keyframes pisca{50%{outline-color:transparent}}
+.seta{color:var(--red);font-weight:800;font-size:.78rem;margin-left:8px;white-space:nowrap}
+.linha{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.chip{padding:5px 12px;border-radius:8px;background:var(--card);border:1px solid var(--border);font-weight:600}
+.sw{display:inline-flex;align-items:center;gap:8px}
+.sw b{width:38px;height:22px;border-radius:99px;background:#94a3b8;position:relative;display:inline-block}
+.sw b::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.sw.on b{background:var(--cyan)}.sw.on b::after{left:19px}
+.pasta{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--card);border:1px solid var(--border);margin:6px 0}
+.pasta .ic{font-size:1.2rem}
+.arq{margin-left:28px;color:var(--muted)}
+.card-ext{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}
+.card-ext img{width:40px;height:40px}.card-ext small{color:var(--muted)}
+.dois{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ok{color:#0a8a63;font-weight:700}.no{color:var(--red);font-weight:700}
+@media (max-width:640px){.dois{grid-template-columns:1fr}.passo{grid-template-columns:34px minmax(0,1fr);gap:10px}.num{width:34px;height:34px}.passo:not(:last-of-type) .num::after{display:none}}
+details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:700}details p{margin:8px 0 0;color:var(--muted);font-size:.9rem}
+footer{padding:20px 0 50px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <a class="brand" href="/abertura.html"><img src="/img/isotipo.svg" alt="" /><span class="wm"><b>Lattes</b><i>DATA</i></span></a>
+  <div class="top-r"><a href="/abertura.html">← Voltar ao início</a></div>
+</div></header>
+
+<main class="wrap">
+  <h1>Instalar a <em>extensão</em> em outro computador</h1>
+  <p class="lead">São 6 passos e leva uns 3 minutos. Você só faz isso uma vez em cada computador.</p>
+
+  <div class="estado" id="estado" role="status"><span class="dot"></span><span id="estadoTxt">Verificando se a extensão já está instalada neste computador…</span></div>
+
+  <ul class="req" aria-label="Requisitos">
+    <li><b>Computador</b> Windows, Mac ou Linux (não funciona no celular)</li>
+    <li><b>Navegador</b> Google Chrome ou Microsoft Edge</li>
+    <li><b>Internet</b> para abrir o site no Render</li>
+  </ul>
+
+  <div class="passo"><div class="num">1</div><div class="cx">
+    <h2>Abra o LattesData no navegador</h2>
+    <p>No Chrome ou Edge do outro computador, entre no endereço do site no Render e faça o login com o seu código de acesso.</p>
+    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url dest">https://lattesfacil.onrender.com</span></div>
+      <div class="corpo"><div class="chip" style="display:inline-block">Escolha seu nome → digite o código de acesso → <b>Entrar</b></div></div></div>
+    <div class="dica">Se a página demorar uns 30 segundos na primeira vez, é normal: o Render “acorda” o servidor.</div>
+  </div></div>
+
+  <div class="passo"><div class="num">2</div><div class="cx">
+    <h2>Baixe o arquivo da extensão</h2>
+    <p>Clique no botão abaixo. Vai baixar o arquivo <code>lattesdata-extensao.zip</code> na pasta <b>Downloads</b>.</p>
+    <a class="btn btn-p" href="/api/extensao.zip" download="lattesdata-extensao.zip">📥 Baixar extensão (.zip)</a>
+  </div></div>
+
+  <div class="passo"><div class="num">3</div><div class="cx">
+    <h2>Extraia o arquivo (descompacte)</h2>
+    <p>Abra a pasta <b>Downloads</b>, clique com o botão direito no <code>.zip</code> e escolha <b>Extrair tudo…</b> (no Mac, dê dois cliques).</p>
+    <div class="dois">
+      <div class="tela"><div class="corpo">
+        <div class="pasta"><span class="ic">🗜️</span> lattesdata-extensao.zip</div>
+        <div class="pasta dest" style="background:var(--mock-bar)"><span class="ic">📂</span> Extrair tudo… <span class="seta">◀ clique aqui</span></div>
+      </div></div>
+      <div class="tela"><div class="corpo">
+        <div class="pasta"><span class="ic">📁</span> <b>lattesdata-extensao</b></div>
+        <div class="arq">manifest.json</div><div class="arq">background.js</div><div class="arq">content-app.js …</div>
+        <p class="ok" style="margin:8px 0 0">✔ Tem que aparecer o manifest.json dentro</p>
+      </div></div>
+    </div>
+    <div class="dica">Não apague nem mova essa pasta depois. Coloque em um lugar fixo (ex.: <code>Documentos</code>); se ela sumir, a extensão para de funcionar.</div>
+  </div></div>
+
+  <div class="passo"><div class="num">4</div><div class="cx">
+    <h2>Abra a página de extensões do navegador</h2>
+    <p>Abra uma nova aba, cole o endereço abaixo na barra e aperte <span class="kbd">Enter</span>. No Edge use <code>edge://extensions</code>.</p>
+    <div class="copia"><code id="enderecoExt">chrome://extensions</code><button class="btn btn-o" id="btnCopia" type="button">Copiar endereço</button></div>
+    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url dest">chrome://extensions</span></div>
+      <div class="corpo"><b>Extensões</b></div></div>
+    <div class="dica">Esse endereço não abre ao clicar num link: copie e cole na barra do navegador.</div>
+  </div></div>
+
+  <div class="passo"><div class="num">5</div><div class="cx">
+    <h2>Ligue o “Modo do desenvolvedor” e carregue a pasta</h2>
+    <p>No canto <b>superior direito</b>, ligue a chave <b>Modo do desenvolvedor</b>. Vão aparecer novos botões: clique em <b>Carregar sem compactação</b> e escolha a pasta <code>lattesdata-extensao</code> que você extraiu.</p>
+    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url">chrome://extensions</span></div>
+      <div class="corpo">
+        <div class="linha"><b style="font-size:1rem">Extensões</b>
+          <span class="sw on dest">Modo do desenvolvedor <b></b></span><span class="seta">◀ ligue aqui</span></div>
+        <div class="linha" style="margin-top:12px"><span class="chip dest">Carregar sem compactação</span><span class="chip">Compactar extensão</span><span class="chip">Atualizar</span></div>
+        <div class="card-ext" style="margin-top:14px"><img src="/img/isotipo.svg" alt="" /><div><b>LattesData — Automação Currículo Lattes</b><br><small>Ativada ● &nbsp; (aparece aqui quando der certo)</small></div></div>
+      </div></div>
+    <div class="dica">Escolha a pasta que <b>contém</b> o <code>manifest.json</code> (a <code>lattesdata-extensao</code>). Se der erro de “manifesto ausente”, você selecionou uma pasta acima ou abaixo dela.</div>
+  </div></div>
+
+  <div class="passo"><div class="num">6</div><div class="cx">
+    <h2>Volte ao LattesData e atualize a página</h2>
+    <p>Volte para a aba do LattesData e aperte <span class="kbd">F5</span>. O aviso lá em cima desta página deve ficar <span class="ok">verde</span>. Pronto: já pode usar o envio automático ao Lattes.</p>
+    <div class="tela"><div class="corpo"><div class="estado ok" style="margin:0"><span class="dot"></span>Extensão instalada e ativa neste computador.</div></div></div>
+    <div class="dica">Na 1ª vez que for enviar ao Lattes, o navegador pede para você entrar no seu Currículo Lattes (CNPq). Faça o login normalmente: a senha do Lattes é só sua e não passa pelo LattesData.</div>
+  </div></div>
+
+  <h2 style="margin:30px 0 8px;font-size:1.2rem">Deu algum problema?</h2>
+  <details><summary>O aviso no topo continua vermelho</summary><p>Confirme que a extensão aparece <b>ativada</b> em <code>chrome://extensions</code>, aperte <span class="kbd">F5</span> nesta página e, se precisar, clique no ícone de <b>recarregar</b> dentro do cartão da extensão.</p></details>
+  <details><summary>“Manifesto ausente” ou “não foi possível carregar”</summary><p>A pasta escolhida está errada. Selecione a pasta <code>lattesdata-extensao</code> que contém diretamente o <code>manifest.json</code>. Se escolheu o <code>.zip</code> ou uma pasta dentro do ZIP sem extrair, extraia antes (passo 3).</p></details>
+  <details><summary>Não aparece “Modo do desenvolvedor”</summary><p>Ele fica no canto superior direito da página de extensões. Em computadores de empresa ou escola, o administrador pode bloquear; nesse caso use um computador pessoal.</p></details>
+  <details><summary>O Chrome avisa “Desative as extensões do modo desenvolvedor”</summary><p>É um aviso padrão do navegador para extensões instaladas assim. Feche o aviso (ou clique em “Cancelar”); não desative a extensão.</p></details>
+  <details><summary>Atualizei o site e a extensão ficou desatualizada</summary><p>Baixe o .zip de novo, extraia <b>por cima da mesma pasta</b> e clique em <b>recarregar</b> no cartão da extensão em <code>chrome://extensions</code>.</p></details>
+  <details><summary>Estou no celular, tablet, Firefox ou Safari</summary><p>A extensão só funciona em Chrome ou Edge no computador. Use um desses.</p></details>
+</main>
+<footer class="wrap">Precisa de ajuda? Mande um print da página <code>chrome://extensions</code> para o suporte.</footer>
+<script src="/instalar-extensao.js"></script>
+</body>
+</html>
