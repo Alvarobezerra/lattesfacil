@@ -119,6 +119,8 @@ Para assegurar total compliance com a Portaria CNPq nº 2.664/2026 e evitar autu
   - Automação de modais auxiliares de cadastro de autores e instituições.
 - [ ] Interface integrada e responsiva com preview lado a lado (PDF do comprovante à esquerda, campos detectados à direita).
 
+> **Atualização 16/11/2026:** implementados e acessíveis em `/painel.html` (testes em `tests/teste_novos_modulos.py` e `tests/teste_api_novos.py`): upload em lote com ZIP organizado por ano (`lote.py`), importação do XML do Lattes com checagem de duplicatas (`lattes_xml.py`), auditor de conformidade com risco Leve/Grave/Gravíssimo (`auditor.py`) e EditalScore com leitura de barema, cálculo, simulação "e se" e dossiê PDF (`edital.py`). Limites conhecidos: estrato Qualis depende de base informada pelo usuário; leitura do edital é heurística (o candidato revisa); renomeação física no disco do usuário e entrada por e-mail encaminhado seguem pendentes.
+
 ### Fase 3: Anti-Duplicação, Auditoria e Diagnóstico (Lattes Audit)
 *Garante conformidade com as novas regras punitivas do CNPq e fundamenta-se na [Base de Conhecimento de Auditoria Estratégica](file:///c:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-auditoria-lattes.md).*
 - [ ] **Importação do XML do Lattes**:

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesData — Painel de ferramentas</title>
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .painel{max-width:1040px;margin:24px auto;padding:0 16px;display:grid;gap:18px}
+    .cartao{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:grid;gap:12px}
+    .cartao h2{margin:0;font-size:1.1rem;color:var(--primary)}
+    .cartao p.dica{margin:0;color:var(--muted);font-size:.9rem}
+    .linha{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    table.tab{width:100%;border-collapse:collapse;font-size:.88rem}
+    table.tab th,table.tab td{border-bottom:1px solid var(--border);padding:6px 8px;text-align:left;vertical-align:top}
+    .tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.78rem;border:1px solid var(--border)}
+    .r-Gravíssimo{background:#fee2e2;color:#991b1b}.r-Grave{background:#ffedd5;color:#9a3412}.r-Leve{background:#e0f2fe;color:#075985}
+    .ok{color:#047857}.erro{color:#b91c1c}
+    textarea{width:100%;min-height:150px;font:inherit;padding:8px;border:1px solid var(--border);border-radius:8px}
+    input[type=number],input[type=text]{padding:6px 8px;border:1px solid var(--border);border-radius:8px;font:inherit}
+    .grande{font-size:2rem;font-weight:700;color:var(--primary)}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="/" aria-label="LattesData — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
+      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span></a>
+    <nav class="topnav" aria-label="Principal"><a class="nav-link" href="/">Cadastrar</a><a class="nav-link" href="/painel.html" aria-current="page">Painel</a></nav>
+  </div></header>
+
+  <main class="painel">
+    <section class="cartao" id="secXml">
+      <h2>1. Seu currículo (XML do Lattes)</h2>
+      <p class="dica">No Lattes, use "Exportar currículo → XML" (ou o ZIP) e envie aqui. O arquivo fica só na memória desta sessão (4 h) e alimenta a checagem de duplicatas, a auditoria e o EditalScore.</p>
+      <div class="linha"><input type="file" id="fXml" accept=".xml,.zip" /><button class="btn btn-primary" id="bXml" type="button">Carregar</button><span id="sXml"></span></div>
+    </section>
+
+    <section class="cartao" id="secLote">
+      <h2>2. Upload em lote de comprovantes</h2>
+      <p class="dica">Envie vários PDFs ou um ZIP (até 150 arquivos). Cada documento é reconhecido, lido e recebe nome e pasta padronizados. Se o XML estiver carregado, avisamos o que já consta no currículo.</p>
+      <div class="linha"><input type="file" id="fLote" multiple accept=".pdf,.zip,.txt,.eml" /><input type="text" id="usuLote" placeholder="Seu nome (opcional)" />
+        <button class="btn btn-primary" id="bLote" type="button">Analisar lote</button><button class="btn" id="bLoteZip" type="button">Baixar ZIP organizado</button><span id="sLote"></span></div>
+      <div id="rLote"></div>
+    </section>
+
+    <section class="cartao" id="secAud">
+      <h2>3. Auditor de conformidade</h2>
+      <p class="dica">Aponta artigos sem DOI, ISSN/ISBN inválidos, duplicidades, anos futuros e vínculos sem término. A classificação de risco é uma heurística do LattesData (inspirada na Portaria CNPq 2.664/2026), não a decisão do CNPq.</p>
+      <div class="linha"><button class="btn btn-primary" id="bAud" type="button">Auditar currículo</button><span id="sAud"></span></div>
+      <div id="rAud"></div>
+    </section>
+
+    <section class="cartao" id="secEdi">
+      <h2>4. EditalScore — pontuação de editais e concursos</h2>
+      <p class="dica">Cole o texto do barema (linhas como "Artigo em periódico: 10 pontos por artigo, máximo 30 pontos"). Revise o que foi lido, calcule a nota e simule cenários. Itens que exigem Qualis só pontuam quando você informa os estratos.</p>
+      <textarea id="tBarema" placeholder="Cole aqui o barema do edital"></textarea>
+      <div class="linha"><input type="text" id="nEdital" placeholder="Nome do edital" /><input type="number" id="aEdital" min="1990" max="2100" placeholder="Ano de referência" />
+        <button class="btn btn-primary" id="bBarema" type="button">Ler barema</button><button class="btn" id="bCalc" type="button">Calcular nota</button></div>
+      <div id="rBarema"></div><div id="rCalc"></div>
+      <div class="linha"><label>E se eu adicionar <input type="number" id="qSim" min="1" max="20" value="1" style="width:70px" />
+        <select id="cSim"><option value="artigo">artigo(s)</option><option value="livro">livro(s)</option><option value="capitulo">capítulo(s)</option>
+        <option value="trabalho_evento">trabalho(s) em evento</option><option value="formacao_complementar">curso(s)</option><option value="orientacao_concluida">orientação(ões)</option>
+        <option value="banca">banca(s)</option></select></label><button class="btn" id="bSim" type="button">Simular</button><span id="rSim"></span></div>
+      <h3 style="margin:8px 0 0;font-size:1rem">Dossiê comprobatório (PDF único)</h3>
+      <p class="dica">Escolha os PDFs e, para cada um, o número do item do edital (ex.: 1.2). O sistema monta capa, sumário e carimba o cabeçalho de cada página.</p>
+      <div class="linha"><input type="file" id="fDossie" multiple accept=".pdf" /><input type="text" id="nCand" placeholder="Seu nome" /><button class="btn" id="bDossieLista" type="button">Listar arquivos</button></div>
+      <div id="rDossie"></div>
+    </section>
+  </main>
+  <script src="/painel.js"></script>
+</body>
+</html>

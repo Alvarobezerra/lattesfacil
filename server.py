@@ -33,6 +33,10 @@ from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
+from lattes_xml import ler_curriculo, procurar_duplicata, resumo as resumo_xml
+from auditor import auditar
+from lote import gerar_zip_organizado, processar_lote
+import edital as editalscore
 from organizer import extrair_ano, gerar_nome_padronizado, gerar_zip_dossie, organizar_lote_comprovantes
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -239,6 +243,33 @@ def parse_multipart(content_type: str, body: bytes) -> tuple[dict[str, str], tup
     return fields, file_part
 
 
+def parse_multipart_all(content_type: str, body: bytes) -> tuple[dict[str, str], list[tuple[str, bytes]]]:
+    """Como parse_multipart, mas devolve todos os arquivos enviados (envio em lote)."""
+    m = re.search(r'boundary=(?:"([^"]+)"|([^;\s]+))', content_type)
+    if not m:
+        return {}, []
+    boundary = (m.group(1) or m.group(2)).encode("latin-1")
+    fields: dict[str, str] = {}
+    files: list[tuple[str, bytes]] = []
+    for part in body.split(b"--" + boundary)[1:]:
+        if part.startswith(b"--"):
+            break
+        header_end = part.find(b"\r\n\r\n")
+        if header_end == -1:
+            continue
+        raw_headers = part[:header_end].decode("utf-8", errors="replace")
+        content = part[header_end + 4:]
+        if content.endswith(b"\r\n"):
+            content = content[:-2]
+        name = re.search(r'\bname="([^"]*)"', raw_headers)
+        fn = re.search(r'filename="([^"]*)"', raw_headers)
+        if fn:
+            files.append((fn.group(1), content))
+        elif name:
+            fields[name.group(1)] = content.decode("utf-8", errors="replace")
+    return fields, files
+
+
 def parse_multipart_file(content_type: str, body: bytes) -> tuple[str, bytes] | None:
     return parse_multipart(content_type, body)[1]
 
@@ -369,6 +400,32 @@ def run_caderno(file_bytes: bytes, filename: str, pesquisador: str) -> tuple[dic
     ]
     return {"meta": scan["meta"], "total_resumos": scan["total_resumos"], "paginas_pdf": scan["paginas_pdf"],
             "resultados": results, "filename": filename}, HTTPStatus.OK
+
+
+XML_SESSAO: dict[str, dict[str, Any]] = {}  # sessão -> {"cur": currículo interpretado, "ts": quando}; só em memória
+XML_TTL = 4 * 3600
+
+
+def _xml_da_sessao(tag: str) -> dict[str, Any] | None:
+    with UPLOADS_LOCK:
+        for k in [k for k, v in XML_SESSAO.items() if time.time() - v["ts"] > XML_TTL]:
+            XML_SESSAO.pop(k, None)
+        v = XML_SESSAO.get(tag)
+        return v["cur"] if v else None
+
+
+def _duplicata_da_resposta(tag: str):
+    cur = _xml_da_sessao(tag)
+    if not cur:
+        return None
+
+    def fn(r: dict[str, Any]) -> list[dict[str, Any]]:
+        e = r.get("extracted") or {}
+        g = (r.get("generico") or {}).get("valores") or {}
+        cand = {"titulo": e.get("titulo") or g.get("f_titulo") or g.get("f_nme_evento") or g.get("f_curso") or "",
+                "ano": e.get("ano") or g.get("f_ano") or "", "doi": e.get("doi", "")}
+        return procurar_duplicata(cur, cand) if cand["titulo"] or cand["doi"] else []
+    return fn
 
 
 class LattesHandler(BaseHTTPRequestHandler):
@@ -593,6 +650,19 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": True, **citacoes_do_pesquisador(orcid=orcid, dois=dois)})
             except Exception:
                 self._send_json({"ok": False, "error": "Falha ao consultar as bases de citação."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/lattes-xml":
+            cur = _xml_da_sessao(self._sess_tag())
+            self._send_json({"carregado": True, **resumo_xml(cur)} if cur else {"carregado": False})
+            return
+
+        if path == "/api/auditoria":
+            cur = _xml_da_sessao(self._sess_tag())
+            if not cur:
+                self._send_json({"error": "Carregue antes o XML do seu currículo.", "sem_xml": True}, HTTPStatus.CONFLICT)
+                return
+            self._send_json(auditar(cur))
             return
 
         if path == "/api/lattes/ping":
@@ -934,6 +1004,112 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json(result, status)
             except Exception:
                 self._send_json({"error": "Falha ao ler o caderno de resumos."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/lote":
+            try:
+                fields, files = parse_multipart_all(ctype, body)
+                if not files:
+                    self._send_json({"error": "Envie um ZIP ou vários PDFs."}, HTTPStatus.BAD_REQUEST)
+                    return
+                usuario = fields.get("usuario", "").strip()
+                resultado = processar_lote(files, usuario, process_extract, _duplicata_da_resposta(self._sess_tag()))
+                if fields.get("saida") == "zip":
+                    raw = gerar_zip_organizado(files, resultado)
+                    self.send_response(HTTPStatus.OK)
+                    self.send_header("Content-Type", "application/zip")
+                    self.send_header("Content-Disposition", 'attachment; filename="comprovantes-organizados.zip"')
+                    self.send_header("Content-Length", str(len(raw)))
+                    self.end_headers()
+                    self.wfile.write(raw)
+                    return
+                self._send_json(resultado)
+            except Exception:
+                self._send_json({"error": "Falha ao processar o lote."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/lattes-xml":
+            try:
+                _, arq = parse_multipart(ctype, body) if "multipart/form-data" in ctype else ({}, None)
+                if not arq:
+                    self._send_json({"error": "Envie o XML (ou o ZIP) exportado do Lattes."}, HTTPStatus.BAD_REQUEST)
+                    return
+                cur = ler_curriculo(arq[1])
+                with UPLOADS_LOCK:
+                    XML_SESSAO[self._sess_tag()] = {"cur": cur, "ts": time.time()}
+                self._send_json({"carregado": True, **resumo_xml(cur)})
+            except ValueError as e:
+                self._send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"error": "Falha ao ler o XML do Lattes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/duplicatas":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                cur = _xml_da_sessao(self._sess_tag())
+                if not cur:
+                    self._send_json({"error": "Carregue antes o XML do seu currículo.", "sem_xml": True}, HTTPStatus.CONFLICT)
+                    return
+                achados = procurar_duplicata(cur, payload)
+                self._send_json({"duplicatas": [{k: a[k] for k in ("categoria", "titulo", "ano", "doi", "motivo", "similaridade")} for a in achados]})
+            except Exception:
+                self._send_json({"error": "Falha na checagem de duplicatas."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/edital/barema":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                texto = str(payload.get("texto", ""))[:400_000]
+                if not texto.strip():
+                    self._send_json({"error": "Cole o texto do barema/edital."}, HTTPStatus.BAD_REQUEST)
+                    return
+                self._send_json(editalscore.ler_barema(texto, str(payload.get("nome", "Edital"))[:120]))
+            except Exception:
+                self._send_json({"error": "Falha ao ler o barema."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path in ("/api/edital/calcular", "/api/edital/simular"):
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                cur = _xml_da_sessao(self._sess_tag())
+                if not cur:
+                    self._send_json({"error": "Carregue antes o XML do seu currículo.", "sem_xml": True}, HTTPStatus.CONFLICT)
+                    return
+                barema = payload.get("barema") or {}
+                if not isinstance(barema.get("blocos"), list):
+                    self._send_json({"error": "Barema inválido."}, HTTPStatus.BAD_REQUEST)
+                    return
+                ano = int(payload["ano"]) if str(payload.get("ano", "")).isdigit() else None
+                if path.endswith("/simular"):
+                    self._send_json(editalscore.simular(barema, cur["itens"], list(payload.get("extras") or [])[:50], ano))
+                    return
+                res = editalscore.calcular(barema, cur["itens"], ano, payload.get("evidencias"), payload.get("qualis"))
+                res["lacunas"] = editalscore.lacunas(res)
+                self._send_json(res)
+            except Exception:
+                self._send_json({"error": "Falha no cálculo da pontuação."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/edital/dossie":
+            try:
+                fields, files = parse_multipart_all(ctype, body)
+                mapa = json.loads(fields.get("itens", "{}"))  # nome do arquivo -> {"item": "2.1", "descricao": "..."}
+                anexos = [{"item": str(mapa.get(n, {}).get("item", "?")), "descricao": str(mapa.get(n, {}).get("descricao", n)),
+                           "nome": n, "dados": d} for n, d in files if n in mapa]
+                if not anexos:
+                    self._send_json({"error": "Envie os PDFs e a ligação de cada um com o item do edital."}, HTTPStatus.BAD_REQUEST)
+                    return
+                anexos.sort(key=lambda a: [(0, int(x)) if x.isdigit() else (1, x) for x in re.split(r"[.\s]", a["item"])])
+                raw = editalscore.gerar_dossie(fields.get("candidato", "")[:150], fields.get("edital", "")[:150], anexos)
+                self.send_response(HTTPStatus.OK)
+                self.send_header("Content-Type", "application/pdf")
+                self.send_header("Content-Disposition", 'attachment; filename="dossie-comprobatorio.pdf"')
+                self.send_header("Content-Length", str(len(raw)))
+                self.end_headers()
+                self.wfile.write(raw)
+            except Exception:
+                self._send_json({"error": "Falha ao gerar o dossiê."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
         if path == "/api/compliance":
