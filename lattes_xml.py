@@ -27,7 +27,7 @@ TIPOS: list[tuple[str, str]] = [
     (r"^CAPITULO-DE-LIVRO-PUBLICADO$", "capitulo"),
     (r"^TEXTO-EM-JORNAL-OU-REVISTA$", "texto_jornal"),
     (r"^CURSO-DE-CURTA-DURACAO-MINISTRADO$", "curso_ministrado"),
-    (r"^CURSO-DE-CURTA-DURACAO$", "formacao_complementar"),
+    (r"^(CURSO-DE-CURTA-DURACAO|FORMACAO-COMPLEMENTAR-CURSO-DE-CURTA-DURACAO)$", "formacao_complementar"),  # o 2º é o nome real (XML do Lattes)
     (r"^(PATENTE|REGISTRO-OU-PATENTE)$", "patente"),
     (r"^SOFTWARE$", "software"),
     (r"^TRABALHO-TECNICO$", "trabalho_tecnico"),
@@ -37,11 +37,20 @@ TIPOS: list[tuple[str, str]] = [
     (r"^(OUTRAS-ORIENTACOES-CONCLUIDAS|ORIENTACOES-CONCLUIDAS-PARA-(MESTRADO|DOUTORADO|POS-DOUTORADO))$", "orientacao_concluida"),
     (r"^ORIENTACAO-EM-ANDAMENTO-DE-.+$", "orientacao_andamento"),
     (r"^PROJETO-DE-PESQUISA$", "projeto"),
-    (r"^PARTICIPACAO-EM-EVENTOS-CONGRESSOS$", "participacao_evento"),
+    # No XML real cada participação é um elemento próprio dentro do contêiner PARTICIPACAO-EM-EVENTOS-CONGRESSOS (que não pode casar:
+    # casaria o contêiner inteiro como 1 item e perderia as participações).
+    (r"^(PARTICIPACAO-EM-(CONGRESSO|ENCONTRO|OFICINA|SEMINARIO|SIMPOSIO|FEIRA|EXPOSICAO|FESTIVAL|OLIMPIADA)|OUTRAS-PARTICIPACOES-EM-EVENTOS-CONGRESSOS)$", "participacao_evento"),
     (r"^ORGANIZACAO-DE-EVENTO$", "organizacao_evento"),
     (r"^PREMIO-TITULO$", "premio"),
     (r"^ATUACAO-PROFISSIONAL$", "atuacao_profissional"),
-    (r"^(GRADUACAO|ESPECIALIZACAO|MESTRADO|DOUTORADO|POS-DOUTORADO|APERFEICOAMENTO)$", "formacao_academica"),
+    (r"^(GRADUACAO|ESPECIALIZACAO|MESTRADO|DOUTORADO|POS-DOUTORADO|APERFEICOAMENTO|LIVRE-DOCENCIA|MESTRADO-PROFISSIONALIZANTE|RESIDENCIA-MEDICA)$", "formacao_academica"),
+    (r"^FORMACAO-COMPLEMENTAR-DE-EXTENSAO-UNIVERSITARIA$", "formacao_complementar"),
+    # ondas ampliadas: só nomes de elementos-folha (um item por elemento). Um nome de contêiner aqui engoliria os filhos.
+    (r"^(PREFACIO-POSFACIO|TRADUCAO|PARTITURA-MUSICAL|OUTRA-PRODUCAO-BIBLIOGRAFICA)$", "outra_producao_bibliografica"),
+    (r"^(CARTA-MAPA-OU-SIMILAR|DESENVOLVIMENTO-DE-MATERIAL-DIDATICO-OU-INSTRUCIONAL|EDITORACAO|MANUTENCAO-DE-OBRA-ARTISTICA|MAQUETE|"
+     r"ENTREVISTA-MESA-REDONDA-PROGRAMA-E-COMENTARIO|RELATORIO-DE-PESQUISA|REDE-SOCIAL-WEBSITE-BLOG|ASSESSORIA-CONSULTORIA|"
+     r"EXTENSAO-TECNOLOGICA|OUTRA-PRODUCAO-TECNICA)$", "outra_producao_tecnica"),
+    (r"^(ARTES-CENICAS|ARTES-VISUAIS|MUSICA|OUTRA-PRODUCAO-ARTISTICA-CULTURAL)$", "producao_artistica"),
 ]
 _TIPOS = [(re.compile(p), c) for p, c in TIPOS]
 
@@ -102,9 +111,15 @@ def ler_curriculo(dados: bytes) -> dict[str, Any]:
     nome = dg.get("NOME-COMPLETO", "") if dg is not None else ""
     citacao = dg.get("NOME-EM-CITACOES-BIBLIOGRAFICAS", "") if dg is not None else ""
     itens: list[dict[str, Any]] = []
+    desconhecidos: dict[str, int] = {}  # elementos com título que o leitor não classificou (aparecem no dashboard)
 
-    def visitar(el: ET.Element) -> None:
+    def visitar(el: ET.Element, pai: str = "") -> None:
         cat = next((c for rx, c in _TIPOS if rx.match(_tag(el))), None)
+        if not cat and _tag(el) == "OUTROS" and pai == "FORMACAO-COMPLEMENTAR":  # nome genérico: só vale dentro da formação complementar
+            cat = "formacao_complementar"
+        if (not cat and _tag(el) != "DADOS-GERAIS" and any(k in _TITULO for k in el.attrib)
+                and not _tag(el).startswith(("DADOS-BASICOS", "DETALHAMENTO", "INFORMACAO-ADICIONAL-"))):  # INFORMACAO-ADICIONAL-*: metadado de curso/instituição
+            desconhecidos[_tag(el)] = desconhecidos.get(_tag(el), 0) + 1
         if cat:
             attrs: dict[str, str] = dict(el.attrib)
             autores: list[str] = []
@@ -121,16 +136,41 @@ def ler_curriculo(dados: bytes) -> dict[str, Any]:
                     "doi": attrs.get("DOI", "").strip(), "issn": attrs.get("ISSN", "").strip(),
                     "isbn": attrs.get("ISBN", "").strip(), "veiculo": _primeiro(attrs, ("TITULO-DO-PERIODICO-OU-REVISTA", "NOME-DO-EVENTO", "EDITORA", "NOME-DA-EDITORA")),
                     "autores": [a for a in autores if a], "ano_fim": attrs.get("ANO-FIM", "") or attrs.get("ANO-DE-CONCLUSAO", ""),
-                    "tag": _tag(el)}
+                    "tag": _tag(el), "seq": attrs.get("SEQUENCIA-PRODUCAO", "") or attrs.get("SEQUENCIA-FORMACAO", ""),
+                    "natureza": attrs.get("NATUREZA", "")}
             if item["titulo"] or item["doi"]:
                 itens.append(item)
             return  # não desce: já juntou os atributos dos filhos
         for filho in el:
-            visitar(filho)
+            visitar(filho, _tag(el))
 
     visitar(raiz)
+    perfil: dict[str, Any] = {"resumo": "", "idiomas": [], "areas": []}
+    if dg is not None:
+        for e in dg.iter():
+            t = _tag(e)
+            if t == "RESUMO-CV":
+                perfil["resumo"] = e.get("TEXTO-RESUMO-CV-RH", "")
+            elif t == "IDIOMA" and e.get("DESCRICAO-DO-IDIOMA"):
+                perfil["idiomas"].append(e.get("DESCRICAO-DO-IDIOMA"))
+            elif t == "AREA-DE-ATUACAO":  # grande área › área › subárea › especialidade (só o que estiver preenchido)
+                a = " › ".join(p for p in (e.get(k, "").strip() for k in ("NOME-GRANDE-AREA-DO-CONHECIMENTO", "NOME-DA-AREA-DO-CONHECIMENTO",
+                                                                         "NOME-DA-SUB-AREA-DO-CONHECIMENTO", "NOME-DA-ESPECIALIDADE")) if p)
+                if a and a not in perfil["areas"]:
+                    perfil["areas"].append(a)
     return {"nome": nome, "nome_citacao": citacao, "id_lattes": raiz.get("NUMERO-IDENTIFICADOR", ""),
-            "atualizacao": raiz.get("DATA-ATUALIZACAO", ""), "itens": itens}
+            "atualizacao": raiz.get("DATA-ATUALIZACAO", ""), "atualizacao_iso": _data_atualizacao(raiz),
+            "itens": itens, "perfil": perfil, "nao_classificados": desconhecidos}
+
+
+def _data_atualizacao(raiz: ET.Element) -> str:
+    """DATA-ATUALIZACAO (ddmmaaaa) + HORA-ATUALIZACAO (hhmmss), horário de Brasília -> ISO 8601 em UTC; '' se ilegível."""
+    from datetime import datetime, timedelta
+    d, h = raiz.get("DATA-ATUALIZACAO", ""), (raiz.get("HORA-ATUALIZACAO", "") or "000000").ljust(6, "0")[:6]
+    try:
+        return (datetime.strptime(d + h, "%d%m%Y%H%M%S") + timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    except ValueError:
+        return ""
 
 
 def formatar_doi(doi: str) -> str:

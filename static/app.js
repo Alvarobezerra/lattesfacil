@@ -2208,6 +2208,59 @@ function processarResultadoEnvio(m) {
   }
 }
 
+// ---------- Aviso "alterações ainda não enviadas ao CNPq" ----------
+// Edições no Lattes só valem para o CNPq e a busca pública depois do envio definitivo. A extensão lê o quadro de avisos
+// e, quando o usuário confirma aqui, abre a tela de envio do Lattes; o clique final em Enviar é do usuário.
+const PEND_ROTULO = {
+  abrindo: ["⏳ Procurando o aviso no Lattes…", "#475569"],
+  pendente: ["⚠️ Há alterações pendentes de envio ao CNPq", "#b45309"],
+  aguardando_envio: ["⏳ Tela de envio aberta no Lattes: falta você clicar em Enviar", "#b45309"],
+  em_dia: ["✅ Nenhuma alteração pendente (o CNPq tem a versão atual)", "#047857"],
+  login: ["🔐 Entre no Lattes e verifique de novo", "#475569"],
+  indisponivel: ["ℹ️ Abra o seu currículo no Lattes e verifique de novo", "#475569"],
+  erro: ["❌ Não consegui concluir", "#b91c1c"],
+};
+
+function extensaoCv() {
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para falar com o Lattes."); return false; }
+  if (versaoMenor(window.__lattesExtVersao, "0.6.0")) { showToast("Atualize a extensão LattesData (versão 0.6.0 ou mais nova) para usar esta função."); return false; }
+  return true;
+}
+
+function atualizarCartaoPendencia(m) {
+  const txt = $("cvPendTexto"), env = $("btnCvEnviar");
+  if (!txt) return;
+  const [rotulo, cor] = PEND_ROTULO[m.estado] || [m.estado, "#475569"];
+  txt.textContent = rotulo + (m.message ? " — " + m.message : "");
+  txt.style.color = cor;
+  if (env && m.estado !== "abrindo") env.classList.toggle("hidden", !["pendente", "aguardando_envio"].includes(m.estado));
+}
+
+function verificarPendenciaCv() {
+  if (!extensaoCv()) return;
+  const txt = $("cvPendTexto");
+  if (txt) { txt.textContent = "Verificando o quadro de avisos do Lattes…"; txt.style.color = "#475569"; }
+  window.postMessage({ type: "lattesdata-ext-cv-status" }, location.origin);
+}
+
+function enviarCurriculoAoCnpq() {
+  if (!extensaoCv()) return;
+  const ok = window.confirm(
+    "Enviar o currículo ao CNPq?\n\n" +
+    "• Vou abrir a tela de envio na aba do Lattes; o clique final em Enviar é seu.\n" +
+    "• Depois do envio, as suas alterações passam a valer para o CNPq e para a busca pública, substituindo a versão anterior.\n" +
+    "• Se quiser guardar a versão atual antes, importe o XML em \"Meu currículo\" primeiro.\n\n" +
+    "Abrir a tela de envio agora?");
+  if (!ok) return;
+  window.postMessage({ type: "lattesdata-ext-cv-publish" }, location.origin);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const v = $("btnCvVerificar"), e = $("btnCvEnviar");
+  if (v) v.onclick = verificarPendenciaCv;
+  if (e) e.onclick = enviarCurriculoAoCnpq;
+});
+
 function pedirVerificacao(e) {
   if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para verificar no Lattes."); return; }
   window.postMessage({ type: "lattesdata-ext-verify", envioId: e.id, tipo: e.tipo, titulo: e.titulo, seq: e.lattes_seq || "" }, location.origin);
@@ -2257,6 +2310,20 @@ function renderEnvios() {
     st.style.cssText = "font-weight:600;color:" + cor;
     st.textContent = rotulo + (e.mensagem ? " — " + e.mensagem : "");
     box.appendChild(st);
+    const XML_ROTULO = {
+      confirmado: "✅ Confirmado pelo XML do Lattes",
+      ausente: "⚠️ Não consta no XML importado (confira se o XML é posterior ao envio)",
+      xml_anterior: "ℹ️ O XML importado é anterior a este envio; importe um novo para confirmar",
+      remocao_confirmada: "✅ Remoção confirmada pelo XML",
+      ainda_presente: "⚠️ Ainda consta no XML importado",
+    };
+    if (e.xml_status && XML_ROTULO[e.xml_status]) {
+      const x = document.createElement("div");
+      x.className = "hint";
+      x.style.marginTop = "2px";
+      x.textContent = XML_ROTULO[e.xml_status] + (e.xml_verificado_em ? " (" + fmtDataHora(e.xml_verificado_em) + ")" : "");
+      box.appendChild(x);
+    }
 
     const acoes = document.createElement("div");
     acoes.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-top:8px";
@@ -2994,6 +3061,11 @@ updateComplianceUI();
       const badge = $("extStatusBadge");
       if (badge) badge.textContent = "✅ Extensão 1-Clique Ativa";
     }
+    if (m.type === "lattesdata-ext-result" && m.evento === "pendencia") {
+      atualizarCartaoPendencia(m);
+      return;
+    }
+    if (m.type === "lattesdata-ext-result" && m.evento === "leitura") return; // progresso da leitura ao vivo: tratado na página Meu currículo
     if (m.type === "lattesdata-ext-result") {
       if (btn) btn.disabled = false;
       if (btnOpen) btnOpen.disabled = false;

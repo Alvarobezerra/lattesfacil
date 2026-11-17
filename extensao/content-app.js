@@ -13,6 +13,10 @@ window.addEventListener("message", (e) => {
       titulo: String(m.titulo || "").slice(0, 400),
       seq: String(m.seq || "").replace(/\D/g, "").slice(0, 12)
     }, () => { void chrome.runtime.lastError; });
+  } else if (m.type === "lattesdata-ext-cv-live") {
+    chrome.runtime.sendMessage({ type: "cv-live" }, () => { void chrome.runtime.lastError; });
+  } else if (m.type === "lattesdata-ext-cv-status" || m.type === "lattesdata-ext-cv-publish") {
+    chrome.runtime.sendMessage({ type: m.type === "lattesdata-ext-cv-status" ? "cv-status" : "cv-publish" }, () => { void chrome.runtime.lastError; });
   } else if (m.type === "lattesdata-ext-fill") {
     chrome.runtime.sendMessage({ type: "fill", data: m.data }, (resp) => {
       const err = chrome.runtime.lastError;
@@ -42,6 +46,10 @@ chrome.runtime.onMessage.addListener((msg) => {
       message: String(msg.titulo || ""),
       detalhes: Array.isArray(msg.detalhes) ? msg.detalhes.map((x) => String(x).slice(0, 300)).slice(0, 8) : []
     }, location.origin);
+    return;
+  }
+  if (msg && msg.type === "lattes-live") { // leitura em tempo real do currículo (HTML da página para impressão)
+    window.postMessage({ type: "lattesdata-ext-live", ok: !!msg.ok, html: String(msg.html || ""), nome: String(msg.nome || "").slice(0, 200), erro: String(msg.erro || "").slice(0, 300) }, location.origin);
     return;
   }
   if (msg && msg.type === "lattes-status") {

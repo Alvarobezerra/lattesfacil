@@ -33,6 +33,8 @@ from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
+import curriculo_store
+from lattes_pagina import ler_pagina
 from lattes_xml import ler_curriculo, procurar_duplicata, resumo as resumo_xml
 from auditor import auditar
 from lote import gerar_zip_organizado, processar_lote
@@ -209,6 +211,7 @@ def init_db() -> None:
             )
             """
         )
+        curriculo_store.criar_tabelas(conn)
         cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
@@ -412,6 +415,26 @@ def _xml_da_sessao(tag: str) -> dict[str, Any] | None:
             XML_SESSAO.pop(k, None)
         v = XML_SESSAO.get(tag)
         return v["cur"] if v else None
+
+
+def _snap_da_sessao(tag: str) -> str:
+    with UPLOADS_LOCK:
+        v = XML_SESSAO.get(tag)
+        return v.get("snap", "") if v else ""
+
+
+SNAP_ID_RE = re.compile(r"^[0-9a-f]{12}$")
+
+
+def _curriculo_pedido(handler: "LattesHandler", qs: dict[str, list[str]], chave: str = "snapshot") -> tuple[dict[str, Any] | None, str]:
+    """Currículo pedido por ?snapshot=<id> ou, sem isso, o da sessão. Devolve (currículo, id do snapshot)."""
+    sid = (qs.get(chave) or [""])[0]
+    if sid:
+        if not SNAP_ID_RE.match(sid):
+            return None, ""
+        with db() as conn:
+            return curriculo_store.carregar(conn, sid), sid
+    return _xml_da_sessao(handler._sess_tag()), _snap_da_sessao(handler._sess_tag())
 
 
 def _duplicata_da_resposta(tag: str):
@@ -654,7 +677,41 @@ class LattesHandler(BaseHTTPRequestHandler):
 
         if path == "/api/lattes-xml":
             cur = _xml_da_sessao(self._sess_tag())
-            self._send_json({"carregado": True, **resumo_xml(cur)} if cur else {"carregado": False})
+            self._send_json({"carregado": True, "snapshot_id": _snap_da_sessao(self._sess_tag()), **resumo_xml(cur)} if cur else {"carregado": False})
+            return
+
+        if path == "/api/curriculo/snapshots":
+            with db() as conn:
+                self._send_json({"snapshots": curriculo_store.listar(conn, (parse_qs(parsed.query).get("id_lattes") or [""])[0][:30])})
+            return
+
+        if path in ("/api/curriculo", "/api/curriculo/dashboard"):
+            cur, sid = _curriculo_pedido(self, parse_qs(parsed.query))
+            if not cur:
+                self._send_json({"error": "Carregue o XML do seu currículo ou escolha uma versão já importada.", "sem_xml": True}, HTTPStatus.CONFLICT)
+                return
+            if path.endswith("/dashboard"):
+                self._send_json({"snapshot_id": sid, **curriculo_store.dashboard(cur)})
+            else:
+                self._send_json({"snapshot_id": sid, "nome": cur["nome"], "id_lattes": cur["id_lattes"], "atualizacao": cur["atualizacao"],
+                                 "perfil": cur.get("perfil", {}), "itens": cur["itens"]})
+            return
+
+        if path == "/api/curriculo/comparar":
+            qs = parse_qs(parsed.query)
+            depois, sid_depois = _curriculo_pedido(self, qs, "para")
+            if not depois:
+                self._send_json({"error": "Informe a versão (para=) ou carregue um XML.", "sem_xml": True}, HTTPStatus.CONFLICT)
+                return
+            sid_antes = (qs.get("de") or [""])[0]
+            with db() as conn:
+                if not sid_antes and sid_depois:
+                    sid_antes = curriculo_store.anterior(conn, sid_depois) or ""
+                antes = curriculo_store.carregar(conn, sid_antes) if SNAP_ID_RE.match(sid_antes) else None
+            if not antes:
+                self._send_json({"error": "Não há versão anterior para comparar. Importe o XML de novo depois de mexer no Lattes.", "sem_anterior": True}, HTTPStatus.CONFLICT)
+                return
+            self._send_json({"de": sid_antes, "para": sid_depois, **curriculo_store.comparar(antes, depois)})
             return
 
         if path == "/api/auditoria":
@@ -715,11 +772,11 @@ class LattesHandler(BaseHTTPRequestHandler):
             owner = (parse_qs(parsed.query).get("owner") or [""])[0].strip()[:60]
             with db() as conn:
                 rows = conn.execute(
-                    "SELECT id, owner, titulo, tipo, ano, status, mensagem, lattes_seq, enviado_em, atualizado_em, removido_em "
+                    "SELECT id, owner, titulo, tipo, ano, status, mensagem, lattes_seq, enviado_em, atualizado_em, removido_em, xml_status, xml_verificado_em "
                     "FROM lattes_envios WHERE oculto_em IS NULL AND (? = '' OR owner = ?) ORDER BY enviado_em DESC LIMIT 100",
                     (owner, owner),
                 ).fetchall()
-            cols = ["id", "owner", "titulo", "tipo", "ano", "status", "mensagem", "lattes_seq", "enviado_em", "atualizado_em", "removido_em"]
+            cols = ["id", "owner", "titulo", "tipo", "ano", "status", "mensagem", "lattes_seq", "enviado_em", "atualizado_em", "removido_em", "xml_status", "xml_verificado_em"]
             self._send_json({"ok": True, "envios": [dict(zip(cols, r)) for r in rows]})
             return
 
@@ -1035,13 +1092,64 @@ class LattesHandler(BaseHTTPRequestHandler):
                     self._send_json({"error": "Envie o XML (ou o ZIP) exportado do Lattes."}, HTTPStatus.BAD_REQUEST)
                     return
                 cur = ler_curriculo(arq[1])
+                extra: dict[str, Any] = {}
+                with db() as conn:  # histórico: cada XML distinto vira um snapshot; a conciliação confere os envios contra ele
+                    sid, novo = curriculo_store.salvar(conn, cur, curriculo_store.hash_arquivo(arq[1]))
+                    ant = curriculo_store.anterior(conn, sid) if novo else None
+                    if ant:
+                        antes = curriculo_store.carregar(conn, ant)
+                        if antes:
+                            c = curriculo_store.comparar(antes, cur)
+                            extra["comparacao"] = {"de": ant, "adicionados": len(c["adicionados"]), "removidos": len(c["removidos"])}
+                    extra["envios_conciliados"] = curriculo_store.conciliar_envios(conn, cur)
                 with UPLOADS_LOCK:
-                    XML_SESSAO[self._sess_tag()] = {"cur": cur, "ts": time.time()}
-                self._send_json({"carregado": True, **resumo_xml(cur)})
+                    XML_SESSAO[self._sess_tag()] = {"cur": cur, "ts": time.time(), "snap": sid}
+                self._send_json({"carregado": True, "snapshot_id": sid, "novo_snapshot": novo, **extra, **resumo_xml(cur)})
             except ValueError as e:
                 self._send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
             except Exception:
                 self._send_json({"error": "Falha ao ler o XML do Lattes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/curriculo/pagina":  # leitura em tempo real: HTML da página para impressão, buscado pela extensão no Lattes logado
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                html = str(payload.get("html", ""))
+                cur = ler_pagina(html, str(payload.get("nome", "")))
+                extra: dict[str, Any] = {}
+                with db() as conn:
+                    # o hash é do conteúdo interpretado (não do HTML, que pode variar sem o currículo mudar)
+                    conteudo = json.dumps({"i": cur["itens"], "p": cur["perfil"]}, sort_keys=True, ensure_ascii=False).encode("utf-8")
+                    sid, novo = curriculo_store.salvar(conn, cur, curriculo_store.hash_arquivo(conteudo))
+                    ant = curriculo_store.anterior(conn, sid) if novo else None
+                    if ant:
+                        antes = curriculo_store.carregar(conn, ant)
+                        if antes:
+                            c = curriculo_store.comparar(antes, cur)
+                            extra["comparacao"] = {"de": ant, "adicionados": len(c["adicionados"]), "removidos": len(c["removidos"])}
+                    extra["envios_conciliados"] = curriculo_store.conciliar_envios(conn, cur)
+                with UPLOADS_LOCK:
+                    XML_SESSAO[self._sess_tag()] = {"cur": cur, "ts": time.time(), "snap": sid}
+                self._send_json({"carregado": True, "snapshot_id": sid, "novo_snapshot": novo, "fonte": "pagina", **extra, **resumo_xml(cur)})
+            except ValueError as e:
+                self._send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"error": "Falha ao ler a página do Lattes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/curriculo/ativar":  # reabre uma versão já importada na sessão (sem reenviar o XML)
+            try:
+                sid = str(json.loads(body.decode("utf-8") or "{}").get("snapshot", ""))
+                with db() as conn:
+                    cur = curriculo_store.carregar(conn, sid) if SNAP_ID_RE.match(sid) else None
+                if not cur:
+                    self._send_json({"error": "Versão não encontrada."}, HTTPStatus.NOT_FOUND)
+                    return
+                with UPLOADS_LOCK:
+                    XML_SESSAO[self._sess_tag()] = {"cur": cur, "ts": time.time(), "snap": sid}
+                self._send_json({"carregado": True, "snapshot_id": sid, **resumo_xml(cur)})
+            except Exception:
+                self._send_json({"error": "Falha ao abrir a versão."}, HTTPStatus.BAD_REQUEST)
             return
 
         if path == "/api/duplicatas":
@@ -1252,6 +1360,15 @@ class LattesHandler(BaseHTTPRequestHandler):
     def do_DELETE(self) -> None:
         parsed = urlparse(self.path)
         if not self._gate(mutating=True):
+            return
+        if parsed.path.startswith("/api/curriculo/snapshots/"):
+            sid = parsed.path.rsplit("/", 1)[-1]
+            if not SNAP_ID_RE.match(sid):
+                self._send_json({"error": "Identificador inválido."}, HTTPStatus.BAD_REQUEST)
+                return
+            with db() as conn:
+                achou = curriculo_store.excluir(conn, sid)
+            self._send_json({"ok": achou}, HTTPStatus.OK if achou else HTTPStatus.NOT_FOUND)
             return
         if parsed.path.startswith("/api/lattes/envios/"):
             env_id = parsed.path.rsplit("/", 1)[-1]

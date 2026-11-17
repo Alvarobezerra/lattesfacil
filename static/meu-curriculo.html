@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesData — Meu currículo</title>
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    [hidden]{display:none!important}
+    .painel{max-width:1040px;margin:24px auto;padding:0 16px;display:grid;gap:18px}
+    .cartao{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:grid;gap:12px}
+    .cartao h2{margin:0;font-size:1.1rem;color:var(--primary)}
+    .dica{margin:0;color:var(--muted);font-size:.9rem}
+    .linha{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    table.tab{width:100%;border-collapse:collapse;font-size:.88rem}
+    table.tab th,table.tab td{border-bottom:1px solid var(--border);padding:6px 8px;text-align:left;vertical-align:top}
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+    .kpi{border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+    .kpi b{display:block;font-size:1.7rem;color:var(--primary)}
+    .kpi span{color:var(--muted);font-size:.82rem}
+    .ok{color:#047857}.erro{color:#b91c1c}.aviso{color:#9a3412}
+    select,input[type=text]{padding:6px 8px;border:1px solid var(--border);border-radius:8px;font:inherit}
+    svg.graf{width:100%;height:auto;max-height:260px}
+    svg.graf rect{fill:var(--primary)} svg.graf rect.prod{fill:#0e7490} svg.graf text{font-size:11px;fill:var(--muted)}
+    .mais{color:#047857}.menos{color:#b91c1c}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="/" aria-label="LattesData — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
+      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span></a>
+    <nav class="topnav" aria-label="Principal"><a class="nav-link" href="/">Cadastrar</a><a class="nav-link" href="/painel.html">Painel</a><a class="nav-link" href="/meu-curriculo.html" aria-current="page">Meu currículo</a></nav>
+  </div></header>
+
+  <main class="painel">
+    <section class="cartao">
+      <h2>Versão do currículo</h2>
+      <p class="dica">No Lattes: "Exportar currículo → XML". Cada XML diferente vira uma versão guardada aqui, o que permite comparar antes e depois e confirmar o que o LattesData incluiu ou excluiu.</p>
+      <div class="linha"><button class="btn btn-primary" id="bAoVivo" type="button">Ler do Lattes agora</button>
+        <span class="dica">Tempo real, pela extensão: deixe o seu currículo aberto e logado no Lattes. O XML exportado pode estar anos defasado.</span></div>
+      <div class="linha"><input type="file" id="fXml" accept=".xml,.zip" /><button class="btn" id="bXml" type="button">Importar XML</button>
+        <select id="selVersao" aria-label="Versão guardada"></select><button class="btn" id="bExcluir" type="button">Apagar esta versão</button></div>
+      <div id="sStatus" role="status"></div>
+    </section>
+
+    <section class="cartao" id="secDash" hidden>
+      <h2 id="tNome"></h2>
+      <p class="dica" id="tMeta"></p>
+      <div class="kpis" id="kpis"></div>
+      <div id="avisoNaoClass"></div>
+      <h3 style="margin:6px 0 0;font-size:1rem">Itens por ano <span class="dica">(azul-escuro: total · verde: produção)</span></h3>
+      <div id="grafAno"></div>
+      <div class="linha" style="align-items:flex-start;gap:24px">
+        <div style="flex:1 1 300px"><h3 style="margin:6px 0;font-size:1rem">Por categoria</h3><div id="tCat"></div></div>
+        <div style="flex:1 1 300px"><h3 style="margin:6px 0;font-size:1rem">Periódicos mais frequentes</h3><div id="tPer"></div>
+          <h3 style="margin:10px 0 6px;font-size:1rem">Coautores mais frequentes</h3><div id="tCoa"></div></div>
+      </div>
+    </section>
+
+    <section class="cartao" id="secComp" hidden>
+      <h2>O que mudou desde a versão anterior</h2>
+      <div id="rComp"></div>
+    </section>
+
+    <section class="cartao" id="secItens" hidden>
+      <h2>Itens do currículo</h2>
+      <div class="linha"><select id="fCat" aria-label="Categoria"></select><input type="text" id="fBusca" placeholder="Buscar por título, DOI ou veículo" /><span class="dica" id="nItens"></span></div>
+      <div id="tItens"></div>
+    </section>
+  </main>
+  <script src="/meu-curriculo.js"></script>
+</body>
+</html>

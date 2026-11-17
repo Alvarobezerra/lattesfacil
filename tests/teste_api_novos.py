@@ -128,6 +128,48 @@ try:
     ok(json_(outra, "POST", "/api/edital/calcular", {"barema": bar})[0] == 409, "cálculo sem XML na sessão é recusado")
     ok(json_(a, "POST", "/api/edital/calcular", {"barema": {"blocos": "x"}})[0] == 400, "barema inválido é recusado")
 
+    # histórico de versões, dashboard, comparação e conciliação de envios
+    ok(pedido(anon, "GET", "/api/curriculo/snapshots")[0] == 401, "histórico exige sessão")
+    ok(json_(outra, "GET", "/api/curriculo/dashboard")[0] == 409, "dashboard sem XML orienta a carregar")
+    st, r = json_(a, "GET", "/api/curriculo/snapshots")
+    ok(st == 200 and len(r["snapshots"]) == 1, "XML carregado virou uma versão guardada")
+    sid1 = r["snapshots"][0]["id"]
+    corpo, ct = multipart({}, [("cv.xml", XML.encode("iso-8859-1"))])
+    st, _, raw = pedido(a, "POST", "/api/lattes-xml", corpo, ct)
+    ok(json.loads(raw)["novo_snapshot"] is False, "reenviar o mesmo XML não cria versão")
+    st, d = json_(a, "GET", "/api/curriculo/dashboard")
+    ok(st == 200 and d["artigos"]["total"] == 3 and d["snapshot_id"] == sid1, "dashboard da sessão")
+    st, _, raw = pedido(a, "POST", "/api/lattes-xml", *multipart({}, [("cv2.xml", XML.encode("iso-8859-1").replace(b"Livro de testes", b"Livro novo"))]))
+    r2 = json.loads(raw)
+    ok(r2["novo_snapshot"] and r2["comparacao"] == {"de": sid1, "adicionados": 1, "removidos": 1}, f"segunda versão compara com a primeira ({r2.get('comparacao')})")
+    st, c = json_(a, "GET", "/api/curriculo/comparar")
+    ok(st == 200 and c["adicionados"][0]["titulo"] == "Livro novo", "endpoint de comparação")
+    ok(json_(a, "POST", "/api/curriculo/ativar", {"snapshot": sid1})[0] == 200 and json_(a, "GET", "/api/curriculo")[1]["snapshot_id"] == sid1, "reabrir versão antiga na sessão")
+    ok(json_(a, "GET", "/api/curriculo?snapshot=../../x")[0] == 409 and json_(a, "POST", "/api/curriculo/ativar", {"snapshot": "zz"})[0] == 404, "id de versão inválido é recusado")
+    st, e = json_(a, "POST", "/api/lattes/envios", {"owner": "Joao da Silva", "titulo": "Livro novo", "tipo": "livro", "ano": "2020"})
+    json_(a, "POST", "/api/lattes/envios/" + e["id"], {"status": "salvo"})
+    st, _, raw = pedido(a, "POST", "/api/lattes-xml", *multipart({}, [("cv3.xml", XML.encode("iso-8859-1").replace(b"Livro de testes", b"Livro novo").replace(b'DATA-ATUALIZACAO="01012026"', b'DATA-ATUALIZACAO="01012099"'))]))
+    ok(json.loads(raw)["envios_conciliados"] == {"confirmado": 1}, f"envio confirmado pelo XML ({json.loads(raw).get('envios_conciliados')})")
+    envios = json_(a, "GET", "/api/lattes/envios?owner=Joao%20da%20Silva")[1]["envios"]
+    ok(envios and envios[0]["xml_status"] == "confirmado", "lista de envios traz o status do XML")
+    ok(pedido(anon, "DELETE", "/api/curriculo/snapshots/" + sid1)[0] == 401, "apagar versão exige sessão")
+    ok(pedido(a, "DELETE", "/api/curriculo/snapshots/" + sid1)[0] == 200 and len(json_(a, "GET", "/api/curriculo/snapshots")[1]["snapshots"]) == 2, "versão apagada")
+    ok(pedido(a, "GET", "/meu-curriculo.html")[0] == 200 and pedido(a, "GET", "/meu-curriculo.js")[0] == 200, "página Meu currículo é servida")
+
+    # leitura em tempo real (página para impressão do Lattes, buscada pela extensão)
+    pag = ('<html><body>Última atualização do currículo em 17/11/2026 lattes.cnpq.br/1234567890123456<div class="conteudo-cv">'
+           '<a name="Participacaoemeventos"></a><div class="agrupadorsub">Participação em eventos</div>'
+           '<table class="IndicProdTabela"><tr><td class="ano">1.</td><td class="texto">Congresso Y, 2019. (Congresso) .</td></tr></table></div></body></html>')
+    ok(pedido(anon, "POST", "/api/curriculo/pagina", b"{}", "application/json")[0] == 401, "leitura ao vivo exige sessão")
+    ok(json_(a, "POST", "/api/curriculo/pagina", {"html": "<html>nada</html>"})[0] == 400, "HTML que não é a página do Lattes é recusado")
+    st, r = json_(a, "POST", "/api/curriculo/pagina", {"html": pag, "nome": "Joao da Silva"})
+    ok(st == 200 and r["fonte"] == "pagina" and r["novo_snapshot"] and r["por_categoria"] == {"participacao_evento": 1}, f"página interpretada e guardada ({r.get('por_categoria')})")
+    st, r2 = json_(a, "POST", "/api/curriculo/pagina", {"html": pag + "<!-- ruído -->", "nome": "Joao da Silva"})
+    ok(st == 200 and r2["novo_snapshot"] is False, "mesmo conteúdo (HTML diferente) não cria outra versão")
+    fontes = {s["fonte"] for s in json_(a, "GET", "/api/curriculo/snapshots")[1]["snapshots"]}
+    ok(fontes == {"xml", "pagina"}, f"versões guardam a fonte ({fontes})")
+    ok(json_(a, "GET", "/api/curriculo/dashboard")[1]["fonte"] == "pagina", "dashboard informa a fonte")
+
     mapa = json.dumps({"a.pdf": {"item": "1.1", "descricao": "Artigo"}, "b.pdf": {"item": "1.2", "descricao": "Livro"}})
     corpo, ct = multipart({"candidato": "João", "edital": "12/2026", "itens": mapa}, [("a.pdf", pdf("A")), ("b.pdf", pdf("B"))])
     st, tipo, raw = pedido(a, "POST", "/api/edital/dossie", corpo, ct)
