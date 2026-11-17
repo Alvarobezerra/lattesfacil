@@ -36,7 +36,8 @@ h1 em{font-family:var(--serif);color:var(--cyan-d)}
 .req b{color:var(--text)}
 .passo{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;margin-bottom:22px}
 .num{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;position:relative}
-.passo:not(:last-of-type) .num::after{content:"";position:absolute;left:50%;top:48px;height:calc(100% + 150px);width:2px;background:var(--border);transform:translateX(-50%)}
+.ilus{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--border)}
+.passo:not(:last-of-type) .num::after{content:"";position:absolute;left:50%;top:48px;height:calc(100% + 40px);width:2px;background:var(--border);transform:translateX(-50%)}
 .cx{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
 .cx h2{margin:0 0 4px;font-size:1.1rem}.cx p{margin:0 0 12px;color:var(--muted);font-size:.92rem}
 code,.kbd{font-family:ui-monospace,Consolas,monospace;font-size:.85em;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px}
@@ -78,7 +79,7 @@ footer{padding:20px 0 50px;color:var(--muted);font-size:.85rem}
 
 <main class="wrap">
   <h1>Instalar a <em>extensão</em> em outro computador</h1>
-  <p class="lead">São 6 passos e leva uns 3 minutos. Você só faz isso uma vez em cada computador.</p>
+  <p class="lead">São 14 passos curtos, cada um com uma imagem. Leva uns 5 minutos. Você só faz isso uma vez em cada computador.</p>
 
   <div class="estado" id="estado" role="status"><span class="dot"></span><span id="estadoTxt">Verificando se a extensão já está instalada neste computador…</span></div>
 
@@ -88,64 +89,93 @@ footer{padding:20px 0 50px;color:var(--muted);font-size:.85rem}
     <li><b>Internet</b> para abrir o site no Render</li>
   </ul>
 
-  <div class="passo"><div class="num">1</div><div class="cx">
-    <h2>Abra o LattesData no navegador</h2>
-    <p>No Chrome ou Edge do outro computador, entre no endereço do site no Render e faça o login com o seu código de acesso.</p>
-    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url dest">https://lattesfacil.onrender.com</span></div>
-      <div class="corpo"><div class="chip" style="display:inline-block">Escolha seu nome → digite o código de acesso → <b>Entrar</b></div></div></div>
-    <div class="dica">Se a página demorar uns 30 segundos na primeira vez, é normal: o Render “acorda” o servidor.</div>
+  <div class="passo" id="p1"><div class="num">1</div><div class="cx">
+    <h2>Abra o site no navegador</h2>
+    <p>Abra o <b>Google Chrome</b> ou o <b>Microsoft Edge</b> no computador. Na barra de endereço (parte de cima), digite <code>lattesfacil.onrender.com</code> e aperte <span class="kbd">Enter</span>.</p>
+    <img class="ilus" src="/img/guia/01-abrir-site.svg" alt="Ilustração do passo 1: Abra o site no navegador" loading="lazy" width="800" height="450" />
+    <div class="dica">Na primeira vez a página pode levar uns 30 segundos para abrir. É normal: o Render “acorda” o servidor.</div>
   </div></div>
 
-  <div class="passo"><div class="num">2</div><div class="cx">
-    <h2>Baixe o arquivo da extensão</h2>
-    <p>Clique no botão abaixo. Vai baixar o arquivo <code>lattesdata-extensao.zip</code> na pasta <b>Downloads</b>.</p>
-    <a class="btn btn-p" href="/api/extensao.zip" download="lattesdata-extensao.zip">📥 Baixar extensão (.zip)</a>
+  <div class="passo" id="p2"><div class="num">2</div><div class="cx">
+    <h2>Entre com o seu código</h2>
+    <p>Escolha o seu nome, digite o <b>código de acesso</b> e clique em <b>Entrar</b>.</p>
+    <img class="ilus" src="/img/guia/02-login.svg" alt="Ilustração do passo 2: Entre com o seu código" loading="lazy" width="800" height="450" />
   </div></div>
 
-  <div class="passo"><div class="num">3</div><div class="cx">
-    <h2>Extraia o arquivo (descompacte)</h2>
-    <p>Abra a pasta <b>Downloads</b>, clique com o botão direito no <code>.zip</code> e escolha <b>Extrair tudo…</b> (no Mac, dê dois cliques).</p>
-    <div class="dois">
-      <div class="tela"><div class="corpo">
-        <div class="pasta"><span class="ic">🗜️</span> lattesdata-extensao.zip</div>
-        <div class="pasta dest" style="background:var(--mock-bar)"><span class="ic">📂</span> Extrair tudo… <span class="seta">◀ clique aqui</span></div>
-      </div></div>
-      <div class="tela"><div class="corpo">
-        <div class="pasta"><span class="ic">📁</span> <b>lattesdata-extensao</b></div>
-        <div class="arq">manifest.json</div><div class="arq">background.js</div><div class="arq">content-app.js …</div>
-        <p class="ok" style="margin:8px 0 0">✔ Tem que aparecer o manifest.json dentro</p>
-      </div></div>
-    </div>
-    <div class="dica">Não apague nem mova essa pasta depois. Coloque em um lugar fixo (ex.: <code>Documentos</code>); se ela sumir, a extensão para de funcionar.</div>
+  <div class="passo" id="p3"><div class="num">3</div><div class="cx">
+    <h2>Abra o guia “Instalar extensão”</h2>
+    <p>No menu de cima, clique em <b>Instalar extensão</b>. (Se você já está nesta página, siga para o passo 4.)</p>
+    <img class="ilus" src="/img/guia/03-menu-instalar.svg" alt="Ilustração do passo 3: Abra o guia “Instalar extensão”" loading="lazy" width="800" height="450" />
   </div></div>
 
-  <div class="passo"><div class="num">4</div><div class="cx">
+  <div class="passo" id="p4"><div class="num">4</div><div class="cx">
+    <h2>Clique em “Baixar extensão”</h2>
+    <p>Clique no botão azul. O navegador vai baixar o arquivo <code>lattesdata-extensao.zip</code>.</p>
+    <img class="ilus" src="/img/guia/04-baixar.svg" alt="Ilustração do passo 4: Clique em “Baixar extensão”" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p5"><div class="num">5</div><div class="cx">
+    <h2>Abra a pasta onde o arquivo foi baixado</h2>
+    <p>Quando terminar, aparece o aviso de download. Clique em <b>Mostrar na pasta</b>. Se o aviso sumiu, abra a pasta <b>Downloads</b> do computador.</p>
+    <img class="ilus" src="/img/guia/05-download-ok.svg" alt="Ilustração do passo 5: Abra a pasta onde o arquivo foi baixado" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p6"><div class="num">6</div><div class="cx">
+    <h2>Clique com o botão direito e escolha “Extrair tudo…”</h2>
+    <p>Clique com o botão <b>direito</b> do mouse no arquivo <code>lattesdata-extensao.zip</code> e escolha <b>Extrair tudo…</b>. (No Mac, é só dar dois cliques no arquivo.)</p>
+    <img class="ilus" src="/img/guia/06-extrair-menu.svg" alt="Ilustração do passo 6: Clique com o botão direito e escolha “Extrair tudo…”" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p7"><div class="num">7</div><div class="cx">
+    <h2>Clique em “Extrair”</h2>
+    <p>Na janelinha que abrir, não precisa mudar nada: clique em <b>Extrair</b>.</p>
+    <img class="ilus" src="/img/guia/07-extrair-janela.svg" alt="Ilustração do passo 7: Clique em “Extrair”" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p8"><div class="num">8</div><div class="cx">
+    <h2>Confira a pasta extraída</h2>
+    <p>Vai abrir uma pasta chamada <code>lattesdata-extensao</code>. Dentro dela tem que aparecer o arquivo <code>manifest.json</code>. Se aparecer, está certo.</p>
+    <img class="ilus" src="/img/guia/08-pasta-extraida.svg" alt="Ilustração do passo 8: Confira a pasta extraída" loading="lazy" width="800" height="450" />
+    <div class="dica">Não apague nem mova essa pasta depois. Se ela sumir, a extensão para de funcionar. Se quiser, arraste para <b>Documentos</b> agora.</div>
+  </div></div>
+
+  <div class="passo" id="p9"><div class="num">9</div><div class="cx">
     <h2>Abra a página de extensões do navegador</h2>
-    <p>Abra uma nova aba, cole o endereço abaixo na barra e aperte <span class="kbd">Enter</span>. No Edge use <code>edge://extensions</code>.</p>
-    <div class="copia"><code id="enderecoExt">chrome://extensions</code><button class="btn btn-o" id="btnCopia" type="button">Copiar endereço</button></div>
-    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url dest">chrome://extensions</span></div>
-      <div class="corpo"><b>Extensões</b></div></div>
-    <div class="dica">Esse endereço não abre ao clicar num link: copie e cole na barra do navegador.</div>
+    <p>Abra uma <b>nova aba</b> (botão “+” ou <span class="kbd">Ctrl</span> + <span class="kbd">T</span>). Na barra de endereço, digite <code id="enderecoExt">chrome://extensions</code> e aperte <span class="kbd">Enter</span>. No Edge, digite <code>edge://extensions</code>.</p>
+    <img class="ilus" src="/img/guia/09-abrir-extensoes.svg" alt="Ilustração do passo 9: Abra a página de extensões do navegador" loading="lazy" width="800" height="450" />
+    <div class="dica">Esse endereço não abre ao clicar num link. Digite ou cole na barra: <button class="btn btn-o" id="btnCopia" type="button" style="padding:4px 12px;font-size:.8rem">Copiar endereço</button></div>
   </div></div>
 
-  <div class="passo"><div class="num">5</div><div class="cx">
-    <h2>Ligue o “Modo do desenvolvedor” e carregue a pasta</h2>
-    <p>No canto <b>superior direito</b>, ligue a chave <b>Modo do desenvolvedor</b>. Vão aparecer novos botões: clique em <b>Carregar sem compactação</b> e escolha a pasta <code>lattesdata-extensao</code> que você extraiu.</p>
-    <div class="tela"><div class="barra"><i></i><i></i><i></i><span class="url">chrome://extensions</span></div>
-      <div class="corpo">
-        <div class="linha"><b style="font-size:1rem">Extensões</b>
-          <span class="sw on dest">Modo do desenvolvedor <b></b></span><span class="seta">◀ ligue aqui</span></div>
-        <div class="linha" style="margin-top:12px"><span class="chip dest">Carregar sem compactação</span><span class="chip">Compactar extensão</span><span class="chip">Atualizar</span></div>
-        <div class="card-ext" style="margin-top:14px"><img src="/img/isotipo.svg" alt="" /><div><b>LattesData — Automação Currículo Lattes</b><br><small>Ativada ● &nbsp; (aparece aqui quando der certo)</small></div></div>
-      </div></div>
-    <div class="dica">Escolha a pasta que <b>contém</b> o <code>manifest.json</code> (a <code>lattesdata-extensao</code>). Se der erro de “manifesto ausente”, você selecionou uma pasta acima ou abaixo dela.</div>
+  <div class="passo" id="p10"><div class="num">10</div><div class="cx">
+    <h2>Ligue o “Modo do desenvolvedor”</h2>
+    <p>No canto <b>superior direito</b> da página, clique na chave <b>Modo do desenvolvedor</b>. Ela precisa ficar <b>azul</b>.</p>
+    <img class="ilus" src="/img/guia/10-modo-dev.svg" alt="Ilustração do passo 10: Ligue o “Modo do desenvolvedor”" loading="lazy" width="800" height="450" />
   </div></div>
 
-  <div class="passo"><div class="num">6</div><div class="cx">
+  <div class="passo" id="p11"><div class="num">11</div><div class="cx">
+    <h2>Clique em “Carregar sem compactação”</h2>
+    <p>Depois de ligar a chave, aparece uma barra com novos botões. Clique em <b>Carregar sem compactação</b>.</p>
+    <img class="ilus" src="/img/guia/11-carregar.svg" alt="Ilustração do passo 11: Clique em “Carregar sem compactação”" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p12"><div class="num">12</div><div class="cx">
+    <h2>Escolha a pasta lattesdata-extensao</h2>
+    <p>Na janela que abrir, procure a pasta <code>lattesdata-extensao</code> (a que você extraiu), clique nela uma vez e depois em <b>Selecionar pasta</b>.</p>
+    <img class="ilus" src="/img/guia/12-escolher-pasta.svg" alt="Ilustração do passo 12: Escolha a pasta lattesdata-extensao" loading="lazy" width="800" height="450" />
+    <div class="dica">Se aparecer “manifesto ausente”, você escolheu a pasta errada. Escolha a que tem o <code>manifest.json</code> logo dentro, sem entrar em outras pastas.</div>
+  </div></div>
+
+  <div class="passo" id="p13"><div class="num">13</div><div class="cx">
+    <h2>Confira se a extensão apareceu</h2>
+    <p>A extensão <b>LattesData — Automação Currículo Lattes</b> aparece na lista, com a chave <b>azul</b> (ativada). O Chrome pode avisar sobre “extensões do modo desenvolvedor”: pode fechar o aviso.</p>
+    <img class="ilus" src="/img/guia/13-instalada.svg" alt="Ilustração do passo 13: Confira se a extensão apareceu" loading="lazy" width="800" height="450" />
+  </div></div>
+
+  <div class="passo" id="p14"><div class="num">14</div><div class="cx">
     <h2>Volte ao LattesData e atualize a página</h2>
-    <p>Volte para a aba do LattesData e aperte <span class="kbd">F5</span>. O aviso lá em cima desta página deve ficar <span class="ok">verde</span>. Pronto: já pode usar o envio automático ao Lattes.</p>
-    <div class="tela"><div class="corpo"><div class="estado ok" style="margin:0"><span class="dot"></span>Extensão instalada e ativa neste computador.</div></div></div>
-    <div class="dica">Na 1ª vez que for enviar ao Lattes, o navegador pede para você entrar no seu Currículo Lattes (CNPq). Faça o login normalmente: a senha do Lattes é só sua e não passa pelo LattesData.</div>
+    <p>Volte para a aba do LattesData e aperte <span class="kbd">F5</span>. Quando o aviso lá em cima ficar <span class="ok">verde</span>, está pronto: já pode usar o envio automático ao Lattes.</p>
+    <img class="ilus" src="/img/guia/14-verde.svg" alt="Ilustração do passo 14: Volte ao LattesData e atualize a página" loading="lazy" width="800" height="450" />
+    <div class="dica">Na 1ª vez que for enviar ao Lattes, o navegador vai pedir para entrar no seu Currículo Lattes (CNPq). Entre normalmente: a senha do Lattes é só sua e não passa pelo LattesData.</div>
   </div></div>
 
   <h2 style="margin:30px 0 8px;font-size:1.2rem">Deu algum problema?</h2>
