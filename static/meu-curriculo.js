@@ -10,6 +10,7 @@
     projeto: "Projetos", participacao_evento: "Participação em eventos", organizacao_evento: "Organização de eventos", premio: "Prêmios e títulos",
     atuacao_profissional: "Atuação profissional", formacao_academica: "Formação acadêmica", outra_producao_bibliografica: "Outra produção bibliográfica",
     outra_producao_tecnica: "Outra produção técnica", producao_artistica: "Produção artística/cultural",
+    registro_propriedade: "Marcas, cultivares e desenhos", demais_trabalhos: "Demais trabalhos",
   };
   const rot = (c) => ROTULO[c] || c;
   let itens = [];

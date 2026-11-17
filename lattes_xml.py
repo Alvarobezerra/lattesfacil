@@ -18,47 +18,62 @@ from xml.etree import ElementTree as ET
 MAX_XML_BYTES = 40 * 1024 * 1024
 
 # (regex sobre o nome da tag, categoria). Ordem importa: o primeiro que casa vence.
+# Nomes conferidos com a DTD oficial do Lattes (LMPLCurriculo.DTD). Só elementos-FOLHA de item entram aqui: um contêiner
+# (PARTICIPACAO-EM-BANCA-JULGADORA, PARTICIPACAO-EM-EVENTOS-CONGRESSOS, ORIENTACOES-*...) casaria o grupo todo como 1 item e perderia os filhos.
 TIPOS: list[tuple[str, str]] = [
+    # produção bibliográfica
     (r"^ARTIGO-PUBLICADO$", "artigo"),
     (r"^ARTIGO-ACEITO-PARA-PUBLICACAO$", "artigo_aceito"),
     (r"^TRABALHO-EM-EVENTOS$", "trabalho_evento"),
-    (r"^APRESENTACAO-DE-TRABALHO$", "apresentacao"),
     (r"^LIVRO-PUBLICADO-OU-ORGANIZADO$", "livro"),
     (r"^CAPITULO-DE-LIVRO-PUBLICADO$", "capitulo"),
     (r"^TEXTO-EM-JORNAL-OU-REVISTA$", "texto_jornal"),
+    (r"^(PREFACIO-POSFACIO|TRADUCAO|PARTITURA-MUSICAL|OUTRA-PRODUCAO-BIBLIOGRAFICA)$", "outra_producao_bibliografica"),
+    # produção técnica
+    (r"^APRESENTACAO-DE-TRABALHO$", "apresentacao"),
+    (r"^ORGANIZACAO-DE-EVENTO$", "organizacao_evento"),
     (r"^CURSO-DE-CURTA-DURACAO-MINISTRADO$", "curso_ministrado"),
-    (r"^(CURSO-DE-CURTA-DURACAO|FORMACAO-COMPLEMENTAR-CURSO-DE-CURTA-DURACAO)$", "formacao_complementar"),  # o 2º é o nome real (XML do Lattes)
-    (r"^(PATENTE|REGISTRO-OU-PATENTE)$", "patente"),
     (r"^SOFTWARE$", "software"),
+    (r"^(PATENTE|REGISTRO-OU-PATENTE)$", "patente"),  # REGISTRO-OU-PATENTE vem aninhado em OUTRA-PRODUCAO-TECNICA
+    (r"^(CULTIVAR-PROTEGIDA|CULTIVAR-REGISTRADA|DESENHO-INDUSTRIAL|MARCA|TOPOGRAFIA-DE-CIRCUITO-INTEGRADO)$", "registro_propriedade"),
     (r"^TRABALHO-TECNICO$", "trabalho_tecnico"),
     (r"^(PRODUTO-TECNOLOGICO|PROCESSOS-OU-TECNICAS)$", "produto_tecnologico"),
-    (r"^PARTICIPACAO-EM-BANCA-DE-(MESTRADO|DOUTORADO|GRADUACAO|APERFEICOAMENTO-ESPECIALIZACAO|EXAME-QUALIFICACAO)$", "banca"),
-    (r"^PARTICIPACAO-EM-BANCA-JULGADORA$", "banca"),
+    (r"^(CARTA-MAPA-OU-SIMILAR|DESENVOLVIMENTO-DE-MATERIAL-DIDATICO-OU-INSTRUCIONAL|EDITORACAO|MANUTENCAO-DE-OBRA-ARTISTICA|MAQUETE|"
+     r"PROGRAMA-DE-RADIO-OU-TV|RELATORIO-DE-PESQUISA|MIDIA-SOCIAL-WEBSITE-BLOG|OUTRA-PRODUCAO-TECNICA)$", "outra_producao_tecnica"),
+    # outra produção (artística/cultural e demais trabalhos). O CURSO-DE-CURTA-DURACAO sem prefixo é da produção artística, NÃO formação.
+    (r"^(APRESENTACAO-DE-OBRA-ARTISTICA|APRESENTACAO-EM-RADIO-OU-TV|ARRANJO-MUSICAL|COMPOSICAO-MUSICAL|OBRA-DE-ARTES-VISUAIS|SONOPLASTIA|"
+     r"OUTRA-PRODUCAO-ARTISTICA-CULTURAL|ARTES-CENICAS|ARTES-VISUAIS|MUSICA)$", "producao_artistica"),
+    (r"^CURSO-DE-CURTA-DURACAO$", "curso_ministrado"),
+    (r"^DEMAIS-TRABALHOS$", "demais_trabalhos"),
     (r"^(OUTRAS-ORIENTACOES-CONCLUIDAS|ORIENTACOES-CONCLUIDAS-PARA-(MESTRADO|DOUTORADO|POS-DOUTORADO))$", "orientacao_concluida"),
-    (r"^ORIENTACAO-EM-ANDAMENTO-DE-.+$", "orientacao_andamento"),
+    # dados complementares
+    (r"^(FORMACAO-COMPLEMENTAR-CURSO-DE-CURTA-DURACAO|FORMACAO-COMPLEMENTAR-DE-EXTENSAO-UNIVERSITARIA|MBA)$", "formacao_complementar"),  # + OUTROS (ver visitar)
+    (r"^(PARTICIPACAO-EM-BANCA-DE-(MESTRADO|DOUTORADO|GRADUACAO|APERFEICOAMENTO-ESPECIALIZACAO|EXAME-QUALIFICACAO)|OUTRAS-PARTICIPACOES-EM-BANCA|"
+     r"BANCA-JULGADORA-PARA-(PROFESSOR-TITULAR|CONCURSO-PUBLICO|LIVRE-DOCENCIA|AVALIACAO-CURSOS)|OUTRAS-BANCAS-JULGADORAS)$", "banca"),
+    (r"^(ORIENTACAO-EM-ANDAMENTO-DE-.+|OUTRAS-ORIENTACOES-EM-ANDAMENTO)$", "orientacao_andamento"),
+    (r"^(PARTICIPACAO-EM-(CONGRESSO|ENCONTRO|OFICINA|SEMINARIO|SIMPOSIO|FEIRA|EXPOSICAO|OLIMPIADA)|OUTRAS-PARTICIPACOES-EM-EVENTOS-CONGRESSOS)$", "participacao_evento"),
+    # dados gerais
     (r"^PROJETO-DE-PESQUISA$", "projeto"),
-    # No XML real cada participação é um elemento próprio dentro do contêiner PARTICIPACAO-EM-EVENTOS-CONGRESSOS (que não pode casar:
-    # casaria o contêiner inteiro como 1 item e perderia as participações).
-    (r"^(PARTICIPACAO-EM-(CONGRESSO|ENCONTRO|OFICINA|SEMINARIO|SIMPOSIO|FEIRA|EXPOSICAO|FESTIVAL|OLIMPIADA)|OUTRAS-PARTICIPACOES-EM-EVENTOS-CONGRESSOS)$", "participacao_evento"),
-    (r"^ORGANIZACAO-DE-EVENTO$", "organizacao_evento"),
     (r"^PREMIO-TITULO$", "premio"),
     (r"^ATUACAO-PROFISSIONAL$", "atuacao_profissional"),
-    (r"^(GRADUACAO|ESPECIALIZACAO|MESTRADO|DOUTORADO|POS-DOUTORADO|APERFEICOAMENTO|LIVRE-DOCENCIA|MESTRADO-PROFISSIONALIZANTE|RESIDENCIA-MEDICA)$", "formacao_academica"),
-    (r"^FORMACAO-COMPLEMENTAR-DE-EXTENSAO-UNIVERSITARIA$", "formacao_complementar"),
-    # ondas ampliadas: só nomes de elementos-folha (um item por elemento). Um nome de contêiner aqui engoliria os filhos.
-    (r"^(PREFACIO-POSFACIO|TRADUCAO|PARTITURA-MUSICAL|OUTRA-PRODUCAO-BIBLIOGRAFICA)$", "outra_producao_bibliografica"),
-    (r"^(CARTA-MAPA-OU-SIMILAR|DESENVOLVIMENTO-DE-MATERIAL-DIDATICO-OU-INSTRUCIONAL|EDITORACAO|MANUTENCAO-DE-OBRA-ARTISTICA|MAQUETE|"
-     r"ENTREVISTA-MESA-REDONDA-PROGRAMA-E-COMENTARIO|RELATORIO-DE-PESQUISA|REDE-SOCIAL-WEBSITE-BLOG|ASSESSORIA-CONSULTORIA|"
-     r"EXTENSAO-TECNOLOGICA|OUTRA-PRODUCAO-TECNICA)$", "outra_producao_tecnica"),
-    (r"^(ARTES-CENICAS|ARTES-VISUAIS|MUSICA|OUTRA-PRODUCAO-ARTISTICA-CULTURAL)$", "producao_artistica"),
+    (r"^(GRADUACAO|ESPECIALIZACAO|MESTRADO|DOUTORADO|POS-DOUTORADO|APERFEICOAMENTO|LIVRE-DOCENCIA|MESTRADO-PROFISSIONALIZANTE|RESIDENCIA-MEDICA|"
+     r"CURSO-TECNICO-PROFISSIONALIZANTE|ENSINO-FUNDAMENTAL-PRIMEIRO-GRAU|ENSINO-MEDIO-SEGUNDO-GRAU)$", "formacao_academica"),
 ]
 _TIPOS = [(re.compile(p), c) for p, c in TIPOS]
 
-_TITULO = ("TITULO-DO-ARTIGO", "TITULO-DO-TRABALHO", "TITULO-DO-LIVRO", "TITULO-DO-CAPITULO-DO-LIVRO", "TITULO", "NOME-CURSO",
-           "NOME-DO-PROJETO", "NOME-DO-PREMIO-OU-TITULO", "NOME-DO-EVENTO", "NOME-INSTITUICAO", "TITULO-DA-DISSERTACAO-TESE",
-           "TITULO-DO-TRABALHO-DE-CONCLUSAO-DE-CURSO", "TITULO-DO-TRABALHO-DE-INICIACAO-CIENTIFICA", "NOME-CURSO")
-_ANO = ("ANO-DO-ARTIGO", "ANO-DO-TRABALHO", "ANO", "ANO-DE-CONCLUSAO", "ANO-DE-INICIO", "ANO-INICIO", "ANO-DA-DEFESA",
-        "ANO-DE-OBTENCAO-DO-TITULO", "ANO-DE-REALIZACAO", "ANO-DE-REGISTRO", "ANO-DO-PREMIO")
+# Atributos de título e de ano, na ordem de preferência (nomes da DTD). O primeiro presente vence.
+_TITULO = ("TITULO-DO-ARTIGO", "TITULO-DO-TRABALHO", "TITULO-DO-LIVRO", "TITULO-DO-CAPITULO-DO-LIVRO", "TITULO-DO-TEXTO", "TITULO-DO-SOFTWARE",
+           "TITULO-DO-PROCESSO", "TITULO-DO-PRODUTO", "TITULO-DO-TRABALHO-TECNICO", "TITULO-PATENTE", "TITULO", "DENOMINACAO", "NOME-CURSO",
+           "NOME-DO-PROJETO", "NOME-DO-PREMIO-OU-TITULO", "NOME-DO-EVENTO", "TITULO-DA-DISSERTACAO-TESE", "TITULO-DA-MONOGRAFIA",
+           "TITULO-DA-RESIDENCIA-MEDICA", "TITULO-DO-TRABALHO-DE-CONCLUSAO-DE-CURSO", "TITULO-DO-TRABALHO-DE-INICIACAO-CIENTIFICA",
+           "NOME-DO-CANDIDATO", "NOME-DO-ORIENTANDO", "NOME-INSTITUICAO")
+_ANO = ("ANO-DO-ARTIGO", "ANO-DO-TRABALHO", "ANO-DO-TEXTO", "ANO", "ANO-DE-CONCLUSAO", "ANO-DE-INICIO", "ANO-INICIO", "ANO-DA-DEFESA",
+        "ANO-DE-OBTENCAO-DO-TITULO", "ANO-DE-REALIZACAO", "ANO-DE-REGISTRO", "ANO-DO-PREMIO", "ANO-DA-PREMIACAO", "ANO-DESENVOLVIMENTO",
+        "ANO-SOLICITACAO")
+# Só estes descendentes entram na junta de atributos de um item (o resto são sub-itens, ex.: EQUIPE-DO-PROJETO, FINANCIADORES-DO-PROJETO).
+_FONTES_ATRIBUTOS = ("DADOS-BASICOS", "DETALHAMENTO", "VINCULOS")
+# Sub-itens que são itens por si e vêm aninhados em outro item: visitados à parte (ex.: a patente dentro de OUTRA-PRODUCAO-TECNICA).
+_ANINHADOS = {"REGISTRO-OU-PATENTE"}
 
 
 def _norm(t: str) -> str:
@@ -85,6 +100,15 @@ def _abrir(dados: bytes) -> bytes:
                     return z.read(info)
         raise ValueError("O ZIP não contém um arquivo .xml.")
     return dados
+
+
+def _descendentes(el: ET.Element):
+    """Descendentes de `el`, sem entrar nos sub-itens aninhados (cujos atributos não são do item pai)."""
+    for filho in el:
+        if _tag(filho) in _ANINHADOS:
+            continue
+        yield filho
+        yield from _descendentes(filho)
 
 
 def _primeiro(attrs: dict[str, str], chaves: tuple[str, ...]) -> str:
@@ -123,15 +147,16 @@ def ler_curriculo(dados: bytes) -> dict[str, Any]:
         if cat:
             attrs: dict[str, str] = dict(el.attrib)
             autores: list[str] = []
-            for filho in el.iter():
-                if filho is el:
-                    continue
+            for filho in _descendentes(el):
                 t = _tag(filho)
                 if t == "AUTORES":
                     autores.append(filho.get("NOME-COMPLETO-DO-AUTOR", ""))
-                for k, v in filho.attrib.items():
-                    attrs.setdefault(k, v)
+                if t.startswith(_FONTES_ATRIBUTOS):
+                    for k, v in filho.attrib.items():
+                        attrs.setdefault(k, v)
             ano = _primeiro(attrs, _ANO)
+            if not ano.isdigit():  # patente: o ano vem das datas ddmmaaaa (pedido de depósito, concessão)
+                ano = next((d[-4:] for d in (attrs.get("DATA-PEDIDO-DE-DEPOSITO", ""), attrs.get("DATA-DE-CONCESSAO", "")) if len(d) == 8 and d.isdigit()), "")
             item = {"categoria": cat, "titulo": _primeiro(attrs, _TITULO), "ano": ano if ano.isdigit() else "",
                     "doi": attrs.get("DOI", "").strip(), "issn": attrs.get("ISSN", "").strip(),
                     "isbn": attrs.get("ISBN", "").strip(), "veiculo": _primeiro(attrs, ("TITULO-DO-PERIODICO-OU-REVISTA", "NOME-DO-EVENTO", "EDITORA", "NOME-DA-EDITORA")),
@@ -140,7 +165,10 @@ def ler_curriculo(dados: bytes) -> dict[str, Any]:
                     "natureza": attrs.get("NATUREZA", "")}
             if item["titulo"] or item["doi"]:
                 itens.append(item)
-            return  # não desce: já juntou os atributos dos filhos
+            for filho in el:  # sub-itens aninhados (patente dentro de outra produção técnica)
+                if _tag(filho) in _ANINHADOS:
+                    visitar(filho, _tag(el))
+            return  # não desce no resto: já juntou os atributos dos filhos
         for filho in el:
             visitar(filho, _tag(el))
 
