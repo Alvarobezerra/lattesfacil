@@ -77,6 +77,12 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 form.orcid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);min-width:230px}
 .skel{position:relative;overflow:hidden;color:transparent!important;background:var(--border);border-radius:6px;animation:p 1.2s infinite alternate}
+.lat{margin:16px 0}.lat .mais{font-size:.8rem;font-weight:600;color:var(--cyan-d)}
+.lat-k{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:10px 0 14px}
+.lat-k div{border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:.76rem;color:var(--muted)}.lat-k b{display:block;font-size:1.5rem;color:var(--text);line-height:1.2}
+.lat-b{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}
+#latGraf{width:100%;height:150px;display:block}#latGraf rect{fill:var(--cyan)}#latGraf rect.p{fill:var(--cyan-d)}#latGraf text{font-size:10px;fill:var(--muted)}
+@media (max-width:1020px){.lat-k{grid-template-columns:repeat(3,1fr)}.lat-b{grid-template-columns:1fr}}
 @keyframes p{from{opacity:.45}to{opacity:.9}}
 @media (max-width:1020px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.nav{display:none}}
 @media (max-width:520px){.chart-foot{grid-template-columns:repeat(2,1fr)}}
@@ -100,6 +106,16 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
     <div class="actions"><a class="btn btn-p" href="/">＋ Enviar documento</a></div>
   </section>
   <div id="banner"></div>
+
+  <section class="card lat" id="lattes" aria-label="Seu currículo Lattes">
+    <div class="sec-h"><h2>Seu Lattes</h2><a class="mais" href="/meu-curriculo.html">Ver currículo completo →</a></div>
+    <p class="src" id="latMeta">Carregando seu currículo Lattes…</p>
+    <div class="lat-k" id="latK"></div>
+    <div class="lat-b">
+      <div><svg id="latGraf" viewBox="0 0 700 150" preserveAspectRatio="none" role="img" aria-label="Itens do Lattes por ano"></svg></div>
+      <div id="latCat"></div>
+    </div>
+  </section>
 
   <div class="grid">
     <div>

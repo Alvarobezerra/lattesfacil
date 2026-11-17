@@ -175,9 +175,69 @@
     if ((dados.pendente || dados.atualizando) && tentativas++ < 12) setTimeout(carregar, 5000);
   }
 
+  // ---- Seu Lattes: dashboard do currículo já importado (XML ou leitura ao vivo), para mostrar o acesso aos dados.
+  const ROT = { artigo: "Artigos publicados", artigo_aceito: "Artigos aceitos", trabalho_evento: "Trabalhos em eventos", apresentacao: "Apresentações",
+    livro: "Livros", capitulo: "Capítulos de livro", texto_jornal: "Textos em jornal/revista", curso_ministrado: "Cursos ministrados",
+    formacao_complementar: "Formação complementar", patente: "Patentes", software: "Softwares", trabalho_tecnico: "Trabalhos técnicos",
+    produto_tecnologico: "Produtos/processos", banca: "Bancas", orientacao_concluida: "Orientações concluídas", orientacao_andamento: "Orientações em andamento",
+    projeto: "Projetos", participacao_evento: "Participação em eventos", organizacao_evento: "Organização de eventos", premio: "Prêmios e títulos",
+    atuacao_profissional: "Atuação profissional", formacao_academica: "Formação acadêmica", outra_producao_bibliografica: "Outra produção bibliográfica",
+    outra_producao_tecnica: "Outra produção técnica", producao_artistica: "Produção artística/cultural", registro_propriedade: "Marcas, cultivares e desenhos",
+    demais_trabalhos: "Demais trabalhos" };
+  const norm = (t) => (t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().split(/\s+/).filter(Boolean);
+  const CHAVE_LAT = "lf-lattes:" + usuario;
+
+  function desenharLattes(d) {
+    $("latMeta").textContent = "Lattes " + (d.id_lattes || "—") + " · " + (d.fonte === "pagina" ? "leitura ao vivo" : "XML exportado") +
+      (d.atualizacao ? " · atualizado em " + d.atualizacao.replace(/^(\d{2})(\d{2})(\d{4})$/, "$1/$2/$3") : "");
+    const k = (n, t) => el("div", {}, el("b", {}, fmt(n)), t);
+    $("latK").replaceChildren(k(d.total_itens, "itens no Lattes"), k(d.ultimos_5_anos, "nos últimos 5 anos"), k(d.artigos.total, "artigos"),
+      k(d.artigos.sem_doi, "artigos sem DOI"), k(d.orientacoes.concluidas + d.orientacoes.em_andamento, "orientações"), k(d.bancas, "bancas"));
+    const anos = (d.por_ano || []).slice(-15), svg = $("latGraf");
+    svg.replaceChildren();
+    const add = (nome, attrs, txt) => { const n = document.createElementNS(NS, nome); Object.entries(attrs).forEach(([a, v]) => n.setAttribute(a, v)); if (txt != null) n.textContent = txt; svg.append(n); return n; };
+    if (anos.length) {
+      const W = 700, base = 130, max = Math.max(...anos.map((a) => a.total), 1), larg = W / anos.length;
+      anos.forEach((a, i) => {
+        const h = (a.total / max) * 105, hp = (a.producao / max) * 105, x = i * larg;
+        const r = add("rect", { x: x + 3, y: base - h, width: Math.max(larg - 6, 2), height: h, opacity: ".35" });
+        r.append(Object.assign(document.createElementNS(NS, "title"), { textContent: a.ano + ": " + a.total + " itens (" + a.producao + " de produção)" }));
+        add("rect", { x: x + 3, y: base - hp, width: Math.max(larg - 6, 2), height: hp, class: "p" });
+        add("text", { x: x + larg / 2, y: base + 14, "text-anchor": "middle" }, String(a.ano).slice(-2));
+      });
+    }
+    const cats = Object.entries(d.por_categoria || {}).slice(0, 6);
+    $("latCat").replaceChildren(...cats.map(([c, n]) => el("div", { class: "row" }, el("div", { class: "s" }, ROT[c] || c), el("div", { class: "q" }, fmt(n)))));
+  }
+
+  async function carregarLattes() {
+    try { const snap = JSON.parse(store.get(CHAVE_LAT) || "null"); if (snap) desenharLattes(snap); } catch (e) {}
+    try {
+      let sid = "";
+      try {
+        const { snapshots } = await (await fetch("/api/curriculo/snapshots")).json();
+        const meu = norm(usuario);
+        const achou = (snapshots || []).find((s) => { const n = norm(s.nome); return n.length && meu.length && n[0] === meu[0] && n[n.length - 1] === meu[meu.length - 1]; });
+        sid = achou ? achou.id : "";
+      } catch (e) {}
+      const r = await fetch("/api/curriculo/dashboard" + (sid ? "?snapshot=" + encodeURIComponent(sid) : ""));
+      if (!r.ok) {
+        if (!store.get(CHAVE_LAT)) {
+          $("latMeta").replaceChildren("Ainda não há currículo Lattes importado. ", el("a", { href: "/meu-curriculo.html" }, "Importe seu XML ou leia ao vivo"), " para ver sua produção e registros aqui.");
+          $("latK").replaceChildren(); $("latGraf").replaceChildren(); $("latCat").replaceChildren();
+        }
+        return;
+      }
+      const d = await r.json();
+      store.set(CHAVE_LAT, JSON.stringify(d));
+      desenharLattes(d);
+    } catch (e) {}
+  }
+
   document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
     document.querySelectorAll(".seg button").forEach((x) => x.classList.remove("on")); b.classList.add("on");
     janela = +b.dataset.n; if (dados) desenhar();
   }));
   carregar();
+  carregarLattes();
 })();
