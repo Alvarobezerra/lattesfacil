@@ -174,6 +174,14 @@ def areas_do_texto(titulo: str, contexto: str = "", maximo: int = 2) -> list[str
     return [p[3].lstrip("~") for p in ordem][:maximo]
 
 
+# tema (regex sobre texto sem acento) -> (áreas, setores) com o nome exato do catálogo do Lattes
+TEMAS_PATENTE = [
+    (r"bebida|aliment|probiotic|fermenta|extrato hidrossolu|polpa de fruta|iogurte|leite", ["Ciência e Tecnologia de Alimentos", "Microbiologia de Alimentos"], ["Fabricação de Produtos Alimentícios"]),
+    (r"bebida", [], ["Fabricação de Bebidas"]),
+    (r"medicament|farmac|fitoterap|formulacao terapeutica", ["Farmacotecnia"], ["Fabricação de produtos farmoquímicos e farmacêuticos"]),
+]
+
+
 # ---------- catálogos para o "Listar todos" da tela ----------
 CATALOGO_SETORES = pathlib.Path(__file__).resolve().parent.parent / "docs" / "campos-lattes" / "catalogos" / "setores-de-atividade.json"
 
@@ -218,6 +226,22 @@ def grades_para(item_id: str, texto: str, valores: dict[str, Any], chaves_grade:
             notas.append(f"Participantes da banca lidos do documento ({len(membros)}); o titular é incluído automaticamente. Confira os nomes.")
         else:
             notas.append("Lista de membros da banca não identificada: preencha os participantes na aba Participantes.")
+    if item_id == "patente":  # áreas e setores por tema (título + resumo); só nomes que existem nos catálogos do Lattes
+        tema = _norm(str(valores.get("f_titulo", "")) + " " + str(valores.get("f_ref", "")))
+        ar_ok = {x["nome"] for x in catalogo_areas_planas()}
+        se_ok = {x["nome"] for x in catalogo_setores()}
+        ar: list[str] = []
+        se: list[str] = []
+        for rx, areas_t, setores_t in TEMAS_PATENTE:
+            if re.search(rx, tema):
+                ar += [x for x in areas_t if x in ar_ok and x not in ar]
+                se += [x for x in setores_t if x in se_ok and x not in se]
+        if ar and "areas" in chaves_grade:
+            out["grade:areas"] = ar[:3]
+        if se and "setores" in chaves_grade:
+            out["grade:setores"] = se[:2]
+        if ar or se:
+            notas.append("Áreas e setores sugeridos pelo tema do título e do resumo; confira e ajuste antes de enviar.")
     titulo = str(valores.get("f_titulo", "") or "")
     if titulo:
         if "palavras_chave" in chaves_grade:

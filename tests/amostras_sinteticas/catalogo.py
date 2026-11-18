@@ -199,12 +199,12 @@ CASOS: list[dict] = [
                "Resumo: Bebida mista probiótica formulada com extrato de babaçu e cultura lática. "
                f"Dados do Inventor Nome: {PESQUISADORA} CPF: 000.000.000-00 Nome: Carlos Eduardo Pinheiro CPF: 000.000.000-00 "
                "Data de depósito: 15/03/2099",
-         campos={"f_cod_reg": "BR 10 2099 000001 0", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"}),
+         campos={"f_cod_reg": "BR1020990000010", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"}),
     dict(arquivo="patente__carta", item="patente", classe="patente", titulo="CARTA PATENTE",
          corpo="Instituto Nacional da Propriedade Industrial - INPI (documento fictício). Patente de Invenção. "
                "Número do pedido: BR 10 2099 000002 0. Título: Bebidas mistas probióticas à base de babaçu. "
                f"Inventores: {PESQUISADORA}; Carlos Eduardo Pinheiro. Concessão em 15 de março de 2099.",
-         campos={"f_cod_reg": "BR 10 2099 000002 0", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"},
+         campos={"f_cod_reg": "BR1020990000020", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"},
          lacuna="o leitor só lê o título no layout do comprovante de peticionamento do INPI, não em carta patente"),
     dict(arquivo="software_registro", item="software_registro", classe="software_registro",
          titulo="CERTIFICADO DE REGISTRO DE PROGRAMA DE COMPUTADOR",

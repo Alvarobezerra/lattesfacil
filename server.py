@@ -37,6 +37,7 @@ from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura, aquecer as aquecer_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
 import curriculo_store
+import autores_cv
 import instituicoes
 from lattes_pagina import ler_pagina
 from lattes_xml import ler_curriculo, procurar_duplicata, resumo as resumo_xml
@@ -262,6 +263,7 @@ def init_db() -> None:
         )
         curriculo_store.criar_tabelas(conn)
         instituicoes.criar_tabelas(conn)
+        autores_cv.criar_tabelas(conn)
         cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
@@ -704,6 +706,11 @@ class LattesHandler(BaseHTTPRequestHandler):
             qs = parse_qs(parsed.query)
             with db() as conn:
                 self._send_json(instituicoes.buscar(conn, (qs.get("q") or [""])[0]))
+            return
+        if path == "/api/autores":  # autores citados no currículo do usuário (coletados na rotina de primeiro acesso)
+            owner = (parse_qs(parsed.query).get("owner") or [""])[0]
+            with db() as conn:
+                self._send_json(autores_cv.listar(conn, owner))
             return
         if path == "/api/instituicoes/gerenciador":
             with db() as conn:
@@ -1257,6 +1264,17 @@ class LattesHandler(BaseHTTPRequestHandler):
                         self._send_json({"error": "Ação desconhecida."}, HTTPStatus.NOT_FOUND)
             except Exception:
                 self._send_json({"error": "Falha no banco de instituições."}, HTTPStatus.BAD_REQUEST)
+            return
+
+        if path == "/api/autores/salvar":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                with db() as conn:
+                    r = autores_cv.salvar(conn, str(payload.get("owner", "")), (payload.get("linhas") or [])[:5000], str(payload.get("cv", "")))
+                    conn.commit()
+                self._send_json({"ok": True, **r})
+            except Exception:
+                self._send_json({"error": "Falha ao guardar os autores."}, HTTPStatus.BAD_REQUEST)
             return
 
         if path == "/api/duplicatas":

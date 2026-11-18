@@ -76,6 +76,11 @@ I.registrar(c, [], "Hospital", "coleta", 0, "timeout")
 checa("consulta com erro mantém o prefixo pendente", c.execute("SELECT estado FROM inst_fila WHERE termo='Hospital'").fetchone()[0] == "pendente")
 
 # importar semente (e-MEC) e estatísticas
+lst = I.importar_csv(c, "Instituição\nAalto University School of Arts, Design and Architecture (FIN)\nUniversidade Federal do Maranhão (MA)\nUNIVERSIDADE FEDERAL DO MARANHAO (MA)\n")
+checa("lista de uma coluna: nomes com vírgula inteiros, repetida só uma vez", lst["lidas"] == 3 and lst["novas"] >= 1 and c.execute("SELECT COUNT(*) FROM inst_banco WHERE chave LIKE ?", ("%federal do maranhao%",)).fetchone()[0] == 1, lst)
+checa("lista: encontra pelo nome sem acento", any("Maranhão" in x["nome"] for x in I.buscar(c, "universidade federal do maranhao")["candidatas"]))
+sem = I.importar_csv(c, "Zeta Institute of Testing (XYZ)"+chr(10)+"Omega College, Annex (ARG)"+chr(10))
+checa("lista sem cabeçalho também entra", sem["lidas"] == 2 and sem["novas"] == 2, sem)
 imp = I.importar_csv(c, "Nome da IES;Sigla\nUniversidade Federal do Piauí;UFPI\nFaculdade Teste de Saúde;FTS\n")
 checa("importar CSV de semente", imp["lidas"] == 2 and imp["novas"] >= 1, imp)
 st = I.estatisticas(c)

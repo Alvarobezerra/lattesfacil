@@ -22,6 +22,20 @@
 
   // Escolha feita na tela de login (cookie lf_user, de vida curta): vira o usuário ativo e o cookie é apagado.
   const NOMES_LOGIN = { alvaro: "Álvaro Antônio Bezerra dos Santos", aramys: "Aramys Silva dos Reis" };
+  const PUBLIC_PROFILES = {
+    "Álvaro Antônio Bezerra dos Santos": {
+      id: "0174461068626535", atualizado: "17/11/2026",
+      resumo: "Farmacêutico, perito criminal e estudante de Direito, com experiência em farmácia hospitalar, segurança de medicamentos, assistência farmacêutica e saúde pública.",
+      areas: ["Farmácia hospitalar", "Farmácia clínica", "Perícia criminal", "Saúde pública"],
+      destaques: ["Perito criminal", "Farmacêutico hospitalar", "Programa de computador registrado"]
+    },
+    "Aramys Silva dos Reis": {
+      id: "1040580590566490", atualizado: "23/08/2026",
+      resumo: "Professor Associado da UFMA, doutor em Ciências pela USP, coordenador de pesquisas em saúde, inovação e produtos naturais, com atuação em orientação e divulgação científica.",
+      areas: ["Pesquisa em saúde", "Produtos naturais", "Inovação", "Orientação", "Divulgação científica"],
+      destaques: ["Professor Associado I", "Coordenador do PPGST", "Patentes e projetos de inovação"]
+    }
+  };
   try {
     const m = document.cookie.match(/(?:^|;\s*)lf_user=([a-z]+)/);
     if (m && NOMES_LOGIN[m[1]]) store.set("lf-usuario", NOMES_LOGIN[m[1]]);
@@ -78,6 +92,17 @@
       el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Citações"), el("div", { class: "ms-value" }, fmt(cit)), el("div", { class: "ms-help" }, "impacto acompanhado")),
       el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Registros"), el("div", { class: "ms-value" }, fmt(e.total || 0)), el("div", { class: "ms-help" }, "no LattesData")),
     );
+  }
+
+  function mostrarPerfilPublico() {
+    const p = PUBLIC_PROFILES[usuario], box = $("latProfile");
+    if (!p || !box) return;
+    box.hidden = false;
+    $("latMeta").textContent = `Lattes ${p.id} · perfil público · atualizado em ${p.atualizado}`;
+    $("latSummary").textContent = p.resumo;
+    $("latAreas").replaceChildren(...p.areas.map((a) => el("span", { class: "lat-area" }, a)));
+    $("latK").replaceChildren(...p.destaques.map((d) => el("div", { class: "profile-highlight" }, "✓ ", d)));
+    $("latGraf").replaceChildren();
   }
 
   function kpi(id, rotulo, valor, delta, sub, flat) {
@@ -223,6 +248,16 @@
     $("latMeta").textContent = "Lattes " + (d.id_lattes || "—") + " · " + (d.fonte === "pagina" ? "leitura ao vivo" : "XML exportado") +
       (d.atualizacao ? " · atualizado em " + d.atualizacao.replace(/^(\d{2})(\d{2})(\d{4})$/, "$1/$2/$3") : "");
     const k = (n, t) => el("div", {}, el("b", {}, fmt(n)), t);
+    const perfil = d.perfil || {};
+    const resumo = String(perfil.resumo || "").trim();
+    const profileBox = $("latProfile");
+    if (profileBox) {
+      if (resumo || (perfil.areas || []).length) {
+        profileBox.hidden = false;
+        $("latSummary").textContent = resumo ? (resumo.length > 520 ? resumo.slice(0, 517).replace(/\s+\S*$/, "") + "…" : resumo) : "Seu currículo já foi importado. Explore as áreas e os registros que compõem sua trajetória.";
+        $("latAreas").replaceChildren(...(perfil.areas || []).slice(0, 8).map((a) => el("span", { class: "lat-area" }, a)));
+      } else profileBox.hidden = true;
+    }
     $("latK").replaceChildren(k(d.total_itens, "itens no Lattes"), k(d.ultimos_5_anos, "nos últimos 5 anos"), k(d.artigos.total, "artigos"),
       k(d.artigos.sem_doi, "artigos sem DOI"), k(d.orientacoes.concluidas + d.orientacoes.em_andamento, "orientações"), k(d.bancas, "bancas"));
     const anos = (d.por_ano || []).slice(-15), svg = $("latGraf");
@@ -243,6 +278,7 @@
   }
 
   async function carregarLattes() {
+    mostrarPerfilPublico();
     try { const snap = JSON.parse(store.get(CHAVE_LAT) || "null"); if (snap) desenharLattes(snap); } catch (e) {}
     try {
       let sid = "";

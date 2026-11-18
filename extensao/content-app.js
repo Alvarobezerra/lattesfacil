@@ -15,6 +15,8 @@ window.addEventListener("message", (e) => {
     }, () => { void chrome.runtime.lastError; });
   } else if (m.type === "lattesdata-ext-list") {
     chrome.runtime.sendMessage({ type: "list", tipo: String(m.tipo || "").replace(/[^a-z_]/g, "").slice(0, 40) }, () => { void chrome.runtime.lastError; });
+  } else if (m.type === "lattesdata-ext-autores") {
+    chrome.runtime.sendMessage({ type: "autores-coleta" }, () => { void chrome.runtime.lastError; });
   } else if (m.type === "lattesdata-ext-cv-live") {
     chrome.runtime.sendMessage({ type: "cv-live" }, () => { void chrome.runtime.lastError; });
   } else if (m.type === "lattesdata-ext-cv-status" || m.type === "lattesdata-ext-cv-publish") {
@@ -65,6 +67,14 @@ chrome.runtime.onMessage.addListener((msg) => {
     window.postMessage({
       type: "lattesdata-ext-lista", ok: !!msg.ok, tipoItem: String(msg.tipo || "").slice(0, 40), login: !!msg.login, erro: String(msg.erro || "").slice(0, 300),
       itens: Array.isArray(msg.itens) ? msg.itens.slice(0, 500).map((i) => ({ seq: String(i.seq || "").replace(/\D/g, "").slice(0, 12), titulo: String(i.titulo || "").slice(0, 300), tipo: String(i.tipo || "").slice(0, 80), ano: String(i.ano || "").slice(0, 8) })) : []
+    }, location.origin);
+    return;
+  }
+  if (msg && msg.type === "lattes-autores") { // autores citados no currículo (rotina de primeiro acesso)
+    window.postMessage({
+      type: "lattesdata-ext-autores-resp", ok: !!msg.ok, login: !!msg.login, erro: String(msg.erro || "").slice(0, 300), cv: String(msg.cv || "").replace(/[^A-Za-z0-9]/g, "").slice(0, 20),
+      linhas: (Array.isArray(msg.linhas) ? msg.linhas : []).slice(0, 5000).map((l) => (Array.isArray(l) ? l : [l]).slice(0, 8).map((c) => String(c || "").slice(0, 200))),
+      amostra: (Array.isArray(msg.amostra) ? msg.amostra : []).slice(0, 3).map((x) => String(x).slice(0, 160)), texto: String(msg.texto || "").slice(0, 200)
     }, location.origin);
     return;
   }

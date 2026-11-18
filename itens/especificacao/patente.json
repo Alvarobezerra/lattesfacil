@@ -22,7 +22,7 @@
     {
      "chave": "natureza",
      "name": "f_natureza",
-     "rotulo": "f_natureza",
+     "rotulo": "Categoria",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -75,7 +75,7 @@
     {
      "chave": "tipo",
      "name": "f_tipo",
-     "rotulo": "f_tipo",
+     "rotulo": "Natureza",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -105,15 +105,15 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "f_sta_inovacao",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Situação do Depósito/Patente",
      "tipo": "radio",
      "opcoes": {
-      "Não": "S",
-      "N": "N"
+      "Sim": "S",
+      "Não": "N"
      },
      "obrigatorio": false,
-     "padrao": "N",
+     "padrao": "Não",
      "origem_padrao": "padrao_comum",
      "confira": true
     },
@@ -126,7 +126,11 @@
      "maxlength": 400,
      "oculto": true,
      "obrigatorio": false,
-     "condicional": "só quando há potencial de inovação"
+     "condicional": "só quando há potencial de inovação",
+     "mostrar_quando": {
+      "name": "f_sta_inovacao",
+      "valor": "Sim"
+     }
     },
     {
      "chave": "ref",
@@ -348,6 +352,30 @@
      "rotulo": "Setores de atividade",
      "dica": "Um por linha, com o nome exato do setor do Lattes",
      "aba": "Setores"
+    },
+    {
+     "chave": "situacoes",
+     "rotulo": "Situação do Depósito/Patente",
+     "aba": "Situação do Depósito/Patente",
+     "dica": "Uma por linha: situação; data (dd/mm/aaaa). Ex.: Depósito; 26/02/2024 (também Concessão, Expiração, Depósito PCT, Pedido de exame)"
+    },
+    {
+     "chave": "titulares_pessoa",
+     "rotulo": "Depositante/Titular – Pessoas",
+     "aba": "Depositante/Titular",
+     "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"
+    },
+    {
+     "chave": "titulares_inst",
+     "rotulo": "Depositante/Titular – Instituições",
+     "aba": "Depositante/Titular",
+     "dica": "Uma instituição por linha, como no campo Instituições do Lattes. Ex.: Universidade Federal do Maranhão"
+    },
+    {
+     "chave": "autores",
+     "rotulo": "Inventores",
+     "aba": "Inventores",
+     "dica": "Um por linha: nome completo; nome em citações (opcional). O seu nome só entra se constar entre os inventores."
     }
    ],
    "obrigatorios_mensagens": [
@@ -374,6 +402,19 @@
    "f_pais_inst": {
     "obrigatorio": false,
     "condicional": "país do depositante (grade de titulares)"
+   },
+   "f_natureza": {
+    "rotulo": "Categoria"
+   },
+   "f_tipo": {
+    "rotulo": "Natureza"
+   },
+   "f_sta_inovacao": {
+    "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
+    "opcoes": {
+     "Sim": "S",
+     "Não": "N"
+    }
    }
   }
  }

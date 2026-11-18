@@ -251,6 +251,10 @@ def ler_projeto(texto: str, usuario: str):
     inst_txt = _clean_line(inst).strip(" ,.")
     v: dict[str, Any] = {"__variante": tipo, "f_titulo": titulo, "F_TPO_NATUREZA": natureza, "F_TPO_SITUACAO": "Em andamento",
                          "F_ANO_INIC": ano, "f_inst": inst_txt, "f_orgao": orgao_txt}
+    if coord:
+        from itens.sugestoes import como_citado
+        nome_coord = _clean_line(coord).strip(" ,.")
+        v["grade:autores"] = [{"nome": nome_coord, "citacao": como_citado(nome_coord), "coordenador": True}]
     n = []
     if not titulo:
         n.append("Nome do projeto não identificado.")
@@ -259,9 +263,19 @@ def ler_projeto(texto: str, usuario: str):
         n.append(f"Coordenador citado no documento: {_clean_line(coord)}. O integrante/papel é registrado na aba Equipe do Lattes (não preenchida aqui).")
         if usuario and not name_matches(usuario, coord):
             n.append(f"ATENÇÃO: {usuario} não é o coordenador citado; confira se participa da equipe.")
+    if orgao_txt:
+        n.append(f"Órgão/Unidade: no Lattes é escolhido na hierarquia de órgãos da instituição (lupa)" + (f", e o documento cita o centro {_clean_line(centro).strip(' ,.')}" if centro else "") + "; se \"" + orgao_txt + "\" não estiver cadastrado, escolha o nível mais próximo na lupa.")
     if tipo == "Outros tipos de projetos":
         n.append("Tipo de projeto não identificado (pesquisa, extensão, ensino ou desenvolvimento); usei 'Outros tipos'.")
     return v, n
+
+
+def _nome_proprio(nome: str) -> str:
+    """'ANA LÚCIA DE SOUSA' -> 'Ana Lúcia de Sousa' (só quando veio em CAIXA ALTA)."""
+    if not nome.isupper():
+        return nome
+    liga = {"de", "da", "do", "das", "dos", "e"}
+    return " ".join(p.lower() if p.lower() in liga else p.capitalize() for p in nome.lower().split())
 
 
 def ler_patente(texto: str, usuario: str):
@@ -285,24 +299,39 @@ def ler_patente(texto: str, usuario: str):
         tl = normalize(titulo)
         natureza = "Produto e Processo" if (re.search(r"\bprocesso\b", tl) and re.search(r"\b(bebida|composicao|formulacao|produto|dispositivo|equipamento|kit|extrato)\b", tl)) else \
             "Processo" if re.search(r"\bprocesso\b|\bmetodo\b", tl) else "Produto"
-    m = re.search(r"Nome ou Raz[ãa]o Social:\s*(.+?)\s+Tipo de Pessoa", flat)
-    depositante = _clean_line(m.group(1)) if m else ""
-    inventores = [_clean_line(x) for x in re.findall(r"\bNome:\s*(.+?)\s+CPF:", flat)]
+    titulares = [{"nome": _nome_proprio(_clean_line(a)), "tipo": "instituição" if "jur" in normalize(b) else "pessoa"}
+                 for a, b in re.findall(r"Nome ou Raz[ãa]o Social:\s*(.+?)\s+Tipo de Pessoa:\s*(Pessoa Jur[íi]dica|Pessoa F[íi]sica)", flat)]
+    depositante = titulares[0]["nome"] if titulares else ""
+    inventores = list(dict.fromkeys(_clean_line(x) for x in re.findall(r"\bNome:\s*(.+?)\s+CPF:", flat)))
     m = re.search(r"\b(\d{2})/(\d{2})/(20[0-3]\d)\b", flat)
     dep_data = f"{m.group(1)}/{m.group(2)}/{m.group(3)}" if m else ""
-    v: dict[str, Any] = {"f_cod_reg": proc, "f_inst": "INPI", "f_pais": "Brasil", "f_tipo": tipo, "f_titulo": titulo,
-                         "f_natureza": natureza, "f_ref": resumo}
+    from itens.sugestoes import como_citado
+    # O Lattes limita o número do registro a 16 caracteres e o aceita sem espaços (BR1020240037669).
+    v: dict[str, Any] = {"f_cod_reg": re.sub(r"\s+", "", proc), "f_inst": "INPI - Instituto Nacional da Propriedade Industrial", "f_pais": "Brasil",
+                         "f_tipo": tipo, "f_titulo": titulo, "f_natureza": natureza, "f_ref": resumo}
+    if dep_data:
+        v["grade:situacoes"] = [{"nome": "Depósito", "citacao": dep_data}]
+    if any(t["tipo"] == "instituição" for t in titulares):
+        v["grade:titulares_inst"] = [t["nome"] for t in titulares if t["tipo"] == "instituição"]
+    if any(t["tipo"] == "pessoa" for t in titulares):
+        v["grade:titulares_pessoa"] = [t["nome"] for t in titulares if t["tipo"] == "pessoa"]
+    if inventores:
+        v["grade:autores"] = [{"nome": _nome_proprio(i), "citacao": como_citado(_nome_proprio(i))} for i in inventores]
     n = []
     if proc:
-        n.append(f"Número do processo ({proc}) usado como número do registro; o Lattes também pede a data de depósito ({dep_data or 'não identificada'}) e o depositante/titular ({depositante or 'não identificado'}) em campos que o mapeamento ainda não cobre: confira no formulário.")
+        n.append(f"Número do processo ({proc}) usado como número do registro, sem espaços, como o Lattes pede.")
     else:
         n.append("Número do processo não identificado.")
     if natureza:
         n.append(f"Natureza assumida como '{natureza}' pelo título; confira (Produto, Processo ou Produto e Processo).")
+    if dep_data:
+        n.append(f"Situação: depósito em {dep_data} (aba Situação do Depósito/Patente); se já houve concessão, inclua a nova situação com a data.")
+    if titulares:
+        n.append(f"Depositante/titular lido do documento: {'; '.join(t['nome'] for t in titulares)}. O Lattes exige ao menos um; ele vai para o campo Pessoas ou Instituições conforme o tipo de pessoa do documento.")
     if inventores:
         achou = [i for i in inventores if usuario and name_matches(usuario, i)]
         n.append(f"{len(inventores)} inventores no documento" + (f"; {usuario} consta entre eles." if achou else
-                 (f"; ATENÇÃO: {usuario} não consta entre eles." if usuario else ".")) + " A lista de autores é preenchida na aba própria do Lattes.")
+                 (f"; ATENÇÃO: {usuario} não consta entre eles." if usuario else ".")) + " Estão na aba Inventores; confira os nomes em citações.")
     if len(resumo) > 0:
         n.append("O resumo pode passar do limite do campo do Lattes; o preenchimento corta e avisa.")
     return v, n

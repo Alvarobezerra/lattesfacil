@@ -144,6 +144,38 @@ GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
 ITENS_COM_PARTICIPANTES = {"banca", "banca_comissao_julgadora"}  # aba "Participantes" = grade de autores (autorHolder), confirmada só nas bancas
 
 
+# Grades que o formulário do Lattes tem em abas de lista e o mapeamento automático não nomeia (holders confirmados na captura da patente).
+GRADES_EXTRA = {
+    "patente": [
+        {"chave": "situacoes", "rotulo": "Situação do Depósito/Patente", "aba": "Situação do Depósito/Patente",
+         "dica": "Uma por linha: situação; data (dd/mm/aaaa). Ex.: Depósito; 26/02/2024 (também Concessão, Expiração, Depósito PCT, Pedido de exame)"},
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular",
+         "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular",
+         "dica": "Uma instituição por linha, como no campo Instituições do Lattes. Ex.: Universidade Federal do Maranhão"},
+        {"chave": "autores", "rotulo": "Inventores", "aba": "Inventores",
+         "dica": "Um por linha: nome completo; nome em citações (opcional). O seu nome só entra se constar entre os inventores."},
+    ],
+    # Aba Equipe e Instituição de financiamento dos projetos (formulário real conferido em 18/11/2026).
+    "projeto": [
+        {"chave": "autores", "rotulo": "Pesquisadores", "aba": "Equipe",
+         "dica": "Um por linha: nome completo; nome em citações (opcional); coordenador (opcional). O seu nome entra sozinho. Ex.: Maria de Sousa Lima; LIMA, M. S.; coordenador"},
+        {"chave": "instituicoes_envolvidas", "rotulo": "Instituições envolvidas no projeto", "aba": "Equipe",
+         "dica": "Uma por linha, com o nome como no cadastro do Lattes (lupa \"Selecionar\")"},
+        {"chave": "financiamentos", "rotulo": "Instituição de financiamento", "aba": "Equipe",
+         "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."},
+    ],
+}
+
+# Abas do Lattes que só vinculam itens já cadastrados no currículo (não dá para criar a partir do documento).
+ABAS_INFORMATIVAS = {
+    "projeto": [
+        {"aba": "Produção C & T", "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."},
+        {"aba": "Orientações", "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."},
+    ],
+}
+
+
 def grades_do_formulario(f, item_id=""):
     """Abas de lista (sem campos nomeados) que o preenchedor genérico sabe preencher."""
     out = []
@@ -154,6 +186,7 @@ def grades_do_formulario(f, item_id=""):
         g = GRADES.get(nome_aba)
         if g:
             out.append({"chave": g[0], "rotulo": g[1], "dica": g[2], "aba": aba.get("aba", "")})
+    out.extend(dict(g) for g in GRADES_EXTRA.get(item_id, []) if g["chave"] not in {x["chave"] for x in out})
     return out
 
 
@@ -180,6 +213,36 @@ def aplicar_padroes_comuns(campos, padroes):
         c["confira"] = True
 
 
+# Radios Sim/Não repetidos entre formulários: a captura trouxe opções trocadas ("Não"="S", "N"="N") e o nome técnico como rótulo.
+# No Lattes são radios "Sim" (S) / "Não" (N), padrão Não. Rótulos conforme o formulário real (conferido em 18/11/2026).
+RADIOS_SIM_NAO = {
+    "f_tpo_pesq_emp": "É um projeto de cooperação instituição de pesquisa e empresa?",
+    "f_sta_inovacao": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+}
+# Campos que o Lattes só mostra quando o radio correspondente está em "Sim".
+MOSTRAR_QUANDO = {
+    "f_cnpj_empresa": "f_tpo_pesq_emp", "f_txt_nme_empresa": "f_tpo_pesq_emp",
+    "f_txt_email_institucional": "f_tpo_pesq_emp", "f_txt_setor": "f_tpo_pesq_emp",
+    "f_txt_potencial": "f_sta_inovacao",
+}
+SOMENTE_LEITURA = {"f_txt_nme_empresa": "O Lattes preenche o nome da empresa a partir do CNPJ (campo somente leitura)."}
+
+
+def espelhar_lattes(campos):
+    nomes = {c["name"].lower() for c in campos}
+    for c in campos:
+        n = c["name"].lower()
+        if c.get("tipo") == "radio" and n in RADIOS_SIM_NAO:
+            c["opcoes"] = {"Sim": "S", "Não": "N"}
+            if c.get("rotulo", "") in ("", c["name"]):
+                c["rotulo"] = RADIOS_SIM_NAO[n]
+        gatilho = MOSTRAR_QUANDO.get(n)
+        if gatilho and gatilho in nomes:
+            c["mostrar_quando"] = {"name": gatilho, "valor": "Sim"}
+        if n in SOMENTE_LEITURA:
+            c["dica"] = SOMENTE_LEITURA[n]
+
+
 def gerar():
     SAIDA.mkdir(exist_ok=True)
     cur_p = pathlib.Path(__file__).resolve().parent / "curadoria.json"
@@ -199,6 +262,7 @@ def gerar():
                     "janelas_auxiliares": f.get("janelas_auxiliares", []),
                     "campos": campos_do_formulario(f),
                     "grades": grades_do_formulario(f, item_id),
+                    **({"abas_informativas": ABAS_INFORMATIVAS[item_id]} if item_id in ABAS_INFORMATIVAS else {}),
                     "obrigatorios_mensagens": f.get("campos_obrigatorios_segundo_mensagens", []),
                 })
             primeiro = d
@@ -206,6 +270,7 @@ def gerar():
             for var_ in variantes[inicio:]:
                 for c in var_["campos"]:
                     c.update(over.get(c["name"], {}))
+                espelhar_lattes(var_["campos"])
                 aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {
             "id": item_id,

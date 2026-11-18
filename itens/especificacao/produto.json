@@ -130,15 +130,15 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "f_sta_inovacao",
+     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
-      "Não": "S",
-      "N": "N"
+      "Sim": "S",
+      "Não": "N"
      },
      "obrigatorio": false,
-     "padrao": "N",
+     "padrao": "Não",
      "origem_padrao": "padrao_comum",
      "confira": true
     },
@@ -150,7 +150,11 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": true
+     "obrigatorio": true,
+     "mostrar_quando": {
+      "name": "f_sta_inovacao",
+      "valor": "Sim"
+     }
     },
     {
      "chave": "finalidade",

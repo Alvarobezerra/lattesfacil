@@ -335,8 +335,31 @@ def desfazer_confirmacao(conn: sqlite3.Connection, texto: str) -> bool:
     return conn.execute("DELETE FROM inst_alias WHERE texto = ?", (norm(texto),)).rowcount > 0
 
 
+def importar_lista(conn: sqlite3.Connection, texto: str, primeira_e_nome: bool = False) -> dict[str, int]:
+    """Lista de nomes como o Lattes mostra ('Universidade Federal do Maranhão (MA)'), um por linha, com cabeçalho 'Instituição'.
+    O sufixo (UF/país) fica no nome, como no Lattes; não vira sigla. Repetidas (mesmo nome sem acento/caixa) entram uma vez."""
+    lidas = novas = 0
+    agora_ = agora()
+    for i, linha in enumerate(texto.splitlines()):
+        nome = re.sub(r"\s+", " ", linha).strip().strip('"')[:200]
+        if i == 0 and not primeira_e_nome and norm(nome) in ("instituicao", "instituicoes", "nome", "nome da instituicao", "nome da ies"):
+            continue
+        if len(norm(nome)) < 3:
+            continue
+        lidas += 1
+        cur = conn.execute(
+            "INSERT OR IGNORE INTO inst_banco (chave, nome, sigla, origem, primeira_em, ultima_em) VALUES (?,?,?,?,?,?)",
+            (norm(nome), nome, "", "semente", agora_, agora_),
+        )
+        novas += cur.rowcount
+    return {"lidas": lidas, "novas": novas}
+
+
 def importar_csv(conn: sqlite3.Connection, texto: str) -> dict[str, int]:
     """Semente a partir de uma lista pública (ex.: dados abertos do e-MEC): colunas de nome e sigla, separador ; ou ,."""
+    primeira = next((l.strip() for l in texto.splitlines() if l.strip()), "")
+    if norm(primeira) in ("instituicao", "instituicoes", "nome", "nome da instituicao", "nome da ies"):
+        return importar_lista(conn, texto)  # uma coluna só, um nome por linha (nomes têm vírgula: não dá para tratar como CSV)
     amostra = texto[:2000]
     sep = ";" if amostra.count(";") >= amostra.count(",") else ","
     leitor = csv.DictReader(io.StringIO(texto), delimiter=sep)
@@ -352,7 +375,8 @@ def importar_csv(conn: sqlite3.Connection, texto: str) -> dict[str, int]:
     c_nome = col("nome da ies", "no ies", "nome", "instituicao")
     c_sigla = col("sigla", "sg ies")
     if not c_nome:
-        return {"lidas": 0, "novas": 0}
+        # sem cabeçalho conhecido e sem ';': é uma lista simples, um nome por linha (a 1ª linha também é nome)
+        return importar_lista(conn, texto, primeira_e_nome=True) if ";" not in amostra else {"lidas": 0, "novas": 0}
     lidas = novas = 0
     agora_ = agora()
     for linha in leitor:

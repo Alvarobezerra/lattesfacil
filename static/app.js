@@ -47,6 +47,9 @@ const FIELD_IDS = [
   "cidade_editora",
   "area_conhecimento",
   "visibilidade",
+  "relevante",
+  "bolsa",
+  "agencia_financiadora",
   "f_sta_divulgacao_cientifica",
   "f_inovacao",
 ];
@@ -401,13 +404,15 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (ini.length >= 3 && ini.length <= 8) v.push(ini);
       var sem = base.replace(/^universidade\s+(federal|estadual|municipal)?\s*(d[aeo]s?\s+)?/i, '').trim();
       if (sem.length > 3) v.push(sem);
+      var mu = /^universidade\s+(federal|estadual)\s+(?:d[aeo]s?\s+)?([a-zà-ÿ]{4,})$/i.exec(base);  // UFMA = UF + 2 primeiras letras do estado
+      if (mu) v.push((/^f/i.test(mu[1]) ? 'UF' : 'UE') + mu[2].slice(0, 2).toUpperCase());
       return v.filter(function (x, i) { return x && v.indexOf(x) === i; });
     };
     // Pesquisa na lupa e espera o resultado de forma adaptativa (o resultado para de mudar) até o limite; mede o tempo.
-    var gPesquisarLupa = async function (fi, termo, maxMs) {
+    var gPesquisarLupa = async function (fi, termo, maxMs, rxHref) {
       var fnome = fi.contentDocument.querySelector('input[name="f_nome"]');
       if (!fnome || typeof fi.contentWindow.recuperaInstMacro !== 'function') return { links: [], ms: 0, erro: 'campo de busca da lupa não encontrado' };
-      var lerLinks = function () { return [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return /seleciona\(/.test(a.getAttribute('href') || ''); }); };
+      var lerLinks = function () { return [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return (rxHref || /seleciona\(/).test(a.getAttribute('href') || ''); }); };
       var antes = lerLinks().map(function (a) { return a.textContent; }).join('|');
       fnome.value = termo;
       var t0 = Date.now();
@@ -475,6 +480,23 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       rel.push(rotulo + ': "' + nome + '" não encontrado para essa instituição e nível; a janela da lupa ficou aberta para você escolher');
       return false;
     };
+    // Órgão/Unidade (projetos): campo desabilitado; a lupa abre a hierarquia de órgãos da instituição já escolhida. Escolhe o nome
+    // idêntico/claramente parecido entre os níveis visíveis; sem correspondência única, deixa a janela aberta para escolha manual.
+    var gNormOrgao = function (t) { return norm(t).replace(/\s*-\s*[a-z]{2}\s*$/, '').replace(/\s*\([^)]*\)\s*/g, ' ').trim(); };
+    var gLupaOrgao = async function (nome, rotulo) {
+      if (!gCodInst()) { rel.push(rotulo + ': sem instituição escolhida não dá para escolher o órgão; use a lupa'); return false; }
+      if (typeof gw.orgao !== 'function') { rel.push(rotulo + ': a lupa de órgãos não existe neste formulário; escolha manual'); return false; }
+      gw.orgao();
+      var fo = await gFrame(/orgao/i, 8000);
+      if (!fo) { rel.push(rotulo + ': a janela de órgãos não abriu; escolha na lupa'); return false; }
+      await sleep(600);
+      var nomes = [].slice.call(fo.contentDocument.querySelectorAll('a')).filter(function (a) { return a.textContent.trim() && !/cadastrar/i.test(a.textContent); });
+      var alvoO = gNormOrgao(nome);
+      var achou = nomes.filter(function (a) { return gNormOrgao(a.textContent) === alvoO; })[0] || melhor(nomes, alvoO, function (a) { return gNormOrgao(a.textContent); });
+      if (achou) { achou.click(); await sleep(1200); return true; }
+      rel.push(rotulo + ': "' + nome + '" não está entre os órgãos visíveis da instituição no Lattes (a hierarquia pode exigir descer níveis ou cadastrar novo órgão); a janela da lupa ficou aberta para você escolher');
+      return false;
+    };
     // Coleta gradual do cadastro de instituições: só pesquisa na lupa (não preenche nada), com intervalo e teto vindos do app.
     var gColeta = async function (C) {
       var termos = (C.termos || []).slice(0, 25);
@@ -510,8 +532,8 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
       if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
-      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso)$/i.test(c.name) && alvo[0].disabled) {
-        var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
+      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso|f_orgao)$/i.test(c.name) && alvo[0].disabled) {
+        var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : /^f_orgao$/i.test(c.name) ? await gLupaOrgao(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
         if (okL) ok++;
         continue;
       }
@@ -611,6 +633,25 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         else { rel.push(rotuloGrade + ': sem correspondência exata no Lattes para "' + alvo + '" — escolha manual na aba'); inp.value = ''; }
       }
     };
+    // Projetos: a coluna Coordenador da lista de pesquisadores vira um "sim/não" ao clicar na célula da linha do pesquisador.
+    var gCoordenador = async function (nome, citacao) {
+      var h = gHolder(/autor/i);
+      if (!h) return false;
+      var tk = toks(nome), ult = tk.length ? tk[tk.length - 1] : '';
+      var linha = [].slice.call(h.querySelectorAll('tr')).filter(function (tr) {
+        var tx = norm(tr.textContent || '');
+        return /^\d/.test(tx) && ((citacao && tx.indexOf(norm(citacao)) >= 0) || (ult && tx.indexOf(ult) >= 0));
+      })[0];
+      if (!linha) { rel.push('Coordenador: linha de "' + nome + '" não encontrada na lista de pesquisadores; marque na aba Equipe'); return false; }
+      var cel = [].slice.call(linha.querySelectorAll('.cell-wrapper')).filter(function (c) { return /^(n[aã]o|sim)$/i.test(c.textContent.trim()); })[0];
+      if (!cel) { rel.push('Coordenador: coluna de "' + nome + '" não encontrada; marque na aba Equipe'); return false; }
+      if (/^sim$/i.test(cel.textContent.trim())) return true;
+      cel.click(); await sleep(450);
+      var sl = linha.querySelector('select');
+      if (!sl) { rel.push('Coordenador: o seletor de "' + nome + '" não abriu; marque na aba Equipe'); return false; }
+      sl.value = 's'; fireG(sl); await sleep(600);
+      return true;
+    };
     var gAutores = async function () {
       var lista = GR.autores || [];
       if (!lista.length) return;
@@ -626,17 +667,25 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
           var lkTodos = gLink(gHolder(/autor/i), /^Listar todos/);
           if (lkTodos) {
             lkTodos.click();
-            var escolhido = null;
+            var escolhido = null, candL = [];
             for (var tt = 0; !escolhido && tt < 10; tt++) {
               await sleep(300);
               var cit = String(lista[i].citacao || '').trim();
-              escolhido = [].slice.call(gdoc.querySelectorAll('a.label')).filter(function (x) {
+              // A lista de "Listar todos" pode abrir no formulário ou numa janela/frame à parte: procura em todos os documentos acessíveis.
+              var docsL = [gdoc, gTopDoc];
+              [].slice.call(gTopDoc.querySelectorAll('iframe')).forEach(function (fr) { try { if (fr.contentDocument) docsL.push(fr.contentDocument); } catch (e) {} });
+              [].slice.call(gdoc.querySelectorAll('iframe')).forEach(function (fr) { try { if (fr.contentDocument && docsL.indexOf(fr.contentDocument) < 0) docsL.push(fr.contentDocument); } catch (e) {} });
+              candL = [];
+              docsL.forEach(function (dc) { [].slice.call(dc.querySelectorAll('a')).forEach(function (x) { if (x.offsetParent !== null && x.textContent.trim().length > 3) candL.push(x); }); });
+              escolhido = candL.filter(function (x) {
                 var tx = x.textContent || '';
-                return (cit && tx.indexOf('(' + cit + ')') >= 0) || toks(tx.split('(')[0]).join(' ') === ta.join(' ');
+                if (cit && tx.indexOf('(' + cit + ')') >= 0) return true;
+                var tk = toks(tx.split('(')[0]);
+                return tk.length > 1 && (tk.join(' ') === ta.join(' ') || (tk[0] === ta[0] && tk[tk.length - 1] === ta[ta.length - 1] && Math.abs(tk.length - ta.length) <= 1));
               })[0];
             }
-            if (escolhido) { escolhido.click(); gOk.autores++; await sleep(700); continue; }
-            rel.push('titular não encontrado em "Listar todos": será digitado (o Lattes pode recusar)');
+            if (escolhido) { escolhido.click(); gOk.autores++; await sleep(700); if (lista[i].coordenador) await gCoordenador(nomeA, cit); continue; }
+            rel.push('titular não encontrado em "Listar todos": será digitado (o Lattes pode recusar) [' + candL.length + ' links visíveis; amostra: ' + candL.slice(0, 5).map(function (x) { return x.textContent.trim().slice(0, 25); }).join(' | ') + ']');
           }
         }
         digitados++;
@@ -649,6 +698,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         n1.value = nomeA.slice(0, 60); n2.value = String(lista[i].citacao || '').slice(0, 60); fireG(n1); fireG(n2);
         if (gConfirmar()) gOk.autores++; else { rel.push('não consegui confirmar o autor ' + nomeA); break; }
         await sleep(450);
+        if (lista[i].coordenador) await gCoordenador(nomeA, String(lista[i].citacao || ''));
       }
       if (digitados) rel.push('Autores digitados à mão: confira (o titular deve ser escolhido em "Listar todos")');
     };
@@ -656,7 +706,197 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     await gSugestao('areas', 'Áreas', /^area/i);
     await gSugestao('setores', 'Setores', /setor/i);
     await gSugestao('instituicoes', 'Instituições', /^inst/i);
+    // Depositante/Titular: pessoas e instituições têm cada uma a sua grade (titularPessoaHolder / titularInstHolder), com busca na lista do Lattes.
+    // Documentos acessíveis (formulário, página do Lattes e frames): as janelas de inclusão podem estar em qualquer um deles.
+    var gDocsTodos = function () {
+      var out = [gdoc, gTopDoc];
+      for (var q = 0; q < out.length && q < 16; q++) {
+        [].slice.call(out[q].querySelectorAll('iframe')).forEach(function (fr) { try { if (fr.contentDocument && out.indexOf(fr.contentDocument) < 0) out.push(fr.contentDocument); } catch (e) {} });
+      }
+      return out;
+    };
+    var gDigitar = function (inp, v) {
+      try { inp.focus(); } catch (e) {}
+      inp.value = v; fireG(inp);
+      ['keydown', 'keypress', 'input', 'keyup', 'change'].forEach(function (t) { try { inp.dispatchEvent(new Event(t, { bubbles: true })); } catch (e) {} });
+    };
+    // Janela "Seleção de Instituição" (Depositante/Titular): acha pelo texto visível, onde quer que ela esteja.
+    var gDialogoInst = function () {
+      var achado = null;
+      gDocsTodos().forEach(function (dc) {
+        try {
+          if (!dc.body || !/Preencha o campo abaixo com Nome, Sigla/i.test(dc.body.innerText || '')) return;
+          var cs = [].slice.call(dc.querySelectorAll('input[type="text"]')).filter(gVis);
+          var inp = cs.filter(function (x) { return x.name === 'f_nome'; })[0] || cs[cs.length - 1];
+          if (inp) achado = { dc: dc, inp: inp };
+        } catch (e) {}
+      });
+      return achado;
+    };
+    var gTitularInst = async function (nome, lkIn, rotIn) {
+      var rotT = rotIn || 'Depositante/Titular';
+      var lk = lkIn || gLink(gHolder(/titularInst/i), /^Selecionar/i);
+      if (!lk) { rel.push(rotT + ': link "Selecionar" das instituições não encontrado; escolha "' + nome + '" na aba'); return false; }
+      lk.click();
+      var dlg = null;
+      for (var tf = 0; !dlg && tf < 30; tf++) { dlg = gDialogoInst(); if (!dlg) await sleep(300); }
+      if (!dlg) { rel.push(rotT + ': a janela de instituições não abriu; escolha "' + nome + '" na aba'); return false; }
+      var win = dlg.dc.defaultView;
+      // Resultados da busca: links cujo nome termina com a UF/país entre parênteses, como o Lattes lista (ex.: "... do Maranhão (MA)").
+      var lerRes = function () { return [].slice.call(dlg.dc.querySelectorAll('a')).filter(function (a) { return gVis(a) && /[(]\s*[A-Za-z]{2,3}\s*[)]\s*$/.test(a.textContent.trim()); }); };
+      var vistas = [];
+      // A busca do Lattes acha melhor por sigla ou parte curta do nome: tenta as formas curtas antes do nome completo.
+      var tent = gVariacoes(nome).sort(function (a, b) { var sa = /^[A-Z]{2,8}$/.test(a) ? 0 : 1, sb = /^[A-Z]{2,8}$/.test(b) ? 0 : 1; return sa - sb || a.length - b.length; });
+      for (var ti = 0; ti < tent.length; ti++) {
+        var antes = lerRes().map(function (a) { return a.textContent; }).join('|');
+        gDigitar(dlg.inp, tent[ti]);
+        if (typeof win.recuperaInstMacro === 'function') { try { win.recuperaInstMacro(); } catch (e) {} }
+        else { try { dlg.inp.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter', keyCode: 13 })); } catch (e) {} }
+        var t0 = Date.now(), ult = -1, estavel = 0, links = [];
+        while (Date.now() - t0 < 4500) {
+          await sleep(300);
+          links = lerRes();
+          var mudou = links.map(function (a) { return a.textContent; }).join('|') !== antes;
+          if (mudou && links.length === ult) { if (++estavel >= 2) break; } else { estavel = 0; }
+          ult = links.length;
+        }
+        var achei = melhor(links, gNormNome(nome), function (a) { return gNormNome(a.textContent); });
+        if (achei) { achei.click(); await sleep(1500); return true; }
+        links.forEach(function (a) { var x = a.textContent.trim(); if (vistas.indexOf(x) < 0) vistas.push(x); });
+      }
+      rel.push(rotT + ': "' + nome + '" não identificada com segurança no cadastro do Lattes' + (vistas.length ? ' (opções: ' + vistas.slice(0, 4).join('; ') + ')' : ' [busca digitada: ' + tent.join(', ') + '; função de busca: ' + (typeof win.recuperaInstMacro) + ']') + '; a janela ficou aberta para você escolher');
+      return false;
+    };
+    if ((GR.titulares_inst || []).length) {
+      gOk.titulares_inst = 0;
+      for (var ki = 0; ki < GR.titulares_inst.length; ki++) { if (await gTitularInst(GR.titulares_inst[ki])) gOk.titulares_inst++; else break; }
+    }
+    await gSugestao('titulares_pessoa', 'Depositante/Titular (pessoas)', /titularPessoa/i);
+    // Situação do Depósito/Patente: "Incluir nova" abre uma janela com Descrição (lista) e Data (ddmmaaaa) e o botão Confirmar.
+    var gJanelaSituacao = function () {
+      var achado = null;
+      gDocsTodos().forEach(function (dc) {
+        try {
+          [].slice.call(dc.querySelectorAll('select')).forEach(function (sl) {
+            if (gVis(sl) && [].slice.call(sl.options).some(function (o) { return /aguardando negocia/i.test(o.text); })) achado = { dc: dc, sel: sl };
+          });
+        } catch (e) {}
+      });
+      return achado;
+    };
+    var gSituacao = async function (sit) {
+      var jaAberta = gJanelaSituacao();
+      if (!jaAberta) {
+        var cand = [];
+        gDocsTodos().forEach(function (dc) {
+          [].slice.call(dc.querySelectorAll('a')).forEach(function (a) { if (/^incluir nov[oa]/i.test(a.textContent.trim()) && gVis(a) && !a.closest('[id$="Holder"]')) cand.push(a); });
+        });
+        if (!cand.length) { rel.push('Situação: link "Incluir nova" da aba Situação do Depósito/Patente não encontrado; inclua "' + sit.nome + ' ' + sit.data + '" na aba'); return false; }
+        cand[0].click();
+      }
+      var jan = null;
+      for (var tj = 0; !jan && tj < 20; tj++) { jan = gJanelaSituacao(); if (!jan) await sleep(300); }
+      if (!jan) { rel.push('Situação: a janela "Situação do Depósito/Patente" não abriu; inclua "' + sit.nome + ' ' + sit.data + '" na aba'); return false; }
+      var ops = [].slice.call(jan.sel.options);
+      var alvoS = norm(sit.nome);
+      var op = ops.filter(function (o) { return norm(o.text) === alvoS; })[0] || melhor(ops, sit.nome, function (o) { return o.text; });
+      if (!op) { rel.push('Situação "' + sit.nome + '" não existe na lista do Lattes; escolha na janela'); return false; }
+      jan.sel.value = op.value; fireG(jan.sel);
+      var campoD = null, el2 = jan.sel;
+      for (var kk = 0; !campoD && el2 && kk < 8; kk++) { el2 = el2.parentElement; if (el2) campoD = [].slice.call(el2.querySelectorAll('input[type="text"]')).filter(gVis)[0] || null; }
+      if (!campoD) { rel.push('Situação: campo Data não encontrado; digite ' + sit.data + ' na janela'); return false; }
+      var dig = String(sit.data || '').replace(/[^0-9]/g, '');
+      gDigitar(campoD, campoD.maxLength >= 10 ? String(sit.data) : dig);
+      await sleep(300);
+      var conf = [].slice.call(jan.dc.querySelectorAll('a, button, input[type="button"], input[type="submit"]')).filter(function (x) { return gVis(x) && /^confirmar$/i.test((x.textContent || x.value || '').trim()); })[0];
+      if (!conf) { rel.push('Situação: botão Confirmar não encontrado; confirme na janela'); return false; }
+      conf.click();
+      await sleep(800);
+      if (gJanelaSituacao()) { rel.push('Situação "' + sit.nome + ' ' + sit.data + '": o Lattes não aceitou (a janela continua aberta); confira a data'); return false; }
+      return true;
+    };
+    if ((GR.situacoes || []).length) {
+      gOk.situacoes = 0;
+      for (var si = 0; si < GR.situacoes.length; si++) { if (await gSituacao(GR.situacoes[si])) gOk.situacoes++; else break; }
+    }
     await gAutores();
+    // Projetos — Instituições envolvidas: campo com sugestões (f_instituicoes); sem correspondência única, usa o link "Selecionar" (lupa).
+    var gLinkPerto = function (ref, rx) {
+      var el2 = ref;
+      for (var q = 0; el2 && q < 6; q++) {
+        el2 = el2.parentElement;
+        var a = el2 && [].slice.call(el2.querySelectorAll('a')).filter(function (x) { return rx.test(x.textContent.trim()) && gVis(x); })[0];
+        if (a) return a;
+      }
+      return null;
+    };
+    if ((GR.instituicoes_envolvidas || []).length) {
+      gOk.instituicoes_envolvidas = 0;
+      for (var ie = 0; ie < GR.instituicoes_envolvidas.length; ie++) {
+        var nmI = String(GR.instituicoes_envolvidas[ie]);
+        var inpI = gdoc.getElementById('f_instituicoes');
+        if (!inpI) { rel.push('Instituições envolvidas: campo não encontrado no formulário aberto'); break; }
+        inpI.focus(); inpI.value = nmI;
+        ['keydown', 'keypress', 'input', 'keyup'].forEach(function (t) { inpI.dispatchEvent(new KeyboardEvent(t, { bubbles: true, key: nmI.slice(-1) })); });
+        await sleep(1200);
+        var boxI = inpI.parentElement.querySelector('.suggest-content');
+        var opI = boxI ? [].slice.call(boxI.querySelectorAll('a')) : [];
+        var hitI = melhor(opI, nmI, function (o) { return o.textContent; });
+        if (hitI) { hitI.click(); gOk.instituicoes_envolvidas++; await sleep(700); continue; }
+        inpI.value = '';
+        var lkSel = gLinkPerto(inpI, /^Selecionar/i);
+        if (lkSel && await gTitularInst(nmI, lkSel, 'Instituições envolvidas')) { gOk.instituicoes_envolvidas++; await sleep(700); }
+        else break;
+      }
+    }
+    // Projetos — Instituição de financiamento: "Incluir novo item" abre a lupa de instituições e, ao escolher, a janela com
+    // código do projeto (números), moeda, valor e natureza. Linha: instituição; código; moeda; valor; natureza.
+    var gJanelaFinanc = function () {
+      var achado = null;
+      gDocsTodos().forEach(function (dc) { try { var i = dc.querySelector('input[name="f_cod_proj"]'); if (i && gVis(i)) achado = { dc: dc, cod: i }; } catch (e) {} });
+      return achado;
+    };
+    var gSelPorTexto = function (sl, txt) {
+      var ops = [].slice.call(sl.options).filter(function (o) { return o.value; });
+      var alvoT = norm(txt);
+      return ops.filter(function (o) { return norm(o.text) === alvoT; })[0] || melhor(ops, txt, function (o) { return o.text; });
+    };
+    if ((GR.financiamentos || []).length) {
+      gOk.financiamentos = 0;
+      for (var fi2 = 0; fi2 < GR.financiamentos.length; fi2++) {
+        var pF = String(GR.financiamentos[fi2]).split(';').map(function (x) { return x.trim(); });
+        var lkNovo = null;
+        gDocsTodos().forEach(function (dc) { [].slice.call(dc.querySelectorAll('a, button, div, span')).forEach(function (a) { if (!lkNovo && gVis(a) && a.children.length < 3 && /^incluir novo item$/i.test((a.textContent || '').trim())) lkNovo = a; }); });
+        if (!lkNovo) { rel.push('Financiamento: botão "Incluir novo item" não encontrado; inclua "' + pF[0] + '" na aba Equipe'); break; }
+        if (!(await gTitularInst(pF[0], lkNovo, 'Financiamento'))) break;
+        var jf = null;
+        for (var tf2 = 0; !jf && tf2 < 20; tf2++) { jf = gJanelaFinanc(); if (!jf) await sleep(300); }
+        if (!jf) { rel.push('Financiamento: a janela de dados do financiamento não abriu; preencha "' + pF[0] + '" na aba'); break; }
+        var dcF = jf.dc;
+        gDigitar(jf.cod, String(pF[1] || '').replace(/[^0-9]/g, '').slice(0, 20));
+        var slM = dcF.querySelector('select[name="f_moeda"]'), slN = dcF.querySelector('select[name="f_natureza"]'), inV = dcF.querySelector('input[name="f_valor"]');
+        var opM = slM && gSelPorTexto(slM, pF[2] || 'REAL');
+        if (slM && opM) { slM.value = opM.value; fireG(slM); } else rel.push('Financiamento: moeda "' + (pF[2] || 'REAL') + '" não encontrada; escolha na janela');
+        if (inV && pF[3]) gDigitar(inV, pF[3]);
+        var opN = slN && pF[4] ? gSelPorTexto(slN, pF[4]) : null;
+        if (slN && opN) { slN.value = opN.value; fireG(slN); } else if (pF[4]) rel.push('Financiamento: natureza "' + pF[4] + '" não encontrada; escolha na janela');
+        await sleep(300);
+        var cfF = [].slice.call(dcF.querySelectorAll('a, button, input[type="button"], input[type="submit"]')).filter(function (x) { return gVis(x) && /^confirmar$/i.test((x.textContent || x.value || '').trim()); })[0];
+        if (!cfF) { rel.push('Financiamento: botão Confirmar não encontrado; confirme na janela'); break; }
+        cfF.click(); await sleep(900);
+        if (gJanelaFinanc()) { rel.push('Financiamento "' + pF[0] + '": o Lattes não aceitou (a janela continua aberta); confira os campos'); break; }
+        gOk.financiamentos++;
+      }
+    }
+    // O Lattes pode recuperar dados do registro e trocar o que foi digitado (ex.: título): confere os campos de texto e reaplica.
+    for (var gj = 0; gj < (G.campos || []).length; gj++) {
+      var cj = G.campos[gj];
+      if (!cj.valor || (cj.tipo !== 'text' && cj.tipo !== 'textarea') || /^(f_inst|f_curso)$/i.test(cj.name)) continue;
+      var tj = gdoc.querySelector('[name="' + cj.name + '"]');
+      var vj = String(cj.valor);
+      if (tj && tj.maxLength > 0 && vj.length > tj.maxLength) vj = vj.slice(0, tj.maxLength);
+      if (tj && !tj.disabled && tj.value !== vj) { tj.value = vj; fireG(tj); rel.push('"' + (cj.rotulo || cj.name) + '" tinha sido alterado pelo Lattes: reaplicado'); }
+    }
     Object.keys(gOk).forEach(function (k) { ok += gOk[k]; rel.push(k.replace('_', '-') + ': ' + gOk[k] + '/' + ((GR[k] || []).length) + ' incluídos'); });
     (G.faltam || []).forEach(function (f) { rel.push('obrigatório sem valor: ' + f); });
     // Salvar automático (mesma regra do caminho dos itens antigos): só clica se nada precisa de conferência.
@@ -791,6 +1031,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
 
   var divCient = (d.f_sta_divulgacao_cientifica === 'S' || d.divulgacao_cientifica === 'S') ? 'S' : 'N';
   var inovVal = (d.f_inovacao === 'S' || d.inovacao === 'S') ? 'S' : 'N';
+  var relevVal = /^(s|sim)$/i.test(String(d.relevante || '').trim()) ? 'S' : 'N';
 
   var want = d.tipo_producao || 'anais';
   var have = doc.querySelector('[name="f_titulo_periodico"]') ? 'artigo' : (doc.querySelector('[name="f_nme_orient"]') ? 'orientacao' : (doc.querySelector('[name="f_nme_evento"]') ? 'apresentacao' : 'anais'));
@@ -863,7 +1104,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var pf = doc.querySelector('[name="f_pag_fim"]');
     if (pf && !pf.value) setVal('f_pag_fim', d.pagina_final);
     setVal('f_homepage', d.homepage);
-    setRadio('F_RELEV', 'N');
+    setRadio('F_RELEV', relevVal);
     setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
     setRadioIfExists('f_sta_inovacao', inovVal);
     setRadioIfExists('f_inovacao', inovVal);
@@ -900,8 +1141,13 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     if (cod === '41' || cod === '42') setRadio('f_tpo_orient', d.papel_orientacao === 'Coorientador' ? 'C' : 'O');
     setVal('f_titulo', d.titulo); setVal('f_ano', d.ano);
     setSelect('f_pais', lookup(PAIS, d.pais, 'país')); setSelect('F_IDIOMA', lookup(IDIOMA, d.idioma, 'idioma'));
-    setVal('f_homepage', d.homepage); setRadio('F_RELEV', 'N'); setVal('f_nme_orient', d.nome_orientando);
-    setRadio('F_BOLSA', 'N'); setVal('f_ref', d.outras_informacoes);
+    setVal('f_homepage', d.homepage); setRadio('F_RELEV', relevVal); setVal('f_nme_orient', d.nome_orientando);
+    var comBolsa = /^(s|sim)$/i.test(String(d.bolsa || '').trim());
+    setRadio('F_BOLSA', comBolsa ? 'S' : 'N'); setVal('f_ref', d.outras_informacoes);
+    if (comBolsa && d.agencia_financiadora) {
+      if (doc.querySelector('[name="f_nme_agencia"]')) { setVal('f_nme_agencia', d.agencia_financiadora); report.push('agência financiadora "' + d.agencia_financiadora + '" digitada: confirme na lupa do Lattes'); }
+      else report.push('não achei o campo da agência financiadora; informe na lupa');
+    }
     // Instituição e curso são cadastros controlados do Lattes: buscamos e escolhemos o item de nome idêntico.
     if (cod && d.instituicao_orient) {
       wnd.sele_inst();
@@ -943,7 +1189,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     setSelect('F_IDIOMA', lookup(IDIOMA, d.idioma, 'idioma'));
     setSelect('f_meio', lookup(MEIO, d.meio_divulgacao, 'meio de divulgação'));
     setVal('f_homepage', d.homepage);
-    setRadio('F_RELEV', 'N');
+    setRadio('F_RELEV', relevVal);
     setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
     setRadioIfExists('f_sta_inovacao', inovVal);
     setRadioIfExists('f_inovacao', inovVal);
@@ -961,7 +1207,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     setSelect('F_IDIOMA', lookup(IDIOMA, d.idioma, 'idioma'));
     setSelect('f_meio', lookup(MEIO, d.meio_divulgacao, 'meio de divulgação'));
     setVal('f_homepage', d.homepage);
-    setRadio('F_RELEV', 'N');
+    setRadio('F_RELEV', relevVal);
     setRadio('F_STA_DIVULGACAO_CIENTIFICA', divCient);
     setRadioIfExists('f_sta_inovacao', inovVal);
     setRadioIfExists('f_inovacao', inovVal);
@@ -1078,7 +1324,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     await sleep(450);
   }
 
-  if (!autoresPeloDoi && logadoNome && !titularNaLista) {
+  if (want !== 'orientacao' && !autoresPeloDoi && logadoNome && !titularNaLista) {
     report.push('ATENÇÃO: o titular (' + logadoNome + ') não ficou na lista de autores: o Lattes vai recusar ao salvar. Escolha-o em "Listar todos" (aparece em azul).');
   }
 
@@ -1827,8 +2073,8 @@ async function loadRecords() {
     btns.append(btnLoad, btnDel);
     item.append(info, btns);
     btnLoad.onclick = () => {
+      voltarCadastro();
       setFormData(rec.data);
-      $("historyPanel").classList.add("hidden");
       showToast("Registro carregado no formulário!");
     };
     btnDel.onclick = async () => {
@@ -2396,10 +2642,7 @@ function mostrarResultadoLattes(m) {
     ver.style.marginTop = "8px";
     ver.textContent = "📚 Ver em Registros";
     ver.onclick = () => {
-      $("historyPanel").classList.remove("hidden");
-      carregarEnvios();
-      loadRecords();
-      $("historyPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+      mostrarRegistros();
     };
     box.appendChild(ver);
   }
@@ -2408,7 +2651,7 @@ function mostrarResultadoLattes(m) {
 }
 
 // ---------- Envios ao Lattes: registro, verificação e remoção ----------
-const TIPO_ROTULO = { apresentacao: "Apresentação de trabalho", anais: "Trabalho em anais", artigo: "Artigo", orientacao: "Orientação", generico: "Outro item" };
+const TIPO_ROTULO = { apresentacao: "Apresentação de trabalho", anais: "Trabalho em anais", artigo: "Artigo", orientacao: "Orientação", orientacao_concluida: "Orientação concluída", orientacao_andamento: "Orientação em andamento", generico: "Outro item" };
 const STATUS_ENVIO = {
   enviando: ["⏳ Enviando", "#0369a1"],
   salvo: ["✅ Salvo no Lattes", "#047857"],
@@ -2419,6 +2662,7 @@ const STATUS_ENVIO = {
   removido: ["🗑️ Removido do Lattes", "#475569"],
   falha_remocao: ["❌ Falha ao remover", "#b91c1c"],
 };
+const LIMITE_REMOCAO_MS = 120000; // depois disso, "Removendo…" sem resposta volta a oferecer as ações
 const REMOCAO_SUPORTADA = new Set(["apresentacao"]); // tipos com leitura de lista e Excluir mapeados no Lattes
 // os demais itens com lista mapeada (itens/listas_lattes.json) vêm do servidor
 fetch("/api/itens/listas").then((r) => (r.ok ? r.json() : null)).then((j) => {
@@ -2451,7 +2695,7 @@ async function criarEnvio(dados) {
     const r = await fetch("/api/lattes/envios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ owner: $("ownerName").value, titulo: dados.titulo, tipo: dados.tipo_producao, ano: dados.ano }),
+      body: JSON.stringify({ owner: $("ownerName").value, titulo: dados.titulo, tipo: dados.tipo_producao === "orientacao" && dados.situacao_orientacao === "Em andamento" ? "orientacao_andamento" : dados.tipo_producao, ano: dados.ano }),
     });
     const j = await r.json();
     return j.id || "";
@@ -2578,7 +2822,10 @@ function renderEnvios() {
     return;
   }
   enviosCache.forEach((e) => {
-    const [rotulo, cor] = STATUS_ENVIO[e.status] || [e.status, "#475569"];
+    // "Removendo…" sem resposta da extensão por mais de 2 min (aba do Lattes recarregada, extensão reiniciada...) não pode prender o
+    // cartão: devolve Verificar, Remover de novo e Tirar da lista.
+    const parado = e.status === "removendo" && Date.now() - new Date(e.atualizado_em || e.enviado_em).getTime() > LIMITE_REMOCAO_MS;
+    const [rotulo, cor] = parado ? ["⚠️ Remoção sem resposta", "#92400e"] : (STATUS_ENVIO[e.status] || [e.status, "#475569"]);
     const box = document.createElement("div");
     box.style.cssText = "border:1px solid #e2e8f0;border-left:5px solid " + cor + ";border-radius:10px;padding:10px 12px;margin:8px 0;background:#fff";
     const tit = document.createElement("strong");
@@ -2591,7 +2838,7 @@ function renderEnvios() {
     box.appendChild(meta);
     const st = document.createElement("div");
     st.style.cssText = "font-weight:600;color:" + cor;
-    st.textContent = rotulo + (e.mensagem ? " — " + e.mensagem : "");
+    st.textContent = rotulo + (parado ? " — a extensão não respondeu em 2 minutos. Use Verificar no Lattes para ver se o item saiu, ou tente remover de novo." : (e.mensagem ? " — " + e.mensagem : ""));
     box.appendChild(st);
     const XML_ROTULO = {
       confirmado: "✅ Confirmado pelo XML do Lattes",
@@ -2620,20 +2867,21 @@ function renderEnvios() {
     };
     const suportado = REMOCAO_SUPORTADA.has(e.tipo);
     if (e.status !== "removido" && suportado) btn("🔎 Verificar no Lattes", () => pedirVerificacao(e));
-    if (["salvo", "atencao", "falha_remocao"].includes(e.status) && suportado) btn("🗑️ Remover do Lattes", () => pedirRemocao(e), "btn-accent");
+    if ((["salvo", "atencao", "falha_remocao"].includes(e.status) || parado) && suportado) btn(parado ? "🗑️ Tentar remover de novo" : "🗑️ Remover do Lattes", () => pedirRemocao(e), "btn-accent");
     if (e.status !== "removido" && !suportado) {
       const nota = document.createElement("span");
       nota.className = "hint";
       nota.textContent = "Verificação e remoção automáticas ainda não existem para este tipo: confira ou remova direto no Lattes.";
       acoes.appendChild(nota);
     }
-    if (e.status !== "removendo") btn("Tirar da lista", () => tirarDaLista(e));
+    if (e.status !== "removendo" || parado) btn("Tirar da lista", () => tirarDaLista(e));
     box.appendChild(acoes);
     lista.appendChild(box);
   });
 }
 
 if ($("btnAtualizarEnvios")) $("btnAtualizarEnvios").onclick = carregarEnvios;
+setInterval(() => { if (enviosCache.some((x) => x.status === "removendo")) renderEnvios(); }, 15000); // o cartão sai de "Removendo…" sozinho
 $("ownerName").addEventListener("change", carregarEnvios);
 carregarEnvios();
 
@@ -2658,7 +2906,7 @@ async function dispararEnvioExtensao() {
 }
 
 // ---------- Extensão LattesData: avisar quando não está instalada ou está desatualizada ----------
-const EXT_VERSAO_MINIMA = "0.5.1"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
+const EXT_VERSAO_MINIMA = "0.9.6"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
 
 function versaoMenor(a, b) {
   const x = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
@@ -2786,12 +3034,24 @@ $("btnExportJson").onclick = () => {
   a.click();
 };
 
-$("btnToggleHistory").onclick = () => {
-  $("historyPanel").classList.toggle("hidden");
-  loadRecords();
-  carregarEnvios();
-};
-$("btnCloseHistory").onclick = () => $("historyPanel").classList.add("hidden");
+// "Registros" é uma aba própria: #registros mostra só o painel de registros; sem o hash, volta o Cadastrar.
+function aplicarVista() {
+  const emRegistros = location.hash === "#registros";
+  document.body.classList.toggle("view-registros", emRegistros);
+  $("historyPanel").classList.toggle("hidden", !emRegistros);
+  const b = $("btnToggleHistory");
+  if (emRegistros) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  const cad = document.querySelector('.topnav a[href="/"]');
+  if (cad) { if (emRegistros) cad.removeAttribute("aria-current"); else cad.setAttribute("aria-current", "page"); }
+  if (emRegistros) { loadRecords(); carregarEnvios(); window.scrollTo(0, 0); }
+}
+function mostrarRegistros() { if (location.hash === "#registros") aplicarVista(); else location.hash = "#registros"; }
+function voltarCadastro() { history.pushState(null, "", location.pathname + location.search); aplicarVista(); }
+window.addEventListener("hashchange", aplicarVista);
+$("btnToggleHistory").onclick = mostrarRegistros;
+$("btnCloseHistory").onclick = voltarCadastro;
+document.querySelector('.topnav a[href="/"]').addEventListener("click", (e) => { if (location.hash === "#registros") { e.preventDefault(); voltarCadastro(); } });
+aplicarVista();
 
 // Modal de Avaliação & Diagnóstico Lattes (Lattes Shield) & Radar Online
 const auditModal = $("auditModal");
@@ -3422,7 +3682,7 @@ function genDesenhar() {
   const box = $("genCampos");
   box.innerHTML = "";
   const abas = {};
-  variante.campos.forEach((c) => { if (!c.oculto) (abas[c.aba || "Dados"] = abas[c.aba || "Dados"] || []).push(c); });
+  variante.campos.forEach((c) => { if (!c.oculto || c.mostrar_quando) (abas[c.aba || "Dados"] = abas[c.aba || "Dados"] || []).push(c); });
   Object.keys(abas).forEach((aba) => {
     const det = document.createElement("details");
     det.open = abas[aba].some((c) => c.obrigatorio || GEN.valores[c.name]);
@@ -3435,7 +3695,7 @@ function genDesenhar() {
   const grades = variante.grades || [];
   if (grades.length) {
     const det = document.createElement("details");
-    det.open = grades.some((gr) => (GEN.valores["grade:" + gr.chave] || []).length);
+    det.open = genExigeTitular() || grades.some((gr) => (GEN.valores["grade:" + gr.chave] || []).length);
     det.appendChild(el("summary", "", "Listas (autores, palavras-chave, áreas, setores)"));
     const grid = el("div", "field-grid");
     grades.forEach((gr) => {
@@ -3446,14 +3706,24 @@ function genDesenhar() {
       const ta = document.createElement("textarea");
       ta.rows = 3; ta.id = "gengrade_" + gr.chave; ta.dataset.grade = gr.chave; ta.placeholder = gr.dica || "";
       const ini = GEN.valores["grade:" + gr.chave] || [];
-      ta.value = ini.map((x) => (x && typeof x === "object" ? [x.nome, x.citacao].filter(Boolean).join("; ") : x)).join("\n");
+      ta.value = ini.map((x) => (x && typeof x === "object" ? [x.nome, (gr.chave === "autores" && citacaoConhecida(x.nome)) || x.citacao, x.coordenador ? "coordenador" : ""].filter(Boolean).join("; ") : x)).join("\n");
       wrap.appendChild(ta);
       if (gr.chave === "areas" || gr.chave === "setores") genSeletorGrade(gr, ta, wrap);
+      if (genExigeTitular() && /^titulares_/.test(gr.chave)) {
+        ta.addEventListener("input", genAtualizar);
+        if (gr.chave === "titulares_pessoa") wrap.insertBefore(el("p", "hint", "Quem é o depositante/titular desta patente? Informe a pessoa e/ou a instituição (obrigatório no Lattes). O que veio do documento está só como sugestão: confira."), lab);
+      }
       grid.appendChild(wrap);
     });
     det.appendChild(grid);
     box.appendChild(det);
   }
+  (variante.abas_informativas || []).forEach((ai) => {
+    const det = document.createElement("details");
+    det.appendChild(el("summary", "", ai.aba + " (vínculo com itens já cadastrados)"));
+    det.appendChild(el("p", "hint", ai.nota));
+    box.appendChild(det);
+  });
   genAtualizar();
 }
 
@@ -3555,8 +3825,20 @@ function genGrades() {
     const e = $("gengrade_" + gr.chave);
     if (!e) return;
     const linhas = e.value.split("\n").map((l) => l.trim()).filter(Boolean);
+    if (gr.chave === "situacoes") {
+      const sit = linhas.map((l) => { const [nome, ...r] = l.split(";"); return { nome: nome.trim(), data: r.join(";").trim() }; });
+      if (sit.length) out[gr.chave] = sit;
+      return;
+    }
     if (gr.chave === "autores") {
-      let autores = linhas.map((l) => { const [nome, ...r] = l.split(";"); return { nome: nome.trim(), citacao: r.join(";").trim() }; });
+      let autores = linhas.map((l) => {
+        const [nome, ...r] = l.split(";");
+        const partes = r.map((x) => x.trim());
+        const coordenador = partes.some((x) => /^coordenador(a)?$/i.test(x));
+        const a = { nome: nome.trim(), citacao: partes.filter((x) => !/^coordenador(a)?$/i.test(x)).join(";").trim() };
+        if (coordenador) a.coordenador = true;
+        return a;
+      });
       // O Lattes recusa salvar se o titular não está entre os autores: garante o titular (com o nome em citações).
       const dono = $("ownerName") ? $("ownerName").value.trim() : "";
       const cit = $("citacaoNome") ? $("citacaoNome").value.trim() : "";
@@ -3580,6 +3862,30 @@ function genCampo(c) {
   wrap.appendChild(lab);
   let inp;
   const ops = c.opcoes ? Object.keys(c.opcoes) : null;
+  if (c.mostrar_quando) { wrap.dataset.mostrarQuando = c.mostrar_quando.name; wrap.dataset.mostrarValor = c.mostrar_quando.valor; }
+  if (c.tipo === "radio" && ops) {
+    // Igual ao Lattes: grupo de radios (Sim/Não). O valor fica num campo oculto (id gen_<name>) para o restante do fluxo ler como antes.
+    inp = document.createElement("input");
+    inp.type = "hidden";
+    inp.id = "gen_" + c.name;
+    inp.dataset.name = c.name;
+    inp.value = GEN.valores[c.name] || c.padrao || "";
+    const grupo = el("div", "radio-group");
+    grupo.setAttribute("role", "radiogroup");
+    ops.forEach((o) => {
+      const rl = el("label", "radio-opt");
+      const r = document.createElement("input");
+      r.type = "radio"; r.name = "genr_" + c.name; r.value = o; r.checked = inp.value === o;
+      r.addEventListener("change", () => { inp.value = o; genAtualizar(); });
+      rl.append(r, " " + o);
+      grupo.appendChild(rl);
+    });
+    lab.removeAttribute("for");
+    if (c.confira && !GEN.valores[c.name] && c.padrao) { lab.textContent += " (padrão — confira)"; grupo.title = "Valor-padrão sugerido pelo LattesFácil: confira antes de enviar."; }
+    wrap.append(inp, grupo);
+    if (c.dica) wrap.appendChild(el("div", "hint", c.dica));
+    return wrap;
+  }
   if (c.tipo === "textarea") {
     inp = document.createElement("textarea");
     inp.rows = 3;
@@ -3606,8 +3912,24 @@ function genCampo(c) {
   inp.addEventListener("input", genAtualizar);
   inp.addEventListener("change", genAtualizar);
   wrap.appendChild(inp);
+  if (c.dica) wrap.appendChild(el("div", "hint", c.dica));
   if (c.name === "f_inst" && inp.type === "text") genAssistirInstituicao(inp, wrap);
   return wrap;
+}
+
+// Campo condicional do Lattes (ex.: CNPJ só aparece com cooperação "Sim"): visível só quando o gatilho tem o valor esperado.
+function genVisivel(c) {
+  if (!c.mostrar_quando) return true;
+  const g = $("gen_" + c.mostrar_quando.name);
+  return !!g && g.value === c.mostrar_quando.valor;
+}
+function genAplicarCondicionais() {
+  if (!GEN.variante) return;
+  GEN.variante.campos.forEach((c) => {
+    if (!c.mostrar_quando) return;
+    const e = $("gen_" + c.name);
+    if (e && e.closest(".field")) e.closest(".field").style.display = genVisivel(c) ? "" : "none";
+  });
 }
 
 // Instituição é cadastro controlado do Lattes (campo desabilitado; só a lupa grava o código). Na revisão, consulta o banco local
@@ -3665,21 +3987,29 @@ function genColetar() {
   const faltam = [];
   GEN.variante.campos.forEach((c) => {
     const e = $("gen_" + c.name);
-    if (!e) return;
+    if (!e || !genVisivel(c)) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
     if (c.obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
     campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "", auto: !!c.automatico, auto_de: c.auto_de || "" });
   });
+  if (genExigeTitular() && !genTitularInformado()) faltam.push(GEN_ROTULO_TITULAR);
   return { campos, faltam };
 }
 
+// Patente: o Lattes exige o depositante/titular e o documento nem sempre o traz certo; a plataforma sempre pergunta e não envia sem resposta.
+const GEN_ROTULO_TITULAR = "Depositante/Titular (pessoa ou instituição)";
+const genExigeTitular = () => !!(GEN.spec && GEN.spec.id === "patente");
+const genTitularInformado = () => ["titulares_pessoa", "titulares_inst"].some((k) => { const e = $("gengrade_" + k); return e && e.value.trim(); });
+
 function genAtualizar() {
   if (!GEN.variante) return;
+  genAplicarCondicionais();
   const { faltam } = genColetar();
   GEN.variante.campos.forEach((c) => {
     const e = $("gen_" + c.name);
     if (e) e.classList.toggle("missing-highlight", c.obrigatorio && faltam.includes(c.rotulo));
   });
+  if (genExigeTitular()) ["titulares_pessoa", "titulares_inst"].forEach((k) => { const e = $("gengrade_" + k); if (e) e.classList.toggle("missing-highlight", faltam.includes(GEN_ROTULO_TITULAR)); });
   $("btnGenEnviar").title = faltam.length ? "Faltam obrigatórios: " + faltam.join(", ") : "";
   let b = $("genFaltam");
   if (!b) { b = el("p", "hint"); b.id = "genFaltam"; $("genAvisos").appendChild(b); }
@@ -3794,3 +4124,90 @@ $("btnGenCopiar").onclick = async () => {
     showToast("Não foi possível copiar automaticamente.");
   }
 };
+
+// Rotina de primeiro acesso: ler os "Autores citados no currículo" já cadastrados no Lattes do usuário e guardá-los no servidor.
+// Depois eles completam o nome em citações dos inventores/coautores sem digitar de novo.
+const AUTORES_CV = { owner: "", autores: [], coletado: false, total: 0, coletando: false };
+
+function citacaoConhecida(nome) {
+  const t = nameTokens(nome);
+  if (t.length < 2) return "";
+  const a = AUTORES_CV.autores.find((x) => { const u = nameTokens(x.nome); return x.citacao && u.length >= 2 && u[0] === t[0] && u[u.length - 1] === t[t.length - 1]; });
+  return a ? a.citacao : "";
+}
+
+(function iniciarRotinaAutores() {
+  const dono = () => ($("ownerName") ? $("ownerName").value.trim() : "");
+  let cartao = null;
+  const mostrar = (titulo, texto, botao) => {
+    if (!cartao) {
+      cartao = document.createElement("div");
+      cartao.id = "cartaoAutores";
+      cartao.style.cssText = "position:fixed;left:16px;bottom:16px;max-width:360px;z-index:60;background:var(--surface,#fff);color:var(--text,#1c2430);border:1px solid var(--border,#d6dde6);border-left:4px solid #2563eb;border-radius:10px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.18);font-size:14px";
+      document.body.appendChild(cartao);
+    }
+    cartao.replaceChildren();
+    const h = document.createElement("strong"); h.textContent = titulo; cartao.appendChild(h);
+    const p = document.createElement("p"); p.style.cssText = "margin:6px 0 8px"; p.textContent = texto; cartao.appendChild(p);
+    const linha = document.createElement("div"); linha.style.cssText = "display:flex;gap:8px;flex-wrap:wrap";
+    if (botao) { const b = document.createElement("button"); b.type = "button"; b.className = "btn btn-primary btn-sm"; b.textContent = botao.rotulo; b.onclick = botao.acao; linha.appendChild(b); }
+    const f = document.createElement("button"); f.type = "button"; f.className = "btn btn-secondary btn-sm"; f.textContent = "Fechar"; f.onclick = () => { cartao.remove(); cartao = null; };
+    linha.appendChild(f);
+    cartao.appendChild(linha);
+  };
+  const esconder = () => { if (cartao) { cartao.remove(); cartao = null; } };
+
+  async function carregar() {
+    const o = dono();
+    if (!o) return null;
+    try {
+      const j = await (await fetch("/api/autores?owner=" + encodeURIComponent(o))).json();
+      AUTORES_CV.owner = o; AUTORES_CV.autores = j.autores || []; AUTORES_CV.coletado = !!j.coletado; AUTORES_CV.total = j.total || 0;
+      return j;
+    } catch (e) { return null; }
+  }
+
+  function iniciarLeitura(manual) {
+    if (!window.__lattesExtAtiva) { if (manual) showToast("Instale a extensão LattesData para ler os autores do Lattes."); return; }
+    if (AUTORES_CV.coletando) return;
+    AUTORES_CV.coletando = true;
+    mostrar("Primeiro acesso: lendo seus autores", "Estou lendo, no seu Lattes, os autores citados no currículo. Se o Lattes abrir pedindo login, entre no seu currículo: a leitura continua sozinha.");
+    window.postMessage({ type: "lattesdata-ext-autores" }, location.origin);
+    try { sessionStorage.setItem("lfAutores:" + dono(), String(Date.now())); } catch (e) {}
+  }
+
+  window.addEventListener("message", async (e) => {
+    const m = e.data;
+    if (e.source !== window || e.origin !== location.origin || !m || m.type !== "lattesdata-ext-autores-resp") return;
+    AUTORES_CV.coletando = false;
+    if (m.login) { mostrar("Entre no seu currículo Lattes", m.erro || "Faça o login no Lattes e clique em Tentar de novo.", { rotulo: "Tentar de novo", acao: () => iniciarLeitura(true) }); return; }
+    if (!m.ok) { mostrar("Não consegui ler seus autores", (m.erro || "Erro desconhecido.") + " Você pode tentar de novo.", { rotulo: "Tentar de novo", acao: () => iniciarLeitura(true) }); return; }
+    try {
+      const r = await (await fetch("/api/autores/salvar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ owner: dono(), linhas: m.linhas, cv: m.cv }) })).json();
+      await carregar();
+      if (r.total > 0) { mostrar("Autores guardados", r.total + " autores do seu currículo foram guardados e passam a completar os nomes em citações nos formulários."); setTimeout(esconder, 6000); }
+      else mostrar("A lista veio sem autores reconhecidos", "O Lattes respondeu, mas não consegui identificar autores nela (" + m.linhas.length + " linhas lidas). Amostra: " + ((m.amostra || []).join(" // ") || m.texto || "vazia") + ". Me envie essa amostra para eu ajustar a leitura.", { rotulo: "Tentar de novo", acao: () => iniciarLeitura(true) });
+    } catch (err) { mostrar("Não consegui guardar os autores", "Falha ao falar com o servidor. Tente de novo.", { rotulo: "Tentar de novo", acao: () => iniciarLeitura(true) }); }
+  });
+
+  async function verificar() {
+    const j = await carregar();
+    if (!j) return;
+    if (j.coletado) { esconder(); return; }
+    // ainda não coletou: espera a extensão aparecer e inicia uma vez por sessão (o botão permite repetir)
+    let tent = 0;
+    const tenta = () => {
+      if (window.__lattesExtAtiva) {
+        let feito = ""; try { feito = sessionStorage.getItem("lfAutores:" + dono()) || ""; } catch (e) {}
+        if (!feito) iniciarLeitura(false);
+        else mostrar("Autores do seu Lattes ainda não lidos", "No primeiro acesso o LattesData lê os autores já cadastrados no seu currículo.", { rotulo: "Ler agora", acao: () => iniciarLeitura(true) });
+      } else if (++tent < 20) setTimeout(tenta, 500);
+      else mostrar("Autores do seu Lattes ainda não lidos", "Instale a extensão LattesData para ler os autores já cadastrados no seu currículo.");
+    };
+    tenta();
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setTimeout(verificar, 1500); });
+  else setTimeout(verificar, 1500);
+  if ($("ownerName")) $("ownerName").addEventListener("change", () => { esconder(); AUTORES_CV.coletando = false; verificar(); });
+})();

@@ -392,7 +392,7 @@ async function lerListaNaPagina(listaPath) {
       const tds = [...tr.querySelectorAll("td")].map((td) => td.textContent.replace(/\s+/g, " ").trim());
       // Colunas conferidas no Lattes real: Título, Tipo, Ano, Visibilidade (na tela há antes uma coluna de numeração).
       const o = /^\d+$/.test(tds[0] || "") ? 1 : 0;
-      return { seq: ms ? ms[1] : "", titulo: tds[o] || "", tipo: tds[o + 1] || "", ano: tds[o + 2] || "", url };
+      return { seq: ms ? ms[1] : "", titulo: tds[o] || "", tipo: tds[o + 1] || "", ano: tds[o + 2] || "", url, linha: tds.join(" | ") };
     }).filter((i) => i.seq && i.url);
     return { ok: true, cv: m[1], itens };
   } catch (e) {
@@ -411,18 +411,27 @@ async function lerLista(tabId, tipo) {
   }
 }
 
+// Listas como as de orientações não trazem o título na 1ª coluna (vem o orientando, a natureza...): o título vale se
+// aparecer em qualquer coluna da linha.
+function casaItem(i, titulo) {
+  if (mesmoTitulo(i.titulo, titulo)) return true;
+  const t = normTitulo(titulo);
+  return t.length >= 10 && normTitulo(i.linha || "").includes(t);
+}
+
 // Procura o item na lista: por seq (se conhecido) ou pelo título (o de maior seq = o mais recente).
 function acharItem(itens, titulo, seq) {
   if (seq) {
     return itens.find((i) => i.seq === String(seq)) || null;
   }
-  const iguais = itens.filter((i) => mesmoTitulo(i.titulo, titulo));
+  const iguais = itens.filter((i) => casaItem(i, titulo));
   iguais.sort((a, b) => Number(b.seq) - Number(a.seq));
   return iguais[0] || null;
 }
 
 // Id do item para a lista: "apresentação" (legado) vem em tipo_producao; os genéricos, em __generico.item.
 function tipoDaLista(data) {
+  if (data.tipo_producao === "orientacao" && data.situacao_orientacao === "Em andamento") return "orientacao_andamento";
   return data.tipo_producao === "generico" ? ((data.__generico || {}).id || "") : data.tipo_producao;
 }
 
@@ -536,6 +545,49 @@ async function listarItens(msg) {
   });
 }
 
+// Rotina de primeiro acesso: lê "Autores citados no currículo" (menu lateral, pkg_dic_autor.lista) e devolve as linhas da tabela.
+// Roda NA página do Lattes (mundo MAIN). A tabela ainda não foi mapeada célula a célula: devolve os textos de cada linha e o servidor interpreta.
+async function lerAutoresNaPagina() {
+  const html = (window.top.document.documentElement && window.top.document.documentElement.innerHTML) || "";
+  const m = html.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i);
+  if (!m) return { ok: false, erro: "código do currículo não encontrado na página" };
+  try {
+    const r = await fetch("/cvlattesweb/pkg_dic_autor.lista?f_cod=" + m[1], { credentials: "include" });
+    if (!r.ok) return { ok: false, erro: "HTTP " + r.status };
+    const buf = await r.arrayBuffer();
+    const cs = (((r.headers.get("content-type") || "").match(/charset=([^;]+)/i) || [])[1] || "iso-8859-1").trim();
+    let texto;
+    try { texto = new TextDecoder(cs).decode(buf); } catch (e) { texto = new TextDecoder("iso-8859-1").decode(buf); }
+    const doc = new DOMParser().parseFromString(texto, "text/html");
+    const linhas = [...doc.querySelectorAll("tr")].map((tr) => [...tr.querySelectorAll("td, th")].map((td) => td.textContent.replace(/\s+/g, " ").trim())).filter((c) => c.some((x) => x));
+    return { ok: true, cv: m[1], linhas: linhas.slice(0, 5000), amostra: linhas.slice(0, 3).map((c) => c.join(" | ").slice(0, 160)), texto: linhas.length ? "" : (doc.body ? doc.body.textContent.replace(/\s+/g, " ").trim().slice(0, 200) : "") };
+  } catch (e) {
+    return { ok: false, erro: String((e && e.message) || e) };
+  }
+}
+
+async function avisarAutores(res) {
+  try {
+    const abas = await chrome.tabs.query({ url: APP_PATTERNS });
+    for (const a of abas) if (a.id) chrome.tabs.sendMessage(a.id, { type: "lattes-autores", ...res }).catch(() => {});
+  } catch (e) {}
+}
+
+async function coletarAutores() {
+  const { aba, logado } = await lattesLogado();
+  if (!aba || !logado) {
+    await abrirLoginLattes();
+    return avisarAutores({ ok: false, login: true, erro: "Abri o Lattes: entre no seu currículo e a coleta dos autores recomeça sozinha." });
+  }
+  try {
+    const out = await chrome.scripting.executeScript({ target: { tabId: aba.id }, world: "MAIN", func: lerAutoresNaPagina });
+    const r = (out && out[0] && out[0].result) || { ok: false, erro: "sem resposta da página" };
+    return avisarAutores(r);
+  } catch (e) {
+    return avisarAutores({ ok: false, erro: String((e && e.message) || e).slice(0, 300) });
+  }
+}
+
 // Pedido do LattesData: conferir no Lattes se o item (por título) existe e qual é o seq.
 async function verificarEnvio(msg) {
   const base = { envioId: msg.envioId, evento: "verificacao" };
@@ -568,7 +620,7 @@ async function removerEnvio(msg) {
   if (!antes.ok) return publicarResultado(base, { estado: "erro", titulo: "não consegui ler a lista do Lattes antes de remover", detalhes: [antes.erro || ""] });
   const it = acharItem(antes.itens, msg.titulo, msg.seq);
   if (!it) return publicarResultado(base, { estado: "ausente", titulo: "o item já não está na lista do Lattes (talvez já tenha sido removido).", detalhes: [] });
-  if (!mesmoTitulo(it.titulo, msg.titulo)) {
+  if (!casaItem(it, msg.titulo)) {
     return publicarResultado(base, { estado: "divergente", titulo: "o item nº " + it.seq + " do Lattes tem outro título. Nada foi excluído.", detalhes: [it.titulo.slice(0, 120)] });
   }
   let ac = null;
@@ -803,6 +855,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === "inst-coleta") {
     coletarInstituicoes(msg).then(sendResponse, (e) => sendResponse({ ok: false, message: String((e && e.message) || e) }));
     return true;
+  }
+
+  if (msg.type === "autores-coleta") {
+    coletarAutores().catch(() => {});
+    sendResponse({ ok: true, message: "Lendo os autores citados no seu currículo…" });
+    return;
   }
 
   if (msg.type === "remove") {

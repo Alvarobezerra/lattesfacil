@@ -30,7 +30,7 @@ LATTES_AREAS = [
     ("biophysics", "Biofísica"), ("morphology", "Morfologia"), ("ecology", "Ecologia"),
     ("zoology", "Zoologia"), ("botany", "Botânica"),
     # Equivalentes em português (o texto é normalizado, sem acento)
-    ("(?:imunologia|imunologic\\w*)", "Imunologia"), ("(?:microbiologia|microbian\\w*)", "Microbiologia"),
+    ("(?:imunologia|imunologic\\w*|imunomodul\\w*|imunobiol\\w*)", "Imunologia"), ("(?:microbiologia|microbian\\w*|probiotic\\w*|bacteri\\w*|antimicrob\\w*)", "Microbiologia"),
     ("(?:parasitologia|parasit\\w*)", "Parasitologia"), ("(?:farmacologia|farmacologic\\w*)", "Farmacologia"),
     ("fisiologia", "Fisiologia"), ("(?:bioquimica|antioxidante\\w*|oxidativo|peroxidacao|enzima\\w*)", "Bioquímica"),
     ("(?:genetica|genomic\\w*)", "Genética"), ("(?:toxicologia|toxicidade)", "Toxicologia"),

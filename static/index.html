@@ -96,7 +96,7 @@
     <section id="historyPanel" class="card hidden">
       <div class="card-header">
         <h2>📚 Registros</h2>
-        <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">Fechar</button>
+        <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">← Voltar ao cadastro</button>
       </div>
 
       <div id="cvPendencia" style="border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;margin:6px 0 12px">
@@ -484,7 +484,7 @@
           <h3>3. Autores, Palavras-chave e Área</h3>
         </div>
 
-        <div class="field">
+        <div class="field" data-tipos="anais apresentacao artigo">
           <label>Autores (com nome de citação Lattes)</label>
           <div id="authorsList" class="chips-list"></div>
           <div class="inline-add">
@@ -517,6 +517,24 @@
             <select id="visibilidade" name="visibilidade">
               <option value="Público">Público</option>
               <option value="Privado">Privado</option>
+            </select>
+          </div>
+          <div class="field type-hidden" data-tipos="orientacao">
+            <label for="bolsa">Com bolsa?</label>
+            <select id="bolsa" name="bolsa">
+              <option value="Não">Não</option>
+              <option value="Sim">Sim</option>
+            </select>
+          </div>
+          <div class="field type-hidden" data-tipos="orientacao">
+            <label for="agencia_financiadora">Agência financiadora (se houver bolsa)</label>
+            <input type="text" id="agencia_financiadora" name="agencia_financiadora" placeholder="Ex: FAPEMA, CNPq, CAPES" />
+          </div>
+          <div class="field col-span-2">
+            <label for="relevante">É um dos 10 trabalhos mais relevantes de sua produção?</label>
+            <select id="relevante" name="relevante">
+              <option value="Não">Não</option>
+              <option value="Sim">Sim</option>
             </select>
           </div>
         </div>

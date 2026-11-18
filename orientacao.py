@@ -8,6 +8,7 @@ from typing import Any
 from caderno import LATTES_AREAS, name_matches, normalize
 from certificado import title_name
 from extractor import _clean_line, to_citation_name
+from itens.sugestoes import areas_do_texto, palavras_chave
 
 NATUREZAS = [
     # (padrão no texto normalizado, nome da natureza no formulário)
@@ -29,7 +30,7 @@ PROF = r"\s*(?:(?i:Prof\w*)\.?\s*)?(?:(?i:Dr\w*)\.?\s*)*"
 
 def is_orientacao(text: str) -> bool:
     low = normalize(text[:5000])
-    tem_papel = bool(re.search(r"\borientador|\borientou|\borientac|\borientand|banca examinadora|\bdefesa\b|\bdefendid", low))
+    tem_papel = bool(re.search(r"\b(?:co-?)?orientador|\b(?:co-?)?orientou|\b(?:co-?)?orientac|\b(?:co-?)?orientand|banca examinadora|\bdefesa\b|\bdefendid", low))
     tem_natureza = any(re.search(p, low) for p, _ in NATUREZAS)
     return tem_papel and tem_natureza
 
@@ -38,7 +39,7 @@ def new_orientacao() -> dict[str, Any]:
     return {
         "tipo_producao": "orientacao", "natureza": "", "situacao_orientacao": "Concluída", "papel_orientacao": "Orientador principal",
         "tipo_mestrado": "", "titulo": "", "ano": "", "pais": "Brasil", "idioma": "Português", "homepage": "",
-        "nome_orientando": "", "instituicao_orient": "", "curso_orient": "", "relevante": "não",
+        "nome_orientando": "", "instituicao_orient": "", "curso_orient": "", "relevante": "Não", "bolsa": "Não", "agencia_financiadora": "",
         "autores": [], "palavras_chave": [], "area_conhecimento": "", "outras_informacoes": "",
         "visibilidade": "Público", "extraction_notes": [],
     }
@@ -107,7 +108,8 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
         elif re.search(re.escape(normalize(usuario).split()[-1]), low) and not (orientador or coorientador):
             notes.insert(0, f"{usuario} aparece no documento, mas não identifiquei o papel; confira orientador/coorientador.")
         else:
-            notes.insert(0, f"ATENÇÃO: {usuario} não aparece como orientador nem coorientador neste documento. Confira se é o arquivo certo.")
+            notes.insert(0, f"ATENÇÃO: nome do usuário não encontrado: {usuario} não consta como orientador nem coorientador neste documento"
+                          + (f" (consta: {orientador or coorientador})" if (orientador or coorientador) else "") + ". Escolha o tipo de orientação manualmente e confira se é o arquivo certo.")
     if orientador:
         notes.append(f"Orientador identificado no documento: {orientador}" + (f"; coorientador: {coorientador}" if coorientador else "") + ".")
 
@@ -134,9 +136,15 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
     else:
         notes.append("Ano não identificado.")
 
+    if rec["titulo"]:
+        rec["palavras_chave"] = palavras_chave(rec["titulo"], maximo=5)
+
     hay = normalize(rec["titulo"] + " " + rec["curso_orient"])
     areas = [lat for term, lat in LATTES_AREAS if re.search(r"\b" + term + r"\b", hay)]
+    for area in areas_do_texto(rec["titulo"], rec["curso_orient"], maximo=2):
+        if area not in areas:
+            areas.append(area)
     if areas:
         rec["area_conhecimento"] = "; ".join(areas[:3])
-    notes.append("Documento lido por heurística: confira todos os campos antes de aplicar no Lattes. Palavras-chave e áreas não constam na evidência.")
+    notes.append("Documento lido por heurística: confira todos os campos antes de aplicar no Lattes.")
     return rec

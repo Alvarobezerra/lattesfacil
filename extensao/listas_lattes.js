@@ -45,6 +45,7 @@ self.LISTAS_POR_ITEM = {
  "banca": "pkg_banca_trab.lista",
  "banca_comissao_julgadora": "pkg_banca_julg.lista",
  "orientacao_concluida": "pkg_orient.lista?f_tipo=C",
+ "orientacao": "pkg_orient.lista?f_tipo=C",
  "orientacao_andamento": "pkg_arte_nova.lista?f_cod_tipo=OU",
  "atuacao_profissional": "pkg_ativ.lista",
  "revisor_periodico": "pkg_revisor.lista?f_natur=RV",
