@@ -168,6 +168,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Forma de participação",
     "Tipo da apresentação/participação",

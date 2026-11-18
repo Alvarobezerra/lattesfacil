@@ -1,0 +1,71 @@
+{
+ "id": "citacao_scielo",
+ "secao": "Citações",
+ "item": "Citações no SciELO",
+ "como_abrir": "Citações > Citações no SciELO",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "prc_indicadores?f_base=2&f_cod=<codigo_do_cv>",
+   "abertura": {},
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "qtd_citacoes",
+     "name": "f_qtd_citacoes",
+     "rotulo": "Número total de citações",
+     "aba": "Dados da busca",
+     "tipo": "text",
+     "maxlength": 6,
+     "obrigatorio": true
+    },
+    {
+     "chave": "qtd_trabalhos",
+     "name": "f_qtd_trabalhos",
+     "rotulo": "Número de trabalhos",
+     "aba": "Dados da busca",
+     "tipo": "text",
+     "maxlength": 6,
+     "obrigatorio": true
+    },
+    {
+     "chave": "data",
+     "name": "f_data",
+     "rotulo": "Data",
+     "aba": "Dados da busca",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "query",
+     "name": "f_query",
+     "rotulo": "Formato(s) do nome do autor utilizado(s) na consulta para obter o total de citações",
+     "aba": "Dados da busca",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [],
+   "obrigatorios_mensagens": [
+    "ResearcherID",
+    "Base bibliográfica",
+    "Número total de citações",
+    "Número de trabalhos",
+    "Data"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

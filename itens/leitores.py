@@ -14,6 +14,7 @@ from caderno import name_matches, normalize
 from certificado import EVENT_WORDS, sentence_title
 from extractor import _clean_line
 from . import especificacao
+from .variantes import sugerir_variante
 
 TipoLeitor = Callable[[str, str], tuple[dict[str, Any], list[str]]]
 
@@ -343,7 +344,14 @@ def ler(item_id: str, texto: str, usuario: str = "") -> dict[str, Any] | None:
         return None
     valores, notas = fn(texto, usuario)
     nome_var = valores.pop("__variante", None)
+    sug = sugerir_variante(item_id, texto, valores)
+    if not nome_var:
+        nome_var = sug["variante"]
     valores = aplicar_padroes(item_id, {k: v for k, v in valores.items() if v not in ("", None)}, nome_var)
     var = next((x for x in spec["variantes"] if x["variante"] == nome_var), spec["variantes"][0])
     faltam = [c["rotulo"] for c in var["campos"] if c["obrigatorio"] and not c.get("automatico") and not valores.get(c["name"])]
-    return {"item": item_id, "variante": var["variante"], "valores": valores, "notas": notas, "faltam_obrigatorios": faltam}
+    out = {"item": item_id, "variante": var["variante"], "valores": valores, "notas": notas, "faltam_obrigatorios": faltam}
+    if len(spec["variantes"]) > 1:
+        out["variantes"] = sug["opcoes"]
+        out["motivo_variante"] = sug["motivo"] if sug["variante"] == var["variante"] else ""
+    return out

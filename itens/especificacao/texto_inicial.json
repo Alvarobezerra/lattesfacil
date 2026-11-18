@@ -1,0 +1,38 @@
+{
+ "id": "texto_inicial",
+ "secao": "Dados gerais",
+ "item": "Texto inicial do Currículo Lattes",
+ "como_abrir": "Dados gerais > Texto inicial do Currículo Lattes",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "pkg_resume.form?f_cod=<codigo_do_cv>",
+   "abertura": {},
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "texto",
+     "name": "F_TEXTO",
+     "rotulo": "Texto inicial",
+     "aba": "Texto inicial",
+     "tipo": "textarea",
+     "maxlength": 4000,
+     "obrigatorio": false
+    },
+    {
+     "chave": "texto_en",
+     "name": "F_TEXTO_EN",
+     "rotulo": "Tradução",
+     "aba": "Tradução",
+     "tipo": "textarea",
+     "maxlength": 4000,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [],
+   "obrigatorios_mensagens": []
+  }
+ ],
+ "curadoria": {}
+}

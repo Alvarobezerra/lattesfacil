@@ -1,0 +1,390 @@
+{
+ "id": "identificacao",
+ "secao": "Dados gerais",
+ "item": "Identificação",
+ "como_abrir": "Dados gerais > Identificação",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "prc_ident?f_cod=<codigo_do_cv>&f_pcd=X",
+   "abertura": {},
+   "janelas_auxiliares": [
+    "update_img();"
+   ],
+   "campos": [
+    {
+     "chave": "priv_foto",
+     "name": "f_priv_foto",
+     "rotulo": "f_priv_foto",
+     "aba": "Foto de perfil",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Nome completo",
+     "aba": "Nome civil",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": true
+    },
+    {
+     "chave": "nome_social_r",
+     "name": "f_nome_social_r",
+     "rotulo": "f_nome_social_r",
+     "aba": "Nome social",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "N",
+      "Sim": "S"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome_social",
+     "name": "f_nome_social",
+     "rotulo": "Nome social",
+     "aba": "Nome social",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": true
+    },
+    {
+     "chave": "nmecitacao",
+     "name": "nmeCitacao",
+     "rotulo": "SANTOS, A. A. B.",
+     "aba": "Dados pessoais",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_nacio",
+     "name": "f_pais_nacio",
+     "rotulo": "País de Nacionalidade",
+     "aba": "Dados pessoais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "priv_nacionalidade",
+     "name": "f_priv_nacionalidade",
+     "rotulo": "f_priv_nacionalidade",
+     "aba": "Dados pessoais",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_cpf",
+     "name": "f_priv_cpf",
+     "rotulo": "<doc11>",
+     "aba": "Dados pessoais",
+     "tipo": "select",
+     "opcoes": {
+      "Público": "1",
+      "Privado": "2"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sexo",
+     "name": "f_sexo",
+     "rotulo": "f_sexo",
+     "aba": "Dados pessoais",
+     "tipo": "radio",
+     "opcoes": {
+      "M": "M",
+      "F": "F"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fnro_id_raca_cor",
+     "name": "fnro_id_raca_cor",
+     "rotulo": "Cor ou raça",
+     "aba": "Dados pessoais",
+     "tipo": "select",
+     "opcoes": {
+      "Branca": "1",
+      "Preta": "2",
+      "Parda": "3",
+      "Indígena": "4",
+      "Amarela": "5",
+      "Não desejo declarar": "6"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "priv_cor",
+     "name": "f_priv_cor",
+     "rotulo": "f_priv_cor",
+     "aba": "Dados pessoais",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_nasc",
+     "name": "f_pais_nasc",
+     "rotulo": "País",
+     "aba": "Dados do nascimento",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "uf_nasc",
+     "name": "f_uf_nasc",
+     "rotulo": "UF",
+     "aba": "Dados do nascimento",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AP": "AP",
+      "AM": "AM",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MT": "MT",
+      "MS": "MS",
+      "MG": "MG",
+      "PA": "PA",
+      "PB": "PB",
+      "PR": "PR",
+      "PE": "PE",
+      "PI": "PI",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RS": "RS",
+      "RO": "RO",
+      "RR": "RR",
+      "SC": "SC",
+      "SP": "SP",
+      "SE": "SE",
+      "TO": "TO"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "cidade_nasc",
+     "name": "f_cidade_nasc",
+     "rotulo": "Cidade",
+     "aba": "Dados do nascimento",
+     "tipo": "text",
+     "maxlength": 30,
+     "obrigatorio": false
+    },
+    {
+     "chave": "dta_nasc",
+     "name": "f_dta_nasc",
+     "rotulo": "Data",
+     "aba": "Dados do nascimento",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "priv_nascimento",
+     "name": "f_priv_nascimento",
+     "rotulo": "Visibilidade",
+     "aba": "Dados do nascimento",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "rg_nro",
+     "name": "f_rg_nro",
+     "rotulo": "Número",
+     "aba": "Identidade",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao_rg",
+     "name": "f_orgao_rg",
+     "rotulo": "Órgão emissor",
+     "aba": "Identidade",
+     "tipo": "text",
+     "maxlength": 8,
+     "obrigatorio": true
+    },
+    {
+     "chave": "uf_rg",
+     "name": "f_uf_rg",
+     "rotulo": "Unidade Federativa",
+     "aba": "Identidade",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AP": "AP",
+      "AM": "AM",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MT": "MT",
+      "MS": "MS",
+      "MG": "MG",
+      "PA": "PA",
+      "PB": "PB",
+      "PR": "PR",
+      "PE": "PE",
+      "PI": "PI",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RS": "RS",
+      "RO": "RO",
+      "RR": "RR",
+      "SC": "SC",
+      "SP": "SP",
+      "SE": "SE",
+      "TO": "TO"
+     },
+     "obrigatorio": true
+    },
+    {
+     "chave": "dta_rg",
+     "name": "f_dta_rg",
+     "rotulo": "Data de emissão",
+     "aba": "Identidade",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "priv_identidade",
+     "name": "f_priv_identidade",
+     "rotulo": "Visibilidade",
+     "aba": "Identidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "passaporte",
+     "name": "f_passaporte",
+     "rotulo": "Número do passaporte",
+     "aba": "Passaporte",
+     "tipo": "text",
+     "maxlength": 20,
+     "obrigatorio": true
+    },
+    {
+     "chave": "dta_val_passaporte",
+     "name": "f_dta_val_passaporte",
+     "rotulo": "Data de validade",
+     "aba": "Passaporte",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "dta_emissao_doc",
+     "name": "f_dta_emissao_doc",
+     "rotulo": "Data de emissão",
+     "aba": "Passaporte",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "fpaispassaporte",
+     "name": "fpaispassaporte",
+     "rotulo": "Pais de emissão",
+     "aba": "Passaporte",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "priv_passaporte",
+     "name": "f_priv_passaporte",
+     "rotulo": "Visibilidade",
+     "aba": "Passaporte",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pcd_r",
+     "name": "f_pcd_r",
+     "rotulo": "f_pcd_r",
+     "aba": "Pessoas com Deficiência",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "N",
+      "Sim": "S"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "pcd",
+     "name": "f_pcd",
+     "rotulo": "f_pcd",
+     "aba": "Pessoas com Deficiência",
+     "tipo": "checkbox",
+     "opcoes": {
+      "Deficiência Auditiva": "A",
+      "Deficiência Física": "F",
+      "Deficiência Intelectual": "I",
+      "Deficiência Visual": "V",
+      "Transtorno do Espectro Autista": "E",
+      "Deficiência Múltipla": "M"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_pcd",
+     "name": "f_priv_pcd",
+     "rotulo": "(associação de duas ou mais deficiências - Decreto nº. 3.298/1999)",
+     "aba": "Pessoas com Deficiência",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "file",
+     "name": "file",
+     "rotulo": "Selecione uma imagem no formato JPEG com tamanho de até 70kB ou clique no botão Excluir pa",
+     "aba": "Outros identificadores",
+     "tipo": "file",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [],
+   "obrigatorios_mensagens": [
+    "Nome completo",
+    "Nome social",
+    "\\\"Cor ou Raça\\\" é de preenchimento",
+    "CPF",
+    "Data",
+    "País",
+    "Nome em citações bibliográficas",
+    "Número",
+    "Órgão emissor",
+    "Unidade Federativa",
+    "Data de emissão"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

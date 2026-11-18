@@ -1,0 +1,379 @@
+{
+ "id": "endereco",
+ "secao": "Dados gerais",
+ "item": "Endereço",
+ "como_abrir": "Dados gerais > Endereço",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "prc_endereco?f_cod=<codigo_do_cv>&modal2=1",
+   "abertura": {},
+   "janelas_auxiliares": [
+    "del_end_profi();",
+    "orgao();",
+    "sele_inst();"
+   ],
+   "campos": [
+    {
+     "chave": "pais_r",
+     "name": "f_pais_r",
+     "rotulo": "País",
+     "aba": "Residencial",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "cep_r",
+     "name": "f_cep_r",
+     "rotulo": "Não sei meu CEP",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": true
+    },
+    {
+     "chave": "rua_r",
+     "name": "f_rua_r",
+     "rotulo": "Logradouro (Rua, Avenida, etc.)",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 180,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bairro_r",
+     "name": "f_bairro_r",
+     "rotulo": "Bairro",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "munic_r",
+     "name": "f_munic_r",
+     "rotulo": "Cidade",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 45,
+     "obrigatorio": true
+    },
+    {
+     "chave": "estado_r",
+     "name": "f_estado_r",
+     "rotulo": "Estado/província",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ddd_r",
+     "name": "f_ddd_r",
+     "rotulo": "DDD",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fone_r",
+     "name": "f_fone_r",
+     "rotulo": "Telefone",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ramal_r",
+     "name": "f_ramal_r",
+     "rotulo": "Ramal",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fax_r",
+     "name": "f_fax_r",
+     "rotulo": "Fax",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "caixa_r",
+     "name": "f_caixa_r",
+     "rotulo": "Caixa postal",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ddd_cel_r",
+     "name": "f_ddd_cel_r",
+     "rotulo": "DDD",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fone_cel_r",
+     "name": "f_fone_cel_r",
+     "rotulo": "Celular",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "homepage_r",
+     "name": "f_homepage_r",
+     "rotulo": "Home page",
+     "aba": "Residencial",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "end_corr",
+     "name": "f_end_corr",
+     "rotulo": "f_end_corr",
+     "aba": "Residencial",
+     "tipo": "radio",
+     "opcoes": {
+      "utilizar este endereço para correspondência": "R"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_residencial",
+     "name": "f_priv_residencial",
+     "rotulo": "Visibilidade",
+     "aba": "Residencial",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição/Empresa",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "orgao",
+     "name": "f_orgao",
+     "rotulo": "Órgão/Unidade",
+     "aba": "Profissional",
+     "tipo": "text",
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_i",
+     "name": "f_pais_i",
+     "rotulo": "País",
+     "aba": "Profissional",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true
+    },
+    {
+     "chave": "cep_i",
+     "name": "f_cep_i",
+     "rotulo": "Não sei meu CEP",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": true
+    },
+    {
+     "chave": "rua_i",
+     "name": "f_rua_i",
+     "rotulo": "Logradouro (Rua, Avenida, etc.) e complemento (laboratório, sala, etc.)",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 180,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bairro_i",
+     "name": "f_bairro_i",
+     "rotulo": "Bairro",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 255,
+     "obrigatorio": true
+    },
+    {
+     "chave": "munic_i",
+     "name": "f_munic_i",
+     "rotulo": "Cidade",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 45,
+     "obrigatorio": true
+    },
+    {
+     "chave": "estado_i",
+     "name": "f_estado_i",
+     "rotulo": "Estado/província",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ddd_i",
+     "name": "f_ddd_i",
+     "rotulo": "DDD",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fone_i",
+     "name": "f_fone_i",
+     "rotulo": "Telefone",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ramal_i",
+     "name": "f_ramal_i",
+     "rotulo": "Ramal",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fax_i",
+     "name": "f_fax_i",
+     "rotulo": "Fax",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "caixa_i",
+     "name": "f_caixa_i",
+     "rotulo": "Caixa postal",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ddd_cel_i",
+     "name": "f_ddd_cel_i",
+     "rotulo": "DDD",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false
+    },
+    {
+     "chave": "fone_cel_i",
+     "name": "f_fone_cel_i",
+     "rotulo": "Celular",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "homepage_i",
+     "name": "f_homepage_i",
+     "rotulo": "Home page",
+     "aba": "Profissional",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "end_corr",
+     "name": "f_end_corr",
+     "rotulo": "f_end_corr",
+     "aba": "Profissional",
+     "tipo": "radio",
+     "opcoes": {
+      "utilizar este endereço para correspondência": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_profissional",
+     "name": "f_priv_profissional",
+     "rotulo": "Visibilidade",
+     "aba": "Profissional",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "email_i",
+     "name": "f_email_i",
+     "rotulo": "e-mail para contato",
+     "aba": "Eletrônico",
+     "tipo": "text",
+     "maxlength": 70,
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_email_i",
+     "name": "f_priv_email_i",
+     "rotulo": "e-mail para contato",
+     "aba": "Eletrônico",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "email_r",
+     "name": "f_email_r",
+     "rotulo": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)",
+     "aba": "Eletrônico",
+     "tipo": "text",
+     "maxlength": 70,
+     "obrigatorio": false
+    },
+    {
+     "chave": "priv_email_r",
+     "name": "f_priv_email_r",
+     "rotulo": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)",
+     "aba": "Eletrônico",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [],
+   "obrigatorios_mensagens": [
+    "Logradouro (Rua, Avenida, etc.)",
+    "Bairro",
+    "Cidade",
+    "CEP",
+    "País",
+    "Estado/província",
+    "DDD residencial",
+    "Telefone residencial",
+    "Instituição/Empresa"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

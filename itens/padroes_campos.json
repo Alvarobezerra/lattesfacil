@@ -1,0 +1,11 @@
+{
+  "_leia_me": "Valores-padrão por nome de campo repetido entre formulários (comparação sem diferenciar maiúsculas). 'valor' é o texto; 'codigo' escolhe, entre as opções do campo, a de código igual. Aplicados por gerar_specs.py só quando a curadoria do item não define 'padrao'. Sempre marcados 'confira' na tela. Fora de propósito: f_tipo_privacidade (campo oculto, semântica não mapeada), meio de divulgação, status e natureza (dependem do documento).",
+  "campos": {
+    "f_pais": {"valor": "Brasil"},
+    "f_idioma": {"valor": "Português"},
+    "f_relev": {"codigo": "N"},
+    "f_sta_divulgacao_cientifica": {"codigo": "N"},
+    "f_sta_inovacao": {"codigo": "N"},
+    "f_tpo_pesq_emp": {"codigo": "N"}
+  }
+}

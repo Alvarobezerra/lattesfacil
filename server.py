@@ -27,6 +27,7 @@ from orientacao import is_orientacao, parse_orientacao
 from certificado import is_certificate, parse_certificado
 from itens import especificacao as especificacao_item
 from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item
+from itens.variantes import spec_com_rotulos
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
 from radar import buscar_obras_radar
@@ -34,6 +35,7 @@ from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura, aquecer as aquecer_abertura
 from compliance import sanitizar_metadados, verificar_conformidade
 import curriculo_store
+import instituicoes
 from lattes_pagina import ler_pagina
 from lattes_xml import ler_curriculo, procurar_duplicata, resumo as resumo_xml
 from auditor import auditar
@@ -212,6 +214,7 @@ def init_db() -> None:
             """
         )
         curriculo_store.criar_tabelas(conn)
+        instituicoes.criar_tabelas(conn)
         cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
@@ -606,11 +609,19 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
         if path.startswith("/api/itens/") and path.endswith("/spec"):
             if self._gate():
-                spec = especificacao_item(path[len("/api/itens/"):-len("/spec")])
+                spec = spec_com_rotulos(path[len("/api/itens/"):-len("/spec")])
                 if spec:
                     self._send_json(spec)
                 else:
                     self._send_json({"error": "Item sem especificação."}, HTTPStatus.NOT_FOUND)
+            return
+        if path == "/api/itens/listas":
+            if self._gate():
+                try:
+                    mapa = json.loads((BASE_DIR / "itens" / "listas_lattes.json").read_text(encoding="utf-8"))
+                except Exception:
+                    mapa = {}
+                self._send_json({"itens": sorted(k for k, v in mapa.items() if v and not k.startswith("_"))})
             return
         if path == "/api/itens":
             if self._gate():
@@ -629,6 +640,20 @@ class LattesHandler(BaseHTTPRequestHandler):
             path = "/inicio.html"
         public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/"))
         if path not in ("/api/lattes/ping", "/mockup-ia.html") and not public_static and not self._gate():
+            return
+
+        if path == "/api/instituicoes/buscar":
+            qs = parse_qs(parsed.query)
+            with db() as conn:
+                self._send_json(instituicoes.buscar(conn, (qs.get("q") or [""])[0]))
+            return
+        if path == "/api/instituicoes/gerenciador":
+            with db() as conn:
+                self._send_json(instituicoes.estatisticas(conn))
+            return
+        if path == "/api/instituicoes/proximo-lote":
+            with db() as conn:
+                self._send_json(instituicoes.proximo_lote(conn))
             return
 
         if path == "/api/radar":
@@ -1152,6 +1177,30 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": "Falha ao abrir a versão."}, HTTPStatus.BAD_REQUEST)
             return
 
+        if path.startswith("/api/instituicoes/"):
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                acao = path[len("/api/instituicoes/"):]
+                with db() as conn:
+                    if acao == "registrar":  # candidatas devolvidas por uma consulta da lupa (uso ou coleta)
+                        r = instituicoes.registrar(conn, payload.get("itens") or [], payload.get("termo", ""), payload.get("origem", "uso"),
+                                                   payload.get("ms", 0), payload.get("erro", ""), payload.get("lote_id", ""))
+                        self._send_json({"ok": True, **r})
+                    elif acao == "confirmar":
+                        ok = instituicoes.confirmar(conn, str(payload.get("texto", "")), int(payload.get("id", 0)), str(payload.get("usuario", "")))
+                        self._send_json({"ok": ok}, HTTPStatus.OK if ok else HTTPStatus.BAD_REQUEST)
+                    elif acao == "desfazer":
+                        self._send_json({"ok": instituicoes.desfazer_confirmacao(conn, str(payload.get("texto", "")))})
+                    elif acao == "config":
+                        self._send_json({"ok": True, "config": instituicoes.definir_config(conn, payload)})
+                    elif acao == "importar":
+                        self._send_json({"ok": True, **instituicoes.importar_csv(conn, str(payload.get("csv", ""))[:5_000_000])})
+                    else:
+                        self._send_json({"error": "Ação desconhecida."}, HTTPStatus.NOT_FOUND)
+            except Exception:
+                self._send_json({"error": "Falha no banco de instituições."}, HTTPStatus.BAD_REQUEST)
+            return
+
         if path == "/api/duplicatas":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
@@ -1401,6 +1450,7 @@ def main() -> None:
     except Exception as exc:
         print("backup inicial falhou:", type(exc).__name__)
     threading.Thread(target=_backup_loop, daemon=True).start()
+    aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
     default_host = "0.0.0.0" if (os.environ.get("RENDER") or os.environ.get("PORT")) else "0.0.0.0"
     host = os.environ.get("HOST", default_host)
     port = int(os.environ.get("PORT", "8765"))
@@ -1410,7 +1460,6 @@ def main() -> None:
     print(f"LattesData rodando em http://{host}:{port}")
     server.serve_forever()
 
-    aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
 
 if __name__ == "__main__":
     main()

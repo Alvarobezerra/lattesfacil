@@ -1,0 +1,197 @@
+{
+ "id": "pos_doutorado",
+ "secao": "Formação",
+ "item": "Pós-doutorado e/ou livre-docência",
+ "como_abrir": "Formação > Pós-doutorado e/ou livre-docência",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "Formulário 1",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=5",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [
+    "agencia();"
+   ],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "status",
+     "name": "F_STATUS",
+     "rotulo": "F_STATUS",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "em andamento": "N",
+      "concluído": "S",
+      "incompleto": "I"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  },
+  {
+   "variante": "Formulário 2",
+   "url": "pkg_formacao.form?f_cod=<codigo_do_cv>&f_tipo=AP&f_nivel=6",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "selecionarNivel",
+    "descricao": "janela pede o nível/tipo; cada escolha abre um formulário diferente"
+   },
+   "janelas_auxiliares": [],
+   "campos": [
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "mes_obten",
+     "name": "f_mes_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 2,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_obten",
+     "name": "f_ano_obten",
+     "rotulo": "Obtenção do título (mês/ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título do trabalho",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 254,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Nível",
+    "Tipo de doutorado",
+    "Curso",
+    "Status do curso",
+    "Início (ano)",
+    "mês de obtenção",
+    "Obtenção do título (mês/ano)"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

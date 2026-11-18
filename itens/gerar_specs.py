@@ -30,8 +30,52 @@ ITENS = {
     "projeto": ["projetos/projetos-de-pesquisa.json", "projetos/projeto-de-extensao.json", "projetos/projeto-de-ensino.json",
                 "projetos/projeto-de-desenvolvimento-tecnologico.json", "projetos/outros-tipos-de-projetos.json"],
     "idioma": ["dados-gerais/idiomas.json"],
+    "orientacao_concluida": ["orientacoes/orientacoes-e-supervisoes-concluidas.json"],
+    "orientacao_andamento": ["orientacoes/orientacoes-e-supervisoes-em-andamento.json"],
     "licenca": ["dados-gerais/licenca-maternidade-paternidade-e-adocao.json"],
     "relatorio_tecnico": ["producoes/assessoria-e-consultoria.json"],
+    # --- 43 itens restantes (só especificação: sem leitor de documento ainda) ---
+    "comite_assessoramento": ["atuacao/membro-de-comite-de-assessoramento.json"],
+    "revisor_projeto_fomento": ["atuacao/revisor-de-projeto-de-agencia-de-fomento.json"],
+    "banca_comissao_julgadora": ["bancas/participacao-em-bancas-de-comissoes-julgadoras.json"],
+    "citacao_outra_base": ["citacoes/citacoes-em-outra-base-bibliografica.json"],
+    "citacao_google_scholar": ["citacoes/citacoes-no-google-scholar.json"],
+    "citacao_scielo": ["citacoes/citacoes-no-scielo.json"],
+    "citacao_scopus": ["citacoes/citacoes-no-scopus.json"],
+    "citacao_web_of_science": ["citacoes/citacoes-no-web-of-science.json"],
+    "endereco": ["dados-gerais/endereco.json"],
+    "identificacao": ["dados-gerais/identificacao.json"],
+    "outras_informacoes": ["dados-gerais/outras-informacoes-relevantes.json"],
+    "texto_inicial": ["dados-gerais/texto-inicial-do-curriculo-lattes.json"],
+    "pos_doutorado": ["formacao/pos-doutorado-e-ou-livre-docencia.json"],
+    "cultivar_protegida": ["patentes-e-registros/cultivar-protegida.json"],
+    "cultivar_registrada": ["patentes-e-registros/cultivar-registrada.json"],
+    "desenho_industrial": ["patentes-e-registros/desenho-industrial-registrado.json"],
+    "marca_registrada": ["patentes-e-registros/marca-registrada.json"],
+    "topografia_circuito": ["patentes-e-registros/topografia-de-circuito-integrado-registrada.json"],
+    "artes_cenicas": ["producoes/artes-cenicas.json"],
+    "artes_visuais": ["producoes/artes-visuais.json"],
+    "cartas_mapas": ["producoes/cartas-mapas-ou-similares.json"],
+    "material_didatico": ["producoes/desenvolvimento-de-material-didatico-ou-instrucional.json"],
+    "editoracao": ["producoes/editoracao.json"],
+    "entrevista_midia": ["producoes/entrevistas-mesas-redondas-programas-e-comentarios-na-midia.json"],
+    "extensao_tecnologica": ["producoes/extensao-tecnologica.json"],
+    "manutencao_obra": ["producoes/manutencao-de-obra-artistica.json"],
+    "maquete": ["producoes/maquete.json"],
+    "musica": ["producoes/musica.json"],
+    "outra_producao_artistica": ["producoes/outra-producao-artistica-cultural.json"],
+    "outra_producao_bibliografica": ["producoes/outra-producao-bibliografica.json"],
+    "outra_producao_tecnica": ["producoes/outra-producao-tecnica.json"],
+    "partitura_musical": ["producoes/partitura-musical.json"],
+    "prefacio_posfacio": ["producoes/prefacio-posfacio.json"],
+    "processo_tecnica": ["producoes/processos-ou-tecnicas.json"],
+    "produto": ["producoes/produtos.json"],
+    "software_sem_registro": ["producoes/programa-de-computador-sem-registro.json"],
+    "redes_sociais": ["producoes/redes-sociais-websites-e-blogs.json"],
+    "relatorio_pesquisa": ["producoes/relatorio-de-pesquisa.json"],
+    "texto_jornal_revista": ["producoes/texto-em-jornal-ou-revista-magazine.json"],
+    "trabalho_tecnico": ["producoes/trabalhos-tecnicos.json"],
+    "traducao": ["producoes/traducao.json"],
 }
 
 
@@ -88,10 +132,52 @@ def campos_do_formulario(f):
     return campos
 
 
+GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
+    "autores": ("autores", "Autores", "Um por linha: Nome completo; Nome em citações (opcional)"),
+    "palavras chave": ("palavras_chave", "Palavras-chave", "Uma por linha (até 50 caracteres cada)"),
+    "areas": ("areas", "Áreas do conhecimento", "Uma por linha, com o nome exato da área do Lattes"),
+    "setores": ("setores", "Setores de atividade", "Um por linha, com o nome exato do setor do Lattes"),
+}
+
+
+def grades_do_formulario(f):
+    """Abas de lista (sem campos nomeados) que o preenchedor genérico sabe preencher."""
+    out = []
+    for aba in f.get("abas", []):
+        g = GRADES.get(norm(aba.get("aba", "")))
+        if g:
+            out.append({"chave": g[0], "rotulo": g[1], "dica": g[2], "aba": aba.get("aba", "")})
+    return out
+
+
+def carregar_padroes():
+    p = pathlib.Path(__file__).resolve().parent / "padroes_campos.json"
+    d = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    return {k.lower(): v for k, v in d.get("campos", {}).items()}
+
+
+def aplicar_padroes_comuns(campos, padroes):
+    """Preenche 'padrao' (+ origem e 'confira') nos campos repetidos entre formulários, sem sobrepor a curadoria."""
+    for c in campos:
+        pd = padroes.get(c["name"].lower())
+        if not pd or c.get("padrao"):
+            continue
+        if "codigo" in pd:
+            chave = next((r for r, cod in (c.get("opcoes") or {}).items() if cod == pd["codigo"]), None)
+            if not chave:
+                continue
+            c["padrao"] = chave
+        else:
+            c["padrao"] = pd["valor"]
+        c["origem_padrao"] = "padrao_comum"
+        c["confira"] = True
+
+
 def gerar():
     SAIDA.mkdir(exist_ok=True)
     cur_p = pathlib.Path(__file__).resolve().parent / "curadoria.json"
     curadoria = json.loads(cur_p.read_text(encoding="utf-8")) if cur_p.exists() else {}
+    padroes = carregar_padroes()
     resumo = []
     for item_id, arquivos in ITENS.items():
         variantes = []
@@ -105,6 +191,7 @@ def gerar():
                     "abertura": d.get("abertura", {}),
                     "janelas_auxiliares": f.get("janelas_auxiliares", []),
                     "campos": campos_do_formulario(f),
+                    "grades": grades_do_formulario(f),
                     "obrigatorios_mensagens": f.get("campos_obrigatorios_segundo_mensagens", []),
                 })
             primeiro = d
@@ -112,6 +199,7 @@ def gerar():
             for var_ in variantes[inicio:]:
                 for c in var_["campos"]:
                     c.update(over.get(c["name"], {}))
+                aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {
             "id": item_id,
             "secao": primeiro.get("secao", ""),

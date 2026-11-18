@@ -72,6 +72,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Curso",

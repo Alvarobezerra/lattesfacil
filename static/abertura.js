@@ -49,6 +49,18 @@
     $("banner").replaceChildren(el("div", { class: "banner" }, msg, f));
   }
 
+  function proximoPasso() {
+    const title = $("nextTitle"), text = $("nextText"), action = $("nextAction"), icon = document.querySelector("#nextStep .ns-icon");
+    if (!title || !text || !action) return;
+    let cfg = { icon: "→", title: "Envie seu primeiro documento", text: "Comece por um artigo, certificado ou resumo em PDF.", label: "Enviar documento", href: "/" };
+    if (!orcid) cfg = { icon: "◎", title: "Conecte seu ORCID", text: "Assim calculamos sua produção e mostramos quem cita você.", label: "Informar ORCID", href: "#ids" };
+    else if (!dados) cfg = { icon: "…", title: "Preparando seu painel", text: "Estamos verificando seus dados e seus documentos.", label: "Aguarde", href: "#nextStep" };
+    else if (dados.pendente || dados.atualizando) cfg = { icon: "↻", title: "Atualizando seus indicadores", text: "Você já pode explorar o painel enquanto verificamos novidades.", label: "Ver currículo", href: "/meu-curriculo.html" };
+    else if (dados.envios && dados.envios.total) cfg = { icon: "✓", title: "Continue mantendo seu Lattes em dia", text: `${fmt(dados.envios.total)} documento${dados.envios.total === 1 ? " já foi" : "s já foram"} registrado${dados.envios.total === 1 ? "" : "s"}.`, label: "Enviar outro", href: "/" };
+    title.textContent = cfg.title; text.textContent = cfg.text; action.textContent = cfg.label; action.href = cfg.href;
+    if (icon) icon.textContent = cfg.icon;
+  }
+
   function kpi(id, rotulo, valor, delta, sub, flat) {
     const b = el("button", { class: "card kpi" + (id === atual ? " on" : ""), type: "button", "data-k": id },
       el("div", { class: "lb" }, rotulo), el("div", { class: "v" }, valor),
@@ -147,13 +159,14 @@
     else if (avisos.length) $("banner").replaceChildren(el("div", { class: "banner" }, avisos.join(" ")));
     else $("banner").replaceChildren();
     renderKpis(); desenhar(); renderFeed(); renderSide();
+    proximoPasso();
   }
   async function carregar() {
     // Última foto guardada neste navegador: a tela abre instantaneamente e a verificação segue por trás.
     if (!dados && orcid) {
       try { const snap = JSON.parse(store.get(CHAVE_SNAP + orcid) || "null"); if (snap && snap.ok) { dados = snap; dados.atualizando = true; mostrar(); } } catch (e) {}
     }
-    if (!dados) $("status").textContent = "Carregando seus indicadores…";
+    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); }
     const qs = new URLSearchParams({ usuario });
     if (orcid) qs.set("orcid", orcid);
     let novo;
@@ -225,6 +238,7 @@
         if (!store.get(CHAVE_LAT)) {
           $("latMeta").replaceChildren("Ainda não há currículo Lattes importado. ", el("a", { href: "/meu-curriculo.html" }, "Importe seu XML ou leia ao vivo"), " para ver sua produção e registros aqui.");
           $("latK").replaceChildren(); $("latGraf").replaceChildren(); $("latCat").replaceChildren();
+          const ns = $("nextStep"); if (ns && orcid) { $("nextTitle").textContent = "Importe seu currículo Lattes"; $("nextText").textContent = "Veja sua produção completa, pendências e evolução por categoria."; $("nextAction").textContent = "Importar currículo"; $("nextAction").href = "/meu-curriculo.html"; }
         }
         return;
       }

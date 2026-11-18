@@ -1,0 +1,247 @@
+{
+ "id": "orientacao_concluida",
+ "secao": "Orientações",
+ "item": "Orientações e supervisões concluídas",
+ "como_abrir": "Orientações > Orientações e supervisões concluídas",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "pkg_orient.form?f_cod=<codigo_do_cv>&f_tipo=C",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "pkg_orient.form?f_cod=<codigo_do_cv>&f_tipo=C",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "agencia();",
+    "capesdados();",
+    "curso();",
+    "dominio();",
+    "sele_inst();"
+   ],
+   "campos": [
+    {
+     "chave": "cod_prod",
+     "name": "F_COD_PROD",
+     "rotulo": "F_COD_PROD",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Dissertação de mestrado": "41",
+      "Tese de doutorado": "42",
+      "Monografia de conclusão de curso de aperfeiçoamento/especial": "43",
+      "Trabalho de conclusão de curso de graduação": "44",
+      "Iniciação Científica": "45",
+      "Supervisão de pós-doutorado": "46",
+      "Orientação de outra natureza": "49"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "dsc_outra",
+     "name": "f_dsc_outra",
+     "rotulo": "(apenas para dissertação de mestrado e orientação de outra natureza)",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 100,
+     "obrigatorio": true
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título do trabalho orientado",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano de término da orientação",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados Gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true,
+     "padrao": "Brasil",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados Gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/idiomas-152.json",
+     "obrigatorio": true,
+     "padrao": "Português",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados Gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "relev",
+     "name": "F_RELEV",
+     "rotulo": "F_RELEV",
+     "aba": "Dados Gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false,
+     "padrao": "não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "tpo_orient",
+     "name": "f_tpo_orient",
+     "rotulo": "f_tpo_orient",
+     "aba": "Detalhamento",
+     "tipo": "radio",
+     "opcoes": {
+      "Orientador principal": "O",
+      "coorientador": "C"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_orient",
+     "name": "f_nme_orient",
+     "rotulo": "Nome do orientando",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 60,
+     "obrigatorio": true
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Instituição",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": true
+    },
+    {
+     "chave": "curso",
+     "name": "f_curso",
+     "rotulo": "Curso",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 50,
+     "obrigatorio": true
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "F_BOLSA",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "sim": "S",
+      "não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Natureza",
+    "Título da produção",
+    "Ano",
+    "País",
+    "Idioma",
+    "Tipo de orientação",
+    "Nome do orientando",
+    "Instituição",
+    "Curso"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

@@ -79,7 +79,7 @@ def _periodo(flat: str) -> dict[str, str]:
 
 
 def _revista(flat: str) -> str:
-    m = re.search(r"\b((?:Revista|Journal|Peri[óo]dico|Anais)\s+(?:d[aeo]s?\s+)?[A-ZÀ-Ý][^,.;\"“”]{3,140})", flat) or         re.search(r"(?:peri[óo]dico|revista|journal)\s+[\"“”]?([A-ZÀ-Ý][^,.;\"“”]{4,140})", flat)
+    m = re.search(r"\b((?:Revista|Journal|Peri[óo]dico|Anais)\s+(?:(?:d[aeo]s?|of|the|on)\s+)*[A-ZÀ-Ý][^,.;\"“”]{3,140})", flat) or         re.search(r"(?:peri[óo]dico|revista|journal)\s+[\"“”]?([A-ZÀ-Ý][^,.;\"“”]{4,140})", flat)
     return _clean_line(m.group(1)).strip(" -–") if m else ""
 
 
@@ -268,10 +268,10 @@ def ler_software_registro(texto: str, usuario: str):
         re.search(r"programa de computador\s+(?:denominado|intitulado)\s+[\"“”]?(.+?)[\"“”]?[,.]", flat, re.I)
     titulo = sentence_title(m.group(1).strip(" \"“”.")) if m else ""
     m = re.search(r"Linguage(?:m|ns)(?: de programa[çc][ãa]o)?:\s*(.+?)(?:\s+(?:Campo|Tipo|Data|Titular|Autor|Resumo)|$)", flat)
-    ling = _clean_line(m.group(1)) if m else ""
+    ling = _clean_line(m.group(1)).strip(" .;") if m else ""
     datas = _datas(flat)
     cert = _fmt(datas[-1]) if datas else ""
-    v: dict[str, Any] = {"f_cod_reg": reg, "f_inst": "INPI", "f_pais": "Brasil", "f_titulo": titulo, "f_plataforma": ling,
+    v: dict[str, Any] = {"f_cod_reg": reg, "f_inst": "INPI", "f_pais": "Brasil", "f_pais_inst": "Brasil", "f_titulo": titulo, "f_plataforma": ling,
                          "f_dta_conc": cert, "f_natureza": "Computacional"}
     n = []
     if not reg:

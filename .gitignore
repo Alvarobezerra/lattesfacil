@@ -15,3 +15,7 @@ docs/campos-lattes/_raw/
 # Segurança: código de acesso local e backups do banco
 .acesso
 backups/
+
+# Amostras sintéticas: nome do usuário e PDFs gerados com ele (dado pessoal)
+tests/amostras_sinteticas/nome.local.txt
+tests/amostras_sinteticas/pdf/

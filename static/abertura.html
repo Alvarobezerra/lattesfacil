@@ -74,6 +74,12 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .row .q{margin-left:auto;font-weight:800;color:var(--cyan-d);white-space:nowrap}
 .empty{color:var(--muted);font-size:.86rem;margin:0}
 .banner{margin:14px 0 0;padding:12px 16px;border-radius:12px;background:var(--warn-bg);color:var(--warn);font-size:.86rem;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+.next-step{display:flex;align-items:center;gap:14px;margin:14px 0 0;padding:15px 17px;border:1px solid color-mix(in srgb,var(--cyan) 28%,var(--border));border-radius:14px;background:linear-gradient(100deg,color-mix(in srgb,var(--cyan) 10%,var(--card)),var(--card));box-shadow:0 8px 22px rgba(11,25,44,.05)}
+.next-step .ns-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--cyan);color:#04202a;font-size:1.15rem;font-weight:800}
+.next-step .ns-copy{min-width:0;flex:1}.next-step .ns-label{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--cyan-d)}
+.next-step h2{font-size:.98rem;margin:2px 0 1px}.next-step p{font-size:.8rem;color:var(--muted);margin:0}.next-step .btn{white-space:nowrap}
+.banner.success{background:color-mix(in srgb,var(--emerald) 10%,var(--card));color:#08734f;border-color:color-mix(in srgb,var(--emerald) 30%,var(--border))}
+@media (prefers-color-scheme:dark){.next-step{box-shadow:none}.banner.success{color:#72e5bc}}
 form.orcid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);min-width:230px}
 .skel{position:relative;overflow:hidden;color:transparent!important;background:var(--border);border-radius:6px;animation:p 1.2s infinite alternate}
@@ -85,7 +91,7 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
 @media (max-width:1020px){.lat-k{grid-template-columns:repeat(3,1fr)}.lat-b{grid-template-columns:1fr}}
 @keyframes p{from{opacity:.45}to{opacity:.9}}
 @media (max-width:1020px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.nav{display:none}}
-@media (max-width:520px){.chart-foot{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.chart-foot{grid-template-columns:repeat(2,1fr)}.next-step{align-items:flex-start;flex-wrap:wrap}.next-step .ns-copy{flex-basis:calc(100% - 52px)}.next-step .btn{margin-left:52px}}
 </style>
 </head>
 <body>
@@ -106,6 +112,11 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
     <div class="actions"><a class="btn btn-p" href="/">＋ Enviar documento</a></div>
   </section>
   <div id="banner"></div>
+  <section class="next-step" id="nextStep" aria-live="polite">
+    <div class="ns-icon" aria-hidden="true">→</div>
+    <div class="ns-copy"><div class="ns-label">Próximo passo</div><h2 id="nextTitle">Preparando seu painel</h2><p id="nextText">Estamos verificando seus dados e seus documentos.</p></div>
+    <a class="btn btn-p" id="nextAction" href="/">Enviar documento</a>
+  </section>
 
   <section class="card lat" id="lattes" aria-label="Seu currículo Lattes">
     <div class="sec-h"><h2>Seu Lattes</h2><a class="mais" href="/meu-curriculo.html">Ver currículo completo →</a></div>

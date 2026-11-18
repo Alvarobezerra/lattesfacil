@@ -1,4 +1,5 @@
 // Service worker: gerencia a conexão com o Lattes, fila pós-login e execução em 1 clique.
+importScripts("listas_lattes.js"); // self.LISTAS_POR_ITEM (gerado por build.py)
 const LATTES_LOGIN_URL = "https://wwws.cnpq.br/cvlattesweb/pkg_login.prc_form";
 const LATTES_PATTERNS = ["https://wwws.cnpq.br/*", "https://lattes.cnpq.br/*"];
 const APP_PATTERNS = ["http://localhost/*", "http://127.0.0.1/*", "https://lattesfacil.onrender.com/*"];
@@ -205,6 +206,14 @@ async function jaClicouSalvar(tabId) {
 }
 
 async function executarAutofillNaAba(tabId, data) {
+  const antesSeqs = data.__autoSalvar && !data.__alterar ? await fotografarLista(tabId, data) : null;
+  if (data.__alterar && data.__generico) {
+    // ALTERAÇÃO: o endereço do formulário vem da lista do próprio Lattes (nunca do app), pelo nº do item escolhido.
+    const l = await lerLista(tabId, tipoDaLista(data));
+    const it = l.ok ? l.itens.find((x) => x.seq === String(data.__alterar.seq)) : null;
+    if (!it) return publicarResultado({ envioId: "", evento: "preenchimento" }, { estado: "erro", titulo: "o item nº " + data.__alterar.seq + " não está na lista do Lattes: nada foi alterado.", detalhes: [l.erro || ""] });
+    data.__generico.url = it.url;
+  }
   let res = null;
   let ultimoErro = "";
   // Logo após o login o Lattes ainda costuma recarregar a página (redirecionamentos): o script some junto e a
@@ -236,29 +245,113 @@ async function executarAutofillNaAba(tabId, data) {
     };
   }
   // Com Salvar automático, confirma de verdade olhando a lista do currículo (e guarda o nº do item para remover depois).
-  if (data.__autoSalvar && res.estado !== "erro") {
-    const c = await confirmarNaLista(tabId, data);
+  if (data.__autoSalvar && data.__alterar && res.estado !== "erro") {
+    await aguardarAbaCarregada(tabId);
+    await esperar(1500);
+    const l = await lerLista(tabId, tipoDaLista(data));
+    const ainda = l.ok && l.itens.some((x) => x.seq === String(data.__alterar.seq));
+    res = ainda
+      ? { estado: "ok", titulo: "alteração salva: o item nº " + data.__alterar.seq + " continua na lista do currículo.", detalhes: res.detalhes || [], seq: String(data.__alterar.seq) }
+      : { ...res, estado: "atencao", titulo: "cliquei em Salvar, mas o item nº " + data.__alterar.seq + " não está mais na lista. Confira no currículo.", detalhes: res.detalhes || [] };
+  } else if (data.__autoSalvar && res.estado !== "erro") {
+    const c = await confirmarNaLista(tabId, data, antesSeqs);
     if (c.achou) {
       res = { estado: "ok", titulo: "salvo e confirmado no currículo (item nº " + c.seq + ").", detalhes: res.detalhes || [], seq: c.seq };
     } else if (c.consultou) {
       res = { ...res, estado: "atencao", titulo: "cliquei em Salvar, mas o item não apareceu na lista do Lattes. Confira no currículo.", detalhes: res.detalhes || [] };
     }
   }
+  enviarLoteInstituicoes(await lerLoteInstituicoes(tabId)); // o que a lupa devolveu durante o preenchimento alimenta o banco
   // Guarda o resultado: a página recarregada o mostra de novo (ver content-lattes.js).
   return publicarResultado({ envioId: data.__envioId || "", evento: "preenchimento" }, res);
+}
+
+// ===== Banco de instituições: o que a lupa do Lattes devolve (uso e coleta gradual) vai para o LattesData =====
+// O script do formulário guarda cada consulta da lupa em window.top.__lfInstLote; aqui se lê (e zera) e se repassa às abas do app,
+// que gravam no servidor com a sessão do usuário. Nada do currículo vai junto: só nome e argumentos do link da instituição.
+async function lerLoteInstituicoes(tabId) {
+  try {
+    const r = await chrome.scripting.executeScript({
+      target: { tabId },
+      world: "MAIN",
+      func: () => { try { const l = window.top.__lfInstLote || []; window.top.__lfInstLote = []; return l; } catch (e) { return []; } }
+    });
+    return (r && r[0] && r[0].result) || [];
+  } catch (e) { return []; }
+}
+
+async function enviarLoteInstituicoes(lote, fim) {
+  if ((!lote || !lote.length) && !fim) return;
+  (lote || []).forEach((q) => { q.lote_id = String(q.lote_id || crypto.randomUUID().replace(/-/g, "")); }); // o mesmo id em todas as abas do app: o servidor descarta repetidos
+  try {
+    const abas = await chrome.tabs.query({ url: APP_PATTERNS });
+    for (const a of abas) if (a.id) chrome.tabs.sendMessage(a.id, { type: "lattes-inst-lote", lote: lote || [], fim: fim || null }).catch(() => {});
+  } catch (e) {}
+}
+
+// Roda NA página do Lattes: espera o painel pronto e executa o modo "coleta" do script de preenchimento (só pesquisa na lupa).
+async function rodarColeta(d) {
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const top = window.top;
+  const msgs = [];
+  const alertOriginal = top.alert;
+  top.alert = (m) => { msgs.push(String(m)); };
+  try {
+    top.__lfInstFim = null;
+    top.__lfInstLote = [];
+    const pronto = () => { try { const h = top.document.documentElement.innerHTML || ""; return top.document.readyState === "complete" && !!top.modalCV2 && typeof top.modalCV2.setarUrl === "function" && /[?&]f_cod=[A-Za-z0-9]{6,20}/i.test(h); } catch (e) { return false; } };
+    for (let i = 0; i < 60 && !pronto(); i++) await sleep(500);
+    if (!pronto()) return { ok: false, erro: "o Lattes não terminou de carregar o currículo" };
+    await sleep(800);
+    await window.__lfAutofill(d);
+    const fim = top.__lfInstFim;
+    if (fim) return fim;
+    return { ok: false, erro: msgs.join(" ").slice(0, 300) || "a coleta não chegou ao fim" };
+  } catch (e) {
+    return { ok: false, erro: String((e && e.message) || e).slice(0, 300) };
+  } finally {
+    top.alert = alertOriginal;
+  }
+}
+
+let coletando = false;
+async function coletarInstituicoes(msg) {
+  if (coletando) return { ok: false, message: "Já existe uma coleta em andamento." };
+  const aba = await acharAbaLattes();
+  if (!aba) return { ok: false, message: "Abra o Lattes e faça o login para coletar instituições." };
+  const st = await verificarSeAbaLogada(aba.id);
+  if (!st.loggedIn) return { ok: false, message: "A aba do Lattes não está com o currículo aberto (login)." };
+  coletando = true;
+  (async () => {
+    let fim = { ok: false, erro: "coleta interrompida" };
+    try {
+      const d = {
+        tipo_producao: "generico", __usuario: String(msg.usuario || "").slice(0, 120),
+        __generico: { url: String(msg.url || ""), item: "coleta de instituições", campos: [], grades: {}, faltam: [],
+                      coleta: { termos: (msg.termos || []).map((t) => String(t).slice(0, 120)).slice(0, 25), intervalo_ms: Number(msg.intervalo_ms) || 4000 } }
+      };
+      await chrome.scripting.executeScript({ target: { tabId: aba.id }, world: "MAIN", files: ["autofill_core.js"] });
+      const out = await comLimite(chrome.scripting.executeScript({ target: { tabId: aba.id }, world: "MAIN", args: [d], func: rodarColeta }), 25 * 60 * 1000, null);
+      if (out && out[0] && out[0].result) fim = out[0].result;
+    } catch (e) {
+      fim = { ok: false, erro: String((e && e.message) || e).slice(0, 300) };
+    } finally {
+      coletando = false;
+    }
+    await enviarLoteInstituicoes(await lerLoteInstituicoes(aba.id), fim);
+  })();
+  return { ok: true, message: "Coleta iniciada na aba do Lattes. Não feche a aba até terminar." };
 }
 
 
 // ===== Itens já cadastrados: ler a lista do Lattes, confirmar o que foi salvo, verificar e remover =====
 // Mapeado no Lattes real (somente leitura): a lista de cada tipo é uma página HTML cujas linhas trazem o f_seq do
 // item; abrir o item é prc_tec_apres?f_cod=<cv>&f_seq=<seq>, e o botão Excluir chama del() (confirm + envio).
-const LISTAS_LATTES = {
-  apresentacao: {
-    lista: "prc_tec_demais_lista?f_cod_tipo=2J&f_cod=",
-    item: (cv, seq) => "prc_tec_apres?f_cod=" + cv + "&f_seq=" + seq,
-    rotulo: "Apresentação de trabalho e palestra"
-  }
-};
+// Cada item do Lattes com lista mapeada (itens/listas_lattes.json): a lista e, por linha, o formulário do item (onclick).
+const LISTAS_LATTES = {};
+for (const [id, caminho] of Object.entries(self.LISTAS_POR_ITEM || {})) {
+  LISTAS_LATTES[id] = { lista: caminho + (caminho.includes("?") ? "&" : "?") + "f_cod=", rotulo: id };
+}
 
 function normTitulo(s) {
   return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -268,7 +361,8 @@ function mesmoTitulo(a, b) {
   if (!x || !y) return false;
   if (x === y) return true;
   const n = Math.min(x.length, y.length);
-  return n >= 40 && (x.startsWith(y) || y.startsWith(x));
+  // Itens genéricos: o texto da lista pode ser só parte do campo do formulário (ou o contrário).
+  return (n >= 40 && (x.startsWith(y) || y.startsWith(x))) || (n >= 10 && (x.includes(y) || y.includes(x)));
 }
 
 // Roda NA página do Lattes (mundo MAIN): lê a lista do tipo e devolve os itens (seq, título, tipo, ano).
@@ -285,14 +379,17 @@ async function lerListaNaPagina(listaPath) {
     let texto;
     try { texto = new TextDecoder(cs).decode(buf); } catch (e) { texto = new TextDecoder("iso-8859-1").decode(buf); }
     const doc = new DOMParser().parseFromString(texto, "text/html");
-    const itens = [...doc.querySelectorAll("tr[onclick*='f_seq']")].map((tr) => {
-      const mm = (tr.getAttribute("onclick") || "").match(/f_seq=(\d+)/);
+    const itens = [...doc.querySelectorAll("tr[onclick*='setarUrl']")].map((tr) => {
+      const oc = tr.getAttribute("onclick") || "";
+      const mu = oc.match(/setarUrl\(\s*['"]([^'"]+)['"]/);
+      const url = mu ? mu[1] : "";
+      // nº do item: f_seq, f_seq_ativ... (ou o 1º parâmetro numérico que não seja o código do currículo)
+      const ms = url.match(/[?&]f_seq[a-z_]*=(\d+)/i) || url.match(/[?&](?!f_cod=|f_tipo|f_cod_tipo)[a-z_]+=(\d+)/i);
       const tds = [...tr.querySelectorAll("td")].map((td) => td.textContent.replace(/\s+/g, " ").trim());
-      // Na página devolvida pelo servidor as colunas são Título, Tipo, Ano, Visibilidade (conferido no Lattes real);
-      // na tela renderizada há antes uma coluna de numeração. Aceita as duas formas.
+      // Colunas conferidas no Lattes real: Título, Tipo, Ano, Visibilidade (na tela há antes uma coluna de numeração).
       const o = /^\d+$/.test(tds[0] || "") ? 1 : 0;
-      return { seq: mm ? mm[1] : "", titulo: tds[o] || "", tipo: tds[o + 1] || "", ano: tds[o + 2] || "" };
-    }).filter((i) => i.seq);
+      return { seq: ms ? ms[1] : "", titulo: tds[o] || "", tipo: tds[o + 1] || "", ano: tds[o + 2] || "", url };
+    }).filter((i) => i.seq && i.url);
     return { ok: true, cv: m[1], itens };
   } catch (e) {
     return { ok: false, erro: String((e && e.message) || e) };
@@ -320,14 +417,34 @@ function acharItem(itens, titulo, seq) {
   return iguais[0] || null;
 }
 
+// Id do item para a lista: "apresentação" (legado) vem em tipo_producao; os genéricos, em __generico.item.
+function tipoDaLista(data) {
+  return data.tipo_producao === "generico" ? ((data.__generico || {}).id || "") : data.tipo_producao;
+}
+
+// Antes de preencher: guarda os nºs que a lista já tem, para reconhecer depois o item novo (vale para qualquer título).
+async function fotografarLista(tabId, data) {
+  const tipo = tipoDaLista(data);
+  if (!LISTAS_LATTES[tipo]) return null;
+  const l = await lerLista(tabId, tipo);
+  return l.ok ? l.itens.map((i) => i.seq) : null;
+}
+
 // Depois de Salvar: confirma de verdade, olhando a lista do currículo, se o item está lá.
-async function confirmarNaLista(tabId, data) {
-  if (!LISTAS_LATTES[data.tipo_producao]) return { consultou: false };
+async function confirmarNaLista(tabId, data, antesSeqs) {
+  const tipo = tipoDaLista(data);
+  if (!LISTAS_LATTES[tipo]) return { consultou: false };
   await aguardarAbaCarregada(tabId);
   for (let i = 0; i < 4; i++) {
-    const l = await lerLista(tabId, data.tipo_producao);
+    const l = await lerLista(tabId, tipo);
     if (l.ok) {
-      const it = acharItem(l.itens, data.titulo, "");
+      let it = null;
+      if (Array.isArray(antesSeqs)) {
+        const novos = l.itens.filter((x) => !antesSeqs.includes(x.seq));
+        if (novos.length === 1) it = novos[0];
+        else if (novos.length > 1) it = acharItem(novos, data.titulo, "");
+      }
+      if (!it) it = acharItem(l.itens, data.titulo, "");
       if (it) return { consultou: true, achou: true, seq: it.seq };
     }
     await esperar(2000);
@@ -335,12 +452,12 @@ async function confirmarNaLista(tabId, data) {
   return { consultou: true, achou: false };
 }
 
-// Roda NA página do Lattes: abre o item pelo f_seq, confere o título e aciona o Excluir do próprio Lattes.
+// Roda NA página do Lattes: abre o item pelo formulário da linha da lista, confere que é ele e aciona o Excluir do Lattes.
 async function abrirEExcluirNaPagina(itemPath, seq, titulo) {
   const top = window.top;
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const norm = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-  const bate = (a, b) => { const x = norm(a), y = norm(b); if (!x || !y) return false; if (x === y) return true; const n = Math.min(x.length, y.length); return n >= 40 && (x.startsWith(y) || y.startsWith(x)); };
+  const bate = (a, b) => { const x = norm(a), y = norm(b); if (!x || !y) return false; if (x === y) return true; const n = Math.min(x.length, y.length); return (n >= 40 && (x.startsWith(y) || y.startsWith(x))) || (n >= 10 && (x.includes(y) || y.includes(x))); };
   if (!top.modalCV2 || typeof top.modalCV2.setarUrl !== "function") return { ok: false, erro: "o Lattes ainda não está pronto (modalCV2)" };
   const janelas = (w, acc = []) => { try { acc.push(w); for (let i = 0; i < w.frames.length; i++) janelas(w.frames[i], acc); } catch (e) {} return acc; };
   top.modalCV2.setarUrl(itemPath, true);
@@ -349,17 +466,21 @@ async function abrirEExcluirNaPagina(itemPath, seq, titulo) {
     await sleep(400);
     for (const w of janelas(top)) {
       try {
-        const f = w.document.querySelector('[name="f_seq"]');
-        const t = w.document.querySelector('[name="f_titulo"]');
-        if (f && t && w.document.readyState === "complete" && String(f.value) === String(seq)) { alvo = { w, titulo: t.value }; break; }
+        if (w.document.readyState !== "complete" || typeof w.del !== "function") continue;
+        // o formulário certo traz o nº do item num campo f_seq*; sem esse campo, vale o que a linha da lista abriu
+        const campo = [...w.document.querySelectorAll("input")].find((x) => /^f_seq/i.test(x.name || "") && String(x.value) === String(seq));
+        if (campo || (!w.document.querySelector('[name^="f_seq"]') && w.document.querySelector("form"))) { alvo = { w }; break; }
       } catch (e) {}
     }
   }
   if (!alvo) return { ok: false, erro: "não consegui abrir o item no Lattes" };
-  if (!bate(alvo.titulo, titulo)) return { ok: false, divergente: true, erro: "o título do item aberto não confere com o registrado (" + String(alvo.titulo).slice(0, 80) + "). Nada foi excluído." };
-  if (typeof alvo.w.del !== "function") return { ok: false, erro: "botão Excluir não encontrado no formulário" };
+  // Conferência de identidade: se o formulário tem algum campo de texto com o título (ou o nome) do item, ele precisa bater.
+  const textos = [...alvo.w.document.querySelectorAll('input[type="text"],textarea')].map((x) => x.value).filter((v) => v && v.length >= 6);
+  if (textos.length && !textos.some((v) => bate(v, titulo))) {
+    return { ok: false, divergente: true, erro: "o item aberto não confere com o registrado (" + String(textos[0]).slice(0, 80) + "). Nada foi excluído." };
+  }
   alvo.w.confirm = () => true; // a confirmação foi dada no LattesData, antes de chegar aqui
-  alvo.w.del();
+  setTimeout(() => alvo.w.del(), 50); // adia: o Lattes recarrega a página ao excluir e a caixa nativa travaria a automação
   return { ok: true, acionado: true };
 }
 
@@ -386,6 +507,29 @@ async function publicarResultado(base, res) {
   try { await chrome.storage.local.set({ ultimoResultadoLattes: { ...completo, ts: Date.now(), exibido: false } }); } catch (e) {}
   await avisarResultado(completo);
   return completo;
+}
+
+// Pedido do LattesData: listar os itens já cadastrados de um tipo (para o usuário escolher qual ALTERAR).
+async function avisarLista(res) {
+  try {
+    const abas = await chrome.tabs.query({ url: APP_PATTERNS });
+    for (const a of abas) if (a.id) chrome.tabs.sendMessage(a.id, { type: "lattes-lista", ...res }).catch(() => {});
+  } catch (e) {}
+}
+
+async function listarItens(msg) {
+  const tipo = String(msg.tipo || "");
+  if (!LISTAS_LATTES[tipo]) return avisarLista({ ok: false, tipo, erro: "este tipo não tem lista mapeada no Lattes." });
+  const { aba, logado } = await lattesLogado();
+  if (!aba || !logado) {
+    await abrirLoginLattes();
+    return avisarLista({ ok: false, tipo, login: true, erro: "Abri o Lattes: entre no seu currículo e peça a lista de novo." });
+  }
+  const l = await lerLista(aba.id, tipo);
+  return avisarLista({
+    ok: !!l.ok, tipo, erro: l.erro || "",
+    itens: (l.itens || []).map((i) => ({ seq: i.seq, titulo: i.titulo, tipo: i.tipo, ano: i.ano }))
+  });
 }
 
 // Pedido do LattesData: conferir no Lattes se o item (por título) existe e qual é o seq.
@@ -427,7 +571,7 @@ async function removerEnvio(msg) {
   try {
     const out = await chrome.scripting.executeScript({
       target: { tabId: aba.id }, world: "MAIN",
-      args: [cfg.item(antes.cv, it.seq), it.seq, msg.titulo], func: abrirEExcluirNaPagina
+      args: [it.url, it.seq, msg.titulo], func: abrirEExcluirNaPagina
     });
     ac = out && out[0] && out[0].result;
   } catch (e) { /* o Lattes recarrega a página ao excluir: o script some junto; a conferência abaixo decide */ }
@@ -652,6 +796,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
+  if (msg.type === "inst-coleta") {
+    coletarInstituicoes(msg).then(sendResponse, (e) => sendResponse({ ok: false, message: String((e && e.message) || e) }));
+    return true;
+  }
+
   if (msg.type === "remove") {
     removerEnvio(msg).catch(() => {});
     sendResponse({ ok: true, message: "Removendo no Lattes… acompanhe o painel na aba do Lattes." });
@@ -673,6 +822,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === "cv-publish") {
     enviarCv().catch(() => {});
     sendResponse({ ok: true, message: "Abrindo a tela de envio ao CNPq…" });
+    return;
+  }
+
+  if (msg.type === "list") {
+    listarItens(msg).catch(() => {});
+    sendResponse({ ok: true, message: "Lendo a lista no Lattes…" });
     return;
   }
 

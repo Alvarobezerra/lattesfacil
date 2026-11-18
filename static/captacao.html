@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LattesData — Captação de instituições</title>
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .painel{max-width:1040px;margin:24px auto;padding:0 16px;display:grid;gap:18px}
+    .cartao{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:grid;gap:12px}
+    .cartao h2{margin:0;font-size:1.1rem;color:var(--primary)}
+    .cartao p.dica{margin:0;color:var(--muted);font-size:.9rem}
+    .linha{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+    .num{border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+    .num b{font-size:1.5rem;color:var(--primary)} .num span{font-size:.8rem;color:var(--muted)}
+    table.tab{width:100%;border-collapse:collapse;font-size:.88rem}
+    table.tab th,table.tab td{border-bottom:1px solid var(--border);padding:6px 8px;text-align:left;vertical-align:top}
+    .tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.78rem;border:1px solid var(--border)}
+    .t-feito{background:#d1fae5;color:#065f46}.t-saturado{background:#fef3c7;color:#92400e}.t-pendente{background:#e0f2fe;color:#075985}
+    .ok{color:#047857}.erro{color:#b91c1c}
+    input[type=number],input[type=text]{padding:6px 8px;border:1px solid var(--border);border-radius:8px;font:inherit}
+    .barras{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;align-items:end;height:90px}
+    .barras div{background:var(--primary);border-radius:3px 3px 0 0;min-height:2px}
+    .barras div.uso{background:#94a3b8}
+    .eixo{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;font-size:.65rem;color:var(--muted);text-align:center}
+    .conn{display:inline-flex;gap:6px;align-items:center;font-size:.9rem}
+    .conn i{width:10px;height:10px;border-radius:50%;background:#b91c1c;display:inline-block}.conn.on i{background:#047857}
+    code{font-size:.8rem;word-break:break-all}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="/" aria-label="LattesData — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
+      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span></a>
+    <nav class="topnav" aria-label="Principal"><a class="nav-link" href="/">Cadastrar</a><a class="nav-link" href="/painel.html">Painel</a><a class="nav-link" href="/captacao.html" aria-current="page">Captação</a></nav>
+  </div></header>
+
+  <main class="painel">
+    <section class="cartao">
+      <h2>Captação do cadastro de instituições do Lattes</h2>
+      <p class="dica">A lupa do Lattes só pesquisa por texto, então o LattesData monta o próprio banco aos poucos: toda consulta da lupa feita durante um preenchimento é guardada (gravação oportunista) e, se você ligar a coleta, lotes pequenos pesquisam os 6 prefixos prioritários — Universidade, Instituto, Faculdade, Hospital, Centro e Fundação — e só depois aprofundam. Com teto diário, teto por lote e intervalo mínimo. O desempenho de cada consulta aparece abaixo.</p>
+      <div class="linha">
+        <span class="conn" id="connLattes"><i></i><span id="connTxt">Lattes: sem sinal</span></span>
+        <span class="conn" id="connExt"><i></i><span id="extTxt">Extensão: verificando…</span></span>
+      </div>
+      <p class="dica" id="avisoConexao"></p>
+    </section>
+
+    <section class="cartao">
+      <h2>Banco local</h2>
+      <div class="grade" id="gBanco"></div>
+    </section>
+
+    <section class="cartao">
+      <h2>Controle da coleta</h2>
+      <div class="linha">
+        <label><input type="checkbox" id="cAtiva" /> Coleta ligada</label>
+        <label>Teto por dia <input type="number" id="cDia" min="1" max="200" style="width:5.5em" /></label>
+        <label>Por lote <input type="number" id="cLote" min="1" max="25" style="width:5em" /></label>
+        <label>Intervalo (s) <input type="number" id="cInt" min="2" max="60" step="1" style="width:5em" /></label>
+        <button class="btn btn-secondary" id="bSalvar" type="button">Salvar</button>
+        <button class="btn btn-primary" id="bExecutar" type="button">Executar um lote agora</button>
+        <span id="sCtl"></span>
+      </div>
+      <p class="dica">Desligada por padrão. Um lote usa a aba do Lattes aberta (abre o formulário de bancas só para chegar à lupa; feche-o depois). Os limites têm teto fixo para não sobrecarregar o serviço do CNPq nem a sua sessão.</p>
+      <div class="grade" id="gHoje"></div>
+    </section>
+
+    <section class="cartao">
+      <h2>Prefixos prioritários</h2>
+      <div id="tPref"></div>
+    </section>
+
+    <section class="cartao">
+      <h2>Desempenho</h2>
+      <div class="grade" id="gDesemp"></div>
+      <div class="barras" id="bDias" role="img" aria-label="Consultas por dia nos últimos 14 dias"></div>
+      <div class="eixo" id="eDias"></div>
+      <p class="dica"><span style="color:var(--primary)">■</span> dia com coleta &nbsp; <span style="color:#94a3b8">■</span> só uso (preenchimentos) — últimos 14 dias.</p>
+      <div id="tErros"></div>
+      <details><summary>Formato dos links da lupa (amostras gravadas)</summary><div id="amostras" class="dica"></div></details>
+    </section>
+
+    <section class="cartao">
+      <h2>Consultar o banco e semear</h2>
+      <div class="linha"><input type="text" id="qBusca" placeholder="Nome ou sigla (ex.: UFC)" style="min-width:18em" /><button class="btn btn-secondary" id="bBusca" type="button">Buscar no banco</button></div>
+      <div id="rBusca"></div>
+      <div class="linha"><label>Semente (CSV com nome e sigla, ex.: dados abertos do e-MEC) <input type="file" id="fCsv" accept=".csv,.txt" /></label><button class="btn btn-secondary" id="bCsv" type="button">Importar</button><span id="sCsv"></span></div>
+    </section>
+  </main>
+  <script src="/instituicoes-ponte.js"></script>
+  <script src="/captacao.js"></script>
+</body>
+</html>

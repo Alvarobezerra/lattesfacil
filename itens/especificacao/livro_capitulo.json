@@ -72,7 +72,10 @@
      "aba": "Dados gerais",
      "tipo": "select",
      "catalogo": "catalogos/paises-244.json",
-     "obrigatorio": true
+     "obrigatorio": true,
+     "padrao": "Brasil",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "idioma",
@@ -81,7 +84,10 @@
      "aba": "Dados gerais",
      "tipo": "select",
      "catalogo": "catalogos/idiomas-152.json",
-     "obrigatorio": true
+     "obrigatorio": true,
+     "padrao": "Português",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "meio",
@@ -119,7 +125,10 @@
       "sim": "S",
       "não": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "sta_divulgacao_cientifica",
@@ -131,7 +140,10 @@
       "sim": "S",
       "não": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "volume_l",
@@ -253,6 +265,32 @@
      "obrigatorio": false
     }
    ],
+   "grades": [
+    {
+     "chave": "autores",
+     "rotulo": "Autores",
+     "dica": "Um por linha: Nome completo; Nome em citações (opcional)",
+     "aba": "Autores"
+    },
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
    "obrigatorios_mensagens": [
     "Tipo",
     "Título do livro",
@@ -307,7 +345,10 @@
      "aba": "Dados gerais",
      "tipo": "select",
      "catalogo": "catalogos/paises-244.json",
-     "obrigatorio": true
+     "obrigatorio": true,
+     "padrao": "Brasil",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "idioma",
@@ -316,7 +357,10 @@
      "aba": "Dados gerais",
      "tipo": "select",
      "catalogo": "catalogos/idiomas-152.json",
-     "obrigatorio": true
+     "obrigatorio": true,
+     "padrao": "Português",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "meio",
@@ -354,7 +398,10 @@
       "sim": "S",
       "não": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "sta_divulgacao_cientifica",
@@ -366,7 +413,10 @@
       "sim": "S",
       "não": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "titulo",
@@ -513,6 +563,32 @@
      "maxlength": 60,
      "oculto": true,
      "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "autores",
+     "rotulo": "Autores",
+     "dica": "Um por linha: Nome completo; Nome em citações (opcional)",
+     "aba": "Autores"
+    },
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
     }
    ],
    "obrigatorios_mensagens": [

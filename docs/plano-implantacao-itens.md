@@ -74,3 +74,11 @@ Cada onda termina com: conjunto de testes verde, rodada no Lattes real, e atuali
 - **Ondas 2 a 4 em beta (16/11/2026)**: leitores em `itens/leitores_onda2.py` para revisor_periodico, corpo_editorial, atuacao_profissional, idioma, licenca, artigo_aceito, relatorio_tecnico e software_registro, testados só com textos sintéticos (`tests/teste_leitores_onda2.py`, 8/8). Banca, premio, projeto e patente já tinham leitor testado com documentos reais. Faltam amostras reais e rodada no Lattes para fechar os critérios 1 e 6 de todos eles.
 - **Sem leitor ainda**: livro_capitulo (2 formulários) e formacao_academica (10 formulários), por dependerem de escolha de variante.
 - **Pendente**: leitores de livro_capitulo e formacao_academica, curadoria dos obrigatórios (o casamento automático errou em campos sem rótulo, ex.: `F_FORMA`), campos dependentes (ex.: `F_TPO` depende de `F_FORMA`), cadastros controlados no genérico (periódico, instituição, agência) e variantes múltiplas (livro/capítulo, projeto, formação acadêmica: hoje usa a 1ª variante).
+
+## 7. Grades genéricas (17/11/2026)
+
+- `itens/gerar_specs.py` registra em cada variante as abas de lista (`grades`: autores, palavras-chave, áreas, setores).
+- A tela do item genérico mostra uma caixa por lista (um valor por linha; autores como `Nome; Nome em citações`).
+- O preenchedor genérico (`AUTOFILL_TEMPLATE`, ramo `generico`) acha cada grade pelo id `*Holder` do formulário aberto e inclui os itens (palavras-chave digitadas; áreas e setores pela sugestão do Lattes com casamento por nome; autores digitados).
+- Testado só num formulário simulado, não no Lattes real: o id do holder de Setores (`/setor/`) e o de Áreas (`/^area/`) são suposições. Equipe e Instituições (projetos, software) ainda não têm tratador.
+- Corrigidos dois defeitos do ramo genérico: `toks` era usado antes de definido (casamento aproximado quebrava) e `codigo` vazio casava com a opção "selecione".

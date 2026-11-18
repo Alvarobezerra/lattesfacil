@@ -1,0 +1,31 @@
+{
+ "id": "outras_informacoes",
+ "secao": "Dados gerais",
+ "item": "Outras informações relevantes",
+ "como_abrir": "Dados gerais > Outras informações relevantes",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "prc_outras_inf?f_cod=<codigo_do_cv>",
+   "abertura": {},
+   "janelas_auxiliares": [
+    "del();"
+   ],
+   "campos": [
+    {
+     "chave": "texto",
+     "name": "F_TEXTO",
+     "rotulo": "Neste local você pode cadastrar informações adicionais relativas ao seu currículo, não con",
+     "aba": "(sem aba)",
+     "tipo": "textarea",
+     "maxlength": 2000,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [],
+   "obrigatorios_mensagens": []
+  }
+ ],
+ "curadoria": {}
+}

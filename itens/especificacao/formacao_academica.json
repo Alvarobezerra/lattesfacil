@@ -236,6 +236,26 @@
      "obrigatorio": false
     }
    ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -473,6 +493,26 @@
      "tipo": "text",
      "oculto": true,
      "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
     }
    ],
    "obrigatorios_mensagens": [
@@ -714,6 +754,26 @@
      "obrigatorio": false
     }
    ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -843,6 +903,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -952,6 +1013,26 @@
      "tipo": "text",
      "oculto": true,
      "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
     }
    ],
    "obrigatorios_mensagens": [
@@ -1166,6 +1247,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -1268,6 +1350,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -1338,6 +1421,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -1408,6 +1492,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",
@@ -1537,6 +1622,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Nível",
     "Tipo de doutorado",

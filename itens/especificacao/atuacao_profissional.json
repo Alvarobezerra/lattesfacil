@@ -146,6 +146,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Instituição",
     "Tipo do vínculo",

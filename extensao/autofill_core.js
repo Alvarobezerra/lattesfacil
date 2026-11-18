@@ -43,6 +43,8 @@ window.__lfAutofill = async function (d) {
     }
   }
   try { var tp = window.top.opener || window.opener; if (tp && d.__origem) tp.postMessage({ type: 'lattesfacil-status', online: !!loggedName, name: loggedName }, d.__origem); } catch (e) {}
+  var STOPW = ['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'a', 'o'];
+  var toks = function (s) { return norm(s).replace(/[^a-z0-9 ]/g, ' ').split(' ').filter(function (t) { return t && STOPW.indexOf(t) < 0; }); };
   if (d.tipo_producao === 'generico') {
     var G = d.__generico || {};
     var pagina = String(G.url || '').split('?')[0].toLowerCase();
@@ -76,6 +78,139 @@ window.__lfAutofill = async function (d) {
     var ok = 0;
     var gw = gdoc.defaultView;
     try { gw.alert = function (m) { rel.push('Lattes: ' + m); }; gw.confirm = function () { return true; }; } catch (e) {}
+    // Cadastro controlado (instituição, agência, curso, periódico): se o Lattes oferecer sugestões ao digitar, escolhe a
+    // de nome idêntico ou claramente parecido (melhor()); ambíguo ou sem correspondência: não escolhe e pede escolha manual.
+    var gControladoRx = /^(f_inst|f_nme_inst|f_nme_agencia|f_curso|f_titulo_periodico|f_nme_periodico|f_orgao)$/i;
+    var gControlado = async function (inp, alvo, rotulo) {
+      inp.focus();
+      ['keydown', 'keypress', 'input', 'keyup'].forEach(function (ev) { inp.dispatchEvent(new KeyboardEvent(ev, { bubbles: true, key: alvo.slice(-1) })); });
+      var opts = [];
+      for (var w = 0; w < 4 && !opts.length; w++) {
+        await sleep(w ? 700 : 1000);
+        var box = inp.parentElement && inp.parentElement.querySelector('.suggest-content');
+        opts = box ? [].slice.call(box.querySelectorAll('a')) : [];
+      }
+      if (!opts.length) return; // campo livre ou sem sugestões: fica o texto digitado
+      var hit = melhor(opts, alvo, function (o) { return o.textContent; });
+      if (hit) { hit.click(); await sleep(500); }
+      else { rel.push(rotulo + ': "' + alvo + '" sem correspondência única nas sugestões do Lattes — escolha manual'); }
+    };
+    // Instituição e curso desabilitados no formulário: o valor só entra pela lupa do Lattes (grava também o código oculto).
+    // Abre a janela, pesquisa pelo texto do documento (nome completo, depois sigla/iniciais/nome sem prefixo) e escolhe o
+    // resultado claro e único. Nunca digita em campo desabilitado; sem resultado, deixa a lupa aberta e avisa.
+    var gTopDoc = window.top.document;
+    var gFrame = async function (rx, ms) {
+      var t1 = Date.now();
+      while (Date.now() - t1 < ms) {
+        var fr = [].slice.call(gTopDoc.querySelectorAll('iframe')).filter(function (f) { return rx.test(f.src) && f.offsetParent !== null; })[0];
+        if (fr && fr.contentDocument && fr.contentDocument.readyState === 'complete' && !/^about:blank/.test(String(fr.contentDocument.location.href))) return fr;
+        await sleep(300);
+      }
+      return null;
+    };
+    var gNormNome = function (t) { return norm(t).replace(/\s*\([a-z]{2}\)\s*$/, ''); };
+    var gNormCurso = function (t) { return norm(t).replace(/\(\s*[0-9a-z]*[0-9][0-9a-z]*\s*\)\s*$/, '').replace(/^(programa de pos-graduacao|pos-graduacao|curso de)\s+(em\s+)?/, '').trim(); };
+    var gVariacoes = function (nome) {
+      var v = [nome];
+      var sg = /\(([A-Za-z]{2,12})\)/.exec(nome);
+      if (sg) v.push(sg[1]);
+      var base = nome.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+      var ini = base.split(/\s+/).filter(function (w) { return !/^(d[aeo]s?|e)$/i.test(w); }).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
+      if (ini.length >= 3 && ini.length <= 8) v.push(ini);
+      var sem = base.replace(/^universidade\s+(federal|estadual|municipal)?\s*(d[aeo]s?\s+)?/i, '').trim();
+      if (sem.length > 3) v.push(sem);
+      return v.filter(function (x, i) { return x && v.indexOf(x) === i; });
+    };
+    // Pesquisa na lupa e espera o resultado de forma adaptativa (o resultado para de mudar) até o limite; mede o tempo.
+    var gPesquisarLupa = async function (fi, termo, maxMs) {
+      var fnome = fi.contentDocument.querySelector('input[name="f_nome"]');
+      if (!fnome || typeof fi.contentWindow.recuperaInstMacro !== 'function') return { links: [], ms: 0, erro: 'campo de busca da lupa não encontrado' };
+      var lerLinks = function () { return [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return /seleciona\(/.test(a.getAttribute('href') || ''); }); };
+      var antes = lerLinks().map(function (a) { return a.textContent; }).join('|');
+      fnome.value = termo;
+      var t0 = Date.now();
+      try { fi.contentWindow.recuperaInstMacro(); } catch (e) { return { links: [], ms: Date.now() - t0, erro: 'a busca da lupa falhou' }; }
+      var ult = -1, estavel = 0, links = [];
+      while (Date.now() - t0 < maxMs) {
+        await sleep(300);
+        links = lerLinks();
+        var mudou = links.map(function (a) { return a.textContent; }).join('|') !== antes;
+        if (mudou && links.length === ult) { if (++estavel >= 2) break; } else { estavel = 0; }
+        ult = links.length;
+      }
+      return { links: links, ms: Date.now() - t0, erro: '' };
+    };
+    // Guarda o que a lupa devolveu (nome + argumentos do link) para o banco de instituições; o app envia ao servidor.
+    var gRegLupa = function (termo, links, ms, origem, erro) {
+      try {
+        var tp = window.top;
+        tp.__lfInstLote = tp.__lfInstLote || [];
+        tp.__lfInstLote.push({ termo: termo, origem: origem, ms: ms, erro: erro || '', itens: links.slice(0, 300).map(function (a) {
+          var m = /seleciona\(([^)]*)\)/.exec(a.getAttribute('href') || '');
+          return { nome: a.textContent.trim().slice(0, 200), ref: m ? m[1].slice(0, 200) : '' };
+        }) });
+      } catch (e) {}
+    };
+    var gCodInst = function () { return !!((gdoc.querySelector('[name="f_cod_inst"]') || {}).value || (gdoc.querySelector('[name="f_cod_inst2"]') || {}).value); };
+    var gLupaInst = async function (nome, rotulo) {
+      if (typeof gw.sele_inst !== 'function') { rel.push(rotulo + ': a lupa de instituições não existe neste formulário; escolha manual'); return false; }
+      gw.sele_inst();
+      var fi = await gFrame(/prc_inst_form/, 8000);
+      if (!fi) { rel.push(rotulo + ': a janela de instituições não abriu; escolha na lupa'); return false; }
+      var vistas = [];
+      var tent = gVariacoes(nome);
+      for (var ti = 0; ti < tent.length; ti++) {
+        var pq = await gPesquisarLupa(fi, tent[ti], 3500);
+        if (pq.erro) break;
+        var links = pq.links;
+        gRegLupa(tent[ti], links, pq.ms, 'uso');
+        var achei = melhor(links, gNormNome(nome), function (a) { return gNormNome(a.textContent); });
+        if (achei) { achei.click(); await sleep(1500); if (gCodInst()) return true; }
+        links.forEach(function (a) { var x = a.textContent.trim(); if (vistas.indexOf(x) < 0) vistas.push(x); });
+      }
+      rel.push(rotulo + ': "' + nome + '" não identificada com segurança no cadastro do Lattes' + (vistas.length ? ' (opções: ' + vistas.slice(0, 4).join('; ') + ')' : '') + '; a janela da lupa ficou aberta para você escolher');
+      return false;
+    };
+    var gLupaCurso = async function (nome, rotulo) {
+      if (!gCodInst()) { rel.push(rotulo + ': sem instituição escolhida não dá para escolher o curso; use a lupa'); return false; }
+      if (typeof gw.curso !== 'function') { rel.push(rotulo + ': a lupa de cursos não existe neste formulário; escolha manual'); return false; }
+      gw.curso();
+      var fc = await gFrame(/prc_curso_form/, 8000);
+      var selc = fc && fc.contentDocument.querySelector('select[name="f_curso"]');
+      if (!selc) { rel.push(rotulo + ': a janela de cursos não abriu; escolha na lupa'); return false; }
+      var opts2 = [].slice.call(selc.options).filter(function (o) { return o.value; });
+      var alvoC = gNormCurso(nome);
+      var nivel = (G.campos || []).map(function (x) { return norm(x.valor); }).join(' ');
+      var dica = /doutor/.test(nivel) ? 'doutorado' : /mestr/.test(nivel) ? 'mestrado' : /especializ|aperfeicoamento/.test(nivel) ? 'especializacao' : /gradua/.test(nivel) ? 'graduacao' : '';
+      var oc = opts2.filter(function (o) { return gNormCurso(o.text) === alvoC; })[0] || null;
+      if (!oc) {
+        var cand = alvoC.length > 4 ? opts2.filter(function (o) { return norm(o.text).indexOf(alvoC) >= 0; }) : [];
+        if (cand.length > 1 && dica) { var porNivel = cand.filter(function (o) { return norm(o.text).indexOf(dica) >= 0; }); if (porNivel.length) cand = porNivel; }
+        oc = cand.length === 1 ? cand[0] : (cand.length ? null : melhor(opts2, alvoC, function (o) { return gNormCurso(o.text); }));
+        if (!oc && cand.length > 1) { rel.push(rotulo + ': "' + nome + '" tem mais de uma opção no Lattes (' + cand.slice(0, 4).map(function (o) { return o.text.trim(); }).join('; ') + '); a janela da lupa ficou aberta para você escolher'); return false; }
+      }
+      if (oc) { selc.value = oc.value; fc.contentWindow.selecionar(); await sleep(1500); return true; }
+      rel.push(rotulo + ': "' + nome + '" não encontrado para essa instituição e nível; a janela da lupa ficou aberta para você escolher');
+      return false;
+    };
+    // Coleta gradual do cadastro de instituições: só pesquisa na lupa (não preenche nada), com intervalo e teto vindos do app.
+    var gColeta = async function (C) {
+      var termos = (C.termos || []).slice(0, 25);
+      var feitos = 0, erros = 0;
+      var fim = function (o) { try { window.top.__lfInstFim = o; } catch (e) {} };
+      if (typeof gw.sele_inst !== 'function') { fim({ ok: false, erro: 'a lupa de instituições não existe neste formulário', feitos: 0, total: termos.length }); return; }
+      gw.sele_inst();
+      var fi = await gFrame(/prc_inst_form/, 8000);
+      if (!fi) { fim({ ok: false, erro: 'a janela de instituições não abriu', feitos: 0, total: termos.length }); return; }
+      for (var i = 0; i < termos.length; i++) {
+        var pq = await gPesquisarLupa(fi, termos[i], 6000);
+        if (pq.erro) { gRegLupa(termos[i], [], pq.ms, 'coleta', pq.erro); if (++erros >= 2) break; }
+        else { gRegLupa(termos[i], pq.links, pq.ms, 'coleta'); feitos++; }
+        if (i < termos.length - 1) await sleep(Math.max(2000, Number(C.intervalo_ms) || 4000));
+      }
+      fim({ ok: true, feitos: feitos, erros: erros, total: termos.length });
+    };
+    if (G.coleta) { await gColeta(G.coleta); return; }
     for (var gi = 0; gi < (G.campos || []).length; gi++) {
       var c = G.campos[gi];
       if (c.valor === '' || c.valor === undefined || c.valor === null || c.valor === false) {
@@ -83,15 +218,21 @@ window.__lfAutofill = async function (d) {
         var selA = c.auto && c.tipo === 'select' ? gdoc.querySelector('select[name="' + c.name + '"]') : null;
         if (selA) {
           var opsA = [].slice.call(selA.options).filter(function (o) { return o.value; });
+          for (var wA = 0; wA < 4 && !opsA.length; wA++) { await sleep(400); opsA = [].slice.call(selA.options).filter(function (o) { return o.value; }); }
           var refA = (G.campos || []).filter(function (x) { return x.name === c.auto_de; })[0];
           var escA = (refA && refA.valor && melhor(opsA, refA.valor, function (o) { return o.text; })) || opsA.filter(function (o) { return refA && refA.valor && norm(o.text).indexOf(norm(refA.valor)) >= 0; })[0] || opsA[0];
           if (escA) { selA.value = escA.value; fireG(selA); ok++; rel.push('"' + (c.rotulo || c.name) + '" escolhido automaticamente: ' + escA.text + ' (confira)'); }
-          else rel.push('não consegui escolher: ' + (c.rotulo || c.name));
+          else if (opsA.length) rel.push('não consegui escolher: ' + (c.rotulo || c.name));
         }
         continue;
       }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
       if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
+      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso)$/i.test(c.name) && alvo[0].disabled) {
+        var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
+        if (okL) ok++;
+        continue;
+      }
       if (c.tipo === 'radio') {
         var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
         if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
@@ -100,17 +241,133 @@ window.__lfAutofill = async function (d) {
       } else if (c.tipo === 'select') {
         var sel = alvo[0];
         var ops = [].slice.call(sel.options);
-        var op = ops.filter(function (o) { return o.value === c.codigo; })[0] || ops.filter(function (o) { return norm(o.text) === norm(c.valor); })[0] || melhor(ops, c.valor, function (o) { return o.text; });
-        if (op) { sel.value = op.value; fireG(sel); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+        var op = (c.codigo ? ops.filter(function (o) { return o.value === c.codigo; })[0] : null) || ops.filter(function (o) { return norm(o.text) === norm(c.valor); })[0] || melhor(ops, c.valor, function (o) { return o.text; });
+        if (op) { sel.value = op.value; fireG(sel); ok++; } else rel.push('opção não encontrada ou ambígua: ' + (c.rotulo || c.name) + ' = ' + c.valor + ' — escolha manual');
       } else {
         var t = alvo[0];
         var v = String(c.valor);
         if (t.maxLength > 0 && v.length > t.maxLength) { rel.push((c.rotulo || c.name) + ' cortado em ' + t.maxLength + ' caracteres'); v = v.slice(0, t.maxLength); }
         t.value = v; fireG(t); ok++;
+        if (c.controlado || gControladoRx.test(c.name)) await gControlado(t, v, c.rotulo || c.name);
       }
       await sleep(c.tipo === 'radio' ? 700 : 250);
     }
+    // Grades (palavras-chave, áreas, setores, autores): descobertas pelo próprio formulário aberto (elementos "*Holder").
+    var GR = G.grades || {};
+    var gVis = function (e) { return e.offsetParent !== null; };
+    var gHolder = function (rx) { return [].slice.call(gdoc.querySelectorAll('[id$="Holder"]')).filter(function (h) { return rx.test(h.id); })[0] || null; };
+    var gLink = function (h, rx) { return h ? ([].slice.call(h.querySelectorAll('a')).filter(function (a) { return rx.test(a.textContent.trim()); })[0] || null) : null; };
+    var gConfirmar = function () {
+      var c = [].slice.call(gdoc.querySelectorAll('a')).filter(function (a) { return /^confirmar$/i.test(a.textContent.trim()) && gVis(a); });
+      if (!c.length) return false;
+      c[c.length - 1].click(); return true;
+    };
+    var gOk = {};
+    var gTexto = async function (chave, rotuloGrade, rxHolder, rxNovo, campoVisivel) {
+      var lista = GR[chave] || [];
+      if (!lista.length) return;
+      var h = gHolder(rxHolder);
+      if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); return; }
+      gOk[chave] = 0;
+      for (var i = 0; i < lista.length; i++) {
+        var lk = gLink(gHolder(rxHolder), rxNovo);
+        if (!lk) { rel.push('botão de incluir em "' + rotuloGrade + '" não encontrado'); break; }
+        lk.click(); await sleep(450);
+        var ins = [].slice.call(gHolder(rxHolder).querySelectorAll('input[type="text"]')).filter(gVis);
+        var inp = ins[ins.length - 1];
+        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não apareceu'); break; }
+        var v = String(lista[i]);
+        if (inp.maxLength > 0 && v.length > inp.maxLength) { rel.push(rotuloGrade + ' cortado em ' + inp.maxLength + ' caracteres: ' + v); v = v.slice(0, inp.maxLength); }
+        inp.value = v; fireG(inp);
+        if (gConfirmar()) gOk[chave]++; else rel.push('não consegui confirmar em "' + rotuloGrade + '": ' + v);
+        await sleep(450);
+      }
+    };
+    var gSugestao = async function (chave, rotuloGrade, rxHolder) {
+      var lista = GR[chave] || [];
+      if (!lista.length) return;
+      gOk[chave] = 0;
+      for (var i = 0; i < lista.length; i++) {
+        var h = gHolder(rxHolder);
+        if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); break; }
+        var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && !x.value; });
+        var inp = ins[ins.length - 1];
+        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não encontrado'); break; }
+        var alvo = String(lista[i]);
+        inp.focus(); inp.value = alvo;
+        ['keydown', 'keypress', 'input', 'keyup'].forEach(function (t) { inp.dispatchEvent(new KeyboardEvent(t, { bubbles: true, key: alvo.slice(-1) })); });
+        await sleep(1200);
+        var box = inp.parentElement.querySelector('.suggest-content');
+        var opts = box ? [].slice.call(box.querySelectorAll('a')) : [];
+        if (!opts.length) { await sleep(1500); box = inp.parentElement.querySelector('.suggest-content'); opts = box ? [].slice.call(box.querySelectorAll('a')) : []; }
+        var hit = melhor(opts, alvo, function (o) { return o.textContent; });
+        if (hit) { hit.click(); gOk[chave]++; await sleep(600); }
+        else { rel.push(rotuloGrade + ': sem correspondência exata no Lattes para "' + alvo + '" — escolha manual na aba'); inp.value = ''; }
+      }
+    };
+    var gAutores = async function () {
+      var lista = GR.autores || [];
+      if (!lista.length) return;
+      gOk.autores = 0;
+      var digitados = 0;
+      var tu = toks(d.__usuario || '');
+      for (var i = 0; i < lista.length; i++) {
+        var nomeA = String(lista[i].nome || '').trim();
+        if (!nomeA) continue;
+        // O TITULAR precisa ser escolhido em "Listar todos" (o Lattes recusa o titular digitado à mão).
+        var ta = toks(nomeA);
+        if (tu.length && ta.length && tu[0] === ta[0] && tu[tu.length - 1] === ta[ta.length - 1]) {
+          var lkTodos = gLink(gHolder(/autor/i), /^Listar todos/);
+          if (lkTodos) {
+            lkTodos.click();
+            var escolhido = null;
+            for (var tt = 0; !escolhido && tt < 10; tt++) {
+              await sleep(300);
+              var cit = String(lista[i].citacao || '').trim();
+              escolhido = [].slice.call(gdoc.querySelectorAll('a.label')).filter(function (x) {
+                var tx = x.textContent || '';
+                return (cit && tx.indexOf('(' + cit + ')') >= 0) || toks(tx.split('(')[0]).join(' ') === ta.join(' ');
+              })[0];
+            }
+            if (escolhido) { escolhido.click(); gOk.autores++; await sleep(700); continue; }
+            rel.push('titular não encontrado em "Listar todos": será digitado (o Lattes pode recusar)');
+          }
+        }
+        digitados++;
+        var lk = gLink(gHolder(/autor/i), /^Incluir novo/);
+        if (!lk) { rel.push('grade de autores não encontrada (se o Lattes importou os autores, confira-os)'); break; }
+        lk.click(); await sleep(450);
+        var n1 = gdoc.getElementById('nomeAutor'), n2 = gdoc.getElementById('nomeAutorComoCitado');
+        for (var t = 0; (!n1 || !n2) && t < 8; t++) { await sleep(300); n1 = gdoc.getElementById('nomeAutor'); n2 = gdoc.getElementById('nomeAutorComoCitado'); }
+        if (!n1 || !n2) { rel.push('os campos do autor não apareceram'); break; }
+        n1.value = nomeA.slice(0, 60); n2.value = String(lista[i].citacao || '').slice(0, 60); fireG(n1); fireG(n2);
+        if (gConfirmar()) gOk.autores++; else { rel.push('não consegui confirmar o autor ' + nomeA); break; }
+        await sleep(450);
+      }
+      if (digitados) rel.push('Autores digitados à mão: confira (o titular deve ser escolhido em "Listar todos")');
+    };
+    await gTexto('palavras_chave', 'Palavras-chave', /palavra/i, /^Incluir nova/);
+    await gSugestao('areas', 'Áreas', /^area/i);
+    await gSugestao('setores', 'Setores', /setor/i);
+    await gSugestao('instituicoes', 'Instituições', /^inst/i);
+    await gAutores();
+    Object.keys(gOk).forEach(function (k) { ok += gOk[k]; rel.push(k.replace('_', '-') + ': ' + gOk[k] + '/' + ((GR[k] || []).length) + ' incluídos'); });
     (G.faltam || []).forEach(function (f) { rel.push('obrigatório sem valor: ' + f); });
+    // Salvar automático (mesma regra do caminho dos itens antigos): só clica se nada precisa de conferência.
+    var btnSalvarG = [].slice.call(gdoc.querySelectorAll('a, input[type="button"], input[type="submit"], button')).filter(function (el) {
+      var act = (el.getAttribute('onclick') || '') + ' ' + (el.getAttribute('href') || '');
+      return /pre_check|check\s*\(/i.test(act) || /^salvar$/i.test((el.textContent || el.value || '').trim());
+    })[0];
+    if (btnSalvarG) {
+      try { btnSalvarG.style.outline = '3px solid #10b981'; btnSalvarG.style.boxShadow = '0 0 0 6px rgba(16,185,129,0.35)'; btnSalvarG.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+    }
+    var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r); });
+    if (d.__autoSalvar && btnSalvarG && !(G.faltam || []).length && criticosG.length === 0) {
+      await sleep(600);
+      try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
+      try { gdoc.defaultView.alert = window.top.alert.bind(window.top); } catch (e) {}
+      try { btnSalvarG.click(); return; } catch (e) {}
+    }
     alert('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
     return;
   }
@@ -160,8 +417,6 @@ window.__lfAutofill = async function (d) {
   var fire = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
   var visible = function (el) { return el.offsetParent !== null; };
   // Escolha automática em cadastros controlados: nome idêntico; senão, a opção mais parecida, só se for clara e única.
-  var STOPW = ['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'a', 'o'];
-  var toks = function (s) { return norm(s).replace(/[^a-z0-9 ]/g, ' ').split(' ').filter(function (t) { return t && STOPW.indexOf(t) < 0; }); };
   function melhor(itens, alvo, txt) {
     var a = norm(alvo);
     if (!a) return null;

@@ -92,7 +92,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "cnpj_empresa",
@@ -148,7 +151,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "txt_potencial",
@@ -388,6 +394,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Ano fim",
     "Nome do projeto",
@@ -490,7 +497,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "cnpj_empresa",
@@ -546,7 +556,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "txt_potencial",
@@ -786,6 +799,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Ano fim",
     "Nome do projeto",
@@ -888,7 +902,10 @@
       "S": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "tpo_cooperacao",
@@ -913,7 +930,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "tpo_acao_inov",
@@ -1217,6 +1237,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Ano fim",
     "Nome do projeto",
@@ -1320,7 +1341,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "cnpj_empresa",
@@ -1376,7 +1400,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "txt_potencial",
@@ -1625,6 +1652,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Ano fim",
     "Nome do projeto",
@@ -1727,7 +1755,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "cnpj_empresa",
@@ -1783,7 +1814,10 @@
       "Não": "S",
       "N": "N"
      },
-     "obrigatorio": false
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
     },
     {
      "chave": "txt_potencial",
@@ -2023,6 +2057,7 @@
      "obrigatorio": false
     }
    ],
+   "grades": [],
    "obrigatorios_mensagens": [
     "Ano fim",
     "Nome do projeto",

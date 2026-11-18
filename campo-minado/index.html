@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Campo Minado</title>
+<style>
+  body{margin:0;background:#12141c;color:#e8e8f0;font-family:system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;user-select:none}
+  header{display:flex;gap:18px;align-items:center;padding:12px;font-size:18px;flex-wrap:wrap;justify-content:center}
+  b{color:#ffd24a}
+  select,button{background:#3a4ad8;color:#fff;border:0;border-radius:6px;padding:8px 12px;font-size:15px;cursor:pointer}
+  #tab{display:grid;gap:2px;background:#0b0c12;padding:4px;border-radius:8px;touch-action:manipulation}
+  .c{width:32px;height:32px;background:#3b4160;border-radius:3px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;cursor:pointer}
+  .c:hover{background:#4a5180}
+  .c.a{background:#1f2335;cursor:default}
+  .c.b{background:#c0392b}
+  .n1{color:#6ea8ff}.n2{color:#3ddc84}.n3{color:#ff6b6b}.n4{color:#b18cff}.n5{color:#ffa94d}.n6{color:#4dd0e1}.n7{color:#fff}.n8{color:#aaa}
+  p{opacity:.7;font-size:14px;margin:8px;text-align:center}
+  #fim{height:28px;font-size:20px;margin:6px}
+</style>
+</head>
+<body>
+<header>
+  <select id="nivel">
+    <option value="9,9,10">Fácil 9×9</option>
+    <option value="16,16,40">Médio 16×16</option>
+    <option value="24,16,70">Difícil 24×16</option>
+  </select>
+  <span>💣 <b id="bm">0</b></span>
+  <span>⏱ <b id="tm">0</b>s</span>
+  <button id="rs">Reiniciar</button>
+</header>
+<div id="fim"></div>
+<div id="tab"></div>
+<p>Clique esquerdo: abrir. Clique direito (ou segurar no celular): bandeira 🚩.<br>Números mostram quantas bombas existem ao redor. O primeiro clique é sempre seguro.</p>
+<script>
+const tab = document.getElementById('tab');
+let W,H,M, cel, aberto, bandeira, bombas, fim, primeiro, timer, t0, restantes;
+
+function iniciar() {
+  [W,H,M] = document.getElementById('nivel').value.split(',').map(Number);
+  tab.style.gridTemplateColumns = `repeat(${W},32px)`;
+  tab.innerHTML = ''; cel = [];
+  aberto = Array(W*H).fill(false); bandeira = Array(W*H).fill(false); bombas = Array(W*H).fill(false);
+  fim = false; primeiro = true; restantes = W*H - M;
+  clearInterval(timer);
+  document.getElementById('tm').textContent = 0;
+  document.getElementById('bm').textContent = M;
+  document.getElementById('fim').textContent = '';
+  for (let i=0;i<W*H;i++) {
+    const d = document.createElement('div'); d.className = 'c';
+    d.onclick = () => abrir(i);
+    d.oncontextmenu = e => { e.preventDefault(); marcar(i); };
+    let lp; d.ontouchstart = () => { lp = setTimeout(() => { marcar(i); lp = 'x'; }, 450); };
+    d.ontouchend = e => { clearTimeout(lp); if (lp === 'x') { e.preventDefault(); lp = null; } };
+    tab.appendChild(d); cel.push(d);
+  }
+}
+
+const viz = i => {
+  const x = i % W, y = (i / W) | 0, r = [];
+  for (let dy=-1;dy<=1;dy++) for (let dx=-1;dx<=1;dx++) {
+    if (!dx && !dy) continue;
+    const nx = x+dx, ny = y+dy;
+    if (nx>=0 && nx<W && ny>=0 && ny<H) r.push(ny*W+nx);
+  }
+  return r;
+};
+
+function sortear(seguro) {
+  const proibido = new Set([seguro, ...viz(seguro)]);
+  let p = 0;
+  while (p < M) {
+    const i = Math.floor(Math.random()*W*H);
+    if (!bombas[i] && !proibido.has(i)) { bombas[i] = true; p++; }
+  }
+}
+
+function marcar(i) {
+  if (fim || aberto[i]) return;
+  bandeira[i] = !bandeira[i];
+  cel[i].textContent = bandeira[i] ? '🚩' : '';
+  document.getElementById('bm').textContent = M - bandeira.filter(Boolean).length;
+}
+
+function abrir(i) {
+  if (fim || aberto[i] || bandeira[i]) return;
+  if (primeiro) {
+    primeiro = false; sortear(i); t0 = Date.now();
+    timer = setInterval(() => document.getElementById('tm').textContent = Math.floor((Date.now()-t0)/1000), 500);
+  }
+  if (bombas[i]) return perder(i);
+  const fila = [i];
+  while (fila.length) {
+    const j = fila.pop();
+    if (aberto[j] || bandeira[j]) continue;
+    aberto[j] = true; restantes--;
+    const n = viz(j).filter(k => bombas[k]).length;
+    cel[j].className = 'c a' + (n ? ' n'+n : '');
+    cel[j].textContent = n || '';
+    if (!n) fila.push(...viz(j));
+  }
+  if (restantes === 0) {
+    fim = true; clearInterval(timer);
+    bombas.forEach((b,k) => { if (b) cel[k].textContent = '🚩'; });
+    document.getElementById('fim').textContent = `🎉 Você venceu em ${document.getElementById('tm').textContent}s!`;
+  }
+}
+
+function perder(i) {
+  fim = true; clearInterval(timer);
+  bombas.forEach((b,k) => { if (b) { cel[k].textContent = '💣'; cel[k].classList.add('a'); } });
+  cel[i].classList.add('b');
+  document.getElementById('fim').textContent = '💥 BOOM! Você perdeu.';
+}
+
+document.getElementById('rs').onclick = iniciar;
+document.getElementById('nivel').onchange = iniciar;
+iniciar();
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+{
+ "id": "cultivar_registrada",
+ "secao": "Patentes e Registros",
+ "item": "Cultivar registrada",
+ "como_abrir": "Patentes e Registros > Cultivar registrada",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "único",
+   "url": "PKG_PATENTE_REGISTRO.form?f_reg=&F_STA_DIVULGACAO_CIENTIFICA=&f_cod=<codigo_do_cv>&f_cod_tipo=CR",
+   "abertura": {
+    "tipo": "direta",
+    "url_do_formulario": "PKG_PATENTE_REGISTRO.form?f_reg=&F_STA_DIVULGACAO_CIENTIFICA=&f_cod=<codigo_do_cv>&f_cod_tipo=CR",
+    "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
+   },
+   "janelas_auxiliares": [
+    "checkCI()",
+    "recuperaInstMacro();"
+   ],
+   "campos": [
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Denominação",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano do registro",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais",
+     "name": "f_pais",
+     "rotulo": "País",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "obrigatorio": true,
+     "padrao": "Brasil",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "inst",
+     "name": "f_inst",
+     "rotulo": "Autoridade Nacional",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false
+    },
+    {
+     "chave": "cod_reg",
+     "name": "f_cod_reg",
+     "rotulo": "Número do registro",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 16,
+     "obrigatorio": false
+    },
+    {
+     "chave": "dta_dep",
+     "name": "f_dta_dep",
+     "rotulo": "Data do registro",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sta_inovacao",
+     "name": "f_sta_inovacao",
+     "rotulo": "f_sta_inovacao",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Não": "S",
+      "N": "N"
+     },
+     "obrigatorio": false,
+     "padrao": "N",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "txt_potencial",
+     "name": "f_txt_potencial",
+     "rotulo": "Qual o potencial de inovação?",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "oculto": true,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoa",
+     "name": "nometitularPessoa",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularpessoacomocitado",
+     "name": "nometitularPessoaComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinst",
+     "name": "nometitularInst",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nometitularinstcomocitado",
+     "name": "nometitularInstComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nome",
+     "name": "f_nome",
+     "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedade Científi",
+     "aba": "Instituições",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_inst",
+     "name": "f_nme_inst",
+     "rotulo": "Nome da instituição",
+     "aba": "Instituições",
+     "tipo": "text",
+     "maxlength": 75,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "sigla",
+     "name": "f_sigla",
+     "rotulo": "Sigla",
+     "aba": "Instituições",
+     "tipo": "text",
+     "maxlength": 16,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "pais_inst",
+     "name": "f_pais_inst",
+     "rotulo": "País",
+     "aba": "Instituições",
+     "tipo": "select",
+     "catalogo": "catalogos/paises-244.json",
+     "oculto": true,
+     "obrigatorio": true
+    },
+    {
+     "chave": "uf",
+     "name": "f_uf",
+     "rotulo": "UF",
+     "aba": "Instituições",
+     "tipo": "select",
+     "opcoes": {
+      "AC": "AC",
+      "AL": "AL",
+      "AM": "AM",
+      "AP": "AP",
+      "BA": "BA",
+      "CE": "CE",
+      "DF": "DF",
+      "ES": "ES",
+      "GO": "GO",
+      "MA": "MA",
+      "MG": "MG",
+      "MS": "MS",
+      "MT": "MT",
+      "PA": "PA",
+      "PB": "PB",
+      "PE": "PE",
+      "PI": "PI",
+      "PR": "PR",
+      "RJ": "RJ",
+      "RN": "RN",
+      "RO": "RO",
+      "RR": "RR",
+      "RS": "RS",
+      "SC": "SC",
+      "SE": "SE",
+      "SP": "SP",
+      "TO": "TO"
+     },
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Instituições",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Instituições",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "\\\"Qual o potencial de inovação?\\\"",
+    "\\\"Possui potencial de inovação de produtos, processos ou serviços?\\\"",
+    "País",
+    "Instituição de registro",
+    "Número do processo",
+    "Número de registro",
+    "Ano de Desenvolvimento"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

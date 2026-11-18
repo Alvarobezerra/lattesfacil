@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Labirinto</title>
+<style>
+  body{margin:0;background:#12141c;color:#e8e8f0;font-family:system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh}
+  header{display:flex;gap:24px;align-items:center;padding:12px;font-size:18px}
+  header b{color:#ffd24a}
+  canvas{background:#1b1e2b;border-radius:8px;max-width:96vw;max-height:78vh;touch-action:none}
+  button{background:#3a4ad8;color:#fff;border:0;border-radius:6px;padding:8px 14px;font-size:15px;cursor:pointer}
+  p{opacity:.7;font-size:14px;margin:8px}
+  #msg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#000a;font-size:28px;text-align:center}
+  #msg div{background:#222639;padding:28px 40px;border-radius:12px}
+</style>
+</head>
+<body>
+<header>
+  <span>Nível <b id="nv">1</b></span>
+  <span>Tempo <b id="tm">0.0</b>s</span>
+  <label><input type="checkbox" id="fog"> Névoa</label>
+  <button id="rs">Novo labirinto</button>
+</header>
+<canvas id="c"></canvas>
+<p>Setas ou WASD para mover (ou deslize na tela). Chegue ao quadrado verde.</p>
+<div id="msg"><div><div id="mt"></div><br><button id="nx">Próximo nível</button></div></div>
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let level = 1, N, grid, px, py, t0, done, timer;
+const CELL = 28;
+
+function gerar(n) {
+  // grid[y][x] = {N,S,E,W: parede existe}
+  const g = Array.from({length:n}, () => Array.from({length:n}, () => ({n:1,s:1,e:1,w:1,v:0})));
+  const pilha = [[0,0]]; g[0][0].v = 1;
+  const dirs = [[0,-1,'n','s'],[0,1,'s','n'],[1,0,'e','w'],[-1,0,'w','e']];
+  while (pilha.length) {
+    const [x,y] = pilha[pilha.length-1];
+    const viz = dirs.filter(([dx,dy]) => g[y+dy] && g[y+dy][x+dx] && !g[y+dy][x+dx].v);
+    if (!viz.length) { pilha.pop(); continue; }
+    const [dx,dy,a,b] = viz[Math.floor(Math.random()*viz.length)];
+    g[y][x][a] = 0; g[y+dy][x+dx][b] = 0; g[y+dy][x+dx].v = 1;
+    pilha.push([x+dx, y+dy]);
+  }
+  return g;
+}
+
+function iniciar() {
+  N = 8 + level * 3;
+  grid = gerar(N);
+  px = 0; py = 0; done = false;
+  cv.width = cv.height = N * CELL + 4;
+  document.getElementById('nv').textContent = level;
+  document.getElementById('msg').style.display = 'none';
+  t0 = performance.now();
+  clearInterval(timer);
+  timer = setInterval(() => {
+    if (!done) document.getElementById('tm').textContent = ((performance.now()-t0)/1000).toFixed(1);
+  }, 100);
+  desenhar();
+}
+
+function desenhar() {
+  const fog = document.getElementById('fog').checked;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.save(); ctx.translate(2,2);
+  // saída
+  ctx.fillStyle = '#3ddc84';
+  ctx.fillRect((N-1)*CELL+5, (N-1)*CELL+5, CELL-10, CELL-10);
+  // jogador
+  ctx.fillStyle = '#ffd24a';
+  ctx.beginPath(); ctx.arc(px*CELL+CELL/2, py*CELL+CELL/2, CELL/3, 0, 7); ctx.fill();
+  // paredes
+  ctx.strokeStyle = '#8fa0ff'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  ctx.beginPath();
+  for (let y=0;y<N;y++) for (let x=0;x<N;x++) {
+    const c = grid[y][x], X = x*CELL, Y = y*CELL;
+    if (c.n) { ctx.moveTo(X,Y); ctx.lineTo(X+CELL,Y); }
+    if (c.w) { ctx.moveTo(X,Y); ctx.lineTo(X,Y+CELL); }
+    if (y===N-1 && c.s) { ctx.moveTo(X,Y+CELL); ctx.lineTo(X+CELL,Y+CELL); }
+    if (x===N-1 && c.e) { ctx.moveTo(X+CELL,Y); ctx.lineTo(X+CELL,Y+CELL); }
+  }
+  ctx.stroke();
+  if (fog) {
+    const cx = px*CELL+CELL/2, cy = py*CELL+CELL/2;
+    const g = ctx.createRadialGradient(cx,cy,CELL*1.5,cx,cy,CELL*3.5);
+    g.addColorStop(0,'rgba(18,20,28,0)'); g.addColorStop(1,'rgba(18,20,28,1)');
+    ctx.fillStyle = g; ctx.fillRect(-2,-2,cv.width,cv.height);
+  }
+  ctx.restore();
+}
+
+function mover(dx, dy) {
+  if (done) return;
+  const c = grid[py][px];
+  if (dx===1 && !c.e) px++;
+  else if (dx===-1 && !c.w) px--;
+  else if (dy===1 && !c.s) py++;
+  else if (dy===-1 && !c.n) py--;
+  desenhar();
+  if (px===N-1 && py===N-1) {
+    done = true;
+    const s = ((performance.now()-t0)/1000).toFixed(1);
+    document.getElementById('mt').textContent = `Nível ${level} completo em ${s}s!`;
+    document.getElementById('msg').style.display = 'flex';
+  }
+}
+
+addEventListener('keydown', e => {
+  const m = {ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]}[e.key];
+  if (m) { e.preventDefault(); mover(...m); }
+});
+
+let sx, sy;
+cv.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
+cv.addEventListener('pointerup', e => {
+  const dx = e.clientX - sx, dy = e.clientY - sy;
+  if (Math.max(Math.abs(dx),Math.abs(dy)) < 20) return;
+  if (Math.abs(dx) > Math.abs(dy)) mover(Math.sign(dx), 0); else mover(0, Math.sign(dy));
+});
+
+document.getElementById('rs').onclick = iniciar;
+document.getElementById('fog').onchange = desenhar;
+document.getElementById('nx').onclick = () => { level++; iniciar(); };
+iniciar();
+</script>
+</body>
+</html>
