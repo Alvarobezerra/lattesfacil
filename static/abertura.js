@@ -61,6 +61,25 @@
     if (icon) icon.textContent = cfg.icon;
   }
 
+  function renderMomento() {
+    const box = $("moment");
+    if (!box) return;
+    if (!dados) {
+      box.replaceChildren(el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "Sua trajetória começa pelo que você já construiu."), el("p", {}, "Assim que os dados forem carregados, vamos transformar seus registros em uma visão clara da sua jornada.")));
+      return;
+    }
+    const p = dados.producao || {}, c = dados.citacoes || {}, e = dados.envios || {};
+    const total = Number(p.total || 0), ano = Number(p.no_ano || 0), cit = Number(c.total || 0);
+    let frase = total ? `Você já tem ${fmt(total)} ${total === 1 ? "produção registrada" : "produções registradas"} para contar sua trajetória.` : "Sua trajetória está pronta para começar a ser organizada.";
+    if (ano) frase += ` Neste ano, ${fmt(ano)} ${ano === 1 ? "item já apareceu" : "itens já apareceram"} no seu percurso.`;
+    box.replaceChildren(
+      el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "O que você construiu importa."), el("p", {}, frase)),
+      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Produção"), el("div", { class: "ms-value" }, fmt(total)), el("div", { class: "ms-help" }, "obras encontradas")),
+      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Citações"), el("div", { class: "ms-value" }, fmt(cit)), el("div", { class: "ms-help" }, "impacto acompanhado")),
+      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Registros"), el("div", { class: "ms-value" }, fmt(e.total || 0)), el("div", { class: "ms-help" }, "no LattesData")),
+    );
+  }
+
   function kpi(id, rotulo, valor, delta, sub, flat) {
     const b = el("button", { class: "card kpi" + (id === atual ? " on" : ""), type: "button", "data-k": id },
       el("div", { class: "lb" }, rotulo), el("div", { class: "v" }, valor),
@@ -159,14 +178,14 @@
     else if (avisos.length) $("banner").replaceChildren(el("div", { class: "banner" }, avisos.join(" ")));
     else $("banner").replaceChildren();
     renderKpis(); desenhar(); renderFeed(); renderSide();
-    proximoPasso();
+    proximoPasso(); renderMomento();
   }
   async function carregar() {
     // Última foto guardada neste navegador: a tela abre instantaneamente e a verificação segue por trás.
     if (!dados && orcid) {
       try { const snap = JSON.parse(store.get(CHAVE_SNAP + orcid) || "null"); if (snap && snap.ok) { dados = snap; dados.atualizando = true; mostrar(); } } catch (e) {}
     }
-    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); }
+    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); renderMomento(); }
     const qs = new URLSearchParams({ usuario });
     if (orcid) qs.set("orcid", orcid);
     let novo;

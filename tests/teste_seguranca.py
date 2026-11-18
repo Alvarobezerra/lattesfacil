@@ -11,9 +11,44 @@ from pathlib import Path
 
 import requests
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765").rstrip("/")
 RAIZ = Path(__file__).resolve().parent.parent
-CODIGO = os.environ.get("LATTESFACIL_CODIGO") or (RAIZ / ".acesso").read_text(encoding="utf-8").strip()
+_PROC = None
+_DB = None
+if len(sys.argv) > 1:
+    BASE = sys.argv[1].rstrip("/")
+    CODIGO = os.environ.get("LATTESFACIL_CODIGO") or (RAIZ / ".acesso").read_text(encoding="utf-8").strip()
+else:
+    # Sem endereço: sobe um servidor próprio (porta de teste, banco temporário, bloqueio de login ligado). O teste de força bruta
+    # termina bloqueando o IP; contra o servidor de uso diário isso trancaria o dono para fora.
+    import atexit
+    import subprocess
+    BASE = "http://127.0.0.1:8802"
+    CODIGO = "teste-codigo-123"
+    _DB = RAIZ / "teste_seguranca.db"
+    _PROC = subprocess.Popen([sys.executable, str(RAIZ / "server.py")], cwd=RAIZ, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                             env=dict(os.environ, PORT="8802", HOST="127.0.0.1", LATTESFACIL_CODIGO=CODIGO, LATTESFACIL_DB=str(_DB), LATTESFACIL_BLOQUEIO_LOCAL="1"))
+
+    def _encerrar():
+        _PROC.terminate()
+        try:
+            _PROC.wait(timeout=5)
+        except Exception:
+            _PROC.kill()
+        for suf in ("", "-journal", "-wal", "-shm"):
+            f = Path(str(_DB) + suf)
+            if f.exists():
+                try:
+                    f.unlink()
+                except OSError:
+                    pass
+
+    atexit.register(_encerrar)
+    for _ in range(80):
+        try:
+            requests.get(BASE + "/api/health", timeout=1)
+            break
+        except Exception:
+            time.sleep(0.25)
 HOST = BASE.split("//")[1]
 falhas = []
 
@@ -74,7 +109,7 @@ checa("exclusão responde ok", r.status_code == 200)
 ids = [x["id"] for x in s.get(BASE + "/api/records").json()["records"]]
 checa("registro sumiu da lista", rec_id not in ids)
 import sqlite3
-con = sqlite3.connect(RAIZ / "lattes_records.db")
+con = sqlite3.connect(_DB if _PROC else RAIZ / "lattes_records.db")
 linha = con.execute("select deleted_at from records where id=?", (rec_id,)).fetchone()
 con.execute("delete from records where id=?", (rec_id,))  # limpa o registro de teste
 con.commit()

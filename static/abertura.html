@@ -7,10 +7,9 @@
 <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
 <link rel="stylesheet" href="/fonts/fonts.css" />
 <style>
-:root{--navy:#0b192c;--blue:#1b365d;--cyan:#00a3c4;--cyan-d:#00829c;--emerald:#10b981;--sky:#38bdf8;
+:root{color-scheme:light;--navy:#0b192c;--blue:#1b365d;--cyan:#00a3c4;--cyan-d:#00829c;--emerald:#10b981;--sky:#38bdf8;
   --bg:#f4f8fb;--card:#fff;--border:#dbe4ee;--text:#0b192c;--muted:#546580;--warn:#b7791f;--warn-bg:#fdf6e3;
   --serif:"Newsreader",Georgia,serif;--ui:"Inter","Helvetica Neue",Arial,sans-serif}
-@media (prefers-color-scheme:dark){:root{--bg:#08121f;--card:#0f1f35;--border:#1f3452;--text:#e8eff7;--muted:#93a6c0;--warn-bg:#2a2210;--warn:#e6b559}}
 *{box-sizing:border-box}
 body{margin:0;font-family:var(--ui);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}
@@ -36,7 +35,6 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .who p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
 .ids{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--emerald) 14%,transparent);color:#0a6b4d;border:1px solid color-mix(in srgb,var(--emerald) 35%,transparent)}
-@media (prefers-color-scheme:dark){.pill{color:#5be0b0}}
 .pill.neutral{background:var(--bg);color:var(--muted);border-color:var(--border)}
 .actions{margin-left:auto;display:flex;gap:10px}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;padding:14px 0 48px}
@@ -52,7 +50,6 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .kpi .lb{font-size:.76rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
 .kpi .v{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:4px 0 0;line-height:1.1}
 .kpi .d{font-size:.8rem;font-weight:600;color:#0a8a63}
-@media (prefers-color-scheme:dark){.kpi .d{color:#5be0b0}}
 .kpi .d.flat{color:var(--muted)}
 .kpi .sub{font-size:.76rem;color:var(--muted);margin-top:4px}
 .chart-card{margin-bottom:16px}
@@ -79,11 +76,15 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .next-step .ns-copy{min-width:0;flex:1}.next-step .ns-label{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--cyan-d)}
 .next-step h2{font-size:.98rem;margin:2px 0 1px}.next-step p{font-size:.8rem;color:var(--muted);margin:0}.next-step .btn{white-space:nowrap}
 .banner.success{background:color-mix(in srgb,var(--emerald) 10%,var(--card));color:#08734f;border-color:color-mix(in srgb,var(--emerald) 30%,var(--border))}
-@media (prefers-color-scheme:dark){.next-step{box-shadow:none}.banner.success{color:#72e5bc}}
+.moment{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(130px,1fr));gap:12px;margin:16px 0 0}
+.moment-main{padding:18px;background:linear-gradient(135deg,var(--blue),#0b6074);color:#fff;border:0}.moment-main .eyebrow{color:#8fead2}.moment-main h2{font-family:var(--serif);font-size:1.35rem;line-height:1.15;margin:6px 0 5px}.moment-main p{font-size:.82rem;color:#d7e9ef;margin:0;max-width:48ch}
+.moment-stat{padding:15px}.moment-stat .ms-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:800}.moment-stat .ms-value{font-size:1.65rem;font-weight:800;line-height:1.15;margin-top:7px}.moment-stat .ms-help{font-size:.75rem;color:var(--muted);margin-top:3px}
+@media (max-width:1020px){.moment{grid-template-columns:1fr 1fr}.moment-main{grid-column:1/-1}}
 form.orcid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);min-width:230px}
 .skel{position:relative;overflow:hidden;color:transparent!important;background:var(--border);border-radius:6px;animation:p 1.2s infinite alternate}
 .lat{margin:16px 0}.lat .mais{font-size:.8rem;font-weight:600;color:var(--cyan-d)}
+.lat-intro{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 14px;margin:8px 0 14px;border:1px solid color-mix(in srgb,var(--cyan) 22%,var(--border));border-radius:11px;background:color-mix(in srgb,var(--cyan) 5%,var(--card))}.lat-intro p{margin:0;color:var(--muted);font-size:.8rem}.lat-intro b{color:var(--text)}
 .lat-k{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:10px 0 14px}
 .lat-k div{border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:.76rem;color:var(--muted)}.lat-k b{display:block;font-size:1.5rem;color:var(--text);line-height:1.2}
 .lat-b{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}
@@ -118,8 +119,11 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
     <a class="btn btn-p" id="nextAction" href="/">Enviar documento</a>
   </section>
 
+  <section class="moment" id="moment" aria-label="Seu momento na trajetória"></section>
+
   <section class="card lat" id="lattes" aria-label="Seu currículo Lattes">
-    <div class="sec-h"><h2>Seu Lattes</h2><a class="mais" href="/meu-curriculo.html">Ver currículo completo →</a></div>
+    <div class="sec-h"><h2>Seu currículo</h2><a class="mais" href="/meu-curriculo.html">Analisar meu currículo →</a></div>
+    <div class="lat-intro"><p><b>Vamos conhecer sua trajetória.</b> Começamos pelo currículo público e depois aprofundamos a análise com XML ou leitura ao vivo.</p><a class="btn btn-o" href="https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar" target="_blank" rel="noopener noreferrer">Buscar no CNPq</a></div>
     <p class="src" id="latMeta">Carregando seu currículo Lattes…</p>
     <div class="lat-k" id="latK"></div>
     <div class="lat-b">
@@ -153,6 +157,7 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
     </aside>
   </div>
 </main>
-<script src="/abertura.js"></script>
+<script src="/guarda-servidor.js"></script>
+  <script src="/abertura.js"></script>
 </body>
 </html>

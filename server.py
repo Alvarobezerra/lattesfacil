@@ -9,7 +9,9 @@ import mimetypes
 import os
 import re
 import secrets
+import socket
 import sqlite3
+import sys
 import uuid
 from contextlib import closing, contextmanager
 from datetime import datetime, timezone
@@ -68,6 +70,7 @@ FORCE_SECURE_COOKIE = os.environ.get("LATTESFACIL_HTTPS", "") == "1"
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
        "connect-src 'self'; frame-src 'self' lattesdata:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
 PUBLIC_LANDING = {"/inicio.html", "/inicio.css", "/inicio.js"}  # vitrine pública (sem sessão)
+BLOQUEIO_LOCAL = os.environ.get("LATTESFACIL_BLOQUEIO_LOCAL") == "1"  # padrão: sem bloqueio de login para o próprio computador
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
 LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -155,6 +158,50 @@ def _backup_loop() -> None:
             backup_db()
         except Exception as exc:  # nunca derrubar o servidor por causa do backup
             print("backup falhou:", type(exc).__name__)
+
+
+# ---------------------------------------------------------------- barreira contra servidor duplicado/desatualizado
+# Python carrega o código uma vez: depois de editar o projeto, um servidor que já estava rodando segue com a versão antiga.
+# (1) o servidor é de instância única por porta (no Windows o padrão permitia dois na mesma porta, e as requisições
+# alternavam entre eles); (2) a assinatura dos arquivos de código é gravada ao iniciar e comparada depois, e as telas
+# avisam "reinicie o servidor" quando mudou. Os arquivos de static/ não entram: são lidos do disco a cada acesso.
+FONTES_DO_SERVIDOR = ("*.py", "itens/*.py", "itens/*.json", "itens/especificacao/*.json", "citacoes/*.py", "docs/campos-lattes/catalogos/*.json")
+_assinatura_inicial: tuple[int, int] | None = None
+_cache_assinatura: list[Any] = [0.0, False]
+
+
+def assinatura_das_fontes() -> tuple[int, int]:
+    """(quantidade de arquivos, maior data de modificação em ns) dos arquivos que o servidor carrega ao iniciar."""
+    n, ultimo = 0, 0
+    for padrao in FONTES_DO_SERVIDOR:
+        for f in BASE_DIR.glob(padrao):
+            try:
+                ultimo = max(ultimo, f.stat().st_mtime_ns)
+                n += 1
+            except OSError:
+                pass
+    return n, ultimo
+
+
+def codigo_desatualizado() -> bool:
+    """True se algum arquivo de código mudou (ou apareceu/sumiu) depois que este servidor iniciou. Consulta no máx. a cada 3 s."""
+    if _assinatura_inicial is None:
+        return False
+    agora = time.monotonic()
+    if agora - _cache_assinatura[0] >= 3:
+        _cache_assinatura[0] = agora
+        _cache_assinatura[1] = assinatura_das_fontes() != _assinatura_inicial
+    return bool(_cache_assinatura[1])
+
+
+class ServidorUnico(ThreadingHTTPServer):
+    """Uma instância por porta. No Windows, SO_REUSEADDR deixa dois processos escutarem a mesma porta; aqui o bind é exclusivo."""
+    allow_reuse_address = os.name != "nt"
+
+    def server_bind(self) -> None:
+        if os.name == "nt" and hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
 
 
 @contextmanager
@@ -508,6 +555,10 @@ class LattesHandler(BaseHTTPRequestHandler):
         return self.headers.get("Sec-Fetch-Site") in (None, "same-origin", "none")
 
     def _locked(self, ip: str) -> bool:
+        # Acesso vindo do próprio computador (sem proxy/túnel) não é bloqueado: o dono errar o código não pode se trancar para fora.
+        # Quem chega por rede ou túnel (IP repassado) continua com o bloqueio. LATTESFACIL_BLOQUEIO_LOCAL=1 liga o bloqueio também no local.
+        if ip in ("127.0.0.1", "::1") and not BLOQUEIO_LOCAL:
+            return False
         now = time.time()
         recent = [t for t in LOGIN_FAILS.get(ip, []) if now - t < LOGIN_WINDOW]
         LOGIN_FAILS[ip] = recent
@@ -642,6 +693,13 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path not in ("/api/lattes/ping", "/mockup-ia.html") and not public_static and not self._gate():
             return
 
+        if path in ("/api/catalogos/areas", "/api/catalogos/setores"):  # "Listar todos" da tela (áreas e setores do Lattes)
+            from itens import sugestoes as _sug
+            self._send_json({"itens": _sug.catalogo_areas_planas() if path.endswith("/areas") else _sug.catalogo_setores()})
+            return
+        if path == "/api/servidor/estado":  # autenticada (o /api/health público continua mínimo)
+            self._send_json({"desatualizado": codigo_desatualizado()})
+            return
         if path == "/api/instituicoes/buscar":
             qs = parse_qs(parsed.query)
             with db() as conn:
@@ -1442,7 +1500,17 @@ class LattesHandler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
-    global ACCESS_CODE
+    global ACCESS_CODE, _assinatura_inicial
+    default_host = "0.0.0.0"
+    host = os.environ.get("HOST", default_host)
+    port = int(os.environ.get("PORT", "8765"))
+    try:  # primeiro de tudo: se a porta já tem servidor, sai sem mexer no banco nem nos backups
+        server = ServidorUnico((host, port), LattesHandler)
+    except OSError:
+        print("Já existe um servidor usando a porta " + str(port) + ". Não vou iniciar outro (ele poderia ficar com código antigo e "
+              "dividir as requisições com o novo)." + chr(10) + "Feche o servidor anterior e rode de novo, ou use outra porta (PORT=8766).")
+        sys.exit(1)
+    _assinatura_inicial = assinatura_das_fontes()
     init_db()
     ACCESS_CODE = load_access_code()
     try:
@@ -1451,10 +1519,6 @@ def main() -> None:
         print("backup inicial falhou:", type(exc).__name__)
     threading.Thread(target=_backup_loop, daemon=True).start()
     aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
-    default_host = "0.0.0.0" if (os.environ.get("RENDER") or os.environ.get("PORT")) else "0.0.0.0"
-    host = os.environ.get("HOST", default_host)
-    port = int(os.environ.get("PORT", "8765"))
-    server = ThreadingHTTPServer((host, port), LattesHandler)
     if host not in ("127.0.0.1", "localhost", "::1"):
         print("Atenção: escutando fora do localhost. O acesso exige o código; use sempre HTTPS (LATTESFACIL_HTTPS=1).")
     print(f"LattesData rodando em http://{host}:{port}")

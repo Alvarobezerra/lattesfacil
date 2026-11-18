@@ -225,3 +225,18 @@ Mas sua vocação é maior: ajudar pesquisadores a manter uma memória viva, org
 
 O produto deve entregar eficiência na entrada, clareza no uso contínuo e reconhecimento ao longo do tempo.
 
+## 13. Porta de entrada: análise pública prévia
+
+O primeiro contato com o currículo não precisa depender de XML ou extensão. A experiência pode começar pela Busca Textual pública do Currículo Lattes, usando o nome completo do usuário e as bases de doutores e demais pesquisadores.
+
+Fluxo recomendado:
+
+1. O sistema identifica o nome completo da conta.
+2. O usuário inicia “Analisar meu currículo”.
+3. A Busca Textual do CNPq é aberta com a busca por nome.
+4. O usuário confirma o resultado correto quando houver homônimos.
+5. O LattesData apresenta uma análise prévia da trajetória.
+6. XML ou extensão são oferecidos para aprofundar a leitura, comparar versões e auxiliar o preenchimento.
+
+Essa escolha reduz a barreira de entrada e permite que o usuário veja valor antes de lidar com importação de arquivos. A confirmação do currículo é indispensável: nomes iguais não devem ser resolvidos automaticamente.
+

@@ -544,6 +544,23 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (!c.length) return false;
       c[c.length - 1].click(); return true;
     };
+    // Pop-up de inclusão (Palavra-chave, Autor...): o campo está acima do link Confirmar visível, fora das grades.
+    var gCampoDoPopup = function () {
+      var cs = [].slice.call(gdoc.querySelectorAll('a')).filter(function (a) { return /^confirmar$/i.test(a.textContent.trim()) && gVis(a); });
+      var el = cs[cs.length - 1];
+      for (var k = 0; el && k < 8; k++) {
+        el = el.parentElement;
+        if (!el) break;
+        var f = [].slice.call(el.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && !x.closest('[id$="Holder"]'); })[0];
+        if (f) return f;
+      }
+      return null;
+    };
+    // Falhou no meio: fecha o pop-up para não deixar o formulário travado para as grades seguintes.
+    var gCancelarPopup = function () {
+      var c = [].slice.call(gdoc.querySelectorAll('a')).filter(function (a) { return /^cancelar$/i.test(a.textContent.trim()) && gVis(a); });
+      if (c.length) { try { c[c.length - 1].click(); } catch (e) {} }
+    };
     var gOk = {};
     var gTexto = async function (chave, rotuloGrade, rxHolder, rxNovo, campoVisivel) {
       var lista = GR[chave] || [];
@@ -555,13 +572,19 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         var lk = gLink(gHolder(rxHolder), rxNovo);
         if (!lk) { rel.push('botão de incluir em "' + rotuloGrade + '" não encontrado'); break; }
         lk.click(); await sleep(450);
-        var ins = [].slice.call(gHolder(rxHolder).querySelectorAll('input[type="text"]')).filter(gVis);
-        var inp = ins[ins.length - 1];
-        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não apareceu'); break; }
+        // "Incluir nova" abre um pop-up ("Inclusão de palavra chave") FORA da grade; o campo dele fica acima do Confirmar visível.
+        // O campo de dentro da grade é só a busca da lista: digitar nele deixava o pop-up vazio e o Lattes recusava.
+        var inp = null;
+        for (var tw = 0; !inp && tw < 8; tw++) { inp = gCampoDoPopup(); if (!inp) await sleep(300); }
+        if (!inp) {
+          var ins = [].slice.call(gHolder(rxHolder).querySelectorAll('input[type="text"]')).filter(gVis);
+          inp = ins[ins.length - 1];
+        }
+        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não apareceu'); gCancelarPopup(); break; }
         var v = String(lista[i]);
         if (inp.maxLength > 0 && v.length > inp.maxLength) { rel.push(rotuloGrade + ' cortado em ' + inp.maxLength + ' caracteres: ' + v); v = v.slice(0, inp.maxLength); }
         inp.value = v; fireG(inp);
-        if (gConfirmar()) gOk[chave]++; else rel.push('não consegui confirmar em "' + rotuloGrade + '": ' + v);
+        if (gConfirmar()) gOk[chave]++; else { rel.push('não consegui confirmar em "' + rotuloGrade + '": ' + v); gCancelarPopup(); }
         await sleep(450);
       }
     };
@@ -572,7 +595,8 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       for (var i = 0; i < lista.length; i++) {
         var h = gHolder(rxHolder);
         if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); break; }
-        var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && !x.value; });
+        // O campo da grade vem com um texto de dica ("Digite, selecione ou inclua uma nova área..."): vazio ou dica = livre.
+        var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && (!x.value || /^digite/i.test(x.value)); });
         var inp = ins[ins.length - 1];
         if (!inp) { rel.push('campo de "' + rotuloGrade + '" não encontrado'); break; }
         var alvo = String(lista[i]);
@@ -3424,12 +3448,105 @@ function genDesenhar() {
       const ini = GEN.valores["grade:" + gr.chave] || [];
       ta.value = ini.map((x) => (x && typeof x === "object" ? [x.nome, x.citacao].filter(Boolean).join("; ") : x)).join("\n");
       wrap.appendChild(ta);
+      if (gr.chave === "areas" || gr.chave === "setores") genSeletorGrade(gr, ta, wrap);
       grid.appendChild(wrap);
     });
     det.appendChild(grid);
     box.appendChild(det);
   }
   genAtualizar();
+}
+
+// Áreas e Setores: igual ao Lattes, com "Listar todos" para escolher na própria plataforma (o preenchimento no Lattes usa o nome exato).
+const GEN_CATALOGOS = {};
+const semAcentoGrade = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const linhasDaGrade = (ta) => ta.value.split("\n").map((x) => x.trim()).filter(Boolean);
+
+function genSeletorGrade(gr, ta, wrap) {
+  const barra = el("div", "");
+  barra.style.cssText = "display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px";
+  const btn = el("button", "btn btn-secondary btn-sm", "Listar todos");
+  btn.type = "button";
+  const estado = el("span", "hint", "");
+  const atualizar = () => {
+    const n = linhasDaGrade(ta).length;
+    estado.textContent = n ? n + " escolhida(s)" : "Nenhuma escolhida. Use Listar todos para escolher, se quiser incluir.";
+  };
+  ta.addEventListener("input", atualizar);
+  btn.onclick = () => genAbrirListaTodos(gr, ta, atualizar);
+  barra.append(btn, estado);
+  wrap.appendChild(barra);
+  atualizar();
+}
+
+async function genAbrirListaTodos(gr, ta, aoMudar) {
+  const tipo = gr.chave === "areas" ? "areas" : "setores";
+  if (!GEN_CATALOGOS[tipo]) {
+    try { GEN_CATALOGOS[tipo] = (await (await fetch("/api/catalogos/" + tipo)).json()).itens || []; } catch (e) { GEN_CATALOGOS[tipo] = []; }
+  }
+  const itens = GEN_CATALOGOS[tipo];
+  if (!itens.length) { showToast("Não consegui carregar a lista. Digite os nomes, um por linha."); return; }
+  const fundo = el("div", "audit-modal-backdrop");
+  fundo.setAttribute("role", "dialog");
+  fundo.setAttribute("aria-modal", "true");
+  const cartao = el("div", "audit-modal-card");
+  const cab = el("div", "audit-modal-header");
+  const titulo = el("h2", "audit-modal-title", (tipo === "areas" ? "Áreas do conhecimento" : "Setores de atividade") + " — Listar todos");
+  const fechar = el("button", "btn-close", "✕");
+  fechar.type = "button";
+  fechar.setAttribute("aria-label", "Fechar");
+  cab.append(titulo, fechar);
+  const corpo = el("div", "audit-modal-body");
+  const busca = document.createElement("input");
+  busca.type = "text";
+  busca.placeholder = "Filtrar por nome (ex.: farmacologia)";
+  busca.style.cssText = "width:100%;margin-bottom:8px";
+  const lista = el("div", "");
+  lista.style.cssText = "max-height:50vh;overflow:auto;border:1px solid #e2e8f0;border-radius:8px";
+  const rodape = el("div", "hint", "");
+  const concluir = el("button", "btn btn-primary btn-sm", "Concluir");
+  concluir.type = "button";
+  const noPalavra = (nome) => linhasDaGrade(ta).some((l) => semAcentoGrade(l) === semAcentoGrade(nome));
+  const desenhar = () => {
+    const q = semAcentoGrade(busca.value).trim();
+    const vistos = itens.filter((i) => !q || semAcentoGrade(i.caminho).includes(q)).slice(0, 400);
+    lista.replaceChildren(...vistos.map((i) => {
+      const linha = el("label", "");
+      linha.style.cssText = "display:flex;gap:8px;align-items:flex-start;padding:5px 10px;cursor:pointer;padding-left:" + (10 + (q ? 0 : i.nivel * 16)) + "px";
+      const cx = document.createElement("input");
+      cx.type = "checkbox";
+      cx.checked = noPalavra(i.nome);
+      cx.onchange = () => {
+        const atuais = linhasDaGrade(ta).filter((l) => semAcentoGrade(l) !== semAcentoGrade(i.nome));
+        if (cx.checked) atuais.push(i.nome);
+        ta.value = atuais.join("\n");
+        ta.dispatchEvent(new Event("input", { bubbles: true }));
+        aoMudar();
+        rodape.textContent = linhasDaGrade(ta).length + " escolhida(s)";
+        desenhar();
+      };
+      const txt = el("span", "", "");
+      txt.append(el("b", "", i.nome));
+      if (q && i.caminho !== i.nome) txt.append(el("span", "hint", "  " + i.caminho));
+      linha.append(cx, txt);
+      return linha;
+    }));
+    if (itens.filter((i) => !q || semAcentoGrade(i.caminho).includes(q)).length > 400) lista.append(el("div", "hint", "Mostrando os 400 primeiros: refine o filtro."));
+    rodape.textContent = linhasDaGrade(ta).length + " escolhida(s)";
+  };
+  const sair = () => { document.removeEventListener("keydown", tecla); fundo.remove(); };
+  const tecla = (e) => { if (e.key === "Escape") sair(); };
+  fechar.onclick = sair;
+  concluir.onclick = sair;
+  fundo.addEventListener("click", (e) => { if (e.target === fundo) sair(); });
+  document.addEventListener("keydown", tecla);
+  busca.addEventListener("input", desenhar);
+  corpo.append(busca, lista, el("div", "", ""), rodape, concluir);
+  cartao.append(cab, corpo);
+  fundo.appendChild(cartao);
+  document.body.appendChild(fundo);
+  desenhar();
+  busca.focus();
 }
 
 function genGrades() {

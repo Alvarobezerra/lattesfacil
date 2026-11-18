@@ -174,6 +174,38 @@ def areas_do_texto(titulo: str, contexto: str = "", maximo: int = 2) -> list[str
     return [p[3].lstrip("~") for p in ordem][:maximo]
 
 
+# ---------- catálogos para o "Listar todos" da tela ----------
+CATALOGO_SETORES = pathlib.Path(__file__).resolve().parent.parent / "docs" / "campos-lattes" / "catalogos" / "setores-de-atividade.json"
+
+
+@lru_cache(maxsize=1)
+def catalogo_areas_planas() -> list[dict[str, Any]]:
+    """Todas as áreas do Lattes em lista plana: nome exato (o que o Lattes grava), caminho completo e nível (0 = grande área)."""
+    try:
+        arvore = json.loads(CATALOGO_AREAS.read_text(encoding="utf-8"))["arvore"]
+    except Exception:
+        return []
+    out: list[dict[str, Any]] = []
+
+    def anda(no: dict[str, Any], caminho: list[str]) -> None:
+        cam = caminho + [no.get("nome", "")]
+        out.append({"nome": no.get("nome", ""), "caminho": " › ".join(cam), "nivel": len(cam) - 1})
+        for f in no.get("filhos", []):
+            anda(f, cam)
+
+    for g in arvore:
+        anda(g, [])
+    return out
+
+
+@lru_cache(maxsize=1)
+def catalogo_setores() -> list[dict[str, Any]]:
+    try:
+        return [{"nome": n, "caminho": n, "nivel": 0} for n in json.loads(CATALOGO_SETORES.read_text(encoding="utf-8"))["setores"]]
+    except Exception:
+        return []
+
+
 # ---------- entrada única usada por itens.leitores.ler ----------
 def grades_para(item_id: str, texto: str, valores: dict[str, Any], chaves_grade: set[str]) -> tuple[dict[str, list[Any]], list[str]]:
     """Devolve ({'grade:<chave>': lista}, avisos) só para as grades que o formulário do item realmente tem."""

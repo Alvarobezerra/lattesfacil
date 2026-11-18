@@ -262,6 +262,23 @@ window.__lfAutofill = async function (d) {
       if (!c.length) return false;
       c[c.length - 1].click(); return true;
     };
+    // Pop-up de inclusão (Palavra-chave, Autor...): o campo está acima do link Confirmar visível, fora das grades.
+    var gCampoDoPopup = function () {
+      var cs = [].slice.call(gdoc.querySelectorAll('a')).filter(function (a) { return /^confirmar$/i.test(a.textContent.trim()) && gVis(a); });
+      var el = cs[cs.length - 1];
+      for (var k = 0; el && k < 8; k++) {
+        el = el.parentElement;
+        if (!el) break;
+        var f = [].slice.call(el.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && !x.closest('[id$="Holder"]'); })[0];
+        if (f) return f;
+      }
+      return null;
+    };
+    // Falhou no meio: fecha o pop-up para não deixar o formulário travado para as grades seguintes.
+    var gCancelarPopup = function () {
+      var c = [].slice.call(gdoc.querySelectorAll('a')).filter(function (a) { return /^cancelar$/i.test(a.textContent.trim()) && gVis(a); });
+      if (c.length) { try { c[c.length - 1].click(); } catch (e) {} }
+    };
     var gOk = {};
     var gTexto = async function (chave, rotuloGrade, rxHolder, rxNovo, campoVisivel) {
       var lista = GR[chave] || [];
@@ -273,13 +290,19 @@ window.__lfAutofill = async function (d) {
         var lk = gLink(gHolder(rxHolder), rxNovo);
         if (!lk) { rel.push('botão de incluir em "' + rotuloGrade + '" não encontrado'); break; }
         lk.click(); await sleep(450);
-        var ins = [].slice.call(gHolder(rxHolder).querySelectorAll('input[type="text"]')).filter(gVis);
-        var inp = ins[ins.length - 1];
-        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não apareceu'); break; }
+        // "Incluir nova" abre um pop-up ("Inclusão de palavra chave") FORA da grade; o campo dele fica acima do Confirmar visível.
+        // O campo de dentro da grade é só a busca da lista: digitar nele deixava o pop-up vazio e o Lattes recusava.
+        var inp = null;
+        for (var tw = 0; !inp && tw < 8; tw++) { inp = gCampoDoPopup(); if (!inp) await sleep(300); }
+        if (!inp) {
+          var ins = [].slice.call(gHolder(rxHolder).querySelectorAll('input[type="text"]')).filter(gVis);
+          inp = ins[ins.length - 1];
+        }
+        if (!inp) { rel.push('campo de "' + rotuloGrade + '" não apareceu'); gCancelarPopup(); break; }
         var v = String(lista[i]);
         if (inp.maxLength > 0 && v.length > inp.maxLength) { rel.push(rotuloGrade + ' cortado em ' + inp.maxLength + ' caracteres: ' + v); v = v.slice(0, inp.maxLength); }
         inp.value = v; fireG(inp);
-        if (gConfirmar()) gOk[chave]++; else rel.push('não consegui confirmar em "' + rotuloGrade + '": ' + v);
+        if (gConfirmar()) gOk[chave]++; else { rel.push('não consegui confirmar em "' + rotuloGrade + '": ' + v); gCancelarPopup(); }
         await sleep(450);
       }
     };
@@ -290,7 +313,8 @@ window.__lfAutofill = async function (d) {
       for (var i = 0; i < lista.length; i++) {
         var h = gHolder(rxHolder);
         if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); break; }
-        var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && !x.value; });
+        // O campo da grade vem com um texto de dica ("Digite, selecione ou inclua uma nova área..."): vazio ou dica = livre.
+        var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && (!x.value || /^digite/i.test(x.value)); });
         var inp = ins[ins.length - 1];
         if (!inp) { rel.push('campo de "' + rotuloGrade + '" não encontrado'); break; }
         var alvo = String(lista[i]);

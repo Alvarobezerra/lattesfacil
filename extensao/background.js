@@ -105,6 +105,10 @@ async function rodarComFeedback(d) {
   }
 
   const msgs = [];
+  // O Lattes deixa na página a caixa "Atenção" de tentativas anteriores (inclusive o texto "Não foi possível atualizar...").
+  // Guarda o que já estava lá ANTES de preencher para só acusar avisos novos, e não dar um item salvo como "pode não ter sido salvo".
+  let avisosAntes = [];
+  try { avisosAntes = avisosNaPagina(window.top, [], 0); } catch (e) {}
   const alertOriginal = top.alert;
   top.alert = (m) => { msgs.push(String(m)); };
   let erro = "";
@@ -157,7 +161,7 @@ async function rodarComFeedback(d) {
   }
   top.alert = alertOriginal;
   await sleep(1200); // dá tempo ao Lattes de desenhar a caixa de aviso, se houver
-  const noLattes = avisosNaPagina(window.top, [], 0).filter((x) => !res.detalhes.includes(x));
+  const noLattes = avisosNaPagina(window.top, [], 0).filter((x) => !res.detalhes.includes(x) && !avisosAntes.includes(x));
   if (noLattes.length) {
     res.detalhes = res.detalhes.concat(noLattes.map((x) => "Lattes: " + x));
     if (res.estado === "ok") { res.estado = "atencao"; res.titulo = "o Lattes mostrou um aviso — o item pode NÃO ter sido salvo"; }
