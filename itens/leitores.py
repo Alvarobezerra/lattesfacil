@@ -177,8 +177,10 @@ def ler_banca(texto: str, usuario: str):
     titulo = ""
     m = re.search(r"T[ií]tulo(?: d[aeo]s?\s+\w+)?:\s*[\"“”](.+?)[\"“”]", flat) or \
         re.search(r"(?:tese|disserta[çc][ãa]o|monografia|trabalho)\s+intitulad[oa]:?\s*[\"“”]?(.+?)[\"“”]?,\s*no\s+(?:Programa|Curso)", flat, re.I)
+    caixa_alta = False
     if m:
         from certificado import sentence_title
+        caixa_alta = m.group(1).strip().isupper()
         titulo = sentence_title(m.group(1).strip(" \"“”."))
     m = re.search(r"Programa de P[óo]s-Gradua[çc][ãa]o em ([^,.]+?)(?:\s+da\s+(Universidade[^,.]+?)|\s*[-–(]|,|\.|\s+em\s+sess)", flat)
     curso = _clean_line(m.group(0).split(" da Universidade")[0]).rstrip(" ,.-") if m else ""
@@ -204,7 +206,7 @@ def ler_banca(texto: str, usuario: str):
         n.append("Nome do candidato não identificado.")
     if not tipo:
         n.append("Tipo da banca (mestrado, doutorado, qualificação...) não identificado.")
-    if titulo:
+    if titulo and caixa_alta:
         n.append("Título convertido de CAIXA ALTA; confira nomes científicos e siglas.")
     if tipo == "Mestrado":
         n.append("Tipo do mestrado assumido como Acadêmico; ajuste se for Profissional.")
@@ -350,6 +352,10 @@ def ler(item_id: str, texto: str, usuario: str = "") -> dict[str, Any] | None:
     valores = aplicar_padroes(item_id, {k: v for k, v in valores.items() if v not in ("", None)}, nome_var)
     var = next((x for x in spec["variantes"] if x["variante"] == nome_var), spec["variantes"][0])
     faltam = [c["rotulo"] for c in var["campos"] if c["obrigatorio"] and not c.get("automatico") and not valores.get(c["name"])]
+    from itens.sugestoes import grades_para  # grades (participantes, palavras-chave, áreas) sugeridas a partir do documento
+    grades, notas_g = grades_para(item_id, texto, valores, {g["chave"] for g in var.get("grades", [])})
+    valores.update(grades)
+    notas = list(notas) + notas_g
     out = {"item": item_id, "variante": var["variante"], "valores": valores, "notas": notas, "faltam_obrigatorios": faltam}
     if len(spec["variantes"]) > 1:
         out["variantes"] = sug["opcoes"]

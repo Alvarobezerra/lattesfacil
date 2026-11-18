@@ -134,17 +134,24 @@ def campos_do_formulario(f):
 
 GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
     "autores": ("autores", "Autores", "Um por linha: Nome completo; Nome em citações (opcional)"),
+    "participantes": ("autores", "Participantes da banca", "Um por linha: nome completo; nome em citações (opcional). O seu nome entra sozinho."),
     "palavras chave": ("palavras_chave", "Palavras-chave", "Uma por linha (até 50 caracteres cada)"),
     "areas": ("areas", "Áreas do conhecimento", "Uma por linha, com o nome exato da área do Lattes"),
     "setores": ("setores", "Setores de atividade", "Um por linha, com o nome exato do setor do Lattes"),
 }
 
 
-def grades_do_formulario(f):
+ITENS_COM_PARTICIPANTES = {"banca", "banca_comissao_julgadora"}  # aba "Participantes" = grade de autores (autorHolder), confirmada só nas bancas
+
+
+def grades_do_formulario(f, item_id=""):
     """Abas de lista (sem campos nomeados) que o preenchedor genérico sabe preencher."""
     out = []
     for aba in f.get("abas", []):
-        g = GRADES.get(norm(aba.get("aba", "")))
+        nome_aba = norm(aba.get("aba", ""))
+        if nome_aba == "participantes" and item_id not in ITENS_COM_PARTICIPANTES:
+            continue
+        g = GRADES.get(nome_aba)
         if g:
             out.append({"chave": g[0], "rotulo": g[1], "dica": g[2], "aba": aba.get("aba", "")})
     return out
@@ -191,7 +198,7 @@ def gerar():
                     "abertura": d.get("abertura", {}),
                     "janelas_auxiliares": f.get("janelas_auxiliares", []),
                     "campos": campos_do_formulario(f),
-                    "grades": grades_do_formulario(f),
+                    "grades": grades_do_formulario(f, item_id),
                     "obrigatorios_mensagens": f.get("campos_obrigatorios_segundo_mensagens", []),
                 })
             primeiro = d

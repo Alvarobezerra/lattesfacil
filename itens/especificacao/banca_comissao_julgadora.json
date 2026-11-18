@@ -151,6 +151,12 @@
    ],
    "grades": [
     {
+     "chave": "autores",
+     "rotulo": "Participantes da banca",
+     "dica": "Um por linha: nome completo; nome em citações (opcional). O seu nome entra sozinho.",
+     "aba": "Participantes"
+    },
+    {
      "chave": "palavras_chave",
      "rotulo": "Palavras-chave",
      "dica": "Uma por linha (até 50 caracteres cada)",
