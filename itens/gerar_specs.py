@@ -15,6 +15,9 @@ SAIDA = pathlib.Path(__file__).resolve().parent / "especificacao"
 ITENS = {
     "participacao_evento": ["eventos/participacao-em-eventos-congressos-exposicoes-feiras-e-olimp.json"],
     "organizacao_evento": ["eventos/organizacao-de-eventos-congressos-exposicoes-feiras-e-olimpi.json"],
+    "artigo": ["producoes/artigos-completos-publicados-em-periodicos.json"],
+    "anais": ["producoes/trabalhos-publicados-em-anais-de-eventos.json"],
+    "apresentacao": ["producoes/apresentacao-de-trabalho-e-palestra.json"],
     "artigo_aceito": ["producoes/artigos-aceitos-para-publicacao.json"],
     "livro_capitulo": ["producoes/livros-e-capitulos.json"],
     "banca": ["bancas/participacao-em-bancas-de-trabalhos-de-conclusao.json"],
@@ -132,6 +135,11 @@ def campos_do_formulario(f):
     return campos
 
 
+# Nome da variante quando o mapeamento traz só "único" (formulários de uma forma só, validados contra a captura real).
+VARIANTE_UNICA = {"artigo": "Artigo completo publicado em periódico", "anais": "Trabalho publicado em anais de evento", "apresentacao": "Apresentação de trabalho e palestra",
+                  "orientacao_concluida": "Orientação concluída", "orientacao_andamento": "Orientação em andamento"}
+
+
 GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
     "autores": ("autores", "Autores", "Um por linha: Nome completo; Nome em citações (opcional)"),
     "participantes": ("autores", "Participantes da banca", "Um por linha: nome completo; nome em citações (opcional). O seu nome entra sozinho."),
@@ -163,6 +171,10 @@ GRADES_EXTRA = {
          "dica": "Uma instituição por linha, como no campo Instituições do Lattes. Ex.: Universidade Federal do Maranhão"},
         {"chave": "autores", "rotulo": "Inventores", "aba": "Inventores",
          "dica": "Um por linha: nome completo; nome em citações (opcional). O seu nome só entra se constar entre os inventores."},
+    ],
+    "artigo": [
+        {"chave": "autores", "rotulo": "Autores", "aba": "Autores",
+         "dica": "Um por linha: Nome completo; Nome em citações (opcional). Na ordem de autoria do artigo."},
     ],
     # Aba Equipe e Instituição de financiamento dos projetos (formulário real conferido em 18/11/2026).
     "projeto": [
@@ -254,8 +266,61 @@ ENSINO_OCULTOS = {"f_tpo_pesq_emp"}  # existe no formulário, mas não aparece p
 ENSINO_MOSTRAR_QUANDO = {"f_especifique": {"name": "f_tematica", "valor": "Outra"}}
 
 
+# Artigo em periódico (formulário real conferido em 20/11/2026, abertura manual por ISSN/periódico/volume/página).
+ARTIGO_ROTULOS = {
+    "f_relev": "É um dos 10 trabalhos mais relevantes de sua produção?",
+    "f_sta_divulgacao_cientifica": "É uma produção para educação e popularização de CeT?",
+}
+
+
+# Orientação concluída/em andamento (formulário real conferido em 21/11/2026).
+ORIENT_ROTULOS = {"f_cod_prod": "Natureza", "f_tpo_orient": "Tipo de orientação (apenas para dissertação de mestrado e tese de doutorado)",
+                  "f_bolsa": "Com bolsa?", "f_dsc_outra": "Tipo (apenas para dissertação de mestrado e orientação de outra natureza)"}
+
+
+# Trabalho em anais (formulário real conferido em 21/11/2026): rótulos dos grupos de radio.
+ANAIS_ROTULOS = {"f_cod_prod": "Natureza", "f_tipo_evento": "Classificação do evento"}
+
+
 def espelhar_lattes(campos, item_id="", variante=""):
     nomes = {c["name"].lower() for c in campos}
+    if item_id in ("orientacao_concluida", "orientacao_andamento"):
+        for c in campos:
+            n = c["name"].lower()
+            if n in ORIENT_ROTULOS:
+                c["rotulo"] = ORIENT_ROTULOS[n]
+            if n == "f_nme_agencia":
+                c["lupa"] = True  # o Lattes só aceita a agência escolhida na lista ("Utilize o link para selecionar a agência")
+                c["dica"] = "Escolhida na lista de agências do Lattes (a plataforma escolhe pela sigla ou nome idêntico)."
+            if n == "f_dsc_outra":
+                c["obrigatorio"] = False  # só vale para dissertação de mestrado e orientação de outra natureza (campo bloqueado nas demais)
+            if n == "f_tpo_orient":
+                c["obrigatorio"] = True  # "Tipo de orientação" consta entre os obrigatórios do Lattes
+            if n in ARTIGO_ROTULOS or n == "f_bolsa":
+                if n in ARTIGO_ROTULOS:
+                    c["rotulo"] = ARTIGO_ROTULOS[n]
+                c["opcoes"] = {"Sim": "S", "Não": "N"}
+    if item_id in ("anais", "apresentacao"):
+        for c in campos:
+            n = c["name"].lower()
+            if n in ANAIS_ROTULOS:
+                c["rotulo"] = ANAIS_ROTULOS[n]
+            if n in ARTIGO_ROTULOS:
+                c["rotulo"] = ARTIGO_ROTULOS[n]
+                c["opcoes"] = {"Sim": "S", "Não": "N"}
+    if item_id == "artigo":
+        for c in campos:
+            n = c["name"].lower()
+            if n in ARTIGO_ROTULOS:
+                c["rotulo"] = ARTIGO_ROTULOS[n]
+                c["opcoes"] = {"Sim": "S", "Não": "N"}
+            if n == "f_jcr":
+                c["bloqueado_no_lattes"] = True  # o Lattes preenche o fator de impacto a partir do periódico; o campo aparece bloqueado
+                c["dica"] = "O Lattes preenche o fator de impacto (JCR) a partir do periódico; campo bloqueado."
+            if n in ("f_titulo_periodico", "f_issn", "f_volume", "f_serie", "f_pag_ini"):
+                # Na abertura manual o Lattes recebe esses dados pelo endereço (janela "Informar dados") e os bloqueia no formulário.
+                c["bloqueado_no_lattes"] = True
+                c["dica"] = "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
     ensino = item_id == "projeto" and variante == "Projeto de ensino"
     for c in campos:
         n = c["name"].lower()
@@ -275,6 +340,78 @@ def espelhar_lattes(campos, item_id="", variante=""):
             c["mostrar_quando"] = {"name": gatilho, "valor": "Sim"}
         if n in SOMENTE_LEITURA:
             c["dica"] = SOMENTE_LEITURA[n]
+        if item_id == "projeto":
+            # Regras lidas do check() do formulário real (18-20/11/2026): Ano fim só é exigido (e só é aceito) quando a situação é
+            # "Concluído"; com cooperação com empresa em Sim exige CNPJ, e-mail institucional e setor; com inovação em Sim exige o potencial.
+            if n == "f_ano_fim":
+                c["obrigatorio"] = False
+                c["obrigatorio_quando"] = {"name": "F_TPO_SITUACAO", "valor": "Concluído"}
+            if n in ("f_cnpj_empresa", "f_txt_email_institucional", "f_txt_setor", "f_txt_potencial"):
+                c["obrigatorio"] = True  # só vale quando o campo está visível (condicional)
+            if n in ("f_inst", "f_orgao"):
+                c["obrigatorio"] = True  # o Lattes recusa o salvamento do Projeto de ensino sem instituição e órgão (confirmado em 20/11/2026)
+
+
+REFS = RAIZ / "docs" / "campos-lattes" / "ref"
+
+
+def opcoes_reais_da_captura(item_id, var_):
+    """Seleções por catálogo em que o Lattes oferece só parte do catálogo (ex.: 80 de 152 idiomas no artigo): usa a lista real da captura."""
+    ref = None
+    for cap in sorted((REFS / item_id).glob("*.json")) if (REFS / item_id).exists() else []:
+        if cap.name == "excecoes.json":
+            continue
+        r_ = json.loads(cap.read_text(encoding="utf-8"))
+        if norm(r_.get("variante", "")) == norm(var_.get("variante", "")):
+            ref = r_
+            break
+    if ref is None:
+        return
+    por_nome = {c["name"].lower(): c for c in ref.get("campos", [])}
+    for c in var_["campos"]:
+        r = por_nome.get(c["name"].lower())
+        # radios com texto de opção diferente do Lattes (ex.: texto cortado no mapeamento antigo): usa o texto real da captura (mesmos valores)
+        if r and c.get("tipo") == "radio" and c.get("opcoes") and r.get("opcoes"):
+            reais_r = {o["texto"]: o["valor"] for o in r["opcoes"] if o.get("texto") and o.get("valor") not in ("", "DUMMY")}
+            if reais_r and set(reais_r.values()) == set(c["opcoes"].values()) and not all(norm(k) in ("sim", "nao") for k in reais_r):
+                c["opcoes"] = reais_r
+        if not r or c.get("tipo") != "select" or not c.get("catalogo") or c.get("opcoes") or c["name"].lower() in ("f_pais_inst",):
+            continue
+        reais = {o["texto"]: o["valor"] for o in r.get("opcoes", []) if o.get("valor") not in ("", "DUMMY", "Selecione") and o.get("texto")}
+        cat = json.loads((MAPA / c["catalogo"]).read_text(encoding="utf-8"))
+        todos = {v["valor"] for v in cat.get("valores", []) if v.get("valor")}
+        if reais and set(reais.values()) < todos:
+            c["opcoes"] = reais
+            c["catalogo_completo"] = c.pop("catalogo")  # o app oferece só o que o Lattes oferece neste formulário
+
+
+def dependencias_da_captura(item_id, var_):
+    """Dependências entre campos descobertas na captura (aceitação): o Lattes só aceita o valor do campo depois que outro campo é escolhido
+    (ex.: tipo de orientação só com natureza mestrado/doutorado). Vira `exige_antes` no spec; o app desabilita o campo até lá e a matriz escolhe antes."""
+    ref = None
+    for cap in sorted((REFS / item_id).glob("*.json")) if (REFS / item_id).exists() else []:
+        if cap.name == "excecoes.json":
+            continue
+        r_ = json.loads(cap.read_text(encoding="utf-8"))
+        if norm(r_.get("variante", "")) == norm(var_.get("variante", "")):
+            ref = r_
+            break
+    if not ref:
+        return
+    por_nome = {c["name"].lower(): c for c in var_["campos"]}
+    for acc in ref.get("aceitacao", []):
+        alvo = por_nome.get(acc["campo"].lower())
+        if not alvo or not acc.get("depende"):
+            continue
+        dep = acc["depende"][0]
+        gat = por_nome.get(dep["gatilho"].lower())
+        if not gat:
+            continue
+        rotulos = []
+        for v in dep["valores"]:
+            rot = next((k for k, cod in (gat.get("opcoes") or {}).items() if cod == v["valor"] or cod.endswith(str(v["valor"])) or str(v["valor"]).endswith(cod)), None)
+            rotulos.append(rot or v["texto"])
+        alvo["exige_antes"] = {"name": gat["name"], "valores": rotulos}
 
 
 def gerar():
@@ -290,7 +427,7 @@ def gerar():
             inicio = len(variantes)
             for i, f in enumerate(d.get("formularios", [])):
                 variantes.append({
-                    "variante": f.get("nome") or f.get("formulario") or (d["item"] if len(arquivos) > 1 else (f"Formulário {i + 1}" if len(d.get("formularios", [])) > 1 else "único")),
+                    "variante": VARIANTE_UNICA.get(item_id) or f.get("nome") or f.get("formulario") or (d["item"] if len(arquivos) > 1 else (f"Formulário {i + 1}" if len(d.get("formularios", [])) > 1 else "único")),
                     "url": f.get("url", ""),
                     "abertura": d.get("abertura", {}),
                     "janelas_auxiliares": f.get("janelas_auxiliares", []),
@@ -305,6 +442,8 @@ def gerar():
                 for c in var_["campos"]:
                     c.update(over.get(c["name"], {}))
                 espelhar_lattes(var_["campos"], item_id, var_.get("variante", ""))
+                opcoes_reais_da_captura(item_id, var_)
+                dependencias_da_captura(item_id, var_)
                 aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {
             "id": item_id,

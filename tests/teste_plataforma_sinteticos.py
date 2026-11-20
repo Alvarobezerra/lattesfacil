@@ -26,7 +26,7 @@ from itens import especificacao  # noqa: E402
 
 PDFS = Path(__file__).resolve().parent / "amostras_sinteticas" / "pdf"
 LISTAS = json.loads((RAIZ / "itens" / "listas_lattes.json").read_text(encoding="utf-8"))
-SEM_ESPEC = {"anais", "apresentacao", "artigo", "caderno"}
+SEM_ESPEC = {"caderno"}
 
 
 def _sem_acento(t: str) -> str:
@@ -44,7 +44,7 @@ def _vinculo_lattes(item: str) -> list[str]:
 
     O Lattes abre alguns formulários por uma janela de escolha (patente, livro, formação...), mas o formulário também abre
     direto pela URL da variante (confirmado no currículo real em 17/11/2026), então a janela não é necessária."""
-    if item in ("anais", "apresentacao", "artigo"):
+    if item in ():
         return []
     spec = especificacao(item)
     if not spec:

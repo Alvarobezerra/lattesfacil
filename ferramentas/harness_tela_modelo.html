@@ -1,0 +1,123 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Harness de paridade de tela</title>
+<link rel="stylesheet" href="styles.css">
+<body style="padding:12px;font-family:sans-serif">
+<div id="genCampos"></div><div id="genAvisos"></div><button id="btnGenEnviar" type="button">enviar</button>
+<pre id="saida">executando…</pre>
+<script>
+// ---- stubs do ambiente do app (só o que as funções de formulário usam) ----
+const $ = (id) => document.getElementById(id);
+const genExigeTitular = () => false;
+const citacaoConhecida = () => "";
+const genSeletorGrade = () => {};
+const genAssistirInstituicao = () => {};
+const lattesState = { online: false };
+const GEN = { spec: null, variante: null, valores: {}, item: "" };
+// ---- funções REAIS copiadas de static/app.js pelo gerador ----
+/*__FUNCOES_DO_APP__*/
+// ---- testes ----
+const nn = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+const slug = (t) => nn(t).replace(/ /g, "_");
+const APOIO = /^(f_nome|f_nme_inst|f_sigla|f_pais_inst|f_uf|nomeautor.*|nometitular.*|f_tipo_privacidade|f_instituicoes)$/i;
+const MAPA_LISTAS = { grid2: { resumo: "Instituição de financiamento" }, grid3: { resumo: "Produção C & T" }, grid4: { resumo: "Orientações" }, autorHolder: { grade: "autores" }, tabelaAutor: { grade: "autores" }, titularInstHolder: { grade: "instituicoes_envolvidas" } };
+
+function abrirTudo() { document.querySelectorAll("details").forEach((d) => { d.open = true; }); }
+function envoltorio(nome) { const e = $("gen_" + nome); return e ? e.closest(".field") : null; }
+function visivelDom(nome) {
+  const w = envoltorio(nome);
+  if (!w) return false;
+  for (let p = w; p && p !== document.body; p = p.parentElement) if (getComputedStyle(p).display === "none") return false;
+  return true;
+}
+const rotuloTela = (w) => { const l = w.querySelector("label"); return l ? nn(l.textContent.replace(/\*/g, "").replace(/\(padr.o.*?\)/, "")) : ""; };
+
+function testarVariante(ref, sv) {
+  const falhas = [];
+  const f = (cat, campo, det) => falhas.push(cat + " | " + campo + " | " + det);
+  GEN.spec = { id: "projeto", variantes: [sv] }; GEN.variante = sv; GEN.valores = {}; GEN.item = "projeto";
+  genDesenhar(); abrirTudo(); genAplicarCondicionais();
+
+  ref.campos.forEach((c) => {
+    if (APOIO.test(c.name)) return;
+    const w = envoltorio(c.name);
+    const vis = visivelDom(c.name);
+    if (!w) { if (c.visivel_inicial) f("ausente_na_tela", c.name, "visível no Lattes e não desenhado"); return; }
+    if (vis !== c.visivel_inicial) f("visibilidade", c.name, "lattes=" + c.visivel_inicial + " tela=" + vis);
+    if (!vis) return;
+    const alvo = nn(c.rotulo || c.pergunta || "");
+    const rot = rotuloTela(w);
+    if (alvo && rot !== alvo && !rot.startsWith(alvo) && !alvo.startsWith(rot)) f("rotulo", c.name, "lattes='" + alvo + "' tela='" + rot + "'");
+    const ops = (c.opcoes || []).filter((o) => o.valor !== "DUMMY" && o.valor !== "" && o.valor !== "Selecione");
+    if (c.tipo === "radio") {
+      const rs = [...w.querySelectorAll("input[type=radio]")];
+      if (rs.length !== ops.length) f("controle", c.name, "radios lattes=" + ops.length + " tela=" + rs.length);
+      const tl = [...w.querySelectorAll(".radio-opt")].map((x) => nn(x.textContent)).join("|"), tr = ops.map((o) => nn(o.texto)).join("|");
+      if (tl !== tr) f("opcoes", c.name, "lattes=" + tr + " tela=" + tl);
+    } else if (c.tipo === "grupo_marcacao") {
+      const cs = [...w.querySelectorAll("input[type=checkbox]")];
+      if (cs.length !== ops.length) f("controle", c.name, "caixas lattes=" + ops.length + " tela=" + cs.length + " (tipo de controle)");
+      const tl = [...w.querySelectorAll(".check-opt")].map((x) => nn(x.textContent)).join("|"), tr = ops.map((o) => nn(o.texto)).join("|");
+      if (tl !== tr) f("opcoes", c.name, "lattes=" + tr + " tela=" + tl);
+    } else if (c.tipo === "select") {
+      const s = w.querySelector("select");
+      if (!s) { f("controle", c.name, "seleção do Lattes sem <select> na tela"); return; }
+      if ((c.total_opcoes || 0) <= 80) {
+        const tl = [...s.options].filter((o) => o.value).map((o) => nn(o.textContent)).join("|"), tr = ops.map((o) => nn(o.texto)).join("|");
+        if (tl !== tr) f("opcoes", c.name, "contagem lattes=" + ops.length + " tela=" + s.options.length + " (texto difere)");
+      }
+    } else if (c.tipo === "textarea") {
+      const t = w.querySelector("textarea");
+      if (!t) f("controle", c.name, "textarea ausente");
+      else if (c.maxlength && t.maxLength !== c.maxlength) f("limite", c.name, "lattes=" + c.maxlength + " tela=" + t.maxLength);
+    } else if (c.tipo === "text") {
+      const t = w.querySelector("input[type=text]");
+      if (!t) f("controle", c.name, "campo de texto ausente");
+      else if (c.maxlength && t.maxLength !== c.maxlength) f("limite", c.name, "lattes=" + c.maxlength + " tela=" + t.maxLength);
+    }
+  });
+
+  // Estados (campos condicionais): aplica cada gatilho na tela e confere o que aparece/some.
+  (ref.estados || []).forEach((e) => {
+    genDesenhar(); abrirTudo(); genAplicarCondicionais();
+    const w = envoltorio(e.gatilho);
+    if (!w) { f("estado", e.gatilho, "gatilho não existe na tela"); return; }
+    let ok = false;
+    // A opção do gatilho é identificada pelo CÓDIGO do Lattes (valor), traduzido para o rótulo que o spec usa na tela.
+    const campoSpec = sv.campos.find((x) => x.name.toLowerCase() === e.gatilho.toLowerCase());
+    const rotuloPorCodigo = campoSpec && campoSpec.opcoes ? Object.keys(campoSpec.opcoes).find((k) => campoSpec.opcoes[k] === e.valor) : null;
+    const alvoTexto = rotuloPorCodigo || e.texto;
+    const rr = [...w.querySelectorAll("input[type=radio],input[type=checkbox]")].find((x) => nn(x.value) === nn(alvoTexto));
+    if (rr) { rr.click(); ok = true; }
+    else { const s = w.querySelector("select"); if (s) { const o = [...s.options].find((x) => nn(x.textContent) === nn(e.texto)); if (o) { s.value = o.value; s.dispatchEvent(new Event("change", { bubbles: true })); ok = true; } } }
+    if (!ok) { f("estado", e.gatilho, "opção '" + e.texto + "' não encontrada na tela"); return; }
+    abrirTudo();
+    e.aparecem.forEach((n) => { if (!APOIO.test(n) && !visivelDom(n)) f("condicional", n, "deveria aparecer com " + e.gatilho + "=" + e.texto); });
+    e.somem.forEach((n) => { if (!APOIO.test(n) && visivelDom(n)) f("condicional", n, "deveria sumir com " + e.gatilho + "=" + e.texto); });
+  });
+  genDesenhar(); abrirTudo(); genAplicarCondicionais();
+
+  // Listas: o Lattes tem uma lista (com colunas) e a tela precisa ter a seção equivalente.
+  (ref.listas || []).forEach((l) => {
+    const m = MAPA_LISTAS[l.id];
+    if (!m || !l.visivel) return;
+    if (m.grade) { if (!$("gengrade_" + m.grade)) f("lista", l.id, "lista '" + m.grade + "' ausente na tela"); return; }
+    const det = [...document.querySelectorAll("details")].find((d) => d.querySelector("summary") && nn(d.querySelector("summary").textContent).startsWith(nn(m.resumo)));
+    if (!det) { f("lista", l.id, "seção '" + m.resumo + "' ausente na tela"); return; }
+    const ths = [...det.querySelectorAll("th")].map((x) => nn(x.textContent)).filter(Boolean);
+    l.colunas.forEach((c) => { if (!ths.includes(nn(c))) f("colunas", l.id, "coluna '" + c + "' ausente na tela (tela=" + ths.join(",") + ")"); });
+  });
+  return falhas;
+}
+
+(async () => {
+  const dados = await (await fetch("dados.json")).json();
+  const res = {};
+  for (const [chave, ref] of Object.entries(dados.refs)) {
+    const sv = dados.spec.variantes.find((v) => slug(v.variante) === ref.variante_slug || nn(v.variante) === nn(ref.variante));
+    res[ref.variante] = sv ? testarVariante(ref, sv) : ["variante não encontrada no spec"];
+  }
+  window.__resultado = res;
+  $("saida").textContent = JSON.stringify(res, null, 1);
+})().catch((e) => { window.__resultado = { erro: String(e && e.stack || e) }; $("saida").textContent = "ERRO: " + (e && e.stack || e); });
+</script>

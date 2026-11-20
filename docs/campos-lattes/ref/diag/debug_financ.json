@@ -1,0 +1,29 @@
+{
+ "item": "diag",
+ "variante_slug": "debug_financ",
+ "passos": [
+  {
+   "qtd_dialogos": 1,
+   "detalhe": [
+    {
+     "nome": "Fundação Josué Montello",
+     "links": [
+      "Fundação Josué Montello (MA)"
+     ],
+     "vis": true
+    }
+   ]
+  },
+  {
+   "apos_busca": [
+    {
+     "nome": "Fundação Josué Montello",
+     "links": [
+      "Fundação Josué Montello (MA)"
+     ],
+     "texto": " Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição Fundação Josué Montello (MA) Foram encontrados 1 registros. Caso sua instituição não esteja na lista acima, certifique-se de que o nome, sigla ou parte do nome da instituição foram digitad"
+    }
+   ]
+  }
+ ]
+}

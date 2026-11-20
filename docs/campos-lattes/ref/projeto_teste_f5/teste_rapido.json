@@ -1,0 +1,75 @@
+{
+ "item": "projeto_teste_f5",
+ "variante_slug": "teste_rapido",
+ "variante": "fumaça Ensino",
+ "executado_em": "2026-11-20T03:00:07.929Z",
+ "resumo": {
+  "OK": 8
+ },
+ "resultados": [
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 619
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "Atenção: - Nome do projeto cortado em 255 caracteres Confira tudo e clique em Salvar no Lattes.",
+   "ms": 604
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_ref#tipico",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_ref#maximo",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_ref#acima_do_limite",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "Atenção: - Descrição cortado em 3900 caracteres Confira tudo e clique em Salvar no Lattes.",
+   "ms": 606
+  },
+  {
+   "id": "f_ref#acentos",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  }
+ ]
+}

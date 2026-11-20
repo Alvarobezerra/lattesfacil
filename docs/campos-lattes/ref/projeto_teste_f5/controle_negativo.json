@@ -1,0 +1,27 @@
+{
+ "item": "projeto_teste_f5",
+ "variante_slug": "controle_negativo",
+ "variante": "controle negativo",
+ "executado_em": "2026-11-20T03:01:57.667Z",
+ "resumo": {
+  "divergente": 2
+ },
+ "resultados": [
+  {
+   "id": "NEGATIVO#esperado_errado",
+   "campo": "f_titulo",
+   "status": "divergente",
+   "detalhe": "esperado=valor que nao sera encontrado lido=ZZ-TESTE-LATTESFACIL texto típico",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "NEGATIVO#conjunto_errado",
+   "campo": "f_tpo_cooperacao",
+   "status": "divergente",
+   "detalhe": "esperado=AF,EM lido=IE",
+   "aviso": "",
+   "ms": 604
+  }
+ ]
+}

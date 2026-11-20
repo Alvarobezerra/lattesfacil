@@ -1,0 +1,220 @@
+{
+ "item": "diag",
+ "variante_slug": "grid2",
+ "itens": [
+  {
+   "tag": "THEAD",
+   "cls": "",
+   "id": "",
+   "texto": "Instituição Código do projeto ",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TR",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "",
+   "id": "",
+   "texto": "Instituição",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "",
+   "id": "",
+   "texto": "Código do projeto",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "",
+   "id": "",
+   "texto": "Valor financiado",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "",
+   "id": "",
+   "texto": "Natureza",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "IMG",
+   "cls": "gridSetaCima",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TH",
+   "cls": "scrollBar",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TBODY",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TR",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TD",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "DIV",
+   "cls": "holder",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TABLE",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TBODY",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TFOOT",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TR",
+   "cls": "",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "TD",
+   "cls": "rodapeGrid",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "IMG",
+   "cls": "botaoAdicionar",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  },
+  {
+   "tag": "IMG",
+   "cls": "gridSetaBaixo",
+   "id": "",
+   "texto": "",
+   "oc": "",
+   "href": "",
+   "vis": true
+  }
+ ],
+ "irmaos": [
+  {
+   "tag": "BR",
+   "id": "",
+   "cls": "",
+   "texto": "",
+   "oc": "",
+   "href": ""
+  },
+  {
+   "tag": "TABLE",
+   "id": "grid2",
+   "cls": "grid",
+   "texto": "Instituição Código do projeto Valor fina",
+   "oc": "",
+   "href": ""
+  },
+  {
+   "tag": "BR",
+   "id": "",
+   "cls": "",
+   "texto": "",
+   "oc": "",
+   "href": ""
+  },
+  {
+   "tag": "SCRIPT",
+   "id": "",
+   "cls": "",
+   "texto": "function apagaLinhaTabela(img) { _tr = i",
+   "oc": "",
+   "href": ""
+  }
+ ]
+}

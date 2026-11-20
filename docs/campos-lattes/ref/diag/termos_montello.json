@@ -1,0 +1,42 @@
+{
+ "item": "diag",
+ "variante_slug": "termos_montello",
+ "termos": [
+  {
+   "t": "Montello",
+   "resultado": "Resultado da Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição FUNDACAO JARAGUAENSE DE MEIO AMBIENTE - FUJAMA (SC) Fundação Josué Montello (MA) Foram encontrados 2 registros. Caso sua instituição não esteja na lista acima, certif"
+  },
+  {
+   "t": "Josue Montello",
+   "erro": "Cannot read properties of null (reading 'recuperaInstMacro')"
+  },
+  {
+   "t": "Josue Montello",
+   "resultado": "Resultado da Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição FUNDACAO JARAGUAENSE DE MEIO AMBIENTE - FUJAMA (SC) Fundação Josué Montello (MA) Foram encontrados 2 registros. Caso sua instituição não esteja na lista acima, certif"
+  },
+  {
+   "t": "Josué Montello",
+   "erro": "Cannot read properties of null (reading 'recuperaInstMacro')"
+  },
+  {
+   "t": "Josué Montello",
+   "resultado": "Resultado da Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição FUNDACAO JARAGUAENSE DE MEIO AMBIENTE - FUJAMA (SC) Fundação Josué Montello (MA) Foram encontrados 2 registros. Caso sua instituição não esteja na lista acima, certif"
+  },
+  {
+   "t": "Fundação Josué Montello",
+   "erro": "Cannot read properties of null (reading 'recuperaInstMacro')"
+  },
+  {
+   "t": "Fundação Josué Montello",
+   "resultado": "Resultado da Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição FUNDACAO JARAGUAENSE DE MEIO AMBIENTE - FUJAMA (SC) Fundação Josué Montello (MA) Foram encontrados 2 registros. Caso sua instituição não esteja na lista acima, certif"
+  },
+  {
+   "t": "Fundacao Josue Montello",
+   "erro": "Cannot read properties of null (reading 'recuperaInstMacro')"
+  },
+  {
+   "t": "Fundacao Josue Montello",
+   "resultado": "Resultado da Busca Para selecionar uma instituição, clique sobre o nome da mesma. Instituição FUNDACAO JARAGUAENSE DE MEIO AMBIENTE - FUJAMA (SC) Fundação Josué Montello (MA) Foram encontrados 2 registros. Caso sua instituição não esteja na lista acima, certif"
+  }
+ ]
+}

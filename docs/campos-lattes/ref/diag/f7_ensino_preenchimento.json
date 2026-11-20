@@ -1,0 +1,16 @@
+{
+ "item": "diag",
+ "variante_slug": "f7_ensino_preenchimento",
+ "avisos": "LattesData: 9 campos preenchidos em \"ZZ-TESTE F7 ensino\". Atenção: - autores: 1/1 incluídos Confira tudo e clique em Salvar no Lattes.",
+ "titulo": "ZZ-TESTE-LATTESFACIL Projeto de ensino (validação automática)",
+ "marcados": [
+  "f_tpo_cooperacao=IE",
+  "f_sta_inovacao=N",
+  "f_tematica=EA"
+ ],
+ "autores": [
+  "ParticipantesCoordenador",
+  "1SANTOS, A. A. B. (Álvaro Antônio Bezerra dos Santos)sim",
+  "Listar todos|Incluir novo"
+ ]
+}

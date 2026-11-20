@@ -93,10 +93,13 @@ async function rodarComFeedback(d) {
     if (prof > 4) return acc;
     try {
       const txt = (w.document.body && w.document.body.innerText) || "";
-      const re = /(N[aã]o foi poss[ií]vel[^\r\n]*)|(O seu nome dever[aá][^\r\n]*)|(Informe [^\r\n]{3,80})/gi;
+      // Só mensagens reais do Lattes. Fora: rótulos fixos dos formulários (ex.: "Informe o Digital Object Identifier (DOI®) do artigo...") e texto de
+      // script do Lattes que contém a mesma frase (aparece no texto da página com <br>, aspas e ponto e vírgula).
+      const re = /(N[aã]o foi poss[ií]vel[^\r\n]*)|(O seu nome dever[aá][^\r\n]*)/gi;
       let m;
       while ((m = re.exec(txt)) && acc.length < 6) {
         const linha = m[0].replace(/\s+/g, " ").trim().slice(0, 220);
+        if (/<br>|";|function|saida|\\n/.test(linha)) continue;
         if (!acc.includes(linha)) acc.push(linha);
       }
     } catch (e) {}

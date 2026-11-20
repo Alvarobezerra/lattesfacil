@@ -21,14 +21,14 @@ from pathlib import Path
 from typing import Any
 import threading
 import time
-from urllib.parse import parse_qs, quote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from caderno import abstract_to_record, name_tokens, scan_caderno
 from artigo import doi_only, is_article, parse_artigo
 from orientacao import is_orientacao, parse_orientacao
 from certificado import is_certificate, parse_certificado
 from itens import especificacao as especificacao_item
-from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item
+from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item, de_registro_antigo, enriquecer as enriquecer_item
 from itens.variantes import spec_com_rotulos
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
@@ -70,9 +70,21 @@ ACCESS_CODE = ""                            # definido em main()
 FORCE_SECURE_COOKIE = os.environ.get("LATTESFACIL_HTTPS", "") == "1"
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
        "connect-src 'self'; frame-src 'self' lattesdata:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
-PUBLIC_LANDING = {"/inicio.html", "/inicio.css", "/inicio.js"}  # vitrine pública (sem sessão)
+PUBLIC_LANDING = {
+    "/inicio.html",
+    "/inicio.css",
+    "/inicio.js",
+    "/formulario-pesquisador-lattesdata.html",
+    "/formulario-colaborador.html",
+    "/mockup-dashboard-aramys.html",
+    "/espaco-aramys.html",
+    "/espaco-aramys.js",
+    "/espaco-aramys.css",
+    "/aramys.html",
+}  # vitrine, pesquisas públicas e espaço colaborativo Aramys
 BLOQUEIO_LOCAL = os.environ.get("LATTESFACIL_BLOQUEIO_LOCAL") == "1"  # padrão: sem bloqueio de login para o próprio computador
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
+PESQUISA_RATE = {}  # IP -> último envio; a pesquisa pública não deve virar um endpoint de spam
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
 LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LattesData — Acesso</title><style>
@@ -261,9 +273,38 @@ def init_db() -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS pesquisas_pesquisadores (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                respondente TEXT NOT NULL,
+                respostas TEXT NOT NULL,
+                ip_hash TEXT NOT NULL,
+                criado_em TEXT NOT NULL
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS contribuicoes_colaboradores (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                colaborador TEXT NOT NULL,
+                tipo TEXT NOT NULL,
+                texto TEXT NOT NULL,
+                arquivo_nome TEXT,
+                arquivo_caminho TEXT,
+                criado_em TEXT NOT NULL
+            )
+            """
+        )
         curriculo_store.criar_tabelas(conn)
         instituicoes.criar_tabelas(conn)
         autores_cv.criar_tabelas(conn)
+        cols_contrib = [r[1] for r in conn.execute("PRAGMA table_info(contribuicoes_colaboradores)").fetchall()]
+        if "prioridade" not in cols_contrib:
+            conn.execute("ALTER TABLE contribuicoes_colaboradores ADD COLUMN prioridade TEXT")
+        if "titulo" not in cols_contrib:
+            conn.execute("ALTER TABLE contribuicoes_colaboradores ADD COLUMN titulo TEXT")
         cols = [r[1] for r in conn.execute("PRAGMA table_info(records)").fetchall()]
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
@@ -354,21 +395,13 @@ LEGADO_PARA_ITEM = ("artigo", "apresentacao", "orientacao_concluida")
 
 def interpretar(item_id: str, raw_text: str, filename: str, usuario: str) -> dict[str, Any] | None:
     """Lê o texto como o item escolhido. None quando o preenchimento daquele item ainda não existe."""
-    if item_id == "anais":
-        extracted = parse_evidence_text(raw_text, filename=filename)
-    elif item_id == "apresentacao":
-        extracted = parse_certificado(raw_text, usuario)
-    elif item_id == "artigo":
-        extracted = parse_artigo(raw_text, usuario, doi=doi_only(raw_text) or "")
-    elif item_id in ("orientacao_concluida", "orientacao_andamento"):
-        extracted = parse_orientacao(raw_text, usuario)
-        if item_id == "orientacao_andamento":
-            extracted["situacao_orientacao"] = "Em andamento"
-    elif item_id in LEITORES_ITENS:
+    if item_id in LEITORES_ITENS:
         g = ler_item(item_id, raw_text, usuario)
         v = g["valores"]
         base = {"tipo_producao": item_id, "titulo": v.get("f_titulo") or v.get("f_nme_evento") or v.get("f_curso") or "",
                 "ano": v.get("f_ano", "")}
+        if v.get("grade:autores"):
+            base["autores"] = v["grade:autores"]  # o nome do arquivo usa o sobrenome do primeiro autor
         nome_padrao = gerar_nome_padronizado(base)
         return {"generico": g, "extracted": base, "nome_padronizado": nome_padrao,
                 "caminho_sugerido": f"{extrair_ano(base)}/{nome_padrao}"}
@@ -688,11 +721,137 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/health":
             self._send_json({"ok": True})
             return
+        if path == "/api/pesquisa/pesquisadores":
+            if not self._gate():
+                return
+            with db() as conn:
+                rows = conn.execute(
+                    "SELECT id, respondente, respostas, criado_em FROM pesquisas_pesquisadores ORDER BY id DESC"
+                ).fetchall()
+            self._send_json({"respostas": [
+                {"id": r[0], "respondente": r[1], "respostas": json.loads(r[2]), "criado_em": r[3]}
+                for r in rows
+            ]})
+            return
+        if path == "/api/pesquisa/colaboradores":
+            if not self._gate():
+                return
+            with db() as conn:
+                rows = conn.execute(
+                    "SELECT id, colaborador, tipo, texto, arquivo_nome, criado_em FROM contribuicoes_colaboradores ORDER BY id DESC"
+                ).fetchall()
+            self._send_json({"contribuicoes": [
+                {"id": r[0], "colaborador": r[1], "tipo": r[2], "texto": r[3], "arquivo_nome": r[4], "criado_em": r[5]}
+                for r in rows
+            ]})
+            return
+        if path == "/api/pesquisa/colaborador/arquivo":
+            if not self._gate():
+                return
+            item_id = (parse_qs(parsed.query).get("id") or [""])[0]
+            with db() as conn:
+                row = conn.execute("SELECT arquivo_nome, arquivo_caminho FROM contribuicoes_colaboradores WHERE id = ?", (item_id,)).fetchone()
+            if not row or not row[1] or not Path(row[1]).is_file():
+                self._send_json({"error": "Arquivo não encontrado."}, HTTPStatus.NOT_FOUND)
+                return
+            dados = Path(row[1]).read_bytes()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", mimetypes.guess_type(row[0] or "")[0] or "application/octet-stream")
+            self.send_header("Content-Disposition", f'attachment; filename="{re.sub(r"[^A-Za-z0-9._-]", "_", row[0] or "arquivo")}"')
+            self.send_header("Content-Length", str(len(dados)))
+            self.end_headers()
+            self.wfile.write(dados)
+            return
         # Vitrine pública: quem ainda não entrou vê a apresentação da plataforma em "/"
         if path in ("/", "/inicio") and (path == "/inicio" or not self._sess()):
             path = "/inicio.html"
-        public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/"))
+        if path in ("/aramys", "/espaco-aramys"):
+            self._redirect("/espaco-aramys.html")
+            return
+        public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/", "/api/referencias", "/api/aramys", "/api/pesquisa"))
         if path not in ("/api/lattes/ping", "/mockup-ia.html") and not public_static and not self._gate():
+            return
+
+        if path == "/api/referencias":
+            ref_dir = BASE_DIR / "Lattes para referencia"
+            ref_dir.mkdir(exist_ok=True)
+            itens = []
+            for f in sorted(ref_dir.glob("*"), key=lambda p: p.stat().st_mtime, reverse=True):
+                if f.is_file() and not f.name.startswith("."):
+                    st = f.stat()
+                    tam_mb = round(st.st_size / (1024 * 1024), 1)
+                    itens.append({
+                        "nome": f.name,
+                        "tamanho_bytes": st.st_size,
+                        "tamanho_formatado": f"{tam_mb} MB" if tam_mb >= 1 else f"{round(st.st_size / 1024, 1)} KB",
+                        "modificado_em": datetime.fromtimestamp(st.st_mtime, tz=timezone.utc).isoformat(),
+                        "extensao": f.suffix.lower(),
+                    })
+            self._send_json({"total": len(itens), "arquivos": itens})
+            return
+
+        if path.startswith("/api/referencias/download/"):
+            nome = Path(unquote(parsed.path.replace("/api/referencias/download/", "", 1))).name
+            ref_file = (BASE_DIR / "Lattes para referencia" / nome).resolve()
+            ref_dir = (BASE_DIR / "Lattes para referencia").resolve()
+            if not ref_file.is_relative_to(ref_dir) or not ref_file.is_file():
+                self._send_json({"error": "Currículo de referência não encontrado."}, HTTPStatus.NOT_FOUND)
+                return
+            ctype, _ = mimetypes.guess_type(str(ref_file))
+            raw = ref_file.read_bytes()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", ctype or "application/octet-stream")
+            self.send_header("Content-Length", str(len(raw)))
+            nome_ascii = quote(nome)
+            self.send_header("Content-Disposition", f"inline; filename*=UTF-8''{nome_ascii}")
+            self.end_headers()
+            self.wfile.write(raw)
+            return
+
+        if path == "/api/aramys/sugestoes":
+            with db() as conn:
+                rows = conn.execute(
+                    """
+                    SELECT id, colaborador, tipo, prioridade, titulo, texto, arquivo_nome, criado_em
+                    FROM contribuicoes_colaboradores
+                    ORDER BY id DESC
+                    """
+                ).fetchall()
+            lista = [
+                {
+                    "id": r[0],
+                    "colaborador": r[1],
+                    "tipo": r[2],
+                    "prioridade": r[3] or "Normal",
+                    "titulo": r[4] or "",
+                    "texto": r[5],
+                    "arquivo_nome": r[6],
+                    "tem_arquivo": bool(r[6]),
+                    "criado_em": r[7],
+                }
+                for r in rows
+            ]
+            self._send_json({"sugestoes": lista})
+            return
+
+        if path == "/api/pesquisa/aramys":
+            with db() as conn:
+                row = conn.execute(
+                    """
+                    SELECT id, respondente, respostas, criado_em
+                    FROM pesquisas_pesquisadores
+                    WHERE respondente LIKE '%Aramys%'
+                    ORDER BY id DESC LIMIT 1
+                    """
+                ).fetchone()
+            if row:
+                try:
+                    respostas = json.loads(row[2])
+                except Exception:
+                    respostas = []
+                self._send_json({"respondido": True, "id": row[0], "respondente": row[1], "criado_em": row[3], "respostas": respostas})
+            else:
+                self._send_json({"respondido": False, "respostas": []})
             return
 
         if path in ("/api/catalogos/areas", "/api/catalogos/setores"):  # "Listar todos" da tela (áreas e setores do Lattes)
@@ -971,6 +1130,152 @@ class LattesHandler(BaseHTTPRequestHandler):
         path = parsed.path
         if path == "/login":
             self._handle_login()
+            return
+        if path == "/api/pesquisa/pesquisador":
+            # Endpoint público apenas para a pesquisa; respostas e IP não ficam públicos.
+            agora = time.time()
+            ip = self._client_ip()
+            if agora - PESQUISA_RATE.get(ip, 0) < 20:
+                self._send_json({"error": "Aguarde alguns segundos antes de enviar novamente."}, HTTPStatus.TOO_MANY_REQUESTS)
+                return
+            try:
+                tamanho = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                tamanho = 0
+            if tamanho > 200_000:
+                self._send_json({"error": "Resposta muito grande."}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                return
+            try:
+                payload = json.loads(self.rfile.read(tamanho).decode("utf-8") or "{}")
+                respondente = str(payload.get("respondente") or "Pesquisador convidado").strip()[:120]
+                respostas = payload.get("respostas")
+                if not isinstance(respostas, list) or not respostas:
+                    raise ValueError("respostas ausentes")
+                respostas = respostas[:30]
+                now = datetime.now(timezone.utc).isoformat()
+                ip_hash = hashlib.sha256((ip + os.environ.get("LATTESFACIL_CODIGO", "local")).encode()).hexdigest()
+                with db() as conn:
+                    cur = conn.execute(
+                        "INSERT INTO pesquisas_pesquisadores (respondente, respostas, ip_hash, criado_em) VALUES (?, ?, ?, ?)",
+                        (respondente, json.dumps(respostas, ensure_ascii=False)[:180_000], ip_hash, now),
+                    )
+                    conn.commit()
+                PESQUISA_RATE[ip] = agora
+                self._send_json({"ok": True, "id": cur.lastrowid})
+            except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
+                self._send_json({"error": "Não foi possível ler as respostas."}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"error": "Não foi possível salvar a resposta."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+        if path == "/api/pesquisa/colaborador":
+            # Contribuição pública para textos, referências e arquivos de apoio.
+            body = self._read_body()
+            if body is None or len(body) > 12 * 1024 * 1024:
+                self._send_json({"error": "A contribuição ultrapassa o limite de 12 MB."}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                return
+            ctype = self.headers.get("Content-Type", "")
+            campos, arquivo = parse_multipart(ctype, body)
+            colaborador = (campos.get("colaborador") or "Colaborador").strip()[:120]
+            tipo = (campos.get("tipo") or "Sugestão de produto").strip()[:80]
+            texto = (campos.get("texto") or "").strip()[:40_000]
+            if not texto and not arquivo:
+                self._send_json({"error": "Escreva uma sugestão ou anexe um arquivo."}, HTTPStatus.BAD_REQUEST)
+                return
+            arquivo_nome = arquivo_caminho = None
+            if arquivo:
+                nome, dados = arquivo
+                extensao = Path(nome).suffix.lower()
+                permitidas = {".pdf", ".png", ".jpg", ".jpeg", ".webp", ".doc", ".docx", ".txt", ".md", ".csv", ".xlsx"}
+                if extensao not in permitidas or len(dados) > 10 * 1024 * 1024:
+                    self._send_json({"error": "Tipo ou tamanho de arquivo não permitido."}, HTTPStatus.BAD_REQUEST)
+                    return
+                arquivo_nome = re.sub(r"[^\w.\- ]", "_", Path(nome).name, flags=re.UNICODE)[:160]
+                pasta = BASE_DIR / "uploads_pesquisa"
+                pasta.mkdir(exist_ok=True)
+                arquivo_caminho = str(pasta / f"{uuid.uuid4().hex}_{arquivo_nome}")
+                Path(arquivo_caminho).write_bytes(dados)
+            now = datetime.now(timezone.utc).isoformat()
+            with db() as conn:
+                cur = conn.execute(
+                    "INSERT INTO contribuicoes_colaboradores (colaborador, tipo, texto, arquivo_nome, arquivo_caminho, criado_em) VALUES (?, ?, ?, ?, ?, ?)",
+                    (colaborador, tipo, texto, arquivo_nome, arquivo_caminho, now),
+                )
+                conn.commit()
+            self._send_json({"ok": True, "id": cur.lastrowid})
+            return
+
+        if path == "/api/aramys/sugestao":
+            body = self._read_body()
+            if body is None or len(body) > 30 * 1024 * 1024:
+                self._send_json({"error": "O envio ultrapassa o limite de 30 MB."}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                return
+            ctype = self.headers.get("Content-Type", "")
+            campos, arquivo = parse_multipart(ctype, body)
+            colaborador = (campos.get("colaborador") or "Prof. Dr. Aramys Silva dos Reis").strip()[:120]
+            tipo = (campos.get("tipo") or "Sugestão de produto").strip()[:80]
+            prioridade = (campos.get("prioridade") or "Normal").strip()[:30]
+            titulo = (campos.get("titulo") or "").strip()[:180]
+            texto = (campos.get("texto") or "").strip()[:50_000]
+            if not texto and not titulo and not arquivo:
+                self._send_json({"error": "Escreva uma sugestão ou anexe um arquivo."}, HTTPStatus.BAD_REQUEST)
+                return
+            arquivo_nome = arquivo_caminho = None
+            if arquivo:
+                nome, dados = arquivo
+                extensao = Path(nome).suffix.lower()
+                permitidas = {".pdf", ".png", ".jpg", ".jpeg", ".webp", ".doc", ".docx", ".txt", ".md", ".csv", ".xlsx", ".zip", ".json"}
+                if extensao not in permitidas or len(dados) > 25 * 1024 * 1024:
+                    self._send_json({"error": "Tipo ou tamanho de arquivo não permitido (máx 25 MB)."}, HTTPStatus.BAD_REQUEST)
+                    return
+                arquivo_nome = re.sub(r"[^\w.\- ]", "_", Path(nome).name, flags=re.UNICODE)[:160]
+                pasta = BASE_DIR / "uploads_pesquisa"
+                pasta.mkdir(exist_ok=True)
+                arquivo_caminho = str(pasta / f"{uuid.uuid4().hex}_{arquivo_nome}")
+                Path(arquivo_caminho).write_bytes(dados)
+            now = datetime.now(timezone.utc).isoformat()
+            with db() as conn:
+                cur = conn.execute(
+                    """
+                    INSERT INTO contribuicoes_colaboradores (colaborador, tipo, texto, arquivo_nome, arquivo_caminho, criado_em, prioridade, titulo)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (colaborador, tipo, texto, arquivo_nome, arquivo_caminho, now, prioridade, titulo),
+                )
+                conn.commit()
+            self._send_json({"ok": True, "id": cur.lastrowid})
+            return
+
+        if path == "/api/referencias/upload":
+            body = self._read_body()
+            if body is None or len(body) > 120 * 1024 * 1024:
+                self._send_json({"error": "O arquivo ultrapassa o limite de 120 MB."}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                return
+            ctype = self.headers.get("Content-Type", "")
+            campos, arquivos = parse_multipart_all(ctype, body)
+            if not arquivos:
+                self._send_json({"error": "Nenhum arquivo enviado."}, HTTPStatus.BAD_REQUEST)
+                return
+            ref_dir = BASE_DIR / "Lattes para referencia"
+            ref_dir.mkdir(exist_ok=True)
+            salvos = []
+            permitidas = {".pdf", ".xml", ".zip", ".txt"}
+            for nome, dados in arquivos:
+                ext = Path(nome).suffix.lower()
+                if ext not in permitidas:
+                    continue
+                safe_name = re.sub(r"[^\w.\- ]", "_", Path(nome).name, flags=re.UNICODE)[:160]
+                destino = ref_dir / safe_name
+                destino.write_bytes(dados)
+                tam_mb = round(len(dados) / (1024 * 1024), 1)
+                salvos.append({"nome": safe_name, "tamanho_formatado": f"{tam_mb} MB" if tam_mb >= 1 else f"{round(len(dados)/1024, 1)} KB"})
+            if not salvos:
+                self._send_json({"error": "Nenhum arquivo com formato permitido (.pdf, .xml, .zip)."}, HTTPStatus.BAD_REQUEST)
+                return
+            self._send_json({
+                "ok": True,
+                "salvos": salvos,
+                "mensagem": f"{len(salvos)} currículo(s) adicionado(s) à base de referência com sucesso.",
+            })
             return
         if not self._gate(mutating=True):
             return
@@ -1402,6 +1707,30 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": "Falha ao gerar o ZIP do dossiê."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
+        if path == "/api/itens/abrir-registro":
+            # registro no formato antigo (caderno de resumos, histórico) -> formulário gerado pelo spec
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                data = payload.get("data") or {}
+                item = re.sub(r"[^a-z_]", "", str(payload.get("item") or data.get("tipo_producao") or "").lower())
+                g = de_registro_antigo(item, data) if item in ("anais", "artigo", "apresentacao", "orientacao", "orientacao_concluida", "orientacao_andamento") else None
+                self._send_json({"generico": g, "item": item})
+            except Exception:
+                self._send_json({"error": "Falha ao abrir o registro no formulário."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/itens/enriquecer":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                item = re.sub(r"[^a-z_]", "", str(payload.get("item") or "").lower())
+                if item not in ("anais", "artigo"):
+                    self._send_json({"valores": {}, "fontes": []})
+                    return
+                self._send_json(enriquecer_item(item, payload.get("valores") or {}))
+            except Exception:
+                self._send_json({"error": "Falha ao buscar dados faltantes."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if path == "/api/enrich":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
@@ -1536,7 +1865,8 @@ def main() -> None:
     except Exception as exc:
         print("backup inicial falhou:", type(exc).__name__)
     threading.Thread(target=_backup_loop, daemon=True).start()
-    aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
+    if os.environ.get("LATTESFACIL_SKIP_WARMUP") != "1":
+        aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
     if host not in ("127.0.0.1", "localhost", "::1"):
         print("Atenção: escutando fora do localhost. O acesso exige o código; use sempre HTTPS (LATTESFACIL_HTTPS=1).")
     print(f"LattesData rodando em http://{host}:{port}")

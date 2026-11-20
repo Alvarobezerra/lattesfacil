@@ -1,0 +1,923 @@
+{
+ "item": "projeto",
+ "variante": "Projeto de desenvolvimento tecnológico",
+ "variante_slug": "projeto_de_desenvolvimento_tecnologico",
+ "capturado_em": "2026-11-20",
+ "abas": [
+  {
+   "texto": "",
+   "titulo": "Instituição de execução"
+  },
+  {
+   "texto": "",
+   "titulo": "Órgão/Unidade"
+  },
+  {
+   "texto": "Listar todos",
+   "titulo": ""
+  },
+  {
+   "texto": "Incluir novo",
+   "titulo": ""
+  },
+  {
+   "texto": "Listar todas",
+   "titulo": ""
+  },
+  {
+   "texto": "Incluir nova",
+   "titulo": ""
+  },
+  {
+   "texto": "Selecionar",
+   "titulo": ""
+  },
+  {
+   "texto": "Incluir nova",
+   "titulo": ""
+  }
+ ],
+ "campos": [
+  {
+   "name": "f_titulo",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome do projeto",
+   "maxlength": 255
+  },
+  {
+   "name": "f_ref",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Descrição",
+   "maxlength": 3900
+  },
+  {
+   "name": "F_TPO_NATUREZA",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Natureza",
+   "total_opcoes": 6,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "D",
+     "texto": "Desenvolvimento"
+    },
+    {
+     "valor": "E",
+     "texto": "Extensão"
+    },
+    {
+     "valor": "P",
+     "texto": "Pesquisa"
+    },
+    {
+     "valor": "N",
+     "texto": "Ensino"
+    },
+    {
+     "valor": "O",
+     "texto": "Outra"
+    }
+   ]
+  },
+  {
+   "name": "F_TPO_SITUACAO",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Situação",
+   "total_opcoes": 4,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "D",
+     "texto": "Desativado"
+    },
+    {
+     "valor": "C",
+     "texto": "Concluído"
+    },
+    {
+     "valor": "A",
+     "texto": "Em andamento"
+    }
+   ]
+  },
+  {
+   "name": "F_ANO_INIC",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano início",
+   "maxlength": 4
+  },
+  {
+   "name": "F_ANO_FIM",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano fim",
+   "maxlength": 4
+  },
+  {
+   "name": "f_tpo_pesq_emp",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "pergunta": "É um projeto de cooperação instituição de pesquisa e empresa?",
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Sim",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": true
+    }
+   ]
+  },
+  {
+   "name": "f_cnpj_empresa",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "CNPJ da empresa",
+   "maxlength": 18
+  },
+  {
+   "name": "f_txt_nme_empresa",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": true,
+   "visivel_inicial": false,
+   "rotulo": "Nome da empresa",
+   "maxlength": 400
+  },
+  {
+   "name": "f_txt_email_institucional",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "E-mail Institucional",
+   "maxlength": 400
+  },
+  {
+   "name": "f_txt_setor",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Setor",
+   "maxlength": 400
+  },
+  {
+   "name": "f_sta_inovacao",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "pergunta": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Sim",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": true
+    }
+   ]
+  },
+  {
+   "name": "f_txt_potencial",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Qual o potencial de inovação do projeto?",
+   "maxlength": 400
+  },
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição de execução",
+   "maxlength": 75
+  },
+  {
+   "name": "f_orgao",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Órgão/Unidade"
+  },
+  {
+   "name": "F_NRO_TEC_NIVEL_MEDIO",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Técnico de nível médio",
+   "maxlength": 2
+  },
+  {
+   "name": "F_NRO_GRADUACAO",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Graduação",
+   "maxlength": 2
+  },
+  {
+   "name": "F_NRO_ESPECIALIZACAO",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Especialização",
+   "maxlength": 2
+  },
+  {
+   "name": "F_NRO_MESTRADO_ACAD",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Mestrado acadêmico",
+   "maxlength": 2
+  },
+  {
+   "name": "F_NRO_MESTRADO_PROF",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Mestrado profissionalizante",
+   "maxlength": 2
+  },
+  {
+   "name": "F_NRO_DOUTORADO",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Doutorado",
+   "maxlength": 2
+  },
+  {
+   "name": "f_titulo_en",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Project Name",
+   "maxlength": 255
+  },
+  {
+   "name": "f_ref_en",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Description",
+   "maxlength": 3900
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  },
+  {
+   "name": "f_nome",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Preencha o campo abaixo com Nome, Sigla ou parte do Nome da Instituição/Sociedade Científica e clique na imagem da lupa para pesquisar"
+  },
+  {
+   "name": "f_nme_inst",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Nome da instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_sigla",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Sigla",
+   "maxlength": 16
+  },
+  {
+   "name": "f_pais_inst",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "País",
+   "total_opcoes": 245,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África Do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia Do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia Do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa Do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    }
+   ]
+  },
+  {
+   "name": "f_uf",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "UF",
+   "total_opcoes": 28,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "AC",
+     "texto": "AC"
+    },
+    {
+     "valor": "AL",
+     "texto": "AL"
+    },
+    {
+     "valor": "AM",
+     "texto": "AM"
+    },
+    {
+     "valor": "AP",
+     "texto": "AP"
+    },
+    {
+     "valor": "BA",
+     "texto": "BA"
+    },
+    {
+     "valor": "CE",
+     "texto": "CE"
+    },
+    {
+     "valor": "DF",
+     "texto": "DF"
+    },
+    {
+     "valor": "ES",
+     "texto": "ES"
+    },
+    {
+     "valor": "GO",
+     "texto": "GO"
+    },
+    {
+     "valor": "MA",
+     "texto": "MA"
+    },
+    {
+     "valor": "MG",
+     "texto": "MG"
+    },
+    {
+     "valor": "MS",
+     "texto": "MS"
+    },
+    {
+     "valor": "MT",
+     "texto": "MT"
+    },
+    {
+     "valor": "PA",
+     "texto": "PA"
+    },
+    {
+     "valor": "PB",
+     "texto": "PB"
+    },
+    {
+     "valor": "PE",
+     "texto": "PE"
+    },
+    {
+     "valor": "PI",
+     "texto": "PI"
+    },
+    {
+     "valor": "PR",
+     "texto": "PR"
+    },
+    {
+     "valor": "RJ",
+     "texto": "RJ"
+    },
+    {
+     "valor": "RN",
+     "texto": "RN"
+    },
+    {
+     "valor": "RO",
+     "texto": "RO"
+    },
+    {
+     "valor": "RR",
+     "texto": "RR"
+    },
+    {
+     "valor": "RS",
+     "texto": "RS"
+    },
+    {
+     "valor": "SC",
+     "texto": "SC"
+    },
+    {
+     "valor": "SE",
+     "texto": "SE"
+    },
+    {
+     "valor": "SP",
+     "texto": "SP"
+    },
+    {
+     "valor": "TO",
+     "texto": "TO"
+    }
+   ]
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_tpo_pesq_emp",
+   "valor": "S",
+   "texto": "Não",
+   "aparecem": [
+    "f_cnpj_empresa",
+    "f_txt_email_institucional",
+    "f_txt_nme_empresa",
+    "f_txt_setor"
+   ],
+   "somem": []
+  },
+  {
+   "gatilho": "f_sta_inovacao",
+   "valor": "S",
+   "texto": "Não",
+   "aparecem": [
+    "f_txt_potencial"
+   ],
+   "somem": []
+  }
+ ],
+ "listas": [
+  {
+   "id": "tabelaAutor",
+   "colunas": [
+    "Pesquisadores",
+    "Coordenador"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "autorHolder",
+   "colunas": [
+    "Pesquisadores",
+    "Coordenador"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelatitularPessoa",
+   "colunas": [
+    "Pessoas",
+    "Instituições envolvidas no projeto"
+   ],
+   "links": [
+    "Listar todas",
+    "Incluir nova",
+    "Selecionar"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "titularPessoaHolder",
+   "colunas": [
+    "Pessoas"
+   ],
+   "links": [
+    "Listar todas",
+    "Incluir nova"
+   ],
+   "visivel": false
+  },
+  {
+   "id": "titularInstHolder",
+   "colunas": [
+    "Instituições envolvidas no projeto"
+   ],
+   "links": [
+    "Selecionar",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "grid2",
+   "colunas": [
+    "Instituição",
+    "Código do projeto",
+    "Valor financiado",
+    "Natureza"
+   ],
+   "links": [],
+   "visivel": true
+  },
+  {
+   "id": "grid3",
+   "colunas": [
+    "Título da produção",
+    "Ano",
+    "Tipo"
+   ],
+   "links": [],
+   "visivel": true
+  },
+  {
+   "id": "grid4",
+   "colunas": [
+    "Título da orientação",
+    "Ano",
+    "Tipo"
+   ],
+   "links": [],
+   "visivel": true
+  }
+ ],
+ "botoes_incluir": [],
+ "observacoes": []
+}

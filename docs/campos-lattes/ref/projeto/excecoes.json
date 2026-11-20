@@ -1,0 +1,9 @@
+{
+ "projeto_de_ensino": [
+  {
+   "categoria": "opcoes_diferentes",
+   "campo": "f_tpo_pesq_emp",
+   "motivo": "no Projeto de ensino esse radio existe mas fica oculto (sem texto visível); a captura leu o texto de um rótulo vizinho ('Ano fim')"
+  }
+ ]
+}

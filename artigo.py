@@ -95,6 +95,9 @@ def apply_crossref(rec: dict[str, Any], msg: dict[str, Any]) -> None:
         rec["autores"] = authors
     if msg.get("URL"):
         rec["homepage"] = msg["URL"]
+    assuntos = [re.sub(r"\s+", " ", str(s)).strip()[:50] for s in (msg.get("subject") or []) if str(s).strip()]
+    if assuntos and not rec.get("palavras_chave"):
+        rec["palavras_chave"] = assuntos[:5]  # assuntos do Crossref: melhor que adivinhar pelo título
 
 
 def pdf_keywords(text: str) -> list[str]:
@@ -124,6 +127,28 @@ def is_article(text: str) -> bool:
         r"\babstract\b|\bresumo\b", r"keywords?|palavras[- ]chave", r"received|accepted|recebido|aceito",
         r"\bjournal\b|\brevista\b|\bperiodico\b", r"\bintroduction\b|\bintroducao\b"))
     return sinais >= 2
+
+
+def dados_bibliograficos(text: str) -> dict[str, str]:
+    """Periódico, volume, número, páginas e ISSN lidos da linha de citação do PDF (ex.: 'Revista X, Volume 12, Issue 3, pp. 101-110, 2025. ISSN 0000-0000')."""
+    flat = text[:6000]
+    out: dict[str, str] = {}
+    m = re.search(r"^[ \t]*([^\n]{4,140}?),\s*(?:Volume|Vol\.?|v\.)\s*\d+", flat, re.M | re.I)
+    if m:
+        out["periodico"] = _clean_line(m.group(1)).strip(" ,.;")
+    m = re.search(r"(?:Volume|Vol\.?|v\.)\s*(\d+)", flat, re.I)
+    if m:
+        out["volume"] = m.group(1)
+    m = re.search(r"(?:Issue|No\.|n\.|N[uú]mero|Fasc[ií]culo)\s*(\d+)", flat, re.I)
+    if m:
+        out["serie"] = m.group(1)
+    m = re.search(r"(?:pp?\.|p[aá]ginas?|pages?)\s*([0-9A-Za-z]+)\s*[-–]\s*([0-9A-Za-z]+)", flat, re.I)
+    if m:
+        out["pagina_inicial"], out["pagina_final"] = m.group(1), m.group(2)
+    m = re.search(r"ISSN[:\s]*([0-9]{4}-[0-9]{3}[0-9Xx])", flat, re.I)
+    if m:
+        out["isbn_issn"] = m.group(1).upper()
+    return out
 
 
 def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
@@ -157,6 +182,13 @@ def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
             years = re.findall(r"\b(19[89]\d|20[0-3]\d)\b", text[:3000])
             if years:
                 rec["ano"] = years[0]
+    if text.strip() and not doi_only(text):
+        achados = dados_bibliograficos(text)
+        preenchidos = [k for k, v in achados.items() if v and not rec.get(k)]
+        for k in preenchidos:
+            rec[k] = achados[k]
+        if preenchidos:
+            notes.append("Periódico, volume e páginas lidos da citação do documento; confira com a primeira página do artigo.")
     if not rec["palavras_chave"]:
         notes.append("Palavras-chave não encontradas; preencha no formulário.")
 

@@ -18,8 +18,12 @@ for i in ids_especificados():
             if c["name"].lower() in padroes and c.get("origem_padrao") == "padrao_comum":
                 n += 1
                 if c.get("opcoes"):
-                    if c["opcoes"].get(c["padrao"]) != padroes[c["name"].lower()]["codigo"]:
-                        ok(False, f"{i}.{c['name']}: padrão {c['padrao']!r} não corresponde ao código")
+                    pd_ = padroes[c["name"].lower()]
+                    if "codigo" in pd_:
+                        if c["opcoes"].get(c["padrao"]) != pd_["codigo"]:
+                            ok(False, f"{i}.{c['name']}: padrão {c['padrao']!r} não corresponde ao código")
+                    elif c["padrao"] not in c["opcoes"]:  # padrão por rótulo (ex.: idioma Português): precisa ser uma das opções oferecidas
+                        ok(False, f"{i}.{c['name']}: padrão {c['padrao']!r} não está entre as opções do formulário")
                 if not c.get("confira"):
                     ok(False, f"{i}.{c['name']} sem marca 'confira'")
             if c["name"].lower() == "f_tipo_privacidade":

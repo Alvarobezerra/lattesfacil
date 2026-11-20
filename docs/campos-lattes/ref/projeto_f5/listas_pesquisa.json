@@ -1,0 +1,52 @@
+{
+ "item": "projeto_f5",
+ "variante_slug": "listas_pesquisa",
+ "variante": "Projetos de pesquisa",
+ "executado_em": "2026-11-20T10:52:37.657Z",
+ "resumo": {
+  "OK": 5
+ },
+ "resultados": [
+  {
+   "id": "autores#presentes",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 0,
+   "campo": "autores"
+  },
+  {
+   "id": "autores#coordenador_sim",
+   "status": "OK",
+   "detalhe": "linha=1COORDENADOR, Z. T. (ZZ-TESTE Pesquisador Coordenador)sim",
+   "aviso": "",
+   "ms": 0,
+   "campo": "autores"
+  },
+  {
+   "id": "autores#segundo_nao_coordenador",
+   "status": "OK",
+   "detalhe": "linha=2DOIS, Z. T. (ZZ-TESTE Pesquisador Dois)não",
+   "aviso": "",
+   "ms": 0,
+   "campo": "autores"
+  },
+  {
+   "id": "instituicoes_envolvidas#uma",
+   "status": "OK",
+   "detalhe": "Instituições1Universidade Federal do Maranhão Selecionar|Incluir nova",
+   "aviso": "",
+   "ms": 0,
+   "campo": "instituicoes_envolvidas"
+  },
+  {
+   "id": "financiamento#linha",
+   "status": "OK",
+   "detalhe": "Instituição Código do projeto Valor financiado Natureza FJMVIWT000000000123456123456;N;R$ 1500,00026|1500,00BolsaB",
+   "aviso": "",
+   "ms": 0,
+   "campo": "financiamento"
+  }
+ ],
+ "avisos_autofill": "LattesData: 4 campos preenchidos em \"Teste de listas\". Atenção: - Autores digitados à mão: confira (o titular deve ser escolhido em \"Listar todos\") - autores: 2/2 incluídos - instituicoes-envolvidas: 1/1 incluídos - financiamentos: 1/1 incluídos Confira tudo e clique em Salvar no Lattes."
+}

@@ -66,8 +66,8 @@ CASOS: list[dict] = [
                "no 5º Encontro Regional de Química Exemplar (ERQE), realizado pela Universidade Federal do Vale Exemplar, "
                "no período de 19 a 21 de agosto de 2024, em Teresina - PI, apresentado por "
                f"{PESQUISADORA} e coautoria de Carlos Eduardo Pinheiro no formato pôster.\n\nComissão Científica",
-         campos={"titulo": "Atividade antioxidante de extratos vegetais do cerrado", "nome_evento": "Encontro Regional de Química",
-                 "cidade_evento": "Teresina - PI", "ano": "2024", "autores": PESQUISADORA}),
+         campos={"titulo": "Atividade antioxidante de extratos vegetais do cerrado", "f_nme_evento": "Encontro Regional de Química",
+                 "f_cidade": "Teresina - PI", "ano": "2024", "autores": PESQUISADORA}),
     dict(arquivo="apresentacao__autoria_no_titulo", item="apresentacao", classe="apresentacao",
          titulo="CERTIFICADO DE APRESENTAÇÃO",
          corpo="Certificamos que o trabalho científico intitulado \"Atividade antioxidante de extratos vegetais do cerrado\", "
@@ -248,11 +248,11 @@ CASOS: list[dict] = [
          titulo="DECLARAÇÃO DE ORIENTAÇÃO",
          corpo=f"Declaramos que {PESQUISADORA} orientou como orientadora principal o trabalho de conclusão de curso de "
                "Lucas Ferreira Andrade, do curso de Saúde e Tecnologia, intitulado \"Atividade antioxidante de extratos do cerrado\", "
-               "defendido e aprovado em 2023."),
+               "defendido e aprovado em 2023.", nao_traz=["Instituição"]),
     dict(arquivo="orientacao_andamento", item="orientacao_andamento", classe="orientacao_andamento",
          titulo="DECLARAÇÃO DE ORIENTAÇÃO EM ANDAMENTO",
          corpo=f"Declaramos que {PESQUISADORA} orienta atualmente o aluno Pedro Henrique Lima em projeto de iniciação científica "
-               "(PIBIC), em andamento, com vigência da bolsa de 08/2025 a 07/2026."),
+               "(PIBIC), em andamento, com vigência da bolsa de 08/2025 a 07/2026.", nao_traz=["Instituição", "Curso"]),
     # ------------------------------------------------------------------ Atuação / Dados gerais / Formação
     dict(arquivo="atuacao_profissional", item="atuacao_profissional", classe="atuacao_profissional",
          titulo="DECLARAÇÃO DE VÍNCULO",

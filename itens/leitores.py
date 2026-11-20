@@ -337,7 +337,153 @@ def ler_patente(texto: str, usuario: str):
     return v, n
 
 
+def ler_anais(texto: str, usuario: str):
+    """Trabalho publicado em anais de evento (resumo/trabalho avulso): leitura de antes (extractor.parse_evidence_text), agora no formulário por spec."""
+    from extractor import parse_evidence_text
+    return ler_anais_registro(parse_evidence_text(texto), texto)
+
+
+def ler_anais_registro(rec: dict, texto: str = ""):
+    """Valores do formulário de anais a partir de um registro no formato antigo (usado também pelo caderno, histórico e enriquecimento)."""
+    v: dict[str, Any] = {
+        "F_COD_PROD": rec.get("natureza", ""), "f_titulo": rec.get("titulo", ""), "f_ano": rec.get("ano", ""), "f_pais": rec.get("pais", ""),
+        "F_IDIOMA": rec.get("idioma", ""), "f_meio": rec.get("meio_divulgacao", ""), "f_homepage": rec.get("homepage", ""), "f_cod_doi": rec.get("doi", ""),
+        "f_tipo_evento": rec.get("classificacao_evento", ""), "f_evento": rec.get("nome_evento", ""), "f_cidade_evento": rec.get("cidade_evento", ""),
+        "f_ano_evento": rec.get("ano_evento", ""), "f_titulo_pub": rec.get("titulo_anais", ""), "f_volume": rec.get("volume", ""),
+        "f_fasciculo": rec.get("fasciculo", ""), "f_serie": rec.get("serie", ""), "f_pag_ini": rec.get("pagina_inicial", ""), "f_pag_fim": rec.get("pagina_final", ""),
+        "f_isbn": rec.get("isbn_issn", ""), "f_editora": rec.get("editora", ""), "f_cidade_ed": rec.get("cidade_editora", ""), "f_ref": rec.get("outras_informacoes", ""),
+    }
+    # O campo ISBN/ISSN do Lattes aceita 13 caracteres: o ISBN com hífens (17) seria cortado; grava só os dígitos (e X).
+    digitos = re.sub(r"[^0-9Xx]", "", str(v["f_isbn"]))
+    if len(str(v["f_isbn"])) > 13 and len(digitos) in (8, 10, 13):
+        v["f_isbn"] = digitos.upper()
+    # "Anais do Simpósio X, 2024": título dos anais e nome do evento, quando a extração antiga não os trouxe.
+    m = re.search(r"(Anais\s+(?:do|da|de|dos|das)\s+([^,.;\n]{5,160}))", texto)
+    if m:
+        v["f_titulo_pub"] = v["f_titulo_pub"] or _clean_line(m.group(1))
+        v["f_evento"] = v["f_evento"] or _clean_line(m.group(2))
+    if rec.get("autores"):
+        v["grade:autores"] = [{"nome": a["nome"], "citacao": a.get("citacao", "")} for a in rec["autores"]]
+    if rec.get("palavras_chave"):
+        v["grade:palavras_chave"] = [k for k in rec["palavras_chave"] if not re.fullmatch(r"\d{4}", str(k).strip())][:8]
+    if rec.get("area_conhecimento"):
+        v["grade:areas"] = [x.strip() for x in str(rec["area_conhecimento"]).split(";") if x.strip()]
+    return v, list(rec.get("extraction_notes", []))
+
+
+def ler_apresentacao(texto: str, usuario: str):
+    """Apresentação de trabalho e palestra (certificado): leitura de antes (certificado.parse_certificado), agora no formulário por spec."""
+    from certificado import parse_certificado
+    return ler_apresentacao_registro(parse_certificado(texto, usuario))
+
+
+def ler_apresentacao_registro(rec: dict):
+    """Valores do formulário de apresentação a partir de um registro no formato antigo (certificado, histórico)."""
+    v: dict[str, Any] = {
+        "F_COD_PROD": rec.get("natureza", ""), "f_titulo": rec.get("titulo", ""), "f_ano": rec.get("ano", ""), "f_pais": rec.get("pais", ""),
+        "F_IDIOMA": rec.get("idioma", ""), "f_meio": rec.get("meio_divulgacao", ""), "f_homepage": rec.get("homepage", ""),
+        "f_nme_evento": rec.get("nome_evento", ""), "f_inst": rec.get("instituicao_promotora", ""), "f_local": rec.get("local_evento", ""),
+        "f_cidade": rec.get("cidade_evento", ""), "f_ref": rec.get("outras_informacoes", ""),
+    }
+    if rec.get("autores"):
+        v["grade:autores"] = [{"nome": a["nome"], "citacao": a.get("citacao", "")} for a in rec["autores"]]
+    if rec.get("palavras_chave"):
+        v["grade:palavras_chave"] = list(rec["palavras_chave"])
+    if rec.get("area_conhecimento"):
+        v["grade:areas"] = [x.strip() for x in str(rec["area_conhecimento"]).split(";") if x.strip()]
+    return v, list(rec.get("extraction_notes", []))
+
+
+def ler_orientacao_concluida(texto: str, usuario: str):
+    from orientacao import parse_orientacao
+    return ler_orientacao_registro(parse_orientacao(texto, usuario))
+
+
+def ler_orientacao_andamento(texto: str, usuario: str):
+    from orientacao import parse_orientacao
+    return ler_orientacao_registro(parse_orientacao(texto, usuario))
+
+
+def ler_orientacao_registro(rec: dict):
+    """Valores do formulário de orientação (concluída ou em andamento) a partir de um registro no formato antigo."""
+    v: dict[str, Any] = {
+        "F_COD_PROD": rec.get("natureza", ""), "f_dsc_outra": rec.get("tipo_mestrado", ""), "f_titulo": rec.get("titulo", ""), "f_ano": rec.get("ano", ""),
+        "f_pais": rec.get("pais", ""), "F_IDIOMA": rec.get("idioma", ""), "f_homepage": rec.get("homepage", ""), "f_tpo_orient": rec.get("papel_orientacao", ""),
+        "f_nme_orient": rec.get("nome_orientando", ""), "f_inst": rec.get("instituicao_orient", ""), "f_curso": rec.get("curso_orient", ""),
+        "F_BOLSA": rec.get("bolsa", ""), "f_nme_agencia": rec.get("agencia_financiadora", ""), "f_ref": rec.get("outras_informacoes", ""),
+        "F_RELEV": rec.get("relevante", ""),
+    }
+    if str(v["f_tpo_orient"]).lower().startswith("co"):
+        v["f_tpo_orient"] = "coorientador"  # texto da opção no Lattes
+    if rec.get("palavras_chave"):
+        v["grade:palavras_chave"] = list(rec["palavras_chave"])
+    if rec.get("area_conhecimento"):
+        v["grade:areas"] = [x.strip() for x in str(rec["area_conhecimento"]).split(";") if x.strip()]
+    return v, list(rec.get("extraction_notes", []))
+
+
+def ler_artigo(texto: str, usuario: str):
+    """Artigo completo em periódico: DOI (Crossref) ou PDF do artigo. Mesma leitura de antes (artigo.parse_artigo), agora no formulário por spec."""
+    from artigo import parse_artigo, doi_only
+    return ler_artigo_registro(parse_artigo(texto, usuario, doi=doi_only(texto) or ""))
+
+
+def ler_artigo_registro(rec: dict):
+    """Valores do formulário de artigo a partir de um registro no formato antigo (histórico e enriquecimento)."""
+    v: dict[str, Any] = {
+        "f_titulo": rec.get("titulo", ""), "f_ano": rec.get("ano", ""), "F_IDIOMA": rec.get("idioma", ""), "f_meio": rec.get("meio_divulgacao", ""),
+        "f_homepage": rec.get("homepage", ""), "f_cod_doi": rec.get("doi", ""), "f_titulo_periodico": rec.get("periodico", ""),
+        "f_issn": rec.get("isbn_issn", ""), "f_volume": rec.get("volume", ""), "f_serie": rec.get("serie", ""),
+        "f_pag_ini": rec.get("pagina_inicial", ""), "f_pag_fim": rec.get("pagina_final", ""),
+    }
+    if rec.get("autores"):
+        v["grade:autores"] = [{"nome": a["nome"], "citacao": a.get("citacao", "")} for a in rec["autores"]]
+    if rec.get("palavras_chave"):
+        v["grade:palavras_chave"] = list(rec["palavras_chave"])
+    if rec.get("area_conhecimento"):
+        v["grade:areas"] = [x.strip() for x in str(rec["area_conhecimento"]).split(";") if x.strip()]
+    return v, list(rec.get("extraction_notes", []))
+
+
+# Nome do campo do formulário (spec) -> chave do registro no formato antigo, para o enriquecimento (Crossref/OpenAlex) e para o histórico.
+_CAMPO_PARA_REGISTRO = {
+    "anais": {"F_COD_PROD": "natureza", "f_titulo": "titulo", "f_ano": "ano", "f_pais": "pais", "F_IDIOMA": "idioma", "f_meio": "meio_divulgacao",
+              "f_homepage": "homepage", "f_cod_doi": "doi", "f_tipo_evento": "classificacao_evento", "f_evento": "nome_evento", "f_cidade_evento": "cidade_evento",
+              "f_ano_evento": "ano_evento", "f_titulo_pub": "titulo_anais", "f_volume": "volume", "f_fasciculo": "fasciculo", "f_serie": "serie",
+              "f_pag_ini": "pagina_inicial", "f_pag_fim": "pagina_final", "f_isbn": "isbn_issn", "f_editora": "editora", "f_cidade_ed": "cidade_editora", "f_ref": "outras_informacoes"},
+    "artigo": {"f_titulo": "titulo", "f_ano": "ano", "F_IDIOMA": "idioma", "f_meio": "meio_divulgacao", "f_homepage": "homepage", "f_cod_doi": "doi",
+               "f_titulo_periodico": "periodico", "f_issn": "isbn_issn", "f_volume": "volume", "f_serie": "serie", "f_pag_ini": "pagina_inicial", "f_pag_fim": "pagina_final"},
+}
+
+
+def para_registro_antigo(item_id: str, valores: dict[str, Any]) -> dict[str, Any]:
+    mapa = _CAMPO_PARA_REGISTRO.get(item_id, {})
+    rec: dict[str, Any] = {mapa[k]: v for k, v in valores.items() if k in mapa and v not in ("", None)}
+    rec["tipo_producao"] = item_id
+    return rec
+
+
+def enriquecer(item_id: str, valores: dict[str, Any]) -> dict[str, Any]:
+    """Completa campos vazios do formulário com Crossref/OpenAlex (mesma busca de antes), devolvendo só valores novos no formato do spec."""
+    from extractor import enrich_missing_fields
+    rec = para_registro_antigo(item_id, valores)
+    res = enrich_missing_fields(rec)
+    sug = res.get("suggestions") or {}
+    if item_id == "artigo" and sug.get("titulo_anais") and not rec.get("periodico"):
+        sug = {**sug, "periodico": sug["titulo_anais"]}  # no artigo, o container do Crossref é o periódico
+    fn = {"anais": ler_anais_registro, "artigo": ler_artigo_registro}[item_id]
+    novos, _ = fn({**rec, **sug})
+    out = {k: v for k, v in novos.items() if v not in ("", None) and not str(k).startswith("grade:") and not valores.get(k)
+           and k not in ("F_RELEV", "F_STA_DIVULGACAO_CIENTIFICA", "f_pais", "F_IDIOMA", "f_meio")}
+    return {"valores": out, "fontes": res.get("sources") or []}
+
+
 LEITORES: dict[str, TipoLeitor] = {
+    "orientacao_concluida": ler_orientacao_concluida,
+    "orientacao_andamento": ler_orientacao_andamento,
+    "apresentacao": ler_apresentacao,
+    "anais": ler_anais,
+    "artigo": ler_artigo,
     "projeto": ler_projeto,
     "patente": ler_patente,
     "banca": ler_banca,
@@ -363,6 +509,9 @@ def aplicar_padroes(item_id: str, valores: dict[str, Any], variante: str | None 
         for c in var["campos"]:
             padrao = c.get("padrao") or PADROES_COMUNS.get(c["name"])
             if not valores.get(c["name"]) and padrao:
+                ops = c.get("opcoes") or {}
+                if ops and padrao not in ops:  # "não" -> "Não": confere ignorando maiúsculas
+                    padrao = next((o for o in ops if str(o).lower() == str(padrao).lower()), padrao)
                 valores[c["name"]] = padrao
     return valores
 
@@ -374,16 +523,40 @@ def ler(item_id: str, texto: str, usuario: str = "") -> dict[str, Any] | None:
     if not spec or not fn:
         return None
     valores, notas = fn(texto, usuario)
+    return montar_resposta(item_id, texto, valores, notas)
+
+
+def de_registro_antigo(item_id: str, rec: dict) -> dict[str, Any] | None:
+    """Abre um registro no formato antigo (caderno de resumos, histórico) no formulário gerado pelo spec."""
+    if item_id == "orientacao":  # o formulário antigo era um só; o Lattes tem dois (concluída e em andamento)
+        item_id = "orientacao_andamento" if "andamento" in str(rec.get("situacao_orientacao", "")).lower() else "orientacao_concluida"
+    fn = {"anais": ler_anais_registro, "artigo": ler_artigo_registro, "apresentacao": ler_apresentacao_registro,
+          "orientacao_concluida": ler_orientacao_registro, "orientacao_andamento": ler_orientacao_registro}.get(item_id)
+    if not fn:
+        return None
+    valores, notas = fn(rec)
+    return montar_resposta(item_id, "", valores, notas)
+
+
+def montar_resposta(item_id: str, texto: str, valores: dict[str, Any], notas: list[str]) -> dict[str, Any]:
+    spec = especificacao(item_id)
     nome_var = valores.pop("__variante", None)
     sug = sugerir_variante(item_id, texto, valores)
     if not nome_var:
         nome_var = sug["variante"]
     valores = aplicar_padroes(item_id, {k: v for k, v in valores.items() if v not in ("", None)}, nome_var)
     var = next((x for x in spec["variantes"] if x["variante"] == nome_var), spec["variantes"][0])
-    faltam = [c["rotulo"] for c in var["campos"] if c["obrigatorio"] and not c.get("automatico") and not valores.get(c["name"])]
+    def obrigatorio_agora(c):
+        if c.get("mostrar_quando"):
+            return False  # campo condicional: só é exigido se o gatilho estiver acionado (o leitor não aciona gatilhos)
+        oq = c.get("obrigatorio_quando")
+        if oq:
+            return str(valores.get(oq["name"], "")) == oq["valor"]  # ex.: Ano fim só quando a situação é "Concluído"
+        return bool(c["obrigatorio"])
+    faltam = [c["rotulo"] for c in var["campos"] if obrigatorio_agora(c) and not c.get("automatico") and not valores.get(c["name"])]
     from itens.sugestoes import grades_para  # grades (participantes, palavras-chave, áreas) sugeridas a partir do documento
     grades, notas_g = grades_para(item_id, texto, valores, {g["chave"] for g in var.get("grades", [])})
-    valores.update(grades)
+    valores.update({k: x for k, x in grades.items() if not valores.get(k)})  # o que o leitor já trouxe (ex.: palavras-chave do PDF) vale mais que a sugestão
     notas = list(notas) + notas_g
     out = {"item": item_id, "variante": var["variante"], "valores": valores, "notas": notas, "faltam_obrigatorios": faltam}
     if len(spec["variantes"]) > 1:

@@ -33,7 +33,7 @@ from certificado import parse_certificado  # noqa: E402
 from itens.leitores import LEITORES, ler  # noqa: E402
 
 # itens que têm leitor próprio fora de itens/leitores.py: item -> função(texto, usuario) -> dict de campos
-LEITORES_PROPRIOS = {"apresentacao": lambda texto, usuario: parse_certificado(texto, usuario)}
+LEITORES_PROPRIOS: dict = {}  # a apresentação agora usa o leitor do spec (itens/leitores.py)
 
 PASTA = Path(__file__).resolve().parent / "amostras_sinteticas" / "pdf"
 MARCA = "DOCUMENTO FICTÍCIO - gerado para testes do LattesFácil - sem valor legal"
@@ -120,7 +120,11 @@ def main(argv: list[str]) -> int:
                 problemas.append("catálogo espera campos, mas o item não tem leitor")
             else:
                 r = ler(c["item"], info["text"], PESQUISADORA)
-                v = (r or {}).get("valores", {})
+                v = dict((r or {}).get("valores", {}))
+                # nomes curtos do catálogo (titulo, ano, autores) valem também para os campos do spec (f_titulo, f_ano, grade:autores)
+                v.setdefault("titulo", v.get("f_titulo", ""))
+                v.setdefault("ano", v.get("f_ano", ""))
+                v.setdefault("autores", " ".join(str(a.get("nome", "")) for a in v.get("grade:autores", [])))
                 for campo, trecho in c["campos"].items():
                     if trecho.lower() not in str(v.get(campo, "")).lower():
                         problemas.append(f"{campo}={v.get(campo)!r}, esperado conter {trecho!r}")

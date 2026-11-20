@@ -80,7 +80,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 4,
-     "obrigatorio": true
+     "obrigatorio": false,
+     "obrigatorio_quando": {
+      "name": "F_TPO_SITUACAO",
+      "valor": "Concluído"
+     }
     },
     {
      "chave": "tpo_pesq_emp",
@@ -105,7 +109,7 @@
      "tipo": "text",
      "maxlength": 18,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -136,7 +140,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -151,7 +155,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -181,7 +185,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_sta_inovacao",
@@ -612,7 +616,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 4,
-     "obrigatorio": true
+     "obrigatorio": false,
+     "obrigatorio_quando": {
+      "name": "F_TPO_SITUACAO",
+      "valor": "Concluído"
+     }
     },
     {
      "chave": "tpo_pesq_emp",
@@ -637,7 +645,7 @@
      "tipo": "text",
      "maxlength": 18,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -668,7 +676,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -683,7 +691,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -713,7 +721,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_sta_inovacao",
@@ -1144,7 +1152,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 4,
-     "obrigatorio": true
+     "obrigatorio": false,
+     "obrigatorio_quando": {
+      "name": "F_TPO_SITUACAO",
+      "valor": "Concluído"
+     }
     },
     {
      "chave": "tpo_pesq_emp",
@@ -1258,7 +1270,7 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 75,
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "orgao",
@@ -1266,7 +1278,7 @@
      "rotulo": "Órgão/Unidade",
      "aba": "Dados gerais",
      "tipo": "text",
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "nro_primeiro_grau",
@@ -1694,7 +1706,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 4,
-     "obrigatorio": true
+     "obrigatorio": false,
+     "obrigatorio_quando": {
+      "name": "F_TPO_SITUACAO",
+      "valor": "Concluído"
+     }
     },
     {
      "chave": "tpo_pesq_emp",
@@ -1719,7 +1735,7 @@
      "tipo": "text",
      "maxlength": 18,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -1750,7 +1766,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -1765,7 +1781,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -1795,7 +1811,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_sta_inovacao",
@@ -2235,7 +2251,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 4,
-     "obrigatorio": true
+     "obrigatorio": false,
+     "obrigatorio_quando": {
+      "name": "F_TPO_SITUACAO",
+      "valor": "Concluído"
+     }
     },
     {
      "chave": "tpo_pesq_emp",
@@ -2260,7 +2280,7 @@
      "tipo": "text",
      "maxlength": 18,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -2291,7 +2311,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -2306,7 +2326,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_tpo_pesq_emp",
@@ -2336,7 +2356,7 @@
      "tipo": "text",
      "maxlength": 400,
      "oculto": true,
-     "obrigatorio": false,
+     "obrigatorio": true,
      "condicional": "só quando o projeto envolve empresa/inovação",
      "mostrar_quando": {
       "name": "f_sta_inovacao",

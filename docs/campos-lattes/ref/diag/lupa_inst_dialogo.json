@@ -1,0 +1,133 @@
+{
+ "item": "diag",
+ "variante_slug": "lupa_inst_dialogo",
+ "info": {
+  "inputs": [
+   {
+    "n": "F_CTR",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_COD",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_PGM",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_COD_INST",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_SEQ_FUNCAO",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_SEQ_ATIV",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "F_SEQ_PROJ",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "f_nome",
+    "t": "text",
+    "v": true
+   },
+   {
+    "n": "P_COD",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "P_COD_INST",
+    "t": "hidden",
+    "v": false
+   },
+   {
+    "n": "P_CTR",
+    "t": "hidden",
+    "v": false
+   }
+  ],
+  "funcoes": [
+   "recuperaInstMacro:function",
+   "seleciona:function",
+   "selecionar:undefined",
+   "pesquisar:undefined",
+   "recupera:undefined",
+   "sele_inst:undefined"
+  ],
+  "links": [
+   {
+    "t": "",
+    "href": "void()",
+    "oc": "-"
+   },
+   {
+    "t": "",
+    "href": "url",
+    "oc": "recuperaInstMacro()"
+   },
+   {
+    "t": "",
+    "href": "void()",
+    "oc": "-"
+   },
+   {
+    "t": "Allpromed (MA)",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "Centro de Educação Continuada de Odontologia ",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "DROGARIAS BIG BENN (MA)",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "Empresa Brasileira de Serviços Hospitalares (",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "Fundação Josué Montello (MA)",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "Secretaria de Segurança Pública do Maranhão -",
+    "href": "seleciona()",
+    "oc": "-"
+   },
+   {
+    "t": "Universidade Federal do Maranhão  (MA)",
+    "href": "seleciona()",
+    "oc": "-"
+   }
+  ],
+  "imgs": [
+   {
+    "oc": "-",
+    "alt": "Help"
+   },
+   {
+    "oc": "-",
+    "alt": "Help"
+   }
+  ]
+ }
+}

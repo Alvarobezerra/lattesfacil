@@ -86,6 +86,9 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
     m = re.search(r"(?i:aluno|aluna|discente|mestrand[oa]|doutorand[oa]|orientand[oa]|acad[eê]mic[oa]|estudante)\s*(?:\(a\))?\s*[:\-]?\s*" + NAME, flat)
     if not m:
         m = re.search(r"(?i:co-?orientou|orientou)\s+(?:(?i:o\(a\)|o|a)\s+)?(?:(?i:mestr[ea]|doutor(?:a)?|graduand[oa]|bacharel|aluno\(a\)|aluno|aluna|discente)\s+)?" + NAME, flat)
+    if not m:
+        # "trabalho de conclusão de curso de Fulano de Tal, do curso de ...": o nome vem logo depois da natureza
+        m = re.search(r"(?i:conclus[aã]o de curso|disserta[cç][aã]o|tese|monografia|inicia[cç][aã]o cient[ií]fica|supervis[aã]o)\s+(?i:de|do aluno|da aluna|do mestrando|da mestranda|do doutorando|da doutoranda)\s+" + NAME + r"\s*,\s*(?i:d[oa]s?\s+(?:curso|programa))", flat)
     if m:
         rec["nome_orientando"] = _name(m.group(1))[:60]
     else:
@@ -118,7 +121,10 @@ def parse_orientacao(text: str, usuario: str = "") -> dict[str, Any]:
         rec["instituicao_orient"] = _clean_line(m.group(1))
     else:
         notes.append("Instituição não identificada.")
-    m = re.search(r"(?i:Programa de P[óo]s-?Gradua[cç][aã]o (?:em|de)|curso de(?: gradua[cç][aã]o em)?|mestrado em|doutorado em|bacharelado em|licenciatura em)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ,' ]{3,60}?)(?=\s*(?:,|\.|;|\(|\s+(?:d[aoe]s?\s+(?:Universidade|Instituto|Faculdade|Centro|Escola|Funda[cç][aã]o)|na\s|no\s|em\s|pela\s|pelo\s|sob\s|conclu\w+|defend\w+)|$))", flat)
+    _fim_curso = r"(?=\s*(?:,|\.|;|\(|\s+(?:d[aoe]s?\s+(?:Universidade|Instituto|Faculdade|Centro|Escola|Funda[cç][aã]o)|na\s|no\s|em\s|pela\s|pelo\s|sob\s|conclu\w+|defend\w+|intitulad\w+)|$))"
+    m = re.search(r"(?i:d[oa]s?\s+curso\s+de(?:\s+gradua[cç][aã]o\s+em)?)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ,' ]{3,60}?)" + _fim_curso, flat)
+    if not m:
+        m = re.search(r"(?i:Programa de P[óo]s-?Gradua[cç][aã]o (?:em|de)|curso de(?: gradua[cç][aã]o em)?|mestrado em|doutorado em|bacharelado em|licenciatura em)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ,' ]{3,60}?)(?=\s*(?:,|\.|;|\(|\s+(?:d[aoe]s?\s+(?:Universidade|Instituto|Faculdade|Centro|Escola|Funda[cç][aã]o)|na\s|no\s|em\s|pela\s|pelo\s|sob\s|conclu\w+|defend\w+)|$))", flat)
     if m:
         rec["curso_orient"] = _clean_line(m.group(1))
     else:

@@ -1,0 +1,27 @@
+{
+ "item": "projeto_f5",
+ "variante_slug": "lupas_outros",
+ "variante": "Outros tipos - lupas (apos correcao)",
+ "executado_em": "2026-11-20T03:08:33.418Z",
+ "resumo": {
+  "OK": 2
+ },
+ "resultados": [
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3916
+  },
+  {
+   "id": "f_orgao#lupa",
+   "campo": "f_orgao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "Atenção: - Órgão/Unidade: escolhi \"Centro de Ciências Sociais, Saúde e Tecnologia (CCSST) - Imperatriz- MA\" por conter \"imperatriz\" (o Lattes não tem \"Centro de Ciências de Imperatriz (CCIm)\"); confira Confira tudo e cli",
+   "ms": 2801
+  }
+ ]
+}

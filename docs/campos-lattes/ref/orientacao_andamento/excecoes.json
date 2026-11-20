@@ -1,0 +1,19 @@
+{
+ "orientacao_andamento": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "F_COD_PROD",
+   "motivo": "o grupo de natureza não tem título visível no Lattes (o cabeçalho é 'Dados Gerais'); a mensagem de obrigatório do próprio Lattes o chama de 'Natureza'"
+  },
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_dsc_outra",
+   "motivo": "o rótulo no Lattes tem duas linhas ('Tipo' e '(apenas para ...)'); a captura só lê a segunda"
+  },
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_tpo_orient",
+   "motivo": "o rótulo no Lattes tem duas linhas ('Tipo de orientação' e '(apenas para ...)'); a captura só lê a segunda"
+  }
+ ]
+}

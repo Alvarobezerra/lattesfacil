@@ -1,0 +1,360 @@
+{
+ "id": "artigo",
+ "secao": "Produções",
+ "item": "Artigos completos publicados em periódicos",
+ "como_abrir": "Produções > Artigos completos publicados em periódicos",
+ "salvar": "O LattesFácil nunca clica em Salvar sozinho; o usuário confere e salva.",
+ "variantes": [
+  {
+   "variante": "Artigo completo publicado em periódico",
+   "url": "PKG_ARTIGO.form?f_sta_divulgacao_cientifica=&F_COD_DOI=10.1371%2Fjournal.pmed.0020124&F_CTR=D&f_cod=<codigo_do_cv>",
+   "abertura": {
+    "tipo": "janela_de_escolha",
+    "funcao": "informaDOI",
+    "descricao": "janela pede DOI/ISBN (livros e capítulos: também o tipo) antes do formulário"
+   },
+   "janelas_auxiliares": [
+    "periodico();"
+   ],
+   "campos": [
+    {
+     "chave": "cod_doi",
+     "name": "f_cod_doi",
+     "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+     "aba": "D.O.I",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo",
+     "name": "f_titulo",
+     "rotulo": "Título",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano",
+     "name": "f_ano",
+     "rotulo": "Ano",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "idioma",
+     "name": "F_IDIOMA",
+     "rotulo": "Idioma",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "obrigatorio": true,
+     "opcoes": {
+      "Alemão": "DE",
+      "Espanhol": "ES",
+      "Francês": "FR",
+      "Inglês": "EN",
+      "Italiano": "IT",
+      "Libras": "LB",
+      "Português": "PT",
+      "Abhkazian": "AB",
+      "Afar": "AA",
+      "Afrikaans": "AF",
+      "Aimara": "AY",
+      "Albanês": "SQ",
+      "Amarico": "AM",
+      "Árabe": "AR",
+      "Armênio": "AN",
+      "Assames": "AS",
+      "Azerbaidjano": "AZ",
+      "Baluchi": "BC",
+      "Basco": "EU",
+      "Bashquir": "BA",
+      "Bengali": "BN",
+      "Berbere": "BB",
+      "Bielo-Russo": "BE",
+      "Bihari": "BH",
+      "Birmanês": "BM",
+      "Bislama": "BI",
+      "Bretão": "BR",
+      "Búlgaro": "BG",
+      "Cabie": "CB",
+      "Cachemiriano": "KS",
+      "Cambodjano": "KM",
+      "Canadá": "KN",
+      "Casaque": "KK",
+      "Catalão": "CA",
+      "Chinês": "ZH",
+      "Cingalês": "SI",
+      "Coreano": "KO",
+      "Corsico": "CO",
+      "Crioulo": "CR",
+      "Croata": "HR",
+      "Curdo": "KU",
+      "Dinamarquês": "DA",
+      "Divehi": "DI",
+      "Dzongka": "DZ",
+      "Erisão": "FY",
+      "Eslovaco": "SK",
+      "Esloveno": "SL",
+      "Esperanto": "EO",
+      "Estoniano": "ET",
+      "Eue": "EE",
+      "Feróico": "FO",
+      "Fijiano": "FJ",
+      "Filipino": "FL",
+      "Finlandês": "FI",
+      "Gaelico Escocês": "GD",
+      "Galego": "GL",
+      "Galês": "CY",
+      "Georgiano": "KA",
+      "Grego": "EL",
+      "Groenlandês": "KL",
+      "Guarani": "GN",
+      "Gujarati": "GU",
+      "Harmênio": "HY",
+      "Hausa": "HA",
+      "Hebraico": "IW",
+      "Hindi": "HI",
+      "Holandês": "NL",
+      "Húngaro": "HU",
+      "Iidiche": "JI",
+      "Indonésio": "IN",
+      "Interlíngua": "IA",
+      "Interlíngue": "IE",
+      "Inupiak": "IK",
+      "Ioma": "ID",
+      "Irlandês": "GA",
+      "Islandês": "IS",
+      "Japonês": "JA",
+      "Javanês": "JV",
+      "Laosiano": "LO",
+      "Lapão": "LP"
+     },
+     "catalogo_completo": "catalogos/idiomas-152.json",
+     "padrao": "Português",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "meio",
+     "name": "f_meio",
+     "rotulo": "Meio de divulgação",
+     "aba": "Dados gerais",
+     "tipo": "select",
+     "opcoes": {
+      "Impresso": "I",
+      "meio digital": "D",
+      "Impresso e mídia eletrônica": "V"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "homepage",
+     "name": "f_homepage",
+     "rotulo": "Home page do trabalho (URL)",
+     "aba": "Dados gerais",
+     "tipo": "text",
+     "maxlength": 250,
+     "obrigatorio": false
+    },
+    {
+     "chave": "relev",
+     "name": "F_RELEV",
+     "rotulo": "É um dos 10 trabalhos mais relevantes de sua produção?",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false,
+     "padrao": "Não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "sta_divulgacao_cientifica",
+     "name": "F_STA_DIVULGACAO_CIENTIFICA",
+     "rotulo": "É uma produção para educação e popularização de CeT?",
+     "aba": "Dados gerais",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false,
+     "padrao": "Não",
+     "origem_padrao": "padrao_comum",
+     "confira": true
+    },
+    {
+     "chave": "titulo_periodico",
+     "name": "f_titulo_periodico",
+     "rotulo": "Título do periódico/revista em que o artigo foi publicado",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "obrigatorio": true,
+     "bloqueado_no_lattes": true,
+     "dica": "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
+    },
+    {
+     "chave": "jcr",
+     "name": "f_jcr",
+     "rotulo": "Fator de Impacto(JCR)",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "obrigatorio": false,
+     "bloqueado_no_lattes": true,
+     "dica": "O Lattes preenche o fator de impacto (JCR) a partir do periódico; campo bloqueado."
+    },
+    {
+     "chave": "issn",
+     "name": "f_issn",
+     "rotulo": "ISSN",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 10,
+     "obrigatorio": false,
+     "bloqueado_no_lattes": true,
+     "dica": "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
+    },
+    {
+     "chave": "volume",
+     "name": "f_volume",
+     "rotulo": "Volume",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 6,
+     "obrigatorio": true,
+     "bloqueado_no_lattes": true,
+     "dica": "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
+    },
+    {
+     "chave": "serie",
+     "name": "f_serie",
+     "rotulo": "Série",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 5,
+     "obrigatorio": false,
+     "bloqueado_no_lattes": true,
+     "dica": "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
+    },
+    {
+     "chave": "pag_ini",
+     "name": "f_pag_ini",
+     "rotulo": "Página inicial/ Número artigo eletrônico",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": true,
+     "bloqueado_no_lattes": true,
+     "dica": "Informado na abertura (ISSN, periódico, volume, edição e página inicial); fica bloqueado no formulário do Lattes."
+    },
+    {
+     "chave": "pag_fim",
+     "name": "f_pag_fim",
+     "rotulo": "Página final",
+     "aba": "Detalhamento",
+     "tipo": "text",
+     "maxlength": 15,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref",
+     "name": "f_ref",
+     "rotulo": "Outras informações",
+     "aba": "Outras informações",
+     "tipo": "textarea",
+     "maxlength": 3950,
+     "obrigatorio": false
+    },
+    {
+     "chave": "titulo_en",
+     "name": "f_titulo_en",
+     "rotulo": "Title",
+     "aba": "Traduções",
+     "tipo": "text",
+     "maxlength": 400,
+     "obrigatorio": false
+    },
+    {
+     "chave": "ref_en",
+     "name": "f_ref_en",
+     "rotulo": "Other information",
+     "aba": "Traduções",
+     "tipo": "textarea",
+     "maxlength": 3800,
+     "obrigatorio": false
+    },
+    {
+     "chave": "tipo_privacidade",
+     "name": "f_tipo_privacidade",
+     "rotulo": "Privado: As informações não serão exibidas na consulta pública.",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautor",
+     "name": "nomeAutor",
+     "rotulo": "Nome completo:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    },
+    {
+     "chave": "nomeautorcomocitado",
+     "name": "nomeAutorComoCitado",
+     "rotulo": "Nome como citado:",
+     "aba": "Visibilidade",
+     "tipo": "text",
+     "maxlength": 60,
+     "oculto": true,
+     "obrigatorio": false
+    }
+   ],
+   "grades": [
+    {
+     "chave": "palavras_chave",
+     "rotulo": "Palavras-chave",
+     "dica": "Uma por linha (até 50 caracteres cada)",
+     "aba": "Palavras-chave"
+    },
+    {
+     "chave": "areas",
+     "rotulo": "Áreas do conhecimento",
+     "dica": "Uma por linha, com o nome exato da área do Lattes",
+     "aba": "Áreas"
+    },
+    {
+     "chave": "setores",
+     "rotulo": "Setores de atividade",
+     "dica": "Um por linha, com o nome exato do setor do Lattes",
+     "aba": "Setores"
+    },
+    {
+     "chave": "autores",
+     "rotulo": "Autores",
+     "aba": "Autores",
+     "dica": "Um por linha: Nome completo; Nome em citações (opcional). Na ordem de autoria do artigo."
+    }
+   ],
+   "obrigatorios_mensagens": [
+    "Título do artigo",
+    "Ano",
+    "Idioma",
+    "Título do periódico/revista em que o artigo foi publicado",
+    "Volume",
+    "Página inicial/ Número artigo eletrônico"
+   ]
+  }
+ ],
+ "curadoria": {}
+}

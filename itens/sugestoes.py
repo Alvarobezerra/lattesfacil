@@ -18,11 +18,20 @@ from typing import Any
 CATALOGO_AREAS = pathlib.Path(__file__).resolve().parent.parent / "docs" / "campos-lattes" / "catalogos" / "areas-do-conhecimento.json"
 PARTICULAS = {"da", "de", "do", "das", "dos", "e", "di", "du", "del", "van", "von", "bin", "ibn"}
 STOP = set("de da do das dos e em no na nos nas por para com sem sobre entre a o as os um uma uns umas ao aos à às ou como sob ante após até que se seu sua seus suas pelo pela pelos pelas ser foi são é".split())
+# Títulos em inglês (artigos): conectivos e palavras genéricas não viram palavra-chave ("Why Most Published..." não é uma palavra-chave).
+EN_STOP = set("the of and for with from how why what when where which who most more less are is was were be been being in on at by to a an as or "
+              "among between using via into than their its this that these those can may do does not no new about over under after before".split())
+EN_GENERICAS = set("research findings finding study studies analysis review effect effects role impact results result approach case evidence published "
+                   "based new novel use toward towards report assessment perspective overview".split())
+STOP = STOP | EN_STOP | EN_GENERICAS
+EN_VERBOS = set("attenuates reduces induces improves evaluates analyzes analyses promotes prevents inhibits protects modulates affects alters increases decreases stimulates regulates reveals shows demonstrates presents proposes discusses investigates uses contributes favors compares determines identifies explores enhances mediates drives impairs".split())
 VERBOS = set("""atenua reduz induz melhora avalia analisa promove previne inibe protege potencializa modula interferir interfere
 afeta altera aumenta diminui estimula regula revela demonstra mostra apresenta propõe discute investiga utiliza usa
 contribui favorece compara determina identifica explora""".split())
+VERBOS = VERBOS | EN_VERBOS
 GENERICAS = {"efeito", "efeitos", "estudo", "estudos", "análise", "avaliação", "uso", "papel", "impacto", "influência", "ação", "resultados",
              "caso", "relato", "revisão", "abordagem", "contribuição", "perspectiva", "proposta", "novo", "nova", "novos", "novas"}
+GENERICAS = GENERICAS | EN_GENERICAS
 
 
 def _sem_acento(t: str) -> str:

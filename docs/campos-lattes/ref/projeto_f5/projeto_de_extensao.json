@@ -1,0 +1,579 @@
+{
+ "item": "projeto_f5",
+ "variante_slug": "projeto_de_extensao",
+ "variante": "Projeto de extensão",
+ "executado_em": "2026-11-20T10:37:24.944Z",
+ "resumo": {
+  "OK": 71
+ },
+ "resultados": [
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_ref#tipico",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_ref#maximo",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_ref#acima_do_limite",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_ref#acentos",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_TPO_NATUREZA#opcao_d",
+   "campo": "F_TPO_NATUREZA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_TPO_NATUREZA#opcao_e",
+   "campo": "F_TPO_NATUREZA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_TPO_NATUREZA#opcao_p",
+   "campo": "F_TPO_NATUREZA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_TPO_NATUREZA#opcao_n",
+   "campo": "F_TPO_NATUREZA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_TPO_NATUREZA#opcao_o",
+   "campo": "F_TPO_NATUREZA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_TPO_SITUACAO#opcao_d",
+   "campo": "F_TPO_SITUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "F_TPO_SITUACAO#opcao_c",
+   "campo": "F_TPO_SITUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_TPO_SITUACAO#opcao_a",
+   "campo": "F_TPO_SITUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_ANO_INIC#valido",
+   "campo": "F_ANO_INIC",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_ANO_INIC#acima_do_limite",
+   "campo": "F_ANO_INIC",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_ANO_INIC#letras",
+   "campo": "F_ANO_INIC",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_ANO_FIM#valido",
+   "campo": "F_ANO_FIM",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_ANO_FIM#acima_do_limite",
+   "campo": "F_ANO_FIM",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 603
+  },
+  {
+   "id": "F_ANO_FIM#letras",
+   "campo": "F_ANO_FIM",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_tpo_pesq_emp#opcao_s",
+   "campo": "f_tpo_pesq_emp",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1060
+  },
+  {
+   "id": "f_tpo_pesq_emp#opcao_n",
+   "campo": "f_tpo_pesq_emp",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1057
+  },
+  {
+   "id": "f_cnpj_empresa#tipico",
+   "campo": "f_cnpj_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1501
+  },
+  {
+   "id": "f_cnpj_empresa#maximo",
+   "campo": "f_cnpj_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1490
+  },
+  {
+   "id": "f_cnpj_empresa#acima_do_limite",
+   "campo": "f_cnpj_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1494
+  },
+  {
+   "id": "f_cnpj_empresa#acentos",
+   "campo": "f_cnpj_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1492
+  },
+  {
+   "id": "f_txt_nme_empresa#tipico",
+   "campo": "f_txt_nme_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_nme_empresa#maximo",
+   "campo": "f_txt_nme_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1308
+  },
+  {
+   "id": "f_txt_nme_empresa#acima_do_limite",
+   "campo": "f_txt_nme_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1310
+  },
+  {
+   "id": "f_txt_nme_empresa#acentos",
+   "campo": "f_txt_nme_empresa",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_email_institucional#tipico",
+   "campo": "f_txt_email_institucional",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_email_institucional#maximo",
+   "campo": "f_txt_email_institucional",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1311
+  },
+  {
+   "id": "f_txt_email_institucional#acima_do_limite",
+   "campo": "f_txt_email_institucional",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1310
+  },
+  {
+   "id": "f_txt_email_institucional#acentos",
+   "campo": "f_txt_email_institucional",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_setor#tipico",
+   "campo": "f_txt_setor",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1311
+  },
+  {
+   "id": "f_txt_setor#maximo",
+   "campo": "f_txt_setor",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_setor#acima_do_limite",
+   "campo": "f_txt_setor",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1309
+  },
+  {
+   "id": "f_txt_setor#acentos",
+   "campo": "f_txt_setor",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1310
+  },
+  {
+   "id": "f_sta_inovacao#opcao_s",
+   "campo": "f_sta_inovacao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1055
+  },
+  {
+   "id": "f_sta_inovacao#opcao_n",
+   "campo": "f_sta_inovacao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1056
+  },
+  {
+   "id": "f_txt_potencial#tipico",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1316
+  },
+  {
+   "id": "f_txt_potencial#maximo",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1323
+  },
+  {
+   "id": "f_txt_potencial#acima_do_limite",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1321
+  },
+  {
+   "id": "f_txt_potencial#acentos",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1322
+  },
+  {
+   "id": "F_NRO_GRADUACAO#valido",
+   "campo": "F_NRO_GRADUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "F_NRO_GRADUACAO#acima_do_limite",
+   "campo": "F_NRO_GRADUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_NRO_GRADUACAO#letras",
+   "campo": "F_NRO_GRADUACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_ESPECIALIZACAO#valido",
+   "campo": "F_NRO_ESPECIALIZACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 602
+  },
+  {
+   "id": "F_NRO_ESPECIALIZACAO#acima_do_limite",
+   "campo": "F_NRO_ESPECIALIZACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_NRO_ESPECIALIZACAO#letras",
+   "campo": "F_NRO_ESPECIALIZACAO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_MESTRADO_ACAD#valido",
+   "campo": "F_NRO_MESTRADO_ACAD",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_MESTRADO_ACAD#acima_do_limite",
+   "campo": "F_NRO_MESTRADO_ACAD",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_NRO_MESTRADO_ACAD#letras",
+   "campo": "F_NRO_MESTRADO_ACAD",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_MESTRADO_PROF#valido",
+   "campo": "F_NRO_MESTRADO_PROF",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "F_NRO_MESTRADO_PROF#acima_do_limite",
+   "campo": "F_NRO_MESTRADO_PROF",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_MESTRADO_PROF#letras",
+   "campo": "F_NRO_MESTRADO_PROF",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_NRO_DOUTORADO#valido",
+   "campo": "F_NRO_DOUTORADO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "F_NRO_DOUTORADO#acima_do_limite",
+   "campo": "F_NRO_DOUTORADO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "F_NRO_DOUTORADO#letras",
+   "campo": "F_NRO_DOUTORADO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_titulo_en#tipico",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 603
+  },
+  {
+   "id": "f_titulo_en#maximo",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_titulo_en#acima_do_limite",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_titulo_en#acentos",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 603
+  },
+  {
+   "id": "f_ref_en#tipico",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_ref_en#maximo",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_ref_en#acima_do_limite",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 603
+  },
+  {
+   "id": "f_ref_en#acentos",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3540
+  },
+  {
+   "id": "f_orgao#lupa",
+   "campo": "f_orgao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 2793
+  }
+ ]
+}

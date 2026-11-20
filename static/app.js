@@ -287,6 +287,41 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var d = __DATA__;
   var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
   var norm = function (t) { return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toLowerCase(); };
+  // Silencia alert/confirm/prompt do Lattes em TODAS as janelas e quadros enquanto preenche: um alerta nativo (ex.: "DOI n\u00e3o encontrado.")
+  // trava a p\u00e1gina e o preenchimento. As mensagens s\u00e3o guardadas e entram no relat\u00f3rio final; as fun\u00e7\u00f5es originais voltam no fim.
+  try { if (window.top.__lfRestaurarAlertas) window.top.__lfRestaurarAlertas(); } catch (e) {}
+  var lfAvisosLattes = [];
+  var lfSilenciados = [];
+  var lfSilenciar = function (w, prof) {
+    if (prof > 6) return;
+    try {
+      if (!w.__lfSilencio) {
+        lfSilenciados.push({ w: w, a: w.alert, c: w.confirm, p: w.prompt });
+        w.alert = function (m) { lfAvisosLattes.push(String(m).replace(/\s+/g, ' ').slice(0, 300)); };
+        w.confirm = function () { return true; };
+        w.prompt = function () { return ''; };
+        w.__lfSilencio = true;
+      }
+      for (var i = 0; i < w.frames.length; i++) lfSilenciar(w.frames[i], prof + 1);
+    } catch (e) {}
+  };
+  var lfTimerAlertas = setInterval(function () { lfSilenciar(window.top, 0); }, 150);
+  var lfRestaurar = function () {
+    clearInterval(lfTimerAlertas);
+    lfSilenciados.forEach(function (r) { try { r.w.alert = r.a; r.w.confirm = r.c; r.w.prompt = r.p; delete r.w.__lfSilencio; } catch (e) {} });
+    lfSilenciados = [];
+  };
+  lfSilenciar(window.top, 0);
+  try { window.top.__lfRestaurarAlertas = lfRestaurar; } catch (e) {}
+  setTimeout(lfRestaurar, 600000);
+  // O Lattes responde alguns alertas depois (consulta de DOI, validações assíncronas): mantém o silêncio por mais alguns segundos antes do aviso final.
+  // Com d.__semAlerta (testes/automação) o relatório fica em window.top.__lfUltimoRelatorio e nenhum diálogo é aberto.
+  var lfAlerta = async function (m) {
+    await sleep(4000);
+    lfRestaurar();
+    if (d.__semAlerta) { try { window.top.__lfUltimoRelatorio = String(m); } catch (e) {} return; }
+    alert(m);
+  };
   function findDoc(w) {
     try { if (w.document.querySelector('[name="f_titulo"]') && (!w.frameElement || w.frameElement.offsetParent !== null)) return w.document; } catch (e) {}
     for (var i = 0; i < w.frames.length; i++) { var f = findDoc(w.frames[i]); if (f) return f; }
@@ -323,7 +358,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var same = wa.length > 0 && lb.length > 0 && wa[0] === lb[0] && wa[wa.length - 1] === lb[lb.length - 1] &&
       wa.every(function (t) { return lb.indexOf(t) >= 0; });
     if (!same) {
-      alert('LattesData: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no LattesData é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no LattesData ou entre no Lattes com a conta correta.');
+      lfAlerta('LattesData: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no LattesData é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no LattesData ou entre no Lattes com a conta correta.');
       return;
     }
   }
@@ -350,19 +385,98 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     if (!gdoc) {
       var cvG = findCvCode(window.top.document);
       var modalG = window.top.modalCV2;
+      // Artigo aberto pelo periódico: o Lattes só abre o formulário depois de validar ISSN, nome e dados obrigatórios na janela "Informar dados".
+      // Repete as mesmas verificações (os mesmos serviços do Lattes) e, se o Lattes recusaria, avisa em vez de abrir um formulário vazio.
+      if (G.id === 'artigo' && /F_CTR=FIV/.test(String(G.url))) {
+        var qsL = function (k) { var m = new RegExp('[?&]' + k + '=([^&]*)').exec(String(G.url)); return m ? unescape(m[1]) : ''; };
+        var baseL = window.top.location.pathname.replace(/[^/]*$/, '');
+        var postL = function (u, data) { try { var x = new XMLHttpRequest(); x.open('POST', baseL + u, false); x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); x.send(data); return x.responseText.replace(/\s+/g, ' ').trim(); } catch (e) { return ''; } };
+        var nomeP = qsL('F_TITULO_PERIODICO'), issnP = qsL('F_ISSN'), volP = qsL('F_VOLUME'), pagP = qsL('F_PAG_INI'), probsP = [];
+        // Sem ISSN: faz a busca por nome do próprio Lattes (lista de periódicos cadastrados) e usa o ISSN só se houver um periódico de nome idêntico.
+        if (!issnP && nomeP) {
+          try {
+            var cvQ = cvG;
+            var nomeSemAc = nomeP.normalize('NFD').replace(/[̀-ͯ]/g, '');
+            var linhasQ = [];
+            // A busca por nome do Lattes só aceita UMA palavra (nome com espaço volta vazio): busca palavra por palavra, das mais longas
+            // para as mais curtas (até 3), e filtra pelo nome idêntico, como o usuário faria na janela do Lattes.
+            var palavrasQ = nomeSemAc.split(/\s+/).filter(function (w) { return w.length >= 3 && !/^(de|da|do|das|dos|the|of|and)$/i.test(w); })
+              .sort(function (x, y) { return y.length - x.length; }).slice(0, 3);
+            for (var pq = 0; pq < palavrasQ.length; pq++) {
+              var xq = new XMLHttpRequest();
+              xq.open('GET', baseL + 'pkg_artigo.find_periodico?p_str=' + encodeURIComponent(palavrasQ[pq]) + '&p_tipo=nome&p_cod=' + cvQ, false);
+              xq.send();
+              var reQ = /selecionar\('([^']*)','([^']*)'\)/g, mQ;
+              while ((mQ = reQ.exec(xq.responseText))) { if (mQ[1]) linhasQ.push({ issn: mQ[1].replace('-', '').toUpperCase(), nome: mQ[2] }); }
+              if (linhasQ.some(function (l) { return norm(l.nome) === norm(nomeSemAc); })) break;
+            }
+            var exatos = linhasQ.filter(function (l) { return norm(l.nome) === norm(nomeSemAc); });
+            var issnsExatos = exatos.map(function (l) { return l.issn; }).filter(function (v, i, a) { return a.indexOf(v) === i; });
+            if (issnsExatos.length === 1) {
+              issnP = issnsExatos[0];
+              G.url = String(G.url).replace(/([?&]F_ISSN=)[^&]*/, '$1' + issnP);
+            } else if (issnsExatos.length > 1) {
+              probsP.push('há mais de um periódico com esse nome no cadastro do Lattes (' + issnsExatos.slice(0, 5).join(', ') + '); informe o ISSN');
+            } else if (linhasQ.length) {
+              var vistosQ = [];
+              linhasQ.forEach(function (l) { var s = l.nome + ' (' + l.issn + ')'; if (vistosQ.indexOf(s) < 0) vistosQ.push(s); });
+              probsP.push('nenhum periódico com nome idêntico no cadastro do Lattes; opções parecidas: ' + vistosQ.slice(0, 5).join('; ') + '; informe o ISSN do correto');
+            } else {
+              probsP.push('o periódico não consta no cadastro do Lattes pelo nome; informe o ISSN');
+            }
+          } catch (eq) { probsP.push('não consegui consultar o cadastro de periódicos do Lattes; informe o ISSN'); }
+        }
+        if (!nomeP) probsP.push('nome do periódico não informado');
+        if (!issnP) { if (!probsP.length) probsP.push('ISSN não informado'); }
+        else if (!/^\d{7}[\dXx]$/.test(issnP)) probsP.push('ISSN fora do formato 9999-999X');
+        else if (postL('prc_valida_issn', 'f_issn=' + issnP) === 'INVALIDO') probsP.push('ISSN não consta no cadastro de periódicos do Lattes');
+        else if (nomeP && postL('pkg_artigo.valida_nome_issn_periodico', 'f_nome=' + escape(nomeP.normalize('NFD').replace(/[̀-ͯ]/g, '')) + '&f_issn=' + issnP) === 'DIF') probsP.push('o nome do periódico não confere com o ISSN no cadastro do Lattes');
+        if (!volP) probsP.push('volume não informado');
+        if (!pagP) probsP.push('página inicial não informada');
+        if (probsP.length) { lfAlerta('LattesData: o Lattes não abriria o formulário deste artigo: ' + probsP.join('; ') + '. Corrija no LattesData (periódico, ISSN, volume, página inicial) ou informe o DOI.'); return; }
+      }
+      // O Lattes só abre o formulário do artigo de forma confiável logo depois de carregar a lista de artigos (a lista prepara o estado no servidor;
+      // sem ela alguns formulários abriam sem os dados do periódico). Carrega a lista antes, como o usuário faria pelo menu.
+      var listaPrepG = { artigo: 'pkg_artigo.lista', anais: 'pkg_trabalho.lista', apresentacao: 'prc_tec_demais_lista?f_cod_tipo=2J&f_cod=', orientacao_concluida: 'pkg_orient.lista?f_tipo=C&f_cod=', orientacao_andamento: 'pkg_orient.lista?f_tipo=A&f_cod=' }[G.id];
+      if (listaPrepG && cvG && modalG && typeof modalG.setarUrl === 'function') {
+        modalG.setarUrl(listaPrepG + (listaPrepG.indexOf('?') < 0 ? '?f_cod=' : '') + cvG, true);
+        await sleep(4000);
+      }
       if (cvG && modalG && typeof modalG.setarUrl === 'function' && pagina) {
         modalG.setarUrl(String(G.url).replace('<codigo_do_cv>', cvG), true);
         var tG = Date.now();
         while (Date.now() - tG < 15000 && !gdoc) { await sleep(400); gdoc = achaQuadro(window.top); }
-        if (gdoc) await sleep(600);
+        // O formulário do artigo ainda se monta (e limpa campos) depois de "complete": espera mais antes de preencher (conferido em 21/11/2026).
+        if (gdoc) await sleep((G.id === 'artigo' || G.id === 'anais' || G.id === 'apresentacao' || G.id === 'orientacao_concluida' || G.id === 'orientacao_andamento') ? 3500 : 600);
+        // Artigo pelo periódico: o Lattes consulta serviços externos (Crossref) ao abrir e, quando falham, abre o formulário sem os dados
+        // do periódico. Detecta e reabre (lista + formulário) até 2 vezes.
+        if (gdoc && G.id === 'artigo' && /F_CTR=FIV/.test(String(G.url))) {
+          for (var tentA = 0; tentA < 2; tentA++) {
+            var tpA = gdoc.querySelector('[name="f_titulo_periodico"]');
+            var autHA = gdoc.getElementById('autorHolder');
+            var precisaAut = !!((G.grades || {}).autores || []).length;
+            if (tpA && tpA.value && (!precisaAut || (autHA && autHA.querySelector('a')))) break;  // dados do periódico e, se há autores a incluir, a grade de autores montada
+            gdoc = null;
+            modalG.setarUrl('pkg_artigo.lista?f_cod=' + cvG, true);
+            await sleep(4000);
+            modalG.setarUrl(String(G.url).replace('<codigo_do_cv>', cvG), true);
+            var tG2 = Date.now();
+            while (Date.now() - tG2 < 15000 && !gdoc) { await sleep(400); gdoc = achaQuadro(window.top); }
+            if (gdoc) await sleep(3500);
+          }
+          var tpB = gdoc ? gdoc.querySelector('[name="f_titulo_periodico"]') : null;
+          if (gdoc && !(tpB && tpB.value)) lfAvisosLattes.push('O Lattes abriu o formulário sem os dados do periódico (serviço do Lattes instável); feche o formulário e execute de novo.');
+          else if (gdoc && ((G.grades || {}).autores || []).length && !(gdoc.getElementById('autorHolder') && gdoc.getElementById('autorHolder').querySelector('a'))) lfAvisosLattes.push('O Lattes montou o formulário sem a grade de autores (serviço do Lattes instável); feche o formulário e execute de novo.');
+        }
       }
     }
-    if (!gdoc) { alert('LattesData: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo.'); return; }
+    if (!gdoc) { lfAlerta('LattesData: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo. Se o Lattes voltou para a tela inicial (sessão expirada), entre de novo no currículo.'); return; }
     var rel = [];
     var fireG = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
     var ok = 0;
     var gw = gdoc.defaultView;
-    try { gw.alert = function (m) { rel.push('Lattes: ' + m); }; gw.confirm = function () { return true; }; } catch (e) {}
+    // alert/confirm do formulário já são silenciados e coletados em lfAvisosLattes (todas as janelas); lá entram no relatório, com os avisos sem efeito filtrados.
+    try { gw.confirm = function () { return true; }; } catch (e) {}
     // Cadastro controlado (instituição, agência, curso, periódico): se o Lattes oferecer sugestões ao digitar, escolhe a
     // de nome idêntico ou claramente parecido (melhor()); ambíguo ou sem correspondência: não escolhe e pede escolha manual.
     var gControladoRx = /^(f_inst|f_nme_inst|f_nme_agencia|f_curso|f_titulo_periodico|f_nme_periodico|f_orgao)$/i;
@@ -393,7 +507,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       }
       return null;
     };
-    var gNormNome = function (t) { return norm(t).replace(/\s*\([a-z]{2}\)\s*$/, ''); };
+    var gNormNome = function (t) { return norm(t).replace(/(\s*\([^)]*\))+\s*$/, ''); };  // ignora a sigla e a UF no fim do nome: "... do Maranhao (FAPEMA) (MA)"
     var gNormCurso = function (t) { return norm(t).replace(/\(\s*[0-9a-z]*[0-9][0-9a-z]*\s*\)\s*$/, '').replace(/^(programa de pos-graduacao|pos-graduacao|curso de)\s+(em\s+)?/, '').trim(); };
     var gVariacoes = function (nome) {
       var v = [nome];
@@ -406,6 +520,10 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (sem.length > 3) v.push(sem);
       var mu = /^universidade\s+(federal|estadual)\s+(?:d[aeo]s?\s+)?([a-zà-ÿ]{4,})$/i.exec(base);  // UFMA = UF + 2 primeiras letras do estado
       if (mu) v.push((/^f/i.test(mu[1]) ? 'UF' : 'UE') + mu[2].slice(0, 2).toUpperCase());
+      // A busca da lupa só acha nomes por termos curtos: nomes longos (ex.: fundações de amparo) entram pelas palavras mais distintivas do nome;
+      // a escolha continua exigindo o nome idêntico ou um resultado único e claro.
+      base.split(/\s+/).filter(function (w) { return w.length >= 6 && !/^(universidade|fundacao|fundação|instituto|federal|estadual|ciencia|ciência)$/i.test(w); })
+        .sort(function (x, y) { return y.length - x.length; }).slice(0, 3).forEach(function (w) { v.push(w); });
       return v.filter(function (x, i) { return x && v.indexOf(x) === i; });
     };
     // Pesquisa na lupa e espera o resultado de forma adaptativa (o resultado para de mudar) até o limite; mede o tempo.
@@ -442,7 +560,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var gLupaInst = async function (nome, rotulo) {
       if (typeof gw.sele_inst !== 'function') { rel.push(rotulo + ': a lupa de instituições não existe neste formulário; escolha manual'); return false; }
       gw.sele_inst();
-      var fi = await gFrame(/prc_inst_form/, 8000);
+      var fi = await gFrame(/prc_inst_form|pp_lista_inst/, 8000);
       if (!fi) { rel.push(rotulo + ': a janela de instituições não abriu; escolha na lupa'); return false; }
       var vistas = [];
       var tent = gVariacoes(nome);
@@ -456,6 +574,27 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         links.forEach(function (a) { var x = a.textContent.trim(); if (vistas.indexOf(x) < 0) vistas.push(x); });
       }
       rel.push(rotulo + ': "' + nome + '" não identificada com segurança no cadastro do Lattes' + (vistas.length ? ' (opções: ' + vistas.slice(0, 4).join('; ') + ')' : '') + '; a janela da lupa ficou aberta para você escolher');
+      return false;
+    };
+    // Agência financiadora: o Lattes não aceita o nome digitado ("Utilize o link para selecionar a agência"). O link chama agencia(), que marca
+    // "Com bolsa? sim" e abre a lista (prc_agencia) com todas as agências; escolhe pela sigla ou pelo nome idêntico, só se for único.
+    var gLupaAgencia = async function (nome, rotulo) {
+      if (typeof gw.agencia !== 'function') { rel.push(rotulo + ': a lupa de agências não existe neste formulário; escolha manual'); return false; }
+      gw.agencia();
+      var fa = await gFrame(/prc_agencia/, 8000);
+      var linksA = [];
+      for (var ta = 0; ta < 10 && fa && !linksA.length; ta++) {
+        linksA = [].slice.call(fa.contentDocument.querySelectorAll('a')).filter(function (a) { return /atribuir\(/.test(a.getAttribute('onclick') || ''); });
+        if (!linksA.length) await sleep(500);
+      }
+      if (!linksA.length) { rel.push(rotulo + ': a lista de agências não abriu; escolha na lupa'); return false; }
+      var alvoA = norm(nome);
+      var semSigla = function (x) { return norm(x).replace(/^\([^)]*\)\s*/, ''); };
+      var porSigla = linksA.filter(function (a) { var m = /^\(([^)]*)\)/.exec(a.textContent.trim()); return m && norm(m[1]) === alvoA; });
+      var iguais = linksA.filter(function (a) { return semSigla(a.textContent) === alvoA; });
+      var cand = porSigla.length === 1 ? porSigla : iguais.length === 1 ? iguais : linksA.filter(function (a) { return alvoA.length > 3 && norm(a.textContent).indexOf(alvoA) >= 0; });
+      if (cand.length === 1) { cand[0].click(); await sleep(1500); return !!((gdoc.querySelector('[name="f_nme_agencia"]') || {}).value); }
+      rel.push(rotulo + ': "' + nome + '" ' + (cand.length ? 'tem mais de uma agência parecida (' + cand.slice(0, 4).map(function (a) { return a.textContent.trim().slice(0, 50); }).join('; ') + ')' : 'não consta na lista de agências do Lattes') + '; a janela ficou aberta para você escolher');
       return false;
     };
     var gLupaCurso = async function (nome, rotulo) {
@@ -512,7 +651,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       var fim = function (o) { try { window.top.__lfInstFim = o; } catch (e) {} };
       if (typeof gw.sele_inst !== 'function') { fim({ ok: false, erro: 'a lupa de instituições não existe neste formulário', feitos: 0, total: termos.length }); return; }
       gw.sele_inst();
-      var fi = await gFrame(/prc_inst_form/, 8000);
+      var fi = await gFrame(/prc_inst_form|pp_lista_inst/, 8000);
       if (!fi) { fim({ ok: false, erro: 'a janela de instituições não abriu', feitos: 0, total: termos.length }); return; }
       for (var i = 0; i < termos.length; i++) {
         var pq = await gPesquisarLupa(fi, termos[i], 6000);
@@ -543,6 +682,10 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso|f_orgao)$/i.test(c.name) && alvo[0].disabled) {
         var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : /^f_orgao$/i.test(c.name) ? await gLupaOrgao(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
         if (okL) ok++;
+        continue;
+      }
+      if ((c.tipo === 'text' || !c.tipo) && /^f_nme_agencia$/i.test(c.name)) {
+        if (c.valor && await gLupaAgencia(String(c.valor), c.rotulo || c.name)) ok++;
         continue;
       }
       if (c.tipo === 'radio') {
@@ -606,6 +749,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); return; }
       gOk[chave] = 0;
       for (var i = 0; i < lista.length; i++) {
+        if (norm(gHolder(rxHolder).textContent).indexOf(norm(String(lista[i]))) >= 0) { gOk[chave]++; continue; } // já está na lista (preenchimento repetido)
         var lk = gLink(gHolder(rxHolder), rxNovo);
         if (!lk) { rel.push('botão de incluir em "' + rotuloGrade + '" não encontrado'); break; }
         lk.click(); await sleep(450);
@@ -632,6 +776,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       for (var i = 0; i < lista.length; i++) {
         var h = gHolder(rxHolder);
         if (!h) { rel.push('grade "' + rotuloGrade + '" não encontrada no formulário aberto'); break; }
+        if (norm(h.textContent).indexOf(norm(String(lista[i]))) >= 0) { gOk[chave]++; continue; } // já está na lista
         // O campo da grade vem com um texto de dica ("Digite, selecione ou inclua uma nova área..."): vazio ou dica = livre.
         var ins = [].slice.call(h.querySelectorAll('input[type="text"]')).filter(function (x) { return gVis(x) && (!x.value || /^digite/i.test(x.value)); });
         var inp = ins[ins.length - 1];
@@ -670,12 +815,14 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var gAutores = async function () {
       var lista = GR.autores || [];
       if (!lista.length) return;
+      if (/F_CTR=D(&|$)/.test(String(G.url || ''))) { rel.push('Autores: vêm do DOI (o Lattes os recupera sozinho e liga o seu nome pelas citações do currículo); confira a aba Autores'); return; }
       gOk.autores = 0;
       var digitados = 0;
       var tu = toks(d.__usuario || '');
       for (var i = 0; i < lista.length; i++) {
         var nomeA = String(lista[i].nome || '').trim();
         if (!nomeA) continue;
+        var citJa = norm(String(lista[i].citacao || '')); if (citJa && norm((gHolder(/autor/i) || { textContent: '' }).textContent).indexOf(citJa) >= 0) { gOk.autores++; continue; } // já está na lista
         // O TITULAR precisa ser escolhido em "Listar todos" (o Lattes recusa o titular digitado à mão).
         var ta = toks(nomeA);
         if (tu.length && ta.length && tu[0] === ta[0] && tu[tu.length - 1] === ta[ta.length - 1]) {
@@ -758,11 +905,13 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (!dlg) { rel.push(rotT + ': a janela de instituições não abriu; escolha "' + nome + '" na aba'); return false; }
       var win = dlg.dc.defaultView;
       // Resultados da busca: links cujo nome termina com a UF/país entre parênteses, como o Lattes lista (ex.: "... do Maranhão (MA)").
-      var lerRes = function () { return [].slice.call(dlg.dc.querySelectorAll('a')).filter(function (a) { return gVis(a) && /[(]\s*[A-Za-z]{2,3}\s*[)]\s*$/.test(a.textContent.trim()); }); };
+      var lerRes = function () { var cur = gDialogoInst(); return [].slice.call((cur ? cur.dc : dlg.dc).querySelectorAll('a')).filter(function (a) { return gVis(a) && /[(]\s*[A-Za-z]{2,3}\s*[)]\s*$/.test(a.textContent.trim()); }); };
       var vistas = [];
       // A busca do Lattes acha melhor por sigla ou parte curta do nome: tenta as formas curtas antes do nome completo.
       var tent = gVariacoes(nome).sort(function (a, b) { var sa = /^[A-Z]{2,8}$/.test(a) ? 0 : 1, sb = /^[A-Z]{2,8}$/.test(b) ? 0 : 1; return sa - sb || a.length - b.length; });
       for (var ti = 0; ti < tent.length; ti++) {
+        // O Lattes recarrega a janela a cada busca: o documento antigo fica obsoleto, então localiza a janela de novo a cada tentativa.
+        dlg = gDialogoInst() || dlg; win = dlg.dc.defaultView;
         var antes = lerRes().map(function (a) { return a.textContent; }).join('|');
         gDigitar(dlg.inp, tent[ti]);
         if (typeof win.recuperaInstMacro === 'function') { try { win.recuperaInstMacro(); } catch (e) {} }
@@ -881,7 +1030,11 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       for (var fi2 = 0; fi2 < GR.financiamentos.length; fi2++) {
         var pF = String(GR.financiamentos[fi2]).split(';').map(function (x) { return x.trim(); });
         var lkNovo = null;
-        gDocsTodos().forEach(function (dc) { [].slice.call(dc.querySelectorAll('a, button, div, span')).forEach(function (a) { if (!lkNovo && gVis(a) && a.children.length < 3 && /^incluir novo item$/i.test((a.textContent || '').trim())) lkNovo = a; }); });
+        // O botão é uma imagem (img.botaoAdicionar) no rodapé da tabela cujo cabeçalho tem "Código do projeto"; só no formulário aberto
+        // (a lista de projetos por baixo tem outro botão igual).
+        var tabF = [].slice.call(gdoc.querySelectorAll('table')).filter(function (t) { return /c[oó]digo do projeto/i.test(t.textContent || '') && t.querySelector('img.botaoAdicionar'); })[0];
+        if (tabF) lkNovo = tabF.querySelector('img.botaoAdicionar');
+        if (!lkNovo) [].slice.call(gdoc.querySelectorAll('a, button, div, span')).forEach(function (a) { if (!lkNovo && gVis(a) && a.children.length < 3 && /^incluir novo item$/i.test((a.textContent || '').trim())) lkNovo = a; });
         if (!lkNovo) { rel.push('Financiamento: botão "Incluir novo item" não encontrado; inclua "' + pF[0] + '" na aba Equipe'); break; }
         if (!(await gTitularInst(pF[0], lkNovo, 'Financiamento'))) break;
         var jf = null;
@@ -898,7 +1051,8 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         await sleep(300);
         var cfF = [].slice.call(dcF.querySelectorAll('a, button, input[type="button"], input[type="submit"]')).filter(function (x) { return gVis(x) && /^confirmar$/i.test((x.textContent || x.value || '').trim()); })[0];
         if (!cfF) { rel.push('Financiamento: botão Confirmar não encontrado; confirme na janela'); break; }
-        cfF.click(); await sleep(900);
+        cfF.click();
+        for (var fw = 0; fw < 20 && (fw === 0 || gJanelaFinanc()); fw++) await sleep(400);  // a janela leva alguns segundos para fechar
         if (gJanelaFinanc()) { rel.push('Financiamento "' + pF[0] + '": o Lattes não aceitou (a janela continua aberta); confira os campos'); break; }
         gOk.financiamentos++;
       }
@@ -906,7 +1060,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     // O Lattes pode recuperar dados do registro e trocar o que foi digitado (ex.: título): confere os campos de texto e reaplica.
     for (var gj = 0; gj < (G.campos || []).length; gj++) {
       var cj = G.campos[gj];
-      if (!cj.valor || (cj.tipo !== 'text' && cj.tipo !== 'textarea') || /^(f_inst|f_curso)$/i.test(cj.name)) continue;
+      if (!cj.valor || (cj.tipo !== 'text' && cj.tipo !== 'textarea') || /^(f_inst|f_curso|f_orgao|f_nme_agencia)$/i.test(cj.name)) continue;  // campos de lupa: o valor só entra pela janela de seleção
       var tj = gdoc.querySelector('[name="' + cj.name + '"]');
       var vj = String(cj.valor);
       if (tj && tj.maxLength > 0 && vj.length > tj.maxLength) vj = vj.slice(0, tj.maxLength);
@@ -922,14 +1076,41 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     if (btnSalvarG) {
       try { btnSalvarG.style.outline = '3px solid #10b981'; btnSalvarG.style.boxShadow = '0 0 0 6px rgba(16,185,129,0.35)'; btnSalvarG.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
     }
+    // No caminho manual do artigo (sem DOI) o Lattes dispara "DOI não encontrado." ao abrir o formulário: aviso sem efeito, não conta.
+    var doiPreenchido = ((G.campos || []).filter(function (c) { return /^f_cod_doi$/i.test(c.name) && c.valor; }).length > 0);
+    lfAvisosLattes.filter(function (m, i, v) { return v.indexOf(m) === i && !(/^DOI n[ãa]o encontrado/i.test(m) && /F_CTR=FIV/.test(String(G.url || ''))) && !(/^Informe o Digital Object Identifier/i.test(m) && !doiPreenchido); }).forEach(function (m) { rel.push('Aviso do Lattes: ' + m); });
     var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r); });
     if (d.__autoSalvar && btnSalvarG && !(G.faltam || []).length && criticosG.length === 0) {
       await sleep(600);
       try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
+      if (d.__semAlerta) {
+        // Automação: clica em Salvar e guarda a resposta do Lattes (as mensagens) sem abrir diálogo.
+        var nAntes = lfAvisosLattes.length;
+        try { btnSalvarG.click(); } catch (e) {}
+        await sleep(7000);
+        // O Lattes também responde com pop-ups próprios (HTML, não alert): "Não foi possível ... os seguintes problemas: ..." — lê em todas as janelas.
+        var errosLattes = [];
+        var varrerErros = function (w, prof) {
+          if (prof > 6) return;
+          try {
+            var mErr = /N[ãa]o foi poss[ií]vel[\s\S]{0,400}/.exec(w.document.body.innerText || '');
+            // ignora o texto de scripts do próprio Lattes que contêm a mesma frase (<br>, "for (", "saida"): só vale mensagem visível ao usuário
+            if (mErr && !/<br>|for \(|saida|function/.test(mErr[0])) errosLattes.push(mErr[0].replace(/\s+/g, ' ').slice(0, 300));
+            // Sucesso: o Lattes devolve um script ("A operação foi realizada com sucesso!") no quadro do formulário
+            if (/realizada com sucesso/i.test(w.document.documentElement.innerHTML || '') && !errosLattes.some(function (x) { return /^Operação realizada com sucesso/.test(x); })) errosLattes.push('Operação realizada com sucesso (confirmado pelo Lattes)');
+            for (var iw = 0; iw < w.frames.length; iw++) varrerErros(w.frames[iw], prof + 1);
+          } catch (e) {}
+        };
+        varrerErros(window.top, 0);
+        try { window.top.__lfUltimoRelatorio = 'Resposta do Lattes ao salvar: ' + ((lfAvisosLattes.slice(nAntes).concat(errosLattes)).join(' | ') || '(sem mensagem)'); } catch (e) {}
+        lfRestaurar();
+        return;
+      }
+      lfRestaurar();
       try { gdoc.defaultView.alert = window.top.alert.bind(window.top); } catch (e) {}
       try { btnSalvarG.click(); return; } catch (e) {}
     }
-    alert('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
+    lfAlerta('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
     return;
   }
   var want = d.tipo_producao || 'anais';
@@ -971,7 +1152,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     }
   }
   if (!doc) {
-    alert('LattesData: formulário não encontrado. Faça login no Lattes para abrir o painel principal e tente novamente.');
+    lfAlerta('LattesData: formulário não encontrado. Faça login no Lattes para abrir o painel principal e tente novamente.');
     return;
   }
   var report = [];
@@ -1053,7 +1234,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var NOMES = { anais: 'um Trabalho em anais', apresentacao: 'uma Apresentação de trabalho', artigo: 'um Artigo em periódico', orientacao: 'uma Orientação' };
   var CAMINHOS = { anais: 'Produções > Trabalhos publicados em anais de eventos', apresentacao: 'Produções > Apresentação de trabalho e palestra', artigo: 'Produções > Artigos completos publicados em periódicos', orientacao: 'Orientações > Orientações e supervisões concluídas (ou em andamento)' };
   if (want !== have) {
-    alert('LattesData: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
+    lfAlerta('LattesData: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
     return;
   }
   var isApres = want === 'apresentacao';
@@ -1144,7 +1325,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var primeiro = doc.querySelector('input[name="F_COD_PROD"]');
     var formAndamento = !!(primeiro && /^A/.test(primeiro.value));
     if (andamento !== formAndamento) {
-      alert('LattesData: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
+      lfAlerta('LattesData: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
       return;
     }
     var cod = lookup(NAT_ORI, d.natureza, 'natureza');
@@ -1383,6 +1564,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       ? 'ATENÇÃO: o Lattes não reconheceu o nome do titular entre os autores do DOI. Confira o campo "Nome em citações bibliográficas" do currículo (o Lattes mostra a lista de autores do DOI na tela).'
       : 'autores importados do DOI pelo Lattes');
   }
+  lfRestaurar();
   try { if (doc.defaultView && window.top && window.top.alert) doc.defaultView.alert = window.top.alert.bind(window.top); } catch (e) {}
   var btnSalvar = [].slice.call(doc.querySelectorAll('a, input[type="button"], input[type="submit"], button')).filter(function (el) {
     var act = (el.getAttribute('onclick') || '') + ' ' + (el.getAttribute('href') || '');
@@ -1402,7 +1584,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
     try { btnSalvar.click(); return; } catch (e) {}
   }
-  alert('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
+  lfAlerta('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
     (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique no botão Salvar (destacado em verde) no Lattes.');
 })();`;
 
@@ -1769,7 +1951,7 @@ async function extractFromRawText(text) {
 let classCtx = { uploadId: null, texto: null, json: null };
 let catalogoItens = null;
 let chooserGrupo = "";
-const TIPO_DO_ITEM = { anais: "anais", apresentacao: "apresentacao", artigo: "artigo", orientacao_concluida: "orientacao", orientacao_andamento: "orientacao" };
+const TIPO_DO_ITEM = {};
 const SINONIMOS = {
   anais: "resumo congresso poster pôster publicado anais caderno de resumos",
   apresentacao: "palestra poster pôster comunicação oral apresentei apresentação",
@@ -1962,8 +2144,8 @@ async function escolherItem(itemId) {
     $("classCards").innerHTML = "";
     return;
   }
-  if (!classCtx.uploadId && !classCtx.texto) {
-    // sem documento: abre o formulário em branco do tipo escolhido
+  if (!classCtx.uploadId && !classCtx.texto && TIPO_DO_ITEM[itemId]) {
+    // sem documento: abre o formulário em branco do tipo escolhido (formulários fixos do app)
     setFormData({ tipo_producao: TIPO_DO_ITEM[itemId] || "anais", situacao_orientacao: itemId === "orientacao_andamento" ? "Em andamento" : "Concluída" });
     statusEl.textContent = `Formulário em branco de: ${alvo.item}. Preencha os campos ou envie um documento.`;
     statusEl.classList.remove("hidden");
@@ -1972,7 +2154,7 @@ async function escolherItem(itemId) {
   }
   const corpo = { item: itemId, usuario: $("ownerName").value };
   if (classCtx.uploadId) corpo.id = classCtx.uploadId;
-  else corpo.texto = classCtx.texto;
+  else corpo.texto = classCtx.texto || " "; // sem documento: formulário em branco do item por especificação
   const r = await fetch("/api/classificacao/interpretar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
   const json = await r.json();
   if (r.status === 410) {
@@ -2089,7 +2271,7 @@ async function loadRecords() {
     item.append(info, btns);
     btnLoad.onclick = () => {
       voltarCadastro();
-      setFormData(rec.data);
+      abrirRegistroAntigo(rec.data);
       showToast("Registro carregado no formulário!");
     };
     btnDel.onclick = async () => {
@@ -2104,14 +2286,27 @@ async function loadRecords() {
 let cadernoFile = null;
 let cadernoUploadId = null;
 
+// Registros no formato antigo (caderno de resumos, histórico): anais e artigo abrem no formulário gerado pelo spec; os demais, no formulário antigo.
+async function abrirRegistroAntigo(data) {
+  const tp = (data && data.tipo_producao) || "anais"; // sem tipo, o formulário antigo também assumia anais
+  if (data && (tp === "anais" || tp === "artigo" || tp === "apresentacao" || tp === "orientacao")) {
+    try {
+      const r = await (await fetch("/api/itens/abrir-registro", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ data, item: tp }) })).json();
+      if (r.generico) { mostrarGenerico(r.generico); return true; }
+    } catch (e) { /* cai no formulário antigo */ }
+  }
+  setFormData(data);
+  return false;
+}
+
 function loadCadernoRecord(r) {
-  setFormData(r.record);
+  abrirRegistroAntigo(r.record);
   const notes = (r.record.extraction_notes || []).join(" ");
   const st = $("extractStatus");
   st.textContent = `Resumo da pág. ${r.page_label || r.pdf_page} carregado. ${notes}`;
   st.classList.remove("hidden");
   showToast("Resumo carregado no formulário!");
-  $("lattesForm").scrollIntoView({ behavior: "smooth" });
+  ($("formGenerico") && !$("formGenerico").classList.contains("hidden") ? $("formGenerico") : $("lattesForm")).scrollIntoView({ behavior: "smooth" });
 }
 
 async function saveAllCaderno(resultados) {
@@ -2921,7 +3116,7 @@ async function dispararEnvioExtensao() {
 }
 
 // ---------- Extensão LattesData: avisar quando não está instalada ou está desatualizada ----------
-const EXT_VERSAO_MINIMA = "0.9.6"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
+const EXT_VERSAO_MINIMA = "0.9.7"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
 
 function versaoMenor(a, b) {
   const x = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
@@ -3676,6 +3871,26 @@ async function mostrarGenerico(g) {
       : "Não consegui identificar o tipo pelo documento: escolha o tipo de formulário acima."));
   }
   (g.notas || []).forEach((n) => av.appendChild(el("p", "hint", "• " + n)));
+  if (["anais", "artigo"].includes(g.item)) {
+    // Mesma busca de dados faltantes do formulário antigo (Crossref e OpenAlex), agora sobre o formulário do spec.
+    const bt = el("button", "btn btn-secondary btn-sm", "🔎 Buscar dados faltantes (Crossref, OpenAlex)");
+    bt.type = "button";
+    bt.id = "btnGenEnriquecer";
+    const st = el("p", "hint", "");
+    bt.onclick = async () => {
+      st.textContent = "Consultando Crossref e OpenAlex...";
+      const valores = {};
+      GEN.variante.campos.forEach((c) => { const e = $("gen_" + c.name); if (e) valores[c.name] = e.value.trim(); });
+      try {
+        const r = await (await fetch("/api/itens/enriquecer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: g.item, valores }) })).json();
+        const chaves = Object.keys(r.valores || {});
+        chaves.forEach((n) => { const e = $("gen_" + n); if (e) { e.value = r.valores[n]; e.dispatchEvent(new Event("input", { bubbles: true })); } });
+        st.textContent = chaves.length ? `Campos completados (${chaves.length}) via ${(r.fontes || []).join(", ")}: confira.` : "Nenhum dado adicional encontrado nas bases externas.";
+        genAtualizar();
+      } catch (e) { st.textContent = "Não consegui consultar as bases externas."; }
+    };
+    av.append(bt, st);
+  }
   genDesenhar();
 }
 
@@ -4000,6 +4215,7 @@ function genCampo(c) {
   if (c.tipo === "textarea") {
     inp = document.createElement("textarea");
     inp.rows = 3;
+    if (c.maxlength) inp.maxLength = c.maxlength;
   } else if (ops && (c.tipo === "select" || c.tipo === "radio")) {
     inp = document.createElement("select");
     ["", ...ops].forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o || "—"; inp.appendChild(op); });
@@ -4037,8 +4253,15 @@ function genVisivel(c) {
 function genAplicarCondicionais() {
   if (!GEN.variante) return;
   GEN.variante.campos.forEach((c) => {
-    if (!c.mostrar_quando) return;
     const e = $("gen_" + c.name);
+    if (c.exige_antes && e) {
+      // O Lattes recusa o valor enquanto outro campo não for escolhido (ex.: tipo de orientação só com mestrado/doutorado): campo bloqueado até lá.
+      const g = $("gen_" + c.exige_antes.name);
+      const libera = !!g && c.exige_antes.valores.includes(g.value);
+      e.disabled = !libera;
+      if (!libera) e.title = "Disponível quando " + c.exige_antes.name + " for: " + c.exige_antes.valores.join(" ou ");
+    }
+    if (!c.mostrar_quando) return;
     if (e && e.closest(".field")) e.closest(".field").style.display = genVisivel(c) ? "" : "none";
   });
 }
@@ -4100,7 +4323,8 @@ function genColetar() {
     const e = $("gen_" + c.name);
     if (!e || !genVisivel(c)) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
-    if (c.obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
+    const obrigatorio = c.obrigatorio || (c.obrigatorio_quando && ($("gen_" + c.obrigatorio_quando.name) || {}).value === c.obrigatorio_quando.valor);
+    if (obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
     if (c.tipo === "checkbox" && c.opcoes && Object.keys(c.opcoes).length > 1) {
       const partes = valor.split("|").filter(Boolean);
       campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor: partes.join("; "), codigo: "", codigos: partes.map((p) => c.opcoes[p]).filter(Boolean), auto: false, auto_de: "" });
@@ -4109,6 +4333,13 @@ function genColetar() {
     campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "", auto: !!c.automatico, auto_de: c.auto_de || "" });
   });
   if (genExigeTitular() && !genTitularInformado()) faltam.push(GEN_ROTULO_TITULAR);
+  // Projetos: o Lattes exige a equipe com um (e só um) coordenador.
+  if (GEN.spec && GEN.spec.id === "projeto") {
+    const ta = $("gengrade_autores");
+    const nCoord = ta ? ta.value.split("\n").filter((l) => /;\s*coordenador(a)?\s*$/i.test(l.trim())).length : 0;
+    if (nCoord === 0) faltam.push("Coordenador da equipe (marque um pesquisador com \"coordenador\")");
+    if (nCoord > 1) faltam.push("Apenas um coordenador na equipe");
+  }
   return { campos, faltam };
 }
 
@@ -4149,6 +4380,15 @@ function genTitulo(campos) {
 function genUrlDaVariante(campos) {
   let url = GEN.variante.url || "";
   const val = (n) => ((campos.find((c) => c.name === n) || {}).valor || "").trim();
+  if (GEN.spec.id === "artigo") {
+    // O Lattes abre o artigo por dois caminhos (conferido na lista do Lattes em 20/11/2026): pelo DOI (dados e autores vêm do DOI) ou
+    // pelo periódico informado à mão (ISSN, título, volume, edição e página inicial vão no endereço).
+    const doi = val("f_cod_doi");
+    if (doi) return "PKG_ARTIGO.form?f_sta_divulgacao_cientifica=&F_COD_DOI=" + encodeURIComponent(doi) + "&F_CTR=D&F_COD=<codigo_do_cv>";
+    return "PKG_ARTIGO.form?f_sta_divulgacao_cientifica=&F_ORIGEM_WS=F&F_TITULO_PERIODICO=" + escape(val("f_titulo_periodico")) +
+      "&F_ISSN=" + val("f_issn").replace(/-/g, "") + "&F_VOLUME=" + escape(val("f_volume")) + "&F_SERIE=" + escape(val("f_serie")) +
+      "&F_PAG_INI=" + escape(val("f_pag_ini")) + "&F_CTR=FIV&F_COD=<codigo_do_cv>";
+  }
   const reg = val("f_cod_reg").replace(/\s+/g, "");
   const inst = val("f_inst");
   if (/[?&]f_cod_reg=/i.test(url)) url = url.replace(/([?&]f_cod_reg=)[^&]*/i, "$1" + encodeURIComponent(reg));
