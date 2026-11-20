@@ -111,6 +111,116 @@ def comparar(antes: dict[str, Any], depois: dict[str, Any]) -> dict[str, Any]:
             "total_antes": len(antes["itens"]), "total_depois": len(depois["itens"])}
 
 
+# ------------------------------------------------------------------ dimensões e legado (concepção DORA / Trajetória)
+DIMENSOES_CATEGORIAS: tuple[tuple[str, str, str, set[str]], ...] = (
+    ("conhecimento", "Geração de conhecimento", "Artigos, livros, capítulos e trabalhos em anais",
+     {"artigo", "artigo_aceito", "livro", "capitulo", "trabalho_evento", "texto_jornal",
+      "outra_producao_bibliografica", "producao_artistica", "demais_trabalhos"}),
+    ("formacao", "Formação de pessoas e ensino", "Orientações, bancas, cursos ministrados e formação",
+     {"orientacao_concluida", "orientacao_andamento", "banca", "curso_ministrado",
+      "formacao_academica", "formacao_complementar"}),
+    ("comunidade", "Comunidade e diálogo científico", "Apresentações, eventos organizados, participações e prêmios",
+     {"apresentacao", "participacao_evento", "organizacao_evento", "premio"}),
+    ("impacto", "Inovação, projetos e prática aplicada", "Patentes, softwares, produtos técnicos, projetos e atuação",
+     {"patente", "software", "produto_tecnologico", "registro_propriedade", "trabalho_tecnico",
+      "outra_producao_tecnica", "projeto", "atuacao_profissional"}),
+)
+
+
+def calcular_dimensoes(por_cat: dict[str, int]) -> list[dict[str, Any]]:
+    """Agrupa contagens por categoria nas 4 dimensões de contribuição da trajetória."""
+    brutos = [
+        (dim_id, nome, desc, sum(int(por_cat.get(c, 0) or 0) for c in cats))
+        for dim_id, nome, desc, cats in DIMENSOES_CATEGORIAS
+    ]
+    max_dim = max((t for _, _, _, t in brutos), default=0)
+    soma_geral = sum(t for _, _, _, t in brutos)
+    saida: list[dict[str, Any]] = []
+    for dim_id, nome, desc, total in brutos:
+        if total == 0:
+            percentual = 0
+            nivel = "ponto de partida"
+        else:
+            percentual = max(12, round(total * 100 / max_dim)) if max_dim > 0 else 0
+            if percentual >= 75:
+                nivel = "frente principal"
+            elif percentual >= 40:
+                nivel = "frente ativa"
+            else:
+                nivel = "em expansão"
+        proporcao = round(total * 100 / soma_geral) if soma_geral > 0 else 0
+        saida.append({
+            "id": dim_id,
+            "nome": nome,
+            "descricao": desc,
+            "total": total,
+            "percentual": percentual,
+            "proporcao": proporcao,
+            "nivel": nivel,
+        })
+    return saida
+
+
+def calcular_legado_e_oportunidades(
+    cur: dict[str, Any],
+    por_cat: dict[str, int],
+    artigos_info: dict[str, int],
+    coautores_total: int,
+) -> tuple[dict[str, int], list[dict[str, str]]]:
+    """Calcula indicadores humanos de legado e sugestões construtivas de valorização."""
+    del cur  # reservado para enriquecimentos futuros a partir de metadados do currículo
+    legado = {
+        "pessoas_orientadas": por_cat.get("orientacao_concluida", 0) + por_cat.get("orientacao_andamento", 0),
+        "orientacoes_concluidas": por_cat.get("orientacao_concluida", 0),
+        "orientacoes_andamento": por_cat.get("orientacao_andamento", 0),
+        "bancas_participadas": por_cat.get("banca", 0),
+        "projetos": por_cat.get("projeto", 0),
+        "inovacao_tecnica": sum(por_cat.get(k, 0) for k in (
+            "patente", "software", "produto_tecnologico", "registro_propriedade",
+            "trabalho_tecnico", "outra_producao_tecnica",
+        )),
+        "coautores_unicos": coautores_total,
+    }
+
+    oportunidades: list[dict[str, str]] = []
+    sem_doi = int(artigos_info.get("sem_doi", 0) or 0)
+    if sem_doi > 0:
+        plural = "s" if sem_doi != 1 else ""
+        oportunidades.append({
+            "id": "valorizar_doi",
+            "titulo": f"{sem_doi} artigo{plural} pode{'' if sem_doi == 1 else 'm'} ganhar visibilidade com DOI",
+            "descricao": "Completar o DOI amplia a localização automática na Plataforma Sucupira e nas bases abertas de citação.",
+            "acao": "Valorizar artigos",
+            "href": "/auditoria.html",
+        })
+    andamento = legado["orientacoes_andamento"]
+    if andamento > 0:
+        plural = "ões" if andamento != 1 else "ão"
+        oportunidades.append({
+            "id": "celebrar_orientacoes",
+            "titulo": f"{andamento} orientaç{plural} em andamento para revisar",
+            "descricao": "Se alguma defesa já foi concluída, atualizar o status celebra a formação e soma pontuação integral nos editais.",
+            "acao": "Revisar trajetória",
+            "href": "/meu-curriculo.html",
+        })
+    if legado["inovacao_tecnica"] > 0 or legado["projetos"] > 0:
+        oportunidades.append({
+            "id": "conectar_triade",
+            "titulo": "Conectar projetos, produções técnicas e inovação",
+            "descricao": "Amarrar patentes, softwares e artigos aos seus projetos fortalece a leitura de impacto na CAPES e no CNPq.",
+            "acao": "Abrir painel relacional",
+            "href": "/painel.html",
+        })
+    oportunidades.append({
+        "id": "bussola_editais",
+        "titulo": "Planejar próximo passo na Bússola de Editais",
+        "descricao": "Simule metas para progressão, bolsas PQ ou concursos e organize seu dossiê paginado sem pressa.",
+        "acao": "Simular cenário",
+        "href": "/painel.html#secEdi",
+    })
+    return legado, oportunidades
+
+
 # ------------------------------------------------------------------ dashboard
 def dashboard(cur: dict[str, Any], ano_atual: int | None = None) -> dict[str, Any]:
     ano_atual = ano_atual or datetime.now().year
@@ -128,22 +238,31 @@ def dashboard(cur: dict[str, Any], ano_atual: int | None = None) -> dict[str, An
             if _norm(au) not in eu:
                 coautores[au] += 1
     artigos = [i for i in itens if i["categoria"] == "artigo"]
+    artigos_info = {
+        "total": len(artigos),
+        "sem_doi": sum(1 for a in artigos if not formatar_doi(a.get("doi", ""))),
+        "sem_issn": sum(1 for a in artigos if not a.get("issn")),
+    }
     producao = {"artigo", "artigo_aceito", "trabalho_evento", "livro", "capitulo", "texto_jornal", "patente", "software", "trabalho_tecnico",
                 "produto_tecnologico", "apresentacao", "outra_producao_bibliografica", "outra_producao_tecnica", "producao_artistica"}
+    dimensoes = calcular_dimensoes(por_cat)
+    legado, oportunidades = calcular_legado_e_oportunidades(cur, por_cat, artigos_info, len(coautores))
     return {
         "nome": cur.get("nome", ""), "id_lattes": cur.get("id_lattes", ""), "atualizacao": cur.get("atualizacao", ""),
         "fonte": cur.get("fonte", "xml"), "total_itens": len(itens), "por_categoria": dict(por_cat.most_common()),
         "por_ano": [{"ano": a, "total": sum(por_ano[a].values()), "producao": sum(v for k, v in por_ano[a].items() if k in producao),
                      "por_categoria": dict(por_ano[a])} for a in anos],
         "ultimos_5_anos": sum(sum(v.values()) for a, v in por_ano.items() if ano_atual - 4 <= int(a) <= ano_atual),
-        "artigos": {"total": len(artigos), "sem_doi": sum(1 for a in artigos if not formatar_doi(a.get("doi", ""))),
-                    "sem_issn": sum(1 for a in artigos if not a.get("issn"))},
+        "artigos": artigos_info,
         "periodicos_top": Counter(a["veiculo"] for a in artigos if a.get("veiculo")).most_common(8),
         "coautores_top": coautores.most_common(10),
         "orientacoes": {"concluidas": por_cat.get("orientacao_concluida", 0), "em_andamento": por_cat.get("orientacao_andamento", 0)},
         "bancas": por_cat.get("banca", 0),
         "perfil": cur.get("perfil", {}),
         "nao_classificados": cur.get("nao_classificados", {}),
+        "dimensoes": dimensoes,
+        "legado": legado,
+        "oportunidades": oportunidades,
     }
 
 

@@ -6,6 +6,14 @@ O LattesData existe para transformar a manutenção do currículo em uma experi�
 
 O usuário não entra para ver uma lista de pendências. Ele entra para perceber o valor da própria trajetória — e, a partir disso, decidir o que deseja melhorar.
 
+### Princípio central de produto
+
+O LattesData deve ajudar cada pesquisador a reconhecer suas conquistas, sua individualidade e sua identidade como sujeito pesquisador e profissional.
+
+Isso significa que a plataforma não pode tratar todos os currículos como simples coleções de números. Ela deve revelar diferentes formas de contribuição: pesquisa, ensino, orientação, extensão, inovação, gestão, atuação profissional, divulgação científica, colaboração e formação.
+
+Cada experiência deve ser apresentada com contexto, autoria e significado para aquela pessoa. O objetivo não é produzir um ranking de currículos, mas ajudar o pesquisador a enxergar a própria trajetória com mais clareza, confiança e possibilidade de futuro.
+
 ## 2. Visão
 
 Ser o ambiente em que pesquisadores registram, compreendem, valorizam e desenvolvem a própria jornada acadêmica.
@@ -239,4 +247,64 @@ Fluxo recomendado:
 6. XML ou extensão são oferecidos para aprofundar a leitura, comparar versões e auxiliar o preenchimento.
 
 Essa escolha reduz a barreira de entrada e permite que o usuário veja valor antes de lidar com importação de arquivos. A confirmação do currículo é indispensável: nomes iguais não devem ser resolvidos automaticamente.
+
+## 14. As 4 Camadas de Significado do Sistema
+
+Para ser mais do que um fluxo de dados (`PDF → Extrator → Formulário`), o LattesData estrutura sua experiência em quatro camadas progressivas que convertem burocracia em significado na vida acadêmica:
+
+### Camada 1 — Burocracia Invisível (Alívio e Tempo Devolvido)
+Leitura inteligente de evidências (PDFs, cadernos de anais, DOIs, certificados, declarações e atas), aplicação do Protocolo 3V (*Verificar, Vincular, Validar*) e autopreenchimento na sessão local do navegador sem jamais expor ou solicitar credenciais do `gov.br`. A entrega não termina em "item salvo": devolve tempo ao pesquisador e contextualiza cada novo registro como parte da sua história.
+
+### Camada 2 — Memória Viva e Inteligência Relacional (O Bom Orientador)
+Preservação de histórico versionado e snapshots (`curriculo_store.py`), conciliação automática entre documentos enviados e XML oficial do currículo, conexão da Tríade Relacional (*Projeto ↔ Produção ↔ Orientação*) e Radar de Coautorias (`radar.py`) para recuperar produções registradas por orientandos e colaboradores. O pesquisador sente que não está sozinho carregando a memória da própria carreira.
+
+### Camada 3 — Espelho de Identidade e Narrativa (Reconhecimento Singular)
+Leitura multidimensional da carreira que respeita a pluralidade de perfis acadêmicos e profissionais — do estudante de Iniciação Científica e profissional técnico-aplicado ao docente pesquisador, inventor e coordenador de programa — destacando frentes de vocação, linha do tempo e curadoria de obras relevantes, combatendo a sensação de "currículo que não me representa".
+
+### Camada 4 — Legado, Eco Científico e Bússola de Futuro (Propósito)
+Visibilidade para a genealogia de formação humana (pessoas orientadas e bancas participadas), eco das ideias no mundo (citações unificadas entre bases com contexto e alcance) e planejamento sereno de metas acadêmicas por meio da **Bússola de Editais (EditalScore)**, simulando caminhos de evolução sem esperar a véspera de processos seletivos.
+
+## 15. As 4 Dimensões de Contribuição Acadêmica (Inspiradas em DORA e Narrative CV)
+
+Inspirado no movimento internacional DORA e nos modelos de Currículo Narrativo (como o *Résumé for Research and Innovation* — R4RI), o LattesData organiza a leitura humana do currículo em quatro dimensões complementares:
+
+1. **Geração de Conhecimento (`conhecimento`):** artigos completos e aceitos em periódicos, livros, capítulos de livro, trabalhos em anais de eventos, textos científicos em jornais/revistas, produções artísticas/culturais e demais produções bibliográficas.
+2. **Formação de Pessoas e Ensino (`formacao`):** orientações concluídas e em andamento (IC, TCC, mestrado, doutorado, pós-doutorado), participação em bancas examinadoras, cursos de curta duração ministrados e formação acadêmica/complementar.
+3. **Comunidade e Diálogo Científico (`comunidade`):** apresentações de trabalho e palestras, organização e participação em eventos científicos, prêmios, títulos honoríficos e redes de colaboração acadêmica.
+4. **Inovação, Projetos e Prática Aplicada (`impacto`):** patentes, programas de computador, produtos e processos técnico-tecnológicos (PTTs), registros de propriedade intelectual, trabalhos técnicos, projetos de pesquisa/extensão/desenvolvimento e atuação profissional.
+
+## 16. Referências de Design de Significado (Aprendizados de Mercado)
+
+O desenho do LattesData incorpora princípios comprovados por plataformas que transformam registros frios em narrativa, identidade e hábito positivo:
+
+- **Strava:** transformar esforço invisível de meses ou anos em marcos visíveis de trajetória e reconhecimento sóbrio entre pares.
+- **Spotify Wrapped:** oferecer sínteses periódicas de impacto e autorreconhecimento (*"Seu Ano na Ciência"*), revelando onde as ideias do pesquisador chegaram.
+- **Oura Ring / Whoop:** traduzir dezenas de indicadores técnicos em uma leitura humana de abertura (*"Meu Momento"*) acompanhada de uma única recomendação prioritária (*"Próximo Passo"*).
+- **GitHub:** evidência contínua de trabalho (*Proof of Work*), histórico versionado vivo e vitrine curada dos marcos que o usuário considera mais representativos.
+- **Grammarly:** substituir o tom punitivo de "correção com caneta vermelha" por orientação construtiva de valorização, clareza e confiança.
+- **Polywork & Read.cv:** reconhecer a identidade multidimensional do profissional além de um único cargo ou título burocrático.
+- **Copilot Money & Scite.ai:** transformar regras e pontuações em planejamento tranquilo de metas futuras (*Bússola de Editais*) e números frios de citação em contexto vivo de quem dialoga com a obra.
+
+## 17. Unificação de Marca, Narrativa e Glossário de Interface
+
+### Marca Única
+Todas as telas, relatórios e fluxos operam sob a identidade **LattesData**. Denominações fragmentadas ou defensivas (como *"Lattes Shield"*) passam a integrar a plataforma como **`LattesData · Valorização & Conformidade`**.
+
+### Tabela de Tradução de Tom de Voz
+
+| Evitar (Tom Burocrático / Punitivo) | Preferir (Tom LattesData · Orientador Cuidadoso) |
+| :--- | :--- |
+| "Seu currículo tem 19 inconsistências / falhas críticas." | "Identificamos 19 oportunidades de valorização e blindagem para fortalecer sua trajetória." |
+| "Pontos perdidos / Risco de glosa." | "Potencial de valorização recuperável na CAPES/CNPq." |
+| "Enviar arquivo para extração." | "Registrar nova conquista na sua trajetória." |
+| "Pendências do XML." | "Oportunidades para ampliar a visibilidade do seu trabalho." |
+
+### Glossário Oficial da Interface
+- **Evidência:** o documento enviado pelo usuário (PDF, certificado, caderno de anais, ata, declaração ou DOI).
+- **Registro:** a conquista interpretada, revisada pelo pesquisador e salva no LattesData.
+- **Trajetória:** a visão integrada da evolução, memória versionada e dimensões de contribuição do pesquisador.
+- **Dimensões de Contribuição:** os quatro eixos (*Conhecimento*, *Formação*, *Comunidade* e *Impacto*) onde a atuação se expressa.
+- **Oportunidade de Valorização:** recomendação acionável gerada pela conformidade ou pelo radar para enriquecer, conectar ou proteger o currículo.
+- **Bússola de Editais (EditalScore):** simulador contínuo de metas e pontuação, com gerador de dossiê paginado para editais, progressões e concursos.
+
 

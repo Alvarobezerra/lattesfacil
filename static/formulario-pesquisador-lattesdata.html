@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escuta Profunda do Pesquisador — LattesData</title>
+<link rel="icon" type="image/svg+xml" href="/img/isotipo.svg">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+:root{
+  --ink:#10233d; --muted:#5d7086; --line:#dce5ee; --paper:#fff; --canvas:#f4f8fb;
+  --teal:#087f91; --teal-d:#066473; --soft:#ebf7f8; --mint:#dff7ee; --amber-bg:#fdf6e3;
+  --serif:"Newsreader",Georgia,serif; --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{width:min(920px,calc(100% - 32px));margin:auto;padding:24px 0 80px}
+.hero{background:linear-gradient(135deg,#0b192c 0%,#163558 100%);color:#fff;border-radius:20px;padding:30px 32px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px;font:700 italic 24px var(--serif);margin-bottom:18px}
+.brand small{font:800 10px var(--sans);font-style:normal;letter-spacing:.12em;color:#7ee6d0;margin-left:4px;text-transform:uppercase}
+.hero h1{font:600 34px/1.1 var(--serif);margin:0 0 10px}
+.hero p{max-width:720px;color:#d6e3ee;margin:0}
+.note{margin-top:16px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.08);color:#b7ece2;font-size:12.5px}
+
+.progress-bar{position:sticky;top:10px;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:16px;box-shadow:0 8px 24px rgba(16,35,61,.06)}
+.progress-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px}
+.progress-top strong{color:var(--ink)}
+.progress-actions{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+.link-btn{border:0;background:none;color:var(--teal);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px;text-decoration:underline}
+.track{height:7px;border-radius:99px;background:#e6eef4;overflow:hidden;margin:9px 0}
+.track i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),#10b981);border-radius:99px;transition:width .25s ease}
+.block-nav{display:flex;gap:6px;flex-wrap:wrap}
+.block-nav a{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:#f2f6f9;color:var(--muted);text-decoration:none;border:1px solid transparent;transition:all .15s}
+.block-nav a:hover{border-color:var(--teal);color:var(--teal)}
+.block-nav a.done{background:var(--mint);color:#096b4d;border-color:#b8ead7}
+
+.section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:18px;scroll-margin-top:118px}
+.section-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.num{width:34px;height:34px;border-radius:10px;background:var(--soft);color:var(--teal);display:grid;place-items:center;font-weight:800;flex:none}
+.section h2{font:600 24px/1.15 var(--serif);margin:0 0 3px}
+.section-intro{color:var(--muted);font-size:13px;margin:0}
+
+.id-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}
+
+.q{padding:19px 0;border-top:1px solid #edf2f6}
+.q:first-of-type{border-top:0;padding-top:2px}
+.q label.title{font-weight:800;font-size:14.5px;display:block;margin-bottom:6px;color:var(--ink)}
+.q-num{display:inline-block;font-size:11px;font-weight:800;color:var(--teal);background:var(--soft);padding:1px 7px;border-radius:99px;margin-right:6px;vertical-align:1px}
+.hint{font-size:12px;color:var(--muted);margin:0 0 11px}
+
+.options{display:grid;gap:8px}
+.options.two{grid-template-columns:1fr 1fr}
+label.option{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:#2b4158;padding:8px 11px;border:1px solid #e8eef4;border-radius:10px;background:#fcfdfe;cursor:pointer;transition:border-color .15s,background .15s}
+label.option:hover{border-color:#9bd2da;background:#f7fcfd}
+label.option:has(input:checked){border-color:var(--teal);background:var(--soft);color:var(--ink);font-weight:600}
+input[type=radio],input[type=checkbox]{accent-color:var(--teal);margin-top:3px;flex:none}
+
+.ab-card{display:grid;gap:10px}
+label.ab-opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fbfdfe;cursor:pointer}
+label.ab-opt:has(input:checked){border-color:var(--teal);background:var(--soft)}
+label.ab-opt b{display:block;font-size:13px;color:var(--ink);margin-bottom:3px}
+label.ab-opt span{display:block;font-size:12.5px;color:#3d536b}
+.ab-quote{display:inline-block;margin-top:4px;padding:4px 9px;border-radius:7px;background:#fff;border:1px solid #dde6ee;font-size:12px;color:var(--ink)}
+
+input[type=text],input[type=email],textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink);background:#fcfdfe;font:inherit;font-size:13.5px}
+input[type=text]:focus,textarea:focus{outline:2px solid #96dce5;border-color:var(--teal)}
+textarea{min-height:92px;resize:vertical}
+
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.scale label{border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;font-size:11.5px;color:var(--muted);cursor:pointer;background:#fcfdfe}
+.scale label:has(input:checked){border-color:var(--teal);background:var(--soft);color:var(--ink);font-weight:700}
+.scale input{display:block;margin:0 auto 5px}
+
+.limit-note{font-size:11.5px;color:var(--teal-d);font-weight:700;margin-top:6px;display:none}
+.limit-note.show{display:block}
+
+.actions{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:22px;padding:18px 22px;background:var(--paper);border:1px solid var(--line);border-radius:16px}
+.actions-info{color:var(--muted);font-size:12.5px}
+.btn{border:0;background:var(--teal);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 6px 16px rgba(8,127,145,.22)}
+.btn:hover{background:var(--teal-d)}
+.btn:disabled{opacity:.6;cursor:wait}
+.status-box{margin-top:14px;padding:14px 16px;border-radius:12px;font-weight:700;font-size:13.5px;display:none}
+.status-box.ok{display:block;background:var(--mint);color:#086649;border:1px solid #9de2c8}
+.status-box.err{display:block;background:#fef2f2;color:#9b2c2c;border:1px solid #fecaca}
+.footer{color:var(--muted);font-size:12px;text-align:center;margin-top:20px}
+
+@media(max-width:680px){
+  .wrap{width:min(100% - 20px,920px);padding-top:14px}
+  .hero,.section{padding:20px 16px;border-radius:15px}
+  .hero h1{font-size:27px}
+  .id-grid,.options.two{grid-template-columns:1fr}
+  .scale{grid-template-columns:1fr}
+  .scale label{display:flex;align-items:center;gap:8px;text-align:left}
+  .scale input{margin:0}
+  .actions{align-items:stretch;flex-direction:column}
+  .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="brand">LattesData<small>Escuta Profunda do Pesquisador</small></div>
+    <h1>Como transformar seu currículo em uma história com significado?</h1>
+    <p>Estamos amadurecendo o LattesData para ir muito além de preencher formulários do CNPq. Queremos ouvir você com calma para entender o que gera orgulho na sua jornada, o que o Lattes atual esconde e o que merece destaque na plataforma.</p>
+    <div class="note">Tempo estimado: 10 a 15 minutos · Suas respostas são salvas automaticamente como rascunho neste navegador para você responder no seu ritmo.</div>
+  </header>
+
+  <div class="progress-bar" aria-live="polite">
+    <div class="progress-top">
+      <div><strong id="progText">0 de 32 questões respondidas</strong></div>
+      <div class="progress-actions">
+        <span id="draftInfo">Rascunho automático ativo</span>
+        <button type="button" class="link-btn" id="btnLimparRascunho">Limpar rascunho</button>
+      </div>
+    </div>
+    <div class="track"><i id="progFill"></i></div>
+    <nav class="block-nav" aria-label="Navegação pelos blocos">
+      <a href="#bloco-id" data-block="id">Identificação</a>
+      <a href="#bloco-1" data-block="1">1. Identidade</a>
+      <a href="#bloco-2" data-block="2">2. Dimensões</a>
+      <a href="#bloco-3" data-block="3">3. Abertura</a>
+      <a href="#bloco-4" data-block="4">4. Valorização</a>
+      <a href="#bloco-5" data-block="5">5. Bússola</a>
+      <a href="#bloco-6" data-block="6">6. Registro</a>
+      <a href="#bloco-7" data-block="7">7. Legado &amp; Eco</a>
+      <a href="#bloco-8" data-block="8">8. Prioridades</a>
+    </nav>
+  </div>
+
+  <form id="pesquisaForm">
+    <!-- IDENTIFICAÇÃO -->
+    <section class="section" id="bloco-id">
+      <div class="section-head">
+        <span class="num">✦</span>
+        <div>
+          <h2>Quem está conversando com a gente</h2>
+          <p class="section-intro">Opcional, mas nos ajuda a contextualizar suas respostas pelo momento da carreira.</p>
+        </div>
+      </div>
+      <div class="id-grid">
+        <div class="field">
+          <label for="respondenteNome">Seu nome ou apelido</label>
+          <input id="respondenteNome" name="respondenteNome" type="text" maxlength="120" placeholder="Ex.: Prof. Dr. Aramys Silva (ou deixe em branco para anônimo)">
+        </div>
+        <div class="field">
+          <label for="respondenteContexto">Instituição, programa ou área de atuação</label>
+          <input id="respondenteContexto" name="respondenteContexto" type="text" maxlength="160" placeholder="Ex.: UFMA · Saúde, Farmácia Clínica, Doutoranda em Educação…">
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 1 -->
+    <section class="section" id="bloco-1">
+      <div class="section-head">
+        <span class="num">1</span>
+        <div>
+          <h2>Perfil, momento de carreira e identidade</h2>
+          <p class="section-intro">Começamos pela pessoa que pesquisa, ensina e constrói — não pelos formulários do CNPq.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q1" data-block="1">
+        <label class="title"><span class="q-num">Q1</span> Como você se apresentaria profissionalmente hoje?</label>
+        <p class="hint">Marque todas as frentes em que você se reconhece.</p>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q1" value="Professor(a) universitário(a) ou EBTT"> Professor(a) universitário(a) ou EBTT</label>
+          <label class="option"><input type="checkbox" name="q1" value="Pesquisador(a) ativo(a)"> Pesquisador(a) ativo(a)</label>
+          <label class="option"><input type="checkbox" name="q1" value="Orientador(a) de IC, TCC ou pós-graduação"> Orientador(a) de IC, TCC ou pós-graduação</label>
+          <label class="option"><input type="checkbox" name="q1" value="Estudante ou pós-graduando(a)"> Estudante (IC, mestrado ou doutorado)</label>
+          <label class="option"><input type="checkbox" name="q1" value="Coordenador(a) de PPG, curso ou grupo de pesquisa"> Coordenador(a) de PPG, curso ou grupo</label>
+          <label class="option"><input type="checkbox" name="q1" value="Profissional técnico/aplicado fora da docência"> Profissional técnico/aplicado fora da docência</label>
+          <label class="option"><input type="checkbox" name="q1" value="Inventor(a), extensionista ou desenvolvedor(a) de produtos"> Inventor(a), extensionista ou criador(a) de produtos</label>
+          <label class="option"><input type="checkbox" name="q1" value="Divulgador(a) científico(a)"> Divulgador(a) científico(a)</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q2" data-block="1">
+        <label class="title"><span class="q-num">Q2</span> Em qual momento da trajetória você está hoje?</label>
+        <div class="options two">
+          <label class="option"><input type="radio" name="q2" value="Iniciando na pesquisa (graduação / IC / especialização)"> Iniciando na pesquisa (graduação / IC / especialização)</label>
+          <label class="option"><input type="radio" name="q2" value="Mestrado, doutorado ou pós-doutorado"> Mestrado, doutorado ou pós-doutorado</label>
+          <label class="option"><input type="radio" name="q2" value="Início de carreira docente ou técnica (até 5 anos)"> Início de carreira docente ou técnica (até 5 anos)</label>
+          <label class="option"><input type="radio" name="q2" value="Carreira intermediária ou consolidada"> Carreira intermediária ou consolidada</label>
+          <label class="option"><input type="radio" name="q2" value="Liderança de programa, laboratório ou instituição"> Liderança de programa, laboratório ou instituição</label>
+          <label class="option"><input type="radio" name="q2" value="Transição de carreira ou atuação híbrida mercado-academia"> Transição de carreira ou atuação híbrida mercado-academia</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q3" data-block="1">
+        <label class="title"><span class="q-num">Q3</span> Quando você abre seu Currículo Lattes hoje, qual sensação aparece primeiro?</label>
+        <div class="options two">
+          <label class="option"><input type="radio" name="q3" value="Orgulho pelo caminho percorrido"> Orgulho pelo caminho percorrido</label>
+          <label class="option"><input type="radio" name="q3" value="Satisfação tranquila"> Satisfação tranquila</label>
+          <label class="option"><input type="radio" name="q3" value="Indiferença (é apenas uma obrigação burocrática)"> Indiferença (é apenas uma obrigação burocrática)</label>
+          <label class="option"><input type="radio" name="q3" value="Cansaço só de lembrar o que falta cadastrar"> Cansaço só de lembrar o que falta cadastrar</label>
+          <label class="option"><input type="radio" name="q3" value="Ansiedade ou medo de estar desatualizado/inconsistente"> Ansiedade ou medo de estar desatualizado ou inconsistente</label>
+          <label class="option"><input type="radio" name="q3" value="Sensação de que a lista fria não representa quem eu sou"> Sensação de que aquela lista fria não representa quem eu sou</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q4" data-block="1">
+        <label class="title" for="q4_txt"><span class="q-num">Q4</span> O que você já construiu na sua vida acadêmica ou profissional que o Lattes atual achata, esconde ou não reconhece bem?</label>
+        <p class="hint">Pode ser um esforço de bastidores, uma orientação marcante, um trabalho aplicado, extensão, gestão ou mudança de área.</p>
+        <textarea id="q4_txt" name="q4" placeholder="Conte livremente o que costuma ficar invisível no currículo tradicional…"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 2 -->
+    <section class="section" id="bloco-2">
+      <div class="section-head">
+        <span class="num">2</span>
+        <div>
+          <h2>As 4 Dimensões de Contribuição e o Espelho da Trajetória</h2>
+          <p class="section-intro">No LattesData, agrupamos o currículo em quatro frentes humanas de contribuição (inspiradas no movimento DORA).</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q5" data-block="2">
+        <label class="title"><span class="q-num">Q5</span> Entre estas 4 dimensões, quais melhor traduzem a sua contribuição principal hoje?</label>
+        <p class="hint">Marque quantas fizerem sentido para sua trajetória.</p>
+        <div class="options">
+          <label class="option"><input type="checkbox" name="q5" value="Geração de conhecimento (artigos, livros, capítulos, resumos)"> <strong>Geração de conhecimento</strong> — artigos, livros, capítulos, trabalhos em anais</label>
+          <label class="option"><input type="checkbox" name="q5" value="Formação de pessoas e ensino (orientações, bancas, cursos ministrados)"> <strong>Formação de pessoas e ensino</strong> — orientações, bancas, cursos ministrados, ensino</label>
+          <label class="option"><input type="checkbox" name="q5" value="Comunidade e diálogo científico (apresentações, eventos, pareceres, prêmios)"> <strong>Comunidade e diálogo científico</strong> — palestras, organização de eventos, pareceres, prêmios</label>
+          <label class="option"><input type="checkbox" name="q5" value="Inovação, projetos e prática aplicada (patentes, softwares, extensão, atuação técnica)"> <strong>Inovação, projetos e prática aplicada</strong> — patentes, softwares, PTTs, projetos e atuação prática</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q6" data-block="2">
+        <label class="title"><span class="q-num">Q6</span> Em uma escala de 1 a 5, quanto enxergar sua carreira nessas 4 dimensões faz mais sentido para você do que uma lista corrida de títulos e datas?</label>
+        <div class="scale">
+          <label><input type="radio" name="q6" value="1 — Prefiro lista tradicional">1<br>Prefiro a lista tradicional</label>
+          <label><input type="radio" name="q6" value="2 — Pouca diferença">2<br>Faz pouca diferença</label>
+          <label><input type="radio" name="q6" value="3 — Interessante">3<br>Interessante</label>
+          <label><input type="radio" name="q6" value="4 — Faz bastante sentido">4<br>Faz bastante sentido</label>
+          <label><input type="radio" name="q6" value="5 — Representa muito melhor quem eu sou">5<br>Representa muito melhor quem eu sou</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q7" data-block="2">
+        <label class="title"><span class="q-num">Q7</span> Se o sistema analisasse seus itens reais e propusesse um rascunho de Resumo Inicial (em português e inglês) valorizando suas linhas e impacto, você usaria?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q7" value="Sim, com certeza — escrever o resumo sobre mim mesmo é difícil"> Sim, com certeza — escrever o próprio resumo de forma estratégica é difícil</label>
+          <label class="option"><input type="radio" name="q7" value="Sim, como ponto de partida para eu editar e aprovar"> Sim, desde que seja um ponto de partida editável por mim</label>
+          <label class="option"><input type="radio" name="q7" value="Talvez, apenas para a versão em inglês"> Talvez, especialmente para ajudar na versão em inglês (que o Lattes não traduz)</label>
+          <label class="option"><input type="radio" name="q7" value="Não preciso disso, prefiro redigir do zero"> Não preciso disso, prefiro redigir do zero</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q8" data-block="2">
+        <label class="title" for="q8_txt"><span class="q-num">Q8</span> Na sua área específica, o que separa um currículo realmente forte e coerente de um currículo apenas "inchado" de números?</label>
+        <textarea id="q8_txt" name="q8" placeholder="Ex.: continuidade em uma linha, vínculo com orientandos, qualidade dos veículos, impacto social, patentes…"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 3 -->
+    <section class="section" id="bloco-3">
+      <div class="section-head">
+        <span class="num">3</span>
+        <div>
+          <h2>A Casa Acadêmica: tela de abertura e "Meu Momento"</h2>
+          <p class="section-intro">Queremos acertar o que aparece nos primeiros 5 segundos quando você entra na plataforma.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q9" data-block="3">
+        <label class="title"><span class="q-num">Q9</span> Ao abrir o LattesData numa terça-feira comum, o que deveria chamar sua atenção primeiro?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q9" value="Uma leitura positiva do meu momento e evolução no ano"> Uma leitura positiva do meu momento e do que já construí no ano</label>
+          <label class="option"><input type="radio" name="q9" value="Uma única ação prioritária sugerida (Próximo Passo)"> Uma única ação prioritária sugerida ("Próximo passo") sem me soterrar em tarefas</label>
+          <label class="option"><input type="radio" name="q9" value="Obras ou citações novas encontradas automaticamente na rede"> Obras novas ou citações minhas encontradas automaticamente desde o último acesso</label>
+          <label class="option"><input type="radio" name="q9" value="Botão rápido para enviar um PDF/certificado recém-recebido"> Um atalho direto para registrar um certificado ou artigo que acabou de chegar</label>
+          <label class="option"><input type="radio" name="q9" value="Minha lista de pendências e riscos do currículo"> Direto a lista de pendências e inconsistências do currículo</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q10" data-block="3">
+        <label class="title"><span class="q-num">Q10</span> Quanto a abertura com a frase "O que você construiu importa" (reconhecer conquistas antes de apontar melhorias) melhora sua disposição para cuidar do currículo?</label>
+        <div class="scale">
+          <label><input type="radio" name="q10" value="1 — Irrelevante, quero apenas eficiência técnica">1<br>Irrelevante; quero só eficiência</label>
+          <label><input type="radio" name="q10" value="2 — Simpático, mas secundário">2<br>Simpático, mas secundário</label>
+          <label><input type="radio" name="q10" value="3 — Agrada e deixa mais leve">3<br>Deixa a tarefa mais leve</label>
+          <label><input type="radio" name="q10" value="4 — Reduz o peso emocional da burocracia">4<br>Reduz o peso da burocracia</label>
+          <label><input type="radio" name="q10" value="5 — Faz muita diferença para eu querer voltar">5<br>Faz muita diferença para eu voltar</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q11" data-block="3">
+        <label class="title"><span class="q-num">Q11</span> Quais indicadores você gostaria de acompanhar com naturalidade no painel inicial?</label>
+        <p class="hint">Marque os que realmente dizem algo sobre o seu trabalho.</p>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q11" value="Artigos e livros publicados"> Artigos, livros e capítulos</label>
+          <label class="option"><input type="checkbox" name="q11" value="Pessoas orientadas e formadas"> Pessoas orientadas e formadas</label>
+          <label class="option"><input type="checkbox" name="q11" value="Citações unificadas e índice h"> Citações unificadas e índice h</label>
+          <label class="option"><input type="checkbox" name="q11" value="Projetos financiados e vigentes"> Projetos financiados e vigentes</label>
+          <label class="option"><input type="checkbox" name="q11" value="Patentes, softwares e produtos técnicos"> Patentes, softwares e produtos técnicos</label>
+          <label class="option"><input type="checkbox" name="q11" value="Bancas examinadoras"> Bancas examinadoras</label>
+          <label class="option"><input type="checkbox" name="q11" value="Rede de coautores e instituições parceiras"> Rede de coautores e instituições parceiras</label>
+          <label class="option"><input type="checkbox" name="q11" value="Progresso rumo a um edital/meta específica"> Progresso rumo a uma meta ou edital</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q12" data-block="3">
+        <label class="title" for="q12_txt"><span class="q-num">Q12</span> O que faria você fechar a tela inicial rapidamente por parecer opressiva, confusa ou "mais uma cobrança"?</label>
+        <textarea id="q12_txt" name="q12" placeholder="Ex.: muitos gráficos ao mesmo tempo, alertas em vermelho piscando, termos técnicos sem explicação…"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 4 -->
+    <section class="section" id="bloco-4">
+      <div class="section-head">
+        <span class="num">4</span>
+        <div>
+          <h2>Valorização &amp; Conformidade vs. "Caneta Vermelha"</h2>
+          <p class="section-intro">Queremos calibrar o tom da nossa auditoria de currículo (Portaria CNPq 2.664/2026 e CAPES/Sucupira).</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q13" data-block="4">
+        <label class="title"><span class="q-num">Q13</span> Teste de Tom de Voz: qual forma de apresentar um mesmo achado ajuda você a agir com mais tranquilidade e eficácia?</label>
+        <div class="ab-card">
+          <label class="ab-opt">
+            <input type="radio" name="q13" value="Opção A — Alerta direto de risco e perda de pontos">
+            <div>
+              <b>Opção A · Foco direto em risco e blindagem</b>
+              <span>Mostra o impacto crítico de forma urgente para mobilizar correção imediata:</span>
+              <span class="ab-quote">"19 inconsistências detectadas · 12 artigos sem DOI · Risco crítico de -120 pontos no Sucupira."</span>
+            </div>
+          </label>
+          <label class="ab-opt">
+            <input type="radio" name="q13" value="Opção B — Oportunidade de valorização e pontos recuperáveis">
+            <div>
+              <b>Opção B · Foco em valorização e solução</b>
+              <span>Enquadra o mesmo dado como ganho concreto já preparado pela plataforma:</span>
+              <span class="ab-quote">"19 oportunidades de fortalecimento · Localizamos 12 DOIs na CrossRef para você recuperar +120 pontos potenciais."</span>
+            </div>
+          </label>
+          <label class="ab-opt">
+            <input type="radio" name="q13" value="Opção C — Equilíbrio (oportunidade na frente + selo discreto do risco normativo)">
+            <div>
+              <b>Opção C · Equilíbrio entre os dois</b>
+              <span>Destaca a solução positiva e o ganho na frente, mantendo uma tag técnica discreta indicando a norma CAPES/CNPq associada.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q14" data-block="4">
+        <label class="title"><span class="q-num">Q14</span> Quais verificações automáticas no seu currículo trariam mais paz de espírito hoje?</label>
+        <p class="hint">Marque as mais importantes na sua realidade.</p>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q14" value="Artigos sem DOI ou ISSN inválido para o Sucupira"> Artigos sem DOI ou ISSN inválido (CAPES/Sucupira)</label>
+          <label class="option"><input type="checkbox" name="q14" value="Orientações já defendidas ainda marcadas como em andamento"> Orientações já defendidas presas "em andamento"</label>
+          <label class="option"><input type="checkbox" name="q14" value="Projetos antigos com vigência vencida em aberto"> Projetos antigos com vigência vencida ainda em aberto</label>
+          <label class="option"><input type="checkbox" name="q14" value="Registros duplicados no mesmo currículo"> Registros duplicados ou lançados em aba errada</label>
+          <label class="option"><input type="checkbox" name="q14" value="Produções órfãs não vinculadas a projetos ou PPG"> Produções órfãs sem vínculo com projeto ou PPG</label>
+          <label class="option"><input type="checkbox" name="q14" value="Padronização de patentes INPI e Produtos Técnicos (PTTs)"> Padronização de patentes (INPI) e PTTs</label>
+          <label class="option"><input type="checkbox" name="q14" value="Variações inconsistentes do meu nome de citação"> Variações inconsistentes do meu nome em citações</label>
+          <label class="option"><input type="checkbox" name="q14" value="Registro de licenças parentais (extensão de janela CNPq)"> Registro de licença-maternidade/paternidade (janela +2 anos)</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q15" data-block="4">
+        <label class="title"><span class="q-num">Q15</span> Quanto importa que o sistema já entregue a correção pronta para você apenas aprovar (ex.: buscar o DOI oficial na CrossRef) em vez de só apontar a pendência?</label>
+        <div class="scale">
+          <label><input type="radio" name="q15" value="1 — Basta listar o que corrigir">1<br>Basta listar</label>
+          <label><input type="radio" name="q15" value="2 — Ajuda um pouco">2<br>Ajuda um pouco</label>
+          <label><input type="radio" name="q15" value="3 — Útil">3<br>Bastante útil</label>
+          <label><input type="radio" name="q15" value="4 — Muito importante">4<br>Muito importante</label>
+          <label><input type="radio" name="q15" value="5 — Essencial; só apontar sem resolver cansa">5<br>Essencial; só apontar cansa</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q16" data-block="4">
+        <label class="title" for="q16_txt"><span class="q-num">Q16</span> Há alguma regra da CAPES, CNPq ou da sua banca que você sente que quase ninguém entende direito e que o sistema deveria explicar com clareza?</label>
+        <textarea id="q16_txt" name="q16" placeholder="Ex.: onde lançar resumos expandidos, pareceres ad hoc, produtos técnicos, coorientação, preenchimento duplo…"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 5 -->
+    <section class="section" id="bloco-5">
+      <div class="section-head">
+        <span class="num">5</span>
+        <div>
+          <h2>Bússola de Carreira e Editais (EditalScore)</h2>
+          <p class="section-intro">Queremos saber se calcular baremas e simular metas ajuda você a planejar o futuro com serenidade.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q17" data-block="5">
+        <label class="title"><span class="q-num">Q17</span> Quais objetivos acadêmicos ou profissionais estão no seu radar para os próximos 1 a 3 anos?</label>
+        <p class="hint">Marque os que se aplicam.</p>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q17" value="Progressão ou promoção funcional docente"> Progressão ou promoção funcional docente</label>
+          <label class="option"><input type="checkbox" name="q17" value="Chamada de Produtividade em Pesquisa (PQ/CNPq)"> Chamada de Produtividade em Pesquisa (PQ / CNPq)</label>
+          <label class="option"><input type="checkbox" name="q17" value="Avaliação / recredenciamento de Programa (CAPES / Sucupira)"> Avaliação / recredenciamento em PPG (CAPES / Sucupira)</label>
+          <label class="option"><input type="checkbox" name="q17" value="Concurso público para docente (UF / IF)"> Concurso público para docente (UF / IF / Estadual)</label>
+          <label class="option"><input type="checkbox" name="q17" value="Editais de fomento a projetos (CNPq, FAPs, FINEP)"> Editais de fomento a projetos (CNPq, FAPs, FINEP)</label>
+          <label class="option"><input type="checkbox" name="q17" value="Seleção de mestrado, doutorado ou pós-doutorado"> Seleção de mestrado, doutorado ou pós-doc</label>
+          <label class="option"><input type="checkbox" name="q17" value="Residência médica/multiprofissional ou bolsas"> Residência (ENARE / similares) ou bolsas</label>
+          <label class="option"><input type="checkbox" name="q17" value="Apenas manter a memória organizada e limpa"> Apenas manter meu histórico limpo e pronto</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q18" data-block="5">
+        <label class="title"><span class="q-num">Q18</span> Se a Bússola já trouxesse modelos prontos de objetivo (ex.: "Critérios PQ", "Concurso Docente", "PPG CAPES") para você acompanhar ao longo do ano — sem esperar o edital abrir — quanto isso seria útil?</label>
+        <div class="scale">
+          <label><input type="radio" name="q18" value="1 — Só uso quando o edital sai">1<br>Só uso quando o edital sai</label>
+          <label><input type="radio" name="q18" value="2 — Pouco útil fora de época">2<br>Pouco útil fora de época</label>
+          <label><input type="radio" name="q18" value="3 — Curioso acompanhar">3<br>Seria bom acompanhar</label>
+          <label><input type="radio" name="q18" value="4 — Ajuda a direcionar esforços no ano">4<br>Ajuda a direcionar esforços</label>
+          <label><input type="radio" name="q18" value="5 — Transformaria o jeito como planejo minha carreira">5<br>Mudaria meu planejamento de carreira</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q19" data-block="5">
+        <label class="title"><span class="q-num">Q19</span> Na preparação para um edital ou progressão, o que mais aliviaria seu trabalho?</label>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q19" value="Calcular automaticamente a pontuação por bloco e janela de anos"> Calcular pontos por bloco e janela de anos</label>
+          <label class="option"><input type="checkbox" name="q19" value="Avisar onde já atingi o teto para não perder tempo anexando"> Avisar onde já bati o teto de pontos do bloco</label>
+          <label class="option"><input type="checkbox" name="q19" value="Simulador 'E se eu adicionar mais X artigos/orientações?'"> Simulador "E se eu adicionar X produções?"</label>
+          <label class="option"><input type="checkbox" name="q19" value="Cruzar o currículo com os PDFs para apontar comprovante faltante"> Apontar exatamente quais itens estão sem PDF comprovante</label>
+          <label class="option"><input type="checkbox" name="q19" value="Gerar o PDF único do dossiê com sumário e páginas carimbadas"> Montar o PDF único do dossiê com sumário e numeração</label>
+          <label class="option"><input type="checkbox" name="q19" value="Classificar automaticamente meus periódicos no Qualis"> Mostrar o estrato Qualis dos meus artigos no cálculo</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q20" data-block="5">
+        <label class="title" for="q20_txt"><span class="q-num">Q20</span> Lembrando do último edital, progressão ou relatório que você precisou montar: qual foi a parte mais cansativa ou arriscada desse processo?</label>
+        <textarea id="q20_txt" name="q20" placeholder="Conte o que deu mais trabalho (ex.: juntar PDFs espalhados, contar pontos na mão, descobrir depois que faltava um documento…)"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 6 -->
+    <section class="section" id="bloco-6">
+      <div class="section-head">
+        <span class="num">6</span>
+        <div>
+          <h2>Rotina de registro e o "Momento de Conquista"</h2>
+          <p class="section-intro">Como transformar o ato de subir um certificado ou artigo em algo leve e gratificante.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q21" data-block="6">
+        <label class="title"><span class="q-num">Q21</span> Hoje, com que frequência você atualiza o Lattes?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q21" value="Logo que recebo o certificado ou publico"> Logo que recebo o certificado ou publico ("produziu, cadastrou")</label>
+          <label class="option"><input type="radio" name="q21" value="Algumas vezes por ano quando sobra tempo"> Algumas vezes por ano, quando tiro um dia para colocar em ordem</label>
+          <label class="option"><input type="radio" name="q21" value="Só às pressas antes de edital, bolsa ou coleta Sucupira"> Só na véspera de edital, bolsa, progressão ou coleta Sucupira</label>
+          <label class="option"><input type="radio" name="q21" value="Raramente ou está parado há bastante tempo"> Raramente — está parado há meses ou anos</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q22" data-block="6">
+        <label class="title"><span class="q-num">Q22</span> Onde seus comprovantes (certificados, atas, declarações) costumam ficar antes de ir para o Lattes — e o que mais trava o registro?</label>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q22" value="Escondidos na caixa de e-mail ou WhatsApp"> Perdidos no e-mail ou no WhatsApp</label>
+          <label class="option"><input type="checkbox" name="q22" value="Pastas soltas no computador / Downloads / Drive"> Espalhados em pastas, Downloads ou Google Drive</label>
+          <label class="option"><input type="checkbox" name="q22" value="Dentro de cadernos de anais enormes com centenas de páginas"> Em cadernos de anais gigantes (difícil achar minha página)</label>
+          <label class="option"><input type="checkbox" name="q22" value="Preguiça da tela lenta e digitação de autores um a um"> Preguiça das várias telas e digitação de coautores no Lattes</label>
+          <label class="option"><input type="checkbox" name="q22" value="Dúvida sobre em qual aba correta do Lattes cadastrar"> Dúvida sobre em qual aba do Lattes o documento entra</label>
+          <label class="option"><input type="checkbox" name="q22" value="Receio de perder tempo e só perceber benefício uma vez por ano"> Sensação de esforço sem retorno imediato</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q23" data-block="6">
+        <label class="title"><span class="q-num">Q23</span> Ao finalizar um registro no LattesData, ver um resumo imediato de impacto (ex.: "Mais uma conquista em Formação de Pessoas — sua 12ª orientação registrada") faz diferença para você?</label>
+        <div class="scale">
+          <label><input type="radio" name="q23" value="1 — Prefiro apenas confirmação seca 'Salvo'">1<br>Prefiro só "Salvo"</label>
+          <label><input type="radio" name="q23" value="2 — Indiferente">2<br>Indiferente</label>
+          <label><input type="radio" name="q23" value="3 — Agradável">3<br>Agradável</label>
+          <label><input type="radio" name="q23" value="4 — Dá sensação de progresso real">4<br>Dá sensação de progresso</label>
+          <label><input type="radio" name="q23" value="5 — Motiva a não deixar acumular">5<br>Motiva a manter tudo em dia</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q24" data-block="6">
+        <label class="title"><span class="q-num">Q24</span> Um mesmo documento muitas vezes comprova duas coisas (ex.: certificado de apresentação de trabalho também comprova participação no evento; ata de defesa comprova orientação e banca). Como o sistema deve agir?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q24" value="Registrar o principal e perguntar com campos prontos se quero gerar o segundo"> Registrar o principal e me perguntar: "Quer aproveitar os dados e registrar também a participação/banca?"</label>
+          <label class="option"><input type="radio" name="q24" value="Mostrar os dois juntos para eu marcar quais quero salvar"> Mostrar os dois registros lado a lado logo na revisão para eu decidir</label>
+          <label class="option"><input type="radio" name="q24" value="Fazer apenas um por vez para não confundir"> Fazer apenas um registro por vez, sem sugerir desdobramentos</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 7 -->
+    <section class="section" id="bloco-7">
+      <div class="section-head">
+        <span class="num">7</span>
+        <div>
+          <h2>Eco Científico, Legado Humano e Radar de Rede</h2>
+          <p class="section-intro">O significado que nasce quando seu trabalho encontra outras pessoas.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q25" data-block="7">
+        <label class="title"><span class="q-num">Q25</span> Sobre acompanhar as citações do seu trabalho (**Eco Científico**), o que traz mais significado além da contagem fria?</label>
+        <div class="options two">
+          <label class="option"><input type="checkbox" name="q25" value="Ler o parágrafo exato em que outro autor citou minha obra"> Ler o trecho/parágrafo exato onde fui citado</label>
+          <label class="option"><input type="checkbox" name="q25" value="Ver periódicos, países e instituições onde minhas ideias chegaram"> Ver países, instituições e periódicos onde cheguei</label>
+          <label class="option"><input type="checkbox" name="q25" value="Descobrir citações em teses, dissertações e periódicos brasileiros (SciELO/BDTD)"> Captar citações em teses e periódicos brasileiros (além do Scopus/WoS)</label>
+          <label class="option"><input type="checkbox" name="q25" value="Descobrir citações em patentes, políticas públicas ou mídia"> Ver citações em patentes ou documentos técnicos/políticas</label>
+          <label class="option"><input type="checkbox" name="q25" value="Unir OpenAlex, Crossref e OpenCitations com separação de autocitação"> Unificar bases abertas separando autocitações com transparência</label>
+          <label class="option"><input type="checkbox" name="q25" value="Emitir relatório comprovado das citações para editais"> Exportar relatório comprovado de citações para editais</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q26" data-block="7">
+        <label class="title"><span class="q-num">Q26</span> Quanto valor tem enxergar seu **Legado de Formação** (quantas pessoas você orientou, em quais níveis, coautorias com egressos e bancas) como um destaque central do perfil — com o mesmo prestígio dos artigos?</label>
+        <div class="scale">
+          <label><input type="radio" name="q26" value="1 — Pouco relevante para mim">1<br>Pouco relevante</label>
+          <label><input type="radio" name="q26" value="2 — Interessante como curiosidade">2<br>Curiosidade</label>
+          <label><input type="radio" name="q26" value="3 — Bom ter visível">3<br>Bom ter visível</label>
+          <label><input type="radio" name="q26" value="4 — Muito significativo">4<br>Muito significativo</label>
+          <label><input type="radio" name="q26" value="5 — É o maior legado da vida acadêmica">5<br>É o maior legado acadêmico</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q27" data-block="7">
+        <label class="title"><span class="q-num">Q27</span> Como você avalia o **Radar de Coautorias**: o sistema avisar quando seus orientandos ou coautores registraram um trabalho com seu nome que ainda não está no seu Lattes?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q27" value="Altíssimo valor — vivo esquecendo resumos e coautorias de alunos"> Altíssimo valor — sempre há resumos de congressos e coautorias de alunos que esquecemos de lançar</label>
+          <label class="option"><input type="radio" name="q27" value="Útil, desde que eu revise e aprove antes de entrar no meu currículo"> Útil, desde que venha como sugestão para eu confirmar (nunca automático)</label>
+          <label class="option"><input type="radio" name="q27" value="Interessante principalmente para evitar nomes/títulos divergentes no PPG"> Muito útil para evitar grafias divergentes entre orientador e orientando no Sucupira</label>
+          <label class="option"><input type="radio" name="q27" value="Não vejo necessidade"> Não vejo necessidade</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q28" data-block="7">
+        <label class="title" for="q28_txt"><span class="q-num">Q28</span> Comparar padrões de currículos de referência da sua área (para descobrir campos ou categorias que você ainda não usa) soa inspirador ou arriscado? Em que condição ajuda?</label>
+        <textarea id="q28_txt" name="q28" placeholder="Ex.: ajuda se mostrar oportunidades sem ranquear nem gerar competição tóxica…"></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 8 -->
+    <section class="section" id="bloco-8">
+      <div class="section-head">
+        <span class="num">8</span>
+        <div>
+          <h2>Comunidade, privacidade e prioridades finais</h2>
+          <p class="section-intro">Para decidirmos juntos o que entra primeiro e o que nunca devemos cruzar.</p>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q29" data-block="8">
+        <label class="title"><span class="q-num">Q29</span> Qual formato de reconhecimento entre colegas faria sentido sem transformar a plataforma em uma "rede social cansativa"?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q29" value="Perfil privado por padrão; compartilho apenas um marco ou retrospectiva quando eu quiser"> Perfil privado por padrão; eu escolho compartilhar apenas uma conquista ou retrospectiva anual</label>
+          <label class="option"><input type="radio" name="q29" value="Reconhecimento discreto dentro do meu grupo/PPG (celebrar defesas, agradecer colaborações)"> Reconhecimento discreto com colegas próximos e grupo/PPG (celebrar defesas, agradecer parcerias)</label>
+          <label class="option"><input type="radio" name="q29" value="Seguir apenas quem me cita ou pesquisa o mesmo tema, sem feed social"> Acompanhar apenas quem cita ou pesquisa meu tema, sem feed de curtidas</label>
+          <label class="option"><input type="radio" name="q29" value="Uso 100% individual; não quero nenhuma camada social"> Quero uso 100% individual, sem nenhuma interação social</label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="q30" data-block="8">
+        <label class="title"><span class="q-num">Q30</span> Escolha até 3 entregas que fariam você abrir o LattesData pelo menos uma vez por mês (e não só na véspera do edital):</label>
+        <p class="hint">Selecione no máximo 3 opções.</p>
+        <div class="options two" id="q30Group">
+          <label class="option"><input type="checkbox" name="q30" value="Enviar PDF/certificado ou encaminhar e-mail e preencher o Lattes em 1 clique"> Enviar PDF/e-mail e preencher o Lattes em 1 clique</label>
+          <label class="option"><input type="checkbox" name="q30" value="Valorização & Conformidade com soluções prontas (DOI, vigências, Sucupira)"> Valorização &amp; Conformidade com correções prontas (DOI, vigências)</label>
+          <label class="option"><input type="checkbox" name="q30" value="Painel visual das 4 Dimensões, trajetória e legado de pessoas formadas"> Painel das 4 Dimensões, linha do tempo e legado de formação</label>
+          <label class="option"><input type="checkbox" name="q30" value="Radar de obras novas e coautorias faltantes"> Radar automático de obras novas e coautorias faltantes</label>
+          <label class="option"><input type="checkbox" name="q30" value="Eco Científico (citações unificadas com contexto de quem citou)"> Eco Científico (citações com trecho de quem me citou)</label>
+          <label class="option"><input type="checkbox" name="q30" value="Bússola de Editais contínua e Dossiê PDF paginado"> Bússola de Editais contínua e Dossiê PDF pronto</label>
+          <label class="option"><input type="checkbox" name="q30" value="Repositório organizado de comprovantes por ano"> Repositório organizado de comprovantes por ano</label>
+          <label class="option"><input type="checkbox" name="q30" value="Retrospectiva anual 'Meu Ano na Ciência' compartilhável"> Retrospectiva anual ("Meu Ano na Ciência") compartilhável</label>
+        </div>
+        <div class="limit-note" id="q30LimitNote">Você já escolheu 3 prioridades. Desmarque uma para trocar.</div>
+      </div>
+
+      <div class="q" data-qid="q31" data-block="8">
+        <label class="title" for="q31_txt"><span class="q-num">Q31</span> Se o LattesData fosse um orientador ou assistente perfeito dedicado à sua carreira acadêmica, o que ele faria por você que nenhuma plataforma faz hoje?</label>
+        <textarea id="q31_txt" name="q31" placeholder="Escreva livremente o seu conselho mais honesto para quem está construindo o LattesData…"></textarea>
+      </div>
+
+      <div class="q" data-qid="q32" data-block="8">
+        <label class="title"><span class="q-num">Q32</span> Você aceitaria conversar por 20 a 30 minutos com a nossa equipe para aprofundar suas respostas e testar a plataforma ao vivo?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="q32" value="Sim, quero participar"> Sim, quero participar</label>
+          <label class="option"><input type="radio" name="q32" value="Talvez, se eu puder escolher o horário"> Talvez, se eu puder escolher o melhor horário</label>
+          <label class="option"><input type="radio" name="q32" value="Prefiro contribuir apenas por este formulário"> Prefiro contribuir apenas por este formulário</label>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <div class="actions-info">
+        <strong>Privacidade:</strong> suas respostas orientam exclusivamente o design do LattesData e não alteram seu currículo oficial.
+      </div>
+      <button class="btn" type="submit" id="btnEnviar">Enviar escuta completa</button>
+    </div>
+    <div id="statusBox" class="status-box" role="status"></div>
+  </form>
+
+  <p class="footer">LattesData · Escuta de Descoberta e Significado na Vida Acadêmica</p>
+</main>
+<script src="/formulario-pesquisador-lattesdata.js"></script>
+</body>
+</html>

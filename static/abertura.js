@@ -27,13 +27,36 @@
       id: "0174461068626535", atualizado: "17/11/2026",
       resumo: "Farmacêutico, perito criminal e estudante de Direito, com experiência em farmácia hospitalar, segurança de medicamentos, assistência farmacêutica e saúde pública.",
       areas: ["Farmácia hospitalar", "Farmácia clínica", "Perícia criminal", "Saúde pública"],
-      destaques: ["Perito criminal", "Farmacêutico hospitalar", "Programa de computador registrado"]
+      destaques: ["Perito criminal", "Farmacêutico hospitalar", "Programa de computador registrado"],
+      dimensoes: [
+        { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "Farmácia hospitalar, perícia criminal, software Maná e extensão", total: 16, percentual: 100, nivel: "frente principal" },
+        { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Eventos científicos, apresentações e Prêmio Júlia Lima", total: 12, percentual: 75, nivel: "frente principal" },
+        { id: "conhecimento", nome: "Geração de conhecimento", descricao: "Resumos em anais, trabalhos e publicações aplicadas", total: 8, percentual: 50, nivel: "frente ativa" },
+        { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Graduação, residência, especialização e Direito em andamento", total: 5, percentual: 32, nivel: "em expansão" },
+      ],
+      legado: { pessoas_orientadas: 0, bancas_participadas: 0, inovacao_tecnica: 4, projetos: 3 },
+      oportunidades: [
+        { titulo: "Destacar atuação pericial e técnica no resumo", descricao: "Dar visibilidade à combinação singular entre farmácia hospitalar, perícia e Direito.", acao: "Analisar currículo", href: "/meu-curriculo.html" },
+        { titulo: "Registrar novas evidências da jornada", descricao: "Envie certificados, resumos ou projetos para manter sua memória viva.", acao: "Registrar conquista", href: "/" },
+      ],
     },
     "Aramys Silva dos Reis": {
       id: "1040580590566490", atualizado: "23/08/2026",
       resumo: "Professor Associado da UFMA, doutor em Ciências pela USP, coordenador de pesquisas em saúde, inovação e produtos naturais, com atuação em orientação e divulgação científica.",
       areas: ["Pesquisa em saúde", "Produtos naturais", "Inovação", "Orientação", "Divulgação científica"],
-      destaques: ["Professor Associado I", "Coordenador do PPGST", "Patentes e projetos de inovação"]
+      destaques: ["Professor Associado I", "Coordenador do PPGST", "Patentes e projetos de inovação"],
+      fonte: "Lattes público",
+      dimensoes: [
+        { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Orientações de IC, mestrado, doutorado e 85 bancas", total: 200, percentual: 100, nivel: "frente principal" },
+        { id: "conhecimento", nome: "Geração de conhecimento", descricao: "61 artigos em periódicos (Scientific Reports, Foods, ACS) e capítulos", total: 61, percentual: 78, nivel: "frente principal" },
+        { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "34 projetos de pesquisa/tecnológicos e 3 patentes INPI", total: 37, percentual: 62, nivel: "frente ativa" },
+        { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Coordenação do PPGST/UFMA, LaFIT e redes de cooperação", total: 28, percentual: 50, nivel: "frente ativa" },
+      ],
+      legado: { pessoas_orientadas: 200, bancas_participadas: 85, inovacao_tecnica: 16, projetos: 34 },
+      oportunidades: [
+        { titulo: "Recuperar +180 pontos em potencial na CAPES/CNPq", descricao: "Localizamos DOIs na CrossRef e ajustes de vigência para fortalecer sua ficha do quadriênio.", acao: "Ver oportunidades", href: "/auditoria.html" },
+        { titulo: "Organizar e simular editais no EditalScore", descricao: "Cruze seu currículo com baremas de produtividade ou progressão sem pressa.", acao: "Abrir Bússola", href: "/painel.html#secEdi" },
+      ],
     }
   };
   try {
@@ -44,7 +67,7 @@
 
   const usuario = store.get("lf-usuario") || "Álvaro Antônio Bezerra dos Santos";
   let orcid = store.get("lf-orcid:" + usuario) || KNOWN_ORCIDS[usuario] || "";
-  let dados = null, atual = "prod", janela = 5;
+  let dados = null, ultimoCvDash = null, atual = "prod", janela = 5;
 
   const iniciais = usuario.split(/\s+/).filter((p) => p.length > 2).map((p) => p[0]).slice(0, 2).join("").toUpperCase() || "?";
   $("av").textContent = $("av2").textContent = iniciais;
@@ -80,6 +103,15 @@
     if (!box) return;
     if (!dados) {
       box.replaceChildren(el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "Sua trajetória começa pelo que você já construiu."), el("p", {}, "Assim que os dados forem carregados, vamos transformar seus registros em uma visão clara da sua jornada.")));
+      return;
+    }
+    if (dados.publico && !dados.producao.total) {
+      box.replaceChildren(
+        el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "O que você construiu importa."), el("p", {}, "Sua trajetória pública já foi identificada. Agora podemos aprofundar os registros e transformar essa história em uma visão completa.")),
+        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Perfil"), el("div", { class: "ms-value" }, "✓"), el("div", { class: "ms-help" }, "Lattes público")),
+        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "ORCID"), el("div", { class: "ms-value" }, "—"), el("div", { class: "ms-help" }, "perfil privado")),
+        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Próximo passo"), el("div", { class: "ms-value" }, "XML"), el("div", { class: "ms-help" }, "aprofundar análise"))
+      );
       return;
     }
     const p = dados.producao || {}, c = dados.citacoes || {}, e = dados.envios || {};
@@ -119,6 +151,15 @@
   }
 
   function renderKpis() {
+    if (dados.publico && !dados.producao.total) {
+      $("kpis").replaceChildren(
+        kpi("prod", "Perfil", "✓", "identificado", "Lattes público", true),
+        kpi("cit", "ORCID", "—", "perfil privado", "aguardando obras públicas", true),
+        kpi("ev", "Áreas", "5", "identificadas", "no perfil público", true),
+        kpi("imp", "Próximo", "XML", "para aprofundar", "importar currículo", true)
+      );
+      return;
+    }
     const p = dados.producao, c = dados.citacoes, e = dados.eventos, a = dados.alcance, ano = dados.ano_atual;
     const [dp, fp] = variacao(p.no_ano, p.ano_anterior, ano);
     const serie = c.serie, noAno = c.no_ano;
@@ -190,6 +231,98 @@
       ...Object.entries(e.por_tipo).map(([k, n]) => el("div", { class: "row" }, el("div", { class: "s" }, TIPOS[k] || k), el("div", { class: "q" }, String(n)))));
   }
 
+  function renderTrajetoriaViva(cvDash) {
+    if (cvDash) ultimoCvDash = cvDash;
+    const cv = cvDash || ultimoCvDash;
+    const dimLista = $("dimLista"), dimFonte = $("dimFonte"), legStats = $("legStats"), oppsLista = $("oppsLista");
+    if (!dimLista || !legStats || !oppsLista) return;
+
+    const publico = PUBLIC_PROFILES[usuario];
+    const dimsApi = dados && Array.isArray(dados.dimensoes) ? dados.dimensoes : null;
+    const temDadosApi = dimsApi && dimsApi.some((d) => Number(d.total || 0) > 0);
+
+    let fonte = "Ponto de partida";
+    let dims = dimsApi || [
+      { id: "conhecimento", nome: "Geração de conhecimento", descricao: "Artigos, livros, capítulos e trabalhos em anais", total: 0, percentual: 0, nivel: "ponto de partida" },
+      { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Orientações, bancas, cursos ministrados e formação", total: 0, percentual: 0, nivel: "ponto de partida" },
+      { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Apresentações, eventos organizados, participações e prêmios", total: 0, percentual: 0, nivel: "ponto de partida" },
+      { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "Patentes, softwares, produtos técnicos, projetos e atuação", total: 0, percentual: 0, nivel: "ponto de partida" },
+    ];
+    let stats = [
+      [fmt(dados && dados.producao ? dados.producao.total : 0), "obras indexadas"],
+      [fmt(dados && dados.citacoes ? dados.citacoes.total : 0), "citações acompanhadas"],
+      [fmt(dados && dados.envios ? dados.envios.total : 0), "registros no LattesData"],
+    ];
+    let opps = [
+      { titulo: "Registrar nova evidência da trajetória", descricao: "Envie um certificado, resumo ou artigo para transformar burocracia em memória.", acao: "Registrar conquista", href: "/" },
+      { titulo: "Importar seu currículo Lattes", descricao: "Traga seu XML ou leitura ao vivo para revelar todas as dimensões da carreira.", acao: "Analisar currículo", href: "/meu-curriculo.html" },
+    ];
+
+    if (cv && Array.isArray(cv.dimensoes)) {
+      fonte = cv.fonte === "pagina" ? "Lattes ao vivo" : "XML importado";
+      dims = cv.dimensoes;
+      const leg = cv.legado || {};
+      stats = [
+        [fmt(leg.pessoas_orientadas || 0), "pessoas orientadas"],
+        [fmt(leg.bancas_participadas || 0), "bancas examinadoras"],
+        [fmt((leg.projetos || 0) + (leg.inovacao_tecnica || 0)), "projetos e inovações"],
+      ];
+      if (Array.isArray(cv.oportunidades) && cv.oportunidades.length) {
+        opps = cv.oportunidades.slice(0, 2);
+      }
+    } else if (publico && publico.dimensoes) {
+      const citTot = Number(dados && dados.citacoes ? dados.citacoes.total : 0);
+      fonte = citTot > 0 ? "Lattes público + ORCID" : "Lattes público";
+      dims = publico.dimensoes;
+      const leg = publico.legado || {};
+      stats = [
+        [fmt(leg.pessoas_orientadas || 0), "pessoas orientadas"],
+        [citTot > 0 ? fmt(citTot) : fmt(leg.bancas_participadas || 0), citTot > 0 ? "citações acompanhadas" : "bancas examinadoras"],
+        [fmt((leg.projetos || 0) + (leg.inovacao_tecnica || 0)), "projetos e inovações"],
+      ];
+      if (Array.isArray(publico.oportunidades) && publico.oportunidades.length) {
+        opps = publico.oportunidades.slice(0, 2);
+      }
+    } else if (temDadosApi) {
+      fonte = "ORCID & Registros";
+      const leg = (dados && dados.legado) || {};
+      stats = [
+        [fmt(leg.obras_indexadas || 0), "obras indexadas"],
+        [fmt(leg.citacoes_unicas || 0), "citações acompanhadas"],
+        [fmt(leg.pessoas_orientadas || 0), "orientações registradas"],
+      ];
+    }
+
+    if (dimFonte) dimFonte.textContent = fonte;
+
+    dimLista.replaceChildren(...dims.map((d) => {
+      const fill = el("i", {});
+      fill.style.width = `${Math.max(0, Math.min(100, Number(d.percentual || 0)))}%`;
+      return el("div", { class: "dim-item" },
+        el("div", { class: "dim-head" },
+          el("b", {}, d.nome || ""),
+          el("div", { class: "dim-meta" },
+            el("span", {}, `${fmt(d.total || 0)} ${Number(d.total || 0) === 1 ? "item" : "itens"}`),
+            el("span", { class: "dim-nivel" }, d.nivel || "")
+          )
+        ),
+        el("div", { class: "dim-bar" }, fill),
+        d.descricao ? el("div", { class: "dim-desc" }, d.descricao) : null
+      );
+    }));
+
+    legStats.replaceChildren(...stats.map(([v, rotulo]) =>
+      el("div", { class: "leg-stat" }, el("b", {}, String(v)), el("span", {}, rotulo))
+    ));
+
+    oppsLista.replaceChildren(...opps.map((o) =>
+      el("div", { class: "opp-item" },
+        el("div", { class: "opp-copy" }, el("b", {}, o.titulo || ""), el("span", {}, o.descricao || "")),
+        el("a", { class: "btn btn-o", href: o.href || "/" }, o.acao || "Explorar")
+      )
+    ));
+  }
+
   let tentativas = 0;
   const CHAVE_SNAP = "lf-abertura:" + usuario + ":";
   function mostrar() {
@@ -203,14 +336,14 @@
     else if (avisos.length) $("banner").replaceChildren(el("div", { class: "banner" }, avisos.join(" ")));
     else $("banner").replaceChildren();
     renderKpis(); desenhar(); renderFeed(); renderSide();
-    proximoPasso(); renderMomento();
+    proximoPasso(); renderMomento(); renderTrajetoriaViva();
   }
   async function carregar() {
     // Última foto guardada neste navegador: a tela abre instantaneamente e a verificação segue por trás.
     if (!dados && orcid) {
       try { const snap = JSON.parse(store.get(CHAVE_SNAP + orcid) || "null"); if (snap && snap.ok) { dados = snap; dados.atualizando = true; mostrar(); } } catch (e) {}
     }
-    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); renderMomento(); }
+    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); renderMomento(); renderTrajetoriaViva(); }
     const qs = new URLSearchParams({ usuario });
     if (orcid) qs.set("orcid", orcid);
     let novo;
@@ -223,6 +356,16 @@
       if (!dados) $("banner").replaceChildren(el("div", { class: "banner" }, "Não foi possível carregar os indicadores agora. " + (e.message || "")));
       else { dados.atualizando = false; $("status").textContent = "Atualizado em " + dados.consultado_em + " · sem conexão para atualizar"; }
       return;
+    }
+    const perfilPublico = PUBLIC_PROFILES[usuario];
+    if (perfilPublico && (!novo.producao || !Number(novo.producao.total)) && !novo.pendente) {
+      novo.publico = true;
+      novo.producao = novo.producao || { total: 0, serie: [], no_ano: 0, ano_anterior: 0, melhor_ano: null };
+      novo.citacoes = novo.citacoes || { total: 0, no_ano: 0, h: 0, i10: 0, sem_autocitacao: 0, serie: [], obras_consideradas: 0, obras_indexadas: 0 };
+      novo.eventos = novo.eventos || { total: 0, serie: [], orientacoes: 0 };
+      novo.alcance = novo.alcance || { periodicos: 0, citantes_unicos: 0, top_periodicos: [] };
+      novo.envios = novo.envios || { total: 0, por_tipo: [], recentes: [] };
+      novo.avisos = [];
     }
     if (novo.pendente && dados && dados.producao) novo = dados; // ainda calculando: mantém o que já está na tela
     dados = novo;
@@ -275,6 +418,7 @@
     }
     const cats = Object.entries(d.por_categoria || {}).slice(0, 6);
     $("latCat").replaceChildren(...cats.map(([c, n]) => el("div", { class: "row" }, el("div", { class: "s" }, ROT[c] || c), el("div", { class: "q" }, fmt(n)))));
+    renderTrajetoriaViva(d);
   }
 
   async function carregarLattes() {
@@ -291,8 +435,15 @@
       const r = await fetch("/api/curriculo/dashboard" + (sid ? "?snapshot=" + encodeURIComponent(sid) : ""));
       if (!r.ok) {
         if (!store.get(CHAVE_LAT)) {
-          $("latMeta").replaceChildren("Ainda não há currículo Lattes importado. ", el("a", { href: "/meu-curriculo.html" }, "Importe seu XML ou leia ao vivo"), " para ver sua produção e registros aqui.");
-          $("latK").replaceChildren(); $("latGraf").replaceChildren(); $("latCat").replaceChildren();
+          const publico = PUBLIC_PROFILES[usuario];
+          if (publico) {
+            $("latMeta").textContent = `Lattes ${publico.id} · perfil público · base inicial carregada`;
+            $("latK").replaceChildren(...publico.destaques.map((d) => el("div", {}, el("b", {}, "✓"), " ", d)));
+            $("latGraf").replaceChildren(); $("latCat").replaceChildren();
+          } else {
+            $("latMeta").replaceChildren("Ainda não há currículo Lattes importado. ", el("a", { href: "/meu-curriculo.html" }, "Importe seu XML ou leia ao vivo"), " para ver sua produção e registros aqui.");
+            $("latK").replaceChildren(); $("latGraf").replaceChildren(); $("latCat").replaceChildren();
+          }
           const ns = $("nextStep"); if (ns && orcid) { $("nextTitle").textContent = "Importe seu currículo Lattes"; $("nextText").textContent = "Veja sua produção completa, pendências e evolução por categoria."; $("nextAction").textContent = "Importar currículo"; $("nextAction").href = "/meu-curriculo.html"; }
         }
         return;
@@ -303,10 +454,44 @@
     } catch (e) {}
   }
 
+  // Área de referência do Aramys: aceita vários currículos e os encaminha juntos ao analisador de lote.
+  const REF_KEY = "lf-referencias:" + usuario;
+  const refFiles = [];
+  const formatBytes = (n) => n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + " KB" : (n / (1024 * 1024)).toFixed(1) + " MB";
+  function renderReferencias() {
+    const box = $("refList"); if (!box) return;
+    if (!refFiles.length) { box.replaceChildren(el("p", { class: "empty" }, "Nenhum currículo de referência anexado nesta sessão.")); return; }
+    box.replaceChildren(...refFiles.map((f) => el("div", { class: "ref-file" }, el("span", {}, "PDF"), el("b", {}, f.name), el("span", {}, formatBytes(f.size)))));
+  }
+  function initReferencias() {
+    const input = $("refFiles"), send = $("refSend"), status = $("refStatus"); if (!input || !send) return;
+    input.addEventListener("change", () => {
+      refFiles.splice(0, refFiles.length, ...Array.from(input.files || []).filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")));
+      renderReferencias();
+      if (status) status.textContent = refFiles.length ? `${refFiles.length} currículo${refFiles.length === 1 ? " selecionado" : "s selecionados"}. Pronto para análise.` : "Selecione arquivos PDF.";
+    });
+    send.addEventListener("click", async () => {
+      if (!refFiles.length) { if (status) { status.className = "ref-status err"; status.textContent = "Selecione pelo menos um currículo em PDF."; } return; }
+      send.disabled = true; send.textContent = "Enviando…"; if (status) { status.className = "ref-status"; status.textContent = "Encaminhando os currículos para análise…"; }
+      try {
+        const form = new FormData(); form.append("usuario", usuario); form.append("contexto", "curriculos_referencia_aramys");
+        refFiles.forEach((f) => form.append("arquivo", f, f.name));
+        const r = await fetch("/api/lote", { method: "POST", body: form });
+        if (!r.ok) throw new Error("Não foi possível encaminhar os arquivos.");
+        const out = await r.json(); store.set(REF_KEY, JSON.stringify(refFiles.map((f) => ({ nome: f.name, tamanho: f.size }))));
+        if (status) { status.className = "ref-status ok"; status.textContent = `${refFiles.length} currículo${refFiles.length === 1 ? "" : "s"} encaminhado${refFiles.length === 1 ? "" : "s"}. A análise vai destacar campos e prioridades de melhoria.`; }
+        if (out && out.resultados) renderReferencias();
+      } catch (e) { if (status) { status.className = "ref-status err"; status.textContent = e.message || "Falha ao encaminhar os currículos."; } }
+      send.disabled = false; send.textContent = "Enviar para análise";
+    });
+    renderReferencias();
+  }
+
   document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
     document.querySelectorAll(".seg button").forEach((x) => x.classList.remove("on")); b.classList.add("on");
     janela = +b.dataset.n; if (dados) desenhar();
   }));
+  initReferencias();
   carregar();
   carregarLattes();
 })();

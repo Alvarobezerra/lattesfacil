@@ -20,7 +20,7 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .wm b{font-family:var(--serif);font-style:italic;font-weight:700;font-size:1.35rem}
 .wm i{font-style:normal;font-weight:800;font-size:.75rem;color:var(--cyan);letter-spacing:.06em;margin-left:3px}
 .nav{display:flex;gap:4px;margin-left:10px}
-.nav a{padding:7px 12px;border-radius:8px;color:var(--muted);font-weight:500;font-size:.9rem}
+.nav a{padding:7px 10px;border-radius:8px;color:var(--muted);font-weight:500;font-size:.85rem;white-space:nowrap}
 .nav a.on{background:color-mix(in srgb,var(--cyan) 14%,transparent);color:var(--cyan-d);font-weight:600}
 .top-r{margin-left:auto;display:flex;align-items:center;gap:12px}
 .top-r a{font-size:.85rem;color:var(--muted)}
@@ -79,7 +79,29 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 .moment{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(130px,1fr));gap:12px;margin:16px 0 0}
 .moment-main{padding:18px;background:linear-gradient(135deg,var(--blue),#0b6074);color:#fff;border:0}.moment-main .eyebrow{color:#8fead2}.moment-main h2{font-family:var(--serif);font-size:1.35rem;line-height:1.15;margin:6px 0 5px}.moment-main p{font-size:.82rem;color:#d7e9ef;margin:0;max-width:48ch}
 .moment-stat{padding:15px}.moment-stat .ms-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:800}.moment-stat .ms-value{font-size:1.65rem;font-weight:800;line-height:1.15;margin-top:7px}.moment-stat .ms-help{font-size:.75rem;color:var(--muted);margin-top:3px}
-@media (max-width:1020px){.moment{grid-template-columns:1fr 1fr}.moment-main{grid-column:1/-1}}
+.voc-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:16px;margin:16px 0}
+.voc-grid .mais{font-size:.8rem;font-weight:600;color:var(--cyan-d)}
+.dim-list{display:grid;gap:13px;margin-top:6px}
+.dim-item{display:grid;gap:5px}
+.dim-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:.85rem}
+.dim-head b{font-weight:700;color:var(--text)}
+.dim-meta{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--muted);white-space:nowrap}
+.dim-nivel{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--cyan) 12%,var(--card));color:var(--cyan-d)}
+.dim-bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--border);overflow:hidden}
+.dim-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--emerald));transition:width .25s ease}
+.dim-desc{font-size:.75rem;color:var(--muted)}
+.leg-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 14px}
+.leg-stat{padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:var(--bg)}
+.leg-stat b{display:block;font-size:1.35rem;line-height:1.15;color:var(--navy)}
+.leg-stat span{display:block;font-size:.74rem;color:var(--muted);margin-top:2px}
+.opps-list{display:grid;gap:9px}
+.opp-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:11px;border:1px solid color-mix(in srgb,var(--cyan) 22%,var(--border));background:color-mix(in srgb,var(--cyan) 5%,var(--card))}
+.opp-copy{min-width:0;flex:1}
+.opp-copy b{display:block;font-size:.83rem;color:var(--text)}
+.opp-copy span{display:block;font-size:.75rem;color:var(--muted);margin-top:2px}
+.opp-item .btn{padding:6px 11px;font-size:.76rem;white-space:nowrap}
+.ref-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:16px;margin:16px 0}.ref-upload{border:1px dashed color-mix(in srgb,var(--cyan) 45%,var(--border));background:linear-gradient(135deg,color-mix(in srgb,var(--cyan) 7%,var(--card)),var(--card))}.ref-copy{color:var(--muted);font-size:.84rem;margin:0 0 12px}.ref-drop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.ref-drop input{max-width:100%;font-size:.82rem}.ref-list{display:grid;gap:8px;margin-top:12px}.ref-file{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--border);border-radius:9px;background:var(--card);font-size:.82rem}.ref-file b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ref-file span{margin-left:auto;color:var(--muted);font-size:.74rem;white-space:nowrap}.ref-guidance{background:var(--navy);color:#fff}.ref-guidance h3{margin:0 0 8px;font-size:.95rem}.ref-guidance p{font-size:.8rem;color:#c8d8e3;margin:0 0 8px}.ref-guidance ol{margin:8px 0 0;padding-left:19px;color:#e4f2f4;font-size:.8rem}.ref-guidance li{margin:6px 0}.ref-status{font-size:.78rem;color:var(--muted);margin:10px 0 0}.ref-status.ok{color:#08734f}.ref-status.err{color:#a33b32}
+@media (max-width:1020px){.moment{grid-template-columns:1fr 1fr}.moment-main{grid-column:1/-1}.voc-grid{grid-template-columns:1fr}}
 form.orcid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);min-width:230px}
 .skel{position:relative;overflow:hidden;color:transparent!important;background:var(--border);border-radius:6px;animation:p 1.2s infinite alternate}
@@ -93,6 +115,7 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
 #latGraf{width:100%;height:150px;display:block}#latGraf rect{fill:var(--cyan)}#latGraf rect.p{fill:var(--cyan-d)}#latGraf text{font-size:10px;fill:var(--muted)}
 @media (max-width:1020px){.lat-k{grid-template-columns:repeat(3,1fr)}.lat-b{grid-template-columns:1fr}}
 @media (max-width:720px){.lat-profile{grid-template-columns:1fr}.lat-intro{align-items:flex-start;flex-direction:column}.lat-intro .btn{width:100%;justify-content:center}}
+@media (max-width:720px){.ref-grid{grid-template-columns:1fr}.ref-drop{align-items:flex-start;flex-direction:column}.ref-drop .btn{width:100%;justify-content:center}.leg-stats{grid-template-columns:1fr}.opp-item{flex-direction:column;align-items:flex-start}}
 @keyframes p{from{opacity:.45}to{opacity:.9}}
 @media (max-width:1020px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.nav{display:none}}
 @media (max-width:520px){.chart-foot{grid-template-columns:repeat(2,1fr)}.next-step{align-items:flex-start;flex-wrap:wrap}.next-step .ns-copy{flex-basis:calc(100% - 52px)}.next-step .btn{margin-left:52px}}
@@ -101,7 +124,7 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
 <body>
 <header class="top"><div class="wrap top-in">
   <a class="brand" href="/abertura.html"><img src="/img/isotipo.svg" alt="" /><span class="wm"><b>Lattes</b><i>DATA</i></span></a>
-  <nav class="nav" aria-label="Principal"><a class="on" href="/abertura.html">Início</a><a href="/">Enviar documentos</a><a href="/instalar-extensao.html">Instalar extensão</a></nav>
+  <nav class="nav" aria-label="Principal"><a class="on" href="/abertura.html">Início</a><a href="/">Registrar conquista</a><a href="/meu-curriculo.html">Minha trajetória (XML)</a><a href="/auditoria.html">Valorização &amp; Conformidade</a><a href="/painel.html">Bússola de Editais</a><a href="/espaco-aramys.html" style="color:#00829c;font-weight:700">Espaço Aramys</a><a href="/instalar-extensao.html">Extensão</a></nav>
   <div class="top-r"><a href="/logout">Sair</a><div class="avatar" id="av">·</div></div>
 </div></header>
 
@@ -124,6 +147,31 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
 
   <section class="moment" id="moment" aria-label="Seu momento na trajetória"></section>
 
+  <section class="voc-grid" id="trajetoriaViva" aria-label="Dimensões de contribuição e legado">
+    <article class="card" id="dimensoesCard">
+      <div class="sec-h">
+        <div>
+          <h2>Onde sua trajetória se expressa</h2>
+          <p class="src" style="margin:2px 0 0">Quatro dimensões da sua contribuição acadêmica e profissional</p>
+        </div>
+        <span class="pill neutral" id="dimFonte">Base inicial</span>
+      </div>
+      <div class="dim-list" id="dimLista"><p class="empty">Carregando suas dimensões…</p></div>
+    </article>
+
+    <article class="card" id="legadoCard">
+      <div class="sec-h">
+        <div>
+          <h2>Marcos de significado &amp; Bússola</h2>
+          <p class="src" style="margin:2px 0 0">Pessoas formadas, alcance e próximos caminhos</p>
+        </div>
+        <a class="mais" href="/painel.html#secEdi">Bússola de Editais →</a>
+      </div>
+      <div class="leg-stats" id="legStats"></div>
+      <div class="opps-list" id="oppsLista"></div>
+    </article>
+  </section>
+
   <section class="card lat" id="lattes" aria-label="Seu currículo Lattes">
     <div class="sec-h"><h2>Seu currículo</h2><a class="mais" href="/meu-curriculo.html">Analisar meu currículo →</a></div>
     <div class="lat-intro"><p><b>Vamos conhecer sua trajetória.</b> Começamos pelo currículo público e depois aprofundamos a análise com XML ou leitura ao vivo.</p><a class="btn btn-o" href="https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar" target="_blank" rel="noopener noreferrer">Buscar no CNPq</a></div>
@@ -134,6 +182,17 @@ form.orcid input{padding:9px 12px;border-radius:10px;border:1px solid var(--bord
       <div><svg id="latGraf" viewBox="0 0 700 150" preserveAspectRatio="none" role="img" aria-label="Itens do Lattes por ano"></svg></div>
       <div id="latCat"></div>
     </div>
+  </section>
+
+  <section class="ref-grid" id="referencias" aria-label="Currículos de referência">
+    <div class="card ref-upload">
+      <div class="sec-h"><h2>Currículos de referência</h2><span class="pill">Aramys · matriz de prioridade</span></div>
+      <p class="ref-copy">Anexe vários currículos públicos em PDF para comparar frequências, campos recorrentes e oportunidades de melhoria do seu Lattes.</p>
+      <div class="ref-drop"><input id="refFiles" type="file" accept="application/pdf,.pdf" multiple aria-label="Selecionar currículos de referência em PDF" /><button class="btn btn-p" id="refSend" type="button">Enviar para análise</button></div>
+      <div class="ref-list" id="refList"><p class="empty">Nenhum currículo de referência anexado nesta sessão.</p></div>
+      <p class="ref-status" id="refStatus" aria-live="polite"></p>
+    </div>
+    <aside class="card ref-guidance"><h3>Como vamos usar os currículos</h3><p>O painel transforma os anexos em uma fila de melhorias, sem alterar o currículo do Aramys automaticamente.</p><ol><li>Comparar tipos de produção mais frequentes.</li><li>Identificar campos repetidos e identificadores ausentes.</li><li>Priorizar artigos, orientações, projetos, bancas e inovação.</li></ol></aside>
   </section>
 
   <div class="grid">

@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Concepção do Sistema &amp; Simulação de Templates</title>
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url('fonts/inter.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Newsreader';
+    font-style: italic;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('fonts/newsreader-italic.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url('fonts/jetbrains-mono.woff2') format('woff2');
+  }
+
+  :root {
+    --navy: #0b192c;
+    --blue: #1b365d;
+    --cyan: #00a3c4;
+    --teal: #087f91;
+    --emerald: #10b981;
+    --mint: #dff7ee;
+    --mint-txt: #096b4d;
+    --amber-bg: #fef7e6;
+    --amber-bd: #f2d58b;
+    --amber-txt: #8d5c0b;
+    --bg: #f4f8fb;
+    --line: #dbe4ee;
+    --text: #0b192c;
+    --muted: #566982;
+    --serif: 'Newsreader', Georgia, serif;
+    --sans: 'Inter', 'Segoe UI', Arial, sans-serif;
+    --mono: 'JetBrains Mono', Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: var(--sans);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @media screen {
+    body {
+      background: #0f2035;
+      padding: 24px 0 48px;
+    }
+    .page {
+      margin: 0 auto 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      border-radius: 4px;
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { margin: 0; box-shadow: none; border-radius: 0; }
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 12mm 14mm 12mm;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* Running Header & Footer */
+  .p-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 7px;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 10px;
+  }
+  .p-tag {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: #eaf6f8;
+    border: 1px solid #bfe6ec;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+  .p-wm {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+  .p-wm b { font-family: var(--serif); font-style: italic; font-weight: 700; color: var(--navy); }
+  .p-wm i { font-style: normal; font-weight: 800; font-size: 9px; letter-spacing: 0.08em; color: var(--cyan); }
+
+  .p-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 7px;
+    border-top: 1px solid var(--line);
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .p-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Common typography */
+  .h-sec {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .h-sec em { font-family: var(--serif); font-style: italic; color: var(--teal); font-weight: 700; }
+  .sub-sec { font-size: 10.5px; color: var(--muted); line-height: 1.4; }
+
+  /* Cover Hero (Page 1) */
+  .cover-hero {
+    background: linear-gradient(135deg, #0b192c 0%, #153558 65%, #0a5f72 100%);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 18px 22px;
+    border-bottom: 3.5px solid var(--cyan);
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-word b {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    color: #fff;
+  }
+  .brand-word i {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 16px;
+    color: #38bdf8;
+    letter-spacing: 0.06em;
+    margin-left: 4px;
+  }
+  .cover-pill {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #9ff7e2;
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(159, 247, 226, 0.4);
+    padding: 5px 11px;
+    border-radius: 99px;
+  }
+  .cover-hero h1 {
+    font-size: 23px;
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .cover-hero h1 em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: #7ee6d0;
+    font-weight: 600;
+  }
+  .cover-lead {
+    font-size: 11px;
+    line-height: 1.48;
+    color: #d6e4ef;
+    max-width: 96%;
+  }
+  .cover-recipient {
+    margin-top: 12px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #e2eff8;
+  }
+
+  /* Grids & Cards */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 11px 13px;
+  }
+  .card.soft { background: var(--bg); }
+  .card.dark { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .card h3 { font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+  .card.dark h3 { color: #7ee6d0; }
+  .card p, .card li { font-size: 9.8px; line-height: 1.42; color: var(--muted); }
+  .card.dark p { color: #d1dfeb; }
+
+  /* 4 Layers Stack */
+  .layers { display: grid; gap: 6px; }
+  .layer {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .layer.l4 { background: linear-gradient(90deg, #0b192c, #17365d); color: #fff; border-color: #0b192c; }
+  .layer.l3 { background: #eaf7f9; border-color: #b7e2e9; }
+  .layer.l2 { background: #f2fbf7; border-color: #bcead7; }
+  .layer.l1 { background: #f8fafc; }
+  .layer-badge { font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+  .layer.l4 .layer-badge { color: #7ee6d0; }
+  .layer.l3 .layer-badge, .layer.l2 .layer-badge { color: var(--teal); }
+  .layer.l1 .layer-badge { color: var(--blue); }
+  .layer-title { font-size: 11px; font-weight: 800; margin-top: 1px; }
+  .layer-desc { font-size: 9.5px; line-height: 1.38; }
+  .layer.l4 .layer-desc { color: #d5e3ee; }
+  .layer:not(.l4) .layer-desc { color: #344a62; }
+
+  /* Principles pills & benchmarks */
+  .ref-strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .ref-pill {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 6px;
+    background: #fcfdfe;
+    text-align: center;
+  }
+  .ref-pill b { display: block; font-size: 9.2px; color: var(--navy); }
+  .ref-pill span { display: block; font-size: 8px; color: var(--muted); line-height: 1.25; margin-top: 2px; }
+
+  /* Simulated App Browser Frame */
+  .sim-frame {
+    border: 1.5px solid #c9d7e5;
+    border-radius: 12px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .sim-chrome {
+    background: #eef3f8;
+    border-bottom: 1px solid #d4e0ec;
+    padding: 5px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 8.5px;
+    color: var(--muted);
+  }
+  .sim-dots { display: flex; gap: 4px; align-items: center; }
+  .sim-dots i { width: 7px; height: 7px; border-radius: 50%; background: #c3d1df; display: inline-block; }
+  .sim-url {
+    background: #fff;
+    border: 1px solid #d7e2ec;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-family: var(--mono);
+    font-size: 8px;
+    color: #41556c;
+  }
+  .sim-body { padding: 11px 12px; display: grid; gap: 9px; }
+
+  /* UI Elements inside Simulations */
+  .ui-top {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 8px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .ui-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 12px;
+    flex: none;
+  }
+  .ui-pill {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: var(--mint);
+    color: var(--mint-txt);
+    border: 1px solid #a9e5cf;
+  }
+  .ui-pill.neutral { background: #f1f5f9; color: var(--muted); border-color: var(--line); }
+  .ui-pill.amber { background: var(--amber-bg); color: var(--amber-txt); border-color: var(--amber-bd); }
+  .ui-pill.blue { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+
+  .moment-box {
+    background: linear-gradient(135deg, var(--blue), #0b6074);
+    color: #fff;
+    border-radius: 10px;
+    padding: 11px 13px;
+  }
+  .moment-box .ey { font-size: 8px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #8fead2; }
+  .moment-box h4 { font-family: var(--serif); font-style: italic; font-size: 15px; margin: 2px 0 4px; color: #fff; }
+  .moment-box p { font-size: 9.5px; color: #d8ebf0; line-height: 1.38; }
+
+  .next-box {
+    background: #fff;
+    border: 1px solid #9ddae6;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .btn-sim {
+    display: inline-block;
+    background: var(--cyan);
+    color: #04202a;
+    font-size: 8.8px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .btn-sim.outline {
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--teal);
+  }
+  .btn-sim.dark {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  /* Bars for 4 Dimensions */
+  .dim-row { display: grid; gap: 3px; }
+  .dim-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 9.5px; }
+  .dim-top b { color: var(--navy); }
+  .dim-top span { font-size: 8.5px; color: var(--muted); }
+  .dim-bar { height: 7px; border-radius: 99px; background: #e8eff5; overflow: hidden; }
+  .dim-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--cyan), var(--emerald)); }
+
+  /* Legado mini stats */
+  .stat-mini {
+    background: #f8fbfd;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 9px;
+    text-align: center;
+  }
+  .stat-mini b { display: block; font-size: 15px; font-weight: 900; color: var(--teal); line-height: 1.1; }
+  .stat-mini span { font-size: 8px; color: var(--muted); display: block; margin-top: 2px; }
+
+  /* Contrast Callout */
+  .compare-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .bad-box { background: #fff5f5; border: 1px solid #fecaca; border-radius: 9px; padding: 9px 11px; }
+  .good-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 9px; padding: 9px 11px; }
+
+  .quote-block {
+    margin-top: 5px;
+    padding: 6px 9px;
+    border-left: 3px solid var(--cyan);
+    background: #f6fbfd;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 9.5px;
+    color: #2c435b;
+    line-height: 1.38;
+  }
+
+  .mono-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8.2px;
+    line-height: 1.3;
+    background: #f1f5f9;
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    border-radius: 5px;
+    color: var(--navy);
+    margin-top: 2px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== PÁGINA 1: CAPA & MANIFESTO ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Caderno de Concepção &amp; Simulação Visual</span>
+  </header>
+
+  <div class="p-body">
+    <div class="cover-hero">
+      <div class="cover-top">
+        <div class="brand-lockup">
+          <svg width="40" height="40" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ld-c1" cx="50%" cy="50%" r="50%">
+                <stop offset="0" stop-color="#2CF0B4"/>
+                <stop offset="0.38" stop-color="#14A38E"/>
+                <stop offset="0.75" stop-color="#0C5470"/>
+                <stop offset="1" stop-color="#0B2A4A"/>
+              </radialGradient>
+            </defs>
+            <path d="M80.5 50.7 L81.2 51.1 L81.8 51.5 L82.5 51.9 L83.2 52.4 L83.8 52.9 L84.4 53.4 L85.0 53.9 L85.6 54.5 L86.2 55.0 L86.8 55.6 L87.4 56.2 L87.9 56.8 L88.4 57.5 L89.0 58.1 L89.5 58.8 L89.9 59.5 L90.4 60.2 L90.8 60.9 L91.3 61.7 L91.7 62.4 L92.0 63.2 L92.4 64.0 L92.8 64.8 L93.1 65.6 L93.4 66.4 L93.7 67.2 L93.9 68.1 L94.1 68.9 L94.3 69.8 L94.5 70.7 L94.7 71.6 L94.8 72.5 L94.9 73.4 L95.0 74.3 L95.1 75.2 L95.1 76.1 L95.1 77.0 L95.1 77.9 L95.0 78.9 L95.0 79.8 L94.9 80.7 L94.7 81.7 L94.6 82.6 L94.4 83.5 L94.2 84.5 L94.0 85.4 L93.7 86.3 L93.4 87.2 L93.1 88.2 L92.7 89.1 L92.4 90.0 L92.0 90.9 L91.5 91.7 L91.1 92.6 L90.6 93.5 L90.1 94.4 L89.5 95.2 L89.0 96.0 L88.4 96.9 L87.8 97.7 L87.1 98.5 L86.5 99.2 L85.8 100.0 L85.1 100.8 L84.3 101.5 L83.5 102.2 L82.8 102.9 L81.9 103.6 L81.1 104.2 L80.3 104.8 L79.4 105.4 L78.5 106.0 L77.6 106.6 L76.6 107.1 L75.7 107.6 L74.7 108.1 L73.7 108.6 L72.7 109.0 L71.7 109.4 L70.6 109.8 L69.6 110.2 L68.5 110.5 L67.4 110.8 L66.3 111.0 L65.2 111.3 L64.1 111.5 L63.0 111.6 L61.8 111.8 L60.7 111.9 L59.5 112.0 L58.4 112.0 L57.2 112.0 L56.0 112.0 L54.9 111.9 L53.7 111.8 L52.5 111.7 L51.3 111.5 L50.2 111.3 L49.0 111.1 L47.8 110.8 L46.6 110.5 L45.5 110.2 L44.3 109.8 L43.1 109.4 L42.0 109.0 L40.8 108.5 L39.7 108.0 L38.6 107.5 L37.5 106.9 L36.4 106.3 L35.3 105.6 L34.2 104.9 L33.1 104.2 L32.1 103.5 L31.1 102.7 L30.1 101.9 L29.1 101.0 L28.1 100.2 L27.2 99.3 L26.3 98.3 L25.4 97.4 L24.5 96.4 L23.6 95.3 L22.8 94.3 L22.0 93.2 L21.2 92.1 L20.5 91.0 L19.8 89.8 L19.1 88.6 L18.5 87.4 L17.8 86.2 L17.3 84.9 L16.7 83.6 L16.2 82.3 L15.7 81.0 L15.3 79.7 L14.9 78.3 L14.5 77.0 L14.2 75.6 L13.9 74.2 L13.6 72.8 L13.4 71.3 L13.2 69.9 L13.1 68.4 L13.0 67.0 L13.0 65.5 L12.9 64.0 L13.0 62.6 L13.1 61.1 L13.2 59.6 L13.3 58.1 L13.5 56.6 L13.8 55.1 L14.1 53.6 L14.4 52.1 L14.8 50.6 L15.2 49.1 L15.7 47.7 L16.2 46.2 L16.8 44.7 L17.4 43.3 L18.0 41.9 L18.7 40.4 L19.4 39.0 L20.2 37.6 L21.0 36.3 L21.9 34.9 L22.8 33.6 L23.7 32.2 L24.7 31.0 L25.7 29.7 L26.8 28.4 L27.9 27.2 L29.1 26.0 L30.2 24.8 L31.5 23.7 L32.7 22.6 L34.0 21.5 L35.4 20.5 L36.7 19.5 L38.1 18.5 L39.6 17.6 L41.0 16.7 L42.5 15.8 L44.1 15.0 L45.6 14.2 L47.2 13.5 L48.8 12.8 L50.5 12.1 L52.1 11.5 L53.8 11.0 L55.5 10.4 L57.3 10.0 L59.0 9.6 L60.8 9.2 L62.6 8.9 L64.4 8.6 L66.2 8.4 L68.1 8.2 L69.9 8.1 L71.8 8.0 L73.6 8.0 L75.5 8.0 L77.4 8.1 L79.3 8.3 L81.2 8.5 L83.1 8.8 L85.0 9.1 L86.9 9.4 L88.7 9.9 L90.6 10.3 L92.5 10.9 L94.4 11.5 L96.2 12.1 L98.1 12.8 L99.9 13.6 L101.7 14.4 L103.5 15.3 L105.3 16.2 L107.1 17.2 Z" fill="#E4EDF5"/>
+            <g stroke="#7F9AB4" stroke-width="1.5" stroke-linecap="round"><path d="M89.3 58.6 Q78.6 57.4 73.6 66.8"/><path d="M94.1 68.6 Q84.0 63.3 75.4 70.7"/><path d="M94.9 80.3 Q87.1 71.3 75.8 75.3"/><path d="M91.3 92.2 Q87.0 80.3 74.3 79.9"/><path d="M83.2 102.5 Q83.5 89.1 71.2 83.9"/><path d="M71.3 109.6 Q76.7 96.5 66.5 86.7"/><path d="M56.8 112.0 Q67.2 101.2 60.9 87.6"/><path d="M41.7 108.9 Q56.0 102.2 55.0 86.4"/><path d="M27.9 100.0 Q44.6 98.8 49.7 82.9"/><path d="M17.8 86.0 Q34.6 91.2 45.7 77.5"/><path d="M13.1 68.3 Q27.7 79.9 43.9 70.6"/><path d="M15.2 49.1 Q25.2 66.1 44.7 63.1"/><path d="M24.7 31.0 Q28.0 51.6 48.4 56.0"/><path d="M40.9 16.7 Q36.4 38.3 54.7 50.5"/><path d="M62.4 8.9 Q49.6 28.4 63.1 47.4"/><path d="M86.5 9.4 Q66.5 23.7 72.5 47.6"/></g>
+            <path d="M80.5 50.7 L81.2 51.1 L81.8 51.5 L82.5 51.9 L83.2 52.4 L83.8 52.9 L84.4 53.4 L85.0 53.9 L85.6 54.5 L86.2 55.0 L86.8 55.6 L87.4 56.2 L87.9 56.8 L88.4 57.5 L89.0 58.1 L89.5 58.8 L89.9 59.5 L90.4 60.2 L90.8 60.9 L91.3 61.7 L91.7 62.4 L92.0 63.2 L92.4 64.0 L92.8 64.8 L93.1 65.6 L93.4 66.4 L93.7 67.2 L93.9 68.1 L94.1 68.9 L94.3 69.8 L94.5 70.7 L94.7 71.6 L94.8 72.5 L94.9 73.4 L95.0 74.3 L95.1 75.2 L95.1 76.1 L95.1 77.0 L95.1 77.9 L95.0 78.9 L95.0 79.8 L94.9 80.7 L94.7 81.7 L94.6 82.6 L94.4 83.5 L94.2 84.5 L94.0 85.4 L93.7 86.3 L93.4 87.2 L93.1 88.2 L92.7 89.1 L92.4 90.0 L92.0 90.9 L91.5 91.7 L91.1 92.6 L90.6 93.5 L90.1 94.4 L89.5 95.2 L89.0 96.0 L88.4 96.9 L87.8 97.7 L87.1 98.5 L86.5 99.2 L85.8 100.0 L85.1 100.8 L84.3 101.5 L83.5 102.2 L82.8 102.9 L81.9 103.6 L81.1 104.2 L80.3 104.8 L79.4 105.4 L78.5 106.0 L77.6 106.6 L76.6 107.1 L75.7 107.6 L74.7 108.1 L73.7 108.6 L72.7 109.0 L71.7 109.4 L70.6 109.8 L69.6 110.2 L68.5 110.5 L67.4 110.8 L66.3 111.0 L65.2 111.3 L64.1 111.5 L63.0 111.6 L61.8 111.8 L60.7 111.9 L59.5 112.0 L58.4 112.0 L57.2 112.0 L56.0 112.0 L54.9 111.9 L53.7 111.8 L52.5 111.7 L51.3 111.5 L50.2 111.3 L49.0 111.1 L47.8 110.8 L46.6 110.5 L45.5 110.2 L44.3 109.8 L43.1 109.4 L42.0 109.0 L40.8 108.5 L39.7 108.0 L38.6 107.5 L37.5 106.9 L36.4 106.3 L35.3 105.6 L34.2 104.9 L33.1 104.2 L32.1 103.5 L31.1 102.7 L30.1 101.9 L29.1 101.0 L28.1 100.2 L27.2 99.3 L26.3 98.3 L25.4 97.4 L24.5 96.4 L23.6 95.3 L22.8 94.3 L22.0 93.2 L21.2 92.1 L20.5 91.0 L19.8 89.8 L19.1 88.6 L18.5 87.4 L17.8 86.2 L17.3 84.9 L16.7 83.6 L16.2 82.3 L15.7 81.0 L15.3 79.7 L14.9 78.3 L14.5 77.0 L14.2 75.6 L13.9 74.2 L13.6 72.8 L13.4 71.3 L13.2 69.9 L13.1 68.4 L13.0 67.0 L13.0 65.5 L12.9 64.0 L13.0 62.6 L13.1 61.1 L13.2 59.6 L13.3 58.1 L13.5 56.6 L13.8 55.1 L14.1 53.6 L14.4 52.1 L14.8 50.6 L15.2 49.1 L15.7 47.7 L16.2 46.2 L16.8 44.7 L17.4 43.3 L18.0 41.9 L18.7 40.4 L19.4 39.0 L20.2 37.6 L21.0 36.3 L21.9 34.9 L22.8 33.6 L23.7 32.2 L24.7 31.0 L25.7 29.7 L26.8 28.4 L27.9 27.2 L29.1 26.0 L30.2 24.8 L31.5 23.7 L32.7 22.6 L34.0 21.5 L35.4 20.5 L36.7 19.5 L38.1 18.5 L39.6 17.6 L41.0 16.7 L42.5 15.8 L44.1 15.0 L45.6 14.2 L47.2 13.5 L48.8 12.8 L50.5 12.1 L52.1 11.5 L53.8 11.0 L55.5 10.4 L57.3 10.0 L59.0 9.6 L60.8 9.2 L62.6 8.9 L64.4 8.6 L66.2 8.4 L68.1 8.2 L69.9 8.1 L71.8 8.0 L73.6 8.0 L75.5 8.0 L77.4 8.1 L79.3 8.3 L81.2 8.5 L83.1 8.8 L85.0 9.1 L86.9 9.4 L88.7 9.9 L90.6 10.3 L92.5 10.9 L94.4 11.5 L96.2 12.1 L98.1 12.8 L99.9 13.6 L101.7 14.4 L103.5 15.3 L105.3 16.2 L107.1 17.2" stroke="#38BDF8" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M107.1 17.2 L80.5 50.7" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="63.5" cy="72.0" r="17.5" fill="url(#ld-c1)" stroke="#ffffff" stroke-width="2.2"/>
+            <circle cx="63.5" cy="72.0" r="4.4" fill="#34F0B0"/>
+          </svg>
+          <div class="brand-word"><b>Lattes</b><i>DATA</i></div>
+        </div>
+        <span class="cover-pill">Co-Construção &amp; Visão de Produto</span>
+      </div>
+
+      <h1>Sua trajetória merece ser vista: <em>mais que preencher o Lattes</em>, gerar significado na vida acadêmica.</h1>
+      <p class="cover-lead">
+        O LattesData nasce resolvendo uma dor real — eliminar a digitação manual e o risco regulatório sem jamais pedir sua senha do gov.br. Mas sua vocação é maior: transformar registros frios em uma <strong>memória viva</strong> que reconhece quem você é como pesquisador, orientador, inovador e gestor.
+      </p>
+
+      <div class="cover-recipient">
+        <div><strong>Preparado para validação com:</strong> Prof. Dr. Aramys Silva dos Reis (UFMA · Coordenador do PPGST)</div>
+        <div>Novembro de 2026 · Versão de Concepção 2.0</div>
+      </div>
+    </div>
+
+    <!-- A Tese Central -->
+    <div class="compare-box">
+      <div class="bad-box">
+        <h3 style="font-size:11px;color:#991b1b;margin-bottom:4px">✕ Como o mercado vê o Lattes hoje</h3>
+        <p style="font-size:9.5px;color:#7f1d1d;line-height:1.4">
+          • Um fluxo frio de formulários, iframes lentos e cobrança por pendências.<br>
+          • O usuário só lembra do currículo na véspera do edital ou da coleta Sucupira.<br>
+          • Pessoas formadas, bastidores de gestão e impacto aplicado somem em listas mortas.
+        </p>
+      </div>
+      <div class="good-box">
+        <h3 style="font-size:11px;color:#065f46;margin-bottom:4px">✦ A Metáfora do "Bom Orientador" no LattesData</h3>
+        <p style="font-size:9.5px;color:#064e3b;line-height:1.4">
+          • <strong>Primeiro reconhecer, depois corrigir:</strong> revela o que você já construiu.<br>
+          • <strong>Automatizar a burocracia, preservar a decisão:</strong> você revisa e aprova sempre.<br>
+          • <strong>O currículo é uma história:</strong> continuidade, pessoas formadas e futuro.
+        </p>
+      </div>
+    </div>
+
+    <!-- As 4 Camadas de Significado -->
+    <div>
+      <div class="h-sec" style="font-size:14.5px">Arquitetura de Experiência: <em>As 4 Camadas de Significado</em></div>
+      <div class="layers">
+        <div class="layer l4">
+          <div>
+            <div class="layer-badge">Camada 4 · Propósito</div>
+            <div class="layer-title">Legado, Eco e Bússola</div>
+          </div>
+          <div class="layer-desc">Genealogia das pessoas orientadas e bancas, citações com o trecho exato onde suas ideias ecoaram (Eco Científico) e planejamento contínuo via <strong>Bússola de Editais (EditalScore)</strong>.</div>
+        </div>
+        <div class="layer l3">
+          <div>
+            <div class="layer-badge">Camada 3 · Identidade</div>
+            <div class="layer-title">Espelho de Trajetória</div>
+          </div>
+          <div class="layer-desc">Leitura nas <strong>4 Dimensões DORA</strong> (Conhecimento, Formação, Comunidade e Prática Aplicada), respeitando a individualidade do pesquisador, do coordenador e do técnico.</div>
+        </div>
+        <div class="layer l2">
+          <div>
+            <div class="layer-badge">Camada 2 · Cuidado</div>
+            <div class="layer-title">Memória Viva e Relacional</div>
+          </div>
+          <div class="layer-desc">Snapshots evolutivos do XML, conciliação automática de envios, conexão da Tríade Sucupira (Projeto ↔ Produção ↔ Orientando) e <strong>Radar de Coautorias</strong>.</div>
+        </div>
+        <div class="layer l1">
+          <div>
+            <div class="layer-badge">Camada 1 · Alívio</div>
+            <div class="layer-title">Burocracia Invisível</div>
+          </div>
+          <div class="layer-desc">Leitura de PDFs, cadernos de anais (500+ pág.) e DOIs com Protocolo 3V (Verificar, Vincular, Validar) e autopreenchimento local na sua sessão do navegador.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referências de Mercado -->
+    <div>
+      <div class="h-sec" style="font-size:13.5px;margin-bottom:5px">Referências que inspiram este salto <em>(dentro e fora da academia)</em></div>
+      <div class="ref-strip">
+        <div class="ref-pill"><b>Strava</b><span>Esforço invisível vira marco de orgulho</span></div>
+        <div class="ref-pill"><b>Spotify Wrapped</b><span>Retrospectiva anual da própria identidade</span></div>
+        <div class="ref-pill"><b>Oura / Whoop</b><span>Muitos dados → leitura de "Meu Momento"</span></div>
+        <div class="ref-pill"><b>GitHub</b><span>Histórico vivo e vitrine de obras-chave</span></div>
+        <div class="ref-pill"><b>Grammarly</b><span>Troca caneta vermelha por confiança</span></div>
+        <div class="ref-pill"><b>DORA / R4RI</b><span>4 dimensões além da contagem fria</span></div>
+        <div class="ref-pill"><b>Scite.ai</b><span>Citação com o trecho de quem dialoga</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Concepção do Sistema e Simulação de Templates</span>
+    <span>Página 1 de 6</span>
+  </footer>
+</section>
+
+<!-- ==================== PÁGINA 2: TEMPLATE 1 — CASA ACADÊMICA & 4 DIMENSÕES ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Simulação Visual 01 · Casa Acadêmica &amp; 4 Dimensões</span>
+  </header>
+
+  <div class="p-body">
+    <div>
+      <div class="h-sec">A Tela de Abertura como <em>Casa Acadêmica</em></div>
+      <p class="sub-sec">Em vez de abrir com uma lista punitiva de erros, o pesquisador encontra seu momento atual, uma única ação prioritária e o retrato humano de onde sua atuação se expressa.</p>
+    </div>
+
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">lattesdata.app/abertura.html</div>
+        <span>Simulação · Perfil Prof. Dr. Aramys</span>
+      </div>
+      <div class="sim-body">
+        <div class="ui-top">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="ui-avatar">AS</div>
+            <div>
+              <div style="font-size:13px;font-weight:800;color:var(--navy)">Olá, <em style="font-family:var(--serif);color:var(--teal)">Aramys</em></div>
+              <div style="font-size:8.8px;color:var(--muted)">Professor Associado I · UFMA · Coordenador do PPGST · Laboratório LaFIT</div>
+              <div style="display:flex;gap:5px;margin-top:4px">
+                <span class="ui-pill">✓ ORCID 0000-0003-4999-6382</span>
+                <span class="ui-pill">✓ Lattes 1040580590566490</span>
+                <span class="ui-pill neutral">🔒 Perfil privado por padrão</span>
+              </div>
+            </div>
+          </div>
+          <span class="btn-sim">＋ Registrar conquista</span>
+        </div>
+
+        <!-- Seu Momento + Próximo Passo -->
+        <div class="grid-2">
+          <div class="moment-box">
+            <div class="ey">Seu Momento</div>
+            <h4>O que você construiu importa.</h4>
+            <p>Você reúne uma trajetória sólida de <strong>pesquisa em saúde e produtos naturais, formação de gerações e inovação com patentes</strong>. Seu trabalho já dialoga com 702 citações globais.</p>
+          </div>
+          <div class="next-box">
+            <div>
+              <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--teal)">Próximo Passo Recomendado</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--navy);margin:2px 0">Fortalecer 12 artigos com DOI já localizado</div>
+              <p style="font-size:8.8px;color:var(--muted);line-height:1.35">A CrossRef confirmou os identificadores. Revisar leva ~5 min e amplia sua coleta automática no Sucupira.</p>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:6px">
+              <span class="btn-sim">Aplicar oportunidades →</span>
+              <span class="btn-sim outline">Simular Bússola</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Dimensões DORA + Legado -->
+        <div class="grid-2">
+          <div class="card" style="padding:10px 12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+              <h3 style="margin:0;font-size:11px">Onde sua trajetória se expressa <span style="font-weight:500;color:var(--muted)">(4 Dimensões DORA)</span></h3>
+              <span class="ui-pill neutral">XML + ORCID</span>
+            </div>
+            <div style="display:grid;gap:7px">
+              <div class="dim-row">
+                <div class="dim-top"><b>Formação de pessoas e ensino</b><span>200+ orientações · 85 bancas · <b>frente principal</b></span></div>
+                <div class="dim-bar"><i style="width:100%"></i></div>
+              </div>
+              <div class="dim-row">
+                <div class="dim-top"><b>Geração de conhecimento</b><span>61 artigos · capítulos · <b>frente principal</b></span></div>
+                <div class="dim-bar"><i style="width:82%"></i></div>
+              </div>
+              <div class="dim-row">
+                <div class="dim-top"><b>Inovação, projetos e prática aplicada</b><span>34 projetos · 3 patentes INPI · <b>frente ativa</b></span></div>
+                <div class="dim-bar"><i style="width:66%"></i></div>
+              </div>
+              <div class="dim-row">
+                <div class="dim-top"><b>Comunidade e diálogo científico</b><span>Coord. PPGST · redes USP/Fiocruz · <b>frente ativa</b></span></div>
+                <div class="dim-bar"><i style="width:54%"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:10px 12px">
+            <h3 style="font-size:11px;margin-bottom:7px">Marcos de Legado Humano &amp; Bússola</h3>
+            <div class="grid-3" style="margin-bottom:8px">
+              <div class="stat-mini"><b>200+</b><span>pessoas orientadas</span></div>
+              <div class="stat-mini"><b>85</b><span>bancas examinadoras</span></div>
+              <div class="stat-mini"><b>37</b><span>projetos e patentes</span></div>
+            </div>
+            <div style="border:1px solid #ccebf1;background:#f4fbfd;border-radius:8px;padding:7px 9px;font-size:8.8px;color:#274059;line-height:1.35">
+              <strong style="color:var(--navy);display:block;margin-bottom:2px">✦ 3 resumos da FeSBE/SEMIC encontrados com orientandos</strong>
+              Seus alunos cadastraram esses trabalhos com seu nome como orientador/coautor. Deseja trazê-los para sua trajetória?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Um Espelho para Cada Vocação -->
+    <div>
+      <div class="h-sec" style="font-size:13.5px;margin-bottom:5px">Pluralidade sem Ranking: <em>um espelho positivo para cada fase e perfil</em></div>
+      <div class="grid-3">
+        <div class="card soft">
+          <h3>Pesquisador &amp; Líder de PPG</h3>
+          <p><strong>Ex.: Prof. Aramys (UFMA)</strong><br>Destaca a formação de gerações (orientações/bancas), liderança institucional, artigos de impacto e transferência tecnológica (patentes INPI).</p>
+        </div>
+        <div class="card soft">
+          <h3>Profissional Técnico-Aplicado</h3>
+          <p><strong>Ex.: Perito / Farmacêutico (Álvaro)</strong><br>Valoriza a dimensão de <em>Prática Aplicada</em> (software registrado, perícia criminal, farmácia clínica, extensão) sem diminuir por ter menos artigos.</p>
+        </div>
+        <div class="card soft">
+          <h3>Iniciante Coerente (IC / Mestrado)</h3>
+          <p><strong>Ex.: Bolsista PIBIC / Pós-graduando</strong><br>Celebra o "Lattes jovem e focado": primeira bolsa CNPq, primeiro resumo em anais e vínculo claro com grupo de pesquisa e orientador.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Template Simulado 01: Abertura e Dimensões de Contribuição</span>
+    <span>Página 2 de 6</span>
+  </footer>
+</section>
+
+<!-- ==================== PÁGINA 3: TEMPLATE 2 — REGISTRO, CONQUISTA E DESDOBRAMENTO ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Simulação Visual 02 · Registro &amp; Momento de Conquista</span>
+  </header>
+
+  <div class="p-body">
+    <div>
+      <div class="h-sec">Da Burocracia Invisível ao <em>Momento de Conquista</em></div>
+      <p class="sub-sec">Cada documento enviado gera menos digitação, mais segurança jurídica (Protocolo 3V) e uma recompensa clara de progresso na história acadêmica.</p>
+    </div>
+
+    <!-- Etapa 1 -->
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">lattesdata.app/ · Passo 1 a 3 — Que conquista vamos registrar hoje?</div>
+        <span>Protocolo 3V Ativo</span>
+      </div>
+      <div class="sim-body">
+        <div class="grid-3">
+          <div class="card soft" style="padding:9px 11px">
+            <div style="font-size:8.5px;font-weight:800;color:var(--teal);margin-bottom:3px">1. EVIDÊNCIA RECEBIDA</div>
+            <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Ata_Defesa_Mestrado_Maria.pdf</div>
+            <p style="font-size:8.8px;margin-top:3px">O classificador identifica automaticamente a seção do Lattes e lê título, curso, instituição, banca e ano sem que o usuário decore abas.</p>
+          </div>
+          <div class="card soft" style="padding:10px 12px">
+            <div style="font-size:8.5px;font-weight:800;color:var(--teal);margin-bottom:4px">2. SANITIZAÇÃO &amp; PROTOCOLO 3V</div>
+            <div style="display:grid;gap:4px;font-size:8.6px;color:#1e3a56;line-height:1.4">
+              <span>✓ <strong>Verificar:</strong> dados reais extraídos do PDF</span>
+              <span>✓ <strong>Vincular:</strong> arquivo padronizado <span class="mono-badge">2026_ORIENT_MARIA.pdf</span></span>
+              <span>✓ <strong>Validar:</strong> zero aspas/travessões inválidos</span>
+            </div>
+          </div>
+          <div class="card soft" style="padding:9px 11px">
+            <div style="font-size:8.5px;font-weight:800;color:var(--teal);margin-bottom:3px">3. SOBERANIA DE SESSÃO</div>
+            <p style="font-size:8.8px">Você faz login no CNPq diretamente no seu navegador. A extensão preenche os campos e a grade de coautores em <strong>1 segundo</strong>; você confere e clica em Salvar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Etapa 2: Antes vs Depois do Pós-Registro -->
+    <div>
+      <div class="h-sec" style="font-size:13.5px;margin-bottom:5px">O Pós-Registro: <em>não é só "INSERT no banco"</em></div>
+      <div class="compare-box">
+        <div class="bad-box">
+          <div style="font-size:9px;font-weight:800;color:#991b1b;margin-bottom:4px">Fluxo Tradicional (Frio)</div>
+          <div style="background:#fff;border:1px solid #fecaca;border-radius:7px;padding:9px 11px;font-family:var(--mono);font-size:9px;color:#7f1d1d">
+            Status: Registro salvo com sucesso (ID #428).<br>
+            <span style="color:#999">[Voltar para formulário em branco]</span>
+          </div>
+          <p style="font-size:8.8px;color:#7f1d1d;margin-top:5px">O esforço de meses parece uma linha burocrática descartável. Não há sensação de progresso nem conexão com a carreira.</p>
+        </div>
+        <div class="good-box">
+          <div style="font-size:9px;font-weight:800;color:#065f46;margin-bottom:4px">Template Simulado · Momento de Conquista (Estilo Strava)</div>
+          <div style="background:#fff;border:1px solid #86efac;border-radius:7px;padding:9px 11px">
+            <div style="font-size:10.5px;font-weight:800;color:#065f46">✦ Conquista registrada na sua história!</div>
+            <div style="font-size:9px;color:#1e3a56;margin-top:2px">Sua dimensão <strong>Formação de Pessoas e Ensino</strong> acabou de ganhar +1 orientação concluída no PPGST (<strong>201º marco de formação</strong>).</div>
+            <div style="margin-top:5px;display:flex;gap:6px">
+              <span class="ui-pill">✓ Linha do tempo atualizada</span>
+              <span class="ui-pill blue">+20 pts estimados na Bússola PQ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Etapa 3: Desdobramento 1 Documento = Múltiplos Significados -->
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">Template Simulado · Desdobramento Inteligente (1 Documento = Múltiplos Registros)</div>
+        <span>Sempre com confirmação humana</span>
+      </div>
+      <div class="sim-body">
+        <div style="background:#fff;border:1px solid #9fdde6;border-radius:9px;padding:10px 12px;display:grid;gap:7px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span class="ui-pill">1º Registro Concluído</span>
+              <strong style="font-size:11px;color:var(--navy);margin-left:6px">Orientação de Mestrado Concluída — PPGST/UFMA (2026)</strong>
+            </div>
+            <span style="font-size:8.5px;color:var(--muted)">Comprovante vinculado</span>
+          </div>
+          <div style="background:#f3fafc;border:1px dashed var(--teal);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <div>
+              <div style="font-size:9.8px;font-weight:800;color:var(--navy)">Esta mesma ata comprova mais duas conexões da sua trajetória:</div>
+              <div style="font-size:8.8px;color:#344a62;margin-top:2px">
+                1. <strong>Participação em Banca de Mestrado</strong> (membros, título, instituição e ano já extraídos).<br>
+                2. <strong>Vínculo com Projeto FAPEMA</strong> (fortalece a Tríade Relacional na avaliação CAPES).
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex:none">
+              <span class="btn-sim">Aproveitar e registrar banca →</span>
+              <span class="btn-sim outline">Concluir por aqui</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nota de Concepção da Página 3 -->
+    <div class="grid-2">
+      <div class="card soft" style="padding:11px 13px">
+        <h3>Por que o "Momento de Conquista" muda o hábito</h3>
+        <p>Quando o pesquisador envia um PDF hoje, o esforço termina num "salvo" frio. Ao mostrar qual das 4 Dimensões ganhou força e atualizar a linha do tempo na hora, o registro passa a dar retorno emocional imediato — incentivando a regra <em>"Produziu, Cadastrou"</em>.</p>
+      </div>
+      <div class="card soft" style="padding:11px 13px">
+        <h3>Desdobramento sem perda de controle humano</h3>
+        <p>Nenhum item secundário (como participação em banca ou evento) é criado silenciosamente. O sistema reaproveita 100% dos metadados já lidos do mesmo PDF e só preenche o segundo formulário após a confirmação explícita do usuário.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Template Simulado 02: Momento de Conquista e Desdobramento</span>
+    <span>Página 3 de 6</span>
+  </footer>
+</section>
+
+<!-- ==================== PÁGINA 4: TEMPLATE 3 — VALORIZAÇÃO, CONFORMIDADE & PITCH ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Simulação Visual 03 · Valorização, Blindagem &amp; Narrativa</span>
+  </header>
+
+  <div class="p-body">
+    <div>
+      <div class="h-sec">De "Caneta Vermelha" para <em>Valorização &amp; Conformidade</em></div>
+      <p class="sub-sec">Inspirado no Grammarly: em vez de assustar o pesquisador com termos punitivos, apontamos cada ajuste como potencial recuperável — já com a solução técnica pronta para aprovação.</p>
+    </div>
+
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">lattesdata.app/auditoria.html · Valorização &amp; Conformidade</div>
+        <span>Base: Portaria CNPq 2.664/2026 &amp; Sucupira</span>
+      </div>
+      <div class="sim-body">
+        <div style="display:grid;grid-template-columns:195px 1fr;gap:10px">
+          <!-- Coluna Esquerda Gauge -->
+          <div class="card" style="padding:10px;text-align:center;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <span style="font-size:8px;font-weight:800;color:var(--muted);text-transform:uppercase">Índice de Valorização</span>
+                <span class="ui-pill">Em Evolução</span>
+              </div>
+              <svg width="86" height="86" viewBox="0 0 100 100" style="display:block;margin:2px auto">
+                <circle cx="50" cy="50" r="40" stroke="#e8eff5" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="70" stroke-linecap="round" fill="none" transform="rotate(-90 50 50)"/>
+                <text x="50" y="48" text-anchor="middle" font-size="22" font-weight="900" fill="#0b192c">72</text>
+                <text x="50" y="63" text-anchor="middle" font-size="8" font-weight="700" fill="#62748a">PARA 98/100</text>
+              </svg>
+              <p style="font-size:8.5px;color:#344a62;margin-top:4px">19 oportunidades de fortalecimento com solução pré-montada.</p>
+            </div>
+            <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:7px;padding:6px;margin-top:6px">
+              <div style="font-size:13px;font-weight:900;color:#065f46;font-family:var(--mono)">+180 pts</div>
+              <div style="font-size:8px;color:#047857">potencial recuperável no PPGST</div>
+            </div>
+          </div>
+
+          <!-- Coluna Direita Oportunidades -->
+          <div style="display:grid;gap:7px">
+            <div class="card" style="padding:9px 11px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <strong style="font-size:10px;color:var(--navy)">12 Artigos podem ganhar coleta automática no Sucupira</strong>
+                <span class="ui-pill">+120 pts CAPES</span>
+              </div>
+              <p style="font-size:8.5px;margin:3px 0 5px">Artigos sem DOI exigem lançamento manual na avaliação do quadriênio. O LattesData já localizou os <strong>12 DOIs oficiais na CrossRef</strong>.</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:#f3fafc;padding:4px 8px;border-radius:6px;font-size:8.4px">
+                <span style="color:var(--teal);font-weight:700">✦ Metadados verificados e prontos para revisão</span>
+                <span class="btn-sim">Aplicar 12 DOIs →</span>
+              </div>
+            </div>
+
+            <div class="card" style="padding:9px 11px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <strong style="font-size:10px;color:var(--navy)">7 Projetos com vigência a encerrar e conectar à Tríade</strong>
+                <span class="ui-pill amber">Portaria CNPq 2.664/2026</span>
+              </div>
+              <p style="font-size:8.5px;margin:3px 0 5px">Encerrar projetos concluídos (FAPEMA/CNPq) e vincular artigos e orientandos internos evita diligências e protege o Quesito 2 do PPG.</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:4px 8px;border-radius:6px;font-size:8.4px">
+                <span style="color:var(--navy);font-weight:600">Sugestão de datas e produções resultantes pronta</span>
+                <span class="btn-sim outline">Revisar vigências →</span>
+              </div>
+            </div>
+
+            <div class="card" style="padding:9px 11px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <strong style="font-size:10px;color:var(--navy)">3 Patentes INPI + Coautorias Discentes para valorizar</strong>
+                <span class="ui-pill blue">Inovação &amp; PTTs</span>
+              </div>
+              <p style="font-size:8.5px;margin:3px 0">Padronização automática do número de depósito (<span class="mono-badge">BR10...</span>) e vínculo formal de orientandos nos artigos do quadriênio.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gerador de Resumo Inicial / Pitch -->
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">Template Simulado · Engenharia Narrativa — Sugestão de Resumo Inicial (PT + EN)</div>
+        <span>Gerado dos seus dados reais</span>
+      </div>
+      <div class="sim-body">
+        <div class="grid-2">
+          <div class="card" style="padding:9px 11px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <strong style="font-size:9.8px;color:var(--navy)">Pitch em 4 Pilares (Português)</strong>
+              <span class="ui-pill">Editável</span>
+            </div>
+            <div class="quote-block">
+              "Doutor em Ciências pela USP e Professor Associado I da UFMA, coordena o PPG em Saúde e Tecnologia (PPGST) e o Laboratório LaFIT. Atua em pesquisas translacionais com produtos naturais, imunomodulação e bioativos, somando 61 artigos indexados, 3 patentes INPI e mais de 200 orientações concluídas."
+            </div>
+          </div>
+          <div class="card" style="padding:9px 11px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <strong style="font-size:9.8px;color:var(--navy)">Versão Internacional (Inglês Manual)</strong>
+              <span class="ui-pill blue">O CNPq não traduz sozinho</span>
+            </div>
+            <div class="quote-block">
+              "Associate Professor at UFMA and Head of the Graduate Program in Health and Technology (PPGST). Holds a PhD in Sciences (USP). Leads translational research on natural products and biotechnology, with 61 peer-reviewed articles, 3 INPI patents, and over 200 mentored students."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card soft">
+        <h3>Sugerir sem diminuir</h3>
+        <p>Em vez de dizer <em>"Seu currículo está incompleto"</em>, mostramos <em>"Encontramos oportunidades já prontas para ampliar a visibilidade do seu trabalho"</em>.</p>
+      </div>
+      <div class="card soft">
+        <h3>Toda pendência aponta para uma ação</h3>
+        <p>Cada cartão explica qual é o ajuste, por que ele importa na CAPES/CNPq e já traz a solução resolvida pela CrossRef ou pelo XML.</p>
+      </div>
+      <div class="card soft">
+        <h3>Blindagem com soberania</h3>
+        <p>Aspas, travessões incompatíveis, ISBN sem 13 dígitos e prefixos de DOI são higienizados antes de tocar o formulário do CNPq.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Template Simulado 03: Valorização, Conformidade e Resumo Narrativo</span>
+    <span>Página 4 de 6</span>
+  </footer>
+</section>
+
+<!-- ==================== PÁGINA 5: TEMPLATE 4 — BÚSSOLA, ECO CIENTÍFICO & RADAR ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Simulação Visual 04 · Bússola Contínua, Eco &amp; Radar</span>
+  </header>
+
+  <div class="p-body">
+    <div>
+      <div class="h-sec">Planejar o Futuro com Serenidade: <em>Bússola, Eco &amp; Radar</em></div>
+      <p class="sub-sec">Saindo do uso apenas na véspera de editais: simulação contínua de carreira, contexto humano de quem cita seu trabalho e descoberta automática de coautorias.</p>
+    </div>
+
+    <!-- Simulação Bússola de Editais Contínua -->
+    <div class="sim-frame">
+      <div class="sim-chrome">
+        <div class="sim-dots"><i></i><i></i><i></i></div>
+        <div class="sim-url">lattesdata.app/painel.html#secEdi · Bússola de Editais (EditalScore)</div>
+        <span>Planejador Contínuo + Dossiê PDF</span>
+      </div>
+      <div class="sim-body">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:8.8px;font-weight:800;color:var(--navy)">Objetivo ativo:</span>
+          <span class="btn-sim">★ Chamada Produtividade PQ / CNPq</span>
+          <span class="btn-sim outline">Quadrienal CAPES / PPG</span>
+          <span class="btn-sim outline">Progressão Docente</span>
+          <span class="btn-sim outline">Concurso UF / IF</span>
+          <span class="btn-sim outline">＋ Colar Edital</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="padding:9px 11px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+              <strong style="font-size:10px;color:var(--navy)">Leitura da Bússola (Janela 5/10 anos)</strong>
+              <span style="font-family:var(--mono);font-size:12px;font-weight:900;color:var(--teal)">74,5 / 100 pts</span>
+            </div>
+            <div style="display:grid;gap:6px">
+              <div class="dim-row">
+                <div class="dim-top"><b>Bloco I · Produção Bibliográfica</b><span><b>40 / 40 pts · Teto atingido</b></span></div>
+                <div class="dim-bar"><i style="width:100%"></i></div>
+              </div>
+              <div class="dim-row">
+                <div class="dim-top"><b>Bloco II · Formação de Pessoas (Mestrado/Dout.)</b><span><b>22 / 35 pts · Espaço (+13 pts)</b></span></div>
+                <div class="dim-bar"><i style="width:63%"></i></div>
+              </div>
+              <div class="dim-row">
+                <div class="dim-top"><b>Bloco III · Projetos e Inovação (Patentes)</b><span><b>12,5 / 25 pts · 2 comprov. pendentes</b></span></div>
+                <div class="dim-bar"><i style="width:50%"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:9px 11px;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <strong style="font-size:10px;color:var(--navy)">Simulador "E se..." &amp; Dossiê PDF Único</strong>
+              <div style="margin-top:5px;padding:6px 8px;border-radius:7px;background:#ecfdf5;border:1px solid #a7f3d0;font-size:8.6px;color:#064e3b">
+                <strong>Simulação:</strong> concluir 2 orientações em andamento + anexar 2 declarações eleva a nota de <strong>74,5 → 89,0 pts</strong>.
+              </div>
+            </div>
+            <div style="margin-top:8px;padding:7px 9px;border-radius:7px;background:#f8fafc;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div style="font-size:8.3px;color:#344a62;line-height:1.35">
+                <strong style="display:block;color:var(--navy)">Dossiê Comprobatório Paginado</strong>
+                <span class="mono-badge">[Item 1.1] Artigo Scientific Reports — Pág. 14 de 85</span>
+              </div>
+              <span class="btn-sim dark" style="flex:none">Gerar PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eco Científico & Radar de Coautorias -->
+    <div class="grid-2">
+      <div class="sim-frame">
+        <div class="sim-chrome">
+          <div class="sim-dots"><i></i><i></i><i></i></div>
+          <div class="sim-url">Eco Científico · Citações com Contexto</div>
+          <span>h 16 · 702 citações</span>
+        </div>
+        <div class="sim-body">
+          <div class="card" style="padding:9px 11px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="ui-pill">Nova Citação · 2 fontes</span>
+              <span style="font-size:8px;color:var(--muted)">Polônia · Journal of Ethnopharmacology</span>
+            </div>
+            <div style="font-size:9.8px;font-weight:800;color:var(--navy);margin-top:4px">Kowalski et al. (2026) citaram seu estudo com babaçu:</div>
+            <div class="quote-block">
+              "…conforme demonstrado por Reis et al., o extrato do mesocarpo apresenta efeito imunomodulador consistente em modelo experimental…"
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:8.2px;color:var(--muted)">
+              <span>União: OpenAlex + Crossref + SciELO/BDTD</span>
+              <span class="btn-sim outline">Exportar comprovante</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-frame">
+        <div class="sim-chrome">
+          <div class="sim-dots"><i></i><i></i><i></i></div>
+          <div class="sim-url">Radar de Coautorias · Obras na Rede</div>
+          <span>3 descobertas</span>
+        </div>
+        <div class="sim-body">
+          <div class="card" style="padding:9px 11px;display:grid;gap:6px">
+            <div style="font-size:9.8px;font-weight:800;color:var(--navy)">Obras com seu nome ausentes no seu Lattes:</div>
+            <div style="background:#f4fbf8;border:1px solid #bbead7;border-radius:7px;padding:6px 8px;display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:8.3px">
+                <strong style="color:var(--navy);display:block">Importância do Farmacêutico no Cuidado…</strong>
+                <span style="color:var(--muted)">CrossRef · DOI: 10.29327/2239332.2.2-13</span>
+              </div>
+              <span class="btn-sim">Revisar</span>
+            </div>
+            <div style="background:#f4fbf8;border:1px solid #bbead7;border-radius:7px;padding:6px 8px;display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:8.3px">
+                <strong style="color:var(--navy);display:block">Resumos FeSBE / SEMIC de Orientandos</strong>
+                <span style="color:var(--muted)">Lançados pelos alunos com sua coautoria</span>
+              </div>
+              <span class="btn-sim">Importar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card soft">
+        <h3>Da véspera para o ano inteiro</h3>
+        <p>Com modelos prontos de <strong>Bolsa PQ, CAPES/PPG e Progressão</strong>, o pesquisador acompanha tetos e lacunas com calma ao longo do ano.</p>
+      </div>
+      <div class="card soft">
+        <h3>Citação com voz humana</h3>
+        <p>Ver o parágrafo exato em que outro cientista construiu sobre sua descoberta devolve propósito real ao trabalho de pesquisa.</p>
+      </div>
+      <div class="card soft">
+        <h3>Rede sem atrito</h3>
+        <p>Orientandos e coautores frequentemente lançam resumos primeiro; o Radar detecta essas obras e preserva a memória do grupo.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Template Simulado 04: Bússola de Editais, Eco Científico e Radar</span>
+    <span>Página 5 de 6</span>
+  </footer>
+</section>
+
+<!-- ==================== PÁGINA 6: CONVITE À CO-CONSTRUÇÃO & ROTEIRO ==================== -->
+<section class="page">
+  <header class="p-head">
+    <div class="p-wm"><b>Lattes</b><i>DATA</i></div>
+    <span class="p-tag">Co-Construção &amp; Escuta com o Pesquisador</span>
+  </header>
+
+  <div class="p-body">
+    <div>
+      <div class="h-sec">O que queremos validar com você, <em>Prof. Aramys</em></div>
+      <p class="sub-sec">As regras técnicas do CNPq e da CAPES são objetivas — já o que gera <strong>significado, orgulho e adoção diária</strong> só pode ser desenhado ouvindo quem vive a pesquisa e a coordenação de programa na prática.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card soft">
+        <h3>1. Identidade &amp; O que fica invisível</h3>
+        <p>O que você construiu como docente, pesquisador, inventor e coordenador do PPGST que uma lista corrida do Lattes hoje achata ou esconde?</p>
+      </div>
+      <div class="card soft">
+        <h3>2. As 4 Dimensões &amp; Pitch Narrativo</h3>
+        <p>Agrupar em <em>Conhecimento, Formação, Comunidade e Prática Aplicada</em> representa sua carreira? Um rascunho de Resumo em PT/EN ajuda?</p>
+      </div>
+      <div class="card soft">
+        <h3>3. Casa Acadêmica (Tela de Abertura)</h3>
+        <p>Abrir com <em>"O que você construiu importa"</em> + 1 ação prioritária torna o cuidado com o currículo mais leve do que abrir direto nas pendências?</p>
+      </div>
+      <div class="card soft">
+        <h3>4. Tom de Voz na Auditoria (Teste A/B)</h3>
+        <p>Para você e seus colegas do programa, funciona melhor alertar o risco de glosa, destacar pontos recuperáveis com solução pronta, ou equilibrar os dois?</p>
+      </div>
+      <div class="card soft">
+        <h3>5. Bússola Contínua de Editais</h3>
+        <p>Modelos prontos (Bolsa PQ, Quadrienal CAPES, Progressão) ajudariam docentes e alunos a planejar o ano — não só às pressas antes do edital?</p>
+      </div>
+      <div class="card soft">
+        <h3>6. Momento de Conquista &amp; Desdobramento</h3>
+        <p>Ao subir uma ata de defesa, faz sentido celebrar a orientação e já oferecer os campos prontos para registrar a participação na banca?</p>
+      </div>
+      <div class="card soft">
+        <h3>7. Eco Científico, Legado &amp; Radar</h3>
+        <p>Entre ler trechos de quem cita você, ver seu legado de alunos formados ou resgatar resumos lançados pelos orientandos, o que tem mais valor?</p>
+      </div>
+      <div class="card soft">
+        <h3>8. Privacidade &amp; Uso Recorrente</h3>
+        <p>Onde está a fronteira ideal de privacidade, e quais 3 entregas fariam você e outros professores abrirem o LattesData todos os meses?</p>
+      </div>
+    </div>
+
+    <!-- Como responder no Espaço Aramys -->
+    <div class="card dark" style="padding:15px 18px">
+      <h3 style="font-size:13.5px;margin-bottom:6px">Como registrar suas impressões e sugestões na plataforma</h3>
+      <div class="grid-3" style="margin-top:6px">
+        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:9px 10px">
+          <div style="font-size:10px;font-weight:800;color:#7ee6d0;margin-bottom:3px">Passo 1 · Acessar o Espaço</div>
+          <p style="font-size:9px;color:#dce8f2">Entre no <strong>Espaço Colaborativo Aramys</strong> (<span class="mono-badge" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)">/espaco-aramys.html</span>).</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:9px 10px">
+          <div style="font-size:10px;font-weight:800;color:#7ee6d0;margin-bottom:3px">Passo 2 · Aba do Formulário</div>
+          <p style="font-size:9px;color:#dce8f2">Clique na aba <strong>"📋 Formulário de Avaliação de Perfil"</strong> para responder aos 8 blocos (com rascunho automático).</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:9px 10px">
+          <div style="font-size:10px;font-weight:800;color:#7ee6d0;margin-bottom:3px">Passo 3 · Ideias e Referências</div>
+          <p style="font-size:9px;color:#dce8f2">Na aba <strong>"💡 Sugestões"</strong> ou <strong>"📚 Base de Referência"</strong>, envie apontamentos livres ou novos currículos de referência.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:10px 16px;border:1px solid var(--line);border-radius:11px;background:var(--bg)">
+      <div style="font-family:var(--serif);font-style:italic;font-size:15px;font-weight:700;color:var(--navy)">
+        "Você produz conhecimento e forma pessoas. O LattesData cuida da memória, da clareza e do reconhecimento."
+      </div>
+      <div style="font-size:9.2px;color:var(--muted);margin-top:3px">
+        LattesData · Ambiente de Co-Construção Acadêmica · Todos os templates simulados aguardam sua validação
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-foot">
+    <span>LattesData · Convite à Co-Construção com o Prof. Dr. Aramys Silva dos Reis</span>
+    <span>Página 6 de 6</span>
+  </footer>
+</section>
+
+</body>
+</html>

@@ -16,6 +16,7 @@ from typing import Any
 
 from citacoes import fontes
 from citacoes.servico import citacoes_do_pesquisador
+from curriculo_store import calcular_dimensoes
 
 TTL = 1800
 ANOS = 11
@@ -215,6 +216,20 @@ def montar_abertura(conn: sqlite3.Connection, usuario: str, orcid: str | None) -
         ],
         "citantes_recentes": citantes[:8],
         "envios": {"total": envios["total"], "por_tipo": envios["por_tipo"], "recentes": envios["recentes"]},
+        "dimensoes": calcular_dimensoes({
+            **{k: v for k, v in envios["por_tipo"].items() if k not in ("anais", "orientacao", "evento")},
+            "trabalho_evento": envios["por_tipo"].get("trabalho_evento", 0) + envios["por_tipo"].get("anais", 0),
+            "orientacao_concluida": envios["por_tipo"].get("orientacao_concluida", 0) + envios["por_tipo"].get("orientacao", 0),
+            "participacao_evento": envios["por_tipo"].get("participacao_evento", 0) + envios["por_tipo"].get("evento", 0),
+            "artigo": max(len(obras), envios["por_tipo"].get("artigo", 0)),
+        }),
+        "legado": {
+            "pessoas_orientadas": envios["orientacoes"],
+            "eventos_registrados": envios["eventos"],
+            "obras_indexadas": len(obras),
+            "citacoes_unicas": resumo.get("citacoes_unicas", 0),
+            "periodicos_alcancados": len(veiculos),
+        },
     }
     return res
 

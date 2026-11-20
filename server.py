@@ -75,6 +75,9 @@ PUBLIC_LANDING = {
     "/inicio.css",
     "/inicio.js",
     "/formulario-pesquisador-lattesdata.html",
+    "/formulario-pesquisador-lattesdata.js",
+    "/concepcao-lattesdata-aramys.html",
+    "/concepcao-lattesdata-aramys.pdf",
     "/formulario-colaborador.html",
     "/mockup-dashboard-aramys.html",
     "/espaco-aramys.html",
@@ -790,6 +793,11 @@ class LattesHandler(BaseHTTPRequestHandler):
             self._send_json({"total": len(itens), "arquivos": itens})
             return
 
+        if path == "/api/referencias/ciclo":
+            from ferramentas.analise_lote_referencias import analisar_ciclo_atual
+            self._send_json(analisar_ciclo_atual())
+            return
+
         if path.startswith("/api/referencias/download/"):
             nome = Path(unquote(parsed.path.replace("/api/referencias/download/", "", 1))).name
             ref_file = (BASE_DIR / "Lattes para referencia" / nome).resolve()
@@ -1151,7 +1159,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                 respostas = payload.get("respostas")
                 if not isinstance(respostas, list) or not respostas:
                     raise ValueError("respostas ausentes")
-                respostas = respostas[:30]
+                respostas = respostas[:60]
                 now = datetime.now(timezone.utc).isoformat()
                 ip_hash = hashlib.sha256((ip + os.environ.get("LATTESFACIL_CODIGO", "local")).encode()).hexdigest()
                 with db() as conn:
@@ -1258,7 +1266,7 @@ class LattesHandler(BaseHTTPRequestHandler):
             ref_dir = BASE_DIR / "Lattes para referencia"
             ref_dir.mkdir(exist_ok=True)
             salvos = []
-            permitidas = {".pdf", ".xml", ".zip", ".txt"}
+            permitidas = {".pdf", ".xml", ".zip", ".txt", ".html"}
             for nome, dados in arquivos:
                 ext = Path(nome).suffix.lower()
                 if ext not in permitidas:

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Respostas da pesquisa — LattesData</title>
+  <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <style>
+    :root{--ink:#10233d;--muted:#617289;--line:#dfe7ee;--paper:#fff;--canvas:#f5f8fa;--teal:#087f91;--soft:#ebf7f8;--serif:"Newsreader",Georgia,serif;--sans:Inter,"Helvetica Neue",Arial,sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--canvas);color:var(--ink);font:15px/1.5 var(--sans)}
+    .wrap{width:min(960px,calc(100% - 32px));margin:auto;padding:32px 0 64px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+    .top h1{font:600 30px/1.1 var(--serif);margin:0}
+    .top a{color:var(--teal);font-weight:700;text-decoration:none;font-size:13.5px}
+    .muted{color:var(--muted);font-size:13px;margin:4px 0 0}
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0}
+    .toolbar input{flex:1 1 260px;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font:inherit;font-size:13.5px;color:var(--ink)}
+    .pill{font-size:12px;font-weight:700;padding:4px 11px;border-radius:99px;background:var(--soft);color:var(--teal);white-space:nowrap}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;margin:16px 0}
+    .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+    .card-head strong{font-size:17px}
+    .answer{border-top:1px solid #edf1f4;padding:12px 0}
+    .answer:first-of-type{border-top:0}
+    .question{font-weight:800;font-size:13.5px;margin-bottom:4px;color:var(--ink)}
+    .resp{font-size:13.5px;color:#2b4158;white-space:pre-wrap}
+    .error{color:#a33b2b;font-weight:700}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <div>
+        <h1>Respostas da escuta com usuários</h1>
+        <p class="muted">Área interna — respostas enviadas pelo formulário público ou pelo Espaço Colaborativo.</p>
+      </div>
+      <div style="display:flex;gap:14px">
+        <a href="/abertura.html">← Painel Inicial</a>
+        <a href="/formulario-pesquisador-lattesdata.html" target="_blank" rel="noopener noreferrer">Abrir formulário ↗</a>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input id="filtroBusca" type="search" placeholder="Filtrar por nome do respondente, pergunta ou palavra-chave…" aria-label="Filtrar respostas">
+      <span class="pill" id="resumoContagem">Carregando…</span>
+    </div>
+
+    <div id="app" class="card">Carregando…</div>
+  </main>
+  <script src="/pesquisa-respostas.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ import sys
 raiz = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(raiz))
 sys.path.insert(0, str(raiz / "tests"))
+import abertura  # noqa: E402
 import curriculo_store as cs  # noqa: E402
 from lattes_xml import ler_curriculo  # noqa: E402
 from teste_novos_modulos import XML  # noqa: E402
@@ -50,6 +51,19 @@ d = cs.dashboard(cur2, 2026)
 ok(d["artigos"]["total"] == 4 and d["artigos"]["sem_doi"] >= 2, f"dashboard: artigos {d['artigos']}")
 ok(sum(a["total"] for a in d["por_ano"]) <= d["total_itens"] and d["por_categoria"]["artigo"] == 4, "dashboard: totais coerentes")
 ok(all(a[0] != "João da Silva" for a in d["coautores_top"]), "dashboard: o próprio pesquisador não conta como coautor")
+ok(len(d["dimensoes"]) == 4 and [x["id"] for x in d["dimensoes"]] == ["conhecimento", "formacao", "comunidade", "impacto"], "dashboard: 4 dimensões de contribuição")
+ok(next(x for x in d["dimensoes"] if x["id"] == "conhecimento")["total"] >= 4, "dashboard: dimensão conhecimento soma artigos")
+ok(all(k in d["legado"] for k in ("pessoas_orientadas", "bancas_participadas", "projetos", "inovacao_tecnica", "coautores_unicos")), "dashboard: legado completo")
+ok(isinstance(d["oportunidades"], list) and len(d["oportunidades"]) >= 1, "dashboard: oportunidades construtivas presentes")
+
+# abertura sem ORCID e sem XML ainda entrega as 4 dimensões e legado sem quebrar chaves existentes
+conn_ab = sqlite3.connect(":memory:")
+conn_ab.execute("CREATE TABLE records (id TEXT PRIMARY KEY, owner TEXT, titulo TEXT, payload TEXT, created_at TEXT, deleted_at TEXT)")
+conn_ab.execute("INSERT INTO records VALUES ('r1','Convidado','Orientação de IC','{\"tipo_producao\":\"orientacao_concluida\",\"ano\":\"2026\"}','2026-11-20',NULL)")
+ab = abertura.montar_abertura(conn_ab, "Convidado", None)
+ok(all(k in ab for k in ("usuario", "producao", "citacoes", "eventos", "alcance", "envios", "dimensoes", "legado")), "abertura: mantém chaves antigas e inclui dimensões/legado")
+ok(len(ab["dimensoes"]) == 4 and next(x for x in ab["dimensoes"] if x["id"] == "formacao")["total"] == 1, "abertura: dimensão formação conta registro local")
+ok(ab["legado"]["pessoas_orientadas"] == 1, "abertura: legado reflete orientações enviadas")
 
 # conciliação: envio posterior ao XML não prova nada; anterior e presente confirma; removido e ausente confirma remoção
 def envio(eid, titulo, status, enviado, ano="2025", removido=None):
