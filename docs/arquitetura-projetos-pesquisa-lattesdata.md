@@ -188,6 +188,13 @@ Exemplo passo a passo de como uma única ação resolve o trabalho de todo o gru
    - O registro entra pronto na **fila de preenchimento do Lattes do Orientador** (e dos docentes parceiros pagantes);
    - O registro entra no **Cofre Pessoal** de cada aluno coautor (pronto para sincronizar assim que o aluno ativar seu acesso pessoal).
 
+### 6.5 Ingestão Inteligente do Projeto (PDF/DOCX) e Monitoramento de Processos
+Para eliminar a *"síndrome da tela em branco"*, o orientador pode **subir o PDF ou DOCX do projeto de pesquisa** já submetido à agência de fomento ou ao PPG:
+1. O sistema lê objetivos, metodologia, cronograma, equipe, fomentos e metas previstas;
+2. Detecta automaticamente os **Packs de Especialidade** e alertas regulatórios aplicáveis (`CEUA`, `CEP/CAAE`, `Dispensa 510`, `SisGen`, `SISBIO`, `PROSPERO`, `Gate INPI/NDA`);
+3. **Propõe uma sistemática completa de acompanhamento** (marcos datados, cadência de check-in e metas por edital), totalmente editável antes da ativação;
+4. Ativa **5 mecanismos leves de monitoramento**: *Semáforo de Saúde + Check-in Assíncrono (2 min)*, *Radar de Prazos Críticos & Gates de Proteção*, *Esteira Editorial (Funil de Produtos)*, *Termômetro de Metas por Edital* e *Monitor de Evidências & Cobertura no Lattes* (detalhados em [04-monitoramento-e-ingestao-inteligente-de-projetos.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/04-monitoramento-e-ingestao-inteligente-de-projetos.md)).
+
 ---
 
 ## 7. Modelo de Dados Conceitual e Integração com o LattesData Atual

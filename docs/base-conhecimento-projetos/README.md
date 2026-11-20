@@ -12,7 +12,9 @@ Esta pasta consolida a base empírica, conceitual, competitiva e prática que fu
    Benchmark comparativo de **7 plataformas científicas globais** (*Benchling, Labguru, Protocols.io, Overleaf, OSF, Researchfish, Symplectic Elements/Pure*) e **4 referências SaaS PLG** (*Figma, Miro, Notion, Loom*), destacando a lacuna única do ecossistema brasileiro e o posicionamento do **LattesData**.
 3. **[03-estudos-de-caso-aramys-e-template.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/03-estudos-de-caso-aramys-e-template.md)**  
    Pré-mapeamento de **2 projetos reais públicos** do grupo do Prof. Aramys (*Babaçu / LaFIT* e *Geoprópolis / mHealth*) para reação inicial + **Template de Mapeamento em Branco** para estruturar os **projetos de pesquisa abertos** dele.
-4. **[resumo-executivo-projetos-lattesdata.html](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.html)** e **[resumo-executivo-projetos-lattesdata.pdf](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.pdf)**  
+4. **[04-monitoramento-e-ingestao-inteligente-de-projetos.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/04-monitoramento-e-ingestao-inteligente-de-projetos.md)**  
+   Fluxo de **Ingestão Inteligente de Projetos (upload PDF/DOCX → proposta editável de sistemática de acompanhamento)** e os **5 Mecanismos de Monitoramento de Processos Científicos** (sem microgerenciamento).
+5. **[resumo-executivo-projetos-lattesdata.html](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.html)** e **[resumo-executivo-projetos-lattesdata.pdf](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.pdf)**  
    Versão executiva visual (otimizada para leitura rápida no celular e para envio/apresentação ao Prof. Aramys).
 
 ## Documentos Complementares na Raiz de `docs/`
