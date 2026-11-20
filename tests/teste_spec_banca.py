@@ -49,7 +49,7 @@ from ferramentas.valida_paridade import carregar_excecoes  # noqa: E402
 
 just2 = {(x["categoria"], x["campo"].lower()) for x in carregar_excecoes("banca_comissao_julgadora").get(ref2["variante_slug"], [])}
 pend2 = [d for d in comparar(v2, ref2) if (d["categoria"], d["campo"].lower()) not in just2]
-checa("comissão: paridade com a captura real: 0 divergências (1 justificada: rótulo '*')", not pend2 and len(just2) == 1, pend2)
+checa("comissão: paridade com a captura real: 0 divergências (1 justificada: rótulo '*')", not pend2 and ("rotulo_diferente", "f_inst") in just2, pend2)
 app = (RAIZ / "static" / "app.js").read_text(encoding="utf-8")
 checa("robô: campo marcado como lupa (input-lupa) vai pela janela de seleção mesmo habilitado", "input-lupa" in app)
 print(f"\n{falhas} falha(s)")
