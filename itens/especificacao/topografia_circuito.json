@@ -1,5 +1,6 @@
 {
  "id": "topografia_circuito",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=TC",
  "secao": "Patentes e Registros",
  "item": "Topografia de circuito integrado registrada",
  "como_abrir": "Patentes e Registros > Topografia de circuito integrado registrada",

@@ -1,5 +1,6 @@
 {
  "id": "musica",
+ "lista": "pkg_arte_nova.lista?f_cod_tipo=MU",
  "secao": "Produções",
  "item": "Música",
  "como_abrir": "Produções > Música",

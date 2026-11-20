@@ -1,5 +1,6 @@
 {
  "id": "revisor_periodico",
+ "lista": "pkg_revisor.lista?f_natur=RV",
  "secao": "Atuação",
  "item": "Revisor de periódico",
  "como_abrir": "Atuação > Revisor de periódico",

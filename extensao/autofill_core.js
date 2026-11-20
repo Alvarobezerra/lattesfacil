@@ -160,6 +160,8 @@ window.__lfAutofill = async function (d) {
       // O Lattes só abre o formulário do artigo de forma confiável logo depois de carregar a lista de artigos (a lista prepara o estado no servidor;
       // sem ela alguns formulários abriam sem os dados do periódico). Carrega a lista antes, como o usuário faria pelo menu.
       var listaPrepG = { artigo: 'pkg_artigo.lista', anais: 'pkg_trabalho.lista', apresentacao: 'prc_tec_demais_lista?f_cod_tipo=2J&f_cod=', orientacao_concluida: 'pkg_orient.lista?f_tipo=C&f_cod=', orientacao_andamento: 'pkg_orient.lista?f_tipo=A&f_cod=' }[G.id];
+      // A lista do item vem do spec (G.lista); o mapa fixo acima fica de reserva.
+      if (G.lista && !listaPrepG) listaPrepG = String(G.lista).replace(/[?&]f_cod=<codigo_do_cv>/, '') + (String(G.lista).indexOf('?') < 0 ? '?f_cod=' : '&f_cod=');
       if (listaPrepG && cvG && modalG && typeof modalG.setarUrl === 'function') {
         modalG.setarUrl(listaPrepG + (listaPrepG.indexOf('?') < 0 ? '?f_cod=' : '') + cvG, true);
         await sleep(4000);

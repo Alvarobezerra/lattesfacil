@@ -1,5 +1,6 @@
 {
  "id": "endereco",
+ "lista": null,
  "secao": "Dados gerais",
  "item": "Endereço",
  "como_abrir": "Dados gerais > Endereço",

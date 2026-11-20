@@ -1,5 +1,6 @@
 {
  "id": "participacao_evento",
+ "lista": "pkg_evento.lista",
  "secao": "Eventos",
  "item": "Participação em eventos, congressos, exposições, feiras e olimpíadas",
  "como_abrir": "Eventos > Participação em eventos, congressos, exposições, feiras e olimpíadas",

@@ -1,5 +1,6 @@
 {
  "id": "partitura_musical",
+ "lista": "prc_bib_demais_lista?f_cod_tipo=1B",
  "secao": "Produções",
  "item": "Partitura musical",
  "como_abrir": "Produções > Partitura musical",

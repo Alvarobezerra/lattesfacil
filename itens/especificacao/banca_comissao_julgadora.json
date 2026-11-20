@@ -1,5 +1,6 @@
 {
  "id": "banca_comissao_julgadora",
+ "lista": "pkg_banca_julg.lista",
  "secao": "Bancas",
  "item": "Participação em bancas de comissões julgadoras",
  "como_abrir": "Bancas > Participação em bancas de comissões julgadoras",

@@ -167,13 +167,15 @@
     const cv = (topo.document.querySelector('[name="f_cod"]') || {}).value || ((topo.document.documentElement.innerHTML.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i) || [])[1]) || '';
     window.__alvoF5 = { id: (window.__alvoF5 || {}).id || 'projeto', url };
     const listaDe = { artigo: 'pkg_artigo.lista?f_cod=' + cv, anais: 'pkg_trabalho.lista?f_cod=' + cv, orientacao_concluida: 'pkg_orient.lista?f_tipo=C&f_cod=' + cv, orientacao_andamento: 'pkg_orient.lista?f_tipo=A&f_cod=' + cv, apresentacao: 'prc_tec_demais_lista?f_cod_tipo=2J&f_cod=' + cv }[window.__alvoF5.id];
-    if (listaDe) { topo.modalCV2.setarUrl(listaDe, true); await dormir(4000); }  // como o robô: a lista prepara o estado do servidor
+    const listaPlano = (window.__alvoF5 || {}).lista ? String(window.__alvoF5.lista).replace('<codigo_do_cv>', cv) + (String(window.__alvoF5.lista).indexOf('f_cod=') < 0 ? (String(window.__alvoF5.lista).indexOf('?') < 0 ? '?f_cod=' : '&f_cod=') + cv : '') : '';
+    const listaUsar = listaDe || listaPlano;
+    if (listaUsar) { topo.modalCV2.setarUrl(listaUsar, true); await dormir(4000); }  // como o robô: a lista prepara o estado do servidor
     topo.modalCV2.setarUrl(url.replace('<codigo_do_cv>', cv), true);
     await dormir(1500);
     for (let k = 0; k < 50; k++) {
       await dormir(400);
       const w = formulario();
-      try { if (w && w.frameElement && w.document.querySelector('[name=f_titulo]') && w.frameElement.src.toLowerCase().indexOf(pagina.toLowerCase()) >= 0 && w.document.readyState === 'complete') { await dormir(3500); return true; } } catch (e) { /* aguarda */ }
+      try { if (w && w.frameElement && w.document.querySelectorAll('input[name],select[name],textarea[name]').length >= 3 && w.frameElement.src.toLowerCase().indexOf(pagina.toLowerCase()) >= 0 && w.document.readyState === 'complete') { await dormir(3500); return true; } } catch (e) { /* aguarda */ }
     }
     return false;
   }

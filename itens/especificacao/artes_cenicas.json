@@ -1,5 +1,6 @@
 {
  "id": "artes_cenicas",
+ "lista": "pkg_arte_nova.lista?f_cod_tipo=AC",
  "secao": "Produções",
  "item": "Artes cênicas",
  "como_abrir": "Produções > Artes cênicas",

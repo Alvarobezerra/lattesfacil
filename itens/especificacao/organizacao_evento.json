@@ -1,5 +1,6 @@
 {
  "id": "organizacao_evento",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2G",
  "secao": "Eventos",
  "item": "Organização de eventos, congressos, exposições, feiras e olimpíadas",
  "como_abrir": "Eventos > Organização de eventos, congressos, exposições, feiras e olimpíadas",

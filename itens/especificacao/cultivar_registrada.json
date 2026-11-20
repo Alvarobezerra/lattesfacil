@@ -1,5 +1,6 @@
 {
  "id": "cultivar_registrada",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=CR",
  "secao": "Patentes e Registros",
  "item": "Cultivar registrada",
  "como_abrir": "Patentes e Registros > Cultivar registrada",

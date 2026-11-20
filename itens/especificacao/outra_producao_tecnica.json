@@ -1,5 +1,6 @@
 {
  "id": "outra_producao_tecnica",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2Z",
  "secao": "Produções",
  "item": "Outra produção técnica",
  "como_abrir": "Produções > Outra produção técnica",

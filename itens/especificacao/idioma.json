@@ -1,5 +1,6 @@
 {
  "id": "idioma",
+ "lista": "pkg_idioma.lista",
  "secao": "Dados gerais",
  "item": "Idiomas",
  "como_abrir": "Dados gerais > Idiomas",

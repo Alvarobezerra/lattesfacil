@@ -1,5 +1,6 @@
 {
  "id": "maquete",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2F",
  "secao": "Produções",
  "item": "Maquete",
  "como_abrir": "Produções > Maquete",

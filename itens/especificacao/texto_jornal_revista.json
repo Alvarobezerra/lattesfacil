@@ -1,5 +1,6 @@
 {
  "id": "texto_jornal_revista",
+ "lista": "pkg_texto.lista",
  "secao": "Produções",
  "item": "Texto em jornal ou revista (magazine)",
  "como_abrir": "Produções > Texto em jornal ou revista (magazine)",

@@ -1,5 +1,6 @@
 {
  "id": "patente",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=PP",
  "secao": "Patentes e Registros",
  "item": "Patente",
  "como_abrir": "Patentes e Registros > Patente",

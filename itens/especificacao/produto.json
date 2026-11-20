@@ -1,5 +1,6 @@
 {
  "id": "produto",
+ "lista": "pkg_produto.lista",
  "secao": "Produções",
  "item": "Produtos",
  "como_abrir": "Produções > Produtos",

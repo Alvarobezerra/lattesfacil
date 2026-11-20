@@ -1,5 +1,6 @@
 {
  "id": "pos_doutorado",
+ "lista": "pkg_formacao.lista?f_tipo=AP",
  "secao": "Formação",
  "item": "Pós-doutorado e/ou livre-docência",
  "como_abrir": "Formação > Pós-doutorado e/ou livre-docência",

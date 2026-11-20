@@ -1,5 +1,6 @@
 {
  "id": "curso_ministrado",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2B",
  "secao": "Produções",
  "item": "Curso de curta duração ministrado",
  "como_abrir": "Produções > Curso de curta duração ministrado",

@@ -1,5 +1,6 @@
 {
  "id": "marca_registrada",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=MR",
  "secao": "Patentes e Registros",
  "item": "Marca registrada",
  "como_abrir": "Patentes e Registros > Marca registrada",

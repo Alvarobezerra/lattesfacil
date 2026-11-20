@@ -1,5 +1,6 @@
 {
  "id": "livro_capitulo",
+ "lista": "pkg_lvr_cap.lista",
  "secao": "Produções",
  "item": "Livros e capítulos",
  "como_abrir": "Produções > Livros e capítulos",

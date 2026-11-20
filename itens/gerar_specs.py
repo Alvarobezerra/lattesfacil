@@ -447,6 +447,7 @@ def gerar():
                 aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {
             "id": item_id,
+            "lista": (json.loads((pathlib.Path(__file__).resolve().parent / "listas_lattes.json").read_text(encoding="utf-8")).get(item_id, "")),
             "secao": primeiro.get("secao", ""),
             "item": primeiro.get("item", ""),
             "como_abrir": primeiro.get("como_abrir", ""),

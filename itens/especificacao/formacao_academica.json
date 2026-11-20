@@ -1,5 +1,6 @@
 {
  "id": "formacao_academica",
+ "lista": "pkg_formacao.lista?f_tipo=FA",
  "secao": "Formação",
  "item": "Formação acadêmica/titulação",
  "como_abrir": "Formação > Formação acadêmica/titulação",

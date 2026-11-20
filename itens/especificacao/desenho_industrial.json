@@ -1,5 +1,6 @@
 {
  "id": "desenho_industrial",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=DI",
  "secao": "Patentes e Registros",
  "item": "Desenho industrial registrado",
  "como_abrir": "Patentes e Registros > Desenho industrial registrado",

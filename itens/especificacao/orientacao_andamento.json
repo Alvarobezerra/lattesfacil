@@ -1,5 +1,6 @@
 {
  "id": "orientacao_andamento",
+ "lista": "pkg_arte_nova.lista?f_cod_tipo=OU",
  "secao": "Orientações",
  "item": "Orientações e supervisões em andamento",
  "como_abrir": "Orientações > Orientações e supervisões em andamento",

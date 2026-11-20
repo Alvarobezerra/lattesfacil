@@ -1,5 +1,6 @@
 {
  "id": "premio",
+ "lista": "pkg_premio.lista",
  "secao": "Dados gerais",
  "item": "Prêmios e títulos",
  "como_abrir": "Dados gerais > Prêmios e títulos",

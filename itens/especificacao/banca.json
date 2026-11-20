@@ -1,5 +1,6 @@
 {
  "id": "banca",
+ "lista": "pkg_banca_trab.lista",
  "secao": "Bancas",
  "item": "Participação em bancas de trabalhos de conclusão",
  "como_abrir": "Bancas > Participação em bancas de trabalhos de conclusão",

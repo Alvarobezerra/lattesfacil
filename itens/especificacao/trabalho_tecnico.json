@@ -1,5 +1,6 @@
 {
  "id": "trabalho_tecnico",
+ "lista": "pkg_relatorio.lista",
  "secao": "Produções",
  "item": "Trabalhos técnicos",
  "como_abrir": "Produções > Trabalhos técnicos",

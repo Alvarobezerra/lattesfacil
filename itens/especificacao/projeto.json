@@ -1,5 +1,6 @@
 {
  "id": "projeto",
+ "lista": "pkg_projeto.lista?f_cod_tipo=P",
  "secao": "Projetos",
  "item": "Outros tipos de projetos",
  "como_abrir": "Projetos > Outros tipos de projetos",

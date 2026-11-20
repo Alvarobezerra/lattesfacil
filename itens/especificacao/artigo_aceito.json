@@ -1,5 +1,6 @@
 {
  "id": "artigo_aceito",
+ "lista": "pkg_artigo_pr.lista",
  "secao": "Produções",
  "item": "Artigos aceitos para publicação",
  "como_abrir": "Produções > Artigos aceitos para publicação",

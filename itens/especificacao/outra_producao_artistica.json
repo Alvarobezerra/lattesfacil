@@ -1,5 +1,6 @@
 {
  "id": "outra_producao_artistica",
+ "lista": "prc_arte_lista?f_cod_tipo=3Z",
  "secao": "Produções",
  "item": "Outra produção artística/cultural",
  "como_abrir": "Produções > Outra produção artística/cultural",

@@ -1,5 +1,6 @@
 {
  "id": "editoracao",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2D",
  "secao": "Produções",
  "item": "Editoração",
  "como_abrir": "Produções > Editoração",

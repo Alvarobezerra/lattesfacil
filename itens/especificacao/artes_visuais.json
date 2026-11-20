@@ -1,5 +1,6 @@
 {
  "id": "artes_visuais",
+ "lista": "prc_arte_lista?f_cod_tipo=36",
  "secao": "Produções",
  "item": "Artes visuais",
  "como_abrir": "Produções > Artes visuais",

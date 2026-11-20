@@ -1,5 +1,6 @@
 {
  "id": "processo_tecnica",
+ "lista": "pkg_processo.lista",
  "secao": "Produções",
  "item": "Processos ou técnicas",
  "como_abrir": "Produções > Processos ou técnicas",

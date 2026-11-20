@@ -1,5 +1,6 @@
 {
  "id": "formacao_complementar",
+ "lista": "pkg_formacao_compl.lista",
  "secao": "Formação",
  "item": "Formação complementar",
  "como_abrir": "Formação > Formação complementar",

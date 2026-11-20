@@ -1,5 +1,6 @@
 {
  "id": "comite_assessoramento",
+ "lista": "pkg_revisor.lista?f_natur=MA",
  "secao": "Atuação",
  "item": "Membro de comitê de assessoramento",
  "como_abrir": "Atuação > Membro de comitê de assessoramento",

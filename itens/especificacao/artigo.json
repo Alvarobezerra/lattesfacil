@@ -1,5 +1,6 @@
 {
  "id": "artigo",
+ "lista": "pkg_artigo.lista",
  "secao": "Produções",
  "item": "Artigos completos publicados em periódicos",
  "como_abrir": "Produções > Artigos completos publicados em periódicos",

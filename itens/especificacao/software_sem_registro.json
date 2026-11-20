@@ -1,5 +1,6 @@
 {
  "id": "software_sem_registro",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_reg=N&f_cod_tipo=PC",
  "secao": "Produções",
  "item": "Programa de computador sem registro",
  "como_abrir": "Produções > Programa de computador sem registro",

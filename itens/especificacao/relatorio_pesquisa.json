@@ -1,5 +1,6 @@
 {
  "id": "relatorio_pesquisa",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2I",
  "secao": "Produções",
  "item": "Relatório de pesquisa",
  "como_abrir": "Produções > Relatório de pesquisa",

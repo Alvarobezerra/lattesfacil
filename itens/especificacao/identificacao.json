@@ -1,5 +1,6 @@
 {
  "id": "identificacao",
+ "lista": null,
  "secao": "Dados gerais",
  "item": "Identificação",
  "como_abrir": "Dados gerais > Identificação",

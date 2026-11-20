@@ -1,5 +1,6 @@
 {
  "id": "software_registro",
+ "lista": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=PC",
  "secao": "Patentes e Registros",
  "item": "Programa de Computador Registrado",
  "como_abrir": "Patentes e Registros > Programa de Computador Registrado",

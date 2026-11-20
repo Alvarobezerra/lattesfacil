@@ -1,5 +1,6 @@
 {
  "id": "relatorio_tecnico",
+ "lista": "PKG_ASSESSORIA_CONSULTORIA.lista",
  "secao": "Produções",
  "item": "Assessoria e consultoria",
  "como_abrir": "Produções > Assessoria e consultoria",

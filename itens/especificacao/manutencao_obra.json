@@ -1,5 +1,6 @@
 {
  "id": "manutencao_obra",
+ "lista": "prc_tec_demais_lista?f_cod_tipo=2E",
  "secao": "Produções",
  "item": "Manutenção de obra artística",
  "como_abrir": "Produções > Manutenção de obra artística",

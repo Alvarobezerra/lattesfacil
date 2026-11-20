@@ -1,5 +1,6 @@
 {
  "id": "atuacao_profissional",
+ "lista": "pkg_ativ.lista",
  "secao": "Atuação",
  "item": "Atuação profissional",
  "como_abrir": "Atuação > Atuação profissional",
