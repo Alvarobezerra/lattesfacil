@@ -86,3 +86,25 @@ Para apagar: Bancas > Participação em bancas de comissões julgadoras: procura
 Salvamento de teste pelo robô: `ZZ-TESTE-LATTESFACIL Patente de teste (validação automática)` (depósito em 15/03/2020, INPI, nº BR1020200000001 fictício, invenção, inventores: você e "ZZ Coautor de Teste").
 Para apagar: Patentes e Registros > Patente: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir.
 **Resultado:** aceito ("Operação realizada com sucesso") e aparece uma vez na lista (2020). Tentativas anteriores desta noite não gravaram (faltavam depositante e situação). **Apague este item.**
+
+
+## Registro de 21/11/2026 (faixa 5: produção técnica e registros, 13 itens)
+Salvamento de teste pelo robô (`gerar_ciclo_salvar.py`), todos com o prefixo `ZZ-TESTE-LATTESFACIL`; cada item foi conferido na lista do Lattes (uma ocorrência por item).
+Para apagar: Produções (ou Patentes e Registros) > a lista indicada: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir. **Apague os 13 itens.**
+| Item | Onde apagar | Título gravado |
+| --- | --- | --- |
+| software_registro | Patentes e Registros > Programa de computador com registro | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (2020) |
+| software_sem_registro | Produções técnicas > Programa de computador sem registro | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (2024) |
+| produto | Produções técnicas > Produto tecnológico | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (Piloto, 2024) |
+| processo_tecnica | Produções técnicas > Processos ou técnicas | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (Analítica, 2024) |
+| trabalho_tecnico | Produções técnicas > Trabalhos técnicos | `ZZ-TESTE-LATTESFACIL Teste de Trabalhos técnicos (validação automática)` (2024) |
+| relatorio_tecnico | Produções técnicas > Assessoria e consultoria / relatório técnico | `ZZ-TESTE-LATTESFACIL Teste de Assessoria e consultoria (validação automática)` (2024) |
+| extensao_tecnologica | Produções técnicas > Trabalhos técnicos (mesma lista do trabalho técnico) | `ZZ-TESTE-LATTESFACIL Teste de Extensão tecnológica (validação automática)` (2024) |
+| material_didatico | Produções técnicas > Desenvolvimento de material didático ou instrucional | `ZZ-TESTE-LATTESFACIL Teste de Desenvolvimento de material didático ou instrucional (validação automática)` (2024) |
+| desenho_industrial | Patentes e Registros > Desenho industrial | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (2020) |
+| marca_registrada | Patentes e Registros > Marca | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (2024) |
+| topografia_circuito | Patentes e Registros > Topografia de circuito integrado | `ZZ-TESTE-LATTESFACIL Teste de único (validação automática)` (2024) |
+| cultivar_protegida | Patentes e Registros > Cultivar protegida | `ZZ-TESTE-LATTESFACIL Teste de Cultivar protegida (validação automática)` (2020) |
+| cultivar_registrada | Patentes e Registros > Cultivar registrada | `ZZ-TESTE-LATTESFACIL Teste de Cultivar registrada (validação automática)` (2024) |
+
+Tentativas que NÃO gravaram (nada ficou no currículo): (a) trabalho/relatório/extensão/material com "É um dos 10 mais relevantes = sim": o Lattes avisou "Já existem cadastradas 5 produções relevantes" e não salvou; o gerador passou a usar "não"; (b) cultivares sem "Autoridade Nacional": "Campo Instituição de registro obrigatório não informado"; o gerador passou a preencher; (c) duas rodadas se sobrepuseram e deixaram um formulário vazio aberto (fechado, nada gravado).

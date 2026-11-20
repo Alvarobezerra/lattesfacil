@@ -21,7 +21,7 @@ js = "window.__planosSalvar = " + json.dumps(planos, ensure_ascii=False) + ";\n"
   const car = (n) => new Promise((r) => { const s = document.createElement('script'); s.src = 'http://127.0.0.1:8798/' + n + '?' + Date.now(); s.onload = r; s.onerror = r; document.head.appendChild(s); });
   const cv = (T.document.querySelector('[name="f_cod"]') || {}).value || ((T.document.documentElement.innerHTML.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i) || [])[1]) || '';
   T.__cicloS = { andamento: '', resultados: [] };
-  const limpa = (t) => String(t).replace(/\s+/g, ' ').replace(/[?=&;]/g, ' ').slice(0, 260);
+  const limpa = (t) => String(t).replace(/\s+/g, ' ').replace(/[?=&;]/g, ' ').slice(0, 900);
   for (const p of window.__planosSalvar) {
     T.__cicloS.andamento = p.item;
     try {

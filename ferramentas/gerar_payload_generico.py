@@ -28,7 +28,7 @@ GRADES = {
 }
 
 
-def valores_automaticos(var):
+def valores_automaticos(var, item=""):
     """Valores de teste para itens sem VALORES próprio: primeira opção válida de cada seleção/opção, país Brasil, idioma Português, título com o prefixo de teste."""
     v = {}
     for c in var["campos"]:
@@ -37,7 +37,7 @@ def valores_automaticos(var):
             continue
         ops = c.get("opcoes") or {}
         if nl in ("f_titulo",):
-            v[n] = f"{P} Teste de {var['variante']} (validação automática)"[:140]
+            v[n] = f"{P} Teste de {item or var['variante']} (validação automática)"[:140]
         elif nl == "f_ano" or nl.startswith("f_ano_"):
             v[n] = "2024"
         elif nl == "f_pais":
@@ -50,6 +50,10 @@ def valores_automaticos(var):
             v[n] = "BR1020200000001"
         elif nl == "f_inst" and c.get("entra_pela_abertura"):
             v[n] = "INPI - Instituto Nacional da Propriedade Industrial"
+        elif nl == "f_inst" and "ultivar" in var["variante"] + item:
+            v[n] = "MAPA - Serviço Nacional de Proteção de Cultivares"
+        elif nl == "f_relev":
+            v[n] = "não"  # o Lattes limita os itens "mais relevantes" e o currículo já tem o máximo
         elif nl == "f_sta_inovacao":
             v[n] = "Não"
         elif nl in ("f_home_page", "f_homepage", "f_txt_potencial", "f_titulo_en", "f_ref_en", "f_inst", "f_curso", "f_nme_agencia") or c.get("lupa"):
@@ -80,7 +84,7 @@ def grades_automaticas(var):
 def carga(item):
     spec = especificacao(item)
     var = spec["variantes"][0]
-    v = VALORES.get(item) or valores_automaticos(var)
+    v = VALORES.get(item) or valores_automaticos(var, spec["item"])
     campos = []
     for c in var["campos"]:
         if (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
