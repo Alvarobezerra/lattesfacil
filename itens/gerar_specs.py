@@ -165,6 +165,35 @@ MOEDAS_LATTES = ["REAL", "DOLAR AMERICANO", "UNIDADE MONET.EUROPEIA", "BOLIVAR V
 
 # Grades que o formulário do Lattes tem em abas de lista e o mapeamento automático não nomeia (holders confirmados na captura da patente).
 GRADES_EXTRA = {
+    "software_registro": [
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
+    ],
+    "software_sem_registro": [
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
+    ],
+    "desenho_industrial": [
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
+        {"chave": "autores", "rotulo": "Inventores", "aba": "Inventores", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
+    "marca_registrada": [
+        {"chave": "autores", "rotulo": "Inventores", "aba": "Inventores", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
+    "topografia_circuito": [
+        {"chave": "autores", "rotulo": "Inventores", "aba": "Inventores", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
+    "cultivar_protegida": [
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
+        {"chave": "autores", "rotulo": "Melhoristas", "aba": "Melhoristas", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
+    "cultivar_registrada": [
+        {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
+        {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
+        {"chave": "autores", "rotulo": "Melhoristas", "aba": "Melhoristas", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
     "patente": [
         {"chave": "situacoes", "rotulo": "Situação do Depósito/Patente", "aba": "Situação do Depósito/Patente",
          "dica": "Uma por linha: situação; data (dd/mm/aaaa). Ex.: Depósito; 26/02/2024 (também Concessão, Expiração, Depósito PCT, Pedido de exame)"},
@@ -410,6 +439,37 @@ def opcoes_reais_da_captura(item_id, var_):
             c["catalogo_completo"] = c.pop("catalogo")  # o app oferece só o que o Lattes oferece neste formulário
 
 
+def ajustes_da_captura(item_id, var_):
+    """O que a captura real do Lattes mostra e o mapeamento antigo errava: rótulo que era só o nome do campo, campo que o mapeamento dava como condicional mas que aparece sempre."""
+    ref = None
+    for cap in sorted((REFS / item_id).glob("*.json")) if (REFS / item_id).exists() else []:
+        if cap.name == "excecoes.json":
+            continue
+        r_ = json.loads(cap.read_text(encoding="utf-8"))
+        if norm(r_.get("variante", "")) == norm(var_.get("variante", "")):
+            ref = r_
+            break
+    if not ref:
+        return
+    for c in var_["campos"]:
+        if c["name"].lower() in ("f_inst", "f_cod_reg") and re.search(r"[?&]" + c["name"].lower() + "=", var_.get("url", "").lower()):
+            c["entra_pela_abertura"] = True  # órgão depositário e nº do registro vão no endereço do formulário
+    por_nome = {c["name"].lower(): c for c in ref.get("campos", [])}
+    aparecem = {n.lower() for e in ref.get("estados", []) for n in e.get("aparecem", [])}
+    for c in var_["campos"]:
+        r = por_nome.get(c["name"].lower())
+        if not r:
+            continue
+        real = r.get("rotulo") or r.get("pergunta") or ""
+        if norm(c.get("rotulo", "")) == norm(c["name"]) and real and norm(real) not in ("sim", "nao", "*") and norm(real) != norm(c["name"]):
+            c["rotulo"] = real
+        if c.get("mostrar_quando") and r.get("visivel_inicial") and c["name"].lower() not in aparecem:
+            c.pop("mostrar_quando", None)  # aparece sempre no Lattes
+            c.pop("oculto", None)
+        if c["name"].lower() == "f_sta_inovacao" and c.get("tipo") == "radio":
+            c["opcoes"] = {"Sim": "S", "Não": "N"}  # o texto vem antes do botão; a captura por proximidade o desloca
+
+
 def dependencias_da_captura(item_id, var_):
     """Dependências entre campos descobertas na captura (aceitação): o Lattes só aceita o valor do campo depois que outro campo é escolhido
     (ex.: tipo de orientação só com natureza mestrado/doutorado). Vira `exige_antes` no spec; o app desabilita o campo até lá e a matriz escolhe antes."""
@@ -468,6 +528,7 @@ def gerar():
                     c.update(over.get(c["name"], {}))
                 espelhar_lattes(var_["campos"], item_id, var_.get("variante", ""))
                 opcoes_reais_da_captura(item_id, var_)
+                ajustes_da_captura(item_id, var_)
                 dependencias_da_captura(item_id, var_)
                 aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {

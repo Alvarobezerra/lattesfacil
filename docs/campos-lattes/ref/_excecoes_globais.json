@@ -1,0 +1,12 @@
+[
+ {
+  "categoria": "rotulo_diferente",
+  "campo": "f_sta_inovacao",
+  "motivo": "o texto 'Sim'/'Não' vem antes do botão no HTML do Lattes e a captura por proximidade o atribui ao botão errado (conferido no HTML da patente); a pergunta real é conferida na rodada de matriz de cada item"
+ },
+ {
+  "categoria": "opcoes_diferentes",
+  "campo": "f_sta_inovacao",
+  "motivo": "mesma causa: textos das opções deslocados na captura; S=Sim e N=Não"
+ }
+]

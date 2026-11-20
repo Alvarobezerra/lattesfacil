@@ -1,0 +1,581 @@
+{
+ "item": "topografia_circuito",
+ "variante": "único",
+ "variante_slug": "topografia_circuito",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_cod_reg",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Número do registro",
+   "maxlength": 16
+  },
+  {
+   "name": "f_botao",
+   "tipo": "button",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Número do registro"
+  },
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição de registro",
+   "maxlength": 75
+  },
+  {
+   "name": "f_pais",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "País",
+   "total_opcoes": 244,
+   "opcoes": [
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África Do Sul"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ASM",
+     "texto": "Samoa Americana"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CCK",
+     "texto": "Ilhas Cocos"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa Do Marfim"
+    },
+    {
+     "valor": "COD",
+     "texto": "Rd Congo"
+    },
+    {
+     "valor": "COK",
+     "texto": "Ilhas Cook"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia Do Norte"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia Do Sul"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CYM",
+     "texto": "Ilhas Cayman"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DOM",
+     "texto": "República Dominicana"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    }
+   ]
+  },
+  {
+   "name": "f_titulo",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Título",
+   "maxlength": 400
+  },
+  {
+   "name": "f_ano",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano de desenvolvimento",
+   "maxlength": 4
+  },
+  {
+   "name": "f_finalidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Finalidade",
+   "maxlength": 255
+  },
+  {
+   "name": "f_inst_financ",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição(ões) financiadora(s) (separadas por ponto e vírgula)",
+   "maxlength": 380
+  },
+  {
+   "name": "f_sta_inovacao",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "Qual o potencial de inovação?",
+     "visivel": true,
+     "marcado_inicial": true
+    }
+   ],
+   "pergunta": "Sim"
+  },
+  {
+   "name": "f_txt_potencial",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Qual o potencial de inovação?",
+   "maxlength": 400
+  },
+  {
+   "name": "f_ref",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Outras informações",
+   "maxlength": 3950
+  },
+  {
+   "name": "f_titulo_en",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Title",
+   "maxlength": 400
+  },
+  {
+   "name": "f_ref_en",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Other information",
+   "maxlength": 3800
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_sta_inovacao",
+   "valor": "S",
+   "texto": "Não",
+   "aparecem": [
+    "f_txt_potencial"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  }
+ ],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [
+  {
+   "id": "tabelaAutor",
+   "colunas": [
+    "Nome dos inventores"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "autorHolder",
+   "colunas": [
+    "Nome dos inventores"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelapalavra",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "palavraHolder",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelaarea",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "areaHolder",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelasetor",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "setorHolder",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  }
+ ],
+ "botoes_incluir": [],
+ "observacoes": []
+}

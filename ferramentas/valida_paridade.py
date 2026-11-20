@@ -127,9 +127,17 @@ def comparar(spec_var, ref):
     return div
 
 
+class _Excecoes(dict):
+    """Exceções por variante + as globais (artefatos conhecidos da captura, em ref/_excecoes_globais.json) valendo para toda variante."""
+    def get(self, chave, padrao=None):
+        g = REFS / "_excecoes_globais.json"
+        globais = json.loads(g.read_text(encoding="utf-8")) if g.exists() else []
+        return list(super().get(chave, [])) + globais
+
+
 def carregar_excecoes(item):
     p = REFS / item / "excecoes.json"
-    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    return _Excecoes(json.loads(p.read_text(encoding="utf-8")) if p.exists() else {})
 
 
 def main(argv):

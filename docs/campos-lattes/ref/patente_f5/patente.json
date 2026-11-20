@@ -1,0 +1,1044 @@
+{
+ "item": "patente_f5",
+ "variante_slug": "patente",
+ "variante": "Patente",
+ "executado_em": "2026-11-20T14:51:45.162Z",
+ "resumo": {
+  "OK": 128,
+  "exige_acao_manual": 1
+ },
+ "resultados": [
+  {
+   "id": "f_natureza#opcao_produto",
+   "campo": "f_natureza",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1085
+  },
+  {
+   "id": "f_natureza#opcao_processo",
+   "campo": "f_natureza",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1058
+  },
+  {
+   "id": "f_natureza#opcao_produto_e_processo",
+   "campo": "f_natureza",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1066
+  },
+  {
+   "id": "f_natureza#opcao_outra",
+   "campo": "f_natureza",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1063
+  },
+  {
+   "id": "f_cod_reg#tipico",
+   "campo": "f_cod_reg",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 620
+  },
+  {
+   "id": "f_cod_reg#maximo",
+   "campo": "f_cod_reg",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_cod_reg#acima_do_limite",
+   "campo": "f_cod_reg",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 617
+  },
+  {
+   "id": "f_cod_reg#acentos",
+   "campo": "f_cod_reg",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_arg",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 620
+  },
+  {
+   "id": "f_pais#opcao_aus",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 620
+  },
+  {
+   "id": "f_pais#opcao_bra",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_pais#opcao_can",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 619
+  },
+  {
+   "id": "f_pais#opcao_esp",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_pais#opcao_eua",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 690
+  },
+  {
+   "id": "f_pais#opcao_fra",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 619
+  },
+  {
+   "id": "f_pais#opcao_gbr",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 617
+  },
+  {
+   "id": "f_pais#opcao_hol",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 617
+  },
+  {
+   "id": "f_pais#opcao_ing",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_ita",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_por",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_rfa",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_pais#opcao_abw",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_afg",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 617
+  },
+  {
+   "id": "f_pais#opcao_afs",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 614
+  },
+  {
+   "id": "f_pais#opcao_ahl",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_alb",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 615
+  },
+  {
+   "id": "f_pais#opcao_anb",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_and",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_ang",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_ara",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_arl",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_arm",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_asm",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_atc",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_aut",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_aze",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 615
+  },
+  {
+   "id": "f_pais#opcao_bar",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_bea",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_bel",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_ben",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_ber",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_bgd",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_bhs",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_bir",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_bkf",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_blz",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_bol",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_bos",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_bot",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_brb",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_brn",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_bul",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_bur",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_but",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_cam",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_cat",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_caz",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_cbj",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_cbv",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_cck",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_cha",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_chl",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_chn",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_chp",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_cin",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_cmf",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_cod",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_cok",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_col",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_com",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_con",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_crc",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_crn",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_cro",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_crs",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_cub",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_cxr",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_cym",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_din",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_dji",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_pais#opcao_dom",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_pais#opcao_don",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_pais#opcao_eau",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_pais#opcao_egi",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_pais#opcao_els",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_equ",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_pais#opcao_ert",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_pais#opcao_esc",
+   "campo": "f_pais",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_tipo#opcao_pi",
+   "campo": "f_tipo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1067
+  },
+  {
+   "id": "f_tipo#opcao_mu",
+   "campo": "f_tipo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1061
+  },
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_nro_deposito_pct#tipico",
+   "campo": "f_nro_deposito_pct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_nro_deposito_pct#maximo",
+   "campo": "f_nro_deposito_pct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_nro_deposito_pct#acima_do_limite",
+   "campo": "f_nro_deposito_pct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_nro_deposito_pct#acentos",
+   "campo": "f_nro_deposito_pct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_sta_inovacao#opcao_s",
+   "campo": "f_sta_inovacao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1061
+  },
+  {
+   "id": "f_sta_inovacao#opcao_n",
+   "campo": "f_sta_inovacao",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1060
+  },
+  {
+   "id": "f_txt_potencial#tipico",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1330
+  },
+  {
+   "id": "f_txt_potencial#maximo",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1338
+  },
+  {
+   "id": "f_txt_potencial#acima_do_limite",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1326
+  },
+  {
+   "id": "f_txt_potencial#acentos",
+   "campo": "f_txt_potencial",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1337
+  },
+  {
+   "id": "f_ref#tipico",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 618
+  },
+  {
+   "id": "f_ref#maximo",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_ref#acima_do_limite",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_ref#acentos",
+   "campo": "f_ref",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_home_page#tipico",
+   "campo": "f_home_page",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_home_page#maximo",
+   "campo": "f_home_page",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_home_page#acima_do_limite",
+   "campo": "f_home_page",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_home_page#acentos",
+   "campo": "f_home_page",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_finalidade#tipico",
+   "campo": "f_finalidade",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_finalidade#maximo",
+   "campo": "f_finalidade",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_finalidade#acima_do_limite",
+   "campo": "f_finalidade",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_finalidade#acentos",
+   "campo": "f_finalidade",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_inst_financ#tipico",
+   "campo": "f_inst_financ",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_inst_financ#maximo",
+   "campo": "f_inst_financ",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_inst_financ#acima_do_limite",
+   "campo": "f_inst_financ",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_inst_financ#acentos",
+   "campo": "f_inst_financ",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 609
+  },
+  {
+   "id": "f_titulo_en#tipico",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_titulo_en#maximo",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_titulo_en#acima_do_limite",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_titulo_en#acentos",
+   "campo": "f_titulo_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_ref_en#tipico",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_ref_en#maximo",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_ref_en#acima_do_limite",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 608
+  },
+  {
+   "id": "f_ref_en#acentos",
+   "campo": "f_ref_en",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "exige_acao_manual",
+   "detalhe": "lido=",
+   "aviso": "",
+   "ms": 356
+  }
+ ]
+}
