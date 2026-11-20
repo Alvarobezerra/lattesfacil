@@ -1333,3 +1333,14 @@ body.view-registros main.container > *:not(#historyPanel) { display: none !impor
 /* Radios Sim/Não do formulário genérico (espelham os radios do Lattes) */
 .radio-group { display: flex; gap: 18px; align-items: center; padding: 6px 0; }
 .radio-opt { display: inline-flex; gap: 6px; align-items: center; font-weight: normal; cursor: pointer; }
+
+/* Grupos de caixas de marcação do formulário genérico (espelham os do Lattes) */
+.check-group { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 6px 0; }
+.check-opt { display: inline-flex; gap: 6px; align-items: center; font-weight: normal; cursor: pointer; }
+
+/* Listas com colunas do formulário genérico (ex.: Instituição de financiamento) */
+.grid-tab { width: 100%; border-collapse: collapse; margin: 6px 0; }
+.grid-tab th { text-align: left; font-size: 12px; padding: 4px 6px; background: rgba(127,127,127,0.15); }
+.grid-tab td { padding: 3px 4px; }
+.grid-tab td input, .grid-tab td select { width: 100%; box-sizing: border-box; }
+.grid-tab caption { caption-side: bottom; text-align: left; padding: 4px 0; }

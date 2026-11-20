@@ -144,6 +144,14 @@ GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
 ITENS_COM_PARTICIPANTES = {"banca", "banca_comissao_julgadora"}  # aba "Participantes" = grade de autores (autorHolder), confirmada só nas bancas
 
 
+# Moedas da janela "Instituição financeira" do Lattes (REAL primeiro; texto exato das opções).
+MOEDAS_LATTES = ["REAL", "DOLAR AMERICANO", "UNIDADE MONET.EUROPEIA", "BOLIVAR VENEZUELANO", "BTN", "COROA DINAMARQUESA",
+                 "COROA NORUEGUESA", "COROA SUECA", "COROA TCHECA", "CRUZADO", "CRUZADO NOVO", "CRUZEIRO (ATE 1986)", "CRUZEIRO REAL",
+                 "CRUZEIRO (1990)", "DOLAR AUSTRALIANO", "DOLAR CANADENSE", "DOLAR NEOZELANDES", "ESCUDO PORTUGUES", "FLORINS HOLANDESES",
+                 "FRANCO BELGA", "FRANCO FRANCES", "FRANCO SUICO", "INDEFINIDO", "LIBRA ESTERLINA", "LIRA ITALIANA", "MARCO ALEMAO",
+                 "PESETAS", "PESO CHILENO", "PESO MEXICANO", "RANDE/AFRICA DO SUL", "RUBLO/RUSSIA", "UFIR", "URV", "XELIM AUSTRIACO", "YENE"]
+
+
 # Grades que o formulário do Lattes tem em abas de lista e o mapeamento automático não nomeia (holders confirmados na captura da patente).
 GRADES_EXTRA = {
     "patente": [
@@ -163,15 +171,22 @@ GRADES_EXTRA = {
         {"chave": "instituicoes_envolvidas", "rotulo": "Instituições envolvidas no projeto", "aba": "Equipe",
          "dica": "Uma por linha, com o nome como no cadastro do Lattes (lupa \"Selecionar\")"},
         {"chave": "financiamentos", "rotulo": "Instituição de financiamento", "aba": "Equipe",
-         "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."},
+         "dica": "O valor financiado não será exibido na internet.",
+         "colunas": [
+             {"rotulo": "Instituição", "dica": "Nome como no cadastro do Lattes (lupa)"},
+             {"rotulo": "Código do projeto", "maxlength": 20, "numerico": True},
+             {"rotulo": "Moeda", "opcoes": MOEDAS_LATTES, "padrao": "REAL"},
+             {"rotulo": "Valor financiado", "maxlength": 19, "valor": True},
+             {"rotulo": "Natureza", "opcoes": ["Auxílio Financeiro", "Bolsa", "Remuneração", "Cooperação", "Outra"]},
+         ]},
     ],
 }
 
 # Abas do Lattes que só vinculam itens já cadastrados no currículo (não dá para criar a partir do documento).
 ABAS_INFORMATIVAS = {
     "projeto": [
-        {"aba": "Produção C & T", "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."},
-        {"aba": "Orientações", "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."},
+        {"aba": "Produção C & T", "colunas": ["Título da produção", "Ano", "Tipo"], "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."},
+        {"aba": "Orientações", "colunas": ["Título da orientação", "Ano", "Tipo"], "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."},
     ],
 }
 
@@ -228,13 +243,32 @@ MOSTRAR_QUANDO = {
 SOMENTE_LEITURA = {"f_txt_nme_empresa": "O Lattes preenche o nome da empresa a partir do CNPJ (campo somente leitura)."}
 
 
-def espelhar_lattes(campos):
+# Projeto de ensino: o formulário real tem outros textos e grupos de caixas de marcação (conferido em 18/11/2026).
+ENSINO_ROTULOS = {
+    "f_sta_inovacao": "O projeto possui ações inovadoras e produtos, processos ou serviços?",
+    "f_tpo_cooperacao": "É um projeto em cooperação com:",
+    "f_tpo_acao_inov": "O projeto possui ações inovadoras na:",
+    "f_tematica": "Em relação a temática:",
+}
+ENSINO_OCULTOS = {"f_tpo_pesq_emp"}  # existe no formulário, mas não aparece para o usuário
+ENSINO_MOSTRAR_QUANDO = {"f_especifique": {"name": "f_tematica", "valor": "Outra"}}
+
+
+def espelhar_lattes(campos, item_id="", variante=""):
     nomes = {c["name"].lower() for c in campos}
+    ensino = item_id == "projeto" and variante == "Projeto de ensino"
     for c in campos:
         n = c["name"].lower()
+        if ensino:
+            if n in ENSINO_ROTULOS:
+                c["rotulo"] = ENSINO_ROTULOS[n]
+            if n in ENSINO_OCULTOS:
+                c["oculto"] = True
+            if n in ENSINO_MOSTRAR_QUANDO:
+                c["mostrar_quando"] = ENSINO_MOSTRAR_QUANDO[n]
         if c.get("tipo") == "radio" and n in RADIOS_SIM_NAO:
             c["opcoes"] = {"Sim": "S", "Não": "N"}
-            if c.get("rotulo", "") in ("", c["name"]):
+            if c.get("rotulo", "") in ("", c["name"]) and not (ensino and n in ENSINO_ROTULOS):
                 c["rotulo"] = RADIOS_SIM_NAO[n]
         gatilho = MOSTRAR_QUANDO.get(n)
         if gatilho and gatilho in nomes:
@@ -270,7 +304,7 @@ def gerar():
             for var_ in variantes[inicio:]:
                 for c in var_["campos"]:
                     c.update(over.get(c["name"], {}))
-                espelhar_lattes(var_["campos"])
+                espelhar_lattes(var_["campos"], item_id, var_.get("variante", ""))
                 aplicar_padroes_comuns(var_["campos"], padroes)
         spec = {
             "id": item_id,

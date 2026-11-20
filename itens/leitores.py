@@ -250,7 +250,7 @@ def ler_projeto(texto: str, usuario: str):
     orgao_txt = _clean_line(orgao).strip(" ,.")
     inst_txt = _clean_line(inst).strip(" ,.")
     v: dict[str, Any] = {"__variante": tipo, "f_titulo": titulo, "F_TPO_NATUREZA": natureza, "F_TPO_SITUACAO": "Em andamento",
-                         "F_ANO_INIC": ano, "f_inst": inst_txt, "f_orgao": orgao_txt}
+                         "F_ANO_INIC": ano, "f_inst": inst_txt, "f_orgao": (_clean_line(centro).strip(" ,.") if centro else orgao_txt)}
     if coord:
         from itens.sugestoes import como_citado
         nome_coord = _clean_line(coord).strip(" ,.")
@@ -264,7 +264,7 @@ def ler_projeto(texto: str, usuario: str):
         if usuario and not name_matches(usuario, coord):
             n.append(f"ATENÇÃO: {usuario} não é o coordenador citado; confira se participa da equipe.")
     if orgao_txt:
-        n.append(f"Órgão/Unidade: no Lattes é escolhido na hierarquia de órgãos da instituição (lupa)" + (f", e o documento cita o centro {_clean_line(centro).strip(' ,.')}" if centro else "") + "; se \"" + orgao_txt + "\" não estiver cadastrado, escolha o nível mais próximo na lupa.")
+        n.append("Órgão/Unidade: o Lattes costuma ter só o nível do centro/campus (não a coordenação \"" + orgao_txt + "\"); sugeri o centro citado no documento" + (" (" + _clean_line(centro).strip(" ,.") + ")" if centro else "") + ". Na lupa, o preenchimento escolhe o órgão da instituição pela cidade/nome; confira.")
     if tipo == "Outros tipos de projetos":
         n.append("Tipo de projeto não identificado (pesquisa, extensão, ensino ou desenvolvimento); usei 'Outros tipos'.")
     return v, n

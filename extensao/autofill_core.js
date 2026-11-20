@@ -208,6 +208,14 @@ window.__lfAutofill = async function (d) {
       var nomes = [].slice.call(fo.contentDocument.querySelectorAll('a')).filter(function (a) { return a.textContent.trim() && !/cadastrar/i.test(a.textContent); });
       var alvoO = gNormOrgao(nome);
       var achou = nomes.filter(function (a) { return gNormOrgao(a.textContent) === alvoO; })[0] || melhor(nomes, alvoO, function (a) { return gNormOrgao(a.textContent); });
+      if (!achou) {
+        // O Lattes costuma ter só o centro/campus (ex.: "Centro de Ciências Sociais, Saúde e Tecnologia (CCSST) - Imperatriz"), não a
+        // coordenação do documento: se uma única opção contém a palavra distintiva do nome (a cidade, p.ex. "imperatriz"), usa-a e avisa.
+        var parasO = alvoO.split(' ').filter(function (t) { return t.length >= 6 && !/^(centro|ciencias|campus|coordenacao|departamento|universidade|federal|curso|faculdade|instituto|programa)$/.test(t); });
+        var porPalavra = nomes.filter(function (a) { var n2 = gNormOrgao(a.textContent); return parasO.some(function (t) { return n2.indexOf(t) >= 0; }); });
+        if (porPalavra.length === 1) { achou = porPalavra[0]; rel.push(rotulo + ': escolhi "' + achou.textContent.trim() + '" por conter "' + parasO.filter(function (t) { return gNormOrgao(achou.textContent).indexOf(t) >= 0; })[0] + '" (o Lattes não tem "' + nome + '"); confira'); }
+        else if (porPalavra.length > 1) { rel.push(rotulo + ': mais de um órgão parecido (' + porPalavra.slice(0, 4).map(function (a) { return a.textContent.trim(); }).join('; ') + '); a janela da lupa ficou aberta para você escolher'); return false; }
+      }
       if (achou) { achou.click(); await sleep(1200); return true; }
       rel.push(rotulo + ': "' + nome + '" não está entre os órgãos visíveis da instituição no Lattes (a hierarquia pode exigir descer níveis ou cadastrar novo órgão); a janela da lupa ficou aberta para você escolher');
       return false;
@@ -255,6 +263,13 @@ window.__lfAutofill = async function (d) {
       if (c.tipo === 'radio') {
         var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
         if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else if (c.tipo === 'checkbox' && c.codigos && c.codigos.length) {
+        var marcadosC = 0;
+        c.codigos.forEach(function (cod) {
+          var cb = alvo.filter(function (x) { return x.value === cod; })[0];
+          if (cb) { if (!cb.checked) cb.click(); marcadosC++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + cod);
+        });
+        if (marcadosC) ok++;
       } else if (c.tipo === 'checkbox') {
         alvo[0].checked = true; fireG(alvo[0]); ok++;
       } else if (c.tipo === 'select') {

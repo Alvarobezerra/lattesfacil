@@ -493,6 +493,14 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       var nomes = [].slice.call(fo.contentDocument.querySelectorAll('a')).filter(function (a) { return a.textContent.trim() && !/cadastrar/i.test(a.textContent); });
       var alvoO = gNormOrgao(nome);
       var achou = nomes.filter(function (a) { return gNormOrgao(a.textContent) === alvoO; })[0] || melhor(nomes, alvoO, function (a) { return gNormOrgao(a.textContent); });
+      if (!achou) {
+        // O Lattes costuma ter só o centro/campus (ex.: "Centro de Ciências Sociais, Saúde e Tecnologia (CCSST) - Imperatriz"), não a
+        // coordenação do documento: se uma única opção contém a palavra distintiva do nome (a cidade, p.ex. "imperatriz"), usa-a e avisa.
+        var parasO = alvoO.split(' ').filter(function (t) { return t.length >= 6 && !/^(centro|ciencias|campus|coordenacao|departamento|universidade|federal|curso|faculdade|instituto|programa)$/.test(t); });
+        var porPalavra = nomes.filter(function (a) { var n2 = gNormOrgao(a.textContent); return parasO.some(function (t) { return n2.indexOf(t) >= 0; }); });
+        if (porPalavra.length === 1) { achou = porPalavra[0]; rel.push(rotulo + ': escolhi "' + achou.textContent.trim() + '" por conter "' + parasO.filter(function (t) { return gNormOrgao(achou.textContent).indexOf(t) >= 0; })[0] + '" (o Lattes não tem "' + nome + '"); confira'); }
+        else if (porPalavra.length > 1) { rel.push(rotulo + ': mais de um órgão parecido (' + porPalavra.slice(0, 4).map(function (a) { return a.textContent.trim(); }).join('; ') + '); a janela da lupa ficou aberta para você escolher'); return false; }
+      }
       if (achou) { achou.click(); await sleep(1200); return true; }
       rel.push(rotulo + ': "' + nome + '" não está entre os órgãos visíveis da instituição no Lattes (a hierarquia pode exigir descer níveis ou cadastrar novo órgão); a janela da lupa ficou aberta para você escolher');
       return false;
@@ -540,6 +548,13 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       if (c.tipo === 'radio') {
         var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
         if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
+      } else if (c.tipo === 'checkbox' && c.codigos && c.codigos.length) {
+        var marcadosC = 0;
+        c.codigos.forEach(function (cod) {
+          var cb = alvo.filter(function (x) { return x.value === cod; })[0];
+          if (cb) { if (!cb.checked) cb.click(); marcadosC++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + cod);
+        });
+        if (marcadosC) ok++;
       } else if (c.tipo === 'checkbox') {
         alvo[0].checked = true; fireG(alvo[0]); ok++;
       } else if (c.tipo === 'select') {
@@ -3692,7 +3707,9 @@ function genDesenhar() {
     det.appendChild(grid);
     box.appendChild(det);
   });
-  const grades = variante.grades || [];
+  const todasGrades = variante.grades || [];
+  const tabulares = todasGrades.filter((g) => g.colunas);
+  const grades = todasGrades.filter((g) => !g.colunas);
   if (grades.length) {
     const det = document.createElement("details");
     det.open = genExigeTitular() || grades.some((gr) => (GEN.valores["grade:" + gr.chave] || []).length);
@@ -3718,9 +3735,23 @@ function genDesenhar() {
     det.appendChild(grid);
     box.appendChild(det);
   }
+  tabulares.forEach((gr) => {
+    const det = document.createElement("details");
+    det.open = true;
+    det.appendChild(el("summary", "", gr.rotulo));
+    det.appendChild(genGradeTabular(gr));
+    box.appendChild(det);
+  });
   (variante.abas_informativas || []).forEach((ai) => {
     const det = document.createElement("details");
-    det.appendChild(el("summary", "", ai.aba + " (vínculo com itens já cadastrados)"));
+    det.open = true;
+    det.appendChild(el("summary", "", ai.aba));
+    const tb = el("table", "grid-tab");
+    const tr = document.createElement("tr");
+    (ai.colunas || []).forEach((c) => tr.appendChild(el("th", "", c)));
+    const th = document.createElement("thead"); th.appendChild(tr); tb.appendChild(th);
+    tb.appendChild(el("caption", "hint", "Nenhum registro (vínculo feito no Lattes)"));
+    det.appendChild(tb);
     det.appendChild(el("p", "hint", ai.nota));
     box.appendChild(det);
   });
@@ -3855,6 +3886,61 @@ function genGrades() {
   return out;
 }
 
+// Lista com colunas, como as do Lattes (ex.: Instituição de financiamento). Guarda as linhas num textarea oculto
+// (gengrade_<chave>), uma por linha e colunas separadas por ";", que o restante do fluxo já sabe ler.
+function genGradeTabular(gr) {
+  const wrap = el("div", "field");
+  const ta = document.createElement("textarea");
+  ta.id = "gengrade_" + gr.chave; ta.dataset.grade = gr.chave; ta.hidden = true;
+  const ini = GEN.valores["grade:" + gr.chave] || [];
+  ta.value = ini.map((x) => (typeof x === "string" ? x : "")).filter(Boolean).join("\n");
+  const tb = el("table", "grid-tab");
+  const cab = document.createElement("tr");
+  gr.colunas.forEach((c) => cab.appendChild(el("th", "", c.rotulo)));
+  cab.appendChild(el("th", "", ""));
+  const th = document.createElement("thead"); th.appendChild(cab); tb.appendChild(th);
+  const corpo = document.createElement("tbody"); tb.appendChild(corpo);
+  const sync = () => {
+    // Só entra a linha com a primeira coluna (instituição) preenchida; a moeda-padrão sozinha não conta.
+    ta.value = [...corpo.rows].map((tr) => [...tr.querySelectorAll("input,select")].map((i) => i.value.trim().replace(/;/g, ","))).filter((c) => c[0]).map((c) => c.join("; ")).join("\n");
+    genAtualizar();
+  };
+  const novaLinha = (vals) => {
+    const tr = document.createElement("tr");
+    gr.colunas.forEach((c, i) => {
+      const td = document.createElement("td");
+      let inp;
+      if (c.opcoes) {
+        inp = document.createElement("select");
+        ["", ...c.opcoes].forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o || "—"; inp.appendChild(op); });
+        inp.value = (vals && vals[i]) || c.padrao || "";
+      } else {
+        inp = document.createElement("input");
+        inp.type = "text"; inp.value = (vals && vals[i]) || "";
+        if (c.maxlength) inp.maxLength = c.maxlength;
+        if (c.dica) inp.placeholder = c.dica;
+        if (c.numerico) { inp.inputMode = "numeric"; inp.addEventListener("input", () => { inp.value = inp.value.replace(/\D/g, ""); }); }
+        if (c.valor) inp.addEventListener("input", () => { inp.value = inp.value.replace(/[^0-9.,]/g, ""); });
+      }
+      inp.setAttribute("aria-label", c.rotulo);
+      inp.addEventListener("input", sync); inp.addEventListener("change", sync);
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    const tdx = document.createElement("td");
+    const bx = el("button", "btn btn-secondary btn-sm", "Excluir"); bx.type = "button";
+    bx.onclick = () => { tr.remove(); sync(); };
+    tdx.appendChild(bx); tr.appendChild(tdx);
+    corpo.appendChild(tr);
+  };
+  ta.value.split("\n").filter(Boolean).forEach((l) => novaLinha(l.split(";").map((x) => x.trim())));
+  wrap.append(ta, tb);
+  const add = el("button", "btn btn-secondary btn-sm", "Incluir novo item"); add.type = "button";
+  add.onclick = () => novaLinha(null);
+  wrap.appendChild(add);
+  if (gr.dica) wrap.appendChild(el("p", "hint", gr.dica));
+  return wrap;
+}
+
 function genCampo(c) {
   const wrap = el("div", "field");
   const lab = el("label", "", c.rotulo + (c.obrigatorio ? " *" : ""));
@@ -3882,6 +3968,31 @@ function genCampo(c) {
     });
     lab.removeAttribute("for");
     if (c.confira && !GEN.valores[c.name] && c.padrao) { lab.textContent += " (padrão — confira)"; grupo.title = "Valor-padrão sugerido pelo LattesFácil: confira antes de enviar."; }
+    wrap.append(inp, grupo);
+    if (c.dica) wrap.appendChild(el("div", "hint", c.dica));
+    return wrap;
+  }
+  if (c.tipo === "checkbox" && ops && ops.length > 1) {
+    // Grupo de caixas de marcação (várias opções), como no Lattes. O valor fica num campo oculto: opções marcadas separadas por "|".
+    inp = document.createElement("input");
+    inp.type = "hidden";
+    inp.id = "gen_" + c.name;
+    inp.dataset.name = c.name;
+    const marcados = String(GEN.valores[c.name] || c.padrao || "").split("|").map((x) => x.trim()).filter(Boolean);
+    inp.value = marcados.join("|");
+    const grupo = el("div", "check-group");
+    ops.forEach((o) => {
+      const rl = el("label", "check-opt");
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.value = o; cb.checked = marcados.includes(o);
+      cb.addEventListener("change", () => {
+        inp.value = [...grupo.querySelectorAll("input:checked")].map((x) => x.value).join("|");
+        genAtualizar();
+      });
+      rl.append(cb, " " + o);
+      grupo.appendChild(rl);
+    });
+    lab.removeAttribute("for");
     wrap.append(inp, grupo);
     if (c.dica) wrap.appendChild(el("div", "hint", c.dica));
     return wrap;
@@ -3921,7 +4032,7 @@ function genCampo(c) {
 function genVisivel(c) {
   if (!c.mostrar_quando) return true;
   const g = $("gen_" + c.mostrar_quando.name);
-  return !!g && g.value === c.mostrar_quando.valor;
+  return !!g && (g.value === c.mostrar_quando.valor || g.value.split("|").includes(c.mostrar_quando.valor));
 }
 function genAplicarCondicionais() {
   if (!GEN.variante) return;
@@ -3990,6 +4101,11 @@ function genColetar() {
     if (!e || !genVisivel(c)) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
     if (c.obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
+    if (c.tipo === "checkbox" && c.opcoes && Object.keys(c.opcoes).length > 1) {
+      const partes = valor.split("|").filter(Boolean);
+      campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor: partes.join("; "), codigo: "", codigos: partes.map((p) => c.opcoes[p]).filter(Boolean), auto: false, auto_de: "" });
+      return;
+    }
     campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "", auto: !!c.automatico, auto_de: c.auto_de || "" });
   });
   if (genExigeTitular() && !genTitularInformado()) faltam.push(GEN_ROTULO_TITULAR);

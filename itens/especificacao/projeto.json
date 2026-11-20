@@ -432,16 +432,93 @@
      "chave": "financiamentos",
      "rotulo": "Instituição de financiamento",
      "aba": "Equipe",
-     "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."
+     "dica": "O valor financiado não será exibido na internet.",
+     "colunas": [
+      {
+       "rotulo": "Instituição",
+       "dica": "Nome como no cadastro do Lattes (lupa)"
+      },
+      {
+       "rotulo": "Código do projeto",
+       "maxlength": 20,
+       "numerico": true
+      },
+      {
+       "rotulo": "Moeda",
+       "opcoes": [
+        "REAL",
+        "DOLAR AMERICANO",
+        "UNIDADE MONET.EUROPEIA",
+        "BOLIVAR VENEZUELANO",
+        "BTN",
+        "COROA DINAMARQUESA",
+        "COROA NORUEGUESA",
+        "COROA SUECA",
+        "COROA TCHECA",
+        "CRUZADO",
+        "CRUZADO NOVO",
+        "CRUZEIRO (ATE 1986)",
+        "CRUZEIRO REAL",
+        "CRUZEIRO (1990)",
+        "DOLAR AUSTRALIANO",
+        "DOLAR CANADENSE",
+        "DOLAR NEOZELANDES",
+        "ESCUDO PORTUGUES",
+        "FLORINS HOLANDESES",
+        "FRANCO BELGA",
+        "FRANCO FRANCES",
+        "FRANCO SUICO",
+        "INDEFINIDO",
+        "LIBRA ESTERLINA",
+        "LIRA ITALIANA",
+        "MARCO ALEMAO",
+        "PESETAS",
+        "PESO CHILENO",
+        "PESO MEXICANO",
+        "RANDE/AFRICA DO SUL",
+        "RUBLO/RUSSIA",
+        "UFIR",
+        "URV",
+        "XELIM AUSTRIACO",
+        "YENE"
+       ],
+       "padrao": "REAL"
+      },
+      {
+       "rotulo": "Valor financiado",
+       "maxlength": 19,
+       "valor": true
+      },
+      {
+       "rotulo": "Natureza",
+       "opcoes": [
+        "Auxílio Financeiro",
+        "Bolsa",
+        "Remuneração",
+        "Cooperação",
+        "Outra"
+       ]
+      }
+     ]
     }
    ],
    "abas_informativas": [
     {
      "aba": "Produção C & T",
+     "colunas": [
+      "Título da produção",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."
     },
     {
      "aba": "Orientações",
+     "colunas": [
+      "Título da orientação",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."
     }
    ],
@@ -887,16 +964,93 @@
      "chave": "financiamentos",
      "rotulo": "Instituição de financiamento",
      "aba": "Equipe",
-     "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."
+     "dica": "O valor financiado não será exibido na internet.",
+     "colunas": [
+      {
+       "rotulo": "Instituição",
+       "dica": "Nome como no cadastro do Lattes (lupa)"
+      },
+      {
+       "rotulo": "Código do projeto",
+       "maxlength": 20,
+       "numerico": true
+      },
+      {
+       "rotulo": "Moeda",
+       "opcoes": [
+        "REAL",
+        "DOLAR AMERICANO",
+        "UNIDADE MONET.EUROPEIA",
+        "BOLIVAR VENEZUELANO",
+        "BTN",
+        "COROA DINAMARQUESA",
+        "COROA NORUEGUESA",
+        "COROA SUECA",
+        "COROA TCHECA",
+        "CRUZADO",
+        "CRUZADO NOVO",
+        "CRUZEIRO (ATE 1986)",
+        "CRUZEIRO REAL",
+        "CRUZEIRO (1990)",
+        "DOLAR AUSTRALIANO",
+        "DOLAR CANADENSE",
+        "DOLAR NEOZELANDES",
+        "ESCUDO PORTUGUES",
+        "FLORINS HOLANDESES",
+        "FRANCO BELGA",
+        "FRANCO FRANCES",
+        "FRANCO SUICO",
+        "INDEFINIDO",
+        "LIBRA ESTERLINA",
+        "LIRA ITALIANA",
+        "MARCO ALEMAO",
+        "PESETAS",
+        "PESO CHILENO",
+        "PESO MEXICANO",
+        "RANDE/AFRICA DO SUL",
+        "RUBLO/RUSSIA",
+        "UFIR",
+        "URV",
+        "XELIM AUSTRIACO",
+        "YENE"
+       ],
+       "padrao": "REAL"
+      },
+      {
+       "rotulo": "Valor financiado",
+       "maxlength": 19,
+       "valor": true
+      },
+      {
+       "rotulo": "Natureza",
+       "opcoes": [
+        "Auxílio Financeiro",
+        "Bolsa",
+        "Remuneração",
+        "Cooperação",
+        "Outra"
+       ]
+      }
+     ]
     }
    ],
    "abas_informativas": [
     {
      "aba": "Produção C & T",
+     "colunas": [
+      "Título da produção",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."
     },
     {
      "aba": "Orientações",
+     "colunas": [
+      "Título da orientação",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."
     }
    ],
@@ -1003,6 +1157,7 @@
       "Não": "N"
      },
      "obrigatorio": false,
+     "oculto": true,
      "padrao": "Não",
      "origem_padrao": "padrao_comum",
      "confira": true
@@ -1010,7 +1165,7 @@
     {
      "chave": "tpo_cooperacao",
      "name": "f_tpo_cooperacao",
-     "rotulo": "f_tpo_cooperacao",
+     "rotulo": "É um projeto em cooperação com:",
      "aba": "Dados gerais",
      "tipo": "checkbox",
      "opcoes": {
@@ -1023,7 +1178,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+     "rotulo": "O projeto possui ações inovadoras e produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -1038,7 +1193,7 @@
     {
      "chave": "tpo_acao_inov",
      "name": "f_tpo_acao_inov",
-     "rotulo": "f_tpo_acao_inov",
+     "rotulo": "O projeto possui ações inovadoras na:",
      "aba": "Dados gerais",
      "tipo": "checkbox",
      "opcoes": {
@@ -1055,7 +1210,7 @@
     {
      "chave": "tematica",
      "name": "f_tematica",
-     "rotulo": "f_tematica",
+     "rotulo": "Em relação a temática:",
      "aba": "Dados gerais",
      "tipo": "checkbox",
      "opcoes": {
@@ -1081,7 +1236,11 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 50,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "mostrar_quando": {
+      "name": "f_tematica",
+      "valor": "Outra"
+     }
     },
     {
      "chave": "objetivos_metas",
@@ -1354,16 +1513,93 @@
      "chave": "financiamentos",
      "rotulo": "Instituição de financiamento",
      "aba": "Equipe",
-     "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."
+     "dica": "O valor financiado não será exibido na internet.",
+     "colunas": [
+      {
+       "rotulo": "Instituição",
+       "dica": "Nome como no cadastro do Lattes (lupa)"
+      },
+      {
+       "rotulo": "Código do projeto",
+       "maxlength": 20,
+       "numerico": true
+      },
+      {
+       "rotulo": "Moeda",
+       "opcoes": [
+        "REAL",
+        "DOLAR AMERICANO",
+        "UNIDADE MONET.EUROPEIA",
+        "BOLIVAR VENEZUELANO",
+        "BTN",
+        "COROA DINAMARQUESA",
+        "COROA NORUEGUESA",
+        "COROA SUECA",
+        "COROA TCHECA",
+        "CRUZADO",
+        "CRUZADO NOVO",
+        "CRUZEIRO (ATE 1986)",
+        "CRUZEIRO REAL",
+        "CRUZEIRO (1990)",
+        "DOLAR AUSTRALIANO",
+        "DOLAR CANADENSE",
+        "DOLAR NEOZELANDES",
+        "ESCUDO PORTUGUES",
+        "FLORINS HOLANDESES",
+        "FRANCO BELGA",
+        "FRANCO FRANCES",
+        "FRANCO SUICO",
+        "INDEFINIDO",
+        "LIBRA ESTERLINA",
+        "LIRA ITALIANA",
+        "MARCO ALEMAO",
+        "PESETAS",
+        "PESO CHILENO",
+        "PESO MEXICANO",
+        "RANDE/AFRICA DO SUL",
+        "RUBLO/RUSSIA",
+        "UFIR",
+        "URV",
+        "XELIM AUSTRIACO",
+        "YENE"
+       ],
+       "padrao": "REAL"
+      },
+      {
+       "rotulo": "Valor financiado",
+       "maxlength": 19,
+       "valor": true
+      },
+      {
+       "rotulo": "Natureza",
+       "opcoes": [
+        "Auxílio Financeiro",
+        "Bolsa",
+        "Remuneração",
+        "Cooperação",
+        "Outra"
+       ]
+      }
+     ]
     }
    ],
    "abas_informativas": [
     {
      "aba": "Produção C & T",
+     "colunas": [
+      "Título da produção",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."
     },
     {
      "aba": "Orientações",
+     "colunas": [
+      "Título da orientação",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."
     }
    ],
@@ -1819,16 +2055,93 @@
      "chave": "financiamentos",
      "rotulo": "Instituição de financiamento",
      "aba": "Equipe",
-     "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."
+     "dica": "O valor financiado não será exibido na internet.",
+     "colunas": [
+      {
+       "rotulo": "Instituição",
+       "dica": "Nome como no cadastro do Lattes (lupa)"
+      },
+      {
+       "rotulo": "Código do projeto",
+       "maxlength": 20,
+       "numerico": true
+      },
+      {
+       "rotulo": "Moeda",
+       "opcoes": [
+        "REAL",
+        "DOLAR AMERICANO",
+        "UNIDADE MONET.EUROPEIA",
+        "BOLIVAR VENEZUELANO",
+        "BTN",
+        "COROA DINAMARQUESA",
+        "COROA NORUEGUESA",
+        "COROA SUECA",
+        "COROA TCHECA",
+        "CRUZADO",
+        "CRUZADO NOVO",
+        "CRUZEIRO (ATE 1986)",
+        "CRUZEIRO REAL",
+        "CRUZEIRO (1990)",
+        "DOLAR AUSTRALIANO",
+        "DOLAR CANADENSE",
+        "DOLAR NEOZELANDES",
+        "ESCUDO PORTUGUES",
+        "FLORINS HOLANDESES",
+        "FRANCO BELGA",
+        "FRANCO FRANCES",
+        "FRANCO SUICO",
+        "INDEFINIDO",
+        "LIBRA ESTERLINA",
+        "LIRA ITALIANA",
+        "MARCO ALEMAO",
+        "PESETAS",
+        "PESO CHILENO",
+        "PESO MEXICANO",
+        "RANDE/AFRICA DO SUL",
+        "RUBLO/RUSSIA",
+        "UFIR",
+        "URV",
+        "XELIM AUSTRIACO",
+        "YENE"
+       ],
+       "padrao": "REAL"
+      },
+      {
+       "rotulo": "Valor financiado",
+       "maxlength": 19,
+       "valor": true
+      },
+      {
+       "rotulo": "Natureza",
+       "opcoes": [
+        "Auxílio Financeiro",
+        "Bolsa",
+        "Remuneração",
+        "Cooperação",
+        "Outra"
+       ]
+      }
+     ]
     }
    ],
    "abas_informativas": [
     {
      "aba": "Produção C & T",
+     "colunas": [
+      "Título da produção",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."
     },
     {
      "aba": "Orientações",
+     "colunas": [
+      "Título da orientação",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."
     }
    ],
@@ -2274,16 +2587,93 @@
      "chave": "financiamentos",
      "rotulo": "Instituição de financiamento",
      "aba": "Equipe",
-     "dica": "Um por linha: instituição; código do projeto (só números); moeda; valor; natureza (Auxílio Financeiro, Bolsa, Remuneração, Cooperação ou Outra). Ex.: CNPq; 123456; REAL; 15000,00; Bolsa. O valor financiado não é exibido na internet."
+     "dica": "O valor financiado não será exibido na internet.",
+     "colunas": [
+      {
+       "rotulo": "Instituição",
+       "dica": "Nome como no cadastro do Lattes (lupa)"
+      },
+      {
+       "rotulo": "Código do projeto",
+       "maxlength": 20,
+       "numerico": true
+      },
+      {
+       "rotulo": "Moeda",
+       "opcoes": [
+        "REAL",
+        "DOLAR AMERICANO",
+        "UNIDADE MONET.EUROPEIA",
+        "BOLIVAR VENEZUELANO",
+        "BTN",
+        "COROA DINAMARQUESA",
+        "COROA NORUEGUESA",
+        "COROA SUECA",
+        "COROA TCHECA",
+        "CRUZADO",
+        "CRUZADO NOVO",
+        "CRUZEIRO (ATE 1986)",
+        "CRUZEIRO REAL",
+        "CRUZEIRO (1990)",
+        "DOLAR AUSTRALIANO",
+        "DOLAR CANADENSE",
+        "DOLAR NEOZELANDES",
+        "ESCUDO PORTUGUES",
+        "FLORINS HOLANDESES",
+        "FRANCO BELGA",
+        "FRANCO FRANCES",
+        "FRANCO SUICO",
+        "INDEFINIDO",
+        "LIBRA ESTERLINA",
+        "LIRA ITALIANA",
+        "MARCO ALEMAO",
+        "PESETAS",
+        "PESO CHILENO",
+        "PESO MEXICANO",
+        "RANDE/AFRICA DO SUL",
+        "RUBLO/RUSSIA",
+        "UFIR",
+        "URV",
+        "XELIM AUSTRIACO",
+        "YENE"
+       ],
+       "padrao": "REAL"
+      },
+      {
+       "rotulo": "Valor financiado",
+       "maxlength": 19,
+       "valor": true
+      },
+      {
+       "rotulo": "Natureza",
+       "opcoes": [
+        "Auxílio Financeiro",
+        "Bolsa",
+        "Remuneração",
+        "Cooperação",
+        "Outra"
+       ]
+      }
+     ]
     }
    ],
    "abas_informativas": [
     {
      "aba": "Produção C & T",
+     "colunas": [
+      "Título da produção",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de produções do seu currículo (título, ano, tipo) que resultaram do projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as produções."
     },
     {
      "aba": "Orientações",
+     "colunas": [
+      "Título da orientação",
+      "Ano",
+      "Tipo"
+     ],
      "nota": "Lista de orientações do seu currículo (título, ano, tipo) ligadas ao projeto. É um vínculo com itens já cadastrados: vincule no Lattes depois de incluir as orientações."
     }
    ],
