@@ -65,11 +65,13 @@ def _tem_nome(texto: str) -> bool:
 
 def _caderno() -> dict:
     """Caderno de anais: >12 páginas e ≥10 resumos com 'Palavras-chave' (reconhecido como caderno)."""
+    # Layout de caderno real (um resumo por página): título em caixa alta, autores em maiúsculas com o índice da instituição, linha de afiliação
+    # iniciada por número, texto do resumo e "Palavras-chave:" (é o formato que o leitor do caderno entende).
     paginas = []
     for i in range(1, 15):
-        paginas.append(f"Trabalho {i}: Estudo exemplar número {i}\n{PESQUISADORA}, Autores fictícios da {INST}\n\n"
-                       f"Resumo: texto fictício do resumo {i} com introdução, metodologia e resultados.\n"
-                       f"Palavras-chave: exemplo; fictício; trabalho {i}.\nKeywords: example; fictitious; work {i}.")
+        paginas.append(f"EFEITO EXEMPLAR NUMERO {i} SOBRE A VIABILIDADE CELULAR IN VITRO\n{PESQUISADORA.upper()}1, CARLOS EDUARDO PINHEIRO1\n1 {INST}\n"
+                       f"Este trabalho fictício número {i} avaliou o efeito de um extrato sobre a viabilidade de células em cultura.\n"
+                       f"Palavras-chave: exemplo; viabilidade celular; trabalho {i}.")
     return dict(arquivo="caderno", item="caderno", classe="caderno", titulo="CADERNO DE RESUMOS - Simpósio Exemplar 2024",
                 corpo="", paginas=paginas)
 

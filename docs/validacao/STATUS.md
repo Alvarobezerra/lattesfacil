@@ -10,9 +10,9 @@ Metodologia: [../metodologia-validacao-formularios.md](../metodologia-validacao-
 | --- | --- | --- |
 | Projetos (5 variantes) | Perfis diferentes (fluxo documento → formulário → envio pela extensão já testado no app logado). Escolha manual por desenho (não é pendência do robô): financiamento com o CNPq (dois cadastros DF/RJ) e instituições que não constam no cadastro do Lattes com o nome oficial (ex.: FAPEMA) — o robô avisa e deixa a janela aberta | Entrar no app (o usuário) e rodar o fluxo de projeto |
 | Artigo em periódico | Perfis diferentes de usuário (documento, DOI, dados faltantes, reabrir registro e envio pela extensão já testados no app logado) | Conferir com outros perfis |
-| Trabalho em anais | Caderno de resumos com PDF longo de verdade; perfis diferentes (envio pela extensão e reabrir registro já testados no app logado) | Testar com um caderno real |
+| Trabalho em anais | Perfis diferentes (caderno com PDF longo sintético no layout real, envio pela extensão e reabrir registro já testados) | Conferir com outros perfis e com um caderno real de congresso |
 | Apresentação de trabalho e palestra | Perfis diferentes (documento e envio pela extensão já testados no app logado) | Conferir com outros perfis |
-| Orientação concluída / em andamento | Perfis diferentes; fluxo no app logado (documento, reabrir registro, envio pela extensão) ainda não rodado para orientação | Rodar no app logado |
+| Orientação concluída / em andamento | Perfis diferentes (documento, registro antigo e envio pela extensão já testados no app logado) | Conferir com outros perfis |
 | Demais 55 itens | Specs gerados do mapeamento antigo, sem captura real, sem leitor/robô validados | Seguir o ciclo de 8 fases por item |
 
 Fases: 1 captura · 2 diff · 3 paridade de tela · 4 matriz de valores · 5 preenchimento com leitura de volta · 6 obrigatórios · 7 salvamento de teste · 8 fechamento.
@@ -86,3 +86,5 @@ Identifier...") e texto de script do Lattes. Corrigido (extensão 0.9.7, teste `
 **Falta:** reabrir o Lattes, recapturar a andamento com a aceitação, rodar de novo a matriz (esperado 210/210), salvar as duas orientações de teste e testar a lupa da agência; depois caderno com PDF longo, perfis diferentes, executor genérico e os 55 itens.
 
 **Orientações fechadas no Lattes (21/11/2026):** paridade 0, matriz 207/207 nas duas (com lupa da agência e dependência do tipo de orientação) e salvamento real conferido nas listas. Nova regra do robô: reaproveita formulário aberto só se o subtipo (f_tipo / f_cod_tipo) for o mesmo.
+
+**App logado, orientações (21/11/2026):** 9 testes OK (documento → formulário do spec, endereço C/A, registro antigo) e envio pela extensão OK nas duas. **Caderno:** `tests/teste_caderno.py` (PDF longo no layout real, 14 resumos → formulário de anais). Achado: o leitor do caderno só entende o layout "título em caixa alta + autores em maiúsculas com índice + afiliação numerada"; outros layouts de congresso podem exigir ajuste.
