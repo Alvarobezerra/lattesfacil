@@ -108,3 +108,14 @@ Para apagar: Produções (ou Patentes e Registros) > a lista indicada: procurar 
 | cultivar_registrada | Patentes e Registros > Cultivar registrada | `ZZ-TESTE-LATTESFACIL Teste de Cultivar registrada (validação automática)` (2024) |
 
 Tentativas que NÃO gravaram (nada ficou no currículo): (a) trabalho/relatório/extensão/material com "É um dos 10 mais relevantes = sim": o Lattes avisou "Já existem cadastradas 5 produções relevantes" e não salvou; o gerador passou a usar "não"; (b) cultivares sem "Autoridade Nacional": "Campo Instituição de registro obrigatório não informado"; o gerador passou a preencher; (c) duas rodadas se sobrepuseram e deixaram um formulário vazio aberto (fechado, nada gravado).
+
+
+## Registro de 21/11/2026 (faixa 7: eventos e cursos, 3 itens)
+Salvamento de teste pelo robô, conferido na lista do Lattes (uma ocorrência por item). **Apague os 3 itens** (procure o prefixo ZZ-TESTE-LATTESFACIL):
+| Item | Onde apagar | Título gravado |
+| --- | --- | --- |
+| participacao_evento | Eventos > Participação em eventos, congressos, exposições, feiras e olimpíadas | `ZZ-TESTE-LATTESFACIL Evento de teste (validação automática)` (Convidado, Conferencista, 2024) |
+| organizacao_evento | Eventos > Organização de eventos, congressos, exposições, feiras e olimpíadas | `ZZ-TESTE-LATTESFACIL Teste de Organização de eventos, congressos, exposições, feiras e olimpíadas (validação automática)` (2024) |
+| curso_ministrado | Produções > Curso de curta duração ministrado | `ZZ-TESTE-LATTESFACIL Teste de Curso de curta duração ministrado (validação automática)` (Extensão, 2024) |
+Tentativas sem gravar: participação 2x (tipo da participação não escolhido: o robô só o escolhia sem a trava de salvamento; corrigido).
+**Limite de "mais relevantes":** o Lattes responde "Já existem cadastradas 5 produções relevantes." e desmarca a opção Sim; por isso a matriz de organização (215/216) e de curso (212/213) tem 1 divergência esperada em F_RELEV=Sim. Não é defeito do app; ao apagar produções relevantes (inclusive os itens de teste da faixa 5 gravados com relevante=Sim antes da correção: programa sem registro, produto, processo/técnica, trabalho/relatório) a matriz passa 100%.

@@ -8,10 +8,35 @@
     "padrao": "Ouvinte"
    },
    "F_TPO": {
-    "obrigatorio": true,
+    "obrigatorio": false,
     "origem": "documento",
     "automatico": true,
-    "auto_de": "F_FORMA"
+    "auto_de": "F_FORMA",
+    "obrigatorio_quando": {
+     "name": "F_FORMA",
+     "valor": [
+      "Convidado",
+      "Participante"
+     ]
+    },
+    "opcoes_por": {
+     "name": "F_FORMA",
+     "valores": {
+      "Convidado": [
+       "Conferencista",
+       "Simposista",
+       "Moderador",
+       "Avaliador",
+       "Homenageado"
+      ],
+      "Participante": [
+       "Poster / Painel",
+       "Apresentação oral",
+       "Outras formas"
+      ],
+      "Ouvinte": []
+     }
+    }
    },
    "f_nme_evento": {
     "origem": "documento"

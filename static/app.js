@@ -1094,7 +1094,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     // No caminho manual do artigo (sem DOI) o Lattes dispara "DOI não encontrado." ao abrir o formulário: aviso sem efeito, não conta.
     var doiPreenchido = ((G.campos || []).filter(function (c) { return /^f_cod_doi$/i.test(c.name) && c.valor; }).length > 0);
     lfAvisosLattes.filter(function (m, i, v) { return v.indexOf(m) === i && !(/^DOI n[ãa]o encontrado/i.test(m) && /F_CTR=FIV/.test(String(G.url || ''))) && !(/^Informe o Digital Object Identifier/i.test(m) && !doiPreenchido); }).forEach(function (m) { rel.push('Aviso do Lattes: ' + m); });
-    var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r); });
+    var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r) && !/escolhido automaticamente/.test(r); });
     if (d.__autoSalvar && btnSalvarG && !(G.faltam || []).length && criticosG.length === 0) {
       await sleep(600);
       try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
@@ -4340,7 +4340,7 @@ function genColetar() {
     const e = $("gen_" + c.name);
     if (!e || !genVisivel(c)) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
-    const obrigatorio = c.obrigatorio || (c.obrigatorio_quando && ($("gen_" + c.obrigatorio_quando.name) || {}).value === c.obrigatorio_quando.valor);
+    const obrigatorio = c.obrigatorio || (c.obrigatorio_quando && [].concat(c.obrigatorio_quando.valor).indexOf(($("gen_" + c.obrigatorio_quando.name) || {}).value) >= 0);
     if (obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
     if (c.tipo === "checkbox" && c.opcoes && Object.keys(c.opcoes).length > 1) {
       const partes = valor.split("|").filter(Boolean);

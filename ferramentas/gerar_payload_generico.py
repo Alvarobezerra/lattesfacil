@@ -52,6 +52,8 @@ def valores_automaticos(var, item=""):
             v[n] = "INPI - Instituto Nacional da Propriedade Industrial"
         elif nl == "f_inst" and "ultivar" in var["variante"] + item:
             v[n] = "MAPA - Serviço Nacional de Proteção de Cultivares"
+        elif nl == "f_nme_evento":
+            v[n] = f"{P} Evento de teste (validação automática)"
         elif nl == "f_relev":
             v[n] = "não"  # o Lattes limita os itens "mais relevantes" e o currículo já tem o máximo
         elif nl == "f_sta_inovacao":
@@ -90,7 +92,7 @@ def carga(item):
         if (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
             continue
         valor = str(v.get(c["name"], ""))
-        campos.append({"name": c["name"], "rotulo": c["rotulo"], "tipo": c["tipo"], "valor": valor, "codigo": (c.get("opcoes") or {}).get(valor, ""), "auto": False, "auto_de": ""})
+        campos.append({"name": c["name"], "rotulo": c["rotulo"], "tipo": c["tipo"], "valor": valor, "codigo": (c.get("opcoes") or {}).get(valor, ""), "auto": bool(c.get("automatico")), "auto_de": c.get("auto_de", "")})
     return {"tipo_producao": "generico", "__usuario": USUARIO, "__origem": "", "__autoSalvar": True, "__semAlerta": True,
             "__generico": {"id": item, "item": spec["item"], "como_abrir": spec["como_abrir"], "url": var["url"], "lista": spec.get("lista", ""), "campos": campos, "faltam": [], "grades": GRADES.get(item) or grades_automaticas(var)}}
 
