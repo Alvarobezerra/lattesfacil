@@ -809,7 +809,7 @@ window.__lfAutofill = async function (d) {
     // No caminho manual do artigo (sem DOI) o Lattes dispara "DOI não encontrado." ao abrir o formulário: aviso sem efeito, não conta.
     var doiPreenchido = ((G.campos || []).filter(function (c) { return /^f_cod_doi$/i.test(c.name) && c.valor; }).length > 0);
     lfAvisosLattes.filter(function (m, i, v) { return v.indexOf(m) === i && !(/^DOI n[ãa]o encontrado/i.test(m) && /F_CTR=FIV/.test(String(G.url || ''))) && !(/^Informe o Digital Object Identifier/i.test(m) && !doiPreenchido); }).forEach(function (m) { rel.push('Aviso do Lattes: ' + m); });
-    var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r); });
+    var criticosG = rel.filter(function (r) { return !/^Autores digitados à mão/i.test(r) && !/ incluídos$/.test(r) && !/escolhido automaticamente/.test(r); });
     if (d.__autoSalvar && btnSalvarG && !(G.faltam || []).length && criticosG.length === 0) {
       await sleep(600);
       try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
