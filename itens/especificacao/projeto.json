@@ -166,7 +166,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -702,7 +702,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -1191,7 +1191,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui ações inovadoras e produtos, processos ou serviços?",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -1792,7 +1792,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {
@@ -2337,7 +2337,7 @@
     {
      "chave": "sta_inovacao",
      "name": "f_sta_inovacao",
-     "rotulo": "O projeto possui potencial de inovação de produtos, processos ou serviços?",
+     "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {

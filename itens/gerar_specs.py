@@ -468,6 +468,7 @@ def ajustes_da_captura(item_id, var_):
             c.pop("oculto", None)
         if c["name"].lower() == "f_sta_inovacao" and c.get("tipo") == "radio":
             c["opcoes"] = {"Sim": "S", "Não": "N"}  # o texto vem antes do botão; a captura por proximidade o desloca
+            c["rotulo"] = "Possui potencial de inovação de produtos, processos ou serviços?"  # texto real do Lattes (conferido nos formulários abertos)
 
 
 def dependencias_da_captura(item_id, var_):

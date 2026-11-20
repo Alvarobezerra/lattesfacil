@@ -28,10 +28,59 @@ GRADES = {
 }
 
 
+def valores_automaticos(var):
+    """Valores de teste para itens sem VALORES próprio: primeira opção válida de cada seleção/opção, país Brasil, idioma Português, título com o prefixo de teste."""
+    v = {}
+    for c in var["campos"]:
+        n, nl = c["name"], c["name"].lower()
+        if c.get("bloqueado_no_lattes") or (c.get("oculto") and not c.get("mostrar_quando")):
+            continue
+        ops = c.get("opcoes") or {}
+        if nl in ("f_titulo",):
+            v[n] = f"{P} Teste de {var['variante']} (validação automática)"[:140]
+        elif nl == "f_ano" or nl.startswith("f_ano_"):
+            v[n] = "2024"
+        elif nl == "f_pais":
+            v[n] = "Brasil"
+        elif nl == "f_idioma":
+            v[n] = "Português"
+        elif "dta" in nl or nl.startswith("f_data"):
+            v[n] = "15/03/2020"
+        elif nl == "f_cod_reg":
+            v[n] = "BR1020200000001"
+        elif nl == "f_inst" and c.get("entra_pela_abertura"):
+            v[n] = "INPI - Instituto Nacional da Propriedade Industrial"
+        elif nl == "f_sta_inovacao":
+            v[n] = "Não"
+        elif nl in ("f_home_page", "f_homepage", "f_txt_potencial", "f_titulo_en", "f_ref_en", "f_inst", "f_curso", "f_nme_agencia") or c.get("lupa"):
+            continue
+        elif c["tipo"] in ("radio", "select") and ops:
+            v[n] = next((k for k, cod in ops.items() if cod not in ("", "Selecione")), "")
+        elif c["tipo"] == "textarea":
+            v[n] = "Teste automático de validação do formulário."
+        elif c["tipo"] == "text" and c.get("obrigatorio"):
+            v[n] = "Teste de validação"
+    return v
+
+
+def grades_automaticas(var):
+    ch = {g["chave"] for g in var.get("grades", [])}
+    g = {}
+    if "autores" in ch:
+        g["autores"] = [{"nome": USUARIO, "citacao": "SANTOS, A. A. B."}, {"nome": "ZZ Coautor de Teste", "citacao": "TESTE, Z. C."}]
+    if "titulares_pessoa" in ch:
+        g["titulares_pessoa"] = [USUARIO]
+    if "palavras_chave" in ch:
+        g["palavras_chave"] = ["teste", "validação"]
+    if "areas" in ch:
+        g["areas"] = ["Microbiologia"]
+    return g
+
+
 def carga(item):
     spec = especificacao(item)
     var = spec["variantes"][0]
-    v = VALORES[item]
+    v = VALORES.get(item) or valores_automaticos(var)
     campos = []
     for c in var["campos"]:
         if (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
@@ -39,7 +88,7 @@ def carga(item):
         valor = str(v.get(c["name"], ""))
         campos.append({"name": c["name"], "rotulo": c["rotulo"], "tipo": c["tipo"], "valor": valor, "codigo": (c.get("opcoes") or {}).get(valor, ""), "auto": False, "auto_de": ""})
     return {"tipo_producao": "generico", "__usuario": USUARIO, "__origem": "", "__autoSalvar": True, "__semAlerta": True,
-            "__generico": {"id": item, "item": spec["item"], "como_abrir": spec["como_abrir"], "url": var["url"], "lista": spec.get("lista", ""), "campos": campos, "faltam": [], "grades": GRADES[item]}}
+            "__generico": {"id": item, "item": spec["item"], "como_abrir": spec["como_abrir"], "url": var["url"], "lista": spec.get("lista", ""), "campos": campos, "faltam": [], "grades": GRADES.get(item) or grades_automaticas(var)}}
 
 
 if __name__ == "__main__":
