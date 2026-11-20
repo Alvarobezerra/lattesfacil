@@ -1,0 +1,54 @@
+{
+  "item": "software_sem_registro",
+  "titulo_lattes": "Programa de computador sem registro",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_365.png",
+  "url": "PKG_PATENTE_REGISTRO.form?f_reg=N&F_STA_DIVULGACAO_CIENTIFICA=&f_cod=K4298460T6&f_cod_tipo=PC",
+  "form_name": "PKG_PATENTE_REGISTRO",
+  "form_action": "PKG_PATENTE_REGISTRO.FORM",
+  "abas": ["Dados gerais", "Depositante/Titular", "Autores", "Palavras-chave", "Áreas", "Setores", "Resumo", "Traduções", "Visibilidade"],
+  "campos": [
+    { "aba": "Dados gerais", "name": "f_natureza", "tipo": "radio", "rotulo": "Natureza", "opcoes": ["Computacional", "Multimídia", "Outro"] },
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano de desenvolvimento", "maxlength": 4 },
+    { "aba": "Dados gerais", "name": "f_pais", "tipo": "select", "defaultValue": "BRA", "total_options": 244, "onchange": "paisCongelado()" },
+    { "aba": "Dados gerais", "name": "f_finalidade", "tipo": "text", "maxlength": 255 },
+    { "aba": "Dados gerais", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "defaultValue": "não" },
+    { "aba": "Dados gerais", "name": "f_sta_inovacao", "tipo": "radio", "rotulo": "Possui potencial de inovação de produtos, processos ou serviços?", "opcoes": ["Sim", "Não"] },
+    { "aba": "Dados gerais", "name": "f_txt_potencial", "tipo": "text", "container": "tr#potencial", "rotulo": "Qual o potencial de inovação?", "maxlength": 400, "condicional": "Visível e obrigatório apenas quando f_sta_inovacao = Sim" },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "opcoes": ["sim (onclick: relev();)", "não"] },
+    { "aba": "Dados gerais", "name": "f_inst_financ", "tipo": "textarea", "rotulo": "Instituição(ões) financiadora(s) (separadas por ponto e vírgula)", "maxlength": 380 },
+    { "aba": "Dados gerais", "name": "f_plataforma", "tipo": "text", "rotulo": "Linguagens", "maxlength": 255 },
+    { "aba": "Resumo", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": null, "tipo": "select (ms-dd widget)", "defaultValue": "Público", "opcoes": ["Público", "Privado"] }
+  ],
+  "listas": [
+    { "table_id": "tabelaprograma", "holder_id": "programaHolder", "rotulo": "Tipo de programa", "acoes": ["Listar todos"] },
+    { "table_id": "tabelatitularPessoa", "holder_id": "titularPessoaHolder", "rotulo": "Depositante/Titular (Pessoas)", "maxlength": 60, "acoes": ["Listar todas", "Incluir nova"] },
+    { "holder_id": "titularInstHolder", "rotulo": "Depositante/Titular (Instituições)", "maxlength": 60, "acoes": ["Selecionar", "Incluir nova"] },
+    { "table_id": "tabelaAutor", "holder_id": "autorHolder", "maxlength": 60, "acoes": ["Listar todos", "Incluir novo"] },
+    { "table_id": "tabelapalavra", "holder_id": "palavraHolder", "maxlength": 50, "acoes": ["Listar todos", "Incluir nova"] },
+    { "table_id": "tabelaarea", "holder_id": "areaHolder", "maxlength": 86, "acoes": ["Listar todos", "Incluir nova"] },
+    { "table_id": "tabelasetor", "holder_id": "setorHolder", "acoes": ["Listar todos"] }
+  ],
+  "validacao_salvar_vazio_inovacao_sim": [
+    "Campo \"Qual o potencial de inovação?\" obrigatório não informado",
+    "Campo Título obrigatório não informado.",
+    "Campo Instituição(ções) financiadora(s) obrigatório não informado.",
+    "Campo Finalidade obrigatório não informado.",
+    "Campo Linguagens obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de inventores.",
+    "Campo  Ano de Desenvolvimento Obrigatório não informado"
+  ],
+  "validacao_salvar_vazio_inovacao_nao": [
+    "Campo Título obrigatório não informado.",
+    "Campo Instituição(ções) financiadora(s) obrigatório não informado.",
+    "Campo Finalidade obrigatório não informado.",
+    "Campo Linguagens obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de inventores.",
+    "Campo  Ano de Desenvolvimento Obrigatório não informado"
+  ]
+}

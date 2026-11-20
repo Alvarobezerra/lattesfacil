@@ -1,0 +1,72 @@
+{
+  "item": "orientacao_concluida",
+  "titulo_lattes": "Orientações e supervisões concluídas",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_150.png",
+  "url": "https://wwws.cnpq.br/cvlattesweb/pkg_orient.form?f_cod=K4298460T6&f_tipo=C",
+  "form_name": "PKG_ORIENT",
+  "form_action": "PKG_ORIENT.FORM",
+  "form_method": "POST",
+  "abas": [
+    { "texto": "Dados Gerais", "title": "Dados Gerais" },
+    { "texto": "Detalhamento", "title": "Detalhamento" },
+    { "texto": "Bolsa", "title": "Bolsa" },
+    { "texto": "Palavras-chave", "title": "Palavras-chave" },
+    { "texto": "Áreas", "title": "Áreas" },
+    { "texto": "Setores", "title": "Setores" },
+    { "texto": "Outras informaç...", "title": "Outras informações" },
+    { "texto": "Traduções", "title": "Traduções" },
+    { "texto": "Visibilidade", "title": "Visibilidade" }
+  ],
+  "campos": [
+    { "aba": "Dados Gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza (nível da orientação)", "onclick": "testa_nivel(0)..testa_nivel(6)", "opcoes": [
+      { "texto": "Dissertação de mestrado", "onclick": "testa_nivel(0);" },
+      { "texto": "Tese de doutorado", "onclick": "testa_nivel(1);" },
+      { "texto": "Monografia de conclusão de curso de aperfeiçoamento/especialização", "onclick": "testa_nivel(2);" },
+      { "texto": "Trabalho de conclusão de curso de graduação", "onclick": "testa_nivel(3);" },
+      { "texto": "Iniciação Científica", "onclick": "testa_nivel(4);" },
+      { "texto": "Supervisão de pós-doutorado", "onclick": "testa_nivel(5);" },
+      { "texto": "Orientação de outra natureza", "onclick": "testa_nivel(6);" }
+    ]},
+    { "aba": "Dados Gerais", "name": "f_dsc_outra", "tipo": "text (input-lupa)", "rotulo": "Tipo (apenas para dissertação de mestrado e orientação de outra natureza)", "maxlength": 100, "disabled": false, "readOnly": true, "onfocus": "blur()" },
+    { "aba": "Dados Gerais", "name": "f_titulo", "tipo": "text", "rotulo": "Título do trabalho orientado", "maxlength": 400, "disabled": false, "readOnly": false, "onfocus": "VeriDisableTitTrabOrient(this)" },
+    { "aba": "Dados Gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano de término da orientação", "maxlength": 4, "disabled": false, "readOnly": false },
+    { "aba": "Dados Gerais", "name": "f_pais", "tipo": "select", "rotulo": "País", "defaultValue": "BRA", "total_opcoes": 244 },
+    { "aba": "Dados Gerais", "name": "F_IDIOMA", "tipo": "select", "rotulo": "Idioma", "defaultValue": "PT", "total_opcoes": 152 },
+    { "aba": "Dados Gerais", "name": "f_homepage", "tipo": "text", "rotulo": "Home page do trabalho (URL)", "maxlength": 250 },
+    { "aba": "Dados Gerais", "name": "F_RELEV", "tipo": "radio", "rotulo": "É um dos 10 trabalhos mais relevantes de sua produção?", "opcoes": [{ "texto": "sim", "onclick": "relev();" }, { "texto": "não" }] },
+    { "aba": "Detalhamento", "name": "f_tpo_orient", "tipo": "radio", "rotulo": "Tipo de orientação (apenas para dissertação de mestrado e tese de doutorado)", "opcoes": [{ "texto": "Orientador principal", "onclick": "test_ori(0);" }, { "texto": "coorientador", "onclick": "test_ori(1);" }] },
+    { "aba": "Detalhamento", "name": "f_nme_orient", "tipo": "text", "rotulo": "Nome do orientando", "maxlength": 60 },
+    { "aba": "Detalhamento", "name": "f_inst", "tipo": "text (input-lupa)", "rotulo": "Instituição", "maxlength": 75, "disabled": true, "onchange": "alertainst(this,0);" },
+    { "aba": "Detalhamento", "name": "f_curso", "tipo": "text (input-lupa)", "rotulo": "Curso", "maxlength": 50, "disabled": true, "onchange": "alertainst(this,1);" },
+    { "aba": "Bolsa", "name": "F_BOLSA", "tipo": "radio", "rotulo": "Com bolsa?", "defaultValue": "não", "opcoes": [{ "texto": "sim", "onclick": "agnull(0);" }, { "texto": "não", "onclick": "agnull(1);" }] },
+    { "aba": "Bolsa", "name": "f_nme_agencia", "tipo": "text (input-lupa)", "rotulo": "Agência financiadora", "maxlength": 75, "onchange": "testa();" },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "rotulo": "Outras informações", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "rotulo": "Title", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "rotulo": "Other information", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": "", "tipo": "select (custom .ms-dd.ms-pr)", "rotulo": "Visibilidade", "visible": false, "widget_visivel": ".ms-dd.ms-pr (default: Público)", "opcoes_descritas": ["Público", "Privado"] }
+  ],
+  "hidden_inputs": [
+    "f_sub_prod", "f_agencia", "f_ctr", "f_ctr_natur", "f_cod", "f_seq", "f_plv_l", "f_setor_l", "f_area_l",
+    "f_cod_curso", "f_cod_curso2", "f_cod_inst", "f_cod_inst2", "f_inst_old", "f_curso_old", "f_tipo",
+    "f_id_orientado", "f_seq_form_orientado",
+    "formchk:f_cod_chk", "formchk:f_seq_chk", "formchk:start", "formchk:finish", "formchk:status", "formchk:f_nme_orientado"
+  ],
+  "listas": [
+    { "aba": "Palavras-chave", "table_id": "tabelapalavra", "holder_id": "palavraHolder", "colunas": ["Ordem", "Palavra-chave"], "input_suggest_maxlength": 50, "acoes": ["Listar todos", "Incluir nova"] },
+    { "aba": "Áreas", "table_id": "tabelaarea", "holder_id": "areaHolder", "colunas": ["Ordem", "Áreas de conhecimento", "Visibilidade"], "input_suggest_maxlength": 86, "acoes": ["Listar todos", "Incluir nova"] },
+    { "aba": "Setores", "table_id": "tabelasetor", "holder_id": "setorHolder", "colunas": ["Ordem", "Setor de aplicação da Tabela CNAE"], "input_suggest_maxlength": null, "acoes": ["Listar todos"] }
+  ],
+  "lupas": [
+    { "campo": "f_dsc_outra", "onclick": "dominio();return false;" },
+    { "campo": "f_nme_orient", "onclick": "capesdados();return false;", "nota": "Dados fornecidos pela CAPES (Mestrado e Doutorado)" },
+    { "campo": "f_inst", "onclick": "sele_inst();return false;" },
+    { "campo": "f_curso", "onclick": "curso();return false;" },
+    { "campo": "f_nme_agencia", "onclick": "agencia();return false;" }
+  ],
+  "comportamento_condicional": {
+    "F_COD_PROD": "Não oculta/desabilita campos no DOM; testa_nivel() e test_ori() controlam lógica via handlers (ex.: f_tpo_orient bloqueia marcação sob Supervisão de pós-doutorado, mas permite em Dissertação de mestrado).",
+    "F_BOLSA": "agnull(0/1) não oculta/desabilita f_nme_agencia."
+  }
+}

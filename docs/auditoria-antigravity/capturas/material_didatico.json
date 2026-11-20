@@ -1,0 +1,35 @@
+{
+  "item": "material_didatico",
+  "titulo_lattes": "Desenvolvimento de material didático ou instrucional",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_409.png",
+  "url": "prc_tec_desen?f_cod=K4298460T6",
+  "form_name": "GN_TEC",
+  "form_action": "PRC_TEC_DESEN",
+  "abas": ["Dados gerais", "Detalhamento", "Autores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    { "aba": "Dados gerais", "name": "f_natureza", "tipo": "text", "rotulo": "Natureza", "maxlength": 100 },
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "maxlength": 4 },
+    { "aba": "Dados gerais", "name": "f_pais", "tipo": "select", "defaultValue": "BRA", "total_options": 244 },
+    { "aba": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "defaultValue": "PT", "total_options": 152 },
+    { "aba": "Dados gerais", "name": "f_meio", "tipo": "select", "opcoes": ["", "I:Impresso", "M:meio magnético", "D:meio digital", "F:filme", "H:hipertexto", "O:outro", "V:impresso e mídia eletrônica"] },
+    { "aba": "Dados gerais", "name": "f_homepage", "tipo": "text", "maxlength": 250, "acao_auxiliar": "mostrarPreviaVideo()" },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "opcoes": ["sim (onclick: relev();)", "não"] },
+    { "aba": "Dados gerais", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "defaultValue": "não" },
+    { "aba": "Detalhamento", "name": "f_finalidade", "tipo": "text", "rotulo": "Finalidade", "maxlength": 255 },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": null, "tipo": "select (ms-dd widget)", "defaultValue": "Público", "opcoes": ["Público", "Privado"] }
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Ano inválido. O ano deve estar no formato 9999.",
+    "Ano da produção não pode ser menor que ano nascimento.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

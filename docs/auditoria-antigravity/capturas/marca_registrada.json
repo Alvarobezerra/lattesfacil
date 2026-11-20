@@ -1,0 +1,35 @@
+{
+  "item": "marca_registrada",
+  "titulo_lattes": "Marca registrada",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_533.png",
+  "abertura_modal": "infDadPat() — INPI mostra formato PI9999999 / MU9999999 / BRZZXXXXYYYYYYK",
+  "url": "pkg_patente_registro.form?f_cod_tipo=MR",
+  "form_name": "PKG_PATENTE_REGISTRO",
+  "abas": ["Dados gerais", "Inventores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "f_cod_reg", "type": "text", "maxlength": 16},
+    {"name": "f_inst", "type": "text", "maxlength": 75, "lupa": "escolhe_inst()"},
+    {"name": "f_pais", "type": "select", "options_count": 244, "default": "Brasil"},
+    {"name": "f_tipo", "type": "radio", "options": ["de Produto", "de Serviço", "Coletiva", "Certificação"]},
+    {"name": "f_natureza", "type": "radio", "options": ["Figurativa", "Nominativa", "Mista", "Tridimensional"]},
+    {"name": "f_titulo", "type": "text", "maxlength": 400},
+    {"name": "f_ano", "type": "text", "label": "Ano de desenvolvimento", "maxlength": 4},
+    {"name": "f_sta_inovacao", "type": "radio", "default": "Não"},
+    {"name": "f_txt_potencial", "type": "text", "maxlength": 400, "condicional": "tr#potencial quando Sim"},
+    {"name": "f_ref", "type": "textarea", "maxlength": 3950},
+    {"name": "f_titulo_en", "type": "text", "maxlength": 400},
+    {"name": "f_ref_en", "type": "textarea", "maxlength": 3800},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Título obrigatório não informado.",
+    "Campo Ano de desenvolvimento obrigatório não informado.",
+    "Campo Natureza obrigatório não informado.",
+    "Campo Tipo obrigatório não informado.",
+    "Campo Instituição de registro obrigatório não informado.",
+    "Campo Número do registro obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de inventores."
+  ]
+}

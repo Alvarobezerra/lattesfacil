@@ -1,0 +1,13 @@
+{
+  "item": "endereco",
+  "titulo_lattes": "Endereço",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_750_shot_1_endereco_form.png",
+  "url": "prc_endereco?modal2=1",
+  "form_name": "GN_ENDERECO",
+  "abas": ["Residencial", "Profissional", "Eletrônico", "Outra forma de contato", "Redes Sociais"],
+  "campos_residencial_e_profissional": "f_pais_r/i (244/245), f_cep_r/i (max 15, getZipData), f_rua_r/i (180), f_bairro_r/i (255), f_munic_r/i (45), f_estado_r/i (10), f_ddd_r/i (5), f_fone_r/i (10), f_ramal_r/i (5), f_fax_r/i (10), f_caixa_r/i (10), f_ddd_cel_r/i (5), f_fone_cel_r/i (10), f_homepage_r/i (250), f_end_corr (radio); Profissional adiciona f_inst (disabled, sele_inst()) e f_orgao (disabled, orgao())",
+  "eletronico": ["f_email_i (max 70)", "f_email_r (max 70)"],
+  "outra_forma_contato": ["7:Telegram", "3:MSN", "6:WhatsApp"],
+  "redes_sociais": ["1:Facebook", "2:Linkedin", "3:X(Twitter)", "6:Academia.edu", "8:Instagram", "9:Threads", "10:ResearchGate", "11:Mendeley", "12:Youtube", "13:TikTok", "14:Bluesky", "15:GitHub"]
+}

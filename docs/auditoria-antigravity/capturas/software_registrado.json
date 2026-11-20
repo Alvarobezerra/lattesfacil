@@ -1,0 +1,43 @@
+{
+  "item": "software_registro",
+  "titulo_lattes": "Programa de Computador Registrado",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_507.png",
+  "abertura_modal": "infDadPat() — INPI exige formato 9999999-9 ou BR9999999999-9",
+  "url": "pkg_patente_registro.form?f_reg=S&f_cod_tipo=PC",
+  "form_name": "PKG_PATENTE_REGISTRO",
+  "abas": ["Dados gerais", "Depositante/Titular", "Autores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "f_natureza", "label": "Natureza", "type": "radio", "options": ["Computacional", "Multimídia", "Outro"]},
+    {"name": "f_cod_reg", "label": "Número do registro", "type": "text", "maxlength": 16},
+    {"name": "f_inst", "label": "Instituição de registro", "type": "text", "maxlength": 75, "lupa": "escolhe_inst()"},
+    {"name": "f_pais", "label": "País", "type": "select", "option_count": 244, "default": "Brasil"},
+    {"name": "f_titulo", "label": "Título", "type": "text", "maxlength": 400},
+    {"name": "f_dta_dep", "label": "Data do registro", "type": "text (hasDatepicker)", "maxlength": 10},
+    {"name": "f_dta_conc", "label": "Data do certificado de registro", "type": "text (hasDatepicker)", "maxlength": 10},
+    {"name": "f_finalidade", "label": "Finalidade", "type": "text", "maxlength": 255},
+    {"name": "F_STA_DIVULGACAO_CIENTIFICA", "label": "É uma produção para educação e popularização de CeT?", "type": "radio", "default": "não"},
+    {"name": "f_sta_inovacao", "label": "Possui potencial de inovação de produtos, processos ou serviços?", "type": "radio", "default": "Sim"},
+    {"name": "f_txt_potencial", "label": "Qual o potencial de inovação?", "type": "text", "maxlength": 400, "condicional": "tr#potencial visível quando Sim"},
+    {"name": "F_RELEV", "label": "É um dos 10 trabalhos mais relevantes de sua produção?", "type": "radio"},
+    {"name": "f_inst_financ", "label": "Instituição(ões) financiadora(s)", "type": "textarea", "maxlength": 380},
+    {"name": "f_plataforma", "label": "Linguagens", "type": "text", "maxlength": 255},
+    {"name": "f_ref", "label": "Outras informações", "type": "textarea", "maxlength": 3950},
+    {"name": "f_titulo_en", "label": "Title", "type": "text", "maxlength": 400},
+    {"name": "f_ref_en", "label": "Other information", "type": "textarea", "maxlength": 3800},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio_inovacao_sim": [
+    "Campo Data de Registro obrigatório não informado.",
+    "Campo Data do certificado de registro obrigatório não informado.",
+    "Campo \"Qual o potencial de inovação?\" obrigatório não informado",
+    "Campo Título obrigatório não informado.",
+    "Campo Instituição de registro obrigatório não informado.",
+    "Campo Número de registro obrigatório não informado.",
+    "Campo Instituição(ções) financiadora(s) obrigatório não informado.",
+    "Campo Finalidade obrigatório não informado.",
+    "Campo Linguagens obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de inventores."
+  ]
+}

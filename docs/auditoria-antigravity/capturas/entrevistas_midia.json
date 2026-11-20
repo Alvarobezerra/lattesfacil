@@ -1,0 +1,39 @@
+{
+  "item": "entrevista_midia",
+  "titulo_lattes": "Entrevistas, mesas redondas, programas e comentários na mídia",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_447.png",
+  "url": "prc_tec_radiotv?f_cod=K4298460T6",
+  "form_name": "GN_TEC",
+  "form_action": "PRC_TEC_RADIOTV",
+  "abas": ["Dados gerais", "Detalhamento", "Participantes", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    { "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza", "opcoes": ["Entrevista", "Mesa redonda", "Comentário", "Programa", "Outra"] },
+    { "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "name": "f_ano", "tipo": "text", "maxlength": 4 },
+    { "name": "f_pais", "tipo": "select", "total_options": 244 },
+    { "name": "F_IDIOMA", "tipo": "select", "total_options": 152 },
+    { "name": "f_meio", "tipo": "select", "opcoes": ["", "I:Impresso", "W:Web", "O:Outrooutro"] },
+    { "name": "F_HOMEPAGE", "tipo": "text", "maxlength": 400, "acao_auxiliar": "mostrarPreviaVideo()" },
+    { "name": "F_RELEV", "tipo": "radio" },
+    { "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "defaultValue": "não" },
+    { "name": "f_emissora", "tipo": "text", "rotulo": "Veículo de divulgação", "maxlength": 255 },
+    { "name": "f_tema", "tipo": "text", "maxlength": 255 },
+    { "name": "f_data", "tipo": "text (hasDatepicker)", "rotulo": "Data de realização", "maxlength": 10 },
+    { "name": "f_duracao", "tipo": "text", "rotulo": "Duração (minutos)", "maxlength": 5 },
+    { "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "name": null, "tipo": "select (ms-dd)", "opcoes": ["Público", "Privado"] }
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Ano inválido. O ano deve estar no formato 9999.",
+    "Ano da produção não pode ser menor que ano nascimento.",
+    "O seu nome deverá ser incluído na lista de participantes.",
+    "Data de realização inválida"
+  ]
+}

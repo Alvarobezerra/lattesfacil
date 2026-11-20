@@ -1,0 +1,19 @@
+{
+  "item": "comite_assessoramento",
+  "titulo_lattes": "Membro de comitê de assessoramento",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_708.png",
+  "url": "PKG_REVISOR.inclui?f_natur=MA",
+  "form_name": "GN_ATIV",
+  "abas": ["Agência de fomento", "Comitê", "Período", "Outras informações", "Visibilidade"],
+  "campos": [
+    {"name": "f_nme_agencia", "label": "Agência de fomento", "maxlength": 255, "disabled": true, "lupa": "agencia()"},
+    {"name": "f_comite", "label": "Comitê", "maxlength": 200},
+    {"name": "f_mes_ini", "maxlength": 2},
+    {"name": "f_ano_ini", "maxlength": 4},
+    {"name": "f_status", "type": "radio", "options": ["Atual (default)", "Anterior — revela f_mes_fim, f_ano_fim"]},
+    {"name": "f_outras_inf", "type": "textarea", "maxlength": 3950},
+    {"widget": ".ms-dd", "options": ["Público", "Privado"]}
+  ],
+  "validacao_salvar_vazio": ["Campo Agência de fomento obrigatório não informado.", "Campo Comitê obrigatório não informado.", "Campo Início obrigatório não informado.", "(+ Fim se Anterior)"]
+}

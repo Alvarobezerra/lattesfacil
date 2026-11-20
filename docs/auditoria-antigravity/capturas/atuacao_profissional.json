@@ -1,0 +1,46 @@
+{
+  "item": "atuacao_profissional",
+  "titulo_lattes": "Atuação profissional (Hierarquia 3 níveis: Instituição -> Vínculos / Atividades)",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencias_screenshot": [
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_672.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_679_shot_1_atividades_tab.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_685_shot_1_ativ_direcao.png"
+  ],
+  "nivel_1_inclui": {
+    "url": "PKG_ATIV.inclui",
+    "form_name": "GN_ATIV",
+    "abas": ["Instituição", "Vínculo", "Período", "Outras informações", "Visibilidade"],
+    "campos": [
+      {"name": "f_inst", "type": "text", "maxlength": 75, "disabled": true, "lupa": "sele_inst()"},
+      {"name": "f_vinc", "type": "text", "maxlength": 30, "disabled": true, "lupa": "dominio()", "opcoes_modal": ["Servidor público", "Celetista", "Professor Visitante", "Bolsista", "Outro (especifique) — habilita f_vinc"]},
+      {"name": "f_stavinc", "type": "select", "label": "Possui vínculo empregatício", "options": ["", "0:Não", "1:Sim"]},
+      {"name": "f_enqua", "type": "text", "label": "Enquadramento funcional", "maxlength": 45},
+      {"name": "f_carga", "type": "text", "label": "Carga horária semanal", "maxlength": 3},
+      {"name": "f_regime", "type": "checkbox", "label": "Dedicação exclusiva"},
+      {"name": "f_mes_ini", "type": "text", "maxlength": 2},
+      {"name": "f_ano_ini", "type": "text", "maxlength": 4},
+      {"name": "f_status", "type": "radio", "options": ["Atual (default)", "Anterior — exibe tr#periodoFim (f_mes_fim, f_ano_fim)"]},
+      {"name": "f_outras_inf", "type": "textarea", "maxlength": 3950},
+      {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"]}
+    ],
+    "validacao_salvar_vazio": ["Instituição", "Tipo do vínculo", "Início", "Enquadramento funcional", "Vínculo (e Fim se Anterior)"]
+  },
+  "nivel_2_hub": { "url": "PKG_ATIV.cargos_vinculos", "abas": ["Vínculos (PKG_ATIV.vinculos)", "Atividades (pkg_ativ.cargo)"] },
+  "nivel_3_atividades": {
+    "url": "pkg_ativ.cargo",
+    "form_name": "GN_ATIV_CARGO",
+    "naturezas_f_natur_ativ": {
+      "1": "Direção e Administração (f_orgao + lupa orgao(); coluna: Cargo ou função)",
+      "2": "Pesquisa e Desenvolvimento (f_orgao + lupa orgao(); coluna: Linhas de pesquisa)",
+      "4": "Ensino (substitui f_orgao por f_nivel [401..409] + f_curso + lupa curso(); coluna: Disciplinas ministradas)",
+      "5": "Estágio (f_orgao; coluna: Estagio Realizado)",
+      "6": "Serviço Técnico Especializado (f_orgao; coluna: Serviço realizado)",
+      "7": "Extensão Universitária (f_orgao; coluna: Atividade de extensão realizada)",
+      "8": "Treinamento (f_orgao; coluna: Treinamento ministrado)",
+      "9": "Outra atividade técnico-científica (f_orgao; coluna: Outra atividade técnico-científica)",
+      "B": "Conselhos, Comissões e Consultoria (f_orgao; coluna: Cargo ou função)"
+    }
+  }
+}

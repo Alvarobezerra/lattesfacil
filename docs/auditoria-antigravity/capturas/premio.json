@@ -1,0 +1,20 @@
+{
+  "item": "premio",
+  "titulo_lattes": "Prêmios e títulos",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_828_shot_1_premio_form_clean.png",
+  "url": "pkg_premio.form",
+  "form_name": "GN_PREMIO",
+  "abas": ["Prêmios e títulos honoríficos recebidos", "Visibilidade"],
+  "campos": [
+    {"name": "f_titulo", "label": "Nome do prêmio ou título", "maxlength": 200},
+    {"name": "f_agencia", "label": "Entidade promotora", "maxlength": 100, "obrigatorio": false},
+    {"name": "f_ano", "label": "Ano da premiação ou do título", "maxlength": 4},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "hidden_inputs": ["f_ctr", "f_cod", "f_seq"],
+  "validacao_salvar_vazio": [
+    "Campo Nome do prêmio ou título obrigatório não informado.",
+    "Campo Ano da premiação ou do título obrigatório não informado."
+  ]
+}

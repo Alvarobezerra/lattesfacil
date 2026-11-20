@@ -1,0 +1,39 @@
+{
+  "item": "artigo_aceito",
+  "titulo_lattes": "Artigos aceitos para publicação",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_322.png",
+  "url": "PKG_ARTIGO_PR.form?f_cod=K4298460T6&F_STA_DIVULGACAO_CIENTIFICA=",
+  "form_name": "GN_ARTIGO",
+  "form_action": "PKG_ARTIGO_PR.FORM",
+  "abas": ["D.O.I", "Dados gerais", "Detalhamento", "Autores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    { "aba": "D.O.I", "name": "f_cod_doi", "tipo": "text", "maxlength": 250, "onclick": "seta_doi(this.value);", "onblur": "call_doi();" },
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "rotulo": "Título", "maxlength": 400, "onblur": "call_title_check(this.value);" },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano previsto para publicação", "maxlength": 4 },
+    { "aba": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "defaultValue": "PT", "total_options": 152 },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "opcoes": ["sim (onclick: relev();)", "não"] },
+    { "aba": "Dados gerais", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "defaultValue": "não" },
+    { "aba": "Detalhamento", "name": "f_titulo_periodico", "tipo": "text (input-lupa)", "rotulo": "Título do periódico/revista em que o artigo será publicado", "maxlength": 255, "disabled": true, "lupa": "periodico();return false;" },
+    { "aba": "Detalhamento", "name": "f_issn", "tipo": "text", "rotulo": "ISSN", "maxlength": 10, "disabled": true },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": null, "tipo": "select (ms-dd widget)", "defaultValue": "Público", "opcoes": ["Público", "Privado"] }
+  ],
+  "hidden_inputs": ["F_COD_PROD", "f_titulo_periodico_h", "f_titulo_h", "f_ano_h", "f_cod_doi_h", "f_issn_h", "f_ctr", "f_cod", "f_seq", "f_autores_l", "f_autores_l2", "f_autores_l3", "f_autores_l4", "f_plv_l", "f_setor_l", "f_area_l", "f_seq_per"],
+  "listas": [
+    { "table_id": "tabelaAutor", "holder_id": "autorHolder", "input_suggest_maxlength": 60, "acoes": ["Listar todos", "Incluir novo"] },
+    { "table_id": "tabelapalavra", "holder_id": "palavraHolder", "input_suggest_maxlength": 50, "acoes": ["Listar todos", "Incluir nova"] },
+    { "table_id": "tabelaarea", "holder_id": "areaHolder", "input_suggest_maxlength": 86, "acoes": ["Listar todos", "Incluir nova"] },
+    { "table_id": "tabelasetor", "holder_id": "setorHolder", "input_suggest_maxlength": null, "acoes": ["Listar todos"] }
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Título obrigatório não informado.",
+    "Campo Ano previsto para publicação obrigatório não informado.",
+    "Campo Título do periódico/revista em que o artigo será publicado obrigatório não informado.",
+    "O ISSN informado é inválido.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

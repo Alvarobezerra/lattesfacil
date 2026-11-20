@@ -1,0 +1,23 @@
+{
+  "item": "pos_doutorado_livre_docencia",
+  "titulo_lattes": "Pós-doutorado e/ou livre-docência",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_594.png",
+  "niveis_modal_abertura": [
+    {"nivel": "5", "texto": "Pós-Doutorado"},
+    {"nivel": "6", "texto": "Livre Docência"}
+  ],
+  "pos_doutorado": {
+    "url": "pkg_formacao.form?f_tipo=AP&f_nivel=5",
+    "abas": ["Dados Gerais", "Período", "Bolsa", "Áreas", "Visibilidade"],
+    "campos": ["f_inst (disabled, lupa)", "F_STATUS", "f_ano_ini", "f_ano_fim", "F_BOLSA", "f_nme_agencia (disabled, lupa)"],
+    "validacao_salvar_vazio": ["Campo Instituição.obrigatório não informado.", "Campo Status do curso obrigatório não informado.", "Campo Início (ano) obrigatório não informado."]
+  },
+  "livre_docencia": {
+    "url": "pkg_formacao.form?f_tipo=AP&f_nivel=6",
+    "abas": ["Dados Gerais", "Período", "Detalhamento", "Palavras-chave", "Áreas", "Setores", "Visibilidade"],
+    "campos": ["f_inst (disabled, lupa)", "f_mes_obten", "f_ano_obten", "f_titulo (max 254)"],
+    "validacao_salvar_vazio": ["Campo Instituição.obrigatório não informado.", "Campo Obtenção do título (mês/ano) obrigatório não informado.", "Campo Título obrigatório não informado."]
+  }
+}

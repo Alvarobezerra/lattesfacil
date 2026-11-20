@@ -1,0 +1,17 @@
+{
+  "item": "idioma",
+  "titulo_lattes": "Idiomas",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_758_shot_2_idioma_form.png",
+  "url": "pkg_idioma.form",
+  "form_name": "GN_IDIOMA",
+  "abas": ["Idioma", "Visibilidade (default: Público)"],
+  "campos": [
+    {"name": "F_COD_IDIOMA", "type": "select", "options_count": 150, "onchange": "veriLibra(this)"},
+    {"name": "FC_LE / F_LE", "label": "Lê (Pouco, Razoavelmente, Bem) — removido quando Libras (LB)"},
+    {"name": "FC_CONVERSA / F_CONVERSA", "label": "Fala (ou 'Expressa-se' quando Libras)"},
+    {"name": "FC_ESCREVE / F_ESCREVE", "label": "Escreve — removido quando Libras (LB)"},
+    {"name": "FC_COMPR / F_COMPR", "label": "Compreende (Pouco, Razoavelmente, Bem)"}
+  ],
+  "validacao_salvar_vazio": ["Campo Idioma obrigatório não informado.", "Informe ao menos uma das modalidades de nível."]
+}

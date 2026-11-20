@@ -1,0 +1,18 @@
+{
+  "item": "texto_inicial",
+  "titulo_lattes": "Texto inicial do Currículo Lattes",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshots": [
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_784_shot_1_texto_inicial_clean.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_786_shot_1_texto_inicial_bottom.png"
+  ],
+  "url": "pkg_resume.form",
+  "form_name": "RES",
+  "action": "PKG_RESUME.FORM",
+  "abas": [],
+  "visibilidade": false,
+  "campos": [
+    {"index": 0, "type": "textarea", "label": "Texto Inicial", "maxlength": 4000, "aux_button": "Utilizar o Texto Padrão"},
+    {"index": 1, "type": "textarea", "label": "Tradução", "maxlength": 4000, "aux_button": "Utilizar o Texto Padrão"}
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "item": "identificacao",
+  "titulo_lattes": "Identificação",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_743_shot_1_identificacao_form.png",
+  "url": "prc_ident?f_pcd=X",
+  "form_name": "GN_IDENT",
+  "abas": ["Foto de perfil", "Nome civil", "Nome social", "Dados pessoais", "Dados do nascimento", "Identidade", "Passaporte", "Pessoas com Deficiência", "Outros identificadores"],
+  "campos": [
+    {"name": "f_nome", "maxlength": 60},
+    {"name": "f_nome_social_r", "type": "radio", "options": ["Não", "Sim (revela tr#NomeSocial: f_nome_social max 60)"]},
+    {"id": "nmeCitacao", "maxlength": 255, "grid": "#holderDetNmeCit"},
+    {"name": "f_pais_nacio", "type": "select", "options_count": 244, "onchange": "altNacio(this.value)"},
+    {"name": "fnro_id_raca_cor", "type": "select", "options": ["", "1:Branca", "2:Preta", "3:Parda", "4:Indígena", "5:Amarela", "6:Não desejo declarar"]},
+    {"name": "f_pais_nasc", "type": "select", "options_count": 245, "onchange": "checkpais();"},
+    {"name": "f_uf_nasc", "type": "select", "options_count": 28, "onchange": "checkufnasc();"},
+    {"name": "f_cidade_nasc", "maxlength": 30},
+    {"name": "f_dta_nasc", "maxlength": 10},
+    {"name": "f_rg_nro", "maxlength": 15},
+    {"name": "f_orgao_rg", "maxlength": 8},
+    {"name": "f_uf_rg", "type": "select", "options_count": 28},
+    {"name": "f_dta_rg", "maxlength": 10},
+    {"name": "f_passaporte", "maxlength": 20},
+    {"name": "f_dta_val_passaporte", "maxlength": 10},
+    {"name": "f_dta_emissao_doc", "maxlength": 10},
+    {"name": "fpaispassaporte", "type": "select", "options_count": 245},
+    {"name": "f_pcd_r", "type": "radio", "options": ["Não", "Sim (revela tr#listaPCD com 6 checkboxes f_pcd)"]},
+    {"id": "connect-orcid-link", "acao": "capturaOrcid('orcid')"}
+  ]
+}

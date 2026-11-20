@@ -1,0 +1,33 @@
+{
+  "item": "banca_trabalho",
+  "titulo_lattes": "Participação em bancas de trabalhos de conclusão",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_563.png",
+  "url": "PKG_BANCA_TRAB.form?f_cod=K4298460T6",
+  "form_name": "PKG_BANCA_TRAB",
+  "abas": ["Dados gerais", "Detalhamento", "Participantes", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "F_COD_PROD", "type": "radio", "label": "Natureza", "options": ["Mestrado", "Doutorado", "Exame de qualificação de doutorado", "Exame de qualificação de mestrado", "Curso de aperfeiçoamento/especialização", "Graduação"]},
+    {"name": "f_sub_prod", "type": "select", "label": "Tipo (apenas para mestrado)", "options": ["", "34 :Acadêmico", "35 :Profissional"]},
+    {"name": "f_titulo", "type": "text", "maxlength": 400},
+    {"name": "f_ano", "type": "text", "maxlength": 4},
+    {"name": "f_pais", "type": "select", "options_count": 244, "default": "Brasil"},
+    {"name": "F_IDIOMA", "type": "select", "options_count": 152, "default": "Português"},
+    {"name": "f_homepage", "type": "text", "maxlength": 250},
+    {"name": "f_nme_orient", "type": "text", "label": "Nome do candidato", "maxlength": 60},
+    {"name": "f_inst", "type": "text", "maxlength": 75, "disabled": true, "lupa": "sele_inst()"},
+    {"name": "f_curso", "type": "text", "maxlength": 50, "disabled": true, "lupa": "curso()"},
+    {"name": "f_ref", "type": "textarea", "maxlength": 3950},
+    {"name": "f_titulo_en", "type": "text", "maxlength": 400},
+    {"name": "f_ref_en", "type": "textarea", "maxlength": 3800},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Campo Nome do candidato obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

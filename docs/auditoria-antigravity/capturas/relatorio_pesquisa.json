@@ -1,0 +1,33 @@
+{
+  "item": "relatorio_pesquisa",
+  "titulo_lattes": "Relatório de pesquisa",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_449.png",
+  "url": "prc_tec_relat?f_cod=K4298460T6",
+  "form_name": "GN_TEC",
+  "form_action": "PRC_TEC_RELAT",
+  "campos": [
+    { "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "name": "f_ano", "tipo": "text", "maxlength": 4 },
+    { "name": "f_pais", "tipo": "select", "total_options": 244 },
+    { "name": "F_IDIOMA", "tipo": "select", "total_options": 152 },
+    { "name": "f_meio", "tipo": "select", "opcoes": ["", "I:Impresso", "M:meio magnético", "D:meio digital", "F:filme", "H:hipertexto", "O:outro", "V:impresso e mídia eletrônica"] },
+    { "name": "F_RELEV", "tipo": "radio" },
+    { "name": "f_projeto", "tipo": "text", "rotulo": "Nome do projeto", "maxlength": 255 },
+    { "name": "f_paginas", "tipo": "text", "rotulo": "Número de páginas", "maxlength": 5 },
+    { "name": "f_inst", "tipo": "text", "rotulo": "Instituição financiadora", "maxlength": 255 },
+    { "name": "f_disp", "tipo": "select", "opcoes": ["", "Restrita", "Irrestrita"] },
+    { "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "name": null, "tipo": "select (ms-dd)", "opcoes": ["Público", "Privado"] }
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Ano inválido. O ano deve estar no formato 9999.",
+    "Ano da produção não pode ser menor que ano nascimento.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "item": "extensao_tecnologica",
+  "titulo_lattes": "Extensão tecnológica",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_357.png",
+  "url": "PKG_EXTENSAO_TECNOLOGICA.form?f_cod=K4298460T6",
+  "form_name": "GN_RELATORIO",
+  "form_action": "PKG_EXTENSAO_TECNOLOGICA.FORM",
+  "diferenca_vs_assessoria": "F_COD_PROD é <input type='hidden'> (sem radios de Natureza); todos os demais campos e listas são idênticos.",
+  "validacao_salvar_vazio": [
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

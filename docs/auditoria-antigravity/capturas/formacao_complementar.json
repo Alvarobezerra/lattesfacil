@@ -1,0 +1,20 @@
+{
+  "item": "formacao_complementar",
+  "titulo_lattes": "Formação complementar",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_656.png",
+  "wizard_2_telas": {
+    "tela_1_url": "PKG_FORMACAO_COMPL.form?f_tipo=FA",
+    "tela_1_campos": ["Nível (Curso De Curta Duração, Extensão Universitária, Mba, Outros)", "Instituição (disabled, lupa)", "Curso (disabled, lupa)", "Carga Horária (opcional)", "Status do curso (em andamento, concluido, incompleto)"],
+    "tela_1_obrigatorios_avancar": ["Nível", "Curso", "Instituição", "Status do curso"],
+    "tela_2_url": "PKG_FORMACAO_COMPL.FORM2",
+    "tela_2_abas": ["Período (ano)", "Bolsa", "Palavras-chave", "Visibilidade"],
+    "tela_2_campos": ["f_ano_ini (max 4)", "f_ano_fim (max 4 — Conclusão / Interrupção / disabled se em andamento)", "F_BOLSA (Sim/Não)", "f_nme_agencia (disabled, max 75, lupa)"],
+    "tela_2_validacao_por_status": {
+      "concluido": ["Campo Início obrigatório não informado.", "Informe o ano de Conclusão"],
+      "incompleto": ["Campo Início obrigatório não informado.", "Informe o ano de Conclusão"],
+      "em_andamento": ["Campo Início obrigatório não informado."]
+    }
+  }
+}

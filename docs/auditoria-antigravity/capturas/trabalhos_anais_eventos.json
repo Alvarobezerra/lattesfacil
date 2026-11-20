@@ -1,0 +1,77 @@
+{
+  "item": "anais",
+  "titulo_lattes": "Trabalhos publicados em anais de eventos",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_93.png",
+  "url": "https://wwws.cnpq.br/cvlattesweb/pkg_trabalho.form?f_cod=K4298460T6&F_STA_DIVULGACAO_CIENTIFICA=&f_seq_ev=",
+  "form_name": "GN_TRABALHO",
+  "form_action": "PKG_TRABALHO.FORM",
+  "form_method": "POST",
+  "abas": [
+    { "texto_curto": "D.O.I", "title": "D.O.I" },
+    { "texto_curto": "Dados gerais", "title": "Dados gerais" },
+    { "texto_curto": "Detalhamento do...", "title": "Detalhamento do evento" },
+    { "texto_curto": "Detalhamento da...", "title": "Detalhamento da publicação" },
+    { "texto_curto": "Autores", "title": "Autores" },
+    { "texto_curto": "Palavras-chave", "title": "Palavras-chave" },
+    { "texto_curto": "Áreas", "title": "Áreas" },
+    { "texto_curto": "Setores", "title": "Setores" },
+    { "texto_curto": "Outras informaç...", "title": "Outras informações" },
+    { "texto_curto": "Traduções", "title": "Traduções" },
+    { "texto_curto": "Visibilidade", "title": "Visibilidade" }
+  ],
+  "campos": [
+    { "secao": "D.O.I", "name": "f_cod_doi", "tipo": "text", "rotulo": "Informe o Digital Object Identifier (DOI®) do artigo e clique no botão para recuperar os dados da produção", "maxlength": 250, "size": 70, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "", "onclick": "seta_doi(this.value);", "onblur": "call_doi();", "onfocus": "focusDoi()" },
+    { "secao": "Dados gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "Completo" }, { "texto": "Resumo" }, { "texto": "Resumo Expandido" }] },
+    { "secao": "Dados gerais", "name": "f_titulo", "tipo": "text", "rotulo": "Título", "maxlength": 400, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Dados gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano", "maxlength": 4, "size": 4, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Dados gerais", "name": "f_pais", "tipo": "select", "rotulo": "País de publicação", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "BRA", "total_opcoes": 244 },
+    { "secao": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "rotulo": "Idioma", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "PT", "total_opcoes": 152 },
+    { "secao": "Dados gerais", "name": "f_meio", "tipo": "select", "rotulo": "Meio de divulgação", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "", "opcoes": [
+      { "valor": "", "texto": "", "selected": true },
+      { "valor": "I", "texto": "Impresso", "selected": false },
+      { "valor": "M", "texto": "meio magnético", "selected": false },
+      { "valor": "D", "texto": "meio digital", "selected": false },
+      { "valor": "F", "texto": "filme", "selected": false },
+      { "valor": "H", "texto": "hipertexto", "selected": false },
+      { "valor": "O", "texto": "outro", "selected": false },
+      { "valor": "V", "texto": "impresso e mídia eletrônica", "selected": false }
+    ]},
+    { "secao": "Dados gerais", "name": "f_homepage", "tipo": "text", "rotulo": "Home page do trabalho (URL)", "maxlength": 250, "size": 50, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "rotulo": "É um dos 10 trabalhos mais relevantes de sua produção?", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "sim", "onclick": "relev();" }, { "texto": "não" }] },
+    { "secao": "Dados gerais", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "rotulo": "É uma produção para educação e popularização de CeT?", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "sim", "checked": false }, { "texto": "não", "checked": true }] },
+    { "secao": "Detalhamento do evento", "name": "f_tipo_evento", "tipo": "radio", "rotulo": "Classificação do evento", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "Internacional" }, { "texto": "Nacional" }, { "texto": "Regional" }, { "texto": "Local" }] },
+    { "secao": "Detalhamento do evento", "name": "f_evento", "tipo": "text", "rotulo": "Nome do evento", "maxlength": 255, "size": 65, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento do evento", "name": "f_cidade_evento", "tipo": "text", "rotulo": "Cidade do evento", "maxlength": 30, "size": 30, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento do evento", "name": "f_ano_evento", "tipo": "text", "rotulo": "Ano", "maxlength": 4, "size": 4, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_titulo_pub", "tipo": "text", "rotulo": "Título dos anais do evento", "maxlength": 255, "size": 65, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_volume", "tipo": "text", "rotulo": "Volume", "maxlength": 6, "size": 6, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_fasciculo", "tipo": "text", "rotulo": "Fascículo", "maxlength": 10, "size": 5, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_serie", "tipo": "text", "rotulo": "Série", "maxlength": 5, "size": 5, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_pag_ini", "tipo": "text", "rotulo": "Página inicial", "maxlength": 15, "size": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_pag_fim", "tipo": "text", "rotulo": "Página final", "maxlength": 15, "size": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_isbn", "tipo": "text", "rotulo": "ISBN/ISSN", "maxlength": 13, "size": 13, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_editora", "tipo": "text", "rotulo": "Nome da editora", "maxlength": 100, "size": 50, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Detalhamento da publicação", "name": "f_cidade_ed", "tipo": "text", "rotulo": "Cidade da editora", "maxlength": 30, "size": 50, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Outras informações", "name": "f_ref", "tipo": "textarea", "rotulo": "Outras informações", "maxlength": 3950, "cols": 85, "rows": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Traduções", "name": "f_titulo_en", "tipo": "text", "rotulo": "Title", "maxlength": 400, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Traduções", "name": "f_ref_en", "tipo": "textarea", "rotulo": "Other information", "maxlength": 3800, "cols": 85, "rows": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "secao": "Visibilidade", "name": "", "tipo": "select (custom ms-dd widget)", "rotulo": "Visibilidade", "disabled": false, "readOnly": false, "visible": false, "widget_visivel": ".ms-dd (default: Público)", "opcoes_descritas": ["Público", "Privado"] }
+  ],
+  "hidden_inputs": [
+    "f_ctr", "f_cod", "f_seq", "f_autores_l", "f_plv_l", "f_setor_l", "f_area_l", "f_seq_ev",
+    "f_titulo_h", "f_cod_doi_h", "f_ano_h", "f_evento_h", "f_cidade_evento_h", "f_ano_evento_h",
+    "f_titulo_pub_h", "f_editora_h", "f_cidade_ed_h", "f_isbn_h", "f_pag_ini_h"
+  ],
+  "listas": [
+    { "secao": "Autores", "table_id": "tabelaAutor", "holder_id": "autorHolder", "colunas": ["Ordem de autoria", "Autores"], "input_suggest_maxlength": 60, "acoes": ["Listar todos", "Incluir novo"] },
+    { "secao": "Palavras-chave", "table_id": "tabelapalavra", "holder_id": "palavraHolder", "colunas": ["Ordem", "Palavra-chave"], "input_suggest_maxlength": 50, "acoes": ["Listar todos", "Incluir nova"] },
+    { "secao": "Áreas", "table_id": "tabelaarea", "holder_id": "areaHolder", "colunas": ["Ordem", "Áreas de conhecimento", "Visibilidade"], "input_suggest_maxlength": 86, "acoes": ["Listar todos", "Incluir nova"] },
+    { "secao": "Setores", "table_id": "tabelasetor", "holder_id": "setorHolder", "colunas": ["Ordem", "Setor de aplicação da Tabela CNAE"], "input_suggest_maxlength": null, "acoes": ["Listar todos"] }
+  ],
+  "testes_condicionais": {
+    "F_COD_PROD": { "opcoes": ["Completo", "Resumo", "Resumo Expandido"], "altera_dom": false },
+    "F_STA_DIVULGACAO_CIENTIFICA": { "opcoes": ["sim", "não"], "altera_dom": false }
+  }
+}

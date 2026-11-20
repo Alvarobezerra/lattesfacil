@@ -1,0 +1,9 @@
+{
+  "item": "areas_atuacao",
+  "titulo_lattes": "Áreas de atuação",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_726_shot_1_areas_atuacao.png",
+  "url": "prc_area_atuacao",
+  "form_name": "GN_AREA_ATU",
+  "comportamento": "Abre diretamente um grid editável (sem selects em cascata), usando o catálogo completo de áreas em árvore (9 Grandes Áreas) com ações 'Listar todos' (Seleção de área) e 'Incluir nova' (Inclusão de área) + coluna Visibilidade (Público/Privado)."
+}

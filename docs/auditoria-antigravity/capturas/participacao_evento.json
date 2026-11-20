@@ -1,0 +1,43 @@
+{
+  "item": "participacao_evento",
+  "titulo_lattes": "Participação em eventos, congressos, exposições, feiras e olimpíadas",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_545.png",
+  "url": "PKG_EVENTO.form",
+  "form_name": "GN_TEC",
+  "form_action": "PKG_EVENTO.FORM",
+  "abas": ["Dados gerais", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "F_FORMA", "type": "radio", "label": "Forma de participação", "options": ["Convidado", "Participante", "Ouvinte"], "onclick": "montaTipoApres(this.value)"},
+    {"name": "F_TPO", "type": "select", "label": "Tipo da apresentação/participação", "onchange": "muda_titulo_evento()", "options_by_forma": {
+      "Convidado": ["", "Conferencista", "Simposista", "Moderador", "Avaliador", "Homenageado"],
+      "Participante": ["", "Poster / Painel", "Apresentação oral", "Outras formas"],
+      "Ouvinte": []
+    }},
+    {"name": "f_nme_evento", "type": "text", "maxlength": 400, "lupa": "evento_comunicacao()"},
+    {"name": "f_ano", "type": "text", "maxlength": 4},
+    {"name": "f_classif", "type": "radio", "options": ["Internacional", "Nacional", "Regional", "Local"]},
+    {"name": "F_COD_PROD", "type": "select", "options": ["", "A31:Congresso", "A32:Seminário", "A33:Simpósio", "A34:Oficina", "A35:Encontro", "A36:Olimpíada", "A37:Feira", "A38:Exposição", "A39:Outra"]},
+    {"name": "f_cidade", "type": "text", "maxlength": 255},
+    {"name": "f_pais", "type": "select", "options_count": 244, "default": "Brasil"},
+    {"name": "f_homepage", "type": "text", "maxlength": 250},
+    {"name": "f_titulo", "type": "text", "maxlength": 255, "label_dinamico_por_F_TPO": true, "onfocus": "verifica_forma(this)"},
+    {"name": "F_STA_DIVULGACAO_CIENTIFICA", "type": "radio", "default": "não"},
+    {"name": "f_titulo_en", "type": "text", "maxlength": 400},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Forma de participação obrigatório não informado.",
+    "Campo Tipo da apresentação/participação obrigatório não informado.",
+    "Campo Natureza obrigatório não informado.",
+    "Campo Nome do evento obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Campo Título da apresentação Obrigatório não informado"
+  ],
+  "validacao_salvar_ouvinte": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Nome do evento obrigatório não informado.",
+    "Campo Ano obrigatório não informado."
+  ]
+}

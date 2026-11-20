@@ -1,0 +1,34 @@
+{
+  "item": "cultivar_protegida",
+  "titulo_lattes": "Cultivar protegida",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_512.png",
+  "url": "PKG_PATENTE_REGISTRO.form?f_cod_tipo=CP",
+  "form_name": "PKG_PATENTE_REGISTRO",
+  "abas": ["Dados gerais", "Titular", "Melhoristas", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "f_titulo", "label": "Denominação da cultivar", "type": "text", "maxlength": 400},
+    {"name": "f_nme_comum", "label": "Nome comum da espécie", "type": "text", "maxlength": 16},
+    {"name": "f_nme_cientifico", "label": "Nome científico da espécie", "type": "text", "maxlength": 16},
+    {"name": "f_pais", "label": "País", "type": "select", "option_count": 244, "default": "Brasil"},
+    {"name": "f_inst", "label": "Autoridade Nacional", "type": "text", "maxlength": 75},
+    {"name": "f_cod_reg", "label": "Número do processo", "type": "text", "maxlength": 16},
+    {"name": "f_cod_cert", "label": "Número do certificado", "type": "text", "maxlength": 16},
+    {"name": "f_dta_dep", "label": "Data da solicitação", "type": "text (hasDatepicker)", "maxlength": 10},
+    {"name": "f_dta_conc", "label": "Início da proteção", "type": "text (hasDatepicker)", "maxlength": 10},
+    {"name": "f_sta_inovacao", "label": "Possui potencial de inovação de produtos, processos ou serviços?", "type": "radio", "default": "Não"},
+    {"name": "f_txt_potencial", "label": "Qual o potencial de inovação?", "type": "text", "maxlength": 400, "condicional": "tr#potencial quando Sim"},
+    {"name": "f_ref", "label": "Outras informações", "type": "textarea", "maxlength": 3950},
+    {"name": "f_titulo_en", "label": "Title", "type": "text", "maxlength": 400},
+    {"name": "f_ref_en", "label": "Other information", "type": "textarea", "maxlength": 3800},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Denominação obrigatório não informado.",
+    "Campo Instituição de registro obrigatório não informado.",
+    "Campo Número do processo obrigatório não informado.",
+    "Campo Data da solicitação obrigatório não Informado.",
+    "O seu nome deverá ser incluído na lista de melhoristas."
+  ]
+}

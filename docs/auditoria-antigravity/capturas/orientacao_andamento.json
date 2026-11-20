@@ -1,0 +1,42 @@
+{
+  "item": "orientacao_andamento",
+  "titulo_lattes": "Orientações e supervisões em andamento",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_205.png",
+  "url": "https://wwws.cnpq.br/cvlattesweb/pkg_orient.form?f_cod=K4298460T6&f_tipo=A",
+  "form_name": "PKG_ORIENT",
+  "form_action": "PKG_ORIENT.FORM",
+  "diferencas_vs_orientacao_concluida": [
+    "F_COD_PROD possui 6 opções (NÃO inclui 'Trabalho de conclusão de curso de graduação').",
+    "f_ano tem rótulo 'Ano de início da orientação' (em vez de 'Ano de término da orientação').",
+    "Não possui ícone capesdados() junto a f_nme_orient."
+  ],
+  "campos": [
+    { "aba": "Dados Gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza (nível da orientação)", "opcoes": [
+      { "texto": "Dissertação de mestrado", "onclick": "testa_nivel(0);" },
+      { "texto": "Tese de doutorado", "onclick": "testa_nivel(1);" },
+      { "texto": "Monografia de conclusão de curso de aperfeiçoamento/especialização", "onclick": "testa_nivel(2);" },
+      { "texto": "Iniciação científica", "onclick": "testa_nivel(3);" },
+      { "texto": "Supervisão de pós-doutorado", "onclick": "testa_nivel(4);" },
+      { "texto": "Orientação de outra natureza", "onclick": "testa_nivel(5);" }
+    ]},
+    { "aba": "Dados Gerais", "name": "f_dsc_outra", "tipo": "text (input-lupa)", "maxlength": 100, "readOnly": true },
+    { "aba": "Dados Gerais", "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "aba": "Dados Gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano de início da orientação", "maxlength": 4 },
+    { "aba": "Dados Gerais", "name": "f_pais", "tipo": "select", "defaultValue": "BRA", "total_opcoes": 244 },
+    { "aba": "Dados Gerais", "name": "F_IDIOMA", "tipo": "select", "defaultValue": "PT", "total_opcoes": 152 },
+    { "aba": "Dados Gerais", "name": "f_homepage", "tipo": "text", "maxlength": 250 },
+    { "aba": "Dados Gerais", "name": "F_RELEV", "tipo": "radio" },
+    { "aba": "Detalhamento", "name": "f_tpo_orient", "tipo": "radio" },
+    { "aba": "Detalhamento", "name": "f_nme_orient", "tipo": "text", "maxlength": 60 },
+    { "aba": "Detalhamento", "name": "f_inst", "tipo": "text (input-lupa)", "maxlength": 75, "disabled": true },
+    { "aba": "Detalhamento", "name": "f_curso", "tipo": "text (input-lupa)", "maxlength": 50, "disabled": true },
+    { "aba": "Bolsa", "name": "F_BOLSA", "tipo": "radio", "defaultValue": "não" },
+    { "aba": "Bolsa", "name": "f_nme_agencia", "tipo": "text (input-lupa)", "maxlength": 75 },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": "", "tipo": "select (custom .ms-dd.ms-pr)", "visible": false, "opcoes_descritas": ["Público", "Privado"] }
+  ]
+}

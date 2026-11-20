@@ -1,0 +1,43 @@
+{
+  "item": "processo_tecnica",
+  "titulo_lattes": "Processos ou técnicas",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_383.png",
+  "url": "pkg_processo.form?F_sta_inovacao=&f_cod=K4298460T6",
+  "form_name": "GN_PROCESSO",
+  "form_action": "PKG_PROCESSO.FORM",
+  "abas": ["Dados gerais", "Detalhamento", "Autores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    { "aba": "Dados gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza", "opcoes": ["Analítica", "Instrumental", "Pedagógica", "Processual", "Terapêutica", "Outra"] },
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "maxlength": 4 },
+    { "aba": "Dados gerais", "name": "f_pais", "tipo": "select", "defaultValue": "BRA", "total_options": 244 },
+    { "aba": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "defaultValue": "PT", "total_options": 152 },
+    { "aba": "Dados gerais", "name": "f_meio", "tipo": "select", "opcoes": ["", "I:Impresso", "M:meio magnético", "D:meio digital", "F:filme", "H:hipertexto", "O:outro", "V:impresso e mídia eletrônica"] },
+    { "aba": "Dados gerais", "name": "f_homepage", "tipo": "text", "maxlength": 250 },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "opcoes": ["sim (onclick: relev();)", "não"] },
+    { "aba": "Dados gerais", "name": "f_sta_inovacao", "tipo": "radio", "defaultValue": "Não", "opcoes": ["Sim", "Não"] },
+    { "aba": "Dados gerais", "name": "f_txt_potencial", "tipo": "text", "maxlength": 400, "rotulo": "Qual o potencial de inovação?", "condicional": "Inserido/visível e obrigatório apenas quando f_sta_inovacao = Sim" },
+    { "aba": "Detalhamento", "name": "f_finalidade", "tipo": "text", "maxlength": 255 },
+    { "aba": "Detalhamento", "name": "f_disp", "tipo": "select", "opcoes": ["", "Restrita", "Irrestrita"] },
+    { "aba": "Detalhamento", "name": "f_cidade", "tipo": "text", "maxlength": 255 },
+    { "aba": "Detalhamento", "name": "f_inst", "tipo": "text", "rotulo": "Instituição financiadora", "maxlength": 255 },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": null, "tipo": "select (ms-dd widget)", "defaultValue": "Público", "opcoes": ["Público", "Privado"] }
+  ],
+  "validacao_salvar_vazio_inovacao_nao": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ],
+  "validacao_salvar_vazio_inovacao_sim": [
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "Campo \"Qual o potencial de inovação?\" obrigatório não informado",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

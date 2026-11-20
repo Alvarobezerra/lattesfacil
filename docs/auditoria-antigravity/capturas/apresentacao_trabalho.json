@@ -1,0 +1,65 @@
+{
+  "item": "apresentacao",
+  "titulo_lattes": "Apresentação de trabalho e palestra",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/final_step_124.png",
+  "url": "https://wwws.cnpq.br/cvlattesweb/prc_tec_apres?f_cod=K4298460T6",
+  "form_name": "GN_TEC",
+  "form_action": "PRC_TEC_APRES",
+  "form_method": "POST",
+  "abas": [
+    { "texto": "Dados gerais", "title": "Dados gerais" },
+    { "texto": "Detalhamento", "title": "Detalhamento" },
+    { "texto": "Autores", "title": "Autores" },
+    { "texto": "Palavras-chave", "title": "Palavras-chave" },
+    { "texto": "Áreas", "title": "Áreas" },
+    { "texto": "Setores", "title": "Setores" },
+    { "texto": "Outras informaç...", "title": "Outras informações" },
+    { "texto": "Traduções", "title": "Traduções" },
+    { "texto": "Visibilidade", "title": "Visibilidade" }
+  ],
+  "campos": [
+    { "aba": "Dados gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza", "disabled": false, "readOnly": false, "visible": true, "opcoes": [
+      { "texto": "Comunicação" },
+      { "texto": "Conferência ou palestra" },
+      { "texto": "Congresso" },
+      { "texto": "Seminário" },
+      { "texto": "Simpósio" },
+      { "texto": "Outra" }
+    ]},
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "rotulo": "Título", "maxlength": 400, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "rotulo": "Ano", "maxlength": 4, "size": 4, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Dados gerais", "name": "f_pais", "tipo": "select", "rotulo": "País de publicação", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "BRA", "total_opcoes": 244 },
+    { "aba": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "rotulo": "Idioma", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "PT", "total_opcoes": 152 },
+    { "aba": "Dados gerais", "name": "f_meio", "tipo": "select", "rotulo": "Meio de divulgação", "disabled": false, "readOnly": false, "visible": true, "defaultValue": "", "opcoes": [
+      { "valor": "", "texto": "" },
+      { "valor": "I", "texto": "Impresso" },
+      { "valor": "M", "texto": "meio magnético" },
+      { "valor": "D", "texto": "meio digital" },
+      { "valor": "F", "texto": "filme" },
+      { "valor": "H", "texto": "hipertexto" },
+      { "valor": "O", "texto": "outro" },
+      { "valor": "V", "texto": "impresso e mídia eletrônica" }
+    ]},
+    { "aba": "Dados gerais", "name": "f_homepage", "tipo": "text", "rotulo": "Home page do trabalho (URL)", "maxlength": 250, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "rotulo": "É um dos 10 trabalhos mais relevantes de sua produção?", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "sim", "onclick": "relev();" }, { "texto": "não" }] },
+    { "aba": "Dados gerais", "name": "F_STA_DIVULGACAO_CIENTIFICA", "tipo": "radio", "rotulo": "É uma produção para educação e popularização de CeT?", "disabled": false, "readOnly": false, "visible": true, "opcoes": [{ "texto": "sim", "checked": false }, { "texto": "não", "checked": true }] },
+    { "aba": "Detalhamento", "name": "f_nme_evento", "tipo": "text", "rotulo": "Nome do evento", "maxlength": 255, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Detalhamento", "name": "f_inst", "tipo": "text", "rotulo": "Instituição promotora", "maxlength": 255, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Detalhamento", "name": "f_local", "tipo": "text", "rotulo": "Local", "maxlength": 255, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Detalhamento", "name": "f_cidade", "tipo": "text", "rotulo": "Cidade", "maxlength": 255, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "rotulo": "Outras informações", "maxlength": 3950, "cols": 85, "rows": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "rotulo": "Title", "maxlength": 400, "size": 80, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "rotulo": "Other information", "maxlength": 3800, "cols": 85, "rows": 10, "disabled": false, "readOnly": false, "visible": true, "defaultValue": "" },
+    { "aba": "Visibilidade", "name": "", "tipo": "select (custom .ms-dd.ms-pr)", "rotulo": "Visibilidade", "visible": false, "widget_visivel": ".ms-dd.ms-pr (default: Público)", "opcoes_descritas": ["Público", "Privado"] }
+  ],
+  "hidden_inputs": ["f_ctr", "f_cod", "f_seq", "f_autores_l", "f_plv_l", "f_setor_l", "f_area_l"],
+  "listas": [
+    { "aba": "Autores", "table_id": "tabelaAutor", "holder_id": "autorHolder", "colunas": ["Ordem de autoria", "Autores"], "input_suggest_maxlength": 60, "acoes": ["Listar todos", "Incluir novo"] },
+    { "aba": "Palavras-chave", "table_id": "tabelapalavra", "holder_id": "palavraHolder", "colunas": ["Ordem", "Palavra-chave"], "input_suggest_maxlength": 50, "acoes": ["Listar todos", "Incluir nova"] },
+    { "aba": "Áreas", "table_id": "tabelaarea", "holder_id": "areaHolder", "colunas": ["Ordem", "Áreas de conhecimento", "Visibilidade"], "input_suggest_maxlength": 86, "acoes": ["Listar todos", "Incluir nova"] },
+    { "aba": "Setores", "table_id": "tabelasetor", "holder_id": "setorHolder", "colunas": ["Ordem", "Setor de aplicação da Tabela CNAE"], "input_suggest_maxlength": null, "acoes": ["Listar todos"] }
+  ],
+  "teste_condicional_F_COD_PROD": { "dom_alterado": false, "html_length_antes": 18132, "html_length_depois": 18132 }
+}

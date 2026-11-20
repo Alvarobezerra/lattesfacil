@@ -1,0 +1,35 @@
+{
+  "item": "citacoes",
+  "titulo_lattes": "Citações (5 bases via PRC_INDICADORES)",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencias_screenshot": [
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_567.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_573_shot_1.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_573_shot_2.png"
+  ],
+  "form_name": "PRC_INDICADORES",
+  "abas": ["Dados da busca", "Visibilidade"],
+  "campos_comuns": [
+    {"name": "f_qtd_citacoes", "type": "text", "label": "Número total de citações", "maxlength": 6, "obrigatorio": true},
+    {"name": "f_qtd_trabalhos", "type": "text", "label": "Número de trabalhos", "maxlength": 6, "obrigatorio": true},
+    {"name": "f_data", "type": "text (hasDatepicker)", "label": "Data", "maxlength": 10, "obrigatorio": true},
+    {"name": "f_query", "type": "text", "maxlength": 400, "obrigatorio": true, "nota": "Em Google Scholar (f_base=4), rótulo muda para 'Endereço na Web(URL) do perfil do autor'"}
+  ],
+  "bases": {
+    "1_web_of_science": {
+      "extras": [
+        {"name": "f_res_id", "label": "ResearcherID", "maxlength": 13, "obrigatorio": true},
+        {"name": "f_indiceh", "label": "Fator H (*)", "maxlength": 3, "obrigatorio": false}
+      ]
+    },
+    "2_scielo": { "extras": [] },
+    "3_scopus": { "extras": [] },
+    "4_google_scholar": { "extras": [], "f_query_label": "Endereço na Web(URL) do perfil do autor" },
+    "99_outra_base": {
+      "extras": [
+        {"name": "f_txt_base", "label": "Base bibliográfica", "maxlength": 200, "obrigatorio": true}
+      ]
+    }
+  }
+}

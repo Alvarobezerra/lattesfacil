@@ -1,0 +1,14 @@
+{
+  "item": "outras_informacoes",
+  "titulo_lattes": "Outras informações relevantes",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_780.png",
+  "url": "prc_outras_inf",
+  "form_name": "GN_OUTRA_INF_RELEV",
+  "action": "PRC_OUTRAS_INF",
+  "abas": [],
+  "visibilidade": false,
+  "campos": [
+    {"index": 0, "type": "textarea", "maxlength": 2000}
+  ]
+}

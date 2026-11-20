@@ -1,0 +1,16 @@
+{
+  "item": "licenca",
+  "titulo_lattes": "Licença Maternidade, Paternidade e Adoção",
+  "capturado_em": "2026-11-20",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_758_shot_1_licenca_form.png",
+  "url": "pkg_licenca.form",
+  "form_name": "GN_LICENCA",
+  "abas": ["Licença", "Visibilidade (default: Privado)"],
+  "campos": [
+    {"name": "f_tipo_licenca", "type": "select", "options": ["", "M:Maternidade", "P:Paternidade", "A:Adoção"]},
+    {"name": "f_dta_inicio", "maxlength": 10, "hasDatepicker": true, "onchange": "calculaPeriodo()"},
+    {"name": "f_dta_fim", "maxlength": 10, "hasDatepicker": true, "onchange": "calculaPeriodo()"},
+    {"name": "f_dta_nasc_adoc", "maxlength": 10, "hasDatepicker": true, "label_dinamico": "Data de nascimento (M/P) ou Data de adoção (A)"}
+  ],
+  "validacao_salvar_vazio": ["O tipo de licença deve ser escolhido.", "A data de início deve estar preenchida.", "A data fim deve estar preenchida.", "A data de nascimento ou adoção deve ser preenchida."]
+}

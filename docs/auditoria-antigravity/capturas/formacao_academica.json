@@ -1,0 +1,52 @@
+{
+  "item": "formacao_academica",
+  "titulo_lattes": "Formação acadêmica/titulação",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_583.png",
+  "niveis_modal_abertura": [
+    {"nivel": "4", "texto": "Doutorado"},
+    {"nivel": "3", "texto": "Mestrado"},
+    {"nivel": "9", "texto": "Mestrado Profissional"},
+    {"nivel": "2", "texto": "Especialização"},
+    {"nivel": "D", "texto": "Especialização - Residência médica"},
+    {"nivel": "1", "texto": "Graduação"},
+    {"nivel": "7", "texto": "Ensino Profissional de nível técnico"},
+    {"nivel": "C", "texto": "Ensino Médio (2o grau)"},
+    {"nivel": "B", "texto": "Ensino Fundamental (1o grau)"},
+    {"nivel": "X", "texto": "Aperfeiçoamento"}
+  ],
+  "url_exemplo": "pkg_formacao.form?f_cod=K4298460T6&f_tipo=FA&f_nivel=4",
+  "form_name": "GN_FORMACAO2",
+  "form_action": "pkg_formacao.FORM",
+  "abas": ["Dados Gerais", "Período", "Bolsa", "Detalhamento", "Palavras-chave", "Áreas", "Setores", "Visibilidade"],
+  "campos_doutorado": [
+    {"name": "f_tpo_doutorado", "type": "radio", "options": ["normal", "sanduíche", "co-tutela", "co-tutela/sanduíche"], "onclick": "testa_mudanca_de_rotulo(this.value)"},
+    {"name": "f_inst", "type": "text", "maxlength": 75, "disabled": true, "lupa": "sele_inst(1)"},
+    {"name": "f_curso", "type": "text", "maxlength": 75, "disabled": true, "lupa": "curso()"},
+    {"name": "F_STATUS", "type": "radio", "options": ["em andamento", "concluído", "incompleto"], "onclick": "alteraRotuloAno(this.value);"},
+    {"name": "f_ano_ini", "type": "text", "label": "Início (ano)", "maxlength": 4},
+    {"name": "f_ano_fim", "type": "text", "label": "Conclusão (ano) / Interrupção (ano)", "maxlength": 4},
+    {"name": "f_mes_obten", "type": "text", "maxlength": 2},
+    {"name": "f_ano_obten", "type": "text", "maxlength": 4},
+    {"name": "F_BOLSA", "type": "radio", "options": ["Sim", "Não"], "default": "Não"},
+    {"name": "f_nme_agencia", "type": "text", "maxlength": 75, "disabled": true, "lupa": "agencia()"},
+    {"name": "f_titulo", "type": "text", "label": "Título da dissertação/tese", "maxlength": 254},
+    {"name": "f_orient", "type": "text", "maxlength": 60},
+    {"name": "f_coorient", "type": "text", "maxlength": 60}
+  ],
+  "regras_condicionais_doutorado": {
+    "f_tpo_doutorado": "sanduíche / co-tutela / co-tutela/sanduíche mudam rótulo de f_inst para 'Instituição outorgadora do título de doutor' e inserem seções extras (f_inst_dout*, f_orient_dout*, f_meses_sw*).",
+    "F_STATUS": "incompleto muda lblAnoFim para 'Interrupção (ano)'; concluído exige Conclusão, Obtenção do título e Título.",
+    "F_BOLSA": "Sim exige Agência financiadora (f_nme_agencia via lupa)."
+  },
+  "validacao_salvar_vazio_doutorado": [
+    "Campo Tipo de doutorado obrigatório não informado.",
+    "Campo Instituição.obrigatório não informado.",
+    "Campo Curso obrigatório não informado.",
+    "Campo Status do curso obrigatório não informado.",
+    "Campo Início (ano) obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Nome completo do orientador obrigatório não informado."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "item": "artigo_periodico_contravalidacao",
+  "titulo_lattes": "Artigos completos publicados em periódicos",
+  "capturado_em": "2026-11-20",
+  "evidencias_screenshot": [
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_794_shot_1_artigo_doi_choice_modal.png",
+    "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_803_shot_1_artigo_form_clean.png"
+  ],
+  "abertura_wizard_2_passos": {
+    "passo_1_findp": "fparametro (max 255: DOI, ISSN ou parte do nome do periódico)",
+    "passo_2_finfivip": "fissn (obrigatório, valida dígito), fnmeperiodico, fvolume (obrigatório), fedicao, fpagini (obrigatório) -> abre PKG_ARTIGO.form?F_CTR=FIV com f_titulo_periodico, f_jcr, f_issn, f_volume, f_serie e f_pag_ini disabled=true"
+  },
+  "url": "PKG_ARTIGO.form?F_CTR=FIV",
+  "form_name": "GN_ARTIGO",
+  "validacao_salvar_vazio": [
+    "Campo Título do artigo obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "item": "assessoria_consultoria",
+  "titulo_lattes": "Assessoria e consultoria",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_355.png",
+  "url": "PKG_ASSESSORIA_CONSULTORIA.form?f_cod=K4298460T6",
+  "form_name": "GN_RELATORIO",
+  "form_action": "PKG_ASSESSORIA_CONSULTORIA.FORM",
+  "abas": ["Dados gerais", "Detalhamento", "Autores", "Palavras-chave", "Áreas", "Setores", "Outras informações", "Traduções", "Visibilidade"],
+  "campos": [
+    { "aba": "Dados gerais", "name": "F_COD_PROD", "tipo": "radio", "rotulo": "Natureza", "opcoes": ["Assessoria", "Consultoria"] },
+    { "aba": "Dados gerais", "name": "f_titulo", "tipo": "text", "maxlength": 400 },
+    { "aba": "Dados gerais", "name": "f_ano", "tipo": "text", "maxlength": 4 },
+    { "aba": "Dados gerais", "name": "f_pais", "tipo": "select", "total_options": 244 },
+    { "aba": "Dados gerais", "name": "F_IDIOMA", "tipo": "select", "total_options": 152 },
+    { "aba": "Dados gerais", "name": "f_meio", "tipo": "select", "opcoes": ["", "I:Impresso", "M:meio magnético", "D:meio digital", "F:filme", "H:hipertexto", "O:outro", "V:impresso e mídia eletrônica"] },
+    { "aba": "Dados gerais", "name": "f_homepage", "tipo": "text", "maxlength": 250 },
+    { "aba": "Dados gerais", "name": "F_RELEV", "tipo": "radio", "opcoes": ["sim (onclick: relev();)", "não"] },
+    { "aba": "Detalhamento", "name": "f_finalidade", "tipo": "text", "maxlength": 255 },
+    { "aba": "Detalhamento", "name": "f_duracao", "tipo": "text", "rotulo": "Duração (meses)", "maxlength": 5 },
+    { "aba": "Detalhamento", "name": "f_paginas", "tipo": "text", "rotulo": "Número de páginas", "maxlength": 5 },
+    { "aba": "Detalhamento", "name": "f_disp", "tipo": "select", "rotulo": "Disponibilidade", "opcoes": ["", "Restrita", "Irrestrita"] },
+    { "aba": "Detalhamento", "name": "f_cidade", "tipo": "text", "maxlength": 255 },
+    { "aba": "Detalhamento", "name": "f_inst", "tipo": "text", "rotulo": "Instituição financiadora", "maxlength": 255 },
+    { "aba": "Outras informações", "name": "f_ref", "tipo": "textarea", "maxlength": 3950 },
+    { "aba": "Traduções", "name": "f_titulo_en", "tipo": "text", "maxlength": 400 },
+    { "aba": "Traduções", "name": "f_ref_en", "tipo": "textarea", "maxlength": 3800 },
+    { "aba": "Visibilidade", "name": null, "tipo": "select (ms-dd widget)", "defaultValue": "Público", "opcoes": ["Público", "Privado"] }
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Natureza obrigatório não informado.",
+    "Campo Título obrigatório não informado.",
+    "Campo Ano obrigatório não informado.",
+    "O seu nome deverá ser incluído na lista de autores."
+  ]
+}

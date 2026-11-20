@@ -1,0 +1,40 @@
+{
+  "item": "patente",
+  "titulo_lattes": "Patente",
+  "capturado_em": "2026-11-20",
+  "fonte": "Antigravity Browser Live Inspection (somente leitura)",
+  "evidencia_screenshot": "C:/Users/icrim/.gemini/antigravity/brain/a7ad675e-9d5f-46cb-b399-5ea151e1d0c2/browser_evidence/58f005e7-da4d-4c7c-bfba-20fb50aa8d8d/step_496.png",
+  "abertura_modal": "infDadPat() — f_inst (escolhe_inst(), 12 opções) + f_cod_reg (max 16), ambos obrigatórios",
+  "url": "pkg_patente_registro.form?f_cod_tipo=PP",
+  "form_name": "PKG_PATENTE_REGISTRO",
+  "abas": ["Dados gerais", "Situação do Depósito/Patente", "Depositante/Titular", "Inventores", "Resumo", "Informações Adicionais", "Palavras-chave", "Áreas", "Setores", "Traduções", "Visibilidade"],
+  "campos": [
+    {"name": "f_natureza", "label": "Categoria", "type": "radio", "options": ["Produto", "Processo", "Produto e Processo", "Outra"]},
+    {"name": "f_cod_reg", "label": "Número do registro", "type": "text", "maxlength": 16},
+    {"name": "f_inst", "label": "Instituição onde foi depositada", "type": "text", "maxlength": 75, "lupa": "escolhe_inst()"},
+    {"name": "f_pais", "label": "País", "type": "select", "option_count": 244, "default": "Brasil"},
+    {"name": "f_tipo", "label": "Natureza", "type": "radio", "options": ["Patente de Invenção", "Patente de Modelo de Utilidade"], "onclick": "desHabilitaTipo()"},
+    {"name": "f_titulo", "label": "Título", "type": "text", "maxlength": 400},
+    {"name": "f_nro_deposito_pct", "label": "Número do depósito PCT(caso exista)", "type": "text", "maxlength": 16},
+    {"name": "f_sta_inovacao", "label": "Possui potencial de inovação de produtos, processos ou serviços?", "type": "radio", "options": ["Sim", "Não"], "default": null},
+    {"name": "f_txt_potencial", "label": "Qual o potencial de inovação?", "type": "text", "maxlength": 400, "condicional": "tr#potencial quando f_sta_inovacao = Sim"},
+    {"name": "f_ref", "label": "Resumo", "type": "textarea", "maxlength": 3950},
+    {"name": "f_home_page", "label": "Home page (URL)", "type": "text", "maxlength": 255},
+    {"name": "f_finalidade", "label": "Finalidade", "type": "text", "maxlength": 255},
+    {"name": "f_inst_financ", "label": "Instituição(ões) financiadora(s)", "type": "textarea", "maxlength": 380},
+    {"name": "f_titulo_en", "label": "Title", "type": "text", "maxlength": 400},
+    {"name": "f_ref_en", "label": "Other information", "type": "textarea", "maxlength": 3800},
+    {"widget": ".ms-dd", "label": "Visibilidade", "options": ["Público", "Privado"], "default": "Público"}
+  ],
+  "validacao_salvar_vazio": [
+    "Campo Depositante/Titular obrigatório não informado.",
+    "Campo \"Possui potencial de inovação de produtos, processos ou serviços?\" obrigatório não informado",
+    "Campo Título obrigatório não informado.",
+    "Campo Categoria Obrigatório Não Informado.",
+    "Campo Natureza obrigatório não informado.",
+    "Campo Instituição de registro obrigatório não informado.",
+    "Campo Número de registro obrigatório não informado.",
+    "Campo Data de depósito obrigatório não Informado.",
+    "O seu nome deverá ser incluído na lista de inventores."
+  ]
+}
