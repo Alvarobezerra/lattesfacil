@@ -13,7 +13,7 @@ No estágio atual do LattesData, existe uma fronteira clara entre o que **não d
 
 ---
 
-## 2. Matriz de Hipóteses: Os 8 Blocos Temáticos (Q1–Q32)
+## 2. Matriz de Hipóteses: Os 9 Blocos Temáticos (Q1–Q37)
 
 | Bloco | Perguntas | Hipótese / Decisão de Produto que Destrava |
 | :--- | :---: | :--- |
@@ -25,6 +25,7 @@ No estágio atual do LattesData, existe uma fronteira clara entre o que **não d
 | **6. Rotina de Registro e "Momento de Conquista"** | Q21–Q24 | Entender onde comprovantes ficam espalhados, testar o valor do feedback emocional pós-cadastro (*"Sua dimensão X subiu"*) e validar o desdobramento inteligente (*1 documento gerando múltiplos registros*, com confirmação humana). |
 | **7. Eco Científico, Legado Humano e Radar de Rede** | Q25–Q28 | Comparar o valor de ver citações com o trecho exato do texto citante, visualizar a árvore/legado de pessoas formadas (orientações/bancas), usar o Radar de Coautorias para resgatar obras e comparar currículos de referência da área. |
 | **8. Comunidade, Privacidade e Priorização Final** | Q29–Q32 | Definir limites inegociáveis de privacidade, formatos sóbrios de reconhecimento entre pares, escolha forçada do top 3 de funcionalidades para uso contínuo e convite para conversa de aprofundamento. |
+| **9. Gestão Colaborativa de Projetos & Modelo Orientador–Aluno** | Q33–Q37 | Validar a dor de gerenciar entregas/comprovantes de orientandos e prestações de contas, testar quais módulos de especialidade (Packs) fazem sentido e avaliar a adesão ao modelo *Orientador Pagante ↔ Aluno Gratuito no Projeto*. |
 
 ---
 
@@ -80,6 +81,13 @@ No estágio atual do LattesData, existe uma fronteira clara entre o que **não d
 - **Q30 (Escolha múltipla limitada — Top 3):** As 3 entregas prioritárias que fariam o usuário abrir o LattesData pelo menos uma vez por mês (e não só na véspera do edital).
 - **Q31 (Aberta):** *"Se o LattesData fosse um bom orientador ou assistente dedicado à sua carreira acadêmica, o que ele faria por você que nenhuma plataforma faz hoje?"*
 - **Q32 (Escolha única):** Disponibilidade para uma conversa de 20–30 minutos sobre as respostas e teste assistido da plataforma.
+
+### Bloco 9 · Gestão Colaborativa de Projetos de Pesquisa & Modelo Orientador–Aluno (Q33–Q37)
+- **Q33 (Múltipla escolha):** Maiores gargalos ao gerenciar projetos de pesquisa com alunos/parceiros (perder comprovantes quando o aluno defende, controlar múltiplos processos de fomento FAPs/CNPq/CAPES/FINEP, acompanhar prazos regulatórios CEUA/CEP/SisGen/INPI, consolidar entregas para Sucupira, redigitar a mesma obra em vários Lattes).
+- **Q34 (Múltipla escolha):** Quais módulos específicos (Packs) fariam real diferença nos projetos do respondente (Bancada/CEUA/SisGen/Patente, Saúde Coletiva/PROSPERO/PTT, Computação/Conferência/GitHub, Engenharias/TRL/NDA, Agrárias/Safra/MAPA, Humanas/Guarda-Chuva/Coletâneas, Carteira de Fomentos & Funding automático).
+- **Q35 (Escala 1–5):** Valor da **Propagação 1-para-N** (o orientando sobe 1 PDF/DOI no projeto, o orientador aprova em 1 clique e o registro já fica pronto para o dossiê do edital, para o Lattes do orientador e para a fila dos alunos).
+- **Q36 (Escolha única):** Percepção sobre o modelo **Orientador Pagante ↔ Aluno Convidado Gratuito** (o orientador assina o espaço de projetos, os alunos interagem e sobem entregas de graça, e pagam um plano estudante ou passe avulso apenas se quiserem sincronizar automaticamente com o próprio Lattes ou gerar dossiê pessoal).
+- **Q37 (Aberta):** Que rotina real de um projeto seu (da concepção à prestação de contas) o LattesData precisa resolver primeiro para você e seus alunos usarem toda semana.
 
 ---
 

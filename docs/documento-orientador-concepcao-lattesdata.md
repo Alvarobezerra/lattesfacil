@@ -307,4 +307,34 @@ Todas as telas, relatórios e fluxos operam sob a identidade **LattesData**. Den
 - **Oportunidade de Valorização:** recomendação acionável gerada pela conformidade ou pelo radar para enriquecer, conectar ou proteger o currículo.
 - **Bússola de Editais (EditalScore):** simulador contínuo de metas e pontuação, com gerador de dossiê paginado para editais, progressões e concursos.
 
+## 18. Gestão Colaborativa de Projetos de Pesquisa (Espinha Dorsal, Packs e Modelo Orientador–Aluno)
+
+Para transformar o LattesData de uma ferramenta episódica (aberta apenas na véspera de editais) em um **ambiente semanal vivo da vida acadêmica**, a plataforma incorpora a camada de **Gestão Colaborativa de Projetos de Pesquisa Científica**, fundamentada no mapeamento empírico de **13 pesquisadores brasileiros nas 8 Grandes Áreas do CNPq** e em periódicos **Qualis A1/A2** (detalhada integralmente em [arquitetura-projetos-pesquisa-lattesdata.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/arquitetura-projetos-pesquisa-lattesdata.md)).
+
+### Espinha Dorsal Universal (6 Pilares Fixos)
+Todo projeto acadêmico — independente da grande área — nasce sobre seis pilares comuns:
+1. **Identidade & Natureza:** Pesquisa, Extensão, Ensino ou Desenvolvimento Tecnológico.
+2. **Equipe & Papéis por Projeto:** Coordenador/Orientador, Coorientador, Pesquisador Parceiro Multi-institucional e Orientandos Convidados (suportando inclusive **Projetos Guarda-Chuva** em Humanas/Artes onde a autoria final é individual ou em dupla).
+3. **Carteira de Fomentos & Bolsas (N:N):** cadastro único de processos (`CNPq`, `CAPES`, `FAPs`, `FINEP`, `EMBRAPII`, `BNB`) gerando automaticamente textos de *Funding* e prestação de contas por edital.
+4. **Marcos & Repositório Permanente de Evidências:** entregas parciais, PDFs e certificados preservados no projeto mesmo após a formatura dos alunos.
+5. **Gestor de Produtos, Autoria e Versões:** Artigos, Conferências, Livros/Coletâneas, Datasets, Software, Patentes, PTTs e Produção Artística, com **CRediT + ORCID**, trilha *Preprint/Working Paper → Obra Final* e agrupador multilíngue (`PT/EN/ES`).
+6. **Motor de Propagação 1-para-N para o Lattes:** uma única evidência enviada pelo aluno e aprovada pelo orientador entra pronta no dossiê do projeto, na fila do Lattes do orientador e no cofre pessoal de todos os coautores.
+
+### Dinâmicas Específicas por Especialidade (8 Packs Modulares)
+Em vez de impor campos irrelevantes, o docente ativa apenas os módulos correspondentes à sua pesquisa:
+- **Pack 1 — Bancada, Biológicas & Farmácia** (`CEUA`, `SisGen`, `SISBIO`, `CTNBio`, *vouchers*, `ARRIVE`, gate de patente INPI).
+- **Pack 2 — Ensaios Clínicos & Intervenções** (`CEP/CONEP`, `ANVISA`, `ReBEC/ClinicalTrials.gov`, `SPIRIT/CONSORT`, `DSMB/eCRF`).
+- **Pack 3 — Saúde Coletiva, Revisões & PTT** (`Dispensa CEP/510`, `DATASUS/IBGE`, `PROSPERO/OSF`, `PRISMA/STROBE/COREQ`, validação `IVC`, `PTTs T1–T3`).
+- **Pack 4 — Computação, IA & Ciência de Dados** (*Reproducibility Checklist*, *Rebuttal*, *Artifact Evaluation*, `GitHub/Docker/HuggingFace/arXiv`, `INPI Software`).
+- **Pack 5 — Engenharias, Indústria & TRL** (`EMBRAPII/ANP/ANEEL`, `NDA`/embargo até INPI, `TRL 1–9`, HIL/*scale-up*, `Sirius/LNLS`).
+- **Pack 6 — Agrárias, Alimentos & Ambientais** (multi-safra/DBCA, `MAPA RNC/SNPC/VCU`, `ICMBio/SISBIO`, `CEP para análise sensorial`, `URTs/Dias de Campo`).
+- **Pack 7 — Humanas, Sociais Aplicadas & Artes** (`Res. CNS 510/2016`, *Projeto Guarda-Chuva*, gestor de Livro/Coletânea, `Working Papers`/`AEA RCT`/`SciELO Data`, direitos autorais de imagem/acervos, *Policy Briefs*/pareceres/exposições).
+- **Pack 8 — Big Science, Química & Consórcios** (revisão interna de consórcio, tempo de observatório, `arXiv`/`Zenodo`, *Supporting Information* RMN/HRMS/DFT).
+
+### Modelo de Negócio *Hub-and-Spoke* (Orientador Pagante ↔ Aluno Gratuito)
+- **Orientador (Plano Pago):** cria projetos, convida alunos gratuitamente, acompanha marcos, aprova entregas, sincroniza no próprio Lattes em 1 clique e exporta prestação de contas.
+- **Aluno / Orientando (Gratuito no Projeto):** interage livremente, envia entregas e acompanha sua *Trajetória Viva* sendo construída sem barreiras.
+- **Conversão Pessoal do Aluno:** ao acumular produções validadas no projeto, o aluno decide quando ativar um **Plano Estudante** ou **Passe de Atualização / Edital via Pix** para sincronizar automaticamente com o próprio Currículo Lattes, rodar conformidade completa ou montar seu dossiê pontuado (`EditalScore`).
+
+
 
