@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Resumo Executivo: Gestão Colaborativa de Projetos de Pesquisa</title>
+<style>
+  :root{
+    --navy:#0b192c; --navy-2:#132c4c; --teal:#087f91; --teal-l:#e8f6f8;
+    --mint:#10b981; --mint-l:#e5f9f1; --amber:#b45309; --amber-l:#fef6e4;
+    --ink:#10233d; --muted:#566a80; --line:#dce5ee; --bg:#f3f7fa; --paper:#ffffff;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Inter,system-ui,-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+  .doc{max-width:920px;margin:20px auto;padding:0 14px 40px;display:grid;gap:22px}
+  .page{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 34px;box-shadow:0 10px 28px rgba(11,25,44,.06);position:relative;overflow:hidden}
+  .cover{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 62%,#0f4b61 100%);color:#fff;border:0}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .cover .topbar{color:#9fd7e0}
+  .brand{font:700 italic 22px var(--serif);letter-spacing:0;text-transform:none;color:var(--ink)}
+  .brand span{font:800 10px var(--sans);font-style:normal;letter-spacing:.14em;color:var(--teal);margin-left:5px}
+  .cover .brand{color:#fff}
+  .cover .brand span{color:#67f3d1}
+  .pill{display:inline-block;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;background:var(--teal-l);color:var(--teal)}
+  .cover .pill{background:rgba(103,243,209,.16);color:#86f7dc;border:1px solid rgba(103,243,209,.35)}
+  h1{font:700 30px/1.15 var(--serif);margin:10px 0 12px}
+  h2{font:700 22px/1.2 var(--serif);margin:0 0 8px;color:var(--navy)}
+  h3{font:700 14px/1.3 var(--sans);margin:0 0 6px;color:var(--navy)}
+  p{margin:0 0 10px}
+  .lead{font-size:14.5px;line-height:1.55;color:#dbe8f3;max-width:740px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+  .kpi{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 14px}
+  .kpi b{display:block;font:700 22px var(--serif);color:#67f3d1}
+  .kpi span{font-size:11.5px;color:#d2e4f0}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .box{background:#f8fbfd;border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .cover .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#eaf4fa}
+  .cover .box h3{color:#7cf5d4}
+  .box-teal{background:var(--teal-l);border-color:#bce3e9}
+  .box-mint{background:var(--mint-l);border-color:#a7ead0}
+  .box-amber{background:var(--amber-l);border-color:#f3d79b}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;background:#e6eef5;color:var(--navy);margin:2px 3px 2px 0}
+  .tag-t{background:#d7f1f5;color:#065f6d}
+  .tag-m{background:#d6f6e9;color:#066041}
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+  .step{border:1px solid #c9e6eb;background:#f5fbfc;border-radius:12px;padding:12px 13px}
+  .step .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;font-weight:800;margin-right:6px}
+  table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#edf4f8;color:var(--navy);font-weight:700}
+  tr.hl td{background:#e7f8f3;font-weight:600;border-color:#9fe0c8}
+  .ok{color:#057a55;font-weight:800}
+  .no{color:#9ca3af}
+  .part{color:#b45309;font-weight:700}
+  ul{margin:6px 0 0;padding-left:18px}
+  li{margin:4px 0}
+  .muted{color:var(--muted);font-size:12px}
+  .footer{margin-top:16px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+  .cover .footer{border-color:rgba(255,255,255,.16);color:#9cc6d6}
+  .template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
+  .t-card{border:1px dashed #8bc6d1;background:#fbfefe;border-radius:10px;padding:10px 11px;font-size:12px}
+  .t-card b{display:block;color:var(--teal);margin-bottom:3px;font-size:12px}
+
+  @media (max-width:720px){
+    .doc{margin:10px auto;padding:0 10px 28px;gap:14px}
+    .page{padding:20px 16px;border-radius:14px}
+    h1{font-size:24px}
+    h2{font-size:19px}
+    .kpis,.grid-2,.grid-3,.grid-4,.flow,.template-grid{grid-template-columns:1fr}
+    table{display:block;overflow-x:auto;white-space:nowrap}
+  }
+  @media print{
+    @page{size:A4;margin:10mm}
+    body{background:#fff;font-size:11.5px;line-height:1.4}
+    .doc{max-width:none;margin:0;padding:0;gap:0}
+    .page{border:0;border-radius:0;box-shadow:none;padding:14px 16px;page-break-after:always;break-after:page}
+    .page:last-child{page-break-after:auto;break-after:auto}
+    .cover{border-radius:12px;padding:22px 24px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .box,.kpi,.step,.t-card,th,tr.hl td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main class="doc">
+
+  <!-- PÁGINA 1: CAPA & TESE ESTRATÉGICA -->
+  <section class="page cover">
+    <div class="topbar">
+      <div class="brand">Lattes<span>DATA</span></div>
+      <span class="pill">Base de Conhecimento · Gestão de Projetos</span>
+    </div>
+    <h1>Gestão Colaborativa de Projetos de Pesquisa Científica</h1>
+    <p class="lead">
+      Resumo executivo da base empírica e de mercado que fundamenta a evolução do <strong>LattesData</strong>:
+      de uma ferramenta episódica de véspera de edital para o <strong>ambiente semanal vivo de projetos entre orientadores, alunos e parceiros</strong> — com atualização do Currículo Lattes como consequência natural.
+    </p>
+
+    <div class="kpis">
+      <div class="kpi"><b>13</b><span>Pesquisadores brasileiros analisados nas 8 Grandes Áreas</span></div>
+      <div class="kpi"><b>1.150+</b><span>Obras reais mapeadas (OpenAlex, Crossref, Europe PMC)</span></div>
+      <div class="kpi"><b>6 + 8</b><span>Pilares da Espinha Dorsal + Packs por Especialidade</span></div>
+      <div class="kpi"><b>11</b><span>Referências de mercado (7 científicas + 4 SaaS PLG)</span></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="box">
+        <h3>Por que mudar o foco para o Projeto?</h3>
+        <ul>
+          <li><strong>Retrabalho coletivo:</strong> a média real nas áreas de Saúde/Exatas/Agrárias é de <strong>6 a 10 autores por artigo</strong> — hoje todos redigitam a mesma obra no Lattes separadamente.</li>
+          <li><strong>Problema da Formatura:</strong> quando o aluno defende e sai do grupo, certificados, PDFs e protocolos se perdem para a prestação de contas.</li>
+          <li><strong>Rede entrelaçada:</strong> docentes do mesmo PPG coautoram entre si, gerando adoção orgânica por laboratório e por programa.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Modelo Orientador Pagante ↔ Aluno Gratuito</h3>
+        <ul>
+          <li><strong>Orientador (Plano Pro):</strong> cria projetos, convida alunos de graça, aprova entregas, sincroniza o próprio Lattes em 1 clique e baixa o dossiê do edital/Sucupira.</li>
+          <li><strong>Aluno (Gratuito no Projeto):</strong> interage, envia entregas/certificados e vê sua <em>Trajetória Viva</em> nascer sem barreira.</li>
+          <li><strong>Conversão do Aluno:</strong> quando acumula obras prontas, ativa o <strong>Plano Estudante ou Passe via Pix</strong> para atualizar o próprio Lattes em 1 clique ou montar dossiê de seleção.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>LattesData · Documento preparado para co-construção com Prof. Dr. Aramys Silva dos Reis</span>
+      <span>Página 1 de 4</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 2: ESPINHA DORSAL + 8 PACKS MODULARES -->
+  <section class="page">
+    <div class="topbar">
+      <span>Arquitetura Empírica · Espinha Dorsal + Especialidades</span>
+      <span class="pill">Validado em Periódicos Qualis A1/A2</span>
+    </div>
+    <h2>1. A Espinha Dorsal Universal (6 Pilares Fixos)</h2>
+    <p class="muted">Todo projeto científico — da História (1 autor) à Astrofísica (50+ autores) — compartilha o mesmo núcleo estrutural:</p>
+
+    <div class="flow">
+      <div class="step"><span class="n">1</span><strong>Identidade &amp; Natureza</strong><br><span class="muted">Pesquisa, Extensão, Ensino ou Desenv. Tecnológico + vigência.</span></div>
+      <div class="step"><span class="n">2</span><strong>Equipe &amp; Papéis por Projeto</strong><br><span class="muted">Coordenador, Parceiro Externo ou Orientando (suporta Projeto Guarda-Chuva).</span></div>
+      <div class="step"><span class="n">3</span><strong>Carteira de Fomentos (N:N)</strong><br><span class="muted">FAPs, CNPq, CAPES, FINEP, BNB → gera texto de Funding e relatório.</span></div>
+      <div class="step"><span class="n">4</span><strong>Marcos &amp; Repositório</strong><br><span class="muted">Entregas dos alunos e PDFs preservados mesmo após a defesa.</span></div>
+      <div class="step"><span class="n">5</span><strong>Produtos, CRediT &amp; Versões</strong><br><span class="muted">Artigo, Conferência, Livro, PTT, Patente, Preprint → Final, PT/EN/ES.</span></div>
+      <div class="step"><span class="n">6</span><strong>Propagação 1-para-N (Lattes)</strong><br><span class="muted">1 aprovação alimenta o Dossiê, o Lattes do Orientador e o Cofre dos Alunos.</span></div>
+    </div>
+
+    <h2 style="margin-top:16px">2. Os 8 Packs Modulares por Especialidade</h2>
+    <p class="muted">O docente liga apenas o(s) Pack(s) que correspondem à sua pesquisa — evitando telas poluídas com campos irrelevantes:</p>
+
+    <div class="grid-4">
+      <div class="box box-teal">
+        <h3>Pack 1 · Bancada, Biológicas &amp; Farmácia</h3>
+        <span class="tag tag-t">CEUA</span><span class="tag tag-t">SisGen</span><span class="tag tag-t">SISBIO</span><span class="tag tag-t">ARRIVE</span><span class="tag tag-t">Gate Patente INPI</span>
+        <p class="muted" style="margin:4px 0 0">Exsicatas/vouchers, CTNBio, protocolos de bancada e proteção intelectual antes da submissão.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 2 · Ensaios Clínicos &amp; Intervenções</h3>
+        <span class="tag">CEP/CONEP (CAAE)</span><span class="tag">ANVISA</span><span class="tag">ReBEC/ClinicalTrials</span><span class="tag">CONSORT</span>
+        <p class="muted" style="margin:4px 0 0">Registro prospectivo obrigatório, eCRF/REDCap, SAP, DSMB e gestão multicêntrica.</p>
+      </div>
+      <div class="box box-teal">
+        <h3>Pack 3 · Saúde Coletiva, Revisões &amp; PTT</h3>
+        <span class="tag tag-t">Dispensa CEP 510</span><span class="tag tag-t">DATASUS/IBGE</span><span class="tag tag-t">PROSPERO/OSF</span><span class="tag tag-t">IVC &amp; PTT T1–T3</span>
+        <p class="muted" style="margin:4px 0 0">PRISMA/STROBE/COREQ, validação com juízes e comprovação de impacto para a CAPES.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 4 · Computação, IA &amp; Ciência de Dados</h3>
+        <span class="tag">Conferência A1</span><span class="tag">Rebuttal</span><span class="tag">GitHub/Docker</span><span class="tag">arXiv</span><span class="tag">INPI Software</span>
+        <p class="muted" style="margin:4px 0 0">Reproducibility Checklist, Artifact Evaluation e datasets/modelos no Hugging Face ou Zenodo.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 5 · Engenharias, Indústria &amp; TRL</h3>
+        <span class="tag">EMBRAPII/ANP</span><span class="tag">NDA &amp; Embargo</span><span class="tag">TRL 1–9</span><span class="tag">Sirius/LNLS</span>
+        <p class="muted" style="margin:4px 0 0">Defesa sigilosa até depósito de patente, validação HIL/scale-up e relatórios industriais.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 6 · Agrárias, Alimentos &amp; Ambientais</h3>
+        <span class="tag">Multi-Safra DBCA</span><span class="tag">MAPA RNC/SNPC</span><span class="tag">CEP Sensorial</span><span class="tag">URTs / Dias de Campo</span>
+        <p class="muted" style="margin:4px 0 0">Cultivares/VCU, bioinsumos, ICMBio/SISBIO e garantia microbiológica pré-sensorial.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 7 · Humanas, Sociais Aplicadas &amp; Artes</h3>
+        <span class="tag">Res. CNS 510</span><span class="tag">Guarda-Chuva</span><span class="tag">Livro/Coletânea</span><span class="tag">Working Paper</span>
+        <p class="muted" style="margin:4px 0 0">Alerta contra endogenia CAPES, AEA RCT/SciELO Data, direitos autorais de imagem e exposições.</p>
+      </div>
+      <div class="box">
+        <h3>Pack 8 · Big Science, Química &amp; Consórcios</h3>
+        <span class="tag">Revisão Interna</span><span class="tag">Tempo de Telescópio</span><span class="tag">Supporting Info (RMN/DFT)</span><span class="tag">Zenodo DOI</span>
+        <p class="muted" style="margin:4px 0 0">Consórcios de 30–100+ autores, proprietary period e centrais analíticas multiusuário.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Detalhamento completo em docs/base-conhecimento-projetos/01-fichas-8-packs-e-matriz-lattes.md</span>
+      <span>Página 2 de 4</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 3: BENCHMARK GLOBAL VS. LACUNA BRASILEIRA -->
+  <section class="page">
+    <div class="topbar">
+      <span>Benchmark de Mercado · 7 Científicas + 4 SaaS PLG</span>
+      <span class="pill">A Lacuna Única do Brasil</span>
+    </div>
+    <h2>3. Plataformas Globais vs. LattesData</h2>
+    <p class="muted">Nenhuma ferramenta internacional conecta a execução diária do projeto com o compliance brasileiro e a atualização automática do Currículo Lattes:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Plataforma</th>
+          <th>Foco Principal</th>
+          <th>Multi-Áreas</th>
+          <th>Orientador ↔ Aluno Grátis</th>
+          <th>Compliance BR (CEP/CEUA/SisGen)</th>
+          <th>Prestação FAPs / Sucupira</th>
+          <th>Preenche Lattes (CNPq)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Benchling</strong></td>
+          <td>ELN biologia molecular</td>
+          <td class="no">Não (wet lab)</td>
+          <td class="part">Parcial</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>Labguru</strong></td>
+          <td>ELN + LIMS / estoque</td>
+          <td class="no">Não (wet lab)</td>
+          <td class="no">Licença paga</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>Protocols.io</strong></td>
+          <td>Protocolos passo a passo</td>
+          <td class="part">Parcial</td>
+          <td class="part">Público grátis</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>Overleaf</strong></td>
+          <td>Escrita LaTeX colaborativa</td>
+          <td class="part">Exatas/Eng.</td>
+          <td class="ok">Sim (viral)</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>OSF</strong></td>
+          <td>Ciência aberta / pré-registro</td>
+          <td class="ok">Sim</td>
+          <td class="ok">Gratuito</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>Researchfish*</strong></td>
+          <td>Prestação de contas (UK)</td>
+          <td class="ok">Sim</td>
+          <td class="no">Foco agência</td>
+          <td class="no">Não</td>
+          <td class="no">Só UK/EU</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr>
+          <td><strong>Symplectic / Pure</strong></td>
+          <td>RIMS institucional caro</td>
+          <td class="ok">Sim</td>
+          <td class="no">Top-down univ.</td>
+          <td class="no">Não</td>
+          <td class="part">Customizável</td>
+          <td class="no">Não</td>
+        </tr>
+        <tr class="hl">
+          <td><strong>LattesData</strong></td>
+          <td>Projeto vivo → Carreira &amp; Lattes</td>
+          <td class="ok">Sim (8 Packs)</td>
+          <td class="ok">Sim (PLG)</td>
+          <td class="ok">Nativo</td>
+          <td class="ok">Nativo</td>
+          <td class="ok">Nativo (64 specs)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:11px">*A Elsevier anunciou o encerramento do Researchfish para julho de 2027, reforçando a migração do mercado para fluxos integrados sem redigitação.</p>
+
+    <div class="grid-2" style="margin-top:14px">
+      <div class="box box-mint">
+        <h3>O que aprendemos com Figma, Miro, Notion e Loom</h3>
+        <ul>
+          <li><strong>Entrada sem fricção:</strong> o aluno entra por link do orientador sem cartão de crédito e sem barreira.</li>
+          <li><strong>Efeito Cofre Cheio (PLG Flip):</strong> a cada entrega aprovada, o aluno vê suas produções prontas para o CNPq se acumularem na própria conta.</li>
+          <li><strong>Conversão realista para o Brasil:</strong> assinatura estudantil acessível + <strong>Passe de Edital / Atualização via Pix</strong> na semana de seleção ou bolsa.</li>
+        </ul>
+      </div>
+      <div class="box box-amber">
+        <h3>Expansão Orgânica para PPGs</h3>
+        <ul>
+          <li>Na amostra do PPGST/UFMA, os 5 docentes analisados coautoram entre si nos mesmos projetos e artigos.</li>
+          <li>Cada orientador pagante traz <strong>6 a 10 alunos</strong> (viralidade vertical) + <strong>2 a 4 colegas docentes</strong> (viralidade horizontal).</li>
+          <li>Com 3+ docentes ativos no mesmo programa, surge naturalmente o <strong>Plano Institucional / PPG</strong> para a Quadrienal CAPES.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Detalhamento completo em docs/base-conhecimento-projetos/02-benchmark-plataformas-globais.md</span>
+      <span>Página 3 de 4</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 4: CASOS ARAMYS & ROTEIRO COM PROJETOS ABERTOS -->
+  <section class="page">
+    <div class="topbar">
+      <span>Aplicação Prática · Co-construção com Projetos Abertos</span>
+      <span class="pill">Pronto para Sessão com Prof. Aramys</span>
+    </div>
+    <h2>4. Pré-Mapeamento de 2 Casos Reais do Grupo (LaFIT / PPGST)</h2>
+    <p class="muted">Reconstruídos a partir de publicações públicas reais (2025–2026) como ponto de partida para reação e ajuste direto com o Prof. Aramys:</p>
+
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="box">
+        <h3>Caso 1 · Bioprodutos do Babaçu (<em>Attalea speciosa</em>)</h3>
+        <p class="muted"><em>Foods</em> (2026) · <em>ACS Appl. Eng. Mater.</em> (2026, 17 aut., 6 inst.) · <em>JFCA</em> (2025)</p>
+        <ul>
+          <li><strong>Packs:</strong> Pack 1 (Bancada/Farmácia) + Pack 6 (Alimentos).</li>
+          <li><strong>Fomentos simultâneos no mesmo artigo:</strong> FAPEMA (<code>BM</code>, <code>BEPP</code>, <code>INFRA</code>, <code>APP</code>), FINEP (3 processos), CAPES (<code>001</code> + Pró-Equipamentos) e FUNDECI/BNB.</li>
+          <li><strong>Compliance:</strong> cadastro <strong>SisGen</strong>, parceria com cooperativas de quebradeiras de coco, CRediT + ORCID e gate de patente INPI.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Caso 2 · Geoprópolis (<em>In Vivo</em>) &amp; mHealth (<em>PTT</em>)</h3>
+        <p class="muted"><em>Metabolites</em> (2025, 10 aut.) · <em>REBEn</em> (2026, 7 aut., 4 inst., bilíngue 2 DOIs)</p>
+        <ul>
+          <li><strong>Packs:</strong> Pack 1 (<strong>CEUA</strong> + <strong>SisGen</strong>) e Pack 3 (<strong>CEP/CAAE</strong> + <strong>IVC</strong> + <strong>PTT/Software</strong>).</li>
+          <li><strong>Papel flexível:</strong> mostra o docente atuando ora como coordenador/orientador, ora como pesquisador parceiro de outro grupo.</li>
+          <li><strong>Peculiaridade:</strong> agrupamento de <strong>2 DOIs (PT/EN)</strong> da mesma obra para evitar duplicidade no Lattes/Sucupira.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>5. Template para Estruturar os Projetos Abertos do Aramys</h2>
+    <p class="muted">Na próxima etapa, o Prof. Aramys traz 1 a 3 projetos abertos dele e preenchemos juntos estes 6 blocos para fechar o fluxo exato do sistema:</p>
+
+    <div class="template-grid">
+      <div class="t-card"><b>1. Identidade &amp; Packs</b>Natureza, vigência, papel do docente e quais módulos ativar.</div>
+      <div class="t-card"><b>2. Equipe &amp; Cadência</b>Quem participa (IC, M, D, parceiros) e com que frequência entrega.</div>
+      <div class="t-card"><b>3. Carteira de Fomentos</b>Processos FAPEMA/CNPq/CAPES/FINEP e datas de prestação de contas.</div>
+      <div class="t-card"><b>4. Compliance Prévio</b>CEUA, CEP/CAAE, SisGen, SISBIO, protocolo ou embargo de patente.</div>
+      <div class="t-card"><b>5. Gargalos da Rotina</b>Onde hoje se perdem comprovantes, revisões e atualizações de alunos.</div>
+      <div class="t-card"><b>6. Top 3 Entregas Semanais</b>As 3 rotinas que fariam orientador e alunos abrirem o sistema toda semana.</div>
+    </div>
+
+    <div class="box box-teal" style="margin-top:14px">
+      <h3>Próximo Movimento Combinado</h3>
+      <p style="margin:0">
+        Com esta base consolidada em <code>docs/base-conhecimento-projetos/</code>, estamos prontos para cruzar nossos dados empíricos com os <strong>projetos abertos reais do Prof. Aramys</strong> — validando na prática a Espinha Dorsal e os primeiros Packs antes de desenhar as telas finais.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>Template completo em docs/base-conhecimento-projetos/03-estudos-de-caso-aramys-e-template.md</span>
+      <span>Página 4 de 4</span>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
