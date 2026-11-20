@@ -71,3 +71,13 @@ Para apagar: Orientações > Orientações e supervisões concluídas / em andam
 **Resultado (21/11/2026, orientações):** o Lattes aceitou as duas ("Operação realizada com sucesso") e cada item aparece uma vez na lista:
 `ZZ-TESTE-LATTESFACIL Orientação concluída de teste (validação automática)` (2023, Graduação) e `ZZ-TESTE-LATTESFACIL Orientação em andamento de teste (validação automática)` (2025, Graduação). **Apague os dois.**
 Antes houve 2 tentativas que NÃO gravaram: o Lattes recusou o tipo de orientação com natureza TCC, e na "em andamento" o robô reaproveitou o formulário da "concluída" (corrigido: só reaproveita se o subtipo for o mesmo).
+
+## Registro de 21/11/2026 (bancas de trabalhos de conclusão)
+Salvamento de teste pelo robô: `ZZ-TESTE-LATTESFACIL Banca de teste (validação automática)` (2024, natureza Graduação, candidato "ZZ Candidato de Teste", UFMA, Farmácia).
+Para apagar: Bancas > Participação em bancas de trabalhos de conclusão: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir.
+**Resultado:** o Lattes aceitou ("Operação realizada com sucesso") e o item aparece uma vez na lista (Graduação, 2024). **Apague este item.**
+
+## Registro de 21/11/2026 (bancas de comissões julgadoras)
+Salvamento de teste pelo robô: `ZZ-TESTE-LATTESFACIL Comissão julgadora de teste (validação automática)` (2024, natureza Concurso público, UFMA).
+Para apagar: Bancas > Participação em bancas de comissões julgadoras: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir.
+**Resultado:** o Lattes aceitou ("Operação realizada com sucesso") e o item aparece uma vez na lista (Concurso público, 2024). **Apague este item.**

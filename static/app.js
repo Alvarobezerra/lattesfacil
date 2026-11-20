@@ -688,7 +688,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
       if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
-      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso|f_orgao)$/i.test(c.name) && alvo[0].disabled) {
+      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso|f_orgao)$/i.test(c.name) && (alvo[0].disabled || /input-lupa/.test(alvo[0].className || ''))) {
         var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : /^f_orgao$/i.test(c.name) ? await gLupaOrgao(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
         if (okL) ok++;
         continue;

@@ -1,0 +1,19 @@
+{
+ "item": "banca_comissao_julgadora_f5",
+ "variante_slug": "participacao_em_bancas_de_comissoes_julgadoras_l",
+ "variante": "Participação em bancas de comissões julgadoras (lupa)",
+ "executado_em": "2026-11-20T14:39:39.999Z",
+ "resumo": {
+  "OK": 1
+ },
+ "resultados": [
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 4332
+  }
+ ]
+}

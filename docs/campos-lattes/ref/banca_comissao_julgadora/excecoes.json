@@ -1,0 +1,9 @@
+{
+ "banca_comissao_julgadora": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_inst",
+   "motivo": "o texto 'Instituição' fica fora do rótulo imediato e a captura lê só o asterisco vermelho '*' que marca o campo como obrigatório"
+  }
+ ]
+}

@@ -137,7 +137,9 @@ def campos_do_formulario(f):
 
 # Nome da variante quando o mapeamento traz só "único" (formulários de uma forma só, validados contra a captura real).
 VARIANTE_UNICA = {"artigo": "Artigo completo publicado em periódico", "anais": "Trabalho publicado em anais de evento", "apresentacao": "Apresentação de trabalho e palestra",
-                  "orientacao_concluida": "Orientação concluída", "orientacao_andamento": "Orientação em andamento"}
+                  "orientacao_concluida": "Orientação concluída", "orientacao_andamento": "Orientação em andamento",
+                  "banca": "Participação em bancas de trabalhos de conclusão",
+                  "banca_comissao_julgadora": "Participação em bancas de comissões julgadoras"}
 
 
 GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
@@ -300,6 +302,22 @@ def espelhar_lattes(campos, item_id="", variante=""):
                 if n in ARTIGO_ROTULOS:
                     c["rotulo"] = ARTIGO_ROTULOS[n]
                 c["opcoes"] = {"Sim": "S", "Não": "N"}
+    if item_id in ("banca", "banca_comissao_julgadora"):
+        for c in campos:
+            if c["name"].lower() == "f_cod_prod":
+                c["rotulo"] = "Natureza"
+            if c["name"].lower() == "f_sub_prod" and item_id == "banca":
+                c["opcoes"] = {"Acadêmico": "34 ", "Profissional": "35 "}  # o Lattes grava os valores com espaço no fim
+                c["rotulo"] = "(apenas para mestrado)"
+        nat = next((c for c in campos if c["name"].lower() == "f_cod_prod"), None)
+        if nat and nat.get("opcoes"):
+            for c in campos:  # o Lattes responde "Informe a natureza" se a lupa de instituição/curso for usada antes de escolher a natureza
+                if c["name"].lower() == "f_inst" and item_id == "banca_comissao_julgadora":
+                    c["obrigatorio"] = True  # asterisco vermelho ao lado do campo no Lattes (a mensagem de obrigatórios do servidor não o inclui)
+                if c["name"].lower() in ("f_inst", "f_curso"):
+                    c["exige_antes"] = {"name": nat["name"], "valores": list(nat["opcoes"].keys())}
+                if c["name"].lower() == "f_sub_prod" and item_id == "banca":
+                    c["exige_antes"] = {"name": nat["name"], "valores": ["Mestrado"]}
     if item_id in ("anais", "apresentacao"):
         for c in campos:
             n = c["name"].lower()

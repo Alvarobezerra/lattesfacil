@@ -1,0 +1,19 @@
+{
+ "item": "banca_f5",
+ "variante_slug": "participacao_em_bancas_de_trabalhos_de_conclusao_lupas",
+ "variante": "Participação em bancas de trabalhos de conclusão (lupas)",
+ "executado_em": "2026-11-20T14:32:28.369Z",
+ "resumo": {
+  "OK": 1
+ },
+ "resultados": [
+  {
+   "id": "f_curso#lupa",
+   "campo": "f_curso",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 14755
+  }
+ ]
+}

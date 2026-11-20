@@ -88,3 +88,12 @@ Identifier...") e texto de script do Lattes. Corrigido (extensão 0.9.7, teste `
 **Orientações fechadas no Lattes (21/11/2026):** paridade 0, matriz 207/207 nas duas (com lupa da agência e dependência do tipo de orientação) e salvamento real conferido nas listas. Nova regra do robô: reaproveita formulário aberto só se o subtipo (f_tipo / f_cod_tipo) for o mesmo.
 
 **App logado, orientações (21/11/2026):** 9 testes OK (documento → formulário do spec, endereço C/A, registro antigo) e envio pela extensão OK nas duas. **Caderno:** `tests/teste_caderno.py` (PDF longo no layout real, 14 resumos → formulário de anais). Achado: o leitor do caderno só entende o layout "título em caixa alta + autores em maiúsculas com índice + afiliação numerada"; outros layouts de congresso podem exigir ajuste.
+
+**Bancas de trabalhos de conclusão (21/11/2026) — fechado:** captura real (14 campos, 8 listas), spec com 0 divergências, matriz 197/197 (com as lupas de instituição e curso) e salvamento real conferido na lista.
+Descobertas: o Lattes só aceita as lupas de instituição/curso depois de escolher a natureza ("Informe a natureza") → `exige_antes` no spec; o tipo do mestrado (Acadêmico/Profissional) só vale com natureza Mestrado e seus valores têm espaço no fim ("34 ", "35 ");
+o curso "Farmácia" só existe no nível de graduação (a matriz escolhe Graduação antes da lupa do curso e a instituição antes do curso). Teste: `tests/teste_spec_banca.py`.
+**Ferramentas:** `gerar_casos.py` põe instituição e natureza antes da lupa do curso; novo `gerar_payload_generico.py` (carga de salvamento de teste a partir do spec) para os itens ainda sem gerador próprio.
+
+**Bancas de comissões julgadoras (21/11/2026) — fechado:** captura real (11 campos, 8 listas), spec com 0 divergências (1 justificada: o rótulo da instituição vem como "*"), matriz 189/189 com a lupa de instituição e salvamento real conferido na lista.
+Defeito do robô achado: na comissão julgadora a instituição é lupa mas o campo vem habilitado (o atributo do Lattes está escrito "disable"); o robô só usava a lupa em campo bloqueado e deixava o texto no campo. Agora usa a lupa também quando o campo tem a classe `input-lupa` (extensão a recarregar).
+A instituição é obrigatória nesta variante (asterisco vermelho), embora a mensagem de obrigatórios do servidor não a liste.

@@ -25,6 +25,10 @@ APOIO = re.compile(r"^(f_nome|f_nme_inst|f_sigla|f_pais_inst|f_uf|nomeautor.*|no
 LUPAS = {"f_inst", "f_orgao", "f_curso", "f_nme_agencia"}
 
 
+def norm_slug(t):
+    return "".join(c for c in unicodedata.normalize("NFD", t) if unicodedata.category(c) != "Mn").lower()
+
+
 def slug(t):
     s = "".join(c for c in unicodedata.normalize("NFD", t) if unicodedata.category(c) != "Mn").lower()
     return re.sub(r"[^a-z0-9]+", "_", s).strip("_")
@@ -68,6 +72,17 @@ def casos_da_variante(sv):
         if n.lower() in LUPAS:
             nome, contem = {"f_inst": ("Universidade Federal do Maranhão", "maranh"), "f_orgao": ("Centro de Ciências de Imperatriz (CCIm)", "imperatriz"),
                             "f_curso": ("Farmácia", "farm"), "f_nme_agencia": ("CNPq", "conselho nacional")}[n.lower()]
+            if n.lower() == "f_curso":  # a lupa do curso só abre depois de a instituição estar escolhida
+                inst = next((x for x in sv["campos"] if x["name"].lower() == "f_inst"), None)
+                if inst:
+                    pre.append(campo_payload(inst, "Universidade Federal do Maranhão"))
+                ea = c.get("exige_antes")
+                grad = next((v for v in (ea or {}).get("valores", []) if norm_slug(v).startswith("gradua")), None)
+                if grad:  # o curso "Farmácia" existe no nível de graduação
+                    pre[:] = [p_ for p_ in pre if p_.get("name") != ea["name"]]
+                    gp = gatilho_payload(sv, {"name": ea["name"], "valor": grad})
+                    if gp:
+                        pre.insert(0, gp)
             add("lupa", campo_payload(c, nome), {"modo": "lupa", "contem": contem}, lento=True)
             continue
         ops = c.get("opcoes") or {}
