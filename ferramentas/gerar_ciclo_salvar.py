@@ -11,10 +11,12 @@ sys.path.insert(0, str(RAIZ))
 from itens import especificacao  # noqa: E402
 
 planos = []
-for item in sys.argv[1:]:
+for arg in sys.argv[1:]:
+    item, _, idx = arg.partition("#")  # "livro_capitulo#1" = segunda variante
+    idx = int(idx or 0)
     s = especificacao(item)
-    v = s["variantes"][0]
-    planos.append({"item": item, "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
+    v = s["variantes"][idx]
+    planos.append({"item": item if not idx else f"{item}_v{idx}", "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
 js = "window.__planosSalvar = " + json.dumps(planos, ensure_ascii=False) + ";\n" + r"""
 (async () => {
   const T = window.top; const sl = (ms) => new Promise((r) => setTimeout(r, ms));

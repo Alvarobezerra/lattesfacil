@@ -52,12 +52,22 @@ def valores_automaticos(var, item=""):
             v[n] = "INPI - Instituto Nacional da Propriedade Industrial"
         elif nl == "f_inst" and "ultivar" in var["variante"] + item:
             v[n] = "MAPA - Serviço Nacional de Proteção de Cultivares"
+        elif nl in ("f_titulo_cap", "f_tit_obra"):
+            v[n] = f"{P} Título de teste (validação automática)"
         elif nl == "f_nme_evento":
             v[n] = f"{P} Evento de teste (validação automática)"
         elif nl == "f_relev":
             v[n] = "não"  # o Lattes limita os itens "mais relevantes" e o currículo já tem o máximo
         elif nl == "f_sta_inovacao":
             v[n] = "Não"
+        elif nl == "f_isbn":
+            v[n] = "9788535902778"[: c.get("maxlength") or 13]
+        elif nl in ("f_edicao", "f_pag_ini", "f_pag_fim", "f_volume", "f_serie"):
+            v[n] = "1"
+        elif nl == "f_duracao" and (c.get("maxlength") or 99) <= 5:
+            v[n] = "10"
+        elif nl == "f_inst" and c.get("obrigatorio") and not c.get("entra_pela_abertura"):
+            v[n] = f"{P} Instituição promotora de teste"[: c.get("maxlength") or 255]
         elif nl in ("f_home_page", "f_homepage", "f_txt_potencial", "f_titulo_en", "f_ref_en", "f_inst", "f_curso", "f_nme_agencia") or c.get("lupa"):
             continue
         elif c["tipo"] in ("radio", "select") and ops:
@@ -65,7 +75,7 @@ def valores_automaticos(var, item=""):
         elif c["tipo"] == "textarea":
             v[n] = "Teste automático de validação do formulário."
         elif c["tipo"] == "text" and c.get("obrigatorio"):
-            v[n] = "Teste de validação"
+            v[n] = "Teste de validação"[: c.get("maxlength") or 99]
     return v
 
 
@@ -83,9 +93,9 @@ def grades_automaticas(var):
     return g
 
 
-def carga(item):
+def carga(item, idx=0):
     spec = especificacao(item)
-    var = spec["variantes"][0]
+    var = spec["variantes"][idx]
     v = VALORES.get(item) or valores_automaticos(var, spec["item"])
     campos = []
     for c in var["campos"]:
@@ -94,12 +104,13 @@ def carga(item):
         valor = str(v.get(c["name"], ""))
         campos.append({"name": c["name"], "rotulo": c["rotulo"], "tipo": c["tipo"], "valor": valor, "codigo": (c.get("opcoes") or {}).get(valor, ""), "auto": bool(c.get("automatico")), "auto_de": c.get("auto_de", "")})
     return {"tipo_producao": "generico", "__usuario": USUARIO, "__origem": "", "__autoSalvar": True, "__semAlerta": True,
-            "__generico": {"id": item, "item": spec["item"], "como_abrir": spec["como_abrir"], "url": var["url"], "lista": spec.get("lista", ""), "campos": campos, "faltam": [], "grades": GRADES.get(item) or grades_automaticas(var)}}
+            "__generico": {"id": item if not idx else f"{item}_v{idx}", "item": spec["item"], "como_abrir": spec["como_abrir"], "url": var["url"], "lista": spec.get("lista", ""), "campos": campos, "faltam": [], "grades": GRADES.get(item) or grades_automaticas(var)}}
 
 
 if __name__ == "__main__":
-    item = sys.argv[1]
+    item, _, idx = sys.argv[1].partition("#")  # "livro_capitulo#1" = segunda variante
+    idx = int(idx or 0)
     saida = RAIZ / "ferramentas" / "saida"
     saida.mkdir(exist_ok=True)
-    (saida / f"payload_{item}.js").write_text("window.__payloadTeste = " + json.dumps(carga(item), ensure_ascii=False) + ";\n", encoding="utf-8")
-    print("gerado", [(c["name"], c["valor"][:25]) for c in carga(item)["__generico"]["campos"] if c["valor"]])
+    (saida / f"payload_{item}{'_v' + str(idx) if idx else ''}.js").write_text("window.__payloadTeste = " + json.dumps(carga(item, idx), ensure_ascii=False) + ";\n", encoding="utf-8")
+    print("gerado", [(c["name"], c["valor"][:25]) for c in carga(item, idx)["__generico"]["campos"] if c["valor"]])

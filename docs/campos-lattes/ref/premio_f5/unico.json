@@ -1,0 +1,99 @@
+{
+ "item": "premio_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-20T18:19:08.002Z",
+ "resumo": {
+  "OK": 11
+ },
+ "resultados": [
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 620
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_agencia#tipico",
+   "campo": "f_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  },
+  {
+   "id": "f_agencia#maximo",
+   "campo": "f_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_agencia#acima_do_limite",
+   "campo": "f_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 606
+  },
+  {
+   "id": "f_agencia#acentos",
+   "campo": "f_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 607
+  },
+  {
+   "id": "f_ano#valido",
+   "campo": "f_ano",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 603
+  },
+  {
+   "id": "f_ano#acima_do_limite",
+   "campo": "f_ano",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 605
+  },
+  {
+   "id": "f_ano#letras",
+   "campo": "f_ano",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 604
+  }
+ ]
+}

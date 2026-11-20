@@ -165,6 +165,12 @@ MOEDAS_LATTES = ["REAL", "DOLAR AMERICANO", "UNIDADE MONET.EUROPEIA", "BOLIVAR V
 
 # Grades que o formulário do Lattes tem em abas de lista e o mapeamento automático não nomeia (holders confirmados na captura da patente).
 GRADES_EXTRA = {
+    "entrevista_midia": [
+        {"chave": "autores", "rotulo": "Autores", "aba": "Autores", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
+    "redes_sociais": [
+        {"chave": "autores", "rotulo": "Autores", "aba": "Autores", "dica": "Um por linha: nome completo; nome em citações (opcional)"},
+    ],
     "software_registro": [
         {"chave": "titulares_pessoa", "rotulo": "Depositante/Titular – Pessoas", "aba": "Depositante/Titular", "dica": "Uma pessoa por linha (nome completo), como no campo Pessoas do Lattes"},
         {"chave": "titulares_inst", "rotulo": "Depositante/Titular – Instituições", "aba": "Depositante/Titular", "dica": "Uma instituição por linha, como no campo Instituições do Lattes"},
@@ -427,8 +433,13 @@ def opcoes_reais_da_captura(item_id, var_):
         # radios com texto de opção diferente do Lattes (ex.: texto cortado no mapeamento antigo): usa o texto real da captura (mesmos valores)
         if r and c.get("tipo") == "radio" and c.get("opcoes") and r.get("opcoes"):
             reais_r = {o["texto"]: o["valor"] for o in r["opcoes"] if o.get("texto") and o.get("valor") not in ("", "DUMMY")}
-            if reais_r and set(reais_r.values()) == set(c["opcoes"].values()) and not all(norm(k) in ("sim", "nao") for k in reais_r) and not all(norm(k) in ("sim", "nao") for k in c["opcoes"]):
+            if reais_r and {str(v).strip() for v in reais_r.values()} == {str(v).strip() for v in c["opcoes"].values()} and not all(norm(k) in ("sim", "nao") for k in reais_r) and not all(norm(k) in ("sim", "nao") for k in c["opcoes"]):
                 c["opcoes"] = reais_r
+        # seleções cujos valores reais têm espaço no fim (ex.: '31 ' no prefácio): usa o valor exato do Lattes
+        if r and c.get("tipo") == "select" and c.get("opcoes") and r.get("opcoes"):
+            reais_s = {o["texto"]: o["valor"] for o in r["opcoes"] if o.get("texto") and o.get("valor") not in ("", "DUMMY", "Selecione")}
+            if reais_s and {str(v).strip() for v in reais_s.values()} == {str(v).strip() for v in c["opcoes"].values()} and set(reais_s.values()) != set(c["opcoes"].values()):
+                c["opcoes"] = {k: reais_s[k] for k in c["opcoes"] if k in reais_s} if set(reais_s) == set(c["opcoes"]) else reais_s
         if not r or c.get("tipo") != "select" or not c.get("catalogo") or c.get("opcoes") or c["name"].lower() in ("f_pais_inst",):
             continue
         reais = {o["texto"]: o["valor"] for o in r.get("opcoes", []) if o.get("valor") not in ("", "DUMMY", "Selecione") and o.get("texto")}
@@ -460,6 +471,9 @@ def ajustes_da_captura(item_id, var_):
         r = por_nome.get(c["name"].lower())
         if not r:
             continue
+        if c["name"].lower() == "f_sub_prod" and r.get("desabilitado") and c.get("tipo") == "text":
+            c["bloqueado_no_lattes"] = True  # o Lattes preenche a natureza a partir do tipo escolhido; o campo aparece bloqueado
+            c["dica"] = "O Lattes preenche a natureza a partir do tipo; campo bloqueado."
         real = r.get("rotulo") or r.get("pergunta") or ""
         if norm(c.get("rotulo", "")) == norm(c["name"]) and real and norm(real) not in ("sim", "nao", "*") and norm(real) != norm(c["name"]):
             c["rotulo"] = real

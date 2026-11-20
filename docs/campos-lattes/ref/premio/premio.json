@@ -1,0 +1,50 @@
+{
+ "item": "premio",
+ "variante": "único",
+ "variante_slug": "premio",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_titulo",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome do prêmio ou título",
+   "maxlength": 200
+  },
+  {
+   "name": "f_agencia",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Entidade promotora",
+   "maxlength": 100
+  },
+  {
+   "name": "f_ano",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano da premiação ou do título",
+   "maxlength": 4
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

@@ -10,10 +10,12 @@ sys.path.insert(0, str(RAIZ))
 from itens import especificacao  # noqa: E402
 
 planos = []
-for item in sys.argv[1:]:
+for arg in sys.argv[1:]:
+    item, _, idx = arg.partition("#")  # "livro_capitulo#1" = segunda variante
+    idx = int(idx or 0)
     s = especificacao(item)
-    v = s["variantes"][0]
-    planos.append({"item": item, "variante": v["variante"], "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
+    v = s["variantes"][idx]
+    planos.append({"item": item, "idx": idx, "variante": v["variante"], "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
 js = "window.__planosMatriz = " + json.dumps(planos, ensure_ascii=False) + ";\n" + r"""
 (async () => {
   const T = window.top; const sl = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -30,7 +32,7 @@ js = "window.__planosMatriz = " + json.dumps(planos, ensure_ascii=False) + ";\n"
       await sl(2000);
       let rot = '';
       try { const w = T.__f5.formulario(); const e = w.document.querySelector('[name="f_sta_inovacao"]'); if (e) rot = (e.closest('td') || e.parentElement).textContent.replace(/\s+/g, ' ').trim().slice(0, 90); } catch (e) { /* sem campo */ }
-      const slug = Object.keys(window.__casos)[0];
+      const slug = Object.keys(window.__casos)[p.idx || 0];
       await T.__f5.rodar(slug, { item: p.item, variante: p.variante }, { lentos: true });
       const res = T.__ultimoF5.resultados;
       T.__cicloM.resultados.push(p.item + ': ' + JSON.stringify(T.__ultimoF5.resumo) + ' | nao-OK: ' + res.filter((x) => x.status !== 'OK').map((x) => x.id + '=' + x.status + ' ' + (x.detalhe || '').slice(0, 60)).join(' ; ') + (rot ? ' | rotulo potencial: ' + rot : ''));

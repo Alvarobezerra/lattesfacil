@@ -3,6 +3,8 @@ Uso: python ferramentas/gerar_ciclo_captura.py item1 item2 ...
 No Lattes (aba do currículo, com auditoria_lattes.js, autofill_core.js e executor_preenchimento.js carregados):
   carregar /saida/ciclo_captura.js e olhar window.top.__ciclo (andamento/resultados)."""
 import json
+import re
+import unicodedata
 import pathlib
 import sys
 
@@ -11,10 +13,12 @@ sys.path.insert(0, str(RAIZ))
 from itens import especificacao  # noqa: E402
 
 planos = []
-for item in sys.argv[1:]:
+for arg in sys.argv[1:]:
+    item, _, idx = arg.partition("#")  # "livro_capitulo#1" = segunda variante
+    idx = int(idx or 0)
     s = especificacao(item)
-    v = s["variantes"][0]
-    planos.append({"item": item, "variante": v["variante"], "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
+    v = s["variantes"][idx]
+    planos.append({"item": item, "idx": idx, "slug": item if len(s["variantes"]) == 1 else re.sub(r"[^a-z0-9]+", "_", "".join(c for c in unicodedata.normalize("NFD", v["variante"].lower()) if unicodedata.category(c) != "Mn")).strip("_"), "variante": v["variante"], "url": v["url"], "lista": s.get("lista", ""), "pagina": v["url"].split("?")[0]})
 js = "window.__planosCiclo = " + json.dumps(planos, ensure_ascii=False) + ";\n" + r"""
 (async () => {
   const T = window.top; const sl = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -27,7 +31,7 @@ js = "window.__planosCiclo = " + json.dumps(planos, ensure_ascii=False) + ";\n" 
       for (let t = 0; t < 2 && !ab; t++) ab = await T.__f5.abrirPorUrl(p.url, p.pagina);
       if (!ab) { T.__ciclo.resultados.push(p.item + ': formulário não abriu'); continue; }
       await sl(2500);
-      const r = await T.__auditar({ item: p.item, variante: p.variante, variante_slug: p.item });
+      const r = await T.__auditar({ item: p.item, variante: p.variante, variante_slug: p.slug });
       T.__ciclo.resultados.push(p.item + ': ' + String(r).slice(0, 80) + ' | campos=' + ((T.__ultimaCaptura || {}).campos || []).length);
     } catch (e) { T.__ciclo.resultados.push(p.item + ': erro ' + e); }
   }

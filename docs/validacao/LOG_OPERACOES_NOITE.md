@@ -119,3 +119,32 @@ Salvamento de teste pelo robô, conferido na lista do Lattes (uma ocorrência po
 | curso_ministrado | Produções > Curso de curta duração ministrado | `ZZ-TESTE-LATTESFACIL Teste de Curso de curta duração ministrado (validação automática)` (Extensão, 2024) |
 Tentativas sem gravar: participação 2x (tipo da participação não escolhido: o robô só o escolhia sem a trava de salvamento; corrigido).
 **Limite de "mais relevantes":** o Lattes responde "Já existem cadastradas 5 produções relevantes." e desmarca a opção Sim; por isso a matriz de organização (215/216) e de curso (212/213) tem 1 divergência esperada em F_RELEV=Sim. Não é defeito do app; ao apagar produções relevantes (inclusive os itens de teste da faixa 5 gravados com relevante=Sim antes da correção: programa sem registro, produto, processo/técnica, trabalho/relatório) a matriz passa 100%.
+
+
+## Registro de 21/11/2026 (faixa 8: livros, prêmios e demais produções, 19 itens)
+Salvamento de teste pelo robô, conferido na lista do Lattes (uma ocorrência por item; livros e capítulos: duas, uma por formulário). Todos com o prefixo `ZZ-TESTE-LATTESFACIL`. **Apague os 20 registros** (procure o prefixo em cada lista):
+| Item | Onde apagar | Título gravado (após o prefixo: `Teste de ...`) |
+| --- | --- | --- |
+| premio | Prêmios e títulos (lista de prêmios) | `ZZ-TESTE-LATTESFACIL Teste de Prêmios e títulos (validação automática)` |
+| texto_jornal_revista | Produção bibliográfica > Textos em jornais ou revistas | `ZZ-TESTE-LATTESFACIL Teste de Texto em jornal ou revista (magazine) (validação automática)` |
+| traducao | Produção bibliográfica > Traduções | `ZZ-TESTE-LATTESFACIL Teste de Tradução (validação automática)` |
+| prefacio_posfacio | Produção bibliográfica > Prefácio, posfácio | `ZZ-TESTE-LATTESFACIL Teste de Prefácio, posfácio (validação automática)` |
+| partitura_musical | Produção bibliográfica > Partitura musical | `ZZ-TESTE-LATTESFACIL Teste de Partitura musical (validação automática)` |
+| musica | Produção artística > Música | `ZZ-TESTE-LATTESFACIL Teste de Música (Apresentação de Obra, 2024) (validação automática)` |
+| artes_cenicas | Produção artística > Artes cênicas | `ZZ-TESTE-LATTESFACIL Teste de Artes cênicas (Audiovisual, 2024) (validação automática)` |
+| artes_visuais | Produção artística > Artes visuais | `ZZ-TESTE-LATTESFACIL Teste de Artes visuais (Animação, 2024) (validação automática)` |
+| cartas_mapas | Produção técnica > Cartas, mapas ou similares | `ZZ-TESTE-LATTESFACIL Teste de Cartas, mapas ou similares (validação automática)` |
+| maquete | Produção técnica > Maquete | `ZZ-TESTE-LATTESFACIL Teste de Maquete (validação automática)` |
+| editoracao | Produção técnica > Editoração | `ZZ-TESTE-LATTESFACIL Teste de Editoração (validação automática)` |
+| entrevista_midia | Produção técnica > Entrevistas, mesas redondas, programas e comentários na mídia | `ZZ-TESTE-LATTESFACIL Teste de Entrevistas, mesas redondas... (validação automática)` |
+| redes_sociais | Produção técnica > Redes sociais, websites e blogs | `ZZ-TESTE-LATTESFACIL Teste de Redes sociais, websites e blogs (validação automática)` |
+| relatorio_pesquisa | Produção técnica > Relatório de pesquisa | `ZZ-TESTE-LATTESFACIL Teste de Relatório de pesquisa (validação automática)` |
+| outra_producao_artistica | Produção artística > Outra produção artística/cultural | `ZZ-TESTE-LATTESFACIL Teste de Outra produção artística/cultural (validação automática)` |
+| outra_producao_bibliografica | Produção bibliográfica > Outra produção bibliográfica | `ZZ-TESTE-LATTESFACIL Teste de Outra produção bibliográfica (validação automática)` |
+| outra_producao_tecnica | Produção técnica > Outra produção técnica | `ZZ-TESTE-LATTESFACIL Teste de Outra produção técnica (validação automática)` |
+| manutencao_obra | Produção técnica > Manutenção de obra artística | `ZZ-TESTE-LATTESFACIL Teste de Manutenção de obra artística (Conservação, 2024) (validação automática)` |
+| livro_capitulo (2 formulários) | Produção bibliográfica > Livros e capítulos (apagar o livro e o capítulo) | `ZZ-TESTE-LATTESFACIL Teste de Livros e capítulos: um livro e um capítulo (validação automática)` |
+
+Tentativas sem gravar (nada ficou no currículo): música e artes cênicas (duração com texto, cortada em 5 caracteres), artes visuais e outra produção artística (instituição promotora obrigatória), livros e capítulos (ISBN, edição e página com texto longo demais). O gerador de teste passou a usar valores no formato real.
+A lista de artes visuais no spec estava errada (`prc_arte_lista?f_cod_tipo=36`); a do Lattes é `pkg_arte_nova.lista?f_cod_tipo=AV` (corrigido em `itens/listas_lattes.json`).
+**Limite de "mais relevantes":** como na faixa 7, a matriz de 16 itens tem 1 divergência esperada em F_RELEV=Sim ("Já existem cadastradas 5 produções relevantes"). Passam 100%: prêmio 11/11, tradução 314/314, livro 228/228, capítulo 237/237 (ISBN só com dígitos: o Lattes descarta letras).

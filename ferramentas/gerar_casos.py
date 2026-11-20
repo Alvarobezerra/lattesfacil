@@ -101,6 +101,12 @@ def casos_da_variante(sv):
             for k, v in ops.items():
                 add("so_" + slug(v), campo_payload(c, k, codigos=[v]), {"modo": "conjunto", "valores": [v]})
             add("todas", campo_payload(c, "; ".join(ops), codigos=list(ops.values())), {"modo": "conjunto", "valores": list(ops.values())})
+        elif tipo == "text" and n.lower() == "f_isbn":
+            # o ISBN do capítulo só aceita dígitos (o Lattes descarta letras ao digitar): confere o válido, o limite e registra as letras
+            ml = c.get("maxlength") or 13
+            add("valido", campo_payload(c, "9788535902778"[:ml]), {"modo": "texto", "valor": "9788535902778"[:ml]})
+            add("acima_do_limite", campo_payload(c, "9" * (ml + 5)), {"modo": "texto", "valor": "9" * ml})
+            add("letras", campo_payload(c, "ab"), {"modo": "texto", "valor": "ab", "registrar_apenas": True})
         elif tipo in ("text", "textarea"):
             ml = c.get("maxlength")
             numerico = bool(re.match(r"^(f_?ano|f_nro|nro_)|ANO_|NRO_", n, re.I)) and (ml or 0) <= 4
