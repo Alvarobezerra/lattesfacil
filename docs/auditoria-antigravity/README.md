@@ -5,6 +5,7 @@ Pasta isolada para rastreio independente ao vivo na Plataforma Lattes, validaç�
 > **Regra de isolamento:** Nenhum arquivo fora de `docs/auditoria-antigravity/` foi alterado por esta trilha.
 
 ## Documento Principal e Plano de Execução
+- [DOCUMENTO_REFERENCIA_CORRELACAO_CLAUDE_ANTIGRAVITY.md](DOCUMENTO_REFERENCIA_CORRELACAO_CLAUDE_ANTIGRAVITY.md) — **Documento-Mestre de Referência** para correlacionar os levantamentos do Antigravity e do Claude (tabela-mestra de 100% do Lattes, 10 eixos críticos de divergência e protocolo de unificação da Fase 2).
 - [RELATORIO_FINAL_MAPEAMENTO.md](RELATORIO_FINAL_MAPEAMENTO.md) — Consolidação completa de 100% da Plataforma Lattes.
 - [PLANO_CONTRALIDACAO_E_ESCALA.md](PLANO_CONTRALIDACAO_E_ESCALA.md) — Roteiro estruturado em 4 etapas (Diff Global → Backlog → Validação por Famílias → App Logado).
 - [DIFF_GLOBAL_SPEC_VS_LATTES_AO_VIVO.md](DIFF_GLOBAL_SPEC_VS_LATTES_AO_VIVO.md) — Resultado da Etapa 1: cruzamento global das 62 capturas ao vivo × `itens/especificacao/`.
