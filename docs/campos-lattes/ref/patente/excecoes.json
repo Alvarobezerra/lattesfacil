@@ -1,0 +1,14 @@
+{
+ "patente": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_sta_inovacao",
+   "motivo": "no Lattes o texto vem ANTES do botão ('Sim' <input S> 'Não' <input N>) e a captura por proximidade o atribui ao botão errado; conferido no HTML: S=Sim, N=Não, pergunta 'Possui potencial de inovação de produtos, processos ou serviços?'"
+  },
+  {
+   "categoria": "opcoes_diferentes",
+   "campo": "f_sta_inovacao",
+   "motivo": "mesma causa: os textos das opções saem deslocados na captura; no HTML do Lattes 'Sim' vem antes do botão S e 'Não' antes do N"
+  }
+ ]
+}

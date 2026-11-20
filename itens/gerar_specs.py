@@ -139,7 +139,8 @@ def campos_do_formulario(f):
 VARIANTE_UNICA = {"artigo": "Artigo completo publicado em periódico", "anais": "Trabalho publicado em anais de evento", "apresentacao": "Apresentação de trabalho e palestra",
                   "orientacao_concluida": "Orientação concluída", "orientacao_andamento": "Orientação em andamento",
                   "banca": "Participação em bancas de trabalhos de conclusão",
-                  "banca_comissao_julgadora": "Participação em bancas de comissões julgadoras"}
+                  "banca_comissao_julgadora": "Participação em bancas de comissões julgadoras",
+                  "patente": "Patente"}
 
 
 GRADES = {  # aba do Lattes -> (chave, rótulo, dica de preenchimento)
@@ -318,6 +319,12 @@ def espelhar_lattes(campos, item_id="", variante=""):
                     c["exige_antes"] = {"name": nat["name"], "valores": list(nat["opcoes"].keys())}
                 if c["name"].lower() == "f_sub_prod" and item_id == "banca":
                     c["exige_antes"] = {"name": nat["name"], "valores": ["Mestrado"]}
+    if item_id == "patente":
+        for c in campos:
+            if c["name"].lower() in ("f_inst", "f_cod_reg"):
+                c["entra_pela_abertura"] = True  # vão no endereço do formulário (órgão depositário + nº do registro); no Lattes o órgão é uma lista fechada, não a lupa de instituições
+            if c["name"].lower() == "f_sta_inovacao":
+                c["opcoes"] = {"Sim": "S", "Não": "N"}  # no Lattes o texto vem antes do botão (a captura por proximidade o desloca)
     if item_id in ("anais", "apresentacao"):
         for c in campos:
             n = c["name"].lower()
@@ -391,7 +398,7 @@ def opcoes_reais_da_captura(item_id, var_):
         # radios com texto de opção diferente do Lattes (ex.: texto cortado no mapeamento antigo): usa o texto real da captura (mesmos valores)
         if r and c.get("tipo") == "radio" and c.get("opcoes") and r.get("opcoes"):
             reais_r = {o["texto"]: o["valor"] for o in r["opcoes"] if o.get("texto") and o.get("valor") not in ("", "DUMMY")}
-            if reais_r and set(reais_r.values()) == set(c["opcoes"].values()) and not all(norm(k) in ("sim", "nao") for k in reais_r):
+            if reais_r and set(reais_r.values()) == set(c["opcoes"].values()) and not all(norm(k) in ("sim", "nao") for k in reais_r) and not all(norm(k) in ("sim", "nao") for k in c["opcoes"]):
                 c["opcoes"] = reais_r
         if not r or c.get("tipo") != "select" or not c.get("catalogo") or c.get("opcoes") or c["name"].lower() in ("f_pais_inst",):
             continue

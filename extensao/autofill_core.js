@@ -282,6 +282,7 @@ window.__lfAutofill = async function (d) {
     };
     var gCodInst = function () { return !!((gdoc.querySelector('[name="f_cod_inst"]') || {}).value || (gdoc.querySelector('[name="f_cod_inst2"]') || {}).value); };
     var gLupaInst = async function (nome, rotulo) {
+      if (typeof gw.sele_inst !== 'function' && typeof gw.escolhe_inst === 'function') return true;  // patente/registro: a instituição depositária (lista fechada de órgãos) já vem no endereço de abertura
       if (typeof gw.sele_inst !== 'function') { rel.push(rotulo + ': a lupa de instituições não existe neste formulário; escolha manual'); return false; }
       gw.sele_inst();
       var fi = await gFrame(/prc_inst_form|pp_lista_inst/, 8000);
@@ -506,13 +507,18 @@ window.__lfAutofill = async function (d) {
         var inp = ins[ins.length - 1];
         if (!inp) { rel.push('campo de "' + rotuloGrade + '" não encontrado'); break; }
         var alvo = String(lista[i]);
-        inp.focus(); inp.value = alvo;
-        ['keydown', 'keypress', 'input', 'keyup'].forEach(function (t) { inp.dispatchEvent(new KeyboardEvent(t, { bubbles: true, key: alvo.slice(-1) })); });
-        await sleep(1200);
-        var box = inp.parentElement.querySelector('.suggest-content');
-        var opts = box ? [].slice.call(box.querySelectorAll('a')) : [];
-        if (!opts.length) { await sleep(1500); box = inp.parentElement.querySelector('.suggest-content'); opts = box ? [].slice.call(box.querySelectorAll('a')) : []; }
-        var hit = melhor(opts, alvo, function (o) { return o.textContent; });
+        var hit = null, tentativas = [alvo, alvo.split(/\s+/).slice(0, 2).join(' '), alvo.split(/\s+/)[0]];
+        for (var ta_ = 0; !hit && ta_ < tentativas.length; ta_++) {
+          if (ta_ > 0 && tentativas[ta_] === tentativas[ta_ - 1]) continue;
+          inp.focus(); inp.value = tentativas[ta_];
+          ['keydown', 'keypress', 'input', 'keyup'].forEach(function (t) { inp.dispatchEvent(new KeyboardEvent(t, { bubbles: true, key: tentativas[ta_].slice(-1) })); });
+          await sleep(1200);
+          var box = inp.parentElement.querySelector('.suggest-content');
+          var opts = box ? [].slice.call(box.querySelectorAll('a')) : [];
+          if (!opts.length) { await sleep(1500); box = inp.parentElement.querySelector('.suggest-content'); opts = box ? [].slice.call(box.querySelectorAll('a')) : []; }
+          // a sugestão do Lattes vem como "Nome completo (CITAÇÃO)": vale a que contém o nome inteiro
+          hit = opts.filter(function (o) { return norm(o.textContent).indexOf(norm(alvo)) >= 0; })[0] || melhor(opts, alvo, function (o) { return o.textContent; });
+        }
         if (hit) { hit.click(); gOk[chave]++; await sleep(600); }
         else { rel.push(rotuloGrade + ': sem correspondência exata no Lattes para "' + alvo + '" — escolha manual na aba'); inp.value = ''; }
       }

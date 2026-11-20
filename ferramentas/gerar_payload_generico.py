@@ -14,10 +14,15 @@ P = "ZZ-TESTE-LATTESFACIL"
 VALORES = {
     "banca": {"F_COD_PROD": "Graduação", "f_titulo": f"{P} Banca de teste (validação automática)", "f_ano": "2024", "f_pais": "Brasil", "F_IDIOMA": "Português",
               "f_nme_orient": "ZZ Candidato de Teste", "f_inst": "Universidade Federal do Maranhão", "f_curso": "Farmácia", "f_ref": "Papel na banca: membro (teste automático)."},
+    "patente": {"f_natureza": "Produto", "f_tipo": "Patente de Invenção", "f_titulo": f"{P} Patente de teste (validação automática)", "f_cod_reg": "BR1020200000001",
+                "f_inst": "INPI - Instituto Nacional da Propriedade Industrial", "f_pais": "Brasil", "f_sta_inovacao": "Sim", "f_txt_potencial": "Teste automático de validação",
+                "f_ref": "Teste automático de validação do formulário."},
     "banca_comissao_julgadora": {"F_COD_PROD": "Concurso público", "f_titulo": f"{P} Comissão julgadora de teste (validação automática)", "f_ano": "2024", "f_pais": "Brasil",
                                  "F_IDIOMA": "Português", "f_inst": "Universidade Federal do Maranhão", "f_ref": "Teste automático de validação do formulário."},
 }
 GRADES = {
+    "patente": {"autores": [{"nome": USUARIO, "citacao": "SANTOS, A. A. B."}, {"nome": "ZZ Coautor de Teste", "citacao": "TESTE, Z. C."}], "titulares_pessoa": [USUARIO],
+                "situacoes": [{"nome": "Depósito", "data": "15/03/2020"}], "palavras_chave": ["teste", "validação"], "areas": ["Microbiologia"]},
     "banca_comissao_julgadora": {"autores": [{"nome": USUARIO, "citacao": "SANTOS, A. A. B."}, {"nome": "ZZ Coautor de Teste", "citacao": "TESTE, Z. C."}], "palavras_chave": ["teste", "validação"], "areas": ["Microbiologia"]},
     "banca": {"autores": [{"nome": USUARIO, "citacao": "SANTOS, A. A. B."}, {"nome": "ZZ Coautor de Teste", "citacao": "TESTE, Z. C."}], "palavras_chave": ["teste", "validação"], "areas": ["Microbiologia"]},
 }
@@ -29,7 +34,7 @@ def carga(item):
     v = VALORES[item]
     campos = []
     for c in var["campos"]:
-        if c.get("oculto") or c.get("bloqueado_no_lattes"):
+        if (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
             continue
         valor = str(v.get(c["name"], ""))
         campos.append({"name": c["name"], "rotulo": c["rotulo"], "tipo": c["tipo"], "valor": valor, "codigo": (c.get("opcoes") or {}).get(valor, ""), "auto": False, "auto_de": ""})

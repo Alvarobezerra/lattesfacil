@@ -81,3 +81,8 @@ Para apagar: Bancas > Participação em bancas de trabalhos de conclusão: procu
 Salvamento de teste pelo robô: `ZZ-TESTE-LATTESFACIL Comissão julgadora de teste (validação automática)` (2024, natureza Concurso público, UFMA).
 Para apagar: Bancas > Participação em bancas de comissões julgadoras: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir.
 **Resultado:** o Lattes aceitou ("Operação realizada com sucesso") e o item aparece uma vez na lista (Concurso público, 2024). **Apague este item.**
+
+## Registro de 21/11/2026 (patente)
+Salvamento de teste pelo robô: `ZZ-TESTE-LATTESFACIL Patente de teste (validação automática)` (depósito em 15/03/2020, INPI, nº BR1020200000001 fictício, invenção, inventores: você e "ZZ Coautor de Teste").
+Para apagar: Patentes e Registros > Patente: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir.
+**Resultado:** aceito ("Operação realizada com sucesso") e aparece uma vez na lista (2020). Tentativas anteriores desta noite não gravaram (faltavam depositante e situação). **Apague este item.**

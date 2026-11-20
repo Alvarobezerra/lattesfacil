@@ -54,6 +54,8 @@ def casos_da_variante(sv):
         n = c["name"]
         if APOIO.match(n) or (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
             continue  # bloqueados no Lattes entram pelo endereço de abertura (casos "abertura"), não pelo preenchimento
+        if c.get("entra_pela_abertura") and n.lower() in LUPAS:
+            continue  # vem no endereço de abertura; conferido no salvamento real (a lista do Lattes mostra órgão e nº do registro)
         tipo = c.get("tipo", "text")
         pre = []
         if c.get("mostrar_quando"):
