@@ -62,3 +62,12 @@ Para apagar: Projetos > (cada tipo) > procurar o prefixo ZZ-TESTE-LATTESFACIL e 
 
 **Ocorrência (21/11/2026):** durante um teste de captura (campo "Nome do orientando" das orientações) a aba do Lattes saiu do currículo e abriu uma página pública
 (buscatextual.cnpq.br, currículo de terceiro: só leitura, nada foi alterado ou salvo). Causa: o teste disparava `change`/`blur` no campo e o Lattes pesquisa o nome. Corrigido na ferramenta.
+
+## Registro de 21/11/2026 (orientações)
+Salvamento de teste pelo robô nas duas orientações: títulos `ZZ-TESTE-LATTESFACIL Orientação concluída de teste (validação automática)` (2023) e
+`ZZ-TESTE-LATTESFACIL Orientação em andamento de teste (validação automática)` (2025), orientando "ZZ Orientando de Teste", UFMA, Farmácia.
+Para apagar: Orientações > Orientações e supervisões concluídas / em andamento: procurar o prefixo ZZ-TESTE-LATTESFACIL e excluir. Resultado nas linhas seguintes.
+
+**Resultado (21/11/2026, orientações):** o Lattes aceitou as duas ("Operação realizada com sucesso") e cada item aparece uma vez na lista:
+`ZZ-TESTE-LATTESFACIL Orientação concluída de teste (validação automática)` (2023, Graduação) e `ZZ-TESTE-LATTESFACIL Orientação em andamento de teste (validação automática)` (2025, Graduação). **Apague os dois.**
+Antes houve 2 tentativas que NÃO gravaram: o Lattes recusou o tipo de orientação com natureza TCC, e na "em andamento" o robô reaproveitou o formulário da "concluída" (corrigido: só reaproveita se o subtipo for o mesmo).

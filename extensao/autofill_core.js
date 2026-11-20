@@ -83,13 +83,20 @@ window.__lfAutofill = async function (d) {
   if (d.tipo_producao === 'generico') {
     var G = d.__generico || {};
     var pagina = String(G.url || '').split('?')[0].toLowerCase();
+    // Formulários com subtipo no endereço (orientação concluída x em andamento, tipos de projeto): só reaproveita o aberto se for do mesmo subtipo.
+    var mesmoSubtipo = function (src) {
+      var m = /[?&](f_tipo|f_cod_tipo)=([^&]*)/i.exec(String(G.url || ''));
+      if (!m) return true;
+      var m2 = new RegExp('[?&]' + m[1] + '=([^&]*)', 'i').exec(src);
+      return !!m2 && m2[1].toLowerCase() === m[2].toLowerCase();
+    };
     var achaQuadro = function (w) {
       var lista = [];
       try { lista = [].slice.call(w.document.querySelectorAll('iframe')); } catch (e) {}
       for (var i = 0; i < lista.length; i++) {
         try {
           var cd = lista[i].contentDocument;
-          if (cd && lista[i].offsetParent !== null && String(lista[i].src || '').toLowerCase().indexOf(pagina) >= 0 && cd.readyState === 'complete') return cd;
+          if (cd && lista[i].offsetParent !== null && String(lista[i].src || '').toLowerCase().indexOf(pagina) >= 0 && cd.readyState === 'complete' && mesmoSubtipo(String(lista[i].src || ''))) return cd;
           var sub = lista[i].contentWindow && achaQuadro(lista[i].contentWindow);
           if (sub) return sub;
         } catch (e) {}

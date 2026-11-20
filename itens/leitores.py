@@ -413,6 +413,8 @@ def ler_orientacao_registro(rec: dict):
         "F_BOLSA": rec.get("bolsa", ""), "f_nme_agencia": rec.get("agencia_financiadora", ""), "f_ref": rec.get("outras_informacoes", ""),
         "F_RELEV": rec.get("relevante", ""),
     }
+    if not re.search(r"disserta|tese", normalize(str(v["F_COD_PROD"]))):
+        v["f_tpo_orient"] = ""  # o Lattes só aceita o tipo de orientação em dissertação de mestrado e tese de doutorado
     if str(v["f_tpo_orient"]).lower().startswith("co"):
         v["f_tpo_orient"] = "coorientador"  # texto da opção no Lattes
     if rec.get("palavras_chave"):

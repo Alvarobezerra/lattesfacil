@@ -2,10 +2,9 @@
  "item": "orientacao_andamento_f5",
  "variante_slug": "orientacao_em_andamento",
  "variante": "Orientação em andamento",
- "executado_em": "2026-11-20T12:16:39.368Z",
+ "executado_em": "2026-11-20T14:10:12.346Z",
  "resumo": {
-  "OK": 204,
-  "divergente": 6
+  "OK": 207
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1061
+   "ms": 1060
   },
   {
    "id": "F_COD_PROD#opcao_a42",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1060
+   "ms": 1059
   },
   {
    "id": "F_COD_PROD#opcao_a43",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1062
+   "ms": 1056
   },
   {
    "id": "F_COD_PROD#opcao_a44",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1063
+   "ms": 1055
   },
   {
    "id": "F_COD_PROD#opcao_a45",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1064
+   "ms": 1060
   },
   {
    "id": "F_COD_PROD#opcao_a46",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1058
+   "ms": 1059
   },
   {
    "id": "F_COD_PROD#opcao_a49",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1056
+   "ms": 1065
   },
   {
    "id": "f_dsc_outra#tipico",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 610
   },
   {
    "id": "f_dsc_outra#maximo",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 611
   },
   {
    "id": "f_dsc_outra#acima_do_limite",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 667
+   "ms": 607
   },
   {
    "id": "f_dsc_outra#acentos",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 610
   },
   {
    "id": "f_titulo#tipico",
@@ -102,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "f_titulo#maximo",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "f_titulo#acima_do_limite",
@@ -118,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 611
   },
   {
    "id": "f_titulo#acentos",
@@ -126,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "f_ano#valido",
@@ -134,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 607
   },
   {
    "id": "f_ano#acima_do_limite",
@@ -150,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_arg",
@@ -158,7 +157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_aus",
@@ -166,7 +165,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 613
   },
   {
    "id": "f_pais#opcao_bra",
@@ -174,7 +173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 612
   },
   {
    "id": "f_pais#opcao_can",
@@ -182,7 +181,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 616
   },
   {
    "id": "f_pais#opcao_esp",
@@ -190,7 +189,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 611
   },
   {
    "id": "f_pais#opcao_eua",
@@ -198,7 +197,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_fra",
@@ -206,7 +205,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_gbr",
@@ -214,7 +213,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_hol",
@@ -222,7 +221,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 612
   },
   {
    "id": "f_pais#opcao_ing",
@@ -238,7 +237,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_por",
@@ -246,7 +245,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_rfa",
@@ -254,7 +253,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 613
   },
   {
    "id": "f_pais#opcao_abw",
@@ -262,7 +261,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_afg",
@@ -270,7 +269,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_afs",
@@ -278,7 +277,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_ahl",
@@ -294,7 +293,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 611
   },
   {
    "id": "f_pais#opcao_anb",
@@ -302,7 +301,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_and",
@@ -310,7 +309,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_ang",
@@ -326,7 +325,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_arl",
@@ -342,7 +341,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_asm",
@@ -350,7 +349,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_atc",
@@ -358,7 +357,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 611
   },
   {
    "id": "f_pais#opcao_aut",
@@ -366,7 +365,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_aze",
@@ -374,7 +373,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_bar",
@@ -382,7 +381,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 612
   },
   {
    "id": "f_pais#opcao_bea",
@@ -390,7 +389,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_bel",
@@ -398,7 +397,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_ben",
@@ -406,7 +405,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_ber",
@@ -414,7 +413,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_bgd",
@@ -422,7 +421,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_bhs",
@@ -430,7 +429,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_bir",
@@ -438,7 +437,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_bkf",
@@ -454,7 +453,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 613
   },
   {
    "id": "f_pais#opcao_bol",
@@ -462,7 +461,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_bos",
@@ -470,7 +469,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_bot",
@@ -478,7 +477,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_brb",
@@ -486,7 +485,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 605
   },
   {
    "id": "f_pais#opcao_brn",
@@ -494,7 +493,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_bul",
@@ -510,7 +509,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_but",
@@ -518,7 +517,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 612
   },
   {
    "id": "f_pais#opcao_cam",
@@ -526,7 +525,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_cat",
@@ -534,7 +533,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_caz",
@@ -542,7 +541,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_cbj",
@@ -550,7 +549,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 612
   },
   {
    "id": "f_pais#opcao_cbv",
@@ -566,7 +565,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_cha",
@@ -574,7 +573,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_chl",
@@ -582,7 +581,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_chn",
@@ -590,7 +589,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_chp",
@@ -598,7 +597,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 605
   },
   {
    "id": "f_pais#opcao_cin",
@@ -606,7 +605,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_cmf",
@@ -614,7 +613,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_cod",
@@ -622,7 +621,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_cok",
@@ -630,7 +629,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 607
   },
   {
    "id": "f_pais#opcao_col",
@@ -638,7 +637,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_com",
@@ -646,7 +645,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 609
   },
   {
    "id": "f_pais#opcao_con",
@@ -662,7 +661,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 614
   },
   {
    "id": "f_pais#opcao_crn",
@@ -670,7 +669,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 610
   },
   {
    "id": "f_pais#opcao_cro",
@@ -686,7 +685,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 605
   },
   {
    "id": "f_pais#opcao_cub",
@@ -694,7 +693,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 615
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_cxr",
@@ -710,7 +709,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 618
   },
   {
    "id": "f_pais#opcao_din",
@@ -718,7 +717,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_dji",
@@ -726,7 +725,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_dom",
@@ -734,7 +733,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 615
   },
   {
    "id": "f_pais#opcao_don",
@@ -742,7 +741,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_eau",
@@ -750,7 +749,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "f_pais#opcao_egi",
@@ -758,7 +757,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 605
   },
   {
    "id": "f_pais#opcao_els",
@@ -766,7 +765,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 604
   },
   {
    "id": "f_pais#opcao_equ",
@@ -774,7 +773,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 608
   },
   {
    "id": "f_pais#opcao_ert",
@@ -790,7 +789,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_de",
@@ -798,7 +797,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_es",
@@ -806,7 +805,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_fr",
@@ -814,7 +813,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 604
   },
   {
    "id": "F_IDIOMA#opcao_en",
@@ -822,7 +821,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_it",
@@ -830,7 +829,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 604
   },
   {
    "id": "F_IDIOMA#opcao_lb",
@@ -838,7 +837,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_pt",
@@ -846,7 +845,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ab",
@@ -854,7 +853,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_aa",
@@ -862,7 +861,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_af",
@@ -870,7 +869,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_ay",
@@ -878,7 +877,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 610
   },
   {
    "id": "F_IDIOMA#opcao_sq",
@@ -886,7 +885,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_am",
@@ -894,7 +893,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_ar",
@@ -902,7 +901,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_an",
@@ -910,7 +909,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_as",
@@ -918,7 +917,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_az",
@@ -926,7 +925,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_bc",
@@ -934,7 +933,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_eu",
@@ -942,7 +941,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ba",
@@ -950,7 +949,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_bn",
@@ -958,7 +957,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_bb",
@@ -966,7 +965,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_be",
@@ -974,7 +973,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_bh",
@@ -982,7 +981,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_bm",
@@ -990,7 +989,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_bi",
@@ -998,7 +997,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_br",
@@ -1006,7 +1005,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_bg",
@@ -1014,7 +1013,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_cb",
@@ -1022,7 +1021,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ks",
@@ -1030,7 +1029,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 616
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_km",
@@ -1038,7 +1037,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_kn",
@@ -1046,7 +1045,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_kk",
@@ -1054,7 +1053,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_ca",
@@ -1062,7 +1061,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_zh",
@@ -1070,7 +1069,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 616
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_si",
@@ -1078,7 +1077,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_ko",
@@ -1086,7 +1085,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_co",
@@ -1094,7 +1093,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_cr",
@@ -1102,7 +1101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_hr",
@@ -1110,7 +1109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 618
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ku",
@@ -1126,7 +1125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_di",
@@ -1134,7 +1133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_dz",
@@ -1142,7 +1141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_fy",
@@ -1150,7 +1149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_sk",
@@ -1158,7 +1157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_sl",
@@ -1166,7 +1165,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_eo",
@@ -1174,7 +1173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_et",
@@ -1182,7 +1181,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_ee",
@@ -1190,7 +1189,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_fo",
@@ -1198,7 +1197,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_fj",
@@ -1206,7 +1205,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 604
   },
   {
    "id": "F_IDIOMA#opcao_fl",
@@ -1214,7 +1213,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_fi",
@@ -1222,7 +1221,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_gd",
@@ -1230,7 +1229,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_gl",
@@ -1246,7 +1245,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 612
   },
   {
    "id": "F_IDIOMA#opcao_ka",
@@ -1262,7 +1261,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_kl",
@@ -1270,7 +1269,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_gn",
@@ -1278,7 +1277,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_gu",
@@ -1286,7 +1285,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 608
   },
   {
    "id": "F_IDIOMA#opcao_hy",
@@ -1294,7 +1293,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ha",
@@ -1302,7 +1301,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_iw",
@@ -1318,7 +1317,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_nl",
@@ -1326,7 +1325,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 612
   },
   {
    "id": "F_IDIOMA#opcao_hu",
@@ -1342,7 +1341,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 616
   },
   {
    "id": "F_IDIOMA#opcao_in",
@@ -1350,7 +1349,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 605
   },
   {
    "id": "F_IDIOMA#opcao_ia",
@@ -1366,7 +1365,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ik",
@@ -1382,7 +1381,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "F_IDIOMA#opcao_ga",
@@ -1390,7 +1389,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_is",
@@ -1398,7 +1397,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 607
   },
   {
    "id": "F_IDIOMA#opcao_ja",
@@ -1406,7 +1405,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 617
   },
   {
    "id": "F_IDIOMA#opcao_jv",
@@ -1414,7 +1413,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 609
   },
   {
    "id": "F_IDIOMA#opcao_lo",
@@ -1430,7 +1429,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 612
   },
   {
    "id": "f_homepage#tipico",
@@ -1438,7 +1437,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 617
   },
   {
    "id": "f_homepage#maximo",
@@ -1446,7 +1445,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 615
   },
   {
    "id": "f_homepage#acima_do_limite",
@@ -1454,7 +1453,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 606
   },
   {
    "id": "f_homepage#acentos",
@@ -1470,7 +1469,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1058
+   "ms": 1060
   },
   {
    "id": "F_RELEV#opcao_n",
@@ -1478,23 +1477,23 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1056
+   "ms": 1065
   },
   {
    "id": "f_tpo_orient#opcao_o",
    "campo": "f_tpo_orient",
-   "status": "divergente",
-   "detalhe": "esperado=O lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1060
+   "ms": 1765
   },
   {
    "id": "f_tpo_orient#opcao_c",
    "campo": "f_tpo_orient",
-   "status": "divergente",
-   "detalhe": "esperado=C lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1058
+   "ms": 1767
   },
   {
    "id": "f_nme_orient#tipico",
@@ -1510,7 +1509,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 609
   },
   {
    "id": "f_nme_orient#acima_do_limite",
@@ -1518,7 +1517,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 606
   },
   {
    "id": "f_nme_orient#acentos",
@@ -1526,7 +1525,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 612
   },
   {
    "id": "F_BOLSA#opcao_s",
@@ -1542,39 +1541,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1058
-  },
-  {
-   "id": "f_nme_agencia#tipico",
-   "campo": "f_nme_agencia",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 3725
-  },
-  {
-   "id": "f_nme_agencia#maximo",
-   "campo": "f_nme_agencia",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 3720
-  },
-  {
-   "id": "f_nme_agencia#acima_do_limite",
-   "campo": "f_nme_agencia",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 3711
-  },
-  {
-   "id": "f_nme_agencia#acentos",
-   "campo": "f_nme_agencia",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 3709
+   "ms": 1060
   },
   {
    "id": "f_ref#tipico",
@@ -1582,7 +1549,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 607
   },
   {
    "id": "f_ref#maximo",
@@ -1590,7 +1557,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 608
   },
   {
    "id": "f_ref#acima_do_limite",
@@ -1598,7 +1565,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 610
   },
   {
    "id": "f_ref#acentos",
@@ -1606,7 +1573,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 608
   },
   {
    "id": "f_titulo_en#tipico",
@@ -1614,7 +1581,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 618
   },
   {
    "id": "f_titulo_en#maximo",
@@ -1622,7 +1589,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 611
   },
   {
    "id": "f_titulo_en#acima_do_limite",
@@ -1630,7 +1597,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 609
   },
   {
    "id": "f_titulo_en#acentos",
@@ -1638,7 +1605,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 605
   },
   {
    "id": "f_ref_en#tipico",
@@ -1646,7 +1613,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 605
   },
   {
    "id": "f_ref_en#maximo",
@@ -1662,7 +1629,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 606
+   "ms": 610
   },
   {
    "id": "f_ref_en#acentos",
@@ -1670,7 +1637,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 608
+   "ms": 614
   },
   {
    "id": "f_inst#lupa",
@@ -1678,7 +1645,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 4112
+   "ms": 3751
   },
   {
    "id": "f_curso#lupa",
@@ -1686,7 +1653,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 2171
+   "ms": 2169
+  },
+  {
+   "id": "f_nme_agencia#lupa",
+   "campo": "f_nme_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 2602
   }
  ]
 }

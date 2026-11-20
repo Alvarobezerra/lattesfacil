@@ -295,7 +295,7 @@ def espelhar_lattes(campos, item_id="", variante=""):
             if n == "f_dsc_outra":
                 c["obrigatorio"] = False  # só vale para dissertação de mestrado e orientação de outra natureza (campo bloqueado nas demais)
             if n == "f_tpo_orient":
-                c["obrigatorio"] = True  # "Tipo de orientação" consta entre os obrigatórios do Lattes
+                c["obrigatorio"] = False  # só vale para dissertação de mestrado e tese de doutorado (exige_antes); nas demais o Lattes recusa
             if n in ARTIGO_ROTULOS or n == "f_bolsa":
                 if n in ARTIGO_ROTULOS:
                     c["rotulo"] = ARTIGO_ROTULOS[n]

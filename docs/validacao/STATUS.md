@@ -12,7 +12,7 @@ Metodologia: [../metodologia-validacao-formularios.md](../metodologia-validacao-
 | Artigo em periódico | Perfis diferentes de usuário (documento, DOI, dados faltantes, reabrir registro e envio pela extensão já testados no app logado) | Conferir com outros perfis |
 | Trabalho em anais | Caderno de resumos com PDF longo de verdade; perfis diferentes (envio pela extensão e reabrir registro já testados no app logado) | Testar com um caderno real |
 | Apresentação de trabalho e palestra | Perfis diferentes (documento e envio pela extensão já testados no app logado) | Conferir com outros perfis |
-| Orientação concluída / em andamento | Formulário antigo no app (existe spec, não é usado); sem captura e sem validação | Capturar, validar paridade, ligar o app e o robô ao spec, matriz, salvamento |
+| Orientação concluída / em andamento | Perfis diferentes; fluxo no app logado (documento, reabrir registro, envio pela extensão) ainda não rodado para orientação | Rodar no app logado |
 | Demais 55 itens | Specs gerados do mapeamento antigo, sem captura real, sem leitor/robô validados | Seguir o ciclo de 8 fases por item |
 
 Fases: 1 captura · 2 diff · 3 paridade de tela · 4 matriz de valores · 5 preenchimento com leitura de volta · 6 obrigatórios · 7 salvamento de teste · 8 fechamento.
@@ -84,3 +84,5 @@ Identifier...") e texto de script do Lattes. Corrigido (extensão 0.9.7, teste `
 **Orientação (21/11/2026, em andamento — limite de uso atingido):** spec/paridade 0, leitor, servidor, app e robô ligados; matriz 204/210 nas duas variantes. Descoberto: o tipo de orientação só "pega" com natureza mestrado/doutorado
 (`exige_antes`, gerado da captura de aceitação) e a agência financiadora é campo de LUPA (lista `prc_agencia`; robô `gLupaAgencia` e app com `exige_antes` já escritos).
 **Falta:** reabrir o Lattes, recapturar a andamento com a aceitação, rodar de novo a matriz (esperado 210/210), salvar as duas orientações de teste e testar a lupa da agência; depois caderno com PDF longo, perfis diferentes, executor genérico e os 55 itens.
+
+**Orientações fechadas no Lattes (21/11/2026):** paridade 0, matriz 207/207 nas duas (com lupa da agência e dependência do tipo de orientação) e salvamento real conferido nas listas. Nova regra do robô: reaproveita formulário aberto só se o subtipo (f_tipo / f_cod_tipo) for o mesmo.
