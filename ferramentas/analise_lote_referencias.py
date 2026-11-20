@@ -8,7 +8,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-import pypdf
+
+try:
+    import fitz
+except ImportError:
+    fitz = None
 
 RAIZ = Path(__file__).resolve().parent.parent
 DIR_REFS = RAIZ / "Lattes para referencia"
@@ -42,8 +46,9 @@ def analisar_ciclo_atual() -> dict:
             tamanho = arq_path.stat().st_size
             total_bytes += tamanho
             try:
-                reader = pypdf.PdfReader(str(arq_path))
-                pags = len(reader.pages)
+                if fitz is not None:
+                    with fitz.open(str(arq_path)) as doc:
+                        pags = len(doc)
             except Exception:
                 pags = 0
             total_paginas += pags
