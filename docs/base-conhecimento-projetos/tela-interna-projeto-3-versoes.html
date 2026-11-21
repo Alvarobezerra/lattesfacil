@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — 3 Versões da Tela Interna do Projeto (Validação)</title>
+<style>
+  :root{
+    --navy:#0b192c; --navy-2:#163052; --teal:#087f91; --teal-d:#065f6d; --teal-l:#e8f6f8;
+    --mint:#059669; --mint-l:#e6f7f1; --amber:#b45309; --amber-l:#fef6e4;
+    --ink:#10233d; --muted:#566a80; --line:#dce5ee; --bg:#f4f7fa; --paper:#ffffff;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Inter,system-ui,-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.48 var(--sans);-webkit-font-smoothing:antialiased}
+  .topbar-global{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 4px 14px rgba(11,25,44,.05)}
+  .brand{font:700 italic 20px var(--serif);color:var(--navy)}
+  .brand span{font:800 9.5px var(--sans);font-style:normal;letter-spacing:.14em;color:var(--teal);margin-left:5px}
+  .switcher{display:flex;gap:6px;flex-wrap:wrap}
+  .sw-btn{border:1px solid #cbd9e6;background:#f8fbfd;color:var(--navy);padding:6px 12px;border-radius:99px;font:700 12px var(--sans);cursor:pointer;transition:all .15s}
+  .sw-btn:hover{border-color:var(--teal);color:var(--teal)}
+  .sw-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+  .wrap{max-width:1040px;margin:20px auto;padding:0 14px 50px;display:grid;gap:26px}
+  .version-block{display:block}
+  .version-block.hidden{display:none}
+  .v-header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+  .v-tag{display:inline-block;padding:3px 10px;border-radius:99px;font:800 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--teal-l);color:var(--teal);margin-bottom:4px}
+  .v-title{font:700 22px/1.2 var(--serif);margin:0;color:var(--navy)}
+  .v-desc{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+
+  /* FRAME DA TELA INTERNA */
+  .screen{background:#fff;border:1.5px solid #d5e1ec;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(11,25,44,.07)}
+  .s-nav{background:#f8fbfd;border-bottom:1px solid #e2eaf2;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px}
+  .s-left,.s-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .e2ee{background:#e6f7f1;color:#065f46;border:1px solid #a7e4cd;padding:2px 8px;border-radius:99px;font:700 10px var(--sans)}
+  .mini-btn{background:#fff;color:var(--navy);border:1px solid #cbd9e6;padding:3px 8px;border-radius:7px;font:700 10px var(--sans);cursor:pointer}
+  .mini-btn:hover{border-color:var(--teal);color:var(--teal)}
+  .cta{background:var(--teal);color:#fff;border:0;padding:5px 11px;border-radius:7px;font:700 11px var(--sans);cursor:pointer;display:inline-block}
+  .cta-sec{background:#eef5f8;color:var(--navy);border:1px solid #cbd9e6;padding:4px 9px;border-radius:7px;font:700 10.5px var(--sans);cursor:pointer;display:inline-block}
+
+  /* CABEÇALHO DO PROJETO (LIMPO, FUNDO BRANCO + MINIATURA DA CAPA) */
+  .proj-head{padding:14px 18px;border-bottom:1px solid #e6eef4;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:#fff}
+  .proj-id{display:flex;align-items:center;gap:12px}
+  .proj-thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;border:1px solid #d5e1ec;flex:none}
+  .proj-head h2{font:700 17px/1.2 var(--serif);margin:0 0 3px;color:var(--navy)}
+  .muted{color:var(--muted);font-size:11.5px}
+  .tag{display:inline-block;font:700 10px var(--sans);padding:2px 7px;border-radius:5px;background:#edf3f8;color:var(--navy);margin:2px 3px 0 0}
+  .tag-t{background:var(--teal-l);color:var(--teal-d)}
+  .tag-m{background:var(--mint-l);color:#065f46}
+  .tag-a{background:var(--amber-l);color:#92400e}
+  .ok{color:#057a55;font-weight:800}
+  .warn{color:#b45309;font-weight:800}
+
+  /* ABAS INTERNAS (VERSÃO A) */
+  .tabs{display:flex;gap:4px;padding:8px 18px 0;background:#fbfdfe;border-bottom:1px solid #e2eaf2;overflow-x:auto}
+  .tab{border:0;background:none;padding:8px 12px;font:700 11.5px var(--sans);color:var(--muted);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap}
+  .tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+  .tab-pane{display:none;padding:16px 18px}
+  .tab-pane.active{display:block}
+
+  /* LAYOUTS INTERNOS */
+  .body-pad{padding:16px 18px;display:grid;gap:12px}
+  .cols-2{display:grid;grid-template-columns:1.45fr .95fr;gap:12px;align-items:start}
+  .cols-eq{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  .cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .cols-4{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  .card h3{margin:0 0 8px;font:700 12.5px var(--sans);color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .item{border:1px solid #e6eef4;border-radius:9px;padding:8px 10px;margin-bottom:7px;background:#fbfdfe;font-size:11.5px}
+  .item:last-child{margin-bottom:0}
+  .item-active{background:#f0fdfa;border-color:#99f6e4}
+  .item-warn{background:#fffbeb;border-color:#fde68a}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .prog{height:6px;background:#e6eef4;border-radius:99px;overflow:hidden;margin:5px 0}
+  .prog i{display:block;height:100%;background:#087f91;border-radius:99px}
+  .prog-m i{background:#10b981}
+
+  .kpi-tile{background:#f8fbfd;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .kpi-tile b{display:block;font:700 20px var(--serif);color:var(--navy)}
+  .kpi-tile span{font-size:10.5px;color:var(--muted)}
+
+  .student-box{background:var(--navy);color:#fff;border-radius:11px;padding:12px 14px;font-size:11.5px}
+  .student-box b{color:#67f3d1}
+  .lock-cta{margin-top:8px;display:inline-block;background:#10b981;color:#04241a;font:800 11px var(--sans);padding:5px 10px;border-radius:7px}
+
+  /* MODAL RAIO-X E2EE */
+  .modal-bg{position:fixed;inset:0;background:rgba(11,25,44,.55);display:none;place-items:center;z-index:50;padding:16px}
+  .modal-bg.open{display:grid}
+  .modal{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:20px 22px;box-shadow:0 20px 50px rgba(11,25,44,.25)}
+  .code-box{background:#0b192c;color:#7cf5d4;font:11px/1.45 Consolas,monospace;padding:10px 12px;border-radius:8px;word-break:break-all;margin:8px 0}
+
+  @media (max-width:780px){
+    .cols-2,.cols-eq,.cols-3,.cols-4{grid-template-columns:1fr}
+    .topbar-global{position:static}
+  }
+  @media print{
+    @page{size:A4;margin:8mm}
+    body{background:#fff;font-size:11px}
+    .topbar-global,.modal-bg{display:none!important}
+    .wrap{max-width:none;margin:0;padding:0;gap:0}
+    .version-block{display:block!important;page-break-after:always;break-after:page;padding-bottom:6px}
+    .version-block:last-child{page-break-after:auto;break-after:auto}
+    .screen{box-shadow:none}
+    .e2ee,.tag,.prog i,.cta,.student-box,.lock-cta,.kpi-tile,.item-active,.item-warn{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar-global">
+  <div class="brand">Lattes<span>PROJETOS · COMPARATIVO DE 3 VERSÕES</span></div>
+  <div class="switcher" role="tablist" aria-label="Alternar versões da tela interna">
+    <button type="button" class="sw-btn active" data-show="all">Ver Todas (3)</button>
+    <button type="button" class="sw-btn" data-show="v1">Versão A · 5 Abas Limpas</button>
+    <button type="button" class="sw-btn" data-show="v2">Versão B · Painel Corrido</button>
+    <button type="button" class="sw-btn" data-show="v3">Versão C · Foco Etapas &amp; Variáveis</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- =====================================================================
+       VERSÃO A: TELA LIMPA COM CABEÇALHO FIXO + 5 ABAS
+       ===================================================================== -->
+  <section class="version-block" id="v1">
+    <div class="v-header">
+      <div>
+        <span class="v-tag">Versão A · Recomendada para Uso Semanal</span>
+        <h1 class="v-title">Cabeçalho Fixo + 5 Abas Limpas (Sem Poluição Visual)</h1>
+        <p class="v-desc">Cada assunto fica em sua aba dedicada. Na abertura, o pesquisador vê apenas <strong>Progresso, Etapas e Variáveis</strong> — clique nas abas abaixo para explorar.</p>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="s-nav">
+        <div class="s-left">
+          <span class="mini-btn">← Meus Projetos</span>
+          <span class="e2ee">🔒 E2EE Zero-Knowledge (AES-256-GCM)</span>
+        </div>
+        <div class="s-right">
+          <button type="button" class="mini-btn btn-e2ee-xray">🔍 Ver no servidor</button>
+          <span class="mini-btn">📜 Audit Log (42)</span>
+          <span class="mini-btn">👤 Prof. Aramys</span>
+        </div>
+      </div>
+
+      <div class="proj-head">
+        <div class="proj-id">
+          <img class="proj-thumb" src="img/proj-babacu.jpg" alt="Babaçu">
+          <div>
+            <h2>Bioprospecção e Bioprodutos do Babaçu (<em>Attalea speciosa</em>)</h2>
+            <div class="muted">LaFIT / PPGST / UFMA · 2024–2027 · <strong>Semáforo:</strong> <span class="ok">● Em dia</span> · 6 orientandos ativos</div>
+            <div><span class="tag tag-t">Pack 1: Bancada/Farmácia</span><span class="tag tag-t">Pack 6: Alimentos</span><span class="tag tag-a">⚠ CEUA vence em 42 dias</span></div>
+          </div>
+        </div>
+        <div class="s-right">
+          <span class="cta">+ Convidar Aluno (Grátis)</span>
+          <span class="cta-sec">📦 Dossiê do Edital</span>
+        </div>
+      </div>
+
+      <nav class="tabs" data-tabgroup="va">
+        <button type="button" class="tab active" data-target="va-prog">📍 Progresso &amp; Etapas</button>
+        <button type="button" class="tab" data-target="va-entr">📥 Entregas &amp; Aprovações (2)</button>
+        <button type="button" class="tab" data-target="va-comp">🛡️ Conformidade &amp; Packs</button>
+        <button type="button" class="tab" data-target="va-fom">💰 Fomentos &amp; Metas</button>
+        <button type="button" class="tab" data-target="va-eq">👥 Equipe &amp; Visão do Aluno</button>
+      </nav>
+
+      <!-- ABA 1: PROGRESSO & ETAPAS -->
+      <div class="tab-pane active" id="va-prog">
+        <div class="cols-2">
+          <div class="card">
+            <h3>Etapas Cadastradas do Projeto <span class="tag tag-m">Progresso geral: 64%</span></h3>
+            <div class="item">
+              <div class="row"><span><strong>1. Coleta &amp; Padronização do Mesocarpo</strong> · Cooperativa</span><span class="ok">100% ✓</span></div>
+              <div class="prog prog-m"><i style="width:100%"></i></div>
+            </div>
+            <div class="item">
+              <div class="row"><span><strong>2. Extração &amp; Caracterização Fitoquímica</strong> · HPLC/Fenólicos</span><span class="ok">100% ✓</span></div>
+              <div class="prog prog-m"><i style="width:100%"></i></div>
+            </div>
+            <div class="item item-active">
+              <div class="row"><span><strong>3. Ensaios Biológicos &amp; Citotoxicidade</strong> · Resp.: Fernanda (15/12)</span><span class="tag tag-t">65% · Em curso</span></div>
+              <div class="prog"><i style="width:65%"></i></div>
+              <div style="margin-top:4px"><span class="tag">Amostras: 24/36</span><span class="tag">Ensaios celulares: 3/4</span><span class="tag tag-m">Prazo: 0d desvio</span></div>
+            </div>
+            <div class="item">
+              <div class="row"><span><strong>4. Formulação Bioproduto &amp; Gate Patente (INPI)</strong></span><span class="tag tag-a">20% · Iniciada</span></div>
+              <div class="prog"><i style="width:20%"></i></div>
+            </div>
+            <div class="item">
+              <div class="row"><span><strong>5. Redação, Submissão &amp; Prestação de Contas</strong></span><span class="muted">Aguardando</span></div>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:10px">
+            <div class="card">
+              <h3>📈 Variáveis de Monitoramento <span class="cta-sec">+ Variável</span></h3>
+              <div class="item">
+                <div class="row"><span><strong>Amostras / N experimental</strong></span><strong>24 / 36 (67%)</strong></div>
+                <div class="prog"><i style="width:67%"></i></div>
+              </div>
+              <div class="item">
+                <div class="row"><span><strong>Protocolos &amp; Ensaios validados</strong></span><strong>7 / 10 (70%)</strong></div>
+                <div class="prog"><i style="width:70%"></i></div>
+              </div>
+              <div class="item">
+                <div class="row"><span><strong>Estabilidade formulação</strong></span><strong>30 / 90 dias</strong></div>
+                <div class="prog"><i style="width:33%"></i></div>
+              </div>
+              <div class="item">
+                <div class="row"><span><strong>Check-ins dos alunos (mês)</strong></span><strong class="ok">4 / 5 recebidos</strong></div>
+              </div>
+            </div>
+            <div class="card" style="background:#f8fbfd">
+              <h3>💬 Último Check-in (há 2 dias · 2 min)</h3>
+              <p class="muted" style="margin:0"><strong>Fernanda (Mestrado):</strong> concluí o 3º ensaio celular e subi o PDF do artigo <em>Foods</em> para aprovação. Próximo passo: finalizar lote 25–30 na quinta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 2: ENTREGAS & APROVAÇÕES -->
+      <div class="tab-pane" id="va-entr">
+        <div class="card">
+          <h3>📥 Fila de Aprovação (Propagação 1-para-N) <span class="tag tag-a">2 pendentes</span></h3>
+          <div class="item item-active">
+            <div class="row">
+              <strong>Artigo publicado — <em>Foods</em> (2026) · DOI 10.3390/foods15050945</strong>
+              <span class="cta">✓ Aprovar → Dossiê + Lattes</span>
+            </div>
+            <div class="muted">Enviado por Fernanda Costa · 7 autores · CRediT + 4 fomentos conferidos · PDF cifrado + SHA-256</div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <strong>Certificado de Apresentação — Congresso Brasileiro de Farmacologia (IC)</strong>
+              <span class="cta">✓ Aprovar</span>
+            </div>
+            <div class="muted">Enviado por Aluno IC (Grátis) · Vínculo automático com Projeto + Orientação IC</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 3: CONFORMIDADE -->
+      <div class="tab-pane" id="va-comp">
+        <div class="cols-eq">
+          <div class="card">
+            <h3>🛡️ Cofre Regulatório (Pack 1 + Pack 6)</h3>
+            <div class="item"><span class="ok">✓ SisGen Ativo</span> — Patrimônio Genético &amp; CTA arquivado (E2EE)</div>
+            <div class="item item-warn"><span class="warn">⚠ CEUA vence em 42 dias</span> — Alerta preventivo enviado</div>
+            <div class="item"><span class="ok">✓ CEP Análise Sensorial</span> — CAAE + laudo microbiológico anexados</div>
+          </div>
+          <div class="card">
+            <h3>🔒 Proteção Intelectual &amp; Modo Sigilo</h3>
+            <div class="item"><span class="ok">✓ Gate de Patente INPI ativo</span> — Aviso obrigatório antes de submeter formulação</div>
+            <div class="item"><span class="ok">✓ Marca d'água dinâmica</span> — Nome + data/hora sobre PDFs sigilosos</div>
+            <div class="item"><span class="ok">✓ Carimbo de Tempo ICP-Brasil</span> — Prova de anterioridade (SHA-256)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 4: FOMENTOS -->
+      <div class="tab-pane" id="va-fom">
+        <div class="card">
+          <h3>💰 Carteira de Fomentos (N:N) &amp; Termômetro de Metas <span class="cta-sec">📋 Copiar Funding (PT/EN)</span></h3>
+          <div class="item">
+            <div class="row"><strong>FAPEMA APP-01415/25</strong><span>Meta: 2 artigos, 2 ICs, 1 PTT · <strong>75%</strong> (Relatório em 68 dias)</span></div>
+            <div class="prog"><i style="width:75%"></i></div>
+          </div>
+          <div class="item">
+            <div class="row"><strong>FINEP 2362/24 · CAPES 001 · FAPEMA BM-02164/23</strong><span><strong>3 produtos vinculados</strong></span></div>
+            <div class="prog"><i style="width:60%"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 5: EQUIPE & VISÃO DO ALUNO -->
+      <div class="tab-pane" id="va-eq">
+        <div class="cols-eq">
+          <div class="card">
+            <h3>👥 Membros &amp; Matriz CRediT</h3>
+            <div class="item"><strong>Prof. Aramys Reis</strong> · Coordenador · <em>Supervision, Funding, Writing</em></div>
+            <div class="item"><strong>Fernanda Costa (Mestrado · Grátis)</strong> · <em>Investigation, Formal analysis</em></div>
+            <div class="item"><strong>2 Docentes Parceiros + 5 Alunos IC/Mestrado</strong> · Chaves E2EE ativas</div>
+          </div>
+          <div class="student-box">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#9fd7e0;margin-bottom:4px">Prévia · O que o Aluno Convidado vê (Grátis)</div>
+            <div><strong>Cofre Pessoal da Mestranda:</strong> você já tem <b>5 produções e certificados validados</b> pelo Prof. Aramys prontos nas normas do CNPq.</div>
+            <div style="margin-top:5px;color:#d6e7f2;font-size:11px">• 1 Artigo <em>Foods</em> (DOI) · 2 Anais · 1 Apresentação · 1 Projeto</div>
+            <span class="lock-cta">🔒 Sincronizar meu Lattes (Plano Aluno / Pix)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VERSÃO B: PAINEL ÚNICO CORRIDO (TUDO VISÍVEL SEM ABAS)
+       ===================================================================== -->
+  <section class="version-block" id="v2">
+    <div class="v-header">
+      <div>
+        <span class="v-tag">Versão B · Visão Executiva Única</span>
+        <h1 class="v-title">Painel Único Corrido (Tudo em Uma Tela Só, Sem Abas)</h1>
+        <p class="v-desc">Ideal para quem prefere rolar a página e enxergar <strong>Etapas, Variáveis, Aprovações, Fomentos e Compliance</strong> de uma só vez, sem trocar de aba.</p>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="s-nav">
+        <div class="s-left">
+          <span class="mini-btn">← Meus Projetos</span>
+          <span class="e2ee">🔒 E2EE Zero-Knowledge</span>
+        </div>
+        <div class="s-right">
+          <button type="button" class="mini-btn btn-e2ee-xray">🔍 Ver no servidor</button>
+          <span class="mini-btn">📜 Audit Log</span>
+          <span class="cta">+ Convidar Aluno (Grátis)</span>
+        </div>
+      </div>
+
+      <div class="proj-head">
+        <div class="proj-id">
+          <img class="proj-thumb" src="img/proj-babacu.jpg" alt="Babaçu">
+          <div>
+            <h2>Bioprospecção e Bioprodutos do Babaçu (<em>Attalea speciosa</em>)</h2>
+            <div class="muted">LaFIT / PPGST · 2024–2027 · <span class="ok">● Em dia</span> · Pack 1 (Bancada) + Pack 6 (Alimentos)</div>
+          </div>
+        </div>
+        <div class="s-right"><span class="cta-sec">📋 Funding</span><span class="cta-sec">📦 Dossiê</span></div>
+      </div>
+
+      <div class="body-pad">
+        <!-- FAIXA DE KPIs RÁPIDOS -->
+        <div class="cols-4">
+          <div class="kpi-tile"><b>64%</b><span>Progresso das 5 etapas</span></div>
+          <div class="kpi-tile"><b>24 / 36</b><span>Amostras processadas</span></div>
+          <div class="kpi-tile"><b style="color:var(--amber)">2</b><span>Entregas p/ aprovar</span></div>
+          <div class="kpi-tile"><b style="color:var(--teal)">42 dias</b><span>Próx. alerta (CEUA)</span></div>
+        </div>
+
+        <div class="cols-2">
+          <div style="display:grid;gap:10px">
+            <div class="card">
+              <h3>📍 Etapas em Progresso</h3>
+              <div class="item"><div class="row"><span>1. Coleta &amp; Padronização · 2. Extração HPLC</span><span class="ok">100% ✓</span></div></div>
+              <div class="item item-active">
+                <div class="row"><strong>3. Ensaios Biológicos &amp; Citotoxicidade</strong><span class="tag tag-t">65%</span></div>
+                <div class="prog"><i style="width:65%"></i></div>
+                <div class="muted">Resp.: Fernanda · 3/4 ensaios celulares · Prazo: 15/12</div>
+              </div>
+              <div class="item"><div class="row"><span>4. Formulação &amp; Gate INPI (20%) · 5. Redação (Aguard.)</span><span class="tag tag-a">Em fila</span></div></div>
+            </div>
+
+            <div class="card">
+              <h3>📥 Aprovações 1-para-N &amp; 💰 Fomentos</h3>
+              <div class="item">
+                <div class="row"><strong>Artigo <em>Foods</em> (2026) · DOI ok</strong><span class="cta" style="padding:3px 8px;font-size:10px">✓ Aprovar → Lattes</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span><strong>FAPEMA APP-01415/25</strong> + FINEP + CAPES</span><strong>75% da meta</strong></div>
+                <div class="prog"><i style="width:75%"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:10px">
+            <div class="card">
+              <h3>🛡️ Conformidade &amp; Variáveis</h3>
+              <div class="item"><span class="ok">✓ SisGen</span> · <span class="warn">⚠ CEUA (42d)</span> · <span class="ok">✓ CEP Sensorial</span></div>
+              <div class="item"><div class="row"><span>Protocolos validados</span><strong>7 / 10</strong></div><div class="prog"><i style="width:70%"></i></div></div>
+              <div class="item"><div class="row"><span>Estabilidade formulação</span><strong>30 / 90d</strong></div><div class="prog"><i style="width:33%"></i></div></div>
+            </div>
+            <div class="student-box">
+              <b>Visão do Aluno (Grátis):</b> 5 entregas validadas no cofre pessoal → <span class="lock-cta" style="margin-top:4px">🔒 Sincronizar Lattes (Pix)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VERSÃO C: FOCO TOTAL EM PROGRESSO, ETAPAS & VARIÁVEIS DE MONITORAMENTO
+       ===================================================================== -->
+  <section class="version-block" id="v3">
+    <div class="v-header">
+      <div>
+        <span class="v-tag">Versão C · Foco Operacional &amp; Ciência</span>
+        <h1 class="v-title">Foco Total em Progresso, Etapas Cadastradas &amp; Variáveis</h1>
+        <p class="v-desc">Tela enxuta e respirável voltada 100% para o <strong>acompanhamento científico semanal</strong>: linha de etapas, painel de variáveis editáveis e check-in rápido dos orientandos.</p>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="s-nav">
+        <div class="s-left">
+          <span class="mini-btn">← Meus Projetos</span>
+          <strong>Bioprodutos do Babaçu (LaFIT)</strong>
+          <span class="e2ee">🔒 E2EE</span>
+        </div>
+        <div class="s-right">
+          <span class="mini-btn">📥 2 aprovações</span>
+          <span class="mini-btn">🛡️ Compliance</span>
+          <span class="cta">+ Nova Etapa</span>
+        </div>
+      </div>
+
+      <div class="body-pad">
+        <!-- BARRA MACRO DO PROJETO -->
+        <div class="card" style="background:#f8fbfd">
+          <div class="row" style="margin-bottom:6px">
+            <div>
+              <strong style="font-size:14px;color:var(--navy)">Andamento Geral do Projeto</strong>
+              <span class="muted"> · Origem: cronograma lido do PDF do edital FAPEMA (editável)</span>
+            </div>
+            <strong style="font:700 18px var(--serif);color:var(--teal)">64% concluído</strong>
+          </div>
+          <div class="prog" style="height:9px"><i style="width:64%"></i></div>
+          <div class="row muted" style="margin-top:4px">
+            <span>2 de 5 etapas concluídas · 1 em curso · 1 iniciada</span>
+            <span><strong class="ok">No prazo</strong> (0 dias de desvio)</span>
+          </div>
+        </div>
+
+        <!-- LINHA DE ETAPAS DETALHADAS -->
+        <div class="card">
+          <h3>📍 Etapas Cadastradas <span class="muted">Clique para expandir entregas ou ajustar prazos</span></h3>
+          <div class="cols-3" style="margin-bottom:8px">
+            <div class="item">
+              <div class="row"><span class="tag tag-m">Etapa 1 · 100% ✓</span><span class="muted">Mar/25</span></div>
+              <strong style="display:block;margin:4px 0 2px">Coleta &amp; Padronização</strong>
+              <span class="muted">4/4 lotes · Cooperativa · SisGen OK</span>
+            </div>
+            <div class="item">
+              <div class="row"><span class="tag tag-m">Etapa 2 · 100% ✓</span><span class="muted">Jul/25</span></div>
+              <strong style="display:block;margin:4px 0 2px">Extração &amp; HPLC</strong>
+              <span class="muted">12/12 amostras · Rendimento 18,4%</span>
+            </div>
+            <div class="item item-active">
+              <div class="row"><span class="tag tag-t">Etapa 3 · 65% ●</span><span class="muted">15/12</span></div>
+              <strong style="display:block;margin:4px 0 2px">Ensaios Biológicos</strong>
+              <span class="muted">Resp.: Fernanda · 24/36 amostras</span>
+              <div class="prog"><i style="width:65%"></i></div>
+            </div>
+          </div>
+          <div class="cols-eq">
+            <div class="item">
+              <div class="row"><span><strong>Etapa 4 · Formulação Bioproduto &amp; Gate Patente (INPI)</strong></span><span class="tag tag-a">20% · Estab. 30/90d</span></div>
+              <div class="prog"><i style="width:20%"></i></div>
+            </div>
+            <div class="item">
+              <div class="row"><span><strong>Etapa 5 · Redação, Submissão &amp; Prestação de Contas</strong></span><span class="muted">Meta: 2 artigos + 1 PTT</span></div>
+              <div class="prog"><i style="width:5%"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VARIÁVEIS DE MONITORAMENTO EDITÁVEIS -->
+        <div class="card">
+          <h3>📈 Variáveis de Monitoramento do Projeto <span class="cta-sec">+ Cadastrar Variável</span></h3>
+          <div class="cols-4">
+            <div class="kpi-tile">
+              <span class="tag tag-t" style="margin:0 0 4px">Bancada</span>
+              <b>24 / 36</b>
+              <span>Amostras / N experimental</span>
+              <div class="prog"><i style="width:67%"></i></div>
+            </div>
+            <div class="kpi-tile">
+              <span class="tag tag-t" style="margin:0 0 4px">Qualidade</span>
+              <b>7 / 10</b>
+              <span>Protocolos validados</span>
+              <div class="prog"><i style="width:70%"></i></div>
+            </div>
+            <div class="kpi-tile">
+              <span class="tag tag-a" style="margin:0 0 4px">Formulação</span>
+              <b>30 / 90d</b>
+              <span>Estabilidade térmica</span>
+              <div class="prog"><i style="width:33%"></i></div>
+            </div>
+            <div class="kpi-tile">
+              <span class="tag tag-m" style="margin:0 0 4px">Equipe</span>
+              <b>4 / 5</b>
+              <span>Check-ins semanais</span>
+              <div class="prog prog-m"><i style="width:80%"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL INTERATIVO: VER O QUE O SERVIDOR ENXERGA (RAIO-X E2EE) -->
+<div class="modal-bg" id="xrayModal" role="dialog" aria-modal="true" aria-labelledby="xrayTitle">
+  <div class="modal">
+    <div class="row" style="margin-bottom:8px">
+      <h3 id="xrayTitle" style="margin:0;font:700 16px var(--serif);color:var(--navy)">🔍 Raio-X: O que o Servidor do LattesData Enxerga</h3>
+      <button type="button" class="mini-btn" id="closeXray">Fechar ✕</button>
+    </div>
+    <p class="muted"><strong>Na sua tela (decifrado localmente no navegador):</strong></p>
+    <div class="item item-active"><strong>Etapa 3 · Ensaios Biológicos (Babaçu)</strong> — 24/36 amostras concluídas · Formulação B2 com 89% de viabilidade celular.</div>
+    <p class="muted" style="margin-top:10px"><strong>No servidor do LattesData (gravado em banco — indecifrável sem sua Senha-Mestra):</strong></p>
+    <div class="code-box">alg: AES-256-GCM · iv: 9f4a81c2e70b4d11<br>ciphertext: 8c2e7b11a9d04f6e2b77c1093fa88e4d91a0bc73e55f12a8...<br>sha256: e3b0c44298fc1c149afbf4c8996fb924 · icp_brasil_ts: #9921</div>
+    <p class="muted" style="margin:0">Nem a equipe operadora do servidor consegue ler o conteúdo acima.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const swBtns = document.querySelectorAll(".sw-btn");
+  const blocks = document.querySelectorAll(".version-block");
+  swBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      swBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const show = btn.dataset.show;
+      blocks.forEach(bl => {
+        bl.classList.toggle("hidden", show !== "all" && bl.id !== show);
+      });
+    });
+  });
+
+  document.querySelectorAll(".tabs").forEach(group => {
+    const btns = group.querySelectorAll(".tab");
+    const screen = group.closest(".screen");
+    btns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        btns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        screen.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+        const target = screen.querySelector("#" + btn.dataset.target);
+        if (target) target.classList.add("active");
+      });
+    });
+  });
+
+  const modal = document.getElementById("xrayModal");
+  document.querySelectorAll(".btn-e2ee-xray").forEach(b => b.addEventListener("click", () => modal.classList.add("open")));
+  document.getElementById("closeXray").addEventListener("click", () => modal.classList.remove("open"));
+  modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
+})();
+</script>
+</body>
+</html>
