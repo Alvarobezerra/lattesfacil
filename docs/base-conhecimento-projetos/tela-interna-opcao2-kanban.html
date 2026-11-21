@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Tela Interna Opção 2 com Kanban Científico</title>
+<style>
+  :root{
+    --navy:#0b192c; --navy-2:#163052; --teal:#087f91; --teal-d:#065f6d; --teal-l:#e8f6f8;
+    --mint:#059669; --mint-l:#e6f7f1; --amber:#b45309; --amber-l:#fef6e4;
+    --ink:#10233d; --muted:#566a80; --line:#dce5ee; --bg:#eef3f8; --paper:#ffffff;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Inter,system-ui,-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:12px/1.4 var(--sans);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px;margin:14px auto;padding:0 14px 36px}
+  .v-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .v-tag{display:inline-block;padding:3px 9px;border-radius:99px;font:800 9.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--teal-l);color:var(--teal);margin-bottom:3px}
+  .v-head h1{font:700 19px/1.15 var(--serif);margin:0;color:var(--navy)}
+  .v-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px}
+
+  .app{background:#fff;border:1.5px solid #cbd9e6;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(11,25,44,.08)}
+  .app-top{background:#f8fbfd;border-bottom:1px solid #e2eaf2;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;flex-wrap:wrap}
+  .flex{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .e2ee{background:#e6f7f1;color:#065f46;border:1px solid #a7e4cd;padding:2px 8px;border-radius:99px;font:700 9.5px var(--sans)}
+  .btn-s{background:#fff;color:var(--navy);border:1px solid #cbd9e6;padding:3px 8px;border-radius:6px;font:700 10px var(--sans);cursor:pointer}
+  .btn-p{background:var(--teal);color:#fff;border:0;padding:4px 10px;border-radius:6px;font:700 10px var(--sans);cursor:pointer}
+  .btn-m{background:#059669;color:#fff;border:0;padding:3px 7px;border-radius:5px;font:700 9px var(--sans);cursor:pointer;display:inline-block;margin-top:4px}
+
+  /* FAIXA DE PASTAS OTIMIZADAS (FILTRO INTERATIVO) */
+  .folder-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:8px 14px;background:#ffffff;border-bottom:1px solid #e2eaf2}
+  .f-chip{border:1px solid #dce5ee;border-radius:8px;padding:5px 8px;background:#f8fbfd;cursor:pointer;transition:all .15s}
+  .f-chip:hover,.f-chip.on{border-color:var(--teal);background:#eaf7f9}
+  .f-chip b{display:block;font-size:10px;color:var(--navy)}
+  .f-chip span{font-size:9px;color:var(--muted)}
+
+  /* CORPO PRINCIPAL: KANBAN (ESQUERDA AMPLA) + VARIÁVEIS/CONTROLE (DIREITA) */
+  .main-grid{display:grid;grid-template-columns:1fr 255px;min-height:480px}
+  .kanban-wrap{padding:10px 12px;background:#f4f8fb;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:start}
+  .k-col{background:#eaf0f6;border:1px solid #d5e1ec;border-radius:10px;padding:7px;display:flex;flex-direction:column;gap:6px}
+  .k-col-rev{background:#fef9ec;border-color:#f3d79b}
+  .k-col-done{background:#edf9f4;border-color:#a7e4cd}
+  .k-head{display:flex;justify-content:space-between;align-items:center;padding:2px 3px 4px;font:800 10px var(--sans);text-transform:uppercase;letter-spacing:.04em;color:var(--navy)}
+  .k-cnt{background:#fff;color:var(--navy);border:1px solid #cbd9e6;padding:1px 6px;border-radius:99px;font-size:9.5px}
+
+  .k-card{background:#fff;border:1px solid #dce5ee;border-radius:8px;padding:7px 8px;box-shadow:0 2px 5px rgba(11,25,44,.04);transition:opacity .15s}
+  .k-card.dim{opacity:.28}
+  .k-card-top{display:flex;justify-content:space-between;align-items:center;gap:4px;margin-bottom:3px}
+  .k-folder{font:700 8.5px var(--sans);color:var(--teal-d);background:#e8f6f8;padding:1.5px 5px;border-radius:4px}
+  .k-tag-w{font:700 8.5px var(--sans);color:#92400e;background:#fef6e4;padding:1.5px 5px;border-radius:4px}
+  .k-tag-ok{font:700 8.5px var(--sans);color:#065f46;background:#e6f7f1;padding:1.5px 5px;border-radius:4px}
+  .k-title{font:700 10.5px/1.25 var(--sans);color:var(--navy);margin-bottom:3px}
+  .k-desc{font-size:9.5px;color:var(--muted);line-height:1.3;margin-bottom:5px}
+  .k-foot{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--muted);padding-top:4px;border-top:1px solid #f1f5f9}
+  .k-user{font-weight:700;color:var(--ink)}
+  .prog{height:4px;background:#e2eaf2;border-radius:99px;overflow:hidden;margin:4px 0}
+  .prog i{display:block;height:100%;background:var(--teal);border-radius:99px}
+  .prog-g i{background:#10b981}
+
+  /* SIDEBAR DIREITA: VARIÁVEIS, FOMENTOS, COMPLIANCE, LOG E ALUNO */
+  .side-r{background:#fff;border-left:1px solid #e2eaf2;padding:10px 11px;display:flex;flex-direction:column;gap:8px}
+  .r-box{background:#f8fbfd;border:1px solid #dce5ee;border-radius:9px;padding:8px 10px}
+  .r-box h3{margin:0 0 6px;font:700 10.5px var(--sans);color:var(--navy);display:flex;justify-content:space-between;align-items:center}
+  .r-row{display:flex;justify-content:space-between;align-items:center;font-size:10px;padding:2px 0}
+  .ok{color:#057a55;font-weight:800}
+  .warn{color:#b45309;font-weight:800}
+  .log-it{font-size:9.5px;padding:3px 0;border-bottom:1px solid #e9eff5}
+  .log-it:last-child{border-bottom:0;padding-bottom:0}
+  .log-it span{display:block;font-size:8.5px;color:var(--muted)}
+  .student-mini{background:var(--navy);color:#fff;border-radius:9px;padding:8px 10px;font-size:10px;margin-top:auto}
+  .student-mini b{color:#67f3d1}
+  .student-btn{margin-top:5px;display:block;text-align:center;background:#10b981;color:#04241a;font:800 9.5px var(--sans);padding:4px 6px;border-radius:6px}
+
+  @media screen and (max-width:960px){
+    .main-grid,.kanban-wrap,.folder-strip{grid-template-columns:1fr}
+    .side-r{border-left:0;border-top:1px solid #e2eaf2}
+  }
+  @media print{
+    @page{size:A4 landscape;margin:6mm}
+    body{background:#fff;font-size:11px}
+    .wrap{max-width:none;margin:0;padding:0}
+    .app{box-shadow:none}
+    .e2ee,.btn-p,.btn-m,.f-chip.on,.k-col,.k-col-rev,.k-col-done,.k-folder,.k-tag-w,.k-tag-ok,.prog i,.student-mini,.student-btn,.r-box{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="v-head">
+    <div>
+      <span class="v-tag">Opção 2 · Estrutura Kanban Científico + Pastas Otimizadas</span>
+      <h1>Tela Interna do Projeto: Pastas E2EE + Quadro Kanban + Variáveis de Monitoramento</h1>
+      <p>Clique em qualquer <strong>pasta no topo</strong> para filtrar os cards do Kanban · Tudo cifrado em <strong>E2EE Zero-Knowledge</strong> com aprovação 1-clique para o Lattes.</p>
+    </div>
+  </div>
+
+  <div class="app">
+    <!-- BARRA SUPERIOR -->
+    <div class="app-top">
+      <div class="flex">
+        <span class="btn-s">← Hub Projetos</span>
+        <strong style="font:700 14px var(--serif);color:var(--navy)">Bioprospecção e Bioprodutos do Babaçu (LaFIT / PPGST)</strong>
+        <span class="e2ee">🔒 E2EE Zero-Knowledge</span>
+      </div>
+      <div class="flex">
+        <span class="btn-s">🔍 Ver no servidor</span>
+        <span class="btn-s">📋 Copiar Funding</span>
+        <span class="btn-s">📦 Baixar Dossiê ZIP</span>
+        <span class="btn-p">+ Nova Entrega / Arquivo</span>
+      </div>
+    </div>
+
+    <!-- 6 PASTAS OTIMIZADAS (FILTRO CLICÁVEL) -->
+    <div class="folder-strip" id="folderStrip">
+      <div class="f-chip on" data-filter="all"><b>📂 Todas as Pastas</b><span>12 cards · 43 arquivos</span></div>
+      <div class="f-chip" data-filter="etica"><b>🛡️ 02 · Ética &amp; SisGen</b><span>SisGen ✓ · ⚠ CEUA 42d</span></div>
+      <div class="f-chip" data-filter="exec"><b>🧪 03 · Execução / Etapas</b><span>Amostras 24/36 · 65%</span></div>
+      <div class="f-chip" data-filter="cong"><b>🎓 04 · Congressos</b><span>7 certificados · IC/M</span></div>
+      <div class="f-chip" data-filter="art"><b>📄 05 · Artigos &amp; INPI</b><span>Foods · ACS · Gate PI</span></div>
+      <div class="f-chip" data-filter="contas"><b>💰 06 · Prestação Contas</b><span>FAPEMA · FINEP · CAPES</span></div>
+    </div>
+
+    <!-- KANBAN (4 COLUNAS) + PAINEL LATERAL DE VARIÁVEIS E CONTROLE -->
+    <div class="main-grid">
+      <section class="kanban-wrap">
+        <!-- COLUNA 1: A FAZER -->
+        <div class="k-col">
+          <div class="k-head"><span>📋 A Fazer / Fila</span><span class="k-cnt">3</span></div>
+
+          <div class="k-card" data-cat="exec">
+            <div class="k-card-top"><span class="k-folder">03 · Etapa 3</span><span class="k-tag-w">15/12</span></div>
+            <div class="k-title">Processar Lotes 25–36 (Citotoxicidade)</div>
+            <div class="k-desc">Completar N=36 amostras do mesocarpo para fechar análise estatística.</div>
+            <div class="k-foot"><span class="k-user">Fernanda (M)</span><span>📁 0 arq.</span></div>
+          </div>
+
+          <div class="k-card" data-cat="art">
+            <div class="k-card-top"><span class="k-folder">05 · INPI</span><span class="k-tag-w">Gate PI</span></div>
+            <div class="k-title">Checklist de Patente (NIT/UFMA)</div>
+            <div class="k-desc">Validar sigilo da formulação do emulgel antes de submeter artigo.</div>
+            <div class="k-foot"><span class="k-user">Prof. Aramys</span><span>🔒 Modo Sigilo</span></div>
+          </div>
+
+          <div class="k-card" data-cat="etica">
+            <div class="k-card-top"><span class="k-folder">02 · Ética</span><span class="k-tag-w">⚠ 42d</span></div>
+            <div class="k-title">Renovar / Aditivo Protocolo CEUA</div>
+            <div class="k-desc">Protocolo vence em 42 dias; anexar parecer atualizado na pasta 02.</div>
+            <div class="k-foot"><span class="k-user">Prof. Aramys</span><span>Alerta auto</span></div>
+          </div>
+        </div>
+
+        <!-- COLUNA 2: EM EXECUÇÃO -->
+        <div class="k-col">
+          <div class="k-head"><span>🧪 Em Execução</span><span class="k-cnt">3</span></div>
+
+          <div class="k-card" data-cat="exec" style="border-left:3px solid var(--teal)">
+            <div class="k-card-top"><span class="k-folder">03 · Etapa 3</span><span class="k-tag-ok">65%</span></div>
+            <div class="k-title">Ensaios Celulares MTT (Lotes 1–24)</div>
+            <div class="k-desc">Planilha_Citotoxicidade_v3.xlsx · Viabilidade média 89,2% · Carimbo ICP-Brasil.</div>
+            <div class="prog"><i style="width:65%"></i></div>
+            <div class="k-foot"><span class="k-user">Fernanda (M)</span><span>🔒 Marca d'água</span></div>
+          </div>
+
+          <div class="k-card" data-cat="exec">
+            <div class="k-card-top"><span class="k-folder">03 · Etapa 4</span><span class="k-tag-w">30/90d</span></div>
+            <div class="k-title">Estabilidade Térmica da Formulação</div>
+            <div class="k-desc">Medição de 30 dias concluída; próxima leitura programada em 60 dias.</div>
+            <div class="prog"><i style="width:33%"></i></div>
+            <div class="k-foot"><span class="k-user">João (IC)</span><span>📁 3 arq.</span></div>
+          </div>
+
+          <div class="k-card" data-cat="contas">
+            <div class="k-card-top"><span class="k-folder">06 · Contas</span><span class="k-tag-w">68 dias</span></div>
+            <div class="k-title">Relatório Parcial FAPEMA APP-01415/25</div>
+            <div class="k-desc">Rascunho v2 em edição com 3 produtos já vinculados da carteira.</div>
+            <div class="k-foot"><span class="k-user">Fernanda (M)</span><span>2 coment.</span></div>
+          </div>
+        </div>
+
+        <!-- COLUNA 3: EM REVISÃO / APROVAR ORIENTADOR -->
+        <div class="k-col k-col-rev">
+          <div class="k-head"><span>👀 Revisar / Aprovar</span><span class="k-cnt">3</span></div>
+
+          <div class="k-card" data-cat="art" style="border-left:3px solid #d97706">
+            <div class="k-card-top"><span class="k-folder">05 · Artigos</span><span class="k-tag-w">1→7 Lattes</span></div>
+            <div class="k-title">Artigo <em>Foods</em> (2026) · PDF Final</div>
+            <div class="k-desc">DOI 10.3390/foods15050945 · CRediT + 4 fomentos conferidos · SHA-256 ✓.</div>
+            <span class="btn-m">✓ Aprovar → Dossiê + Lattes</span>
+            <div class="k-foot" style="margin-top:4px"><span class="k-user">Fernanda (M)</span><span>há 2h</span></div>
+          </div>
+
+          <div class="k-card" data-cat="cong">
+            <div class="k-card-top"><span class="k-folder">04 · Congr.</span><span class="k-tag-w">Certificado</span></div>
+            <div class="k-title">Apresentação Congresso Farmacologia</div>
+            <div class="k-desc">PDF legível · Vínculo automático com Projeto + Orientação IC.</div>
+            <span class="btn-m">✓ Aprovar → Lattes</span>
+            <div class="k-foot" style="margin-top:4px"><span class="k-user">Lucas (IC)</span><span>há 3d</span></div>
+          </div>
+
+          <div class="k-card" data-cat="art">
+            <div class="k-card-top"><span class="k-folder">05 · Artigos</span><span class="k-tag-ok">Gate PI ✓</span></div>
+            <div class="k-title">Emulgel Curcumina (<em>ACS</em> · Revisores)</div>
+            <div class="k-desc">Carta resposta aos revisores (17 autores · 6 inst.) pronta para revisão final.</div>
+            <div class="k-foot"><span class="k-user">Rede 6 inst.</span><span>v5 · E2EE</span></div>
+          </div>
+        </div>
+
+        <!-- COLUNA 4: CONCLUÍDO / NO LATTES -->
+        <div class="k-col k-col-done">
+          <div class="k-head"><span>✅ Concluído / Lattes</span><span class="k-cnt">3</span></div>
+
+          <div class="k-card" data-cat="etica">
+            <div class="k-card-top"><span class="k-folder">02 · Ética</span><span class="k-tag-ok">SisGen ✓</span></div>
+            <div class="k-title">Coleta Cooperativa + Cadastro SisGen</div>
+            <div class="k-desc">4/4 lotes padronizados · Código SisGen e termo arquivados em E2EE.</div>
+            <div class="k-foot"><span class="k-user">Etapa 1</span><span class="ok">100% ✓</span></div>
+          </div>
+
+          <div class="k-card" data-cat="exec">
+            <div class="k-card-top"><span class="k-folder">03 · Etapa 2</span><span class="k-tag-ok">ICP-Brasil</span></div>
+            <div class="k-title">Extração &amp; Caracterização HPLC</div>
+            <div class="k-desc">12/12 amostras · Rendimento 18,4% · Cromatogramas arquivados.</div>
+            <div class="k-foot"><span class="k-user">Etapa 2</span><span class="ok">100% ✓</span></div>
+          </div>
+
+          <div class="k-card" data-cat="art">
+            <div class="k-card-top"><span class="k-folder">05 · Artigos</span><span class="k-tag-ok">Lattes OK ✓</span></div>
+            <div class="k-title">Bebida Fermentada Babaçu (<em>JFCA</em>)</div>
+            <div class="k-desc">Sincronizado no Lattes do Orientador ✓ · Pronto no cofre de 5 alunos.</div>
+            <div class="k-foot"><span class="k-user">Publicado</span><span>PDF + DOI</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAINEL LATERAL: VARIÁVEIS, FOMENTOS, LOG E VISÃO DO ALUNO -->
+      <aside class="side-r">
+        <div class="r-box">
+          <h3>📈 Variáveis do Projeto <span class="btn-s" style="padding:1px 6px;font-size:9px">+ Variável</span></h3>
+          <div class="r-row"><span>Progresso Geral</span><strong style="color:var(--teal)">64% · No prazo</strong></div>
+          <div class="prog"><i style="width:64%"></i></div>
+          <div class="r-row" style="margin-top:4px"><span>Amostras / N exp.</span><strong>24 / 36 (67%)</strong></div>
+          <div class="prog"><i style="width:67%"></i></div>
+          <div class="r-row" style="margin-top:4px"><span>Protocolos validados</span><strong>7 / 10 (70%)</strong></div>
+          <div class="prog"><i style="width:70%"></i></div>
+          <div class="r-row" style="margin-top:4px"><span>Estabilidade (dias)</span><strong>30 / 90d</strong></div>
+          <div class="prog"><i style="width:33%"></i></div>
+        </div>
+
+        <div class="r-box">
+          <h3>💰 Fomentos &amp; 🛡️ Compliance</h3>
+          <div class="r-row"><span>FAPEMA APP-01415/25</span><strong>75% meta</strong></div>
+          <div class="prog prog-g"><i style="width:75%"></i></div>
+          <div class="r-row" style="margin-top:4px"><span>SisGen · CEP Sensorial</span><span class="ok">✓ OK</span></div>
+          <div class="r-row"><span>CEUA · Gate Patente INPI</span><span class="warn">⚠ 42d · 🔒</span></div>
+        </div>
+
+        <div class="r-box">
+          <h3>📜 Audit Log (E2EE)</h3>
+          <div class="log-it"><strong>Fernanda</strong> subiu <code>Artigo_Foods.pdf</code><span>Hoje 10:14 · SHA-256</span></div>
+          <div class="log-it"><strong>Prof. Aramys</strong> abriu <code>Planilha_Cito.xlsx</code><span>Ontem 18:40 · Marca d'água</span></div>
+        </div>
+
+        <div class="student-mini">
+          <div style="font-size:8.5px;text-transform:uppercase;color:#9fd7e0;letter-spacing:.07em">Prévia · Aluno Convidado (Grátis)</div>
+          <div><b>Cofre de Fernanda:</b> 5 entregas prontas nas normas do CNPq.</div>
+          <span class="student-btn">🔒 Sincronizar meu Lattes (Pix)</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const chips = document.querySelectorAll(".f-chip");
+  const cards = document.querySelectorAll(".k-card");
+  chips.forEach(ch => {
+    ch.addEventListener("click", () => {
+      chips.forEach(c => c.classList.remove("on"));
+      ch.classList.add("on");
+      const f = ch.dataset.filter;
+      cards.forEach(card => {
+        card.classList.toggle("dim", f !== "all" && card.dataset.cat !== f);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
