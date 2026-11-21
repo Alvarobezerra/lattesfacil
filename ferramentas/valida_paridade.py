@@ -75,6 +75,17 @@ def comparar(spec_var, ref):
                 vr = {v for _, v in ro}
                 if vr != vc:
                     div.append({"categoria": "opcoes_diferentes", "campo": nome, "detalhe": f"catálogo {s['catalogo']} tem {len(vc)} valores e o Lattes oferece {len(vr)}; só no catálogo={len(vc - vr)} só no lattes={sorted(vr - vc)[:5]}"})
+            elif r["tipo"] == "select" and (r.get("total_opcoes") or 0) > len(r.get("opcoes", [])) and so:
+                vr = {v for _, v in ro}
+                vs = {v for _, v in so}
+                if not (vr <= vs) or len(vs) not in (r["total_opcoes"], r["total_opcoes"] - 1):
+                    div.append({"categoria": "opcoes_diferentes", "campo": nome, "detalhe": f"captura truncada ({len(vr)}/{r['total_opcoes']}); spec tem {len(vs)}; faltando={sorted(vr - vs)[:5]}"})
+                else:
+                    tr_ = {v: t for t, v in ro}
+                    ts_ = {v: t for t, v in so}
+                    dif_txt = [f"{v}: spec='{ts_[v]}' lattes='{tr_[v]}'" for v in sorted(vr) if tr_[v] and ts_[v] not in (tr_[v], norm(f"{tr_[v]} {v}"))]
+                    if dif_txt:
+                        div.append({"categoria": "opcoes_diferentes", "campo": nome, "detalhe": "; ".join(dif_txt[:4])})
             elif r["tipo"] == "select" and r.get("total_opcoes", 0) > 80:
                 pass  # catálogo grande sem catálogo mapeado: comparado à parte
             else:
@@ -85,7 +96,7 @@ def comparar(spec_var, ref):
                 else:
                     tr_ = {v: t for t, v in ro}
                     ts_ = {v: t for t, v in so}
-                    dif_txt = [f"{v}: spec='{ts_[v]}' lattes='{tr_[v]}'" for v in sorted(vr) if tr_[v] and ts_[v] != tr_[v]]
+                    dif_txt = [f"{v}: spec='{ts_[v]}' lattes='{tr_[v]}'" for v in sorted(vr) if tr_[v] and ts_[v] not in (tr_[v], norm(f"{tr_[v]} {v}"))]
                     if dif_txt and r["tipo"] in ("select", "radio"):
                         div.append({"categoria": "opcoes_diferentes", "campo": nome, "detalhe": "; ".join(dif_txt[:4])})
         # rótulo
@@ -98,7 +109,7 @@ def comparar(spec_var, ref):
         oculto_s = bool(s.get("oculto")) or bool(s.get("mostrar_quando"))  # condicional = oculto até o gatilho
         if r["visivel_inicial"] == oculto_s:
             div.append({"categoria": "visibilidade_diferente", "campo": nome, "detalhe": f"lattes visível={r['visivel_inicial']} spec oculto/condicional={oculto_s}"})
-        if r.get("desabilitado") and not s.get("bloqueado_no_lattes") and not s.get("oculto") and not (s.get("tipo") in ("text",) and nome.lower() in ("f_inst", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc")) and ts == "text" and nome.lower() not in ("f_inst", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc"):
+        if r.get("desabilitado") and not s.get("bloqueado_no_lattes") and not s.get("oculto") and not (s.get("tipo") in ("text",) and nome.lower() in ("f_inst", "f_inst_dout", "f_inst_dout_sw", "f_inst_dout_ct", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc")) and ts == "text" and nome.lower() not in ("f_inst", "f_inst_dout", "f_inst_dout_sw", "f_inst_dout_ct", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc"):
             div.append({"categoria": "desabilitado_nao_tratado", "campo": nome, "detalhe": "campo desabilitado no Lattes (lupa/automático)"})
 
     # estados (condicionais): cada campo que aparece por um gatilho deve ter mostrar_quando ou oculto no spec

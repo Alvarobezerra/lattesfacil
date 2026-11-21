@@ -35,7 +35,13 @@
      "aba": "Vínculo",
      "tipo": "text",
      "maxlength": 30,
-     "obrigatorio": true
+     "obrigatorio": true,
+     "exige_antes": {
+      "name": "f_inst",
+      "valores": [
+       "Universidade Federal do Maranhão"
+      ]
+     }
     },
     {
      "chave": "stavinc",

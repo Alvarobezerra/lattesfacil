@@ -319,9 +319,41 @@ ORIENT_ROTULOS = {"f_cod_prod": "Natureza", "f_tpo_orient": "Tipo de orientaçã
 # Trabalho em anais (formulário real conferido em 21/11/2026): rótulos dos grupos de radio.
 ANAIS_ROTULOS = {"f_cod_prod": "Natureza", "f_tipo_evento": "Classificação do evento"}
 
+# Rótulos legíveis para campos que ficavam com o nome técnico cru por falta de texto próximo na captura.
+ROTULOS_CRUS = {
+    "f_inedito": "Obra inédita",
+    "f_itinerante": "Evento itinerante",
+    "f_orient_dout": "Nome do co-orientador",
+    "f_inst_dout": "Instituição (co-tutela)",
+    "f_priv_foto": "Privacidade da foto",
+    "f_priv_nacionalidade": "Privacidade da nacionalidade",
+    "f_priv_cor": "Privacidade de raça/cor",
+    "fc_le": "Lê",
+    "f_le": "Nível de leitura",
+    "fc_conversa": "Fala",
+    "f_conversa": "Nível de conversação",
+    "fc_escreve": "Escreve",
+    "f_escreve": "Nível de escrita",
+    "fc_compr": "Compreende",
+    "f_compr": "Nível de compreensão",
+}
+
+OBRIGATORIOS_PADRAO = {
+    "licenca": ["Tipo", "Data Início", "Data Fim", "Data de nascimento/adoção"],
+    "texto_inicial": ["Texto inicial"],
+    "outras_informacoes": ["Outras informações relevantes"],
+}
+
 
 def espelhar_lattes(campos, item_id="", variante=""):
     nomes = {c["name"].lower() for c in campos}
+    if item_id == "licenca":
+        for c in campos:
+            n = c["name"].lower()
+            if n == "f_dta_inicio":
+                c["rotulo"] = "Data Início"
+            if n in ("f_tipo_licenca", "f_dta_inicio", "f_dta_fim", "f_dta_nasc_adoc"):
+                c["obrigatorio"] = True
     if item_id in ("orientacao_concluida", "orientacao_andamento"):
         for c in campos:
             n = c["name"].lower()
@@ -440,14 +472,22 @@ def opcoes_reais_da_captura(item_id, var_):
             reais_s = {o["texto"]: o["valor"] for o in r["opcoes"] if o.get("texto") and o.get("valor") not in ("", "DUMMY", "Selecione")}
             if reais_s and {str(v).strip() for v in reais_s.values()} == {str(v).strip() for v in c["opcoes"].values()} and set(reais_s.values()) != set(c["opcoes"].values()):
                 c["opcoes"] = {k: reais_s[k] for k in c["opcoes"] if k in reais_s} if set(reais_s) == set(c["opcoes"]) else reais_s
-        if not r or c.get("tipo") != "select" or not c.get("catalogo") or c.get("opcoes") or c["name"].lower() in ("f_pais_inst",):
+        if c.get("tipo") != "select" or not c.get("catalogo") or c.get("opcoes") or c["name"].lower() in ("f_pais_inst",):
             continue
-        reais = {o["texto"]: o["valor"] for o in r.get("opcoes", []) if o.get("valor") not in ("", "DUMMY", "Selecione") and o.get("texto")}
         cat = json.loads((MAPA / c["catalogo"]).read_text(encoding="utf-8"))
         todos = {v["valor"] for v in cat.get("valores", []) if v.get("valor")}
-        if reais and set(reais.values()) < todos:
+        cat_ops = {}
+        for v in cat.get("valores", []):
+            if v.get("valor") not in ("", "DUMMY", "Selecione") and v.get("texto"):
+                txt = v["texto"] if v["texto"] not in cat_ops else f"{v['texto']} ({v['valor']})"
+                cat_ops[txt] = v["valor"]
+        reais = {o["texto"]: o["valor"] for o in (r.get("opcoes", []) if r else []) if o.get("valor") not in ("", "DUMMY", "Selecione") and o.get("texto")}
+        truncada = (not r) or (r.get("total_opcoes") or 0) > len(r.get("opcoes", []))
+        if not truncada and reais and set(reais.values()) < todos:
             c["opcoes"] = reais
-            c["catalogo_completo"] = c.pop("catalogo")  # o app oferece só o que o Lattes oferece neste formulário
+        else:
+            c["opcoes"] = cat_ops
+        c["catalogo_completo"] = c.pop("catalogo")
 
 
 FORA_DA_MATRIZ = {"artigo_aceito", "atuacao_profissional", "comite_assessoramento", "corpo_editorial", "revisor_periodico", "revisor_projeto_fomento",
@@ -502,18 +542,39 @@ def ajustes_da_captura(item_id, var_):
                     break
         if item_id == "atuacao_profissional" and c["name"].lower() == "f_stavinc":
             c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"]}  # o Lattes limpa o vínculo (checkVinc) se a instituição está vazia
+        if item_id == "atuacao_profissional" and c["name"].lower() == "f_vinc":
+            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"]}  # idem: sem instituição o vínculo é limpo
+        if item_id == "formacao_complementar" and c["name"].lower() in ("f_inst", "f_curso"):
+            c["exige_antes"] = {"name": "f_nivel", "valores": ["Mba"]}  # o Lattes pede o nível antes da lupa de instituição ("Campo Nível obrigatório"); só MBA/pós têm cursos listados
+        if item_id == "formacao_academica" and c["name"].lower().startswith("f_inst_dout"):
+            c["lupa_instituicao"] = True  # campo desabilitado: o valor entra pela lupa sele_inst(2/3/4), com o código oculto f_cod_inst_dout*
         if c["name"].lower() == "f_sub_prod" and r.get("desabilitado") and c.get("tipo") == "text":
             c["bloqueado_no_lattes"] = True  # o Lattes preenche a natureza a partir do tipo escolhido; o campo aparece bloqueado
             c["dica"] = "O Lattes preenche a natureza a partir do tipo; campo bloqueado."
         real = r.get("rotulo") or r.get("pergunta") or ""
         if norm(c.get("rotulo", "")) == norm(c["name"]) and real and norm(real) not in ("sim", "nao", "*") and norm(real) != norm(c["name"]):
             c["rotulo"] = real
+        if norm(c.get("rotulo", "")) == norm(c["name"]) and c["name"].lower() in ROTULOS_CRUS:
+            c["rotulo"] = ROTULOS_CRUS[c["name"].lower()]
         if c.get("mostrar_quando") and r.get("visivel_inicial") and c["name"].lower() not in aparecem:
             c.pop("mostrar_quando", None)  # aparece sempre no Lattes
             c.pop("oculto", None)
         if c["name"].lower() == "f_sta_inovacao" and c.get("tipo") == "radio":
             c["opcoes"] = {"Sim": "S", "Não": "N"}  # o texto vem antes do botão; a captura por proximidade o desloca
             c["rotulo"] = "Possui potencial de inovação de produtos, processos ou serviços?"  # texto real do Lattes (conferido nos formulários abertos)
+    if item_id == "formacao_complementar":
+        for aux in ("sele_inst();", "curso();", "agencia();"):
+            if aux not in var_["janelas_auxiliares"]:
+                var_["janelas_auxiliares"].append(aux)
+        existentes = {c["name"].lower() for c in var_["campos"]}
+        for extra in (
+            {"chave": "ano_ini", "name": "f_ano_ini", "rotulo": "Início (ano)", "aba": "Período", "tipo": "text", "maxlength": 4, "obrigatorio": True},
+            {"chave": "ano_fim", "name": "f_ano_fim", "rotulo": "Conclusão (ano)", "aba": "Período", "tipo": "text", "maxlength": 4, "obrigatorio": False},
+            {"chave": "bolsa", "name": "F_BOLSA", "rotulo": "Com bolsa?", "aba": "Bolsa", "tipo": "radio", "opcoes": {"Sim": "S", "Não": "N"}, "obrigatorio": False},
+            {"chave": "nme_agencia", "name": "f_nme_agencia", "rotulo": "Agência financiadora", "aba": "Bolsa", "tipo": "text", "maxlength": 75, "obrigatorio": False, "mostrar_quando": {"name": "F_BOLSA", "valor": "Sim"}},
+        ):
+            if extra["name"].lower() not in existentes:
+                var_["campos"].append(extra)
 
 
 def dependencias_da_captura(item_id, var_):
@@ -565,7 +626,7 @@ def gerar():
                     "campos": campos_do_formulario(f),
                     "grades": grades_do_formulario(f, item_id),
                     **({"abas_informativas": ABAS_INFORMATIVAS[item_id]} if item_id in ABAS_INFORMATIVAS else {}),
-                    "obrigatorios_mensagens": f.get("campos_obrigatorios_segundo_mensagens", []),
+                    "obrigatorios_mensagens": f.get("campos_obrigatorios_segundo_mensagens") or OBRIGATORIOS_PADRAO.get(item_id, []),
                 })
             primeiro = d
             over = curadoria.get(item_id, {}).get("campos", {})

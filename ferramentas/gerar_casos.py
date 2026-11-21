@@ -22,7 +22,7 @@ import unicodedata
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 PREFIXO = "ZZ-TESTE-LATTESFACIL"
 APOIO = re.compile(r"^(f_nome|f_nme_inst|f_sigla|f_pais_inst|f_uf|nomeautor.*|nometitular.*|f_tipo_privacidade|f_instituicoes)$", re.I)
-LUPAS = {"f_inst", "f_orgao", "f_curso", "f_nme_agencia"}
+LUPAS = {"f_inst", "f_inst_dout", "f_inst_dout_sw", "f_inst_dout_ct", "f_orgao", "f_curso", "f_nme_agencia"}
 
 
 def norm_slug(t):
@@ -54,8 +54,6 @@ def casos_da_variante(sv):
         n = c["name"]
         if APOIO.match(n) or (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
             continue  # bloqueados no Lattes entram pelo endereço de abertura (casos "abertura"), não pelo preenchimento
-        if n.lower() in ("f_vinc", "f_inst_dout", "f_inst_dout_ct", "f_inst_dout_sw"):
-            continue  # lupas com janela de seleção própria que o robô ainda não preenche: pendência bloqueante no STATUS
         if c.get("entra_pela_abertura") and n.lower() in LUPAS:
             continue  # vem no endereço de abertura; conferido no salvamento real (a lista do Lattes mostra órgão e nº do registro)
         tipo = c.get("tipo", "text")
@@ -64,23 +62,44 @@ def casos_da_variante(sv):
             gp = gatilho_payload(sv, c["mostrar_quando"])
             if gp:
                 pre.append(gp)
-        if c.get("exige_antes"):  # o Lattes só aceita o valor depois de outro campo ser escolhido: escolhe o primeiro valor liberador antes
+        if n.lower() == "f_stavinc":  # o Lattes deriva/aceita o vínculo empregatício só depois da instituição e do tipo de vínculo (checkVinc)
+            vc = next((x for x in sv["campos"] if x["name"].lower() == "f_vinc"), None)
+            if vc:
+                pre.append(campo_payload(next(x for x in sv["campos"] if x["name"].lower() == "f_inst"), "Universidade Federal do Maranhão"))
+                pre.append(None)  # o tipo de vínculo muda por opção (Sim = Celetista, Não = Bolsista): preenchido abaixo
+        elif c.get("exige_antes"):  # o Lattes só aceita o valor depois de outro campo ser escolhido: escolhe o primeiro valor liberador antes
             gp = gatilho_payload(sv, {"name": c["exige_antes"]["name"], "valor": c["exige_antes"]["valores"][0]})
             if gp:
                 pre.append(gp)
 
         def add(sufixo, alvo, esperado, lento=False):
-            casos.append({"id": f"{n}#{sufixo}", "campo": n, "tipo": tipo, "rotulo": c.get("rotulo", n), "pre": pre, "alvo": alvo, "esperado": esperado, "lento": lento,
+            pre_c = pre
+            if None in pre:
+                vc_ = next(x for x in sv["campos"] if x["name"].lower() == "f_vinc")
+                pre_c = [p_ for p_ in pre if p_] + [campo_payload(vc_, "Celetista" if str(esperado.get("valor")) == "1" else "Bolsista")]
+            casos.append({"id": f"{n}#{sufixo}", "campo": n, "tipo": tipo, "rotulo": c.get("rotulo", n), "pre": pre_c, "alvo": alvo, "esperado": esperado, "lento": lento,
                           "gatilho": c.get("mostrar_quando", {}).get("name", ""),
                           "limite_lattes": n.lower() == "f_relev" and sufixo == "opcao_sim"})  # Lattes recusa Sim com 5 relevantes (excecao em _excecoes_matriz.json)
 
+        if n.lower() == "f_vinc":  # lupa dominio(): 4 opções fixas + "Outro (especifique)" (libera digitação)
+            for v in ("Servidor público", "Celetista", "Professor Visitante", "Bolsista", "Tipo de vínculo livre"):
+                add("lupa_" + slug(v), campo_payload(c, v), {"modo": "lupa", "contem": norm_slug(v).replace("_", " ")}, lento=True)
+            continue
         if n.lower() in LUPAS:
-            nome, contem = {"f_inst": ("Universidade Federal do Maranhão", "maranh"), "f_orgao": ("Centro de Ciências de Imperatriz (CCIm)", "imperatriz"),
+            nome, contem = {"f_inst": ("Universidade Federal do Maranhão", "maranh"), "f_inst_dout": ("Universidade Federal do Maranhão", "maranh"),
+                            "f_inst_dout_sw": ("Universidade Federal do Maranhão", "maranh"), "f_inst_dout_ct": ("Universidade Federal do Maranhão", "maranh"),
+                             "f_orgao": ("Centro de Ciências de Imperatriz (CCIm)", "imperatriz"),
                             "f_curso": ("Farmácia", "farm"), "f_nme_agencia": ("CNPq", "conselho nacional")}[n.lower()]
             if n.lower() == "f_curso":  # a lupa do curso só abre depois de a instituição estar escolhida
                 inst = next((x for x in sv["campos"] if x["name"].lower() == "f_inst"), None)
+                if "pkg_formacao" in sv.get("url", "").lower():  # a UFMA não tem cursos de pós listados no Lattes; a USP tem em todos os níveis
+                    nome, contem = "Administração", "administra"
+                    if re.search(r"f_nivel=(2|X)", sv.get("url", "")) or "pkg_formacao_compl" in sv.get("url", "").lower():  # aperfeiçoamento/especialização: a USP não tem Administração, tem Computação
+                        nome, contem = "Computacao", "computa"
+                    elif re.search(r"f_nivel=7", sv.get("url", "")):
+                        continue  # curso técnico: o Lattes não lista cursos cadastrados (USP, IFMA, SENAI testados: "Não foram encontrados registros"); limite do Lattes, no STATUS
                 if inst:
-                    pre.append(campo_payload(inst, "Universidade Federal do Maranhão"))
+                    pre.append(campo_payload(inst, "Universidade de São Paulo" if "pkg_formacao" in sv.get("url", "").lower() else "Universidade Federal do Maranhão"))
                 ea = c.get("exige_antes")
                 grad = next((v for v in (ea or {}).get("valores", []) if norm_slug(v).startswith("gradua")), None)
                 if grad:  # o curso "Farmácia" existe no nível de graduação

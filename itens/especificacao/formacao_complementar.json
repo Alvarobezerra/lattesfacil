@@ -15,7 +15,9 @@
     "como": "modalCV2.setarUrl(<url>, true) na janela de topo"
    },
    "janelas_auxiliares": [
-    "sele_inst();"
+    "sele_inst();",
+    "curso();",
+    "agencia();"
    ],
    "campos": [
     {
@@ -39,7 +41,13 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 75,
-     "obrigatorio": true
+     "obrigatorio": true,
+     "exige_antes": {
+      "name": "f_nivel",
+      "valores": [
+       "Mba"
+      ]
+     }
     },
     {
      "chave": "curso",
@@ -48,7 +56,13 @@
      "aba": "Dados gerais",
      "tipo": "text",
      "maxlength": 50,
-     "obrigatorio": true
+     "obrigatorio": true,
+     "exige_antes": {
+      "name": "f_nivel",
+      "valores": [
+       "Mba"
+      ]
+     }
     },
     {
      "chave": "carga",
@@ -71,6 +85,49 @@
       "incompleto": "I"
      },
      "obrigatorio": false
+    },
+    {
+     "chave": "ano_ini",
+     "name": "f_ano_ini",
+     "rotulo": "Início (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": true
+    },
+    {
+     "chave": "ano_fim",
+     "name": "f_ano_fim",
+     "rotulo": "Conclusão (ano)",
+     "aba": "Período",
+     "tipo": "text",
+     "maxlength": 4,
+     "obrigatorio": false
+    },
+    {
+     "chave": "bolsa",
+     "name": "F_BOLSA",
+     "rotulo": "Com bolsa?",
+     "aba": "Bolsa",
+     "tipo": "radio",
+     "opcoes": {
+      "Sim": "S",
+      "Não": "N"
+     },
+     "obrigatorio": false
+    },
+    {
+     "chave": "nme_agencia",
+     "name": "f_nme_agencia",
+     "rotulo": "Agência financiadora",
+     "aba": "Bolsa",
+     "tipo": "text",
+     "maxlength": 75,
+     "obrigatorio": false,
+     "mostrar_quando": {
+      "name": "F_BOLSA",
+      "valor": "Sim"
+     }
     }
    ],
    "grades": [],

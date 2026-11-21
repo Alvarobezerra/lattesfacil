@@ -368,9 +368,9 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   if (d.tipo_producao === 'generico') {
     var G = d.__generico || {};
     var pagina = String(G.url || '').split('?')[0].toLowerCase();
-    // Formulários com subtipo no endereço (orientação concluída x em andamento, tipos de projeto): só reaproveita o aberto se for do mesmo subtipo.
+    // Formulários com subtipo no endereço (orientação, projetos, citações f_base, revisor f_natur): só reaproveita o aberto se for do mesmo subtipo.
     var mesmoSubtipo = function (src) {
-      var m = /[?&](f_tipo|f_cod_tipo)=([^&]*)/i.exec(String(G.url || ''));
+      var m = /[?&](f_tipo|f_cod_tipo|f_base|f_natur)=([^&]*)/i.exec(String(G.url || ''));
       if (!m) return true;
       var m2 = new RegExp('[?&]' + m[1] + '=([^&]*)', 'i').exec(src);
       return !!m2 && m2[1].toLowerCase() === m[2].toLowerCase();
@@ -381,7 +381,12 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       for (var i = 0; i < lista.length; i++) {
         try {
           var cd = lista[i].contentDocument;
-          if (cd && lista[i].offsetParent !== null && String(lista[i].src || '').toLowerCase().indexOf(pagina) >= 0 && cd.readyState === 'complete' && mesmoSubtipo(String(lista[i].src || ''))) return cd;
+          var src = String(lista[i].src || '');
+          var loc = '';
+          try { loc = String((cd && cd.location && cd.location.href) || ''); } catch (e) {}
+          var refU = (src + ' ' + loc).toLowerCase();
+          var bateUrl = refU.indexOf(pagina) >= 0 || (pagina.indexOf('.form') > 0 && refU.indexOf(pagina.replace(/\.form$/, '.form2')) >= 0);
+          if (cd && lista[i].offsetParent !== null && bateUrl && cd.readyState === 'complete' && mesmoSubtipo(src + ' ' + loc)) return cd;
           var sub = lista[i].contentWindow && achaQuadro(lista[i].contentWindow);
           if (sub) return sub;
         } catch (e) {}
@@ -517,7 +522,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       return null;
     };
     var gNormNome = function (t) { return norm(t).replace(/(\s*\([^)]*\))+\s*$/, ''); };  // ignora a sigla e a UF no fim do nome: "... do Maranhao (FAPEMA) (MA)"
-    var gNormCurso = function (t) { return norm(t).replace(/\(\s*[0-9a-z]*[0-9][0-9a-z]*\s*\)\s*$/, '').replace(/^(programa de pos-graduacao|pos-graduacao|curso de)\s+(em\s+)?/, '').trim(); };
+    var gNormCurso = function (t) { return norm(t).replace(/(\(\s*\)|\(\s*[0-9a-z]*[0-9][0-9a-z]*\s*\))\s*$/, '').replace(/^(programa de pos-graduacao|pos-graduacao|curso de)\s+(em\s+)?/, '').trim(); };
     var gVariacoes = function (nome) {
       var v = [nome];
       var sg = /\(([A-Za-z]{2,12})\)/.exec(nome);
@@ -539,7 +544,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var gPesquisarLupa = async function (fi, termo, maxMs, rxHref) {
       var fnome = fi.contentDocument.querySelector('input[name="f_nome"]');
       if (!fnome || typeof fi.contentWindow.recuperaInstMacro !== 'function') return { links: [], ms: 0, erro: 'campo de busca da lupa não encontrado' };
-      var lerLinks = function () { return [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return (rxHref || /seleciona\(/).test(a.getAttribute('href') || ''); }); };
+      var lerLinks = function () { return [].slice.call(fi.contentDocument.querySelectorAll('a')).filter(function (a) { return (rxHref || /seleciona\(/).test((a.getAttribute('href') || '') + ' ' + (a.getAttribute('onclick') || '')); }); };
       var antes = lerLinks().map(function (a) { return a.textContent; }).join('|');
       fnome.value = termo;
       var t0 = Date.now();
@@ -566,11 +571,15 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       } catch (e) {}
     };
     var gCodInst = function () { return !!((gdoc.querySelector('[name="f_cod_inst"]') || {}).value || (gdoc.querySelector('[name="f_cod_inst2"]') || {}).value); };
-    var gLupaInst = async function (nome, rotulo) {
+    // Doutorado sanduíche/co-tutela (formação acadêmica): cada campo de instituição tem a sua lupa sele_inst(N) e o seu código oculto.
+    var gInstDout = { f_inst_dout: [2, 'f_cod_inst_dout'], f_inst_dout_sw: [3, 'f_cod_inst_dout_sw'], f_inst_dout_ct: [4, 'f_cod_inst_dout_ct'] };
+    var gLupaInst = async function (nome, rotulo, campo) {
+      var dd = gInstDout[String(campo || '').toLowerCase()] || null;
+      var gCod = dd ? function () { return !!((gdoc.querySelector('[name="' + dd[1] + '"]') || {}).value); } : gCodInst;
       if (typeof gw.sele_inst !== 'function' && typeof gw.escolhe_inst === 'function') return true;  // patente/registro: a instituição depositária (lista fechada de órgãos) já vem no endereço de abertura
       if (typeof gw.sele_inst !== 'function') { rel.push(rotulo + ': a lupa de instituições não existe neste formulário; escolha manual'); return false; }
-      gw.sele_inst();
-      var fi = await gFrame(/prc_inst_form|pp_lista_inst/, 8000);
+      if (dd) gw.sele_inst(dd[0]); else if (gw.sele_inst.length) gw.sele_inst(1); else gw.sele_inst();
+      var fi = await gFrame(/prc_inst_form|pp_lista_inst|prc_inst_ativ/, 8000);
       if (!fi) { rel.push(rotulo + ': a janela de instituições não abriu; escolha na lupa'); return false; }
       var vistas = [];
       var tent = gVariacoes(nome);
@@ -580,32 +589,70 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         var links = pq.links;
         gRegLupa(tent[ti], links, pq.ms, 'uso');
         var achei = melhor(links, gNormNome(nome), function (a) { return gNormNome(a.textContent); });
-        if (achei) { achei.click(); await sleep(1500); if (gCodInst()) return true; }
+        if (achei) { achei.click(); await sleep(1500); if (gCod()) return true; }
         links.forEach(function (a) { var x = a.textContent.trim(); if (vistas.indexOf(x) < 0) vistas.push(x); });
       }
       rel.push(rotulo + ': "' + nome + '" não identificada com segurança no cadastro do Lattes' + (vistas.length ? ' (opções: ' + vistas.slice(0, 4).join('; ') + ')' : '') + '; a janela da lupa ficou aberta para você escolher');
       return false;
     };
-    // Agência financiadora: o Lattes não aceita o nome digitado ("Utilize o link para selecionar a agência"). O link chama agencia(), que marca
-    // "Com bolsa? sim" e abre a lista (prc_agencia) com todas as agências; escolhe pela sigla ou pelo nome idêntico, só se for único.
+    // Agência financiadora / Periódico (comitê, revisor, corpo editorial): campo desabilitado; usa agencia() ou periodico().
     var gLupaAgencia = async function (nome, rotulo) {
-      if (typeof gw.agencia !== 'function') { rel.push(rotulo + ': a lupa de agências não existe neste formulário; escolha manual'); return false; }
-      gw.agencia();
-      var fa = await gFrame(/prc_agencia/, 8000);
+      var usaAg = typeof gw.agencia === 'function';
+      var usaPer = !usaAg && typeof gw.periodico === 'function';
+      if (!usaAg && !usaPer) { rel.push(rotulo + ': a lupa de agências não existe neste formulário; escolha manual'); return false; }
+      if (usaAg) gw.agencia(); else gw.periodico();
+      var fa = await gFrame(usaAg ? /prc_agencia|\.agencia/i : /periodico/i, 8000);
+      if (!fa) { rel.push(rotulo + ': a lista de ' + (usaPer ? 'periódicos' : 'agências') + ' não abriu; escolha na lupa'); return false; }
       var linksA = [];
-      for (var ta = 0; ta < 10 && fa && !linksA.length; ta++) {
-        linksA = [].slice.call(fa.contentDocument.querySelectorAll('a')).filter(function (a) { return /atribuir\(/.test(a.getAttribute('onclick') || ''); });
+      for (var ta = 0; ta < 10 && !linksA.length; ta++) {
+        linksA = [].slice.call(fa.contentDocument.querySelectorAll('a')).filter(function (a) { return /atribuir\(|selecionar\(|escolhe/i.test(a.getAttribute('onclick') || '') || /seleciona\(/i.test(a.getAttribute('href') || ''); });
+        if (!linksA.length && fa.contentDocument.querySelector('input[type="text"]')) break;
         if (!linksA.length) await sleep(500);
       }
-      if (!linksA.length) { rel.push(rotulo + ': a lista de agências não abriu; escolha na lupa'); return false; }
       var alvoA = norm(nome);
       var semSigla = function (x) { return norm(x).replace(/^\([^)]*\)\s*/, ''); };
-      var porSigla = linksA.filter(function (a) { var m = /^\(([^)]*)\)/.exec(a.textContent.trim()); return m && norm(m[1]) === alvoA; });
-      var iguais = linksA.filter(function (a) { return semSigla(a.textContent) === alvoA; });
-      var cand = porSigla.length === 1 ? porSigla : iguais.length === 1 ? iguais : linksA.filter(function (a) { return alvoA.length > 3 && norm(a.textContent).indexOf(alvoA) >= 0; });
-      if (cand.length === 1) { cand[0].click(); await sleep(1500); return !!((gdoc.querySelector('[name="f_nme_agencia"]') || {}).value); }
-      rel.push(rotulo + ': "' + nome + '" ' + (cand.length ? 'tem mais de uma agência parecida (' + cand.slice(0, 4).map(function (a) { return a.textContent.trim().slice(0, 50); }).join('; ') + ')' : 'não consta na lista de agências do Lattes') + '; a janela ficou aberta para você escolher');
+      var temValor = function () { return !!((gdoc.querySelector('[name="f_nme_agencia"]') || {}).value || (gdoc.querySelector('[name="f_nme_agencia_h"]') || {}).value || (gdoc.querySelector('[name="f_titulo_periodico"]') || {}).value); };
+      if (linksA.length) {
+        var porSigla = linksA.filter(function (a) { var m = /^\(([^)]*)\)/.exec(a.textContent.trim()); return m && norm(m[1]) === alvoA; });
+        var iguais = linksA.filter(function (a) { return semSigla(a.textContent) === alvoA; });
+        var cand = porSigla.length === 1 ? porSigla : iguais.length === 1 ? iguais : linksA.filter(function (a) { return alvoA.length > 3 && norm(a.textContent).indexOf(alvoA) >= 0; });
+        if (cand.length === 1) { cand[0].click(); await sleep(1500); return temValor(); }
+        rel.push(rotulo + ': "' + nome + '" ' + (cand.length ? 'tem mais de uma opção parecida (' + cand.slice(0, 4).map(function (a) { return a.textContent.trim().slice(0, 50); }).join('; ') + ')' : 'não consta na lista do Lattes') + '; a janela ficou aberta para você escolher');
+        return false;
+      }
+      if (fa.contentDocument.querySelector('input[type="text"]')) {
+        var vistasA = [];
+        var tentA = gVariacoes(nome);
+        for (var tiA = 0; tiA < tentA.length; tiA++) {
+          var pqA = await gPesquisarLupa(fa, tentA[tiA], 3500, /seleciona\(|atribuir\(|escolhe/i);
+          if (pqA.erro) break;
+          var acheiA = melhor(pqA.links, gNormNome(nome), function (a) { return gNormNome(a.textContent); });
+          if (acheiA) { acheiA.click(); await sleep(1500); if (temValor()) return true; }
+          pqA.links.forEach(function (a) { var x = a.textContent.trim(); if (vistasA.indexOf(x) < 0) vistasA.push(x); });
+        }
+        rel.push(rotulo + ': "' + nome + '" não identificada com segurança na lupa' + (vistasA.length ? ' (opções: ' + vistasA.slice(0, 4).join('; ') + ')' : '') + '; a janela ficou aberta para você escolher');
+        return false;
+      }
+      rel.push(rotulo + ': a lista não trouxe opções; escolha na lupa');
       return false;
+    };
+    // Vínculo (atuação profissional): campo desabilitado; a lupa dominio() abre uma caixa com 5 opções e o botão confirmar chama sele(valor) na janela do
+    // formulário (grava f_vinc e o código oculto f_vinculo). "Outro" libera o campo para digitar. Sem instituição o Lattes limpa o vínculo (checkVinc): instituição antes.
+    var gLupaVinc = async function (nome, rotulo) {
+      if (typeof gw.sele !== 'function') { rel.push(rotulo + ': a lupa de vínculo não existe neste formulário; escolha manual'); return false; }
+      var fixos = ['Servidor público', 'Celetista', 'Professor Visitante', 'Bolsista'];
+      var fx = fixos.filter(function (x) { return norm(x) === norm(nome); })[0];
+      try { gw.seleDominio = true; } catch (e) {}
+      if (fx) { gw.sele(fx); await sleep(400); var ev = gdoc.querySelector('[name="f_vinc"]'); return !!(ev && ev.value); }
+      gw.sele('Outro');
+      await sleep(300);
+      var ef = gdoc.querySelector('[name="f_vinc"]');
+      if (!ef) return false;
+      ef.disabled = false;
+      var vv = String(nome);
+      if (ef.maxLength > 0 && vv.length > ef.maxLength) { rel.push(rotulo + ' cortado em ' + ef.maxLength + ' caracteres'); vv = vv.slice(0, ef.maxLength); }
+      ef.value = vv; fireG(ef);
+      return true;
     };
     var gLupaCurso = async function (nome, rotulo) {
       if (!gCodInst()) { rel.push(rotulo + ': sem instituição escolhida não dá para escolher o curso; use a lupa'); return false; }
@@ -688,9 +735,23 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         continue;
       }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
+      if (!alvo.length && typeof gw.avancar === 'function') {
+        try { gw.avancar(); } catch (e) {}
+        var tAv = Date.now();
+        while (Date.now() - tAv < 8000) {
+          await sleep(400);
+          var nd = achaQuadro(window.top);
+          if (nd && nd.querySelector('[name="' + c.name + '"]')) {
+            gdoc = nd; gw = gdoc.defaultView;
+            try { gw.confirm = function () { return true; }; } catch (e) {}
+            alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
+            break;
+          }
+        }
+      }
       if (!alvo.length) { rel.push('campo ausente no Lattes: ' + (c.rotulo || c.name)); continue; }
-      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_curso|f_orgao)$/i.test(c.name) && (alvo[0].disabled || /input-lupa/.test(alvo[0].className || ''))) {
-        var okL = /^f_inst$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name) : /^f_orgao$/i.test(c.name) ? await gLupaOrgao(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
+      if ((c.tipo === 'text' || !c.tipo) && /^(f_inst|f_inst_dout|f_inst_dout_sw|f_inst_dout_ct|f_curso|f_orgao|f_vinc)$/i.test(c.name) && (alvo[0].disabled || /input-lupa/.test(alvo[0].className || ''))) {
+        var okL = /^f_inst(_dout(_sw|_ct)?)?$/i.test(c.name) ? await gLupaInst(String(c.valor), c.rotulo || c.name, c.name) : /^f_vinc$/i.test(c.name) ? await gLupaVinc(String(c.valor), c.rotulo || c.name) : /^f_orgao$/i.test(c.name) ? await gLupaOrgao(String(c.valor), c.rotulo || c.name) : await gLupaCurso(String(c.valor), c.rotulo || c.name);
         if (okL) ok++;
         continue;
       }
@@ -4476,6 +4537,12 @@ $("btnGenEnviar").onclick = () => {
   const btn = $("btnGenEnviar");
   btn.disabled = true;
   const dados = genPayload();
+  if (dados.__generico && Array.isArray(dados.__generico.faltam) && dados.__generico.faltam.length) {
+    genAtualizar();
+    showToast("Preencha os campos obrigatórios antes de enviar ao Lattes: " + dados.__generico.faltam.join(", "));
+    btn.disabled = false;
+    return;
+  }
   // registra o envio (tipo = id do item) para a verificação e a remoção automáticas encontrarem o registro depois
   const envio = dados.__alterar ? Promise.resolve("") : fetch("/api/lattes/envios", {
     method: "POST", headers: { "Content-Type": "application/json" },

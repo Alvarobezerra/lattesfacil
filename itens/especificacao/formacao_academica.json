@@ -150,7 +150,7 @@
     {
      "chave": "orient_dout",
      "name": "f_orient_dout",
-     "rotulo": "f_orient_dout",
+     "rotulo": "Nome do co-orientador",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 60,
@@ -163,7 +163,7 @@
     {
      "chave": "inst_dout",
      "name": "f_inst_dout",
-     "rotulo": "f_inst_dout",
+     "rotulo": "Instituição (co-tutela)",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 75,
@@ -171,7 +171,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw",
@@ -210,7 +211,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "co-tutela/sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw_aux",
@@ -249,7 +251,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "co-tutela/sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "tipo_privacidade",
@@ -433,7 +436,7 @@
     {
      "chave": "orient_dout",
      "name": "f_orient_dout",
-     "rotulo": "f_orient_dout",
+     "rotulo": "Nome do co-orientador",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 60,
@@ -446,7 +449,7 @@
     {
      "chave": "inst_dout",
      "name": "f_inst_dout",
-     "rotulo": "f_inst_dout",
+     "rotulo": "Instituição (co-tutela)",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 75,
@@ -454,7 +457,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw",
@@ -487,7 +491,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw_aux",
@@ -517,7 +522,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "tipo_privacidade",
@@ -701,7 +707,7 @@
     {
      "chave": "orient_dout",
      "name": "f_orient_dout",
-     "rotulo": "f_orient_dout",
+     "rotulo": "Nome do co-orientador",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 60,
@@ -714,7 +720,7 @@
     {
      "chave": "inst_dout",
      "name": "f_inst_dout",
-     "rotulo": "f_inst_dout",
+     "rotulo": "Instituição (co-tutela)",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 75,
@@ -722,7 +728,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw",
@@ -755,7 +762,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw_aux",
@@ -785,7 +793,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "tipo_privacidade",
@@ -1203,7 +1212,7 @@
     {
      "chave": "orient_dout",
      "name": "f_orient_dout",
-     "rotulo": "f_orient_dout",
+     "rotulo": "Nome do co-orientador",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 60,
@@ -1216,7 +1225,7 @@
     {
      "chave": "inst_dout",
      "name": "f_inst_dout",
-     "rotulo": "f_inst_dout",
+     "rotulo": "Instituição (co-tutela)",
      "aba": "Detalhamento",
      "tipo": "text",
      "maxlength": 75,
@@ -1224,7 +1233,8 @@
      "mostrar_quando": {
       "name": "f_tpo_doutorado",
       "valor": "sanduíche"
-     }
+     },
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw",
@@ -1257,7 +1267,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "meses_sw_aux",
@@ -1287,7 +1298,8 @@
      "tipo": "text",
      "maxlength": 75,
      "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "lupa_instituicao": true
     },
     {
      "chave": "tipo_privacidade",
