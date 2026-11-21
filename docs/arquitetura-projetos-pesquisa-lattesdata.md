@@ -150,17 +150,18 @@ Em vez de listas frias ou tabelas burocráticas, a porta de entrada da camada de
 └────────────────────────────────────┴────────────────────────────────────┘
 ```
 
-### 6.2 Tela 2 — Espaço do Projeto (Visão do Orientador)
-Ao abrir um projeto, o orientador encontra um ambiente limpo com a **Espinha Dorsal** no topo e apenas os **Packs ativados** nas abas internas:
+### 6.2 Tela 2 — Espaço do Projeto (Visão Oficial: Kanban Científico + Pastas Otimizadas E2EE)
+Ao clicar em qualquer encarte do Hub (Tela 1), o pesquisador entra no **Workspace Operacional do Projeto**, estruturado para substituir pastas soltas no computador/Drive mantendo simplicidade e sigilo *Zero-Knowledge*:
 
-1. **Visão Geral & Marcos:** linha do tempo das etapas do projeto, orientandos vinculados (cada um com seu plano de trabalho/dissertação) e caixa **"Aguardando sua Aprovação"** (comprovantes e produções enviados pelos alunos).
-2. **Equipe & Convites:** lista de docentes parceiros e orientandos com botão **"Copiar Link de Convite Gratuito para Orientando"** (indicando claramente: *seu aluno entra de graça para interagir no projeto*).
-3. **Carteira de Fomentos:** processos vinculados (ex.: `FAPEMA APP-01415/25`, `BM-02164/23`, `FINEP 2362/24`, `CAPES 001`) com botão **"Copiar texto de Agradecimentos/Funding"** (em PT e EN) e contador de produtos vinculados a cada processo.
-4. **Conformidade & Packs (Dinâmico):** exibe apenas os cartões dos packs ativados.
-   - *Cenário A — Projeto Babaçu / LaFIT (Pack 1 ativo):* cartões de `SisGen`, `CEUA`, parceria com Cooperativa de Quebradeiras de Coco e **Gate de Patente (INPI)** antes da submissão do artigo.
-   - *Cenário B — Projeto Revisão de Escopo & Cartilha/App (Pack 3 ativo):* cartões de `CEP/CAAE` (ou `Dispensa 510/2016`), registro de protocolo `OSF/PROSPERO`, checklist `PRISMA-ScR`, validação por juízes (`IVC`) e ficha de **PTT para a CAPES**.
-5. **Produtos & Manuscritos:** lista de artigos, resumos em anais, patentes, PTTs e defesas nascidos do projeto. Cada produto tem sua **Matriz de Autoria (CRediT + ORCID)**, status (*Rascunho → Em Revisão → Aceito → Publicado*), vínculo com Preprint/Versão Bilíngue e status de sincronização com o Lattes.
-6. **Dossiê & Prestação de Contas:** botão único para baixar o **Pacote do Projeto** (relatório executivo + pasta com todos os PDFs comprobatórios padronizados por ano/categoria + tabela de produtos por edital).
+1. **Barra Superior & Ações Diretas:** título do projeto, selo `🔒 E2EE Zero-Knowledge`, botão `🔍 Ver no servidor` (Raio-X ao vivo), `📋 Copiar Funding (PT/EN)`, `📦 Baixar Dossiê ZIP` e `+ Nova Entrega / Arquivo`.
+2. **Faixa de 6 Pastas Otimizadas (Filtro Clicável):** criadas automaticamente a partir do PDF do projeto (`Todas as Pastas`, `02 · Ética & SisGen`, `03 · Execução / Etapas`, `04 · Congressos`, `05 · Artigos & INPI`, `06 · Prestação de Contas`). Clicar em qualquer pasta filtra imediatamente os cards e arquivos correspondentes.
+3. **Faixa de Variáveis de Monitoramento:** indicadores objetivos configuráveis por Pack (`Progresso Geral`, `Amostras / N experimental`, `Protocolos validados`, `Meta do Edital FAPEMA/CNPq` — ou *safras, entrevistas, datasets, TRL*).
+4. **Quadro Kanban Científico (4 Colunas):**
+   - `📋 A Fazer / Fila` (lotes pendentes, gates de patente INPI, renovações CEUA/CEP);
+   - `🧪 Em Execução` (ensaios/etapas em curso com barra de progresso, marca d'água e carimbo ICP-Brasil);
+   - `👀 Revisar / Aprovar` (entregas dos orientandos com botão de 1 clique **`✓ Aprovar → Dossiê + Lattes`** — propagação 1-para-N);
+   - `✅ Concluído / Lattes` (entregas validadas, com DOI, SisGen/ICP-Brasil e sincronizadas no currículo).
+5. **Rodapé de Governança:** **Audit Log imutável** (quem subiu/abriu cada arquivo com `SHA-256` e marca d'água) + alternador para a **Visão do Aluno Convidado (Grátis)** mostrando o cofre acumulado pronto para sincronização no Lattes.
 
 ### 6.3 Tela 3 — Visão do Orientando Convidado (Acesso Gratuito + Gatilho de Conversão)
 Quando o aluno clica no link de convite do orientador, entra sem pagar nada e sem barreiras burocráticas:

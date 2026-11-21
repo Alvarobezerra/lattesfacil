@@ -95,6 +95,29 @@
   .ui-student-strip b{color:#7cf5d4}
   .ui-lock-btn{margin-top:6px;display:inline-block;background:#10b981;color:#052e22;font-weight:800;font-size:10.5px;padding:4px 9px;border-radius:6px}
 
+  /* KANBAN CIENTÍFICO NA PÁGINA 7 */
+  .kb-folders{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:6px 10px;background:#fff;border-bottom:1px solid #e2eaf2}
+  .kb-f{border:1px solid #dce5ee;border-radius:6px;padding:4px 5px;background:#f8fbfd;font-size:8.5px;line-height:1.25}
+  .kb-f.on{border-color:var(--teal);background:#eaf7f9}
+  .kb-f b{display:block;color:var(--navy);font-size:9px}
+  .kb-vars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:7px 10px;background:#fbfdfe;border-bottom:1px solid #e2eaf2}
+  .kb-v{border:1px solid #dce5ee;border-radius:7px;padding:5px 7px;background:#fff;font-size:9.5px}
+  .kb-v b{display:block;font:700 13px var(--serif);color:var(--navy)}
+  .kb-board{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 10px;background:#f4f8fb}
+  .kb-col{background:#eaf0f6;border:1px solid #d5e1ec;border-radius:8px;padding:6px;display:flex;flex-direction:column;gap:5px}
+  .kb-col-rev{background:#fef9ec;border-color:#f3d79b}
+  .kb-col-done{background:#edf9f4;border-color:#a7e4cd}
+  .kb-head{display:flex;justify-content:space-between;align-items:center;font:800 8.5px var(--sans);text-transform:uppercase;color:var(--navy);padding:1px 2px 3px}
+  .kb-cnt{background:#fff;border:1px solid #cbd9e6;border-radius:99px;padding:0 5px;font-size:8.5px}
+  .kb-card{background:#fff;border:1px solid #dce5ee;border-radius:7px;padding:6px 7px;font-size:9.5px;line-height:1.28}
+  .kb-top{display:flex;justify-content:space-between;align-items:center;gap:3px;margin-bottom:2px;font-size:8px;font-weight:700}
+  .kb-ftag{background:#e8f6f8;color:#065f6d;padding:1px 4px;border-radius:4px}
+  .kb-title{font:700 9.5px/1.22 var(--sans);color:var(--navy);margin-bottom:2px}
+  .kb-meta{font-size:8.5px;color:var(--muted);margin-bottom:4px}
+  .kb-foot{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:var(--muted);padding-top:3px;border-top:1px solid #f1f5f9}
+  .kb-btn{display:inline-block;background:#059669;color:#fff;font:700 8px var(--sans);padding:2px 6px;border-radius:4px;margin-bottom:3px}
+  .kb-bottom{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;padding:8px 10px;background:#fff;border-top:1px solid #e2eaf2}
+
   /* HUB ESTILO NETFLIX — FUNDO BRANCO LIMPO + ENCARTES FULL-BLEED */
   .nf-shell{background:#ffffff;border-radius:14px;overflow:hidden;color:var(--ink);border:1.5px solid #d5e1ec;box-shadow:0 10px 26px rgba(11,25,44,.08)}
   .nf-nav{display:flex;justify-content:space-between;align-items:center;padding:9px 15px;background:#f8fbfd;border-bottom:1px solid #e2eaf2;font-size:10.5px;gap:8px;flex-wrap:wrap}
@@ -139,7 +162,7 @@
     .page{border:0;border-radius:0;box-shadow:none;padding:10px 14px;page-break-after:always;break-after:page}
     .page:last-child{page-break-after:auto;break-after:auto}
     .cover{border-radius:12px;padding:20px 22px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .box,.kpi,.step,.t-card,th,tr.hl td,.ui-bar,.ui-frame,.ui-student-strip,.ui-cta,.ui-lock-btn,.e2ee-badge,.tag,.pill,.prog i,.nf-shell,.nf-hero,.nf-poster,.nf-poster-new,.nf-btn,.nf-bar i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .box,.kpi,.step,.t-card,th,tr.hl td,.ui-bar,.ui-frame,.ui-student-strip,.ui-cta,.ui-lock-btn,.e2ee-badge,.tag,.pill,.prog i,.nf-shell,.nf-hero,.nf-poster,.nf-poster-new,.nf-btn,.nf-bar i,.kb-f.on,.kb-col,.kb-col-rev,.kb-col-done,.kb-ftag,.kb-btn{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
@@ -657,145 +680,163 @@
     </div>
   </section>
 
-  <!-- PÁGINA 7: REPRESENTAÇÃO VISUAL DA TELA INTERNA (PROJETO EM ANDAMENTO DO ARAMYS) -->
+  <!-- PÁGINA 7: TELA INTERNA OFICIAL — KANBAN CIENTÍFICO + PASTAS E2EE + VARIÁVEIS -->
   <section class="page">
     <div class="topbar">
-      <span>Representação de Interface · Cenário Real (LaFIT / PPGST / UFMA)</span>
-      <span class="pill">Simulação de Projeto em Andamento</span>
+      <span>Representação de Interface · Opção Oficial (Kanban + Pastas E2EE)</span>
+      <span class="pill">Projeto em Andamento · Babaçu / LaFIT</span>
     </div>
-    <h2>8. Tela Interna: Gestão de um Projeto em Progresso (Babaçu)</h2>
-    <p class="muted" style="margin-bottom:8px">Simulação ilustrativa usando o caso real de <strong>Bioprodutos do Babaçu</strong> — mostrando a visão do orientador, o cofre E2EE, as aprovações 1-para-N e o gatilho de conversão do orientando:</p>
+    <h2>8. Tela Interna: Kanban Científico, Pastas Otimizadas &amp; Variáveis</h2>
+    <p class="muted" style="margin-bottom:7px">Ao clicar no card do projeto no Hub (Página 6), o pesquisador entra no <strong>Quadro Kanban Científico</strong> ligado às <strong>6 Pastas E2EE</strong>, com variáveis vivas, <em>Audit Log</em> e aprovação em 1 clique para o Lattes:</p>
 
     <div class="ui-frame">
       <div class="ui-bar">
         <div class="ui-bar-left">
           <span class="ui-dots"><i></i><i></i><i></i></span>
-          <strong>LattesData · Projetos</strong>
-          <span class="e2ee-badge">🔒 E2EE Zero-Knowledge (AES-256-GCM)</span>
+          <strong>Bioprodutos do Babaçu (LaFIT / PPGST)</strong>
+          <span class="e2ee-badge">🔒 E2EE Zero-Knowledge</span>
         </div>
         <div class="ui-bar-left">
           <span class="ui-mini-btn">🔍 Ver no servidor</span>
-          <span class="ui-mini-btn">📜 Audit Log (42 eventos)</span>
-          <span class="ui-mini-btn">👤 Prof. Aramys (Coordenador)</span>
+          <span class="ui-mini-btn">📋 Funding (4 ag.)</span>
+          <span class="ui-mini-btn">📦 Dossiê ZIP</span>
+          <span class="ui-cta" style="padding:2px 8px;font-size:9.5px">+ Nova Entrega</span>
         </div>
       </div>
 
-      <div class="ui-body">
-        <div class="ui-proj-head">
-          <div>
-            <div class="ui-proj-title">Bioprospecção e Bioprodutos do Mesocarpo e Óleo de Babaçu (<em>Attalea speciosa</em>)</div>
-            <div class="muted">Pesquisa Aplicada &amp; Inovação · LaFIT / PPGST / UFMA · 2024–2027 · <strong>Semáforo:</strong> <span class="ok">● Em dia</span> (2 alertas preventivos)</div>
-            <div style="margin-top:4px">
-              <span class="tag tag-t">Pack 1: Bancada &amp; Farmácia</span>
-              <span class="tag tag-t">Pack 6: Alimentos</span>
-              <span class="tag">Equipe: 1 Coordenador · 2 Docentes Parceiros · 6 Orientandos</span>
-            </div>
+      <!-- 6 PASTAS OTIMIZADAS -->
+      <div class="kb-folders">
+        <div class="kb-f on"><b>📂 Todas Pastas</b>12 cards · 43 arq.</div>
+        <div class="kb-f"><b>🛡️ 02 · Ética</b>SisGen ✓ · ⚠ 42d</div>
+        <div class="kb-f"><b>🧪 03 · Etapas</b>Amostras 24/36</div>
+        <div class="kb-f"><b>🎓 04 · Congr.</b>7 certif. IC/M</div>
+        <div class="kb-f"><b>📄 05 · Artigos</b>Foods · Gate PI</div>
+        <div class="kb-f"><b>💰 06 · Contas</b>FAPEMA · FINEP</div>
+      </div>
+
+      <!-- VARIÁVEIS DE MONITORAMENTO -->
+      <div class="kb-vars">
+        <div class="kb-v"><span>Progresso Geral</span><b style="color:var(--teal)">64% · No prazo</b><div class="prog"><i style="width:64%"></i></div></div>
+        <div class="kb-v"><span>Amostras / N exp.</span><b>24 / 36 (67%)</b><div class="prog"><i style="width:67%"></i></div></div>
+        <div class="kb-v"><span>Protocolos validados</span><b>7 / 10 (70%)</b><div class="prog"><i style="width:70%"></i></div></div>
+        <div class="kb-v"><span>FAPEMA APP-01415</span><b>75% da meta</b><div class="prog"><i style="width:75%"></i></div></div>
+      </div>
+
+      <!-- QUADRO KANBAN (4 COLUNAS) -->
+      <div class="kb-board">
+        <div class="kb-col">
+          <div class="kb-head"><span>📋 A Fazer</span><span class="kb-cnt">3</span></div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">03 · Etapa 3</span><span>15/12</span></div>
+            <div class="kb-title">Processar Lotes 25–36</div>
+            <div class="kb-meta">Completar N=36 amostras para estatística.</div>
+            <div class="kb-foot"><strong>Fernanda (M)</strong><span>0 arq.</span></div>
           </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span class="ui-cta">+ Convidar Orientando (Grátis)</span>
-            <span class="ui-cta-sec">📦 Baixar Dossiê do Edital</span>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">05 · INPI</span><span class="part">Gate PI</span></div>
+            <div class="kb-title">Checklist Patente (NIT)</div>
+            <div class="kb-meta">Validar sigilo antes de submeter artigo.</div>
+            <div class="kb-foot"><strong>Prof. Aramys</strong><span>🔒 Sigilo</span></div>
+          </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">02 · Ética</span><span class="part">⚠ 42d</span></div>
+            <div class="kb-title">Renovar Protocolo CEUA</div>
+            <div class="kb-meta">Anexar aditivo aprovado na pasta 02.</div>
+            <div class="kb-foot"><strong>Prof. Aramys</strong><span>Alerta</span></div>
           </div>
         </div>
 
-        <div class="ui-cols">
-          <!-- COLUNA ESQUERDA: PROJETO EM PROGRESSO (ETAPAS + VARIÁVEIS) + APROVAÇÕES + FOMENTOS -->
-          <div style="display:grid;gap:7px">
-            <div class="ui-card" style="border-left:3px solid #0f766e">
-              <h4>📍 Projeto em Progresso · Etapas Cadastradas &amp; Variáveis <span class="tag tag-m">Progresso geral: 64%</span></h4>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>1. Coleta &amp; Padronização do Mesocarpo</strong> (Cooperativa)</span><span class="ok">100% ✓</span></div>
-                <div class="prog"><i style="width:100%"></i></div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>2. Extração &amp; Caracterização Fitoquímica</strong> (HPLC / Fenólicos)</span><span class="ok">100% ✓</span></div>
-                <div class="prog"><i style="width:100%"></i></div>
-              </div>
-              <div class="ui-item" style="background:#f0fdfa;border-color:#99f6e4">
-                <div class="ui-row"><span><strong>3. Ensaios Biológicos &amp; Citotoxicidade</strong> (Resp.: Fernanda · 15/12)</span><span class="tag tag-t">65% · Em curso</span></div>
-                <div class="prog"><i style="width:65%"></i></div>
-                <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
-                  <span class="tag">Amostras: 24/36</span>
-                  <span class="tag">Ensaios celulares: 3/4</span>
-                  <span class="tag tag-m">Desvio prazo: 0 dias</span>
-                  <span class="tag">Check-ins: 4/5</span>
-                </div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>4. Formulação Bioproduto &amp; Gate Patente (INPI)</strong> (Estab. 30/60/90d)</span><span class="tag tag-a">20% · Iniciada</span></div>
-                <div class="prog"><i style="width:20%"></i></div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>5. Redação, Submissão &amp; Prestação de Contas</strong> (2 art. + 1 PTT)</span><span class="muted">Aguardando</span></div>
-              </div>
-            </div>
-
-            <div class="ui-card" style="border-left:3px solid var(--teal)">
-              <h4>📥 Aguardando sua Aprovação (Propagação 1-para-N) <span class="tag tag-a">2 pendentes</span></h4>
-              <div class="ui-item">
-                <div class="ui-row">
-                  <strong>Artigo <em>Foods</em> (2026) · DOI 10.3390/foods15050945</strong>
-                  <span class="ui-cta" style="padding:2px 7px;font-size:9.5px">✓ Aprovar → Dossiê + Lattes</span>
-                </div>
-                <div class="muted">Enviado por Fernanda (Mestrado) · 7 aut. · CRediT + 4 fomentos · Hash SHA-256</div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row">
-                  <strong>Certificado Congresso de Farmacologia (IC)</strong>
-                  <span class="ui-cta" style="padding:2px 7px;font-size:9.5px">✓ Aprovar</span>
-                </div>
-                <div class="muted">PDF legível · Vínculo automático com Projeto + Orientação IC</div>
-              </div>
-            </div>
-
-            <div class="ui-card">
-              <h4>💰 Carteira de Fomentos (N:N) &amp; Termômetro de Metas <span class="ui-cta-sec">📋 Copiar Funding</span></h4>
-              <div class="ui-row" style="font-size:10px"><span><strong>FAPEMA APP-01415/25</strong> (Meta: 2 art., 2 ICs, 1 PTT)</span><span><strong>75%</strong> · Relatório em 68d</span></div>
-              <div class="prog"><i style="width:75%"></i></div>
-              <div class="ui-row" style="font-size:10px;margin-top:3px"><span><strong>FINEP 2362/24 · CAPES 001 · FAPEMA BM-02164/23</strong></span><span><strong>3 produtos vinculados</strong></span></div>
-              <div class="prog"><i style="width:60%"></i></div>
-            </div>
+        <div class="kb-col">
+          <div class="kb-head"><span>🧪 Em Execução</span><span class="kb-cnt">3</span></div>
+          <div class="kb-card" style="border-left:2.5px solid var(--teal)">
+            <div class="kb-top"><span class="kb-ftag">03 · Etapa 3</span><span class="ok">65%</span></div>
+            <div class="kb-title">Ensaios Celulares MTT</div>
+            <div class="kb-meta">Planilha_v3.xlsx · Viabilidade 89,2% · ICP-Brasil.</div>
+            <div class="prog"><i style="width:65%"></i></div>
+            <div class="kb-foot"><strong>Fernanda (M)</strong><span>🔒 Água</span></div>
           </div>
-
-          <!-- COLUNA DIREITA: VARIÁVEIS MONITORADAS + COMPLIANCE + VISÃO DO ALUNO -->
-          <div style="display:grid;gap:7px">
-            <div class="ui-card">
-              <h4>📈 Variáveis de Monitoramento <span class="ui-cta-sec">+ Variável</span></h4>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>Amostras / N experimental</strong></span><span><strong>24 / 36</strong> (67%)</span></div>
-                <div class="prog"><i style="width:67%"></i></div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>Protocolos &amp; Ensaios validados</strong></span><span><strong>7 / 10</strong> (70%)</span></div>
-                <div class="prog"><i style="width:70%"></i></div>
-              </div>
-              <div class="ui-item">
-                <div class="ui-row"><span><strong>Estabilidade formulação (dias)</strong></span><span><strong>30 / 90d</strong></span></div>
-                <div class="prog"><i style="width:33%"></i></div>
-              </div>
-              <div class="muted" style="font-size:10px;margin-top:3px">Variáveis customizáveis por área (ex.: <em>safras</em>, <em>entrevistas</em>, <em>datasets</em>, <em>TRL</em>).</div>
-            </div>
-
-            <div class="ui-card">
-              <h4>🛡️ Cofre Regulatório (Pack 1 + 6)</h4>
-              <div class="ui-item"><span class="ok">✓ SisGen Ativo</span> · <span class="muted">Código arquivado (E2EE)</span></div>
-              <div class="ui-item" style="background:#fffbeb;border-color:#fde68a"><span class="part">⚠ CEUA vence em 42 dias</span> · <span class="muted">Alerta ativo</span></div>
-              <div class="ui-item"><span class="ok">✓ CEP Sensorial</span> · <span class="muted">CAAE + laudo microb.</span></div>
-              <div class="ui-item"><span class="ok">🔒 Modo Sigilo</span> · <span class="muted">Marca d'água + ICP-Brasil</span></div>
-            </div>
-
-            <div class="ui-student-strip">
-              <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:#9fd7e0;margin-bottom:2px">Prévia · Visão do Aluno Convidado (Grátis)</div>
-              <div><strong>Cofre Pessoal da Mestranda:</strong> <b>5 produções validadas</b> prontas nas normas do CNPq.</div>
-              <div style="margin-top:3px;color:#d6e7f2;font-size:10px">• 1 Artigo <em>Foods</em> · 2 Anais · 1 Apresentação · 1 Projeto</div>
-              <span class="ui-lock-btn">🔒 Sincronizar meu Lattes (Plano Aluno / Pix)</span>
-            </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">03 · Etapa 4</span><span>30/90d</span></div>
+            <div class="kb-title">Estabilidade Térmica</div>
+            <div class="kb-meta">Leitura 30d concluída; próxima em 60d.</div>
+            <div class="prog"><i style="width:33%"></i></div>
+            <div class="kb-foot"><strong>João (IC)</strong><span>3 arq.</span></div>
           </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">06 · Contas</span><span>68d</span></div>
+            <div class="kb-title">Relatório FAPEMA</div>
+            <div class="kb-meta">Rascunho v2 com 3 produtos vinculados.</div>
+            <div class="kb-foot"><strong>Fernanda (M)</strong><span>2 com.</span></div>
+          </div>
+        </div>
+
+        <div class="kb-col kb-col-rev">
+          <div class="kb-head"><span>👀 Revisar</span><span class="kb-cnt">3</span></div>
+          <div class="kb-card" style="border-left:2.5px solid #d97706">
+            <div class="kb-top"><span class="kb-ftag">05 · Artigos</span><span class="part">1→7</span></div>
+            <div class="kb-title">Artigo <em>Foods</em> (2026)</div>
+            <div class="kb-meta">DOI ok · CRediT + 4 fomentos · SHA-256 ✓.</div>
+            <span class="kb-btn">✓ Aprovar → Lattes</span>
+            <div class="kb-foot"><strong>Fernanda (M)</strong><span>há 2h</span></div>
+          </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">04 · Congr.</span><span>IC</span></div>
+            <div class="kb-title">Certif. Farmacologia</div>
+            <div class="kb-meta">Vínculo automático Projeto + Orientação.</div>
+            <span class="kb-btn">✓ Aprovar</span>
+            <div class="kb-foot"><strong>Lucas (IC)</strong><span>há 3d</span></div>
+          </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">05 · Artigos</span><span class="ok">PI ✓</span></div>
+            <div class="kb-title">Emulgel Curcumina (ACS)</div>
+            <div class="kb-meta">Carta revisores (17 aut. · 6 inst.) pronta.</div>
+            <div class="kb-foot"><strong>Rede 6 inst.</strong><span>v5</span></div>
+          </div>
+        </div>
+
+        <div class="kb-col kb-col-done">
+          <div class="kb-head"><span>✅ Concluído</span><span class="kb-cnt">3</span></div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">02 · Ética</span><span class="ok">SisGen ✓</span></div>
+            <div class="kb-title">Coleta + SisGen</div>
+            <div class="kb-meta">4/4 lotes Cooperativa · Código E2EE.</div>
+            <div class="kb-foot"><strong>Etapa 1</strong><span class="ok">100% ✓</span></div>
+          </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">03 · Etapa 2</span><span class="ok">ICP ✓</span></div>
+            <div class="kb-title">Extração &amp; HPLC</div>
+            <div class="kb-meta">12/12 amostras · Rendimento 18,4%.</div>
+            <div class="kb-foot"><strong>Etapa 2</strong><span class="ok">100% ✓</span></div>
+          </div>
+          <div class="kb-card">
+            <div class="kb-top"><span class="kb-ftag">05 · Artigos</span><span class="ok">Lattes ✓</span></div>
+            <div class="kb-title">Bebida Babaçu (JFCA)</div>
+            <div class="kb-meta">Sincronizado Orientador + 5 cofres alunos.</div>
+            <div class="kb-foot"><strong>Publicado</strong><span>DOI ✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RODAPÉ DA TELA: AUDIT LOG + VISÃO DO ALUNO CONVIDADO -->
+      <div class="kb-bottom">
+        <div class="ui-card" style="padding:7px 9px">
+          <h4 style="margin-bottom:3px">📜 Audit Log Imutável &amp; 🛡️ Compliance <span class="tag tag-t">Pack 1 + 6</span></h4>
+          <div class="muted" style="font-size:9.5px">
+            • <strong>Fernanda</strong> enviou <code>Artigo_Foods.pdf</code> (Hoje 10:14 · SHA-256 · E2EE)<br>
+            • <strong>Prof. Aramys</strong> abriu <code>Planilha_Cito.xlsx</code> (Ontem 18:40 · Marca d'água)<br>
+            • <strong>Status:</strong> <span class="ok">SisGen ✓</span> · <span class="ok">CEP Sensorial ✓</span> · <span class="part">⚠ CEUA 42d</span> · 🔒 Gate INPI
+          </div>
+        </div>
+        <div class="ui-student-strip" style="background:var(--navy);padding:8px 10px">
+          <div style="font-size:8.5px;text-transform:uppercase;letter-spacing:.07em;color:#9fd7e0">Prévia · Visão do Aluno Convidado (Grátis)</div>
+          <div style="font-size:10px;margin-top:2px"><strong>Cofre de Fernanda:</strong> <b>5 entregas validadas</b> prontas nas normas do CNPq.</div>
+          <span class="ui-lock-btn" style="font-size:9.5px;padding:3px 8px;margin-top:5px">🔒 Sincronizar meu Lattes (Plano Aluno / Pix)</span>
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <span>Simulação conceitual de interface · Todos os dados inéditos trafegam cifrados em E2EE</span>
+      <span>Estrutura oficial Kanban + Pastas E2EE · Versão interativa em tela-interna-opcao2-kanban.html</span>
       <span>Página 7 de 8</span>
     </div>
   </section>
