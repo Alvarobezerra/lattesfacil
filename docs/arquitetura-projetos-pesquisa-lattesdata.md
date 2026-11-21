@@ -129,11 +129,12 @@ Como comprovado na rede do PPGST/UFMA (onde 5 docentes coautoram entre si), quan
 
 Esta seção descreve **como o ambiente funciona na prática**, tela por tela, antes da etapa de prototipação visual e implementação de código.
 
-### 6.1 Tela 1 — Central "Meus Projetos & Grupos"
-É a porta de entrada da camada de projetos dentro do LattesData, separando com clareza os papéis que o usuário exerce:
-- **Aba "Projetos que Coordeno / Oriento":** cards dos projetos sob liderança do docente, exibindo vigência, agências vinculadas, quantidade de orientandos ativos, pendências de aprovação e saúde regulatória (ex.: *"SisGen OK · CEUA vence em 45 dias"*).
-- **Aba "Projetos em que Colaboro":** projetos de colegas ou redes multi-institucionais onde o usuário atua como pesquisador parceiro (ou, no caso do estudante, os projetos em que foi convidado gratuitamente pelo orientador).
-- **Ação rápida de entrada ("Importar Projetos do meu Lattes"):** lê os projetos e orientações já existentes no XML/PDF do currículo para criar os workspaces sem obrigar o orientador a redigitar tudo do zero.
+### 6.1 Tela 1 — Central "Meus Projetos & Grupos" (Hub Visual Estilo Netflix)
+Em vez de listas frias ou tabelas burocráticas, a porta de entrada da camada de projetos opera como um **Hub Visual estilo Netflix**, permitindo bater o olho em todos os projetos em execução:
+- **Destaque Principal no Topo (*Hero Banner*):** exibe o projeto mais urgente ou recém-acessado com etapa atual, pendências de aprovação, alertas regulatórios (`CEUA`/`SisGen`/`CEP`) e botão **`▶ Continuar Projeto`**.
+- **Trilho 1 — "Continuar Executando · Projetos que Coordeno":** carrossel horizontal de cards visuais (capa temática por linha de pesquisa, Packs ativos, semáforo de saúde, etapa em curso e **barra de progresso** estilo *"Continuar assistindo"*).
+- **Trilho 2 — "Projetos em que Colaboro como Parceiro":** projetos de colegas docentes ou redes multi-institucionais (ou, na visão do estudante, os projetos em que foi convidado gratuitamente pelo orientador).
+- **Card Rápido "+ Novo Projeto via PDF":** sobe o PDF/DOCX do projeto já submetido ao edital ou importa projetos do XML do Lattes para gerar etapas e variáveis automaticamente (100% local antes da criptografia E2EE).
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐

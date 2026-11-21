@@ -95,12 +95,44 @@
   .ui-student-strip b{color:#7cf5d4}
   .ui-lock-btn{margin-top:6px;display:inline-block;background:#10b981;color:#052e22;font-weight:800;font-size:10.5px;padding:4px 9px;border-radius:6px}
 
+  /* HUB ESTILO NETFLIX (TELA INICIAL DE PROJETOS) */
+  .nf-shell{background:#091322;border-radius:14px;overflow:hidden;color:#f1f5f9;border:1.5px solid #1e3350;box-shadow:0 10px 26px rgba(9,19,34,.22)}
+  .nf-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:rgba(7,15,28,.9);border-bottom:1px solid rgba(255,255,255,.08);font-size:10.5px;gap:8px;flex-wrap:wrap}
+  .nf-hero{margin:10px 14px 8px;border-radius:11px;padding:14px 16px;background:linear-gradient(125deg,#0d3b4c 0%,#0f2942 52%,#164e63 100%);border:1px solid rgba(103,243,209,.28);display:grid;grid-template-columns:1.5fr .85fr;gap:12px;align-items:center}
+  .nf-hero h3{color:#fff;font:700 16px/1.2 var(--serif);margin:4px 0 5px}
+  .nf-hero p{color:#cfe3ee;font-size:10.5px;margin:0 0 8px}
+  .nf-btn{display:inline-block;background:#10b981;color:#04241a;font-weight:800;font-size:10.5px;padding:5px 11px;border-radius:7px;margin-right:6px}
+  .nf-btn-ghost{display:inline-block;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);font-weight:700;font-size:10px;padding:4px 9px;border-radius:7px}
+  .nf-rail{padding:6px 14px 10px}
+  .nf-rail-title{font-size:11px;font-weight:800;letter-spacing:.03em;color:#e2e8f0;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+  .nf-rail-title span{font-size:10px;color:#7cf5d4;font-weight:600}
+  .nf-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .nf-card{background:#112238;border:1px solid rgba(255,255,255,.11);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .nf-cover{height:58px;padding:7px 8px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+  .nf-c1{background:linear-gradient(135deg,#0f766e,#0e4f68)}
+  .nf-c2{background:linear-gradient(135deg,#b45309,#7c2d12)}
+  .nf-c3{background:linear-gradient(135deg,#1d4ed8,#1e3a8a)}
+  .nf-c4{background:linear-gradient(135deg,#6d28d9,#3b0764)}
+  .nf-c5{background:linear-gradient(135deg,#be185d,#831843)}
+  .nf-c6{background:linear-gradient(135deg,#047857,#064e3b)}
+  .nf-c7{background:linear-gradient(135deg,#0369a1,#1e293b)}
+  .nf-c8{background:linear-gradient(135deg,#334155,#0f172a);border-bottom:1px dashed rgba(103,243,209,.4)}
+  .nf-top-tags{display:flex;justify-content:space-between;align-items:center;font-size:8.5px;font-weight:800}
+  .nf-chip{background:rgba(0,0,0,.36);color:#fff;padding:1.5px 5px;border-radius:4px}
+  .nf-dot-ok{color:#6ee7b7}.nf-dot-warn{color:#fcd34d}
+  .nf-card-body{padding:7px 8px 8px;display:grid;gap:4px;flex:1}
+  .nf-card-title{font:700 10.5px/1.25 var(--sans);color:#f8fafc}
+  .nf-card-meta{font-size:9.5px;color:#94a3b8;line-height:1.3}
+  .nf-bar{height:4px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden;margin-top:2px}
+  .nf-bar i{display:block;height:100%;background:linear-gradient(90deg,#2dd4bf,#10b981);border-radius:99px}
+  .nf-card-foot{display:flex;justify-content:space-between;font-size:9px;color:#cbd5e1;font-weight:700}
+
   @media (max-width:720px){
     .doc{margin:10px auto;padding:0 10px 28px;gap:14px}
     .page{padding:18px 15px;border-radius:14px}
     h1{font-size:23px}
     h2{font-size:18px}
-    .kpis,.grid-2,.grid-3,.grid-4,.flow,.template-grid,.ui-cols{grid-template-columns:1fr}
+    .kpis,.grid-2,.grid-3,.grid-4,.flow,.template-grid,.ui-cols,.nf-hero,.nf-cards{grid-template-columns:1fr}
     table{display:block;overflow-x:auto;white-space:nowrap}
   }
   @media print{
@@ -110,7 +142,7 @@
     .page{border:0;border-radius:0;box-shadow:none;padding:10px 14px;page-break-after:always;break-after:page}
     .page:last-child{page-break-after:auto;break-after:auto}
     .cover{border-radius:12px;padding:20px 22px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .box,.kpi,.step,.t-card,th,tr.hl td,.ui-bar,.ui-frame,.ui-student-strip,.ui-cta,.ui-lock-btn,.e2ee-badge,.tag,.pill,.prog i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .box,.kpi,.step,.t-card,th,tr.hl td,.ui-bar,.ui-frame,.ui-student-strip,.ui-cta,.ui-lock-btn,.e2ee-badge,.tag,.pill,.prog i,.nf-shell,.nf-hero,.nf-card,.nf-cover,.nf-btn,.nf-bar i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
@@ -157,7 +189,7 @@
 
     <div class="footer">
       <span>LattesData · Documento atualizado para co-construção com Prof. Dr. Aramys Silva dos Reis</span>
-      <span>Página 1 de 7</span>
+      <span>Página 1 de 8</span>
     </div>
   </section>
 
@@ -227,7 +259,7 @@
 
     <div class="footer">
       <span>Detalhamento completo em docs/base-conhecimento-projetos/01-fichas-8-packs-e-matriz-lattes.md</span>
-      <span>Página 2 de 7</span>
+      <span>Página 2 de 8</span>
     </div>
   </section>
 
@@ -350,7 +382,7 @@
 
     <div class="footer">
       <span>Detalhamento completo em docs/base-conhecimento-projetos/02-benchmark-plataformas-globais.md</span>
-      <span>Página 3 de 7</span>
+      <span>Página 3 de 8</span>
     </div>
   </section>
 
@@ -419,7 +451,7 @@
 
     <div class="footer">
       <span>Arquitetura detalhada em docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md</span>
-      <span>Página 4 de 7</span>
+      <span>Página 4 de 8</span>
     </div>
   </section>
 
@@ -495,17 +527,178 @@
 
     <div class="footer">
       <span>Detalhes completos em docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md</span>
-      <span>Página 5 de 7</span>
+      <span>Página 5 de 8</span>
     </div>
   </section>
 
-  <!-- PÁGINA 6: REPRESENTAÇÃO VISUAL DA TELA (PROJETO EM ANDAMENTO DO ARAMYS) -->
+  <!-- PÁGINA 6: TELA INICIAL ESTILO NETFLIX (HUB DE TODOS OS PROJETOS EM EXECUÇÃO) -->
+  <section class="page">
+    <div class="topbar">
+      <span>Tela Inicial · Central Visual de Projetos em Execução</span>
+      <span class="pill">Hub Estilo Netflix · Continuar Projeto</span>
+    </div>
+    <h2>7. Tela Inicial: Central de Projetos em Execução (Estilo Netflix)</h2>
+    <p class="muted" style="margin-bottom:8px">Em vez de listas burocráticas, o pesquisador abre o <strong>Hub de Projetos</strong> e enxerga seus projetos ativos como cards visuais com barra de progresso, semáforo de saúde, alertas rápidos e separação por papel:</p>
+
+    <div class="nf-shell">
+      <div class="nf-nav">
+        <div class="ui-bar-left">
+          <strong style="font:700 italic 15px var(--serif);color:#fff">Lattes<span style="font:800 9px var(--sans);font-style:normal;letter-spacing:.12em;color:#67f3d1;margin-left:3px">PROJETOS</span></strong>
+          <span class="e2ee-badge">🔒 Cofre E2EE Destrancado</span>
+        </div>
+        <div class="ui-bar-left">
+          <span class="ui-mini-btn">📄 + Subir PDF de Projeto</span>
+          <span class="ui-mini-btn">🔔 3 alertas</span>
+          <span class="ui-mini-btn">👤 Prof. Aramys</span>
+        </div>
+      </div>
+
+      <!-- HERO EM DESTAQUE (PROJETO PRIORITÁRIO) -->
+      <div class="nf-hero">
+        <div>
+          <span class="e2ee-badge" style="background:rgba(251,191,36,.16);color:#fcd34d;border-color:rgba(251,191,36,.35)">★ Em Destaque · 2 aprovações pendentes</span>
+          <h3>Bioprospecção e Bioprodutos do Babaçu (<em>Attalea speciosa</em>)</h3>
+          <p>Etapa 3 em andamento (Ensaios Biológicos · 65%) · 6 orientandos ativos · FAPEMA/FINEP/CAPES · <strong>Alerta:</strong> CEUA vence em 42 dias.</p>
+          <span class="nf-btn">▶ Abrir Projeto (64%)</span>
+          <span class="nf-btn-ghost">✓ Aprovar 2 entregas</span>
+          <span class="nf-btn-ghost">+ Convidar Aluno</span>
+        </div>
+        <div style="background:rgba(7,15,28,.45);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:9px 11px;font-size:10px">
+          <div style="color:#7cf5d4;font-weight:800;margin-bottom:4px">RESUMO DO SEU PAINEL HOJE</div>
+          <div>• <strong>4 projetos</strong> que você coordena</div>
+          <div>• <strong>3 projetos</strong> como pesquisador parceiro</div>
+          <div>• <strong>11 orientandos</strong> ativos gratuitamente</div>
+          <div>• <strong>6 entregas</strong> prontas para o seu Lattes</div>
+        </div>
+      </div>
+
+      <!-- TRILHO 1: PROJETOS QUE COORDENO -->
+      <div class="nf-rail">
+        <div class="nf-rail-title">▶ Continuar Executando · Projetos que Coordeno <span>4 ativos →</span></div>
+        <div class="nf-cards">
+          <div class="nf-card">
+            <div class="nf-cover nf-c1">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 1 + 6</span><span class="nf-dot-warn">▲ 2 pend.</span></div>
+              <div style="font-size:18px">🥥🧪</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">Bioprodutos do Babaçu (LaFIT)</div>
+              <div class="nf-card-meta">Etapa 3: Ensaios Biológicos · Amostras 24/36 · 6 alunos</div>
+              <div class="nf-bar"><i style="width:64%"></i></div>
+              <div class="nf-card-foot"><span>64%</span><span>FAPEMA · FINEP</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card">
+            <div class="nf-cover nf-c2">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 1</span><span class="nf-dot-ok">● Em dia</span></div>
+              <div style="font-size:18px">🐝🔬</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">Geoprópolis <em>Melipona</em> (Cicatrização)</div>
+              <div class="nf-card-meta">Etapa 5: Pós-publicação <em>Metabolites</em> · Prestação contas</div>
+              <div class="nf-bar"><i style="width:88%"></i></div>
+              <div class="nf-card-foot"><span>88%</span><span>FAPEMA · CAPES</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card">
+            <div class="nf-cover nf-c3">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 1 + 5</span><span class="nf-dot-ok">● Em dia</span></div>
+              <div style="font-size:18px">🧬⚗️</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">Vidros Bioativos ZnO / Citotoxicidade</div>
+              <div class="nf-card-meta">Etapa 2: Ensaios celulares · Rede 3 instituições</div>
+              <div class="nf-bar"><i style="width:45%"></i></div>
+              <div class="nf-card-foot"><span>45%</span><span>CNPq · FAPEMA</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card">
+            <div class="nf-cover nf-c4">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 1</span><span class="nf-dot-warn">▲ Check-in</span></div>
+              <div style="font-size:18px">🌿🦠</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title"><em>Cinnamomum verum</em> em <em>Leishmania</em></div>
+              <div class="nf-card-meta">Etapa 2: Fracionamento hexânico · 3 alunos IC</div>
+              <div class="nf-bar"><i style="width:35%"></i></div>
+              <div class="nf-card-foot"><span>35%</span><span>CNPq IC</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRILHO 2: PROJETOS EM QUE COLABORO COMO PARCEIRO -->
+      <div class="nf-rail" style="padding-top:2px;padding-bottom:12px">
+        <div class="nf-rail-title">🤝 Projetos em que Colaboro como Parceiro (Rede PPGST / UFMA) <span>3 ativos + Novo →</span></div>
+        <div class="nf-cards">
+          <div class="nf-card">
+            <div class="nf-cover nf-c5">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 3 · PTT</span><span class="nf-dot-ok">● Em dia</span></div>
+              <div style="font-size:18px">📱🩺</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">App mHealth · Prevenção Câncer</div>
+              <div class="nf-card-meta">Coord.: Profa. Adriana · Artigo <em>REBEn</em> (2 DOIs agrupados)</div>
+              <div class="nf-bar"><i style="width:92%"></i></div>
+              <div class="nf-card-foot"><span>92%</span><span>4 instituições</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card">
+            <div class="nf-cover nf-c6">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 6</span><span class="nf-dot-ok">● Em dia</span></div>
+              <div style="font-size:18px">🥛🌱</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">Bebidas Fermentadas de Babaçu</div>
+              <div class="nf-card-meta">Parceria Profa. Márcia · <em>JFCA</em> publicado · Dossiê pronto</div>
+              <div class="nf-bar"><i style="width:96%"></i></div>
+              <div class="nf-card-foot"><span>96%</span><span>2 instituições</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card">
+            <div class="nf-cover nf-c7">
+              <div class="nf-top-tags"><span class="nf-chip">Pack 3</span><span class="nf-dot-ok">● Em dia</span></div>
+              <div style="font-size:18px">🗺️📊</div>
+            </div>
+            <div class="nf-card-body">
+              <div class="nf-card-title">Leishmaniose Visceral · Perfil Clínico</div>
+              <div class="nf-card-meta">Dispensa CEP 510 · Base SINAN/DATASUS · 8 autores</div>
+              <div class="nf-bar"><i style="width:72%"></i></div>
+              <div class="nf-card-foot"><span>72%</span><span>4 instituições</span></div>
+            </div>
+          </div>
+
+          <div class="nf-card" style="border:1px dashed rgba(103,243,209,.45)">
+            <div class="nf-cover nf-c8" style="justify-content:center;align-items:center">
+              <div style="font-size:22px;color:#67f3d1">＋</div>
+            </div>
+            <div class="nf-card-body" style="text-align:center">
+              <div class="nf-card-title" style="color:#67f3d1">Novo Projeto via PDF</div>
+              <div class="nf-card-meta">Suba o PDF/DOCX do edital ou importe do Lattes para gerar etapas e variáveis automaticamente.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Ao clicar em qualquer card do Hub acima, o pesquisador entra na tela detalhada do projeto (Página 7)</span>
+      <span>Página 6 de 8</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 7: REPRESENTAÇÃO VISUAL DA TELA INTERNA (PROJETO EM ANDAMENTO DO ARAMYS) -->
   <section class="page">
     <div class="topbar">
       <span>Representação de Interface · Cenário Real (LaFIT / PPGST / UFMA)</span>
       <span class="pill">Simulação de Projeto em Andamento</span>
     </div>
-    <h2>7. Como Seria a Tela de Gestão de um Projeto Real do Prof. Aramys</h2>
+    <h2>8. Tela Interna: Gestão de um Projeto em Progresso (Babaçu)</h2>
     <p class="muted" style="margin-bottom:8px">Simulação ilustrativa usando o caso real de <strong>Bioprodutos do Babaçu</strong> — mostrando a visão do orientador, o cofre E2EE, as aprovações 1-para-N e o gatilho de conversão do orientando:</p>
 
     <div class="ui-frame">
@@ -638,17 +831,17 @@
 
     <div class="footer">
       <span>Simulação conceitual de interface · Todos os dados inéditos trafegam cifrados em E2EE</span>
-      <span>Página 6 de 7</span>
+      <span>Página 7 de 8</span>
     </div>
   </section>
 
-  <!-- PÁGINA 7: CASOS ARAMYS & ROTEIRO COM PROJETOS ABERTOS -->
+  <!-- PÁGINA 8: CASOS ARAMYS & ROTEIRO COM PROJETOS ABERTOS -->
   <section class="page">
     <div class="topbar">
       <span>Aplicação Prática · Co-construção com Projetos Abertos</span>
       <span class="pill">Pronto para Sessão com Prof. Aramys</span>
     </div>
-    <h2>8. Pré-Mapeamento de 2 Casos Reais do Grupo (LaFIT / PPGST)</h2>
+    <h2>9. Pré-Mapeamento de 2 Casos Reais do Grupo (LaFIT / PPGST)</h2>
     <p class="muted">Reconstruídos a partir de publicações públicas reais (2025–2026) como ponto de partida para reação e ajuste direto com o Prof. Aramys:</p>
 
     <div class="grid-2" style="margin-bottom:12px">
@@ -672,7 +865,7 @@
       </div>
     </div>
 
-    <h2>9. Template para Estruturar os Projetos Abertos do Aramys</h2>
+    <h2>10. Template para Estruturar os Projetos Abertos do Aramys</h2>
     <p class="muted">Na próxima etapa, o Prof. Aramys traz 1 a 3 projetos abertos dele e preenchemos juntos estes 6 blocos para fechar o fluxo exato do sistema:</p>
 
     <div class="template-grid">
@@ -693,7 +886,7 @@
 
     <div class="footer">
       <span>Template completo em docs/base-conhecimento-projetos/03-estudos-de-caso-aramys-e-template.md</span>
-      <span>Página 7 de 7</span>
+      <span>Página 8 de 8</span>
     </div>
   </section>
 
