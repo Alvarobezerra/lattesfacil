@@ -51,13 +51,14 @@ Para não projetar um "gerenciador de tarefas genérico" (tipo Trello) que pesqu
 
 ## 3. Pré-Requisitos Inegociáveis de Sigilo e Privacidade (*Zero-Knowledge* / E2EE)
 
-Antes de qualquer funcionalidade de colaboração, a gestão de projetos de pesquisa no LattesData obedece a **5 pré-requisitos obrigatórios de segurança** (detalhados em [05-prerequisitos-sigilo-zero-knowledge.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md)):
+Antes de qualquer funcionalidade de colaboração, a gestão de projetos de pesquisa no LattesData obedece a **6 pré-requisitos obrigatórios de segurança** (detalhados em [05-prerequisitos-sigilo-zero-knowledge.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md)):
 
 1. **Zero acesso do servidor (*Zero-Knowledge* / E2EE):** arquivos inéditos, resultados, rascunhos e trocas entre orientador e orientando são **criptografados de ponta a ponta no dispositivo/navegador do usuário** antes de subir. Nem os operadores do servidor do LattesData conseguem ler o conteúdo da pesquisa.
 2. **Proibição de APIs externas de IA para dados inéditos:** nenhum dado privado do projeto sai para APIs externas de IA.
 3. **Processamento inteligente 100% local:** leitura de PDF/DOCX do projeto, detecção de Packs/compliance e montagem de fluxogramas executam **localmente no navegador/computador do pesquisador** (e eventual assistência de IA no futuro apenas via modelos locais no dispositivo, sem nuvem).
 4. **Separação estrita de camadas:** *Cofre Privado do Projeto (E2EE)* totalmente isolado da *Camada Pública / Pós-Publicação* (DOI público, Crossref, ORCID e metadados liberados pelo usuário para o Lattes).
 5. **Governança de chaves sob controle do coordenador:** chave exclusiva por projeto, recuperação segura do orientador e revogação de acesso quando necessário.
+6. **Trilha de auditoria imutável, prova de anterioridade (`SHA-256`) e marca d'água dinâmica:** registro de quem entrou, visualizou, editou ou baixou documentos + visualização com marca d'água rastreável no modo sigilo — mais seguro e rastreável que pastas locais, Drive ou WhatsApp.
 
 ---
 

@@ -12,7 +12,7 @@ Na pesquisa científica — especialmente envolvendo resultados inéditos, propr
 
 ---
 
-## 2. Os 5 Pré-Requisitos Obrigatórios da Arquitetura
+## 2. Os 6 Pré-Requisitos Obrigatórios da Arquitetura
 
 ### Pré-Requisito 1 · Proibição de Envio de Dados Inéditos para APIs Externas de IA
 * Nenhum projeto de pesquisa, relatório de aluno, rascunho de manuscrito, dado experimental, protocolo ou conversa orientador ↔ orientando pode ser enviado para APIs externas de Inteligência Artificial.
@@ -35,6 +35,11 @@ A plataforma mantém duas fronteiras técnicas claramente isoladas:
 ### Pré-Requisito 5 · Governança de Chaves e Continuidade do Grupo
 * Cada projeto possui uma **chave criptográfica própria** compartilhada apenas entre os membros ativos autorizados pelo coordenador/orientador.
 * Deve existir mecanismo seguro de **chave de recuperação do orientador** (garantindo que a memória do projeto nunca se perca em caso de troca de computador) e **revogação/rotação de acesso** quando um membro deixa o projeto, mantendo o histórico preservado sob controle do coordenador.
+
+### Pré-Requisito 6 · Trilha de Auditoria Imutável, Prova de Anterioridade e Marca d'Água Dinâmica
+* **Log Imutável de Auditoria (*Audit Log*):** o sistema registra com carimbo de data/hora e identificação do usuário quem entrou no projeto, quem visualizou ou baixou cada documento, quem criou/editou/aprovou registros e quem revogou acessos — gravando apenas os **metadados do evento** (sem violar o *Zero-Knowledge* do conteúdo).
+* **Prova de Anterioridade (`SHA-256`):** cada versão salva de entrega, protocolo ou manuscrito gera uma assinatura criptográfica imutável com data e hora, servindo como evidência rastreável de autoria e anterioridade (inclusive para depósitos no **INPI**).
+* **Visualizador Seguro com Marca d'Água Dinâmica (Modo Sigilo):** como navegadores não conseguem impedir fisicamente fotos externas da tela ou capturas do sistema operacional, documentos sensíveis exibem **marca d'água dinâmica** sobreposta com *nome do usuário + data/hora* e registram no log ações de saída (download, cópia, impressão e atalhos de captura) — padrão de *Virtual Data Rooms* de patentes, tornando o ambiente muito mais seguro e rastreável do que pastas em computadores, Drive ou WhatsApp.
 
 ---
 
