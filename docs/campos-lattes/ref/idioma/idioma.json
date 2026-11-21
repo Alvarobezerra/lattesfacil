@@ -1,0 +1,530 @@
+{
+ "item": "idioma",
+ "variante": "único",
+ "variante_slug": "idioma",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "F_COD_IDIOMA",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Selecione o idioma :",
+   "total_opcoes": 150,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "DE",
+     "texto": "Alemão"
+    },
+    {
+     "valor": "FR",
+     "texto": "Francês"
+    },
+    {
+     "valor": "IT",
+     "texto": "Italiano"
+    },
+    {
+     "valor": "LB",
+     "texto": "Libras"
+    },
+    {
+     "valor": "AB",
+     "texto": "Abhkazian"
+    },
+    {
+     "valor": "AA",
+     "texto": "Afar"
+    },
+    {
+     "valor": "AF",
+     "texto": "Afrikaans"
+    },
+    {
+     "valor": "AY",
+     "texto": "Aimara"
+    },
+    {
+     "valor": "SQ",
+     "texto": "Albanês"
+    },
+    {
+     "valor": "AM",
+     "texto": "Amarico"
+    },
+    {
+     "valor": "AR",
+     "texto": "Árabe"
+    },
+    {
+     "valor": "AN",
+     "texto": "Armênio"
+    },
+    {
+     "valor": "AS",
+     "texto": "Assames"
+    },
+    {
+     "valor": "AZ",
+     "texto": "Azerbaidjano"
+    },
+    {
+     "valor": "BC",
+     "texto": "Baluchi"
+    },
+    {
+     "valor": "EU",
+     "texto": "Basco"
+    },
+    {
+     "valor": "BA",
+     "texto": "Bashquir"
+    },
+    {
+     "valor": "BN",
+     "texto": "Bengali"
+    },
+    {
+     "valor": "BB",
+     "texto": "Berbere"
+    },
+    {
+     "valor": "BE",
+     "texto": "Bielo-Russo"
+    },
+    {
+     "valor": "BH",
+     "texto": "Bihari"
+    },
+    {
+     "valor": "BM",
+     "texto": "Birmanês"
+    },
+    {
+     "valor": "BI",
+     "texto": "Bislama"
+    },
+    {
+     "valor": "BR",
+     "texto": "Bretão"
+    },
+    {
+     "valor": "BG",
+     "texto": "Búlgaro"
+    },
+    {
+     "valor": "CB",
+     "texto": "Cabie"
+    },
+    {
+     "valor": "KS",
+     "texto": "Cachemiriano"
+    },
+    {
+     "valor": "KM",
+     "texto": "Cambodjano"
+    },
+    {
+     "valor": "KN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "KK",
+     "texto": "Casaque"
+    },
+    {
+     "valor": "CA",
+     "texto": "Catalão"
+    },
+    {
+     "valor": "ZH",
+     "texto": "Chinês"
+    },
+    {
+     "valor": "SI",
+     "texto": "Cingalês"
+    },
+    {
+     "valor": "KO",
+     "texto": "Coreano"
+    },
+    {
+     "valor": "CO",
+     "texto": "Corsico"
+    },
+    {
+     "valor": "CR",
+     "texto": "Crioulo"
+    },
+    {
+     "valor": "HR",
+     "texto": "Croata"
+    },
+    {
+     "valor": "KU",
+     "texto": "Curdo"
+    },
+    {
+     "valor": "DA",
+     "texto": "Dinamarquês"
+    },
+    {
+     "valor": "DI",
+     "texto": "Divehi"
+    },
+    {
+     "valor": "DZ",
+     "texto": "Dzongka"
+    },
+    {
+     "valor": "FY",
+     "texto": "Erisão"
+    },
+    {
+     "valor": "SK",
+     "texto": "Eslovaco"
+    },
+    {
+     "valor": "SL",
+     "texto": "Esloveno"
+    },
+    {
+     "valor": "EO",
+     "texto": "Esperanto"
+    },
+    {
+     "valor": "ET",
+     "texto": "Estoniano"
+    },
+    {
+     "valor": "EE",
+     "texto": "Eue"
+    },
+    {
+     "valor": "FO",
+     "texto": "Feróico"
+    },
+    {
+     "valor": "FJ",
+     "texto": "Fijiano"
+    },
+    {
+     "valor": "FL",
+     "texto": "Filipino"
+    },
+    {
+     "valor": "FI",
+     "texto": "Finlandês"
+    },
+    {
+     "valor": "GD",
+     "texto": "Gaelico Escocês"
+    },
+    {
+     "valor": "GL",
+     "texto": "Galego"
+    },
+    {
+     "valor": "CY",
+     "texto": "Galês"
+    },
+    {
+     "valor": "KA",
+     "texto": "Georgiano"
+    },
+    {
+     "valor": "EL",
+     "texto": "Grego"
+    },
+    {
+     "valor": "KL",
+     "texto": "Groenlandês"
+    },
+    {
+     "valor": "GN",
+     "texto": "Guarani"
+    },
+    {
+     "valor": "GU",
+     "texto": "Gujarati"
+    },
+    {
+     "valor": "HY",
+     "texto": "Harmênio"
+    },
+    {
+     "valor": "HA",
+     "texto": "Hausa"
+    },
+    {
+     "valor": "IW",
+     "texto": "Hebraico"
+    },
+    {
+     "valor": "HI",
+     "texto": "Hindi"
+    },
+    {
+     "valor": "NL",
+     "texto": "Holandês"
+    },
+    {
+     "valor": "HU",
+     "texto": "Húngaro"
+    },
+    {
+     "valor": "JI",
+     "texto": "Iidiche"
+    },
+    {
+     "valor": "IN",
+     "texto": "Indonésio"
+    },
+    {
+     "valor": "IA",
+     "texto": "Interlíngua"
+    },
+    {
+     "valor": "IE",
+     "texto": "Interlíngue"
+    },
+    {
+     "valor": "IK",
+     "texto": "Inupiak"
+    },
+    {
+     "valor": "ID",
+     "texto": "Ioma"
+    },
+    {
+     "valor": "GA",
+     "texto": "Irlandês"
+    },
+    {
+     "valor": "IS",
+     "texto": "Islandês"
+    },
+    {
+     "valor": "JA",
+     "texto": "Japonês"
+    },
+    {
+     "valor": "JV",
+     "texto": "Javanês"
+    },
+    {
+     "valor": "LO",
+     "texto": "Laosiano"
+    },
+    {
+     "valor": "LP",
+     "texto": "Lapão"
+    },
+    {
+     "valor": "LA",
+     "texto": "Latim"
+    },
+    {
+     "valor": "LV",
+     "texto": "Letão"
+    }
+   ]
+  },
+  {
+   "name": "FC_LE",
+   "tipo": "marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "on",
+     "texto": "Lê",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "F_LE",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "P",
+     "texto": "Pouco",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "R",
+     "texto": "Razoavelmente",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "B",
+     "texto": "Bem",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "FC_CONVERSA",
+   "tipo": "marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "on",
+     "texto": "Fala",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "F_CONVERSA",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "P",
+     "texto": "Pouco",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "R",
+     "texto": "Razoavelmente",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "B",
+     "texto": "Bem",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "FC_ESCREVE",
+   "tipo": "marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "on",
+     "texto": "Escreve",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "F_ESCREVE",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "P",
+     "texto": "Pouco",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "R",
+     "texto": "Razoavelmente",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "B",
+     "texto": "Bem",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "FC_COMPR",
+   "tipo": "marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "on",
+     "texto": "Compreende",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "F_COMPR",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "P",
+     "texto": "Pouco",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "R",
+     "texto": "Razoavelmente",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "B",
+     "texto": "Bem",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": ""
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

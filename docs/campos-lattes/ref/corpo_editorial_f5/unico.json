@@ -1,0 +1,180 @@
+{
+ "item": "corpo_editorial_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-20T21:18:25.480Z",
+ "resumo": {
+  "OK": 20,
+  "exige_acao_manual": 1
+ },
+ "resultados": [
+  {
+   "id": "f_mes_ini#tipico",
+   "campo": "f_mes_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_mes_ini#maximo",
+   "campo": "f_mes_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "f_mes_ini#acima_do_limite",
+   "campo": "f_mes_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_mes_ini#acentos",
+   "campo": "f_mes_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_ano_ini#valido",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_ano_ini#acima_do_limite",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_ano_ini#letras",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_status#opcao_s",
+   "campo": "f_status",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1066
+  },
+  {
+   "id": "f_status#opcao_n",
+   "campo": "f_status",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1075
+  },
+  {
+   "id": "f_mes_fim#tipico",
+   "campo": "f_mes_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1341
+  },
+  {
+   "id": "f_mes_fim#maximo",
+   "campo": "f_mes_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1327
+  },
+  {
+   "id": "f_mes_fim#acima_do_limite",
+   "campo": "f_mes_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1342
+  },
+  {
+   "id": "f_mes_fim#acentos",
+   "campo": "f_mes_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1338
+  },
+  {
+   "id": "f_ano_fim#valido",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1324
+  },
+  {
+   "id": "f_ano_fim#acima_do_limite",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1316
+  },
+  {
+   "id": "f_ano_fim#letras",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1324
+  },
+  {
+   "id": "f_outras_inf#tipico",
+   "campo": "f_outras_inf",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "f_outras_inf#maximo",
+   "campo": "f_outras_inf",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_outras_inf#acima_do_limite",
+   "campo": "f_outras_inf",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_outras_inf#acentos",
+   "campo": "f_outras_inf",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_nme_agencia#lupa",
+   "campo": "f_nme_agencia",
+   "status": "exige_acao_manual",
+   "detalhe": "lido=",
+   "aviso": "",
+   "ms": 8466
+  }
+ ]
+}

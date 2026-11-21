@@ -1,0 +1,1013 @@
+{
+ "item": "endereco",
+ "variante": "único",
+ "variante_slug": "endereco",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_pais_r",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "País",
+   "total_opcoes": 244,
+   "opcoes": [
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África Do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia Do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia Do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa Do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    },
+    {
+     "valor": "FJI",
+     "texto": "Fiji"
+    }
+   ]
+  },
+  {
+   "name": "f_cep_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": ")",
+   "maxlength": 15
+  },
+  {
+   "name": "f_rua_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Logradouro (Rua, Avenida, etc.)",
+   "maxlength": 180
+  },
+  {
+   "name": "f_bairro_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Bairro",
+   "maxlength": 255
+  },
+  {
+   "name": "f_munic_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Cidade",
+   "maxlength": 45
+  },
+  {
+   "name": "f_estado_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Estado/província",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ddd_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "DDD",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fone_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Telefone",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ramal_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ramal",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fax_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Fax",
+   "maxlength": 10
+  },
+  {
+   "name": "f_caixa_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Caixa postal",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ddd_cel_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "DDD",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fone_cel_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Celular",
+   "maxlength": 10
+  },
+  {
+   "name": "f_homepage_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Home page",
+   "maxlength": 250
+  },
+  {
+   "name": "f_end_corr",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "R",
+     "texto": "utilizar este endereço para correspondência",
+     "visivel": true,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "I",
+     "texto": "utilizar este endereço para correspondência",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Home page"
+  },
+  {
+   "name": "f_priv_residencial",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Visibilidade"
+  },
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição/Empresa",
+   "maxlength": 75
+  },
+  {
+   "name": "f_orgao",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Órgão/Unidade"
+  },
+  {
+   "name": "f_pais_i",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "País",
+   "total_opcoes": 245,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África Do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia Do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia Do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa Do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    }
+   ]
+  },
+  {
+   "name": "f_cep_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": ")",
+   "maxlength": 15
+  },
+  {
+   "name": "f_rua_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Logradouro (Rua, Avenida, etc.) e complemento (laboratório, sala, etc.)",
+   "maxlength": 180
+  },
+  {
+   "name": "f_bairro_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Bairro",
+   "maxlength": 255
+  },
+  {
+   "name": "f_munic_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Cidade",
+   "maxlength": 45
+  },
+  {
+   "name": "f_estado_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Estado/província",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ddd_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "DDD",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fone_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Telefone",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ramal_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ramal",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fax_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Fax",
+   "maxlength": 10
+  },
+  {
+   "name": "f_caixa_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Caixa postal",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ddd_cel_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "DDD",
+   "maxlength": 5
+  },
+  {
+   "name": "f_fone_cel_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Celular",
+   "maxlength": 10
+  },
+  {
+   "name": "f_homepage_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Home page",
+   "maxlength": 250
+  },
+  {
+   "name": "f_priv_profissional",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Visibilidade"
+  },
+  {
+   "name": "f_email_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "e-mail para contato",
+   "maxlength": 70
+  },
+  {
+   "name": "f_priv_email_i",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "e-mail para contato"
+  },
+  {
+   "name": "f_email_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)",
+   "maxlength": 70
+  },
+  {
+   "name": "f_priv_email_r",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "e-mail alternativo (este e-mail poderá ser utilizado no caso de perda de senha, etc)"
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [
+  {
+   "campo": "f_cep_r",
+   "pega_no_estado_inicial": false,
+   "depende": [],
+   "controlado_ou_recusa": true
+  },
+  {
+   "campo": "f_cep_i",
+   "pega_no_estado_inicial": false,
+   "depende": [],
+   "controlado_ou_recusa": true
+  }
+ ],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

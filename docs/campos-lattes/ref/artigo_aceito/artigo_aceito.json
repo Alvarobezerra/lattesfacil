@@ -1,0 +1,575 @@
+{
+ "item": "artigo_aceito",
+ "variante": "único",
+ "variante_slug": "artigo_aceito",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_cod_doi",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+   "maxlength": 250
+  },
+  {
+   "name": "f_titulo",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Título",
+   "maxlength": 400
+  },
+  {
+   "name": "f_ano",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano previsto para publicação",
+   "maxlength": 4
+  },
+  {
+   "name": "F_IDIOMA",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Idioma",
+   "total_opcoes": 152,
+   "opcoes": [
+    {
+     "valor": "DE",
+     "texto": "Alemão"
+    },
+    {
+     "valor": "ES",
+     "texto": "Espanhol"
+    },
+    {
+     "valor": "FR",
+     "texto": "Francês"
+    },
+    {
+     "valor": "EN",
+     "texto": "Inglês"
+    },
+    {
+     "valor": "IT",
+     "texto": "Italiano"
+    },
+    {
+     "valor": "LB",
+     "texto": "Libras"
+    },
+    {
+     "valor": "PT",
+     "texto": "Português"
+    },
+    {
+     "valor": "AB",
+     "texto": "Abhkazian"
+    },
+    {
+     "valor": "AA",
+     "texto": "Afar"
+    },
+    {
+     "valor": "AF",
+     "texto": "Afrikaans"
+    },
+    {
+     "valor": "AY",
+     "texto": "Aimara"
+    },
+    {
+     "valor": "SQ",
+     "texto": "Albanês"
+    },
+    {
+     "valor": "AM",
+     "texto": "Amarico"
+    },
+    {
+     "valor": "AR",
+     "texto": "Árabe"
+    },
+    {
+     "valor": "AN",
+     "texto": "Armênio"
+    },
+    {
+     "valor": "AS",
+     "texto": "Assames"
+    },
+    {
+     "valor": "AZ",
+     "texto": "Azerbaidjano"
+    },
+    {
+     "valor": "BC",
+     "texto": "Baluchi"
+    },
+    {
+     "valor": "EU",
+     "texto": "Basco"
+    },
+    {
+     "valor": "BA",
+     "texto": "Bashquir"
+    },
+    {
+     "valor": "BN",
+     "texto": "Bengali"
+    },
+    {
+     "valor": "BB",
+     "texto": "Berbere"
+    },
+    {
+     "valor": "BE",
+     "texto": "Bielo-Russo"
+    },
+    {
+     "valor": "BH",
+     "texto": "Bihari"
+    },
+    {
+     "valor": "BM",
+     "texto": "Birmanês"
+    },
+    {
+     "valor": "BI",
+     "texto": "Bislama"
+    },
+    {
+     "valor": "BR",
+     "texto": "Bretão"
+    },
+    {
+     "valor": "BG",
+     "texto": "Búlgaro"
+    },
+    {
+     "valor": "CB",
+     "texto": "Cabie"
+    },
+    {
+     "valor": "KS",
+     "texto": "Cachemiriano"
+    },
+    {
+     "valor": "KM",
+     "texto": "Cambodjano"
+    },
+    {
+     "valor": "KN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "KK",
+     "texto": "Casaque"
+    },
+    {
+     "valor": "CA",
+     "texto": "Catalão"
+    },
+    {
+     "valor": "ZH",
+     "texto": "Chinês"
+    },
+    {
+     "valor": "SI",
+     "texto": "Cingalês"
+    },
+    {
+     "valor": "KO",
+     "texto": "Coreano"
+    },
+    {
+     "valor": "CO",
+     "texto": "Corsico"
+    },
+    {
+     "valor": "CR",
+     "texto": "Crioulo"
+    },
+    {
+     "valor": "HR",
+     "texto": "Croata"
+    },
+    {
+     "valor": "KU",
+     "texto": "Curdo"
+    },
+    {
+     "valor": "DA",
+     "texto": "Dinamarquês"
+    },
+    {
+     "valor": "DI",
+     "texto": "Divehi"
+    },
+    {
+     "valor": "DZ",
+     "texto": "Dzongka"
+    },
+    {
+     "valor": "FY",
+     "texto": "Erisão"
+    },
+    {
+     "valor": "SK",
+     "texto": "Eslovaco"
+    },
+    {
+     "valor": "SL",
+     "texto": "Esloveno"
+    },
+    {
+     "valor": "EO",
+     "texto": "Esperanto"
+    },
+    {
+     "valor": "ET",
+     "texto": "Estoniano"
+    },
+    {
+     "valor": "EE",
+     "texto": "Eue"
+    },
+    {
+     "valor": "FO",
+     "texto": "Feróico"
+    },
+    {
+     "valor": "FJ",
+     "texto": "Fijiano"
+    },
+    {
+     "valor": "FL",
+     "texto": "Filipino"
+    },
+    {
+     "valor": "FI",
+     "texto": "Finlandês"
+    },
+    {
+     "valor": "GD",
+     "texto": "Gaelico Escocês"
+    },
+    {
+     "valor": "GL",
+     "texto": "Galego"
+    },
+    {
+     "valor": "CY",
+     "texto": "Galês"
+    },
+    {
+     "valor": "KA",
+     "texto": "Georgiano"
+    },
+    {
+     "valor": "EL",
+     "texto": "Grego"
+    },
+    {
+     "valor": "KL",
+     "texto": "Groenlandês"
+    },
+    {
+     "valor": "GN",
+     "texto": "Guarani"
+    },
+    {
+     "valor": "GU",
+     "texto": "Gujarati"
+    },
+    {
+     "valor": "HY",
+     "texto": "Harmênio"
+    },
+    {
+     "valor": "HA",
+     "texto": "Hausa"
+    },
+    {
+     "valor": "IW",
+     "texto": "Hebraico"
+    },
+    {
+     "valor": "HI",
+     "texto": "Hindi"
+    },
+    {
+     "valor": "NL",
+     "texto": "Holandês"
+    },
+    {
+     "valor": "HU",
+     "texto": "Húngaro"
+    },
+    {
+     "valor": "JI",
+     "texto": "Iidiche"
+    },
+    {
+     "valor": "IN",
+     "texto": "Indonésio"
+    },
+    {
+     "valor": "IA",
+     "texto": "Interlíngua"
+    },
+    {
+     "valor": "IE",
+     "texto": "Interlíngue"
+    },
+    {
+     "valor": "IK",
+     "texto": "Inupiak"
+    },
+    {
+     "valor": "ID",
+     "texto": "Ioma"
+    },
+    {
+     "valor": "GA",
+     "texto": "Irlandês"
+    },
+    {
+     "valor": "IS",
+     "texto": "Islandês"
+    },
+    {
+     "valor": "JA",
+     "texto": "Japonês"
+    },
+    {
+     "valor": "JV",
+     "texto": "Javanês"
+    },
+    {
+     "valor": "LO",
+     "texto": "Laosiano"
+    },
+    {
+     "valor": "LP",
+     "texto": "Lapão"
+    }
+   ]
+  },
+  {
+   "name": "F_RELEV",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "sim",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "não",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "É um dos 10 trabalhos mais relevantes de sua produção?"
+  },
+  {
+   "name": "F_STA_DIVULGACAO_CIENTIFICA",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "sim",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "não",
+     "visivel": true,
+     "marcado_inicial": true
+    }
+   ],
+   "pergunta": "É uma produção para educação e popularização de CeT?"
+  },
+  {
+   "name": "f_titulo_periodico",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Título do periódico/revista em que o artigo será publicado",
+   "maxlength": 255
+  },
+  {
+   "name": "f_jcr",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Fator de Impacto(JCR)"
+  },
+  {
+   "name": "f_issn",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "ISSN",
+   "maxlength": 10
+  },
+  {
+   "name": "f_ref",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Outras informações",
+   "maxlength": 3950
+  },
+  {
+   "name": "f_titulo_en",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Title",
+   "maxlength": 400
+  },
+  {
+   "name": "f_ref_en",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Other information",
+   "maxlength": 3800
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [
+  {
+   "id": "tabelaAutor",
+   "colunas": [
+    "Ordem de autoria",
+    "Autores"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "autorHolder",
+   "colunas": [
+    "Ordem de autoria",
+    "Autores"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir novo"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelapalavra",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "palavraHolder",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelaarea",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "areaHolder",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelasetor",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "setorHolder",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  }
+ ],
+ "botoes_incluir": [],
+ "observacoes": []
+}

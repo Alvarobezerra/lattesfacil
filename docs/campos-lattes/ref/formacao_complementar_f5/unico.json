@@ -1,0 +1,116 @@
+{
+ "item": "formacao_complementar_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-20T22:30:36.361Z",
+ "resumo": {
+  "OK": 12,
+  "exige_acao_manual": 1
+ },
+ "resultados": [
+  {
+   "id": "f_nivel#opcao_f",
+   "campo": "f_nivel",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_nivel#opcao_8",
+   "campo": "f_nivel",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_nivel#opcao_e",
+   "campo": "f_nivel",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_nivel#opcao_y",
+   "campo": "f_nivel",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_carga#tipico",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 629
+  },
+  {
+   "id": "f_carga#maximo",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_carga#acima_do_limite",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_carga#acentos",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "F_STATUS#opcao_n",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1061
+  },
+  {
+   "id": "F_STATUS#opcao_s",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1060
+  },
+  {
+   "id": "F_STATUS#opcao_i",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1067
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3421
+  },
+  {
+   "id": "f_curso#lupa",
+   "campo": "f_curso",
+   "status": "exige_acao_manual",
+   "detalhe": "lido=",
+   "aviso": "",
+   "ms": 3420
+  }
+ ]
+}

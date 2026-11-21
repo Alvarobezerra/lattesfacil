@@ -1,0 +1,77 @@
+{
+ "item": "licenca",
+ "variante": "único",
+ "variante_slug": "licenca",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_tipo_licenca",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Tipo",
+   "total_opcoes": 4,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "M",
+     "texto": "Maternidade"
+    },
+    {
+     "valor": "P",
+     "texto": "Paternidade"
+    },
+    {
+     "valor": "A",
+     "texto": "Adoção"
+    }
+   ]
+  },
+  {
+   "name": "f_dta_inicio",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data Fim",
+   "maxlength": 10
+  },
+  {
+   "name": "f_dta_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data Fim",
+   "maxlength": 10
+  },
+  {
+   "name": "f_dta_nasc_adoc",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data de nascimento/adoção",
+   "maxlength": 10
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

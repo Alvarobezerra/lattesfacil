@@ -1,0 +1,112 @@
+{
+ "item": "corpo_editorial",
+ "variante": "único",
+ "variante_slug": "corpo_editorial",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_nme_agencia",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Periódico",
+   "maxlength": 255
+  },
+  {
+   "name": "f_mes_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Mês",
+   "maxlength": 2
+  },
+  {
+   "name": "f_ano_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano",
+   "maxlength": 4
+  },
+  {
+   "name": "f_status",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Atual (não finalizado)",
+     "visivel": true,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "N",
+     "texto": "Anterior (finalizado)",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Ano"
+  },
+  {
+   "name": "f_mes_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Mês",
+   "maxlength": 2
+  },
+  {
+   "name": "f_ano_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Ano",
+   "maxlength": 4
+  },
+  {
+   "name": "f_outras_inf",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Outras informações",
+   "maxlength": 3950
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_status",
+   "valor": "N",
+   "texto": "Anterior (finalizado)",
+   "aparecem": [
+    "f_ano_fim",
+    "f_mes_fim"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  }
+ ],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

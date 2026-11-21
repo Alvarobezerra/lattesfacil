@@ -1,0 +1,101 @@
+{
+ "item": "formacao_complementar",
+ "variante": "único",
+ "variante_slug": "formacao_complementar",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_nivel",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nível",
+   "total_opcoes": 5,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "F",
+     "texto": "Curso De Curta Duração"
+    },
+    {
+     "valor": "8",
+     "texto": "Extensão Universitária"
+    },
+    {
+     "valor": "E",
+     "texto": "Mba"
+    },
+    {
+     "valor": "Y",
+     "texto": "Outros"
+    }
+   ]
+  },
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_curso",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Curso",
+   "maxlength": 50
+  },
+  {
+   "name": "f_carga",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Carga Horária",
+   "maxlength": 4
+  },
+  {
+   "name": "F_STATUS",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "em andamento",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "S",
+     "texto": "concluído",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "I",
+     "texto": "incompleto",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Status do curso"
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

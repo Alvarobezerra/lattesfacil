@@ -1,0 +1,78 @@
+{
+ "item": "formacao_academica",
+ "variante": "Formulário 9",
+ "variante_slug": "formulario_9",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "F_STATUS",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "em andamento",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "S",
+     "texto": "concluído",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "I",
+     "texto": "incompleto",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Status do curso"
+  },
+  {
+   "name": "f_ano_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Início (ano)",
+   "maxlength": 4
+  },
+  {
+   "name": "f_ano_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Conclusão (ano)",
+   "maxlength": 4
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

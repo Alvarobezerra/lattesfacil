@@ -1,0 +1,131 @@
+{
+ "item": "licenca_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-21T00:01:57.603Z",
+ "resumo": {
+  "OK": 15
+ },
+ "resultados": [
+  {
+   "id": "f_tipo_licenca#opcao_m",
+   "campo": "f_tipo_licenca",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_tipo_licenca#opcao_p",
+   "campo": "f_tipo_licenca",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "f_tipo_licenca#opcao_a",
+   "campo": "f_tipo_licenca",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_dta_inicio#tipico",
+   "campo": "f_dta_inicio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "f_dta_inicio#maximo",
+   "campo": "f_dta_inicio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_dta_inicio#acima_do_limite",
+   "campo": "f_dta_inicio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 610
+  },
+  {
+   "id": "f_dta_inicio#acentos",
+   "campo": "f_dta_inicio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 620
+  },
+  {
+   "id": "f_dta_fim#tipico",
+   "campo": "f_dta_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_dta_fim#maximo",
+   "campo": "f_dta_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_dta_fim#acima_do_limite",
+   "campo": "f_dta_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_dta_fim#acentos",
+   "campo": "f_dta_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_dta_nasc_adoc#tipico",
+   "campo": "f_dta_nasc_adoc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_dta_nasc_adoc#maximo",
+   "campo": "f_dta_nasc_adoc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_dta_nasc_adoc#acima_do_limite",
+   "campo": "f_dta_nasc_adoc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_dta_nasc_adoc#acentos",
+   "campo": "f_dta_nasc_adoc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  }
+ ]
+}

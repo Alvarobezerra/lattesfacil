@@ -1,0 +1,43 @@
+{
+ "item": "outras_informacoes_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-21T00:02:07.548Z",
+ "resumo": {
+  "OK": 4
+ },
+ "resultados": [
+  {
+   "id": "F_TEXTO#tipico",
+   "campo": "F_TEXTO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 635
+  },
+  {
+   "id": "F_TEXTO#maximo",
+   "campo": "F_TEXTO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "F_TEXTO#acima_do_limite",
+   "campo": "F_TEXTO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "F_TEXTO#acentos",
+   "campo": "F_TEXTO",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  }
+ ]
+}

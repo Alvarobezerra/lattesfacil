@@ -1,0 +1,24 @@
+{
+ "item": "outras_informacoes",
+ "variante": "único",
+ "variante_slug": "outras_informacoes",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "F_TEXTO",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Neste local você pode cadastrar informações adicionais relativas ao seu currículo, não contempladas nos outros módulos.Exemplos: Resumo, des",
+   "maxlength": 2000
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

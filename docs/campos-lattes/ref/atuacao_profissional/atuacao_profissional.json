@@ -1,0 +1,178 @@
+{
+ "item": "atuacao_profissional",
+ "variante": "único",
+ "variante_slug": "atuacao_profissional",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome da Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_vinc",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Tipo do vínculo",
+   "maxlength": 30
+  },
+  {
+   "name": "f_stavinc",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Possui vínculo empregatício",
+   "total_opcoes": 3,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "0",
+     "texto": "Não"
+    },
+    {
+     "valor": "1",
+     "texto": "Sim"
+    }
+   ]
+  },
+  {
+   "name": "f_enqua",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Enquadramento funcional",
+   "maxlength": 45
+  },
+  {
+   "name": "f_carga",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Carga horária semanal",
+   "maxlength": 3
+  },
+  {
+   "name": "f_regime",
+   "tipo": "marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "3",
+     "texto": "Dedicação exclusiva",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Carga horária semanal"
+  },
+  {
+   "name": "f_mes_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Mês",
+   "maxlength": 2
+  },
+  {
+   "name": "f_ano_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Ano",
+   "maxlength": 4
+  },
+  {
+   "name": "f_status",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Atual (não finalizado)",
+     "visivel": true,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "N",
+     "texto": "Anterior (finalizado)",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Ano"
+  },
+  {
+   "name": "f_mes_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Mês",
+   "maxlength": 2
+  },
+  {
+   "name": "f_ano_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Ano",
+   "maxlength": 4
+  },
+  {
+   "name": "f_outras_inf",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Outras informações",
+   "maxlength": 3950
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_status",
+   "valor": "N",
+   "texto": "Anterior (finalizado)",
+   "aparecem": [
+    "f_ano_fim",
+    "f_mes_fim"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  }
+ ],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

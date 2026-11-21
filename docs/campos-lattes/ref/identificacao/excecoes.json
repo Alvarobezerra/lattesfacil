@@ -1,0 +1,14 @@
+{
+ "identificacao": [
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "nmeCitacao",
+   "motivo": "os nomes em citações bibliográficas são editados em outro formulário do Lattes (Nomes em citações), não neste; o app só os lê do currículo"
+  },
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "f_priv_cpf",
+   "motivo": "a privacidade do CPF não aparece neste formulário (CPF não é editável); campo oculto no app"
+  }
+ ]
+}

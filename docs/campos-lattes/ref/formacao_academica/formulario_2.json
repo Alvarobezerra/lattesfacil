@@ -1,0 +1,344 @@
+{
+ "item": "formacao_academica",
+ "variante": "Formulário 2",
+ "variante_slug": "formulario_2",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_tpo_doutorado",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "normal",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "S",
+     "texto": "sanduíche",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Tipo de mestrado"
+  },
+  {
+   "name": "f_inst",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_curso",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Curso",
+   "maxlength": 75
+  },
+  {
+   "name": "F_STATUS",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "em andamento",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "S",
+     "texto": "concluído",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "I",
+     "texto": "incompleto",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Status do curso"
+  },
+  {
+   "name": "f_ano_ini",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Início (ano)",
+   "maxlength": 4
+  },
+  {
+   "name": "f_ano_fim",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Conclusão (ano)",
+   "maxlength": 4
+  },
+  {
+   "name": "f_mes_obten",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Obtenção do título (mês/ano)",
+   "maxlength": 2
+  },
+  {
+   "name": "f_ano_obten",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "/",
+   "maxlength": 4
+  },
+  {
+   "name": "F_BOLSA",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "S",
+     "texto": "Sim",
+     "visivel": true,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "N",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": true
+    }
+   ],
+   "pergunta": "Com bolsa?"
+  },
+  {
+   "name": "f_nme_agencia",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Agência financiadora",
+   "maxlength": 75
+  },
+  {
+   "name": "f_titulo",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Título da dissertação/tese",
+   "maxlength": 254
+  },
+  {
+   "name": "f_orient",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome completo do orientador",
+   "maxlength": 60
+  },
+  {
+   "name": "f_coorient",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome completo do coorientador",
+   "maxlength": 60
+  },
+  {
+   "name": "f_orient_dout",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "",
+   "maxlength": 60
+  },
+  {
+   "name": "f_inst_dout",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "",
+   "maxlength": 75
+  },
+  {
+   "name": "f_meses_sw",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Duração em meses",
+   "maxlength": 2
+  },
+  {
+   "name": "f_orient_dout_sw",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Orientador",
+   "maxlength": 60
+  },
+  {
+   "name": "f_inst_dout_sw",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_meses_sw_aux",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Duração em meses",
+   "maxlength": 2
+  },
+  {
+   "name": "f_orient_dout_ct",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Orientador",
+   "maxlength": 60
+  },
+  {
+   "name": "f_inst_dout_ct",
+   "tipo": "text",
+   "desabilitado": true,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Instituição",
+   "maxlength": 75
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_tpo_doutorado",
+   "valor": "S",
+   "texto": "sanduíche",
+   "aparecem": [
+    "f_inst_dout",
+    "f_meses_sw",
+    "f_orient_dout"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  }
+ ],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [
+  {
+   "id": "tabelapalavra",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "palavraHolder",
+   "colunas": [
+    "Ordem",
+    "Palavra-chave"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelaarea",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "areaHolder",
+   "colunas": [
+    "Ordem",
+    "Áreas de conhecimento",
+    "Visibilidade"
+   ],
+   "links": [
+    "Listar todos",
+    "Incluir nova"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "tabelasetor",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  },
+  {
+   "id": "setorHolder",
+   "colunas": [
+    "Ordem",
+    "Setor de aplicação da Tabela CNAE"
+   ],
+   "links": [
+    "Listar todos"
+   ],
+   "visivel": true
+  }
+ ],
+ "botoes_incluir": [],
+ "observacoes": []
+}

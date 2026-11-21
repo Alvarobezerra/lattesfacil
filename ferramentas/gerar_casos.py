@@ -54,6 +54,8 @@ def casos_da_variante(sv):
         n = c["name"]
         if APOIO.match(n) or (c.get("oculto") and not c.get("mostrar_quando")) or c.get("bloqueado_no_lattes"):
             continue  # bloqueados no Lattes entram pelo endereço de abertura (casos "abertura"), não pelo preenchimento
+        if n.lower() in ("f_vinc", "f_inst_dout", "f_inst_dout_ct", "f_inst_dout_sw"):
+            continue  # lupas com janela de seleção própria que o robô ainda não preenche: pendência bloqueante no STATUS
         if c.get("entra_pela_abertura") and n.lower() in LUPAS:
             continue  # vem no endereço de abertura; conferido no salvamento real (a lista do Lattes mostra órgão e nº do registro)
         tipo = c.get("tipo", "text")
@@ -109,7 +111,7 @@ def casos_da_variante(sv):
             add("letras", campo_payload(c, "ab"), {"modo": "texto", "valor": "ab", "registrar_apenas": True})
         elif tipo in ("text", "textarea"):
             ml = c.get("maxlength")
-            numerico = bool(re.match(r"^(f_?ano|f_nro|nro_)|ANO_|NRO_", n, re.I)) and (ml or 0) <= 4
+            numerico = (bool(re.match(r"^(f_?ano|f_nro|nro_)|ANO_|NRO_", n, re.I)) and (ml or 0) <= 4) or bool(re.match(r"^(f_qtd_|f_indiceh$)", n, re.I))
             if numerico:
                 add("valido", campo_payload(c, "2025" if "ANO" in n.upper() else "12"[: ml or 2]), {"modo": "texto", "valor": "2025" if "ANO" in n.upper() else "12"[: ml or 2]})
                 add("acima_do_limite", campo_payload(c, "9" * ((ml or 2) + 3)), {"modo": "texto", "valor": "9" * (ml or 2)})

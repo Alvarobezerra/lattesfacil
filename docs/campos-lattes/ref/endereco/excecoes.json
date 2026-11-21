@@ -1,0 +1,24 @@
+{
+ "endereco": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_cep_i",
+   "motivo": "o rótulo do CEP é um texto com link (Não sei meu CEP) e a captura por proximidade lê só um parêntese; no formulário o rótulo é CEP"
+  },
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_cep_r",
+   "motivo": "idem (CEP residencial)"
+  },
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_end_corr",
+   "motivo": "a captura por proximidade lê 'Home page' (campo vizinho); o rótulo real é a frase 'utilizar este endereço para correspondência' ao lado de cada botão"
+  },
+  {
+   "categoria": "opcoes_diferentes",
+   "campo": "f_end_corr",
+   "motivo": "o Lattes repete o mesmo texto nas duas abas (R = residencial, I = profissional); o app distingue por aba, mesmos códigos R e I"
+  }
+ ]
+}

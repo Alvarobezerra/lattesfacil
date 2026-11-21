@@ -1,0 +1,220 @@
+{
+ "item": "formacao_academica_f5",
+ "variante_slug": "formulario_4",
+ "variante": "Formulário 4",
+ "executado_em": "2026-11-21T00:08:51.434Z",
+ "resumo": {
+  "OK": 24,
+  "erro": 2
+ },
+ "resultados": [
+  {
+   "id": "f_carga#tipico",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 626
+  },
+  {
+   "id": "f_carga#maximo",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 628
+  },
+  {
+   "id": "f_carga#acima_do_limite",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_carga#acentos",
+   "campo": "f_carga",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "F_STATUS#opcao_n",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1075
+  },
+  {
+   "id": "F_STATUS#opcao_s",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1072
+  },
+  {
+   "id": "F_STATUS#opcao_i",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1078
+  },
+  {
+   "id": "f_ano_ini#valido",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_ano_ini#acima_do_limite",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 626
+  },
+  {
+   "id": "f_ano_ini#letras",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_ano_fim#valido",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_ano_fim#acima_do_limite",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_ano_fim#letras",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 625
+  },
+  {
+   "id": "F_BOLSA#opcao_s",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1061
+  },
+  {
+   "id": "F_BOLSA#opcao_n",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1061
+  },
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 611
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_orient#tipico",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 622
+  },
+  {
+   "id": "f_orient#maximo",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_orient#acima_do_limite",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_orient#acentos",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 1
+  },
+  {
+   "id": "f_curso#lupa",
+   "campo": "f_curso",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 1
+  },
+  {
+   "id": "f_nme_agencia#lupa",
+   "campo": "f_nme_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 2467
+  }
+ ]
+}

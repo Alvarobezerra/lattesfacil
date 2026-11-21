@@ -1,0 +1,124 @@
+{
+ "item": "citacao_scopus_f5",
+ "variante_slug": "unico",
+ "variante": "único",
+ "executado_em": "2026-11-20T21:11:41.153Z",
+ "resumo": {
+  "divergente": 12,
+  "registrado": 2
+ },
+ "resultados": [
+  {
+   "id": "f_qtd_citacoes#valido",
+   "campo": "f_qtd_citacoes",
+   "status": "divergente",
+   "detalhe": "esperado=12 lido=",
+   "aviso": "",
+   "ms": 15392
+  },
+  {
+   "id": "f_qtd_citacoes#acima_do_limite",
+   "campo": "f_qtd_citacoes",
+   "status": "divergente",
+   "detalhe": "esperado=999999 lido=",
+   "aviso": "",
+   "ms": 15751
+  },
+  {
+   "id": "f_qtd_citacoes#letras",
+   "campo": "f_qtd_citacoes",
+   "status": "registrado",
+   "detalhe": "lido=",
+   "aviso": "",
+   "ms": 15758
+  },
+  {
+   "id": "f_qtd_trabalhos#valido",
+   "campo": "f_qtd_trabalhos",
+   "status": "divergente",
+   "detalhe": "esperado=12 lido=",
+   "aviso": "",
+   "ms": 15366
+  },
+  {
+   "id": "f_qtd_trabalhos#acima_do_limite",
+   "campo": "f_qtd_trabalhos",
+   "status": "divergente",
+   "detalhe": "esperado=999999 lido=",
+   "aviso": "",
+   "ms": 15399
+  },
+  {
+   "id": "f_qtd_trabalhos#letras",
+   "campo": "f_qtd_trabalhos",
+   "status": "registrado",
+   "detalhe": "lido=",
+   "aviso": "",
+   "ms": 15390
+  },
+  {
+   "id": "f_data#tipico",
+   "campo": "f_data",
+   "status": "divergente",
+   "detalhe": "esperado=Texto de t lido=",
+   "aviso": "",
+   "ms": 15412
+  },
+  {
+   "id": "f_data#maximo",
+   "campo": "f_data",
+   "status": "divergente",
+   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "aviso": "",
+   "ms": 15422
+  },
+  {
+   "id": "f_data#acima_do_limite",
+   "campo": "f_data",
+   "status": "divergente",
+   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "aviso": "",
+   "ms": 15425
+  },
+  {
+   "id": "f_data#acentos",
+   "campo": "f_data",
+   "status": "divergente",
+   "detalhe": "esperado=Ação çãõ É lido=",
+   "aviso": "",
+   "ms": 15410
+  },
+  {
+   "id": "f_query#tipico",
+   "campo": "f_query",
+   "status": "divergente",
+   "detalhe": "esperado=Texto de teste típico lido=",
+   "aviso": "",
+   "ms": 15406
+  },
+  {
+   "id": "f_query#maximo",
+   "campo": "f_query",
+   "status": "divergente",
+   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "aviso": "",
+   "ms": 15469
+  },
+  {
+   "id": "f_query#acima_do_limite",
+   "campo": "f_query",
+   "status": "divergente",
+   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "aviso": "",
+   "ms": 15395
+  },
+  {
+   "id": "f_query#acentos",
+   "campo": "f_query",
+   "status": "divergente",
+   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "aviso": "",
+   "ms": 15447
+  }
+ ]
+}

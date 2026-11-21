@@ -12,7 +12,8 @@
 
   function formulario() {
     let melhor = null, mx = 0;
-    const varrer = (w) => { try { const n = w.document.querySelectorAll('input[name],select[name],textarea[name]').length; if (n > mx) { mx = n; melhor = w; } } catch (e) { /* outro domínio */ } for (let i = 0; i < w.length; i++) varrer(w[i]); };
+    const alvo = String(window.top.__paginaAlvo || '').toLowerCase();  // prefere o quadro da página que acabou de ser aberta (sobras de outros formulários podem ter mais campos)
+    const varrer = (w) => { try { const n = w.document.querySelectorAll('input[name],select[name],textarea[name]').length; const src = (w.frameElement && w.frameElement.src || '').toLowerCase(); const peso = alvo && src.indexOf(alvo) >= 0 && n > 0 ? n + 100000 : n; if (peso > mx) { mx = peso; melhor = w; } } catch (e) { /* outro domínio */ } for (let i = 0; i < w.length; i++) varrer(w[i]); };
     varrer(window.top);
     return melhor;
   }
@@ -165,6 +166,7 @@
   async function abrirPorUrl(url, pagina) {
     const topo = window.top;
     const cv = (topo.document.querySelector('[name="f_cod"]') || {}).value || ((topo.document.documentElement.innerHTML.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i) || [])[1]) || '';
+    window.top.__paginaAlvo = pagina;
     window.__alvoF5 = { id: (window.__alvoF5 || {}).id || 'projeto', url };
     const listaDe = { artigo: 'pkg_artigo.lista?f_cod=' + cv, anais: 'pkg_trabalho.lista?f_cod=' + cv, orientacao_concluida: 'pkg_orient.lista?f_tipo=C&f_cod=' + cv, orientacao_andamento: 'pkg_orient.lista?f_tipo=A&f_cod=' + cv, apresentacao: 'prc_tec_demais_lista?f_cod_tipo=2J&f_cod=' + cv }[window.__alvoF5.id];
     const listaPlano = (window.__alvoF5 || {}).lista ? String(window.__alvoF5.lista).replace('<codigo_do_cv>', cv) + (String(window.__alvoF5.lista).indexOf('f_cod=') < 0 ? (String(window.__alvoF5.lista).indexOf('?') < 0 ? '?f_cod=' : '&f_cod=') + cv : '') : '';
@@ -175,7 +177,7 @@
     for (let k = 0; k < 50; k++) {
       await dormir(400);
       const w = formulario();
-      try { if (w && w.frameElement && w.document.querySelectorAll('input[name],select[name],textarea[name]').length >= 3 && w.frameElement.src.toLowerCase().indexOf(pagina.toLowerCase()) >= 0 && w.document.readyState === 'complete') { await dormir(3500); return true; } } catch (e) { /* aguarda */ }
+      try { if (w && w.frameElement && w.document.querySelectorAll("input[name],select[name],textarea[name]").length >= 1 && w.frameElement.src.toLowerCase().indexOf(pagina.toLowerCase()) >= 0 && w.document.readyState === 'complete') { await dormir(3500); return true; } } catch (e) { /* aguarda */ }
     }
     return false;
   }

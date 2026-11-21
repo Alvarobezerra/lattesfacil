@@ -368,7 +368,7 @@ def espelhar_lattes(campos, item_id="", variante=""):
             if n in ARTIGO_ROTULOS:
                 c["rotulo"] = ARTIGO_ROTULOS[n]
                 c["opcoes"] = {"Sim": "S", "Não": "N"}
-    if item_id == "artigo":
+    if item_id in ("artigo", "artigo_aceito"):
         for c in campos:
             n = c["name"].lower()
             if n in ARTIGO_ROTULOS:
@@ -450,6 +450,10 @@ def opcoes_reais_da_captura(item_id, var_):
             c["catalogo_completo"] = c.pop("catalogo")  # o app oferece só o que o Lattes oferece neste formulário
 
 
+FORA_DA_MATRIZ = {"artigo_aceito", "atuacao_profissional", "comite_assessoramento", "corpo_editorial", "revisor_periodico", "revisor_projeto_fomento",
+                   "formacao_academica", "pos_doutorado", "identificacao", "endereco", "formacao_complementar", "idioma", "licenca", "outras_informacoes", "texto_inicial"}
+
+
 def ajustes_da_captura(item_id, var_):
     """O que a captura real do Lattes mostra e o mapeamento antigo errava: rótulo que era só o nome do campo, campo que o mapeamento dava como condicional mas que aparece sempre."""
     ref = None
@@ -465,12 +469,39 @@ def ajustes_da_captura(item_id, var_):
     for c in var_["campos"]:
         if c["name"].lower() in ("f_inst", "f_cod_reg") and re.search(r"[?&]" + c["name"].lower() + "=", var_.get("url", "").lower()):
             c["entra_pela_abertura"] = True  # órgão depositário e nº do registro vão no endereço do formulário
+    if item_id == "endereco":
+        # o Lattes tem um único grupo f_end_corr (R = residencial, I = profissional) que aparece nas duas abas; o rótulo e o CEP vinham errados do mapeamento antigo
+        dup = [c for c in var_["campos"] if c["name"].lower() == "f_end_corr"]
+        if len(dup) > 1:
+            dup[0]["opcoes"] = {"Residencial: utilizar este endereço para correspondência": "R", "Profissional: utilizar este endereço para correspondência": "I"}
+            dup[0]["rotulo"] = "Endereço para correspondência"
+            dup[0]["aba"] = "Residencial / Profissional"
+            var_["campos"] = [c for c in var_["campos"] if c is dup[0] or c["name"].lower() != "f_end_corr"]
+        for c in var_["campos"]:
+            if c["name"].lower() in ("f_cep_i", "f_cep_r"):
+                c["rotulo"] = "CEP"
     por_nome = {c["name"].lower(): c for c in ref.get("campos", [])}
     aparecem = {n.lower() for e in ref.get("estados", []) for n in e.get("aparecem", [])}
     for c in var_["campos"]:
         r = por_nome.get(c["name"].lower())
         if not r:
             continue
+        if item_id == "artigo_aceito" and c.get("bloqueado_no_lattes") and r.get("visivel_inicial") is False:
+            c["oculto"] = True  # no artigo aceito o Lattes esconde o fator de impacto
+        if item_id in FORA_DA_MATRIZ and not c.get("mostrar_quando"):
+            # campo que a captura viu aparecer ao escolher um valor de outro campo: fica oculto até o gatilho (como no Lattes)
+            for e in ref.get("estados", []):
+                if c["name"].lower() in [x.lower() for x in e.get("aparecem", [])]:
+                    gat = next((x for x in var_["campos"] if x["name"].lower() == e["gatilho"].lower()), None)
+                    if not gat or gat["name"].lower() == c["name"].lower():
+                        continue
+                    ops = gat.get("opcoes") or {}
+                    rot = next((k for k, cod in ops.items() if str(cod).strip() == str(e.get("valor", "")).strip()), None) or e.get("texto") or e.get("valor")
+                    c["mostrar_quando"] = {"name": gat["name"], "valor": rot}
+                    c.pop("oculto", None)
+                    break
+        if item_id == "atuacao_profissional" and c["name"].lower() == "f_stavinc":
+            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"]}  # o Lattes limpa o vínculo (checkVinc) se a instituição está vazia
         if c["name"].lower() == "f_sub_prod" and r.get("desabilitado") and c.get("tipo") == "text":
             c["bloqueado_no_lattes"] = True  # o Lattes preenche a natureza a partir do tipo escolhido; o campo aparece bloqueado
             c["dica"] = "O Lattes preenche a natureza a partir do tipo; campo bloqueado."

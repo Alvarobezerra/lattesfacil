@@ -1,0 +1,124 @@
+{
+ "item": "formacao_academica_f5",
+ "variante_slug": "formulario_7",
+ "variante": "Formulário 7",
+ "executado_em": "2026-11-21T00:10:16.431Z",
+ "resumo": {
+  "OK": 12,
+  "erro": 2
+ },
+ "resultados": [
+  {
+   "id": "F_STATUS#opcao_n",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1063
+  },
+  {
+   "id": "F_STATUS#opcao_s",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1073
+  },
+  {
+   "id": "F_STATUS#opcao_i",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1078
+  },
+  {
+   "id": "f_ano_ini#valido",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 621
+  },
+  {
+   "id": "f_ano_ini#acima_do_limite",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 629
+  },
+  {
+   "id": "f_ano_ini#letras",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_ano_fim#valido",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_ano_fim#acima_do_limite",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 624
+  },
+  {
+   "id": "f_ano_fim#letras",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "F_BOLSA#opcao_s",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1076
+  },
+  {
+   "id": "F_BOLSA#opcao_n",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1074
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 2
+  },
+  {
+   "id": "f_curso#lupa",
+   "campo": "f_curso",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 1
+  },
+  {
+   "id": "f_nme_agencia#lupa",
+   "campo": "f_nme_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 2183
+  }
+ ]
+}

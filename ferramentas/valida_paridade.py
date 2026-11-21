@@ -98,7 +98,7 @@ def comparar(spec_var, ref):
         oculto_s = bool(s.get("oculto")) or bool(s.get("mostrar_quando"))  # condicional = oculto até o gatilho
         if r["visivel_inicial"] == oculto_s:
             div.append({"categoria": "visibilidade_diferente", "campo": nome, "detalhe": f"lattes visível={r['visivel_inicial']} spec oculto/condicional={oculto_s}"})
-        if r.get("desabilitado") and not s.get("bloqueado_no_lattes") and not s.get("oculto") and not (s.get("tipo") in ("text",) and nome.lower() in ("f_inst", "f_orgao", "f_curso")) and ts == "text" and nome.lower() not in ("f_inst", "f_orgao", "f_curso"):
+        if r.get("desabilitado") and not s.get("bloqueado_no_lattes") and not s.get("oculto") and not (s.get("tipo") in ("text",) and nome.lower() in ("f_inst", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc")) and ts == "text" and nome.lower() not in ("f_inst", "f_orgao", "f_curso", "f_nme_agencia", "f_vinc"):
             div.append({"categoria": "desabilitado_nao_tratado", "campo": nome, "detalhe": "campo desabilitado no Lattes (lupa/automático)"})
 
     # estados (condicionais): cada campo que aparece por um gatilho deve ter mostrar_quando ou oculto no spec

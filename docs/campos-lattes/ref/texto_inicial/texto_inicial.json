@@ -1,0 +1,33 @@
+{
+ "item": "texto_inicial",
+ "variante": "único",
+ "variante_slug": "texto_inicial",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "F_TEXTO",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Texto inicial",
+   "maxlength": 4000
+  },
+  {
+   "name": "F_TEXTO_EN",
+   "tipo": "textarea",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Tradução",
+   "maxlength": 4000
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

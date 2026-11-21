@@ -1,0 +1,564 @@
+{
+ "item": "formacao_academica_f5",
+ "variante_slug": "formulario_1",
+ "variante": "Formulário 1",
+ "executado_em": "2026-11-21T00:06:45.994Z",
+ "resumo": {
+  "OK": 67,
+  "erro": 2
+ },
+ "resultados": [
+  {
+   "id": "f_tpo_doutorado#opcao_n",
+   "campo": "f_tpo_doutorado",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1069
+  },
+  {
+   "id": "f_tpo_doutorado#opcao_s",
+   "campo": "f_tpo_doutorado",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1067
+  },
+  {
+   "id": "f_tpo_doutorado#opcao_c",
+   "campo": "f_tpo_doutorado",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1068
+  },
+  {
+   "id": "f_tpo_doutorado#opcao_cs",
+   "campo": "f_tpo_doutorado",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1083
+  },
+  {
+   "id": "F_STATUS#opcao_n",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1086
+  },
+  {
+   "id": "F_STATUS#opcao_s",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1087
+  },
+  {
+   "id": "F_STATUS#opcao_i",
+   "campo": "F_STATUS",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1091
+  },
+  {
+   "id": "f_ano_ini#valido",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 628
+  },
+  {
+   "id": "f_ano_ini#acima_do_limite",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 613
+  },
+  {
+   "id": "f_ano_ini#letras",
+   "campo": "f_ano_ini",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 642
+  },
+  {
+   "id": "f_ano_fim#valido",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 638
+  },
+  {
+   "id": "f_ano_fim#acima_do_limite",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 644
+  },
+  {
+   "id": "f_ano_fim#letras",
+   "campo": "f_ano_fim",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 636
+  },
+  {
+   "id": "f_mes_obten#tipico",
+   "campo": "f_mes_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 640
+  },
+  {
+   "id": "f_mes_obten#maximo",
+   "campo": "f_mes_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 628
+  },
+  {
+   "id": "f_mes_obten#acima_do_limite",
+   "campo": "f_mes_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 626
+  },
+  {
+   "id": "f_mes_obten#acentos",
+   "campo": "f_mes_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 612
+  },
+  {
+   "id": "f_ano_obten#valido",
+   "campo": "f_ano_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 626
+  },
+  {
+   "id": "f_ano_obten#acima_do_limite",
+   "campo": "f_ano_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_ano_obten#letras",
+   "campo": "f_ano_obten",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 641
+  },
+  {
+   "id": "F_BOLSA#opcao_s",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1093
+  },
+  {
+   "id": "F_BOLSA#opcao_n",
+   "campo": "F_BOLSA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1087
+  },
+  {
+   "id": "f_titulo#tipico",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 640
+  },
+  {
+   "id": "f_titulo#maximo",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 640
+  },
+  {
+   "id": "f_titulo#acima_do_limite",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 638
+  },
+  {
+   "id": "f_titulo#acentos",
+   "campo": "f_titulo",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 637
+  },
+  {
+   "id": "f_orient#tipico",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 642
+  },
+  {
+   "id": "f_orient#maximo",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 637
+  },
+  {
+   "id": "f_orient#acima_do_limite",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 641
+  },
+  {
+   "id": "f_orient#acentos",
+   "campo": "f_orient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 640
+  },
+  {
+   "id": "f_coorient#tipico",
+   "campo": "f_coorient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_coorient#maximo",
+   "campo": "f_coorient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 638
+  },
+  {
+   "id": "f_coorient#acima_do_limite",
+   "campo": "f_coorient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 623
+  },
+  {
+   "id": "f_coorient#acentos",
+   "campo": "f_coorient",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 638
+  },
+  {
+   "id": "f_orient_dout#tipico",
+   "campo": "f_orient_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1359
+  },
+  {
+   "id": "f_orient_dout#maximo",
+   "campo": "f_orient_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1355
+  },
+  {
+   "id": "f_orient_dout#acima_do_limite",
+   "campo": "f_orient_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1358
+  },
+  {
+   "id": "f_orient_dout#acentos",
+   "campo": "f_orient_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1354
+  },
+  {
+   "id": "f_inst_dout#tipico",
+   "campo": "f_inst_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1342
+  },
+  {
+   "id": "f_inst_dout#maximo",
+   "campo": "f_inst_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1345
+  },
+  {
+   "id": "f_inst_dout#acima_do_limite",
+   "campo": "f_inst_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1354
+  },
+  {
+   "id": "f_inst_dout#acentos",
+   "campo": "f_inst_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1327
+  },
+  {
+   "id": "f_meses_sw#tipico",
+   "campo": "f_meses_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1318
+  },
+  {
+   "id": "f_meses_sw#maximo",
+   "campo": "f_meses_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1347
+  },
+  {
+   "id": "f_meses_sw#acima_do_limite",
+   "campo": "f_meses_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1340
+  },
+  {
+   "id": "f_meses_sw#acentos",
+   "campo": "f_meses_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1353
+  },
+  {
+   "id": "f_orient_dout_sw#tipico",
+   "campo": "f_orient_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1359
+  },
+  {
+   "id": "f_orient_dout_sw#maximo",
+   "campo": "f_orient_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1344
+  },
+  {
+   "id": "f_orient_dout_sw#acima_do_limite",
+   "campo": "f_orient_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1354
+  },
+  {
+   "id": "f_orient_dout_sw#acentos",
+   "campo": "f_orient_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1338
+  },
+  {
+   "id": "f_inst_dout_sw#tipico",
+   "campo": "f_inst_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1341
+  },
+  {
+   "id": "f_inst_dout_sw#maximo",
+   "campo": "f_inst_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1341
+  },
+  {
+   "id": "f_inst_dout_sw#acima_do_limite",
+   "campo": "f_inst_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1354
+  },
+  {
+   "id": "f_inst_dout_sw#acentos",
+   "campo": "f_inst_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1314
+  },
+  {
+   "id": "f_meses_sw_aux#tipico",
+   "campo": "f_meses_sw_aux",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1326
+  },
+  {
+   "id": "f_meses_sw_aux#maximo",
+   "campo": "f_meses_sw_aux",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1342
+  },
+  {
+   "id": "f_meses_sw_aux#acima_do_limite",
+   "campo": "f_meses_sw_aux",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1340
+  },
+  {
+   "id": "f_meses_sw_aux#acentos",
+   "campo": "f_meses_sw_aux",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1357
+  },
+  {
+   "id": "f_orient_dout_ct#tipico",
+   "campo": "f_orient_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1327
+  },
+  {
+   "id": "f_orient_dout_ct#maximo",
+   "campo": "f_orient_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1344
+  },
+  {
+   "id": "f_orient_dout_ct#acima_do_limite",
+   "campo": "f_orient_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1358
+  },
+  {
+   "id": "f_orient_dout_ct#acentos",
+   "campo": "f_orient_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1354
+  },
+  {
+   "id": "f_inst_dout_ct#tipico",
+   "campo": "f_inst_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1333
+  },
+  {
+   "id": "f_inst_dout_ct#maximo",
+   "campo": "f_inst_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1324
+  },
+  {
+   "id": "f_inst_dout_ct#acima_do_limite",
+   "campo": "f_inst_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1353
+  },
+  {
+   "id": "f_inst_dout_ct#acentos",
+   "campo": "f_inst_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 1338
+  },
+  {
+   "id": "f_inst#lupa",
+   "campo": "f_inst",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 3
+  },
+  {
+   "id": "f_curso#lupa",
+   "campo": "f_curso",
+   "status": "erro",
+   "detalhe": "url is not defined",
+   "aviso": "",
+   "ms": 2
+  },
+  {
+   "id": "f_nme_agencia#lupa",
+   "campo": "f_nme_agencia",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 2815
+  }
+ ]
+}

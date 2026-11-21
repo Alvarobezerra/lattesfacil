@@ -1,0 +1,1603 @@
+{
+ "item": "identificacao",
+ "variante": "único",
+ "variante_slug": "identificacao",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_priv_foto",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": ""
+  },
+  {
+   "name": "f_nome",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Nome completo",
+   "maxlength": 60
+  },
+  {
+   "name": "f_nome_social_r",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "S",
+     "texto": "Sim",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Deseja utilizar o nome social?"
+  },
+  {
+   "name": "f_nome_social",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Nome social",
+   "maxlength": 60
+  },
+  {
+   "name": "f_pais_nacio",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "País de Nacionalidade",
+   "total_opcoes": 244,
+   "opcoes": [
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    },
+    {
+     "valor": "FJI",
+     "texto": "Fiji"
+    }
+   ]
+  },
+  {
+   "name": "f_priv_nacionalidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": ""
+  },
+  {
+   "name": "f_sexo",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "opcoes": [
+    {
+     "valor": "M",
+     "texto": "Sexo",
+     "visivel": false,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "F",
+     "texto": "Masculino",
+     "visivel": false,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Privado"
+  },
+  {
+   "name": "fnro_id_raca_cor",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Cor ou raça",
+   "total_opcoes": 7,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "1",
+     "texto": "Branca"
+    },
+    {
+     "valor": "2",
+     "texto": "Preta"
+    },
+    {
+     "valor": "3",
+     "texto": "Parda"
+    },
+    {
+     "valor": "4",
+     "texto": "Indígena"
+    },
+    {
+     "valor": "5",
+     "texto": "Amarela"
+    },
+    {
+     "valor": "6",
+     "texto": "Não desejo declarar"
+    }
+   ]
+  },
+  {
+   "name": "f_priv_cor",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": ""
+  },
+  {
+   "name": "f_pais_nasc",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "País",
+   "total_opcoes": 245,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    }
+   ]
+  },
+  {
+   "name": "f_uf_nasc",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "UF",
+   "total_opcoes": 28,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "AC",
+     "texto": "AC"
+    },
+    {
+     "valor": "AL",
+     "texto": "AL"
+    },
+    {
+     "valor": "AP",
+     "texto": "AP"
+    },
+    {
+     "valor": "AM",
+     "texto": "AM"
+    },
+    {
+     "valor": "BA",
+     "texto": "BA"
+    },
+    {
+     "valor": "CE",
+     "texto": "CE"
+    },
+    {
+     "valor": "DF",
+     "texto": "DF"
+    },
+    {
+     "valor": "ES",
+     "texto": "ES"
+    },
+    {
+     "valor": "GO",
+     "texto": "GO"
+    },
+    {
+     "valor": "MA",
+     "texto": "MA"
+    },
+    {
+     "valor": "MT",
+     "texto": "MT"
+    },
+    {
+     "valor": "MS",
+     "texto": "MS"
+    },
+    {
+     "valor": "MG",
+     "texto": "MG"
+    },
+    {
+     "valor": "PA",
+     "texto": "PA"
+    },
+    {
+     "valor": "PB",
+     "texto": "PB"
+    },
+    {
+     "valor": "PR",
+     "texto": "PR"
+    },
+    {
+     "valor": "PE",
+     "texto": "PE"
+    },
+    {
+     "valor": "PI",
+     "texto": "PI"
+    },
+    {
+     "valor": "RJ",
+     "texto": "RJ"
+    },
+    {
+     "valor": "RN",
+     "texto": "RN"
+    },
+    {
+     "valor": "RS",
+     "texto": "RS"
+    },
+    {
+     "valor": "RO",
+     "texto": "RO"
+    },
+    {
+     "valor": "RR",
+     "texto": "RR"
+    },
+    {
+     "valor": "SC",
+     "texto": "SC"
+    },
+    {
+     "valor": "SP",
+     "texto": "SP"
+    },
+    {
+     "valor": "SE",
+     "texto": "SE"
+    },
+    {
+     "valor": "TO",
+     "texto": "TO"
+    }
+   ]
+  },
+  {
+   "name": "f_cidade_nasc",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Cidade",
+   "maxlength": 30
+  },
+  {
+   "name": "f_dta_nasc",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data",
+   "maxlength": 10
+  },
+  {
+   "name": "f_priv_nascimento",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Visibilidade"
+  },
+  {
+   "name": "f_rg_nro",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Número",
+   "maxlength": 15
+  },
+  {
+   "name": "f_orgao_rg",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Órgão emissor",
+   "maxlength": 8
+  },
+  {
+   "name": "f_uf_rg",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Unidade Federativa",
+   "total_opcoes": 28,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "AC",
+     "texto": "AC"
+    },
+    {
+     "valor": "AL",
+     "texto": "AL"
+    },
+    {
+     "valor": "AP",
+     "texto": "AP"
+    },
+    {
+     "valor": "AM",
+     "texto": "AM"
+    },
+    {
+     "valor": "BA",
+     "texto": "BA"
+    },
+    {
+     "valor": "CE",
+     "texto": "CE"
+    },
+    {
+     "valor": "DF",
+     "texto": "DF"
+    },
+    {
+     "valor": "ES",
+     "texto": "ES"
+    },
+    {
+     "valor": "GO",
+     "texto": "GO"
+    },
+    {
+     "valor": "MA",
+     "texto": "MA"
+    },
+    {
+     "valor": "MT",
+     "texto": "MT"
+    },
+    {
+     "valor": "MS",
+     "texto": "MS"
+    },
+    {
+     "valor": "MG",
+     "texto": "MG"
+    },
+    {
+     "valor": "PA",
+     "texto": "PA"
+    },
+    {
+     "valor": "PB",
+     "texto": "PB"
+    },
+    {
+     "valor": "PR",
+     "texto": "PR"
+    },
+    {
+     "valor": "PE",
+     "texto": "PE"
+    },
+    {
+     "valor": "PI",
+     "texto": "PI"
+    },
+    {
+     "valor": "RJ",
+     "texto": "RJ"
+    },
+    {
+     "valor": "RN",
+     "texto": "RN"
+    },
+    {
+     "valor": "RS",
+     "texto": "RS"
+    },
+    {
+     "valor": "RO",
+     "texto": "RO"
+    },
+    {
+     "valor": "RR",
+     "texto": "RR"
+    },
+    {
+     "valor": "SC",
+     "texto": "SC"
+    },
+    {
+     "valor": "SP",
+     "texto": "SP"
+    },
+    {
+     "valor": "SE",
+     "texto": "SE"
+    },
+    {
+     "valor": "TO",
+     "texto": "TO"
+    }
+   ]
+  },
+  {
+   "name": "f_dta_rg",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data de emissão",
+   "maxlength": 10
+  },
+  {
+   "name": "f_priv_identidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Visibilidade"
+  },
+  {
+   "name": "f_passaporte",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Número do passaporte",
+   "maxlength": 20
+  },
+  {
+   "name": "f_dta_val_passaporte",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data de validade",
+   "maxlength": 10
+  },
+  {
+   "name": "f_dta_emissao_doc",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data de emissão",
+   "maxlength": 10
+  },
+  {
+   "name": "fpaispassaporte",
+   "tipo": "select",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Pais de emissão",
+   "total_opcoes": 245,
+   "opcoes": [
+    {
+     "valor": "",
+     "texto": ""
+    },
+    {
+     "valor": "RFA",
+     "texto": "Alemanha"
+    },
+    {
+     "valor": "ARG",
+     "texto": "Argentina"
+    },
+    {
+     "valor": "AUS",
+     "texto": "Austrália"
+    },
+    {
+     "valor": "BRA",
+     "texto": "Brasil"
+    },
+    {
+     "valor": "CAN",
+     "texto": "Canadá"
+    },
+    {
+     "valor": "ESP",
+     "texto": "Espanha"
+    },
+    {
+     "valor": "EUA",
+     "texto": "Estados Unidos"
+    },
+    {
+     "valor": "FRA",
+     "texto": "França"
+    },
+    {
+     "valor": "GBR",
+     "texto": "Grã-Bretanha"
+    },
+    {
+     "valor": "HOL",
+     "texto": "Holanda"
+    },
+    {
+     "valor": "ING",
+     "texto": "Inglaterra"
+    },
+    {
+     "valor": "ITA",
+     "texto": "Itália"
+    },
+    {
+     "valor": "POR",
+     "texto": "Portugal"
+    },
+    {
+     "valor": "AFG",
+     "texto": "Afeganistão"
+    },
+    {
+     "valor": "AFS",
+     "texto": "África Do Sul"
+    },
+    {
+     "valor": "ALB",
+     "texto": "Albânia"
+    },
+    {
+     "valor": "AND",
+     "texto": "Andorra"
+    },
+    {
+     "valor": "ANG",
+     "texto": "Angola"
+    },
+    {
+     "valor": "ATC",
+     "texto": "Antartida"
+    },
+    {
+     "valor": "ANB",
+     "texto": "Antigua"
+    },
+    {
+     "valor": "AHL",
+     "texto": "Antilhas Holandesas"
+    },
+    {
+     "valor": "ARA",
+     "texto": "Arábia Saudita"
+    },
+    {
+     "valor": "ARL",
+     "texto": "Argélia"
+    },
+    {
+     "valor": "ARM",
+     "texto": "Armênia"
+    },
+    {
+     "valor": "ABW",
+     "texto": "Aruba"
+    },
+    {
+     "valor": "AUT",
+     "texto": "Austria"
+    },
+    {
+     "valor": "AZE",
+     "texto": "Azerbaijão"
+    },
+    {
+     "valor": "BHS",
+     "texto": "Bahamas"
+    },
+    {
+     "valor": "BGD",
+     "texto": "Bangladesh"
+    },
+    {
+     "valor": "BRB",
+     "texto": "Barbados"
+    },
+    {
+     "valor": "BAR",
+     "texto": "Barein"
+    },
+    {
+     "valor": "BEA",
+     "texto": "Belarus"
+    },
+    {
+     "valor": "BEL",
+     "texto": "Bélgica"
+    },
+    {
+     "valor": "BLZ",
+     "texto": "Belize"
+    },
+    {
+     "valor": "BEN",
+     "texto": "Benin"
+    },
+    {
+     "valor": "BER",
+     "texto": "Bermudas"
+    },
+    {
+     "valor": "BIR",
+     "texto": "Birmânia"
+    },
+    {
+     "valor": "BOL",
+     "texto": "Bolívia"
+    },
+    {
+     "valor": "BOS",
+     "texto": "Bósnia"
+    },
+    {
+     "valor": "BOT",
+     "texto": "Botsuana"
+    },
+    {
+     "valor": "IOT",
+     "texto": "Britsh Indian Ocean"
+    },
+    {
+     "valor": "BRN",
+     "texto": "Brunei"
+    },
+    {
+     "valor": "BUL",
+     "texto": "Bulgária"
+    },
+    {
+     "valor": "BKF",
+     "texto": "Burkina Fasso"
+    },
+    {
+     "valor": "BUR",
+     "texto": "Burundi"
+    },
+    {
+     "valor": "BUT",
+     "texto": "Butão"
+    },
+    {
+     "valor": "CBV",
+     "texto": "Cabo Verde"
+    },
+    {
+     "valor": "CAM",
+     "texto": "Camarões"
+    },
+    {
+     "valor": "CBJ",
+     "texto": "Camboja"
+    },
+    {
+     "valor": "CAT",
+     "texto": "Catar"
+    },
+    {
+     "valor": "CAZ",
+     "texto": "Cazaquistão"
+    },
+    {
+     "valor": "CHA",
+     "texto": "Chade"
+    },
+    {
+     "valor": "CHL",
+     "texto": "Chile"
+    },
+    {
+     "valor": "CHN",
+     "texto": "China"
+    },
+    {
+     "valor": "CHP",
+     "texto": "Chipre"
+    },
+    {
+     "valor": "CXR",
+     "texto": "Christmas Island"
+    },
+    {
+     "valor": "CIN",
+     "texto": "Cingapura"
+    },
+    {
+     "valor": "COL",
+     "texto": "Colômbia"
+    },
+    {
+     "valor": "COM",
+     "texto": "Comores"
+    },
+    {
+     "valor": "CON",
+     "texto": "Congo"
+    },
+    {
+     "valor": "CRN",
+     "texto": "Coréia Do Norte"
+    },
+    {
+     "valor": "CRS",
+     "texto": "Coréia Do Sul"
+    },
+    {
+     "valor": "CMF",
+     "texto": "Costa Do Marfim"
+    },
+    {
+     "valor": "CRC",
+     "texto": "Costa Rica"
+    },
+    {
+     "valor": "CRO",
+     "texto": "Croácia"
+    },
+    {
+     "valor": "CUB",
+     "texto": "Cuba"
+    },
+    {
+     "valor": "DIN",
+     "texto": "Dinamarca"
+    },
+    {
+     "valor": "DJI",
+     "texto": "Djibuti"
+    },
+    {
+     "valor": "DON",
+     "texto": "Dominica"
+    },
+    {
+     "valor": "EGI",
+     "texto": "Egito"
+    },
+    {
+     "valor": "ELS",
+     "texto": "El Salvador"
+    },
+    {
+     "valor": "EAU",
+     "texto": "Emirados Árabes"
+    },
+    {
+     "valor": "EQU",
+     "texto": "Equador"
+    },
+    {
+     "valor": "ERT",
+     "texto": "Eritréa"
+    },
+    {
+     "valor": "ESC",
+     "texto": "Escócia"
+    },
+    {
+     "valor": "SVK",
+     "texto": "Eslováquia"
+    },
+    {
+     "valor": "SVN",
+     "texto": "Eslovênia"
+    },
+    {
+     "valor": "EST",
+     "texto": "Estônia"
+    },
+    {
+     "valor": "ETP",
+     "texto": "Etiópia"
+    }
+   ]
+  },
+  {
+   "name": "f_priv_passaporte",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Visibilidade"
+  },
+  {
+   "name": "f_pcd_r",
+   "tipo": "radio",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "opcoes": [
+    {
+     "valor": "N",
+     "texto": "Não",
+     "visivel": true,
+     "marcado_inicial": true
+    },
+    {
+     "valor": "S",
+     "texto": "Sim",
+     "visivel": true,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Você é uma pessoa com Deficiência?"
+  },
+  {
+   "name": "f_pcd",
+   "tipo": "grupo_marcacao",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "opcoes": [
+    {
+     "valor": "A",
+     "texto": "Deficiência Auditiva",
+     "visivel": false,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "F",
+     "texto": "Deficiência Física",
+     "visivel": false,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "I",
+     "texto": "Deficiência Intelectual",
+     "visivel": false,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "V",
+     "texto": "Deficiência Visual",
+     "visivel": false,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "E",
+     "texto": "Transtorno do Espectro Autista",
+     "visivel": false,
+     "marcado_inicial": false
+    },
+    {
+     "valor": "M",
+     "texto": "Deficiência Múltipla",
+     "visivel": false,
+     "marcado_inicial": false
+    }
+   ],
+   "pergunta": "Você é uma pessoa com Deficiência?"
+  },
+  {
+   "name": "f_priv_pcd",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "(associação de duas ou mais deficiências - Decreto nº. 3.298/1999)"
+  },
+  {
+   "name": "file",
+   "tipo": "file",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Selecione uma imagem no formato JPEG com tamanho de até 70kB ou clique no botão Excluir para remover a fotografia atual"
+  }
+ ],
+ "estados": [
+  {
+   "gatilho": "f_nome_social_r",
+   "valor": "S",
+   "texto": "Sim",
+   "aparecem": [
+    "f_nome_social"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  },
+  {
+   "gatilho": "fnro_id_raca_cor",
+   "valor": "",
+   "texto": "",
+   "aparecem": [],
+   "somem": [
+    "f_nome_social"
+   ],
+   "habilitam": [],
+   "desabilitam": []
+  },
+  {
+   "gatilho": "f_pcd_r",
+   "valor": "S",
+   "texto": "Sim",
+   "aparecem": [
+    "f_pcd"
+   ],
+   "somem": [],
+   "habilitam": [],
+   "desabilitam": []
+  },
+  {
+   "gatilho": "f_pcd",
+   "valor": "A",
+   "texto": "Deficiência Auditiva",
+   "marcando": true,
+   "aparecem": [],
+   "somem": [
+    "f_pcd"
+   ]
+  }
+ ],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}

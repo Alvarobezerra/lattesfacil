@@ -30,7 +30,7 @@
     {
      "chave": "status",
      "name": "F_STATUS",
-     "rotulo": "F_STATUS",
+     "rotulo": "Status do curso",
      "aba": "Dados Gerais",
      "tipo": "radio",
      "opcoes": {
@@ -61,7 +61,7 @@
     {
      "chave": "bolsa",
      "name": "F_BOLSA",
-     "rotulo": "F_BOLSA",
+     "rotulo": "Com bolsa?",
      "aba": "Bolsa",
      "tipo": "radio",
      "opcoes": {

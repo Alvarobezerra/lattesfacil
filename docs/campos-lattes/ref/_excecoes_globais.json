@@ -8,5 +8,10 @@
   "categoria": "opcoes_diferentes",
   "campo": "f_sta_inovacao",
   "motivo": "mesma causa: textos das opções deslocados na captura; S=Sim e N=Não"
+ },
+ {
+  "categoria": "rotulo_diferente",
+  "campo": "f_ano_obten",
+  "motivo": "o campo é um par mês/ano; a captura por proximidade lê só a barra '/' entre os dois campos (conferido no formulário aberto); o rótulo do app é 'Obtenção do título (mês/ano)'"
  }
 ]

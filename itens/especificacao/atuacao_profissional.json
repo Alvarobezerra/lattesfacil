@@ -47,7 +47,13 @@
       "Não": "0",
       "Sim": "1"
      },
-     "obrigatorio": true
+     "obrigatorio": true,
+     "exige_antes": {
+      "name": "f_inst",
+      "valores": [
+       "Universidade Federal do Maranhão"
+      ]
+     }
     },
     {
      "chave": "enqua",
@@ -70,7 +76,7 @@
     {
      "chave": "regime",
      "name": "f_regime",
-     "rotulo": "f_regime",
+     "rotulo": "Carga horária semanal",
      "aba": "Vínculo",
      "tipo": "checkbox",
      "opcoes": {
@@ -99,7 +105,7 @@
     {
      "chave": "status",
      "name": "f_status",
-     "rotulo": "f_status",
+     "rotulo": "Ano",
      "aba": "Período",
      "tipo": "radio",
      "opcoes": {
@@ -115,8 +121,11 @@
      "aba": "Período",
      "tipo": "text",
      "maxlength": 2,
-     "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "mostrar_quando": {
+      "name": "f_status",
+      "valor": "Anterior (finalizado)"
+     }
     },
     {
      "chave": "ano_fim",
@@ -125,8 +134,11 @@
      "aba": "Período",
      "tipo": "text",
      "maxlength": 4,
-     "oculto": true,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "mostrar_quando": {
+      "name": "f_status",
+      "valor": "Anterior (finalizado)"
+     }
     },
     {
      "chave": "outras_inf",

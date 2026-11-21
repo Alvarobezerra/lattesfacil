@@ -62,7 +62,7 @@
     {
      "chave": "status",
      "name": "F_STATUS",
-     "rotulo": "F_STATUS",
+     "rotulo": "Status do curso",
      "aba": "Dados gerais",
      "tipo": "radio",
      "opcoes": {

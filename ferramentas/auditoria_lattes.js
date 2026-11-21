@@ -22,7 +22,8 @@ async function auditar(meta) {
   const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
   // Frame do formulário = o que tem mais campos nomeados.
   let melhor = null, mx = 0;
-  const varrer = (w) => { try { const n = w.document.querySelectorAll('input[name],select[name],textarea[name]').length; if (n > mx) { mx = n; melhor = w; } } catch (e) { /* outro domínio */ } for (let i = 0; i < w.length; i++) varrer(w[i]); };
+  const alvo = String(window.top.__paginaAlvo || '').toLowerCase();  // prefere o quadro da página aberta (sobras de outros formulários podem ter mais campos)
+  const varrer = (w) => { try { const n = w.document.querySelectorAll('input[name],select[name],textarea[name]').length; const src = (w.frameElement && w.frameElement.src || '').toLowerCase(); const peso = alvo && src.indexOf(alvo) >= 0 && n > 0 ? n + 100000 : n; if (peso > mx) { mx = peso; melhor = w; } } catch (e) { /* outro domínio */ } for (let i = 0; i < w.length; i++) varrer(w[i]); };
   varrer(window.top);
   const w = melhor; const d = w.document;
   w.alert = () => {}; w.confirm = () => true;

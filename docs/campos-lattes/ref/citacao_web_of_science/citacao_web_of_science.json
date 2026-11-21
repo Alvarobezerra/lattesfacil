@@ -1,0 +1,77 @@
+{
+ "item": "citacao_web_of_science",
+ "variante": "único",
+ "variante_slug": "citacao_web_of_science",
+ "capturado_em": "2026-11-20",
+ "abas": [],
+ "campos": [
+  {
+   "name": "f_res_id",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "ResearcherID",
+   "maxlength": 13
+  },
+  {
+   "name": "f_qtd_citacoes",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Número total de citações",
+   "maxlength": 6
+  },
+  {
+   "name": "f_qtd_trabalhos",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Número de trabalhos",
+   "maxlength": 6
+  },
+  {
+   "name": "f_data",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Data",
+   "maxlength": 10
+  },
+  {
+   "name": "f_indiceh",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Fator H (*)",
+   "maxlength": 3
+  },
+  {
+   "name": "f_query",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": true,
+   "rotulo": "Formato(s) do nome do autor utilizado(s) na consulta para obter o total de citações",
+   "maxlength": 400
+  },
+  {
+   "name": "f_tipo_privacidade",
+   "tipo": "text",
+   "desabilitado": false,
+   "somente_leitura": false,
+   "visivel_inicial": false,
+   "rotulo": "Privado: As informações não serão exibidas na consulta pública."
+  }
+ ],
+ "estados": [],
+ "habilitacoes": [],
+ "aceitacao": [],
+ "listas": [],
+ "botoes_incluir": [],
+ "observacoes": []
+}
