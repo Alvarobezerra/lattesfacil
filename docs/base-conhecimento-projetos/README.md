@@ -14,7 +14,9 @@ Esta pasta consolida a base empírica, conceitual, competitiva e prática que fu
    Pré-mapeamento de **2 projetos reais públicos** do grupo do Prof. Aramys (*Babaçu / LaFIT* e *Geoprópolis / mHealth*) para reação inicial + **Template de Mapeamento em Branco** para estruturar os **projetos de pesquisa abertos** dele.
 4. **[04-monitoramento-e-ingestao-inteligente-de-projetos.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/04-monitoramento-e-ingestao-inteligente-de-projetos.md)**  
    Fluxo de **Ingestão Inteligente de Projetos (upload PDF/DOCX → proposta editável de sistemática de acompanhamento)** e os **5 Mecanismos de Monitoramento de Processos Científicos** (sem microgerenciamento).
-5. **[resumo-executivo-projetos-lattesdata.html](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.html)** e **[resumo-executivo-projetos-lattesdata.pdf](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.pdf)**  
+5. **[05-prerequisitos-sigilo-zero-knowledge.md](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md)**  
+   **Pré-requisitos inegociáveis de privacidade e sigilo (*Zero-Knowledge / E2EE*):** criptografia ponta-a-ponta no aparelho do usuário (nem o servidor do LattesData lê os dados), proibição de envio de dados inéditos para APIs externas de IA e processamento inteligente 100% local.
+6. **[resumo-executivo-projetos-lattesdata.html](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.html)** e **[resumo-executivo-projetos-lattesdata.pdf](file:///C:/Users/icrim/Downloads/Projeto/lattes-facil/docs/base-conhecimento-projetos/resumo-executivo-projetos-lattesdata.pdf)**  
    Versão executiva visual (otimizada para leitura rápida no celular e para envio/apresentação ao Prof. Aramys).
 
 ## Documentos Complementares na Raiz de `docs/`

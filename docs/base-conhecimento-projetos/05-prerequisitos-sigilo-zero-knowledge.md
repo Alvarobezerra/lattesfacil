@@ -1,0 +1,43 @@
+# Pré-Requisitos de Privacidade e Sigilo (*Zero-Knowledge* / E2EE) — Gestão de Projetos de Pesquisa
+
+> **Status:** Pré-requisito arquitetural **inegociável** para qualquer implementação da camada de Gestão Colaborativa de Projetos de Pesquisa no **LattesData**.
+
+---
+
+## 1. Princípio Fundamental
+
+> **"Os dados inéditos compartilhados entre orientador, orientandos e parceiros pertencem exclusivamente ao grupo de pesquisa. Nem APIs externas de IA, nem terceiros, nem os próprios operadores do servidor do LattesData podem ter acesso ao conteúdo."**
+
+Na pesquisa científica — especialmente envolvendo resultados inéditos, propriedade intelectual/patentes (**INPI**), contratos sob sigilo (**NDA / EMBRAPII / ANP**), amostras biológicas/biodiversidade (**SisGen**) e dados de participantes humanos (**LGPD / CEP**) — a confiança depende de **garantia criptográfica real**, não apenas de promessa em termos de uso.
+
+---
+
+## 2. Os 5 Pré-Requisitos Obrigatórios da Arquitetura
+
+### Pré-Requisito 1 · Proibição de Envio de Dados Inéditos para APIs Externas de IA
+* Nenhum projeto de pesquisa, relatório de aluno, rascunho de manuscrito, dado experimental, protocolo ou conversa orientador ↔ orientando pode ser enviado para APIs externas de Inteligência Artificial.
+* A operação do módulo de projetos **não depende** de APIs externas de LLM.
+
+### Pré-Requisito 2 · Criptografia Ponta-a-Ponta (E2EE / *Zero-Knowledge*)
+* Todo conteúdo sensível do projeto (arquivos PDF/DOCX, entregas dos alunos, feedbacks, notas metodológicas, comprovantes internos e textos em construção) é **criptografado localmente no navegador/dispositivo do usuário** antes de trafegar pela rede (ex.: `Web Crypto API` com `AES-256-GCM` e chave exclusiva por projeto).
+* O servidor do **LattesData** armazena exclusivamente **blocos criptografados indecifráveis** (*ciphertext*), operando sob arquitetura ***Zero-Knowledge***: nem a equipe operadora do servidor nem eventuais invasões ao banco conseguem ler o conteúdo científico.
+* O servidor enxerga apenas **metadados mínimos estritamente operacionais** (identificador opaco do projeto, vínculo de membros autorizados, datas de alertas/prazos e flags de status como `pendente`/`aprovado`).
+
+### Pré-Requisito 3 · Separação Estrita entre Cofre Privado e Camada Pública
+A plataforma mantém duas fronteiras técnicas claramente isoladas:
+1. **Cofre Privado do Projeto (100% E2EE — *Zero-Knowledge*):** proposta do projeto, dados de coleta/bancada, patentes, documentos NDA, rascunhos de artigos/dissertações e trocas entre orientador e orientandos.
+2. **Camada Pública / Pós-Publicação (dados já públicos por natureza):** obras já publicadas com **DOI**, registros oficiais no **Crossref/ORCID** e metadados bibliográficos destinados ao **Currículo Lattes público (CNPq)** — liberados somente mediante confirmação explícita do pesquisador.
+
+### Pré-Requisito 4 · Processamento Inteligente 100% Local no Dispositivo do Usuário
+* Recursos de apoio como **leitura do PDF/DOCX do projeto**, **detecção automática de Packs e exigências (`CEUA`, `CEP`, `SisGen`, `INPI`)**, **geração do fluxograma de acompanhamento** e extração inicial de cronograma devem executar **localmente na máquina/navegador do usuário** (JavaScript/WebAssembly ou módulo local), antes de qualquer criptografia e envio ao servidor.
+* Caso o pesquisador deseje recursos futuros de avaliação linguística ou síntese assistida por IA sobre textos inéditos, isso só poderá ocorrer via **modelos locais rodando no próprio computador do pesquisador** (ex.: `WebGPU` / `Ollama`), preservando **zero saída de dados para nuvens de IA**.
+
+### Pré-Requisito 5 · Governança de Chaves e Continuidade do Grupo
+* Cada projeto possui uma **chave criptográfica própria** compartilhada apenas entre os membros ativos autorizados pelo coordenador/orientador.
+* Deve existir mecanismo seguro de **chave de recuperação do orientador** (garantindo que a memória do projeto nunca se perca em caso de troca de computador) e **revogação/rotação de acesso** quando um membro deixa o projeto, mantendo o histórico preservado sob controle do coordenador.
+
+---
+
+## 3. Posicionamento Estratégico Gerado por Estes Pré-Requisitos
+
+Ao adotar *Zero-Knowledge / E2EE* como pré-requisito desde a concepção, o **LattesData** se diferencia de ferramentas genéricas de nuvem (Google Drive, Notion, Trello, WhatsApp) e atende diretamente às exigências de **NITs universitários**, **comitês de ética**, **projetos com patentes no INPI** e **parcerias com a indústria**.
