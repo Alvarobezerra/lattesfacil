@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Tela Interna Operacional (Pastas Otimizadas + Fluxo de Etapas)</title>
+<style>
+  :root{
+    --navy:#0b192c; --navy-2:#163052; --teal:#087f91; --teal-d:#065f6d; --teal-l:#e8f6f8;
+    --mint:#059669; --mint-l:#e6f7f1; --amber:#b45309; --amber-l:#fef6e4;
+    --ink:#10233d; --muted:#566a80; --line:#dce5ee; --bg:#eef3f8; --paper:#ffffff;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Inter,system-ui,-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:12.5px/1.42 var(--sans);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:16px auto;padding:0 14px 40px;display:grid;gap:24px}
+  .v-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .v-tag{display:inline-block;padding:3px 9px;border-radius:99px;font:800 10px var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--teal-l);color:var(--teal);margin-bottom:3px}
+  .v-head h1{font:700 20px/1.15 var(--serif);margin:0;color:var(--navy)}
+  .v-head p{margin:2px 0 0;color:var(--muted);font-size:12px}
+
+  /* FRAME WIDESCREEN DA TELA OPERACIONAL */
+  .app{background:#fff;border:1.5px solid #cbd9e6;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(11,25,44,.08)}
+  .app-top{background:#f8fbfd;border-bottom:1px solid #e2eaf2;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px}
+  .flex{display:flex;align-items:center;gap:8px}
+  .e2ee{background:#e6f7f1;color:#065f46;border:1px solid #a7e4cd;padding:2px 8px;border-radius:99px;font:700 10px var(--sans)}
+  .btn-s{background:#fff;color:var(--navy);border:1px solid #cbd9e6;padding:3px 8px;border-radius:6px;font:700 10px var(--sans)}
+  .btn-p{background:var(--teal);color:#fff;border:0;padding:4px 10px;border-radius:6px;font:700 10px var(--sans)}
+  .btn-m{background:#059669;color:#fff;border:0;padding:3px 8px;border-radius:6px;font:700 9.5px var(--sans)}
+
+  /* BARRA DE ETAPAS HORIZONTAL (FLUXOGRAMA CLICÁVEL) */
+  .stage-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:9px 14px;background:#ffffff;border-bottom:1px solid #e2eaf2}
+  .st{border:1px solid #dce5ee;border-radius:8px;padding:6px 8px;background:#f8fbfd;font-size:10.5px}
+  .st-done{border-color:#a7e4cd;background:#f2fcf8}
+  .st-cur{border:1.5px solid var(--teal);background:#eaf7f9;box-shadow:0 2px 8px rgba(8,127,145,.12)}
+  .st b{display:block;color:var(--navy);font-size:10.5px;margin-bottom:2px}
+  .st-meta{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted)}
+
+  /* GRID DE 3 COLUNAS OPERACIONAL (LAYOUT 1) */
+  .grid-3col{display:grid;grid-template-columns:235px 1fr 250px;min-height:470px}
+  .sidebar{background:#f9fbfd;border-right:1px solid #e2eaf2;padding:11px 10px;display:flex;flex-direction:column;gap:5px}
+  .side-title{font:800 9.5px var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:2px 6px;display:flex;justify-content:space-between;align-items:center}
+  .folder{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:7px;font-size:11px;color:var(--ink);border:1px solid transparent}
+  .folder.active{background:#e8f6f8;border-color:#a5dce5;color:var(--navy);font-weight:700}
+  .folder .cnt{font:700 9.5px var(--sans);color:var(--muted);background:#edf3f8;padding:1px 6px;border-radius:99px}
+  .folder.active .cnt{background:var(--teal);color:#fff}
+  .sub-list{padding-left:14px;display:grid;gap:3px;margin:2px 0 4px}
+  .sub-f{font-size:10.5px;color:var(--muted);padding:3px 6px;border-radius:5px;display:flex;justify-content:space-between}
+  .sub-f.on{background:#fff;color:var(--teal-d);font-weight:700;border:1px solid #c9e6eb}
+
+  /* CENTRO OPERACIONAL (ARQUIVOS DA PASTA + VARIÁVEIS DA ETAPA) */
+  .center{padding:12px 14px;display:flex;flex-direction:column;gap:10px;background:#fff}
+  .sec-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .sec-bar h2{font:700 14.5px var(--serif);margin:0;color:var(--navy)}
+  .vars-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+  .var-box{border:1px solid #dce5ee;border-radius:8px;padding:7px 9px;background:#f8fbfd}
+  .var-box b{display:block;font:700 15px var(--serif);color:var(--navy)}
+  .var-box span{font-size:9.5px;color:var(--muted)}
+  .prog{height:4.5px;background:#e2eaf2;border-radius:99px;overflow:hidden;margin-top:4px}
+  .prog i{display:block;height:100%;background:var(--teal);border-radius:99px}
+  .prog-g i{background:#10b981}
+
+  /* TABELA OPERACIONAL DE ARQUIVOS (OTIMIZAÇÃO DA PASTA) */
+  table.files{width:100%;border-collapse:collapse;font-size:11px;border:1px solid #e2eaf2;border-radius:8px;overflow:hidden}
+  table.files th{background:#f1f6fa;color:var(--navy);font-weight:700;text-align:left;padding:6px 8px;border-bottom:1px solid #dce5ee;font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+  table.files td{padding:6px 8px;border-bottom:1px solid #edf2f7;vertical-align:middle}
+  table.files tr:last-child td{border-bottom:0}
+  .fname{font-weight:700;color:var(--navy);display:block}
+  .fsub{font-size:9.5px;color:var(--muted)}
+  .pill{display:inline-block;padding:2px 6px;border-radius:5px;font:700 9.5px var(--sans)}
+  .p-ok{background:#e6f7f1;color:#065f46}
+  .p-warn{background:#fef6e4;color:#92400e}
+  .p-t{background:#e8f6f8;color:#065f6d}
+  .p-g{background:#edf2f7;color:#475569}
+
+  /* COLUNA DIREITA: AUDITORIA, COMPLIANCE E CONVERSÃO */
+  .right{background:#f9fbfd;border-left:1px solid #e2eaf2;padding:11px 11px;display:flex;flex-direction:column;gap:9px}
+  .r-card{background:#fff;border:1px solid #dce5ee;border-radius:9px;padding:9px 10px}
+  .r-card h3{margin:0 0 6px;font:700 11px var(--sans);color:var(--navy);display:flex;justify-content:space-between;align-items:center}
+  .log-row{font-size:10px;padding:4px 0;border-bottom:1px solid #f1f5f9;color:var(--ink)}
+  .log-row:last-child{border-bottom:0;padding-bottom:0}
+  .log-row span{display:block;color:var(--muted);font-size:9px}
+  .comp-row{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;padding:3px 0}
+  .student-mini{background:var(--navy);color:#fff;border-radius:9px;padding:9px 10px;font-size:10px}
+  .student-mini b{color:#67f3d1}
+  .student-btn{margin-top:5px;display:block;text-align:center;background:#10b981;color:#04241a;font:800 10px var(--sans);padding:4px 6px;border-radius:6px}
+
+  /* LAYOUT 2: 2 COLUNAS AMPLAS (EXPLORADOR DE PASTAS + PAINEL DE ETAPA/FOMENTOS) */
+  .grid-2wide{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;padding:12px 14px;background:#fff}
+  .folder-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .f-tile{border:1px solid #dce5ee;border-radius:9px;padding:8px 9px;background:#f8fbfd}
+  .f-tile.on{border:1.5px solid var(--teal);background:#eaf7f9}
+  .f-tile b{display:block;font-size:11px;color:var(--navy);margin-bottom:2px}
+  .f-tile span{font-size:9.5px;color:var(--muted)}
+
+  @media screen and (max-width:860px){
+    .grid-3col,.grid-2wide,.stage-strip,.vars-row,.folder-cards{grid-template-columns:1fr}
+    .sidebar,.right{border:0;border-bottom:1px solid #e2eaf2}
+  }
+  @media print{
+    @page{size:A4 landscape;margin:7mm}
+    body{background:#fff;font-size:11px}
+    .wrap{max-width:none;margin:0;padding:0;gap:0}
+    .layout-page{page-break-after:always;break-after:page}
+    .layout-page:last-child{page-break-after:auto;break-after:auto}
+    .app{box-shadow:none}
+    .e2ee,.btn-p,.btn-m,.st-done,.st-cur,.folder.active,.pill,.prog i,.student-mini,.student-btn,.var-box,.f-tile.on{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <!-- =======================================================================
+       OPÇÃO 1: WORKSPACE OPERACIONAL DE 3 COLUNAS (SUBSTITUI A PASTA DO PC)
+       ======================================================================= -->
+  <section class="layout-page">
+    <div class="v-head">
+      <div>
+        <span class="v-tag">Opção 1 · Workspace Operacional 3 Colunas (Recomendada)</span>
+        <h1>Substitui a Pasta do Computador: Árvore de Pastas + Etapa &amp; Arquivos + Auditoria</h1>
+        <p>Esquerda: <strong>pastas padronizadas criadas pelo PDF do projeto</strong> · Centro: <strong>variáveis vivas + arquivos da etapa com aprovação 1-clique</strong> · Direita: <strong>Audit Log, Compliance e Visão do Aluno</strong>.</p>
+      </div>
+    </div>
+
+    <div class="app">
+      <!-- BARRA SUPERIOR -->
+      <div class="app-top">
+        <div class="flex">
+          <span class="btn-s">← Hub Projetos</span>
+          <strong style="font:700 14px var(--serif);color:var(--navy)">Bioprospecção e Bioprodutos do Babaçu (LaFIT / PPGST)</strong>
+          <span class="e2ee">🔒 E2EE Zero-Knowledge</span>
+        </div>
+        <div class="flex">
+          <span class="btn-s">🔍 Ver no servidor</span>
+          <span class="btn-s">📋 Copiar Funding (4 agências)</span>
+          <span class="btn-s">📦 Exportar Dossiê ZIP</span>
+          <span class="btn-p">+ Subir Arquivo (Cifra E2EE)</span>
+        </div>
+      </div>
+
+      <!-- FLUXOGRAMA HORIZONTAL DE ETAPAS -->
+      <div class="stage-strip">
+        <div class="st st-done"><b>1. Coleta &amp; Padronização</b><div class="st-meta"><span>Cooperativa · 4 lotes</span><strong style="color:#057a55">100% ✓</strong></div></div>
+        <div class="st st-done"><b>2. Extração &amp; HPLC</b><div class="st-meta"><span>12/12 amostras</span><strong style="color:#057a55">100% ✓</strong></div></div>
+        <div class="st st-cur"><b>3. Ensaios Biológicos ●</b><div class="st-meta"><span>Resp.: Fernanda · 15/12</span><strong style="color:var(--teal)">65%</strong></div></div>
+        <div class="st"><b>4. Formulação &amp; INPI</b><div class="st-meta"><span>Estab. 30/90d · Gate PI</span><strong>20%</strong></div></div>
+        <div class="st"><b>5. Artigos &amp; Contas</b><div class="st-meta"><span>Meta: 2 art. + 1 PTT</span><span>Aguard.</span></div></div>
+      </div>
+
+      <!-- 3 COLUNAS OPERACIONAIS -->
+      <div class="grid-3col">
+        <!-- COLUNA 1: ÁRVORE DE PASTAS OTIMIZADAS -->
+        <aside class="sidebar">
+          <div class="side-title"><span>Pastas do Projeto (E2EE)</span><span style="color:var(--teal)">+ Pasta</span></div>
+          <div class="folder"><span>📁 01 · Projeto &amp; Cronograma</span><span class="cnt">3</span></div>
+          <div class="folder"><span>🛡️ 02 · Regulatório &amp; Ética</span><span class="cnt">5</span></div>
+          <div class="folder active"><span>🧪 03 · Execução por Etapa</span><span class="cnt">18</span></div>
+          <div class="sub-list">
+            <div class="sub-f"><span>└ Etapa 1 · Coleta</span><span>4 arq.</span></div>
+            <div class="sub-f"><span>└ Etapa 2 · HPLC</span><span>6 arq.</span></div>
+            <div class="sub-f on"><span>└ Etapa 3 · Ensaios ●</span><span>5 arq.</span></div>
+            <div class="sub-f"><span>└ Etapa 4 · Formulação</span><span>3 arq.</span></div>
+          </div>
+          <div class="folder"><span>🎓 04 · Congressos &amp; Certif.</span><span class="cnt">7</span></div>
+          <div class="folder"><span>📄 05 · Manuscritos &amp; Patentes</span><span class="cnt">6</span></div>
+          <div class="folder"><span>💰 06 · Prestação de Contas</span><span class="cnt">4</span></div>
+
+          <div style="margin-top:auto;padding-top:8px;border-top:1px solid #e2eaf2">
+            <div class="side-title" style="padding-left:0"><span>Carteira de Fomentos (N:N)</span></div>
+            <div style="font-size:10px;margin-top:3px"><strong>FAPEMA APP-01415/25</strong> · 75%</div>
+            <div class="prog"><i style="width:75%"></i></div>
+            <div style="font-size:9.5px;color:var(--muted);margin-top:4px">FINEP 2362/24 · CAPES 001 · BM-02164/23</div>
+          </div>
+        </aside>
+
+        <!-- COLUNA 2: OPERAÇÃO DA PASTA/ETAPA SELECIONADA -->
+        <section class="center">
+          <div class="sec-bar">
+            <h2>🧪 03 · Execução / Etapa 3 — Ensaios Biológicos &amp; Citotoxicidade</h2>
+            <div class="flex">
+              <span class="btn-s">+ Variável</span>
+              <span class="btn-s">💬 Registrar Orientação</span>
+            </div>
+          </div>
+
+          <!-- VARIÁVEIS VIVAS DA ETAPA -->
+          <div class="vars-row">
+            <div class="var-box"><span>Amostras / N exp.</span><b>24 / 36</b><div class="prog"><i style="width:67%"></i></div></div>
+            <div class="var-box"><span>Ensaios celulares</span><b>3 / 4</b><div class="prog"><i style="width:75%"></i></div></div>
+            <div class="var-box"><span>Viabilidade média</span><b>89,2%</b><div class="prog prog-g"><i style="width:89%"></i></div></div>
+            <div class="var-box"><span>Desvio de prazo</span><b style="color:#057a55">0 dias</b><div class="prog prog-g"><i style="width:100%"></i></div></div>
+          </div>
+
+          <!-- TABELA OPERACIONAL DE ARQUIVOS DA PASTA -->
+          <table class="files">
+            <thead>
+              <tr>
+                <th style="width:39%">Arquivo na Pasta (Cifrado E2EE)</th>
+                <th>Autor / Versão</th>
+                <th>Status &amp; Proteção</th>
+                <th style="text-align:right">Ação Direta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#f4fbfc">
+                <td><span class="fname">📄 Artigo_Foods_2026_Final.pdf</span><span class="fsub">DOI 10.3390/foods15050945 · SHA-256 ✓</span></td>
+                <td>Fernanda (M)<br><span class="fsub">v4 · há 2h</span></td>
+                <td><span class="pill p-warn">Pendente aprov.</span><br><span class="fsub">Propaga p/ 7 Lattes</span></td>
+                <td style="text-align:right"><span class="btn-m">✓ Aprovar → Lattes</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">📊 Planilha_Citotoxicidade_Lote1-24.xlsx</span><span class="fsub">Dados brutos · Carimbo ICP-Brasil #9921</span></td>
+                <td>Fernanda (M)<br><span class="fsub">v3 · ontem</span></td>
+                <td><span class="pill p-ok">Validado ✓</span><br><span class="fsub">🔒 Marca d'água</span></td>
+                <td style="text-align:right"><span class="btn-s">Abrir</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">🎓 Certificado_Congresso_Farmacologia.pdf</span><span class="fsub">Resumo em anais · Vínculo IC</span></td>
+                <td>Lucas (IC)<br><span class="fsub">v1 · há 3d</span></td>
+                <td><span class="pill p-warn">Pendente aprov.</span><br><span class="fsub">Dossiê + Lattes</span></td>
+                <td style="text-align:right"><span class="btn-m">✓ Aprovar</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">🧪 Protocolo_Ensaio_Celular_MTT_v2.pdf</span><span class="fsub">POP padronizado · CEUA vinculada</span></td>
+                <td>Prof. Aramys<br><span class="fsub">v2 · 12/11</span></td>
+                <td><span class="pill p-ok">Oficial ✓</span><br><span class="fsub">🔒 Sigilo</span></td>
+                <td style="text-align:right"><span class="btn-s">Abrir</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">📝 Relatorio_Parcial_FAPEMA_Rascunho.docx</span><span class="fsub">Vinculado a APP-01415/25</span></td>
+                <td>Fernanda (M)<br><span class="fsub">v2 · 10/11</span></td>
+                <td><span class="pill p-t">Em revisão</span><br><span class="fsub">2 comentários</span></td>
+                <td style="text-align:right"><span class="btn-s">Revisar</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- CHECK-IN OPERACIONAL -->
+          <div style="border:1px solid #dce5ee;border-radius:8px;padding:7px 10px;background:#f8fbfd;font-size:10.5px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <div><strong>💬 Último Check-in (Fernanda · há 2h):</strong> <em>"Concluí 24/36 amostras e subi o PDF final da revista Foods. Travamento zero; lote 25–30 roda quinta."</em></div>
+            <span class="btn-s">Responder</span>
+          </div>
+        </section>
+
+        <!-- COLUNA 3: AUDITORIA, COMPLIANCE E VISÃO DO ALUNO -->
+        <aside class="right">
+          <div class="r-card">
+            <h3>🛡️ Cofre Regulatório <span class="pill p-t">Pack 1+6</span></h3>
+            <div class="comp-row"><span>SisGen (Patrimônio Genético)</span><strong style="color:#057a55">✓ OK</strong></div>
+            <div class="comp-row"><span>CEUA (Ética Animal)</span><strong style="color:#b45309">⚠ 42 dias</strong></div>
+            <div class="comp-row"><span>CEP Análise Sensorial</span><strong style="color:#057a55">✓ OK</strong></div>
+            <div class="comp-row"><span>Gate Patente INPI</span><strong style="color:var(--teal)">🔒 Ativo</strong></div>
+          </div>
+
+          <div class="r-card">
+            <h3>📜 Audit Log (Rastreabilidade) <span class="pill p-g">42</span></h3>
+            <div class="log-row"><strong>Fernanda</strong> enviou <code>Artigo_Foods.pdf</code><span>Hoje 10:14 · SHA-256 · E2EE</span></div>
+            <div class="log-row"><strong>Prof. Aramys</strong> abriu <code>Planilha_Cito.xlsx</code><span>Ontem 18:40 · Marca d'água</span></div>
+            <div class="log-row"><strong>Lucas (IC)</strong> enviou <code>Certificado.pdf</code><span>18/11 14:22 · Aguardando</span></div>
+          </div>
+
+          <div class="student-mini">
+            <div style="font-size:9px;text-transform:uppercase;color:#9fd7e0;letter-spacing:.07em">Prévia · Visão do Aluno (Grátis)</div>
+            <div><b>Cofre de Fernanda:</b> 5 arquivos aprovados prontos para o CNPq.</div>
+            <span class="student-btn">🔒 Sincronizar meu Lattes (Pix)</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       OPÇÃO 2: 2 COLUNAS AMPLAS (CARDS DE PASTAS + FLUXO/VARIÁVEIS AO LADO)
+       ======================================================================= -->
+  <section class="layout-page">
+    <div class="v-head">
+      <div>
+        <span class="v-tag">Opção 2 · 2 Colunas Amplas (Visual + Operacional)</span>
+        <h1>Pastas Visuais &amp; Arquivos à Esquerda · Progresso, Variáveis e Controle à Direita</h1>
+        <p>Mais espaçosa que 3 colunas: ideal se o pesquisador prefere ver <strong>as 6 pastas como blocos visuais grandes</strong> + a tabela de arquivos à esquerda, e <strong>etapas + variáveis + compliance</strong> à direita.</p>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="app-top">
+        <div class="flex">
+          <span class="btn-s">← Hub Projetos</span>
+          <strong style="font:700 14px var(--serif);color:var(--navy)">Bioprospecção e Bioprodutos do Babaçu (LaFIT / PPGST)</strong>
+          <span class="e2ee">🔒 E2EE Zero-Knowledge</span>
+        </div>
+        <div class="flex">
+          <span class="btn-s">🔍 Ver no servidor</span>
+          <span class="btn-s">📜 Audit Log (42)</span>
+          <span class="btn-s">+ Convidar Aluno (Grátis)</span>
+          <span class="btn-p">+ Subir Arquivo</span>
+        </div>
+      </div>
+
+      <div class="grid-2wide">
+        <!-- ESQUERDA: GESTOR VISUAL DE PASTAS + ARQUIVOS -->
+        <div>
+          <div class="sec-bar" style="margin-bottom:8px">
+            <h2>📁 Pastas Otimizadas do Projeto (Substitui o Drive / PC)</h2>
+            <span class="btn-s">📦 Baixar Dossiê Organizado</span>
+          </div>
+          <div class="folder-cards">
+            <div class="f-tile"><b>01 · Projeto &amp; Edital</b><span>3 arquivos · Cronograma</span></div>
+            <div class="f-tile"><b>02 · Ética &amp; SisGen</b><span>5 arquivos · ⚠ CEUA 42d</span></div>
+            <div class="f-tile on"><b>03 · Etapa 3 (Ensaios) ●</b><span>5 arquivos · 2 p/ aprovar</span></div>
+            <div class="f-tile"><b>04 · Congressos</b><span>7 certificados · IC/M</span></div>
+            <div class="f-tile"><b>05 · Artigos &amp; INPI</b><span>6 versões · Gate Patente</span></div>
+            <div class="f-tile"><b>06 · Prestação Contas</b><span>FAPEMA · FINEP · CAPES</span></div>
+          </div>
+
+          <table class="files">
+            <thead>
+              <tr>
+                <th>Arquivos em: 03 · Etapa 3 (Ensaios Biológicos)</th>
+                <th>Versão</th>
+                <th>Status</th>
+                <th style="text-align:right">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#f4fbfc">
+                <td><span class="fname">📄 Artigo_Foods_2026_Final.pdf</span><span class="fsub">Fernanda · DOI ok · Propaga p/ 7 Lattes</span></td>
+                <td>v4</td>
+                <td><span class="pill p-warn">Aprovar</span></td>
+                <td style="text-align:right"><span class="btn-m">✓ Aprovar → Lattes</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">📊 Planilha_Citotoxicidade_Lote1-24.xlsx</span><span class="fsub">Carimbo ICP-Brasil #9921 · 🔒 Marca d'água</span></td>
+                <td>v3</td>
+                <td><span class="pill p-ok">Validado</span></td>
+                <td style="text-align:right"><span class="btn-s">Abrir</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">🎓 Certificado_Congresso_Farmacologia.pdf</span><span class="fsub">Lucas (IC) · Vínculo Projeto + IC</span></td>
+                <td>v1</td>
+                <td><span class="pill p-warn">Aprovar</span></td>
+                <td style="text-align:right"><span class="btn-m">✓ Aprovar</span></td>
+              </tr>
+              <tr>
+                <td><span class="fname">🧪 Protocolo_Ensaio_Celular_MTT_v2.pdf</span><span class="fsub">Prof. Aramys · POP oficial</span></td>
+                <td>v2</td>
+                <td><span class="pill p-ok">Oficial</span></td>
+                <td style="text-align:right"><span class="btn-s">Abrir</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- DIREITA: ETAPAS + VARIÁVEIS + FOMENTO/ALUNO -->
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div class="r-card">
+            <h3>📍 Progresso das 5 Etapas Cadastradas <span class="pill p-ok">64% · No prazo</span></h3>
+            <div class="comp-row"><span>1. Coleta (Cooperativa) · 2. Extração HPLC</span><strong style="color:#057a55">100% ✓</strong></div>
+            <div class="comp-row" style="font-weight:700;color:var(--teal-d)"><span>3. Ensaios Biológicos (Resp.: Fernanda · 15/12)</span><span>65% ●</span></div>
+            <div class="prog"><i style="width:65%"></i></div>
+            <div class="comp-row"><span>4. Formulação &amp; Gate INPI (20%) · 5. Redação</span><span class="fsub">Em fila</span></div>
+          </div>
+
+          <div class="r-card">
+            <h3>📈 Variáveis de Monitoramento <span class="btn-s" style="padding:2px 6px">+ Variável</span></h3>
+            <div class="comp-row"><span>Amostras / N experimental</span><strong>24 / 36 (67%)</strong></div>
+            <div class="prog"><i style="width:67%"></i></div>
+            <div class="comp-row" style="margin-top:4px"><span>Protocolos &amp; Ensaios validados</span><strong>7 / 10 (70%)</strong></div>
+            <div class="prog"><i style="width:70%"></i></div>
+            <div class="comp-row" style="margin-top:4px"><span>Estabilidade formulação</span><strong>30 / 90 dias</strong></div>
+            <div class="prog"><i style="width:33%"></i></div>
+          </div>
+
+          <div class="r-card">
+            <h3>💰 Fomentos (N:N) &amp; 🛡️ Compliance <span class="btn-s" style="padding:2px 6px">📋 Funding</span></h3>
+            <div class="comp-row"><span>FAPEMA APP-01415/25 · FINEP · CAPES</span><strong>75% meta</strong></div>
+            <div class="comp-row"><span>SisGen ✓ · CEP Sensorial ✓ · Gate INPI 🔒</span><strong style="color:#b45309">⚠ CEUA 42d</strong></div>
+          </div>
+
+          <div class="student-mini" style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <div><b>Visão do Aluno (Grátis):</b> 5 entregas prontas no cofre</div>
+            <span class="student-btn" style="margin:0;white-space:nowrap;padding:4px 9px">🔒 Sincronizar Lattes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
