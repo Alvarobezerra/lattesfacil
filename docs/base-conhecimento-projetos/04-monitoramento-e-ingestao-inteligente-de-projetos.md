@@ -37,7 +37,25 @@ No **LattesData**, o onboarding do projeto segue o mesmo princípio do cadastro 
 
 ---
 
-## 2. Os 5 Recursos de Monitoramento de Processos Científicos
+## 2. Seção "Projeto em Progresso": Etapas Cadastradas & Variáveis de Monitoramento
+
+No centro da tela de gestão do projeto, o orientador e os alunos acompanham o andamento real por meio de **dois componentes integrados** (gerados automaticamente na leitura local do PDF do projeto e totalmente editáveis):
+
+1. **Etapas Cadastradas com Progresso e Dependências:**
+   - Cada etapa do cronograma possui: *nome*, *responsável(is)*, *prazo*, *percentual concluído*, *status* (`Concluída`, `Em curso`, `Bloqueada`, `Aguardando`) e *evidência vinculada*.
+   - Exemplo real (*Projeto Babaçu / LaFIT*): `1. Coleta & Padronização (100%)` → `2. Extração & Caracterização HPLC (100%)` → `3. Ensaios Biológicos & Citotoxicidade (65%)` → `4. Formulação & Gate Patente INPI (20%)` → `5. Redação & Prestação de Contas (Aguardando)`.
+2. **Variáveis de Monitoramento (Customizáveis por Área / Pack):**
+   - Além do percentual subjetivo, cada etapa pode acompanhar **variáveis objetivas de progresso** (*meta vs. realizado*):
+     - *Bancada / Farmácia:* `Amostras / N experimental (24/36)`, `Ensaios validados (7/10)`, `Estabilidade em dias (30/90d)`.
+     - *Clínicos / Saúde Coletiva:* `Participantes recrutados (n)`, `Artigos triados no PRISMA`, `Juízes validadores (IVC)`.
+     - *Agrárias / Alimentos:* `Safras concluídas`, `Parcelas colhidas`, `Análises sensoriais`.
+     - *Computação / Engenharias:* `Benchmarks/Seeds rodados`, `Nível TRL (1–9)`, `Testes HIL`.
+     - *Humanas / Sociais:* `Arquivos consultados`, `Entrevistas transcritas`, `Capítulos entregues`.
+   - Variáveis transversais automáticas: *desvio de prazo (dias)* e *taxa de check-ins da equipe*.
+
+---
+
+## 3. Os 5 Recursos Complementares de Monitoramento de Processos Científicos
 
 Projetados para dar **visibilidade imediata ao orientador** sem sobrecarregar os orientandos com planilhas ou microgerenciamento:
 
