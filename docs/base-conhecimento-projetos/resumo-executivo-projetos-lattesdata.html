@@ -157,7 +157,7 @@
 
     <div class="footer">
       <span>LattesData · Documento atualizado para co-construção com Prof. Dr. Aramys Silva dos Reis</span>
-      <span>Página 1 de 6</span>
+      <span>Página 1 de 7</span>
     </div>
   </section>
 
@@ -227,7 +227,7 @@
 
     <div class="footer">
       <span>Detalhamento completo em docs/base-conhecimento-projetos/01-fichas-8-packs-e-matriz-lattes.md</span>
-      <span>Página 2 de 6</span>
+      <span>Página 2 de 7</span>
     </div>
   </section>
 
@@ -350,15 +350,15 @@
 
     <div class="footer">
       <span>Detalhamento completo em docs/base-conhecimento-projetos/02-benchmark-plataformas-globais.md</span>
-      <span>Página 3 de 6</span>
+      <span>Página 3 de 7</span>
     </div>
   </section>
 
-  <!-- PÁGINA 4: INGESTÃO INTELIGENTE, MONITORAMENTO E SIGILO ZERO-KNOWLEDGE (E2EE) -->
+  <!-- PÁGINA 4: INGESTÃO, MONITORAMENTO & ESTRUTURA DA CRIPTOGRAFIA E2EE -->
   <section class="page">
     <div class="topbar">
-      <span>Operação &amp; Segurança · Pré-Requisitos Inegociáveis</span>
-      <span class="pill">Zero-Knowledge · E2EE · ICP-Brasil</span>
+      <span>Operação &amp; Estrutura Criptográfica · Pré-Requisitos Inegociáveis</span>
+      <span class="pill">Zero-Knowledge · E2EE · 100% Local</span>
     </div>
     <h2>4. Ingestão do Projeto (PDF) &amp; Monitoramento Sem Burocracia</h2>
     <div class="grid-2" style="margin-bottom:10px">
@@ -366,8 +366,8 @@
         <h3>Upload do Projeto → Sistemática Editável (100% Local)</h3>
         <ul>
           <li>O orientador sobe o <strong>PDF/DOCX</strong> já submetido ao edital ou PPG.</li>
-          <li>O leitor <strong>local no navegador</strong> extrai cronograma, metas, fomentos e detecta Packs (<code>CEUA</code>, <code>SisGen</code>, <code>CEP</code>, <code>INPI</code>).</li>
-          <li>Propõe fases, alertas e cadência de check-in <strong>totalmente editáveis</strong> antes de ativar o projeto.</li>
+          <li>O leitor <strong>local no navegador</strong> extrai cronograma, metas, fomentos e detecta Packs (<code>CEUA</code>, <code>SisGen</code>, <code>CEP</code>, <code>INPI</code>) antes de criptografar.</li>
+          <li>Propõe fases, alertas e cadência de check-in <strong>totalmente editáveis</strong> antes de ativar o espaço do projeto.</li>
         </ul>
       </div>
       <div class="box">
@@ -382,41 +382,130 @@
       </div>
     </div>
 
-    <h2>5. Pré-Requisitos de Sigilo <em>Zero-Knowledge</em> (E2EE) &amp; Recuperação</h2>
+    <h2>5. Como Funciona a Estrutura de Criptografia Ponta-a-Ponta (E2EE)</h2>
+    <p class="muted"><strong>Regra inegociável:</strong> nenhum dado inédito do projeto sai para APIs externas de IA e <strong>nem os operadores do servidor do LattesData conseguem ler o conteúdo</strong>.</p>
+
+    <div class="flow" style="margin:8px 0 10px">
+      <div class="step" style="background:#edf9f6;border-color:#9fe0c8">
+        <span class="n">A</span><strong>Aparelho do Orientador</strong><br>
+        <span class="muted"><strong>Senha-Mestra</strong> (<code>Argon2id</code>) destranca o <em>Chaveiro Pessoal</em> localmente. PDFs e textos são cifrados em <code>AES-256-GCM</code> <strong>antes</strong> de sair do navegador.</span>
+      </div>
+      <div class="step" style="background:#0b192c;border-color:#132c4c;color:#e6f1f8">
+        <span class="n" style="background:#10b981;color:#052e22">B</span><strong style="color:#7cf5d4">Servidor LattesData (Zero-Knowledge)</strong><br>
+        <span style="font-size:11px;color:#cfe2ef">Armazena apenas <strong>blocos cifrados indecifráveis</strong> (<em>ciphertext</em>) + metadados mínimos (membros, datas de alerta, <em>Audit Log</em>, hash <code>SHA-256</code> e Carimbo ICP-Brasil).</span>
+      </div>
+      <div class="step" style="background:#edf9f6;border-color:#9fe0c8">
+        <span class="n">C</span><strong>Aparelho do Orientando / Parceiro</strong><br>
+        <span class="muted">Recebe a chave do projeto cifrada para sua chave pública (<code>X25519</code>) pelo orientador. Decifra localmente no navegador/celular.</span>
+      </div>
+    </div>
+
     <div class="grid-2">
-      <div class="box box-dark">
-        <h3>Blindagem Criptográfica Real (Nem o Servidor Lê)</h3>
+      <div class="box">
+        <h3>Separação Estrita de Duas Camadas</h3>
         <ul>
-          <li><strong>Criptografia Ponta-a-Ponta (<code>AES-256-GCM</code>):</strong> todo conteúdo inédito é cifrado no navegador/celular antes de subir; o servidor guarda apenas blocos indecifráveis.</li>
-          <li><strong>Zero API externa de IA:</strong> nenhum dado privado do projeto sai para nuvens de IA.</li>
-          <li><strong>Contra acesso admin / membro fantasma:</strong> a chave nasce da <strong>Senha-Mestra</strong> local; mesmo forçando login no banco, o operador não decifra nada.</li>
-          <li><strong>Auditoria + Anterioridade:</strong> <em>Audit Log</em> imutável, hash <code>SHA-256</code> + <strong>Carimbo de Tempo ICP-Brasil</strong> e <strong>marca d'água dinâmica</strong> (nome + data/hora) no modo sigilo.</li>
+          <li><strong>Cofre Privado do Projeto (100% E2EE):</strong> proposta inédita, dados experimentais, patentes, NDA, rascunhos e trocas orientador ↔ aluno. <em>Zero acesso do servidor e zero API externa.</em></li>
+          <li><strong>Camada Pública / Pós-Publicação:</strong> obras já publicadas com <code>DOI</code>, Crossref, ORCID e metadados liberados pelo usuário para o Lattes.</li>
         </ul>
       </div>
-      <div class="box">
-        <h3>Mobilidade, Formatação, Recuperação &amp; Selos</h3>
+      <div class="box box-mint">
+        <h3>Como Demonstramos a Criptografia na Tela</h3>
         <ul>
-          <li><strong>Outro PC ou celular:</strong> basta digitar a Senha-Mestra (ou biometria) para destrancar o chaveiro criptografado em memória — inclusive para adicionar/revogar alunos pelo celular.</li>
-          <li><strong>PC formatado:</strong> nada se perde; tudo volta ao logar na máquina nova.</li>
-          <li><strong>Esqueceu a senha?</strong> Usa o <strong>Kit de Emergência em PDF</strong> gerado no navegador (<strong>nunca enviado por e-mail!</strong>) ou 2º aparelho/coorientador.</li>
-          <li><strong>Prova visível &amp; Selos:</strong> botão <em>"Ver o que o servidor enxerga"</em> + trilha de auditoria E2EE (<em>LabSEC/UFSC, LARC/USP, LASCA/UNICAMP</em> via fomento) → <em>RNP/CAFe</em> → <em>ISO 27001/27701</em>.</li>
+          <li><strong>Botão "Ver o que o servidor enxerga":</strong> mostra ao vivo o texto decifrado local vs. o bloco cifrado salvo no servidor (verificável no <em>F12</em> pela TI).</li>
+          <li><strong>Chave de Recuperação local</strong> + <strong>Código de Segurança (Fingerprint)</strong> estilo Signal + <strong>Selo por documento</strong> (<code>AES-256-GCM</code>, <code>SHA-256</code>, ICP-Brasil e Log).</li>
         </ul>
       </div>
     </div>
 
     <div class="footer">
-      <span>Detalhes completos em 04-monitoramento-e-ingestao-inteligente-de-projetos.md e 05-prerequisitos-sigilo-zero-knowledge.md</span>
-      <span>Página 4 de 6</span>
+      <span>Arquitetura detalhada em docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md</span>
+      <span>Página 4 de 7</span>
     </div>
   </section>
 
-  <!-- PÁGINA 5: REPRESENTAÇÃO VISUAL DA TELA (PROJETO EM ANDAMENTO DO ARAMYS) -->
+  <!-- PÁGINA 5: DÚVIDAS FREQUENTES DE SEGURANÇA, ACESSO, RECUPERAÇÃO & SELOS -->
+  <section class="page">
+    <div class="topbar">
+      <span>Dúvidas Críticas de Sigilo · Acesso, Formatação, Recuperação &amp; Selos</span>
+      <span class="pill">Respostas Técnicas para Docentes e NITs</span>
+    </div>
+    <h2>6. Dúvidas Frequentes sobre Criptografia, Acesso e Recuperação</h2>
+    <p class="muted">Respostas objetivas para as perguntas mais sensíveis feitas por pesquisadores, comitês de ética, NITs e equipes de TI:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:31%">Pergunta / Cenário Real</th>
+          <th>Como o LattesData Resolve (Mantendo o Zero-Knowledge)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>O operador do servidor pode logar na minha conta e ler meus arquivos?</strong></td>
+          <td><strong>Não.</strong> A chave que abre os projetos é derivada no navegador a partir da <strong>Senha-Mestra</strong> do pesquisador e nunca vai para o servidor. Mesmo forçando login ou acessando o banco de dados, o operador vê apenas blocos indecifráveis.</td>
+        </tr>
+        <tr>
+          <td><strong>O servidor pode injetar um "membro fantasma" no meu projeto?</strong></td>
+          <td><strong>Não.</strong> Para um novo membro ler o projeto, a chave secreta precisa ser cifrada com a chave pública dele <strong>pelo aparelho do orientador</strong> na hora da aprovação. O servidor não possui a chave do projeto para entregar a terceiros.</td>
+        </tr>
+        <tr>
+          <td><strong>Posso acessar e adicionar alunos de outro PC ou pelo celular?</strong></td>
+          <td><strong>Sim, normalmente.</strong> O servidor guarda seu <em>chaveiro pessoal cifrado</em>. Ao entrar pelo celular ou outra máquina e digitar a Senha-Mestra (ou biometria), o chaveiro é destrancado localmente em memória — permitindo ler, aprovar e convidar alunos.</td>
+        </tr>
+        <tr>
+          <td><strong>E se o meu computador for formatado ou trocado?</strong></td>
+          <td><strong>Nada se perde.</strong> Projetos, PDFs e o chaveiro cifrado continuam salvos no servidor. Na máquina nova, basta fazer login com a Senha-Mestra e tudo volta na hora.</td>
+        </tr>
+        <tr>
+          <td><strong>E se eu formatar o PC E esquecer a Senha-Mestra?</strong></td>
+          <td>O pesquisador usa o <strong>Kit de Emergência em PDF</strong> (ou código de 12 palavras) gerado no início — ou reautoriza via <strong>2º aparelho</strong> (celular) ou <strong>coorientador</strong> do projeto.</td>
+        </tr>
+        <tr>
+          <td><strong>Por que a Chave de Recuperação NÃO é enviada por e-mail?</strong></td>
+          <td>Dois motivos: (1) se o servidor enviasse o e-mail, ele teria visto a chave (quebrando o <em>Zero-Knowledge</em>); (2) caixas de e-mail comuns não são E2EE. Por isso o <strong>Kit de Emergência em PDF é gerado 100% dentro do navegador</strong> para o usuário baixar/imprimir.</td>
+        </tr>
+        <tr>
+          <td><strong>E se um aluno sair do grupo ou meu celular for perdido?</strong></td>
+          <td>Revogação imediata da sessão/vínculo + rotação da chave do projeto para novos arquivos. Todo o histórico de PDFs e entregas permanece preservado no projeto do orientador.</td>
+        </tr>
+        <tr>
+          <td><strong>É mais seguro que pastas locais? E quanto a prints de tela?</strong></td>
+          <td><strong>Sim.</strong> Temos <strong>Log Imutável de Auditoria</strong> (quem entrou, abriu, baixou ou aprovou), prova de anterioridade (<code>SHA-256</code> + <strong>Carimbo ICP-Brasil</strong>) e, no modo sigilo, <strong>marca d'água dinâmica</strong> (nome + data/hora) que rastreia até fotos/prints de tela, além de registro de ações de saída.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box box-teal" style="margin-top:10px">
+      <h3>Trilha de Validação, Auditoria Criptográfica &amp; Selos de Confiança</h3>
+      <div class="grid-3" style="margin-top:6px">
+        <div class="box" style="background:#fff">
+          <strong>Fase 1 · MVP (Imediato)</strong><br>
+          <span class="muted">Padrões NIST (<code>AES-256-GCM</code>, <code>X25519</code>, <code>Argon2id</code>), <em>Open-Source Crypto Core</em>, <strong>Carimbo ICP-Brasil (ACT/ITI)</strong> e LGPD (RIPD/DPO).</span>
+        </div>
+        <div class="box" style="background:#fff">
+          <strong>Fase 2 · Validação Acadêmica</strong><br>
+          <span class="muted"><strong>Auditoria Criptográfica E2EE</strong> com ICTs de referência (<em>LabSEC/UFSC, LARC/USP, LASCA/UNICAMP</em> — financiável via fomento/editais) + <strong>RNP/CAFe</strong> e piloto em NIT.</span>
+        </div>
+        <div class="box" style="background:#fff">
+          <strong>Fase 3 · Escala Institucional</strong><br>
+          <span class="muted"><strong>ISO/IEC 27001</strong> (Segurança) + <strong>ISO/IEC 27701</strong> (Privacidade/LGPD) acreditadas pelo INMETRO e relatório <strong>SOC 2 Tipo II</strong>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Detalhes completos em docs/base-conhecimento-projetos/05-prerequisitos-sigilo-zero-knowledge.md</span>
+      <span>Página 5 de 7</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 6: REPRESENTAÇÃO VISUAL DA TELA (PROJETO EM ANDAMENTO DO ARAMYS) -->
   <section class="page">
     <div class="topbar">
       <span>Representação de Interface · Cenário Real (LaFIT / PPGST / UFMA)</span>
       <span class="pill">Simulação de Projeto em Andamento</span>
     </div>
-    <h2>6. Como Seria a Tela de Gestão de um Projeto Real do Prof. Aramys</h2>
+    <h2>7. Como Seria a Tela de Gestão de um Projeto Real do Prof. Aramys</h2>
     <p class="muted" style="margin-bottom:8px">Simulação ilustrativa usando o caso real de <strong>Bioprodutos do Babaçu</strong> — mostrando a visão do orientador, o cofre E2EE, as aprovações 1-para-N e o gatilho de conversão do orientando:</p>
 
     <div class="ui-frame">
@@ -515,17 +604,17 @@
 
     <div class="footer">
       <span>Simulação conceitual de interface · Todos os dados inéditos trafegam cifrados em E2EE</span>
-      <span>Página 5 de 6</span>
+      <span>Página 6 de 7</span>
     </div>
   </section>
 
-  <!-- PÁGINA 6: CASOS ARAMYS & ROTEIRO COM PROJETOS ABERTOS -->
+  <!-- PÁGINA 7: CASOS ARAMYS & ROTEIRO COM PROJETOS ABERTOS -->
   <section class="page">
     <div class="topbar">
       <span>Aplicação Prática · Co-construção com Projetos Abertos</span>
       <span class="pill">Pronto para Sessão com Prof. Aramys</span>
     </div>
-    <h2>7. Pré-Mapeamento de 2 Casos Reais do Grupo (LaFIT / PPGST)</h2>
+    <h2>8. Pré-Mapeamento de 2 Casos Reais do Grupo (LaFIT / PPGST)</h2>
     <p class="muted">Reconstruídos a partir de publicações públicas reais (2025–2026) como ponto de partida para reação e ajuste direto com o Prof. Aramys:</p>
 
     <div class="grid-2" style="margin-bottom:12px">
@@ -549,7 +638,7 @@
       </div>
     </div>
 
-    <h2>8. Template para Estruturar os Projetos Abertos do Aramys</h2>
+    <h2>9. Template para Estruturar os Projetos Abertos do Aramys</h2>
     <p class="muted">Na próxima etapa, o Prof. Aramys traz 1 a 3 projetos abertos dele e preenchemos juntos estes 6 blocos para fechar o fluxo exato do sistema:</p>
 
     <div class="template-grid">
@@ -570,7 +659,7 @@
 
     <div class="footer">
       <span>Template completo em docs/base-conhecimento-projetos/03-estudos-de-caso-aramys-e-template.md</span>
-      <span>Página 6 de 6</span>
+      <span>Página 7 de 7</span>
     </div>
   </section>
 
