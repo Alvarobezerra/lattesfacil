@@ -55,6 +55,23 @@ Na arquitetura *Zero-Knowledge* do LattesData, isso é **tecnicamente impedido p
 
 ---
 
+## 3B. Matriz de Cenários Práticos: Acesso, Mobilidade, Formatação e Recuperação
+
+Para eliminar dúvidas operacionais de pesquisadores e equipes de TI, a tabela abaixo define exatamente como o sistema responde a cada situação real do dia a dia mantendo o *Zero-Knowledge*:
+
+| Cenário Real | O que acontece na prática | Regra de Segurança |
+| :--- | :--- | :--- |
+| **1. Acesso de outro computador ou pelo celular** | O orientador faz login e digita sua **Senha-Mestra** (ou desbloqueia por biometria/Passkey no celular já autorizado). O navegador baixa o **chaveiro criptografado**, destranca localmente em memória e exibe todos os projetos. | A Senha-Mestra e as chaves abertas nunca saem do aparelho; ao fechar/sair, tudo volta a ficar trancado. |
+| **2. Adicionar ou revogar alunos pelo celular / outra máquina** | Funciona normalmente: com o chaveiro destrancado localmente em memória, o aparelho do orientador cifra a chave do projeto para a chave pública do novo aluno (ou rotaciona a chave ao revogar). | Mobilidade total para o orientador, sem depender de um único computador fixo. |
+| **3. Computador formatado ou trocado** | **Nada se perde.** Projetos, PDFs e o chaveiro criptografado permanecem salvos (cifrados) no servidor. Basta logar na nova máquina com a **Senha-Mestra** para restaurar tudo na hora. | Zero dependência do disco local do computador antigo. |
+| **4. Esqueceu a Senha-Mestra (com ou sem formatação)** | O usuário utiliza o **Kit de Emergência** (PDF gerado localmente no navegador ao criar a conta ou código de 12 palavras) para destrancar o chaveiro e cadastrar uma nova Senha-Mestra. | **Proibido enviar a Chave de Recuperação por e-mail** (o servidor nunca vê a chave e e-mails comuns não são E2EE). |
+| **5. Recuperação sem o Kit de Emergência (com coorientador ou 2º aparelho)** | Se o orientador tiver um **segundo aparelho já autorizado** (ex.: celular com biometria) ou um **coorientador/co-administrador** no projeto, pode reautorizar o acesso sem perda dos dados do projeto. | Reduz drasticamente o risco de bloqueio definitivo sem abrir brecha no servidor. |
+| **6. Perda ou roubo do celular/notebook** | O usuário revoga a sessão do aparelho perdido a partir de outro dispositivo. Mesmo que alguém acesse o aparelho sem a biometria/Senha-Mestra, o cofre permanece cifrado. | Revogação imediata registrada no *Audit Log*. |
+| **7. Aluno se forma ou sai do laboratório** | O orientador revoga o vínculo do aluno no projeto e rotaciona a chave para novos arquivos. Todo o histórico de evidências e PDFs continua preservado no projeto do orientador. | Resolve o *Lab Turnover* com rastreabilidade total. |
+| **8. Tentativa de acesso pelo operador do servidor ou "membro fantasma"** | Mesmo forçando login ou acessando o banco de dados, o operador vê apenas blocos cifrados indecifráveis e não consegue conceder acesso a terceiros sem assinatura do dispositivo do orientador. | Garantia criptográfica real (*Zero-Knowledge*). |
+
+---
+
 ## 4. Como Demonstrar e Provar a Criptografia ao Usuário na Interface
 
 Para que o sigilo seja **visível e verificável** (e não apenas um ícone genérico de cadeado):
