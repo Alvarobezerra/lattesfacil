@@ -128,6 +128,10 @@ Só se você autorizar, **em currículo de teste** (ou com item marcado "TESTE" 
 variante, ver o Lattes aceitar e conferir que a lista do currículo mostra o item certo; depois excluir. Sem autorização, a fase 6
 é o limite.
 
+**Regras permanentes (decisão do usuário, 21/11/2026):**
+- Formulários que sobrescreveriam dado real do currículo (identificação, endereço, idioma, licença, formação acadêmica, pós-doutorado, texto inicial, outras informações) **não têm salvamento de teste**: matriz de preenchimento + leitura de volta bastam; não é pendência.
+- "É um dos 10 trabalhos mais relevantes" = Sim: o Lattes recusa acima do limite de relevantes; é **exceção justificada "limite do Lattes"** (`ref/_excecoes_matriz.json`), não falha.
+
 ### Fase 8 — Fechamento e registro
 - Ficha assinada com data, versão do app, resultado e pendências.
 - Testes automáticos do item adicionados à suíte (diff e matriz viram teste de regressão).

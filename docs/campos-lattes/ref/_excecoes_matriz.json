@@ -1,0 +1,10 @@
+[
+ {
+  "campo": "f_relev",
+  "caso": "opcao_sim",
+  "categoria": "limite_lattes",
+  "itens": "todos os itens com 'É um dos 10 trabalhos mais relevantes de sua produção?' (faixas 5, 7 e 8)",
+  "motivo": "O Lattes recusa a marcação Sim quando o currículo já tem o máximo de produções relevantes (limite do próprio Lattes, 5 no currículo de teste). O formulário do app oferece as mesmas opções Sim/Não (paridade e leitura de volta de Não conferidas); a recusa é regra do Lattes por currículo, não divergência do espelho. Prova: mensagem de limite exibida pelo Lattes ao marcar Sim (capturada na rodada da faixa 7/8, 21/11/2026).",
+  "tratamento": "gerar_casos.py marca o caso com limite_lattes=true; gerar_ciclo_matriz.py não o conta como falha e imprime LIMITE_LATTES"
+ }
+]

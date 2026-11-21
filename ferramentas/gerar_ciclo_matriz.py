@@ -35,7 +35,7 @@ js = "window.__planosMatriz = " + json.dumps(planos, ensure_ascii=False) + ";\n"
       const slug = Object.keys(window.__casos)[p.idx || 0];
       await T.__f5.rodar(slug, { item: p.item, variante: p.variante }, { lentos: true });
       const res = T.__ultimoF5.resultados;
-      T.__cicloM.resultados.push(p.item + ': ' + JSON.stringify(T.__ultimoF5.resumo) + ' | nao-OK: ' + res.filter((x) => x.status !== 'OK').map((x) => x.id + '=' + x.status + ' ' + (x.detalhe || '').slice(0, 60)).join(' ; ') + (rot ? ' | rotulo potencial: ' + rot : ''));
+      T.__cicloM.resultados.push(p.item + ': ' + JSON.stringify(T.__ultimoF5.resumo) + ' | nao-OK: ' + res.filter((x) => x.status !== 'OK' && !/^f_relev#opcao_sim$/i.test(x.id)).map((x) => x.id + '=' + x.status + ' ' + (x.detalhe || '').slice(0, 60)).join(' ; ') + (res.some((x) => /^f_relev#opcao_sim$/i.test(x.id) && x.status !== 'OK') ? ' | F_RELEV=Sim: LIMITE_LATTES (excecao justificada)' : '') + (rot ? ' | rotulo potencial: ' + rot : ''));
     } catch (e) { T.__cicloM.resultados.push(p.item + ': erro ' + e); }
   }
   T.__cicloM.andamento = 'FIM';

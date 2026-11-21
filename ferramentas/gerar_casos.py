@@ -71,7 +71,8 @@ def casos_da_variante(sv):
 
         def add(sufixo, alvo, esperado, lento=False):
             casos.append({"id": f"{n}#{sufixo}", "campo": n, "tipo": tipo, "rotulo": c.get("rotulo", n), "pre": pre, "alvo": alvo, "esperado": esperado, "lento": lento,
-                          "gatilho": c.get("mostrar_quando", {}).get("name", "")})
+                          "gatilho": c.get("mostrar_quando", {}).get("name", ""),
+                          "limite_lattes": n.lower() == "f_relev" and sufixo == "opcao_sim"})  # Lattes recusa Sim com 5 relevantes (excecao em _excecoes_matriz.json)
 
         if n.lower() in LUPAS:
             nome, contem = {"f_inst": ("Universidade Federal do Maranhão", "maranh"), "f_orgao": ("Centro de Ciências de Imperatriz (CCIm)", "imperatriz"),
