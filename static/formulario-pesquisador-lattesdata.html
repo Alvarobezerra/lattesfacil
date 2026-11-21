@@ -110,7 +110,7 @@ textarea{min-height:92px;resize:vertical}
 
   <div class="progress-bar" aria-live="polite">
     <div class="progress-top">
-      <div><strong id="progText">0 de 37 questões respondidas</strong></div>
+      <div><strong id="progText">0 de 32 questões respondidas</strong></div>
       <div class="progress-actions">
         <span id="draftInfo">Rascunho automático ativo</span>
         <button type="button" class="link-btn" id="btnLimparRascunho">Limpar rascunho</button>
@@ -127,7 +127,7 @@ textarea{min-height:92px;resize:vertical}
       <a href="#bloco-6" data-block="6">6. Registro</a>
       <a href="#bloco-7" data-block="7">7. Legado &amp; Eco</a>
       <a href="#bloco-8" data-block="8">8. Prioridades</a>
-      <a href="#bloco-9" data-block="9">9. Projetos</a>
+      <a href="#bloco-9-separado" style="background:#dff7ee;color:#065f46;border-color:#9de2c8">Bloco 9 · Projetos (separado) ↓</a>
     </nav>
   </div>
 
@@ -588,76 +588,97 @@ textarea{min-height:92px;resize:vertical}
       </div>
     </section>
 
-    <!-- BLOCO 9 -->
-    <section class="section" id="bloco-9">
+    <div class="actions">
+      <div class="actions-info">
+        <strong>Privacidade:</strong> suas respostas orientam exclusivamente o design do LattesData e não alteram seu currículo oficial.
+      </div>
+      <button class="btn" type="submit" id="btnEnviar">Enviar escuta completa (Blocos 1–8)</button>
+    </div>
+    <div id="statusBox" class="status-box" role="status"></div>
+  </form>
+
+  <!-- FORMULÁRIO SEPARADO: BLOCO 9 · GESTÃO COLABORATIVA DE PROJETOS -->
+  <form id="projetosForm" style="margin-top:28px">
+    <section class="section" id="bloco-9-separado" style="border-top:4px solid #0f766e">
       <div class="section-head">
-        <span class="num">9</span>
+        <span class="num" style="background:#dff7ee;color:#065f46">9</span>
         <div>
-          <h2>Gestão colaborativa de projetos de pesquisa &amp; modelo orientador–aluno</h2>
-          <p class="section-intro">Para testar se o LattesData também deve ser o ambiente semanal dos seus projetos com orientandos e parceiros.</p>
+          <h2>Formulário Separado · Bloco 9: Gestão colaborativa de projetos de pesquisa</h2>
+          <p class="section-intro">Este formulário é <strong>independente</strong> da escuta acima (6 questões, envio próprio). Avalia a proposta de gestão semanal de projetos com orientandos e parceiros.</p>
         </div>
       </div>
 
-      <div class="q" data-qid="q33" data-block="9">
-        <label class="title"><span class="q-num">Q33</span> Ao conduzir ou participar de projetos de pesquisa com orientandos e parceiros, quais são hoje os maiores gargalos de gestão?</label>
+      <div class="q" data-proj-q="1">
+        <label class="title"><span class="q-num">1</span> Ao conduzir ou participar de projetos de pesquisa com orientandos e parceiros, quais são hoje os maiores gargalos de gestão?</label>
         <p class="hint">Marque todas as situações que realmente acontecem na sua rotina.</p>
         <div class="options two">
-          <label class="option"><input type="checkbox" name="q33" value="Perder comprovantes e certificados quando o aluno defende e sai do grupo"> Perder comprovantes e certificados quando o aluno defende e sai do grupo</label>
-          <label class="option"><input type="checkbox" name="q33" value="Controlar múltiplos processos de fomento e bolsas (FAPs, CNPq, CAPES, FINEP) no mesmo artigo"> Controlar múltiplos processos de fomento e bolsas (FAPs, CNPq, CAPES, FINEP) no mesmo artigo</label>
-          <label class="option"><input type="checkbox" name="q33" value="Acompanhar protocolos regulatórios (CEUA, CEP/CAAE, SisGen, SISBIO, patentes INPI)"> Acompanhar protocolos regulatórios (CEUA, CEP/CAAE, SisGen, SISBIO, patentes INPI)</label>
-          <label class="option"><input type="checkbox" name="q33" value="Redigitar a mesma obra/resumo em vários Lattes (orientador + alunos/coautores)"> Redigitar a mesma obra/resumo em vários Lattes (orientador + alunos/coautores)</label>
-          <label class="option"><input type="checkbox" name="q33" value="Consolidar entregas e vínculos Projeto ↔ Orientação ↔ Produção para Sucupira e editais"> Consolidar entregas e vínculos Projeto ↔ Orientação ↔ Produção para Sucupira e editais</label>
-          <label class="option"><input type="checkbox" name="q33" value="Organizar papéis de autoria (CRediT), ORCID e versões de manuscritos entre coautores"> Organizar papéis de autoria (CRediT), ORCID e versões de manuscritos entre coautores</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Perder comprovantes e certificados quando o aluno defende e sai do grupo"> Perder comprovantes e certificados quando o aluno defende e sai do grupo</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Controlar múltiplos processos de fomento e bolsas (FAPs, CNPq, CAPES, FINEP) no mesmo artigo"> Controlar múltiplos processos de fomento e bolsas (FAPs, CNPq, CAPES, FINEP) no mesmo artigo</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Acompanhar protocolos regulatórios (CEUA, CEP/CAAE, SisGen, SISBIO, patentes INPI)"> Acompanhar protocolos regulatórios (CEUA, CEP/CAAE, SisGen, SISBIO, patentes INPI)</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Redigitar a mesma obra/resumo em vários Lattes (orientador + alunos/coautores)"> Redigitar a mesma obra/resumo em vários Lattes (orientador + alunos/coautores)</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Consolidar entregas e vínculos Projeto ↔ Orientação ↔ Produção para Sucupira e editais"> Consolidar entregas e vínculos Projeto ↔ Orientação ↔ Produção para Sucupira e editais</label>
+          <label class="option"><input type="checkbox" name="proj_q1" value="Organizar papéis de autoria (CRediT), ORCID e versões de manuscritos entre coautores"> Organizar papéis de autoria (CRediT), ORCID e versões de manuscritos entre coautores</label>
         </div>
       </div>
 
-      <div class="q" data-qid="q34" data-block="9">
-        <label class="title"><span class="q-num">Q34</span> Em uma arquitetura modular (espinha dorsal comum + packs por área), quais módulos você ativaria de imediato nos seus projetos?</label>
+      <div class="q" data-proj-q="2">
+        <label class="title"><span class="q-num">2</span> Em uma arquitetura modular (espinha dorsal comum + packs por área), quais módulos você ativaria de imediato nos seus projetos?</label>
         <p class="hint">Marque todos os módulos relevantes para sua especialidade.</p>
         <div class="options two">
-          <label class="option"><input type="checkbox" name="q34" value="Carteira de Fomentos & Bolsas (N:N) com texto automático de Funding e prestação de contas"> Carteira de Fomentos &amp; Bolsas (N:N) com texto automático de Funding e prestação de contas</label>
-          <label class="option"><input type="checkbox" name="q34" value="Pack Bancada & Farmácia (CEUA, SisGen, SISBIO, vouchers, gate de patente INPI)"> Pack Bancada &amp; Farmácia (CEUA, SisGen, SISBIO, vouchers, gate de patente INPI)</label>
-          <label class="option"><input type="checkbox" name="q34" value="Pack Saúde Coletiva, Revisões & PTT (Dispensa CEP 510, PROSPERO/OSF, PRISMA, validação IVC, PTTs)"> Pack Saúde Coletiva, Revisões &amp; PTT (Dispensa CEP 510, PROSPERO/OSF, PRISMA, IVC, PTTs)</label>
-          <label class="option"><input type="checkbox" name="q34" value="Pack Ensaios Clínicos (CEP/CONEP, ANVISA, ReBEC/ClinicalTrials, CONSORT)"> Pack Ensaios Clínicos (CEP/CONEP, ANVISA, ReBEC/ClinicalTrials, CONSORT)</label>
-          <label class="option"><input type="checkbox" name="q34" value="Pack Computação/Engenharias (GitHub, conferências, TRL, NDA/embargo industrial, INPI software)"> Pack Computação/Engenharias (GitHub, conferências, TRL, NDA/embargo, INPI software)</label>
-          <label class="option"><input type="checkbox" name="q34" value="Pack Agrárias/Alimentos ou Humanas/Coletâneas (multi-safra/MAPA ou projetos guarda-chuva/livros)"> Pack Agrárias/Alimentos (safra/MAPA) ou Humanas/Sociais (guarda-chuva/coletâneas)</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Carteira de Fomentos & Bolsas (N:N) com texto automático de Funding e prestação de contas"> Carteira de Fomentos &amp; Bolsas (N:N) com texto automático de Funding e prestação de contas</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Pack Bancada & Farmácia (CEUA, SisGen, SISBIO, vouchers, gate de patente INPI)"> Pack Bancada &amp; Farmácia (CEUA, SisGen, SISBIO, vouchers, gate de patente INPI)</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Pack Saúde Coletiva, Revisões & PTT (Dispensa CEP 510, PROSPERO/OSF, PRISMA, validação IVC, PTTs)"> Pack Saúde Coletiva, Revisões &amp; PTT (Dispensa CEP 510, PROSPERO/OSF, PRISMA, IVC, PTTs)</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Pack Ensaios Clínicos (CEP/CONEP, ANVISA, ReBEC/ClinicalTrials, CONSORT)"> Pack Ensaios Clínicos (CEP/CONEP, ANVISA, ReBEC/ClinicalTrials, CONSORT)</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Pack Computação/Engenharias (GitHub, conferências, TRL, NDA/embargo industrial, INPI software)"> Pack Computação/Engenharias (GitHub, conferências, TRL, NDA/embargo, INPI software)</label>
+          <label class="option"><input type="checkbox" name="proj_q2" value="Pack Agrárias/Alimentos ou Humanas/Coletâneas (multi-safra/MAPA ou projetos guarda-chuva/livros)"> Pack Agrárias/Alimentos (safra/MAPA) ou Humanas/Sociais (guarda-chuva/coletâneas)</label>
         </div>
       </div>
 
-      <div class="q" data-qid="q35" data-block="9">
-        <label class="title"><span class="q-num">Q35</span> O quanto ajudaria a "Propagação 1-para-N": o orientando sobe 1 PDF ou DOI no projeto, o orientador aprova em 1 clique e o registro já fica pronto para o dossiê do edital, para o Lattes do orientador e para o cofre dos coautores?</label>
+      <div class="q" data-proj-q="3">
+        <label class="title"><span class="q-num">3</span> Qual o valor de subir o PDF/DOCX do seu projeto de pesquisa e o sistema ler automaticamente (cronograma, metas, protocolos) para propor uma sistemática de acompanhamento editável?</label>
         <div class="scale">
-          <label><input type="radio" name="q35" value="1 - Pouco útil"> 1 · Pouco útil</label>
-          <label><input type="radio" name="q35" value="2 - Razoável"> 2 · Razoável</label>
-          <label><input type="radio" name="q35" value="3 - Útil"> 3 · Útil</label>
-          <label><input type="radio" name="q35" value="4 - Muito útil"> 4 · Muito útil</label>
-          <label><input type="radio" name="q35" value="5 - Mudaria totalmente minha rotina"> 5 · Mudaria totalmente</label>
+          <label><input type="radio" name="proj_q3" value="1 - Pouco útil"> 1 · Pouco útil</label>
+          <label><input type="radio" name="proj_q3" value="2 - Razoável"> 2 · Razoável</label>
+          <label><input type="radio" name="proj_q3" value="3 - Útil"> 3 · Útil</label>
+          <label><input type="radio" name="proj_q3" value="4 - Muito útil"> 4 · Muito útil</label>
+          <label><input type="radio" name="proj_q3" value="5 - Indispensável (elimina tela em branco)"> 5 · Indispensável</label>
         </div>
       </div>
 
-      <div class="q" data-qid="q36" data-block="9">
-        <label class="title"><span class="q-num">Q36</span> Como você avalia o modelo "Orientador Pagante ↔ Aluno Gratuito": o orientador assina o espaço de projetos, os alunos usam de graça para interagir e enviar entregas, e pagam um plano estudante ou passe avulso apenas se quiserem sincronizar com o próprio Lattes ou montar dossiê pessoal?</label>
+      <div class="q" data-proj-q="4">
+        <label class="title"><span class="q-num">4</span> O quanto ajudaria a "Propagação 1-para-N": o orientando sobe 1 PDF ou DOI no projeto, o orientador aprova em 1 clique e o registro já fica pronto para o dossiê do edital, para o Lattes do orientador e para o cofre dos coautores?</label>
+        <div class="scale">
+          <label><input type="radio" name="proj_q4" value="1 - Pouco útil"> 1 · Pouco útil</label>
+          <label><input type="radio" name="proj_q4" value="2 - Razoável"> 2 · Razoável</label>
+          <label><input type="radio" name="proj_q4" value="3 - Útil"> 3 · Útil</label>
+          <label><input type="radio" name="proj_q4" value="4 - Muito útil"> 4 · Muito útil</label>
+          <label><input type="radio" name="proj_q4" value="5 - Mudaria totalmente minha rotina"> 5 · Mudaria totalmente</label>
+        </div>
+      </div>
+
+      <div class="q" data-proj-q="5">
+        <label class="title"><span class="q-num">5</span> Como você avalia o modelo "Orientador Pagante ↔ Aluno Gratuito": o orientador assina o espaço de projetos, os alunos usam de graça para interagir e enviar entregas, e pagam um plano estudante ou passe avulso apenas se quiserem sincronizar com o próprio Lattes ou montar dossiê pessoal?</label>
         <div class="options">
-          <label class="option"><input type="radio" name="q36" value="Excelente — tira a barreira de entrada dos alunos e gera valor claro para o orientador"> Excelente — tira a barreira de entrada dos alunos e gera valor claro para o orientador</label>
-          <label class="option"><input type="radio" name="q36" value="Bom, desde que o passe/plano do aluno seja acessível (ex.: Pix avulso na época de seleção/edital)"> Bom, desde que o passe/plano do aluno seja bem acessível (ex.: Pix avulso em época de seleção)</label>
-          <label class="option"><input type="radio" name="q36" value="Preferiria um plano único do laboratório ou do Programa (PPG) cobrindo docentes e discentes"> Preferiria um plano único do laboratório ou do Programa (PPG) cobrindo docentes e discentes</label>
-          <label class="option"><input type="radio" name="q36" value="Tenho ressalvas sobre cobrar dos alunos nesse modelo"> Tenho ressalvas sobre cobrar dos alunos nesse modelo</label>
+          <label class="option"><input type="radio" name="proj_q5" value="Excelente — tira a barreira de entrada dos alunos e gera valor claro para o orientador"> Excelente — tira a barreira de entrada dos alunos e gera valor claro para o orientador</label>
+          <label class="option"><input type="radio" name="proj_q5" value="Bom, desde que o passe/plano do aluno seja acessível (ex.: Pix avulso na época de seleção/edital)"> Bom, desde que o passe/plano do aluno seja bem acessível (ex.: Pix avulso em época de seleção)</label>
+          <label class="option"><input type="radio" name="proj_q5" value="Preferiria um plano único do laboratório ou do Programa (PPG) cobrindo docentes e discentes"> Preferiria um plano único do laboratório ou do Programa (PPG) cobrindo docentes e discentes</label>
+          <label class="option"><input type="radio" name="proj_q5" value="Tenho ressalvas sobre cobrar dos alunos nesse modelo"> Tenho ressalvas sobre cobrar dos alunos nesse modelo</label>
         </div>
       </div>
 
-      <div class="q" data-qid="q37" data-block="9">
-        <label class="title" for="q37_txt"><span class="q-num">Q37</span> Pensando em um projeto real do seu grupo hoje, qual é a primeira rotina (da concepção à prestação de contas) que o LattesData deveria resolver para você e seus alunos usarem toda semana?</label>
-        <textarea id="q37_txt" name="q37" placeholder="Ex.: organizar as entregas de IC/mestrado por projeto, guardar protocolos regulatórios e montar relatórios de fomento/Sucupira sem caçar arquivos espalhados…"></textarea>
+      <div class="q" data-proj-q="6">
+        <label class="title" for="proj_q6_txt"><span class="q-num">6</span> Pensando em um projeto real do seu grupo hoje, qual é a primeira rotina (da concepção à prestação de contas) que o LattesData deveria resolver para você e seus alunos usarem toda semana?</label>
+        <textarea id="proj_q6_txt" name="proj_q6" placeholder="Ex.: organizar as entregas de IC/mestrado por projeto, guardar protocolos regulatórios e montar relatórios de fomento/Sucupira sem caçar arquivos espalhados…"></textarea>
       </div>
     </section>
 
     <div class="actions">
       <div class="actions-info">
-        <strong>Privacidade:</strong> suas respostas orientam exclusivamente o design do LattesData e não alteram seu currículo oficial.
+        <strong>Envio independente:</strong> estas respostas são gravadas separadamente da escuta principal acima.
       </div>
-      <button class="btn" type="submit" id="btnEnviar">Enviar escuta completa</button>
+      <button class="btn" type="submit" id="btnEnviarProjetos">Enviar formulário de Projetos (Bloco 9)</button>
     </div>
-    <div id="statusBox" class="status-box" role="status"></div>
+    <div id="projetosStatusBox" class="status-box" role="status"></div>
   </form>
 
   <p class="footer">LattesData · Escuta de Descoberta e Significado na Vida Acadêmica</p>

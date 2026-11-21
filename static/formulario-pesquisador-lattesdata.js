@@ -205,4 +205,109 @@
 
   restaurarRascunho();
   atualizarProgresso();
+
+  // Formulário separado: Bloco 9 (Gestão Colaborativa de Projetos)
+  const projForm = document.getElementById("projetosForm");
+  if (projForm) {
+    const PROJ_DRAFT_KEY = "lf-pesquisa-projetos-b9-v1";
+    const projBtn = document.getElementById("btnEnviarProjetos");
+    const projStatus = document.getElementById("projetosStatusBox");
+    const projCards = Array.from(projForm.querySelectorAll(".q[data-proj-q]"));
+
+    function projMsg(texto, erro) {
+      if (!projStatus) return;
+      projStatus.textContent = texto;
+      projStatus.className = "status-box " + (erro ? "err" : "ok");
+    }
+
+    function salvarProjDraft() {
+      try {
+        const estado = {
+          checks: Array.from(projForm.querySelectorAll("input[type=checkbox], input[type=radio]"))
+            .map((el) => ({ name: el.name, value: el.value, checked: el.checked })),
+          textos: Array.from(projForm.querySelectorAll("textarea"))
+            .map((el) => ({ name: el.name, value: el.value })),
+        };
+        localStorage.setItem(PROJ_DRAFT_KEY, JSON.stringify(estado));
+      } catch (e) {}
+    }
+
+    function restaurarProjDraft() {
+      try {
+        const bruto = localStorage.getItem(PROJ_DRAFT_KEY);
+        if (!bruto) return;
+        const estado = JSON.parse(bruto);
+        if (Array.isArray(estado.checks)) {
+          estado.checks.forEach((c) => {
+            projForm.querySelectorAll(`input[name="${CSS.escape(c.name)}"]`).forEach((el) => {
+              if (el.value === c.value) el.checked = Boolean(c.checked);
+            });
+          });
+        }
+        if (Array.isArray(estado.textos)) {
+          estado.textos.forEach((t) => {
+            const el = projForm.querySelector(`textarea[name="${CSS.escape(t.name)}"]`);
+            if (el && typeof t.value === "string") el.value = t.value;
+          });
+        }
+      } catch (e) {}
+    }
+
+    projForm.addEventListener("input", salvarProjDraft);
+    projForm.addEventListener("change", salvarProjDraft);
+
+    projForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (projStatus) projStatus.className = "status-box";
+      const respostas = [];
+      projCards.forEach((card, index) => {
+        const titulo = (card.querySelector(".title")?.textContent || `Bloco 9 · Questão ${index + 1}`)
+          .replace(/^\d+\s*/, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        const selecionados = Array.from(card.querySelectorAll("input:checked"))
+          .map((inp) => inp.value || inp.closest("label")?.textContent.replace(/\s+/g, " ").trim() || "selecionado");
+        const textos = Array.from(card.querySelectorAll("textarea, input[type=text]"))
+          .map((el) => el.value.trim())
+          .filter(Boolean);
+        const combinado = [...selecionados, ...textos].join("; ");
+        if (combinado) {
+          respostas.push({ pergunta: `[Bloco 9 · Projetos] ${titulo}`, resposta: combinado });
+        }
+      });
+
+      if (respostas.length === 0) {
+        projMsg("Responda pelo menos uma questão do Bloco 9 antes de enviar.", true);
+        return;
+      }
+
+      const baseNome = (nomeInput && nomeInput.value.trim()) || "Pesquisador convidado";
+      const respondente = `${baseNome} · Bloco 9 (Projetos)`;
+      if (projBtn) {
+        projBtn.disabled = true;
+        projBtn.textContent = "Enviando Bloco 9…";
+      }
+
+      try {
+        const resp = await fetch("/api/pesquisa/pesquisador", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ respondente, respostas }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || "Não foi possível registrar suas respostas do Bloco 9.");
+        try { localStorage.removeItem(PROJ_DRAFT_KEY); } catch (e) {}
+        projMsg(`Obrigado, ${baseNome}! Recebemos ${respostas.length} resposta(s) do formulário separado de Gestão de Projetos.`, false);
+        projForm.querySelectorAll("input, textarea, button").forEach((el) => { el.disabled = true; });
+      } catch (err) {
+        projMsg(err.message || "Falha ao enviar respostas do Bloco 9.", true);
+        if (projBtn) {
+          projBtn.disabled = false;
+          projBtn.textContent = "Enviar formulário de Projetos (Bloco 9)";
+        }
+      }
+    });
+
+    restaurarProjDraft();
+  }
 })();

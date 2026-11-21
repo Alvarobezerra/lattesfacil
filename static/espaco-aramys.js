@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSugestoes();
   initReferencias();
   initQuestionario();
+  initFormularioProjetos();
 });
 
 /* ==========================================================================
@@ -617,6 +618,125 @@ function initQuestionario() {
   restaurarRascunho();
   atualizarProgresso();
   verificarRespostasPrevias();
+}
+
+/* ==========================================================================
+   4B. FORMULÁRIO SEPARADO · BLOCO 9 (GESTÃO COLABORATIVA DE PROJETOS)
+   ========================================================================== */
+function initFormularioProjetos() {
+  const form = document.getElementById("formProjetosAramys");
+  if (!form) return;
+  const DRAFT_KEY = "lf-aramys-projetos-v1";
+  const alertBox = document.getElementById("projetosAlert");
+  const submitBtn = document.getElementById("btnSalvarProjetos");
+  const cards = Array.from(form.querySelectorAll(".q-card[data-proj-q]"));
+
+  function salvarRascunho() {
+    try {
+      const estado = {
+        checks: Array.from(form.querySelectorAll("input[type=checkbox], input[type=radio]"))
+          .map((el) => ({ name: el.name, value: el.value, checked: el.checked })),
+        textos: Array.from(form.querySelectorAll("textarea"))
+          .map((el) => ({ name: el.name, value: el.value })),
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(estado));
+    } catch (e) {}
+  }
+
+  function restaurarRascunho() {
+    try {
+      const bruto = localStorage.getItem(DRAFT_KEY);
+      if (!bruto) return;
+      const estado = JSON.parse(bruto);
+      if (Array.isArray(estado.checks)) {
+        estado.checks.forEach((c) => {
+          form.querySelectorAll(`input[name="${CSS.escape(c.name)}"]`).forEach((el) => {
+            if (el.value === c.value) el.checked = Boolean(c.checked);
+          });
+        });
+      }
+      if (Array.isArray(estado.textos)) {
+        estado.textos.forEach((t) => {
+          const el = form.querySelector(`textarea[name="${CSS.escape(t.name)}"]`);
+          if (el && typeof t.value === "string") el.value = t.value;
+        });
+      }
+    } catch (e) {}
+  }
+
+  form.addEventListener("input", salvarRascunho);
+  form.addEventListener("change", salvarRascunho);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (alertBox) {
+      alertBox.className = "alert-box";
+      alertBox.textContent = "";
+    }
+
+    const respostas = [];
+    cards.forEach((card, idx) => {
+      const titulo = (card.querySelector(".q-title")?.textContent || `Bloco 9 · Questão ${idx + 1}`)
+        .replace(/^\d+\s*/, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const selecionados = Array.from(card.querySelectorAll("input:checked"))
+        .map((el) => el.value || el.closest("label")?.textContent.replace(/\s+/g, " ").trim() || "selecionado");
+      const textos = Array.from(card.querySelectorAll("textarea, input[type=text]"))
+        .map((el) => el.value.trim())
+        .filter(Boolean);
+      const todas = [...selecionados, ...textos];
+      if (todas.length > 0) {
+        respostas.push({ pergunta: `[Bloco 9 · Projetos] ${titulo}`, resposta: todas.join("; ") });
+      }
+    });
+
+    if (respostas.length === 0) {
+      if (alertBox) {
+        alertBox.className = "alert-box alert-error show";
+        alertBox.textContent = "Por favor, responda a pelo menos uma questão do Bloco 9 antes de enviar.";
+      }
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando Bloco 9…";
+    }
+
+    try {
+      const res = await fetch("/api/pesquisa/pesquisador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          respondente: "Prof. Dr. Aramys Silva dos Reis · Bloco 9 (Projetos)",
+          respostas,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao gravar respostas do Bloco 9.");
+      try { localStorage.removeItem(DRAFT_KEY); } catch (err) {}
+      if (alertBox) {
+        alertBox.className = "alert-box alert-success show";
+        alertBox.replaceChildren();
+        const st = document.createElement("strong");
+        st.textContent = `✓ Formulário de Gestão de Projetos salvo (${respostas.length} resposta${respostas.length === 1 ? "" : "s"})! `;
+        alertBox.append(st, document.createTextNode("Obrigado por validar essa nova frente."));
+      }
+    } catch (err) {
+      if (alertBox) {
+        alertBox.className = "alert-box alert-error show";
+        alertBox.textContent = err.message || "Falha ao enviar o Bloco 9.";
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar Formulário Separado · Gestão de Projetos (Bloco 9)";
+      }
+    }
+  });
+
+  restaurarRascunho();
 }
 
 /* ==========================================================================
