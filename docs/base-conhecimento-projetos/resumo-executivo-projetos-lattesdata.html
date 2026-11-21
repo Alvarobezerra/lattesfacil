@@ -95,34 +95,36 @@
   .ui-student-strip b{color:#7cf5d4}
   .ui-lock-btn{margin-top:6px;display:inline-block;background:#10b981;color:#052e22;font-weight:800;font-size:10.5px;padding:4px 9px;border-radius:6px}
 
-  /* HUB ESTILO NETFLIX (ENCARTES DE FILME FULL-BLEED) */
-  .nf-shell{background:#070e1a;border-radius:14px;overflow:hidden;color:#f1f5f9;border:1.5px solid #1b2f4a;box-shadow:0 12px 28px rgba(7,14,26,.28)}
-  .nf-nav{display:flex;justify-content:space-between;align-items:center;padding:9px 15px;background:rgba(5,10,19,.92);border-bottom:1px solid rgba(255,255,255,.07);font-size:10.5px;gap:8px;flex-wrap:wrap}
-  .nf-hero{margin:11px 14px 10px;border-radius:12px;min-height:142px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.14);display:flex;align-items:flex-end}
+  /* HUB ESTILO NETFLIX — FUNDO BRANCO LIMPO + ENCARTES FULL-BLEED */
+  .nf-shell{background:#ffffff;border-radius:14px;overflow:hidden;color:var(--ink);border:1.5px solid #d5e1ec;box-shadow:0 10px 26px rgba(11,25,44,.08)}
+  .nf-nav{display:flex;justify-content:space-between;align-items:center;padding:9px 15px;background:#f8fbfd;border-bottom:1px solid #e2eaf2;font-size:10.5px;gap:8px;flex-wrap:wrap}
+  .nf-nav .e2ee-badge{background:#e6f7f1;color:#065f46;border:1px solid #a7e4cd}
+  .nf-nav .ui-mini-btn{background:#ffffff;color:var(--navy);border:1px solid #cbd9e6}
+  .nf-hero{margin:11px 14px 10px;border-radius:12px;min-height:142px;position:relative;overflow:hidden;border:1px solid #cbd9e6;display:flex;align-items:flex-end;box-shadow:0 6px 18px rgba(11,25,44,.12)}
   .nf-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
-  .nf-hero-scrim{position:absolute;inset:0;background:linear-gradient(95deg,rgba(6,13,24,.94) 0%,rgba(6,13,24,.76) 52%,rgba(6,13,24,.18) 100%)}
+  .nf-hero-scrim{position:absolute;inset:0;background:linear-gradient(95deg,rgba(11,25,44,.92) 0%,rgba(11,25,44,.74) 52%,rgba(11,25,44,.16) 100%)}
   .nf-hero-content{position:relative;z-index:2;padding:15px 18px;max-width:66%}
-  .nf-hero h3{color:#fff;font:700 18px/1.15 var(--serif);margin:5px 0 4px;text-shadow:0 2px 10px rgba(0,0,0,.6)}
-  .nf-hero p{color:#d8e7f2;font-size:10.5px;margin:0 0 10px}
-  .nf-btn{display:inline-block;background:#10b981;color:#032218;font-weight:800;font-size:10.5px;padding:5px 12px;border-radius:7px;margin-right:6px}
-  .nf-btn-ghost{display:inline-block;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.26);font-weight:700;font-size:10px;padding:4px 10px;border-radius:7px}
+  .nf-hero h3{color:#fff;font:700 18px/1.15 var(--serif);margin:5px 0 4px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+  .nf-hero p{color:#dbe8f3;font-size:10.5px;margin:0 0 10px}
+  .nf-btn{display:inline-block;background:var(--teal);color:#fff;font-weight:800;font-size:10.5px;padding:5px 12px;border-radius:7px;margin-right:6px}
+  .nf-btn-ghost{display:inline-block;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.32);font-weight:700;font-size:10px;padding:4px 10px;border-radius:7px}
   .nf-rail{padding:4px 14px 11px}
-  .nf-rail-title{font-size:11px;font-weight:800;letter-spacing:.03em;color:#e2e8f0;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
-  .nf-rail-title span{font-size:9.5px;color:#7cf5d4;font-weight:600}
+  .nf-rail-title{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--navy);margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+  .nf-rail-title span{font-size:9.5px;color:var(--teal);font-weight:700}
   .nf-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-  .nf-poster{position:relative;height:178px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#0f1f34;display:flex;flex-direction:column;justify-content:space-between}
+  .nf-poster{position:relative;height:178px;border-radius:10px;overflow:hidden;border:1px solid #d5e1ec;background:#0f1f34;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 5px 14px rgba(11,25,44,.12)}
   .nf-poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .nf-poster-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,11,21,.48) 0%,rgba(5,11,21,.05) 36%,rgba(5,11,21,.55) 68%,rgba(5,11,21,.95) 100%)}
+  .nf-poster-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,25,44,.42) 0%,rgba(11,25,44,.04) 38%,rgba(11,25,44,.52) 68%,rgba(11,25,44,.94) 100%)}
   .nf-poster-top{position:relative;z-index:2;padding:7px 8px;display:flex;justify-content:space-between;align-items:center;font-size:8.5px;font-weight:800}
-  .nf-chip{background:rgba(5,11,21,.68);color:#e2e8f0;padding:2px 6px;border-radius:5px;border:1px solid rgba(255,255,255,.16)}
-  .nf-dot-ok{background:rgba(6,78,59,.82);color:#6ee7b7;padding:2px 6px;border-radius:99px}
-  .nf-dot-warn{background:rgba(120,53,15,.86);color:#fde68a;padding:2px 6px;border-radius:99px}
+  .nf-chip{background:rgba(11,25,44,.74);color:#f8fafc;padding:2px 6px;border-radius:5px;border:1px solid rgba(255,255,255,.18)}
+  .nf-dot-ok{background:rgba(6,78,59,.86);color:#a7f3d0;padding:2px 6px;border-radius:99px}
+  .nf-dot-warn{background:rgba(146,64,14,.88);color:#fde68a;padding:2px 6px;border-radius:99px}
   .nf-poster-bottom{position:relative;z-index:2;padding:0 9px 9px}
   .nf-card-title{font:700 11.5px/1.2 var(--serif);color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.85);margin-bottom:2px}
-  .nf-card-meta{font-size:9px;color:#cbd5e1;margin-bottom:5px}
-  .nf-bar{height:3.5px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden}
-  .nf-bar i{display:block;height:100%;background:linear-gradient(90deg,#2dd4bf,#10b981);border-radius:99px}
-  .nf-poster-new{border:1.5px dashed rgba(103,243,209,.45);background:linear-gradient(150deg,#0f233a,#091525);justify-content:center;align-items:center;text-align:center;padding:12px}
+  .nf-card-meta{font-size:9px;color:#dbe7f2;margin-bottom:5px}
+  .nf-bar{height:3.5px;background:rgba(255,255,255,.26);border-radius:99px;overflow:hidden}
+  .nf-bar i{display:block;height:100%;background:linear-gradient(90deg,#38bdf8,#10b981);border-radius:99px}
+  .nf-poster-new{border:1.5px dashed #7cc4d0;background:linear-gradient(155deg,#f4fafb,#ebf5f9);justify-content:center;align-items:center;text-align:center;padding:12px;box-shadow:none}
 
   @media (max-width:720px){
     .doc{margin:10px auto;padding:0 10px 28px;gap:14px}
@@ -540,7 +542,7 @@
     <div class="nf-shell">
       <div class="nf-nav">
         <div class="ui-bar-left">
-          <strong style="font:700 italic 15px var(--serif);color:#fff">Lattes<span style="font:800 9px var(--sans);font-style:normal;letter-spacing:.12em;color:#67f3d1;margin-left:3px">PROJETOS</span></strong>
+          <strong style="font:700 italic 15px var(--serif);color:var(--navy)">Lattes<span style="font:800 9px var(--sans);font-style:normal;letter-spacing:.12em;color:var(--teal);margin-left:3px">PROJETOS</span></strong>
           <span class="e2ee-badge">🔒 Cofre E2EE Destrancado</span>
         </div>
         <div class="ui-bar-left">
@@ -651,9 +653,9 @@
           </div>
 
           <div class="nf-poster nf-poster-new">
-            <div style="font-size:28px;color:#67f3d1;line-height:1;margin-bottom:6px">＋</div>
-            <div class="nf-card-title" style="color:#67f3d1;font-size:12px">Novo Projeto via PDF</div>
-            <div class="nf-card-meta" style="margin-top:4px;margin-bottom:0">Suba o PDF do edital para gerar etapas e variáveis</div>
+            <div style="font-size:28px;color:var(--teal);line-height:1;margin-bottom:6px">＋</div>
+            <div class="nf-card-title" style="color:var(--navy);text-shadow:none;font-size:12px">Novo Projeto via PDF</div>
+            <div class="nf-card-meta" style="color:var(--muted);margin-top:4px;margin-bottom:0">Suba o PDF do edital para gerar etapas e variáveis</div>
           </div>
         </div>
       </div>
