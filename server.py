@@ -89,46 +89,7 @@ BLOQUEIO_LOCAL = os.environ.get("LATTESFACIL_BLOQUEIO_LOCAL") == "1"  # padrão:
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
 PESQUISA_RATE = {}  # IP -> último envio; a pesquisa pública não deve virar um endpoint de spam
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
-LOGIN_HTML = """<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LattesData — Acesso</title><style>
-body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:#0b192c;color:#f8fafc;display:grid;place-items:center;min-height:100vh;margin:0}
-form{background:#10233d;border:1px solid #1b365d;padding:30px 28px;border-radius:14px;width:min(360px,90vw);display:grid;gap:14px}
-.wm{display:flex;align-items:center;gap:12px}
-.wt{display:flex;flex-direction:column;line-height:1;gap:2px}
-.wm b{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:700;font-size:1.9rem}
-.wm i{font-style:normal;font-weight:800;color:#00a3c4;font-size:1.05rem;text-align:justify;text-align-last:justify;letter-spacing:.04em}
-p{margin:0;color:#9fb0c8;font-size:.9rem}
-input{padding:12px;border-radius:8px;border:1px solid #1b365d;background:#0b192c;color:#fff;font-size:1rem}
-input:focus{outline:2px solid #00a3c4;border-color:#00a3c4}
-button{padding:12px;border:0;border-radius:8px;background:#00a3c4;color:#04202a;font-weight:700;font-size:1rem;cursor:pointer}
-button:hover{background:#38bdf8}
-.erro{color:#ff9b8a;font-size:.9rem}</style></head><body>
-<form method="post" action="/login"><div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60" fill="none">
-  <defs>
-    <radialGradient id="ld-core-l" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#2CF0B4"/>
-      <stop offset="0.38" stop-color="#14A38E"/>
-      <stop offset="0.75" stop-color="#0C5470"/>
-      <stop offset="1" stop-color="#0B2A4A"/>
-    </radialGradient>
-  </defs>
-  <!-- Concha náutilo: espiral logarítmica áurea (razão φ por quarto de volta), abertura no canto superior direito -->
-  <path d="M80.5 50.7 L81.2 51.1 L81.8 51.5 L82.5 51.9 L83.2 52.4 L83.8 52.9 L84.4 53.4 L85.0 53.9 L85.6 54.5 L86.2 55.0 L86.8 55.6 L87.4 56.2 L87.9 56.8 L88.4 57.5 L89.0 58.1 L89.5 58.8 L89.9 59.5 L90.4 60.2 L90.8 60.9 L91.3 61.7 L91.7 62.4 L92.0 63.2 L92.4 64.0 L92.8 64.8 L93.1 65.6 L93.4 66.4 L93.7 67.2 L93.9 68.1 L94.1 68.9 L94.3 69.8 L94.5 70.7 L94.7 71.6 L94.8 72.5 L94.9 73.4 L95.0 74.3 L95.1 75.2 L95.1 76.1 L95.1 77.0 L95.1 77.9 L95.0 78.9 L95.0 79.8 L94.9 80.7 L94.7 81.7 L94.6 82.6 L94.4 83.5 L94.2 84.5 L94.0 85.4 L93.7 86.3 L93.4 87.2 L93.1 88.2 L92.7 89.1 L92.4 90.0 L92.0 90.9 L91.5 91.7 L91.1 92.6 L90.6 93.5 L90.1 94.4 L89.5 95.2 L89.0 96.0 L88.4 96.9 L87.8 97.7 L87.1 98.5 L86.5 99.2 L85.8 100.0 L85.1 100.8 L84.3 101.5 L83.5 102.2 L82.8 102.9 L81.9 103.6 L81.1 104.2 L80.3 104.8 L79.4 105.4 L78.5 106.0 L77.6 106.6 L76.6 107.1 L75.7 107.6 L74.7 108.1 L73.7 108.6 L72.7 109.0 L71.7 109.4 L70.6 109.8 L69.6 110.2 L68.5 110.5 L67.4 110.8 L66.3 111.0 L65.2 111.3 L64.1 111.5 L63.0 111.6 L61.8 111.8 L60.7 111.9 L59.5 112.0 L58.4 112.0 L57.2 112.0 L56.0 112.0 L54.9 111.9 L53.7 111.8 L52.5 111.7 L51.3 111.5 L50.2 111.3 L49.0 111.1 L47.8 110.8 L46.6 110.5 L45.5 110.2 L44.3 109.8 L43.1 109.4 L42.0 109.0 L40.8 108.5 L39.7 108.0 L38.6 107.5 L37.5 106.9 L36.4 106.3 L35.3 105.6 L34.2 104.9 L33.1 104.2 L32.1 103.5 L31.1 102.7 L30.1 101.9 L29.1 101.0 L28.1 100.2 L27.2 99.3 L26.3 98.3 L25.4 97.4 L24.5 96.4 L23.6 95.3 L22.8 94.3 L22.0 93.2 L21.2 92.1 L20.5 91.0 L19.8 89.8 L19.1 88.6 L18.5 87.4 L17.8 86.2 L17.3 84.9 L16.7 83.6 L16.2 82.3 L15.7 81.0 L15.3 79.7 L14.9 78.3 L14.5 77.0 L14.2 75.6 L13.9 74.2 L13.6 72.8 L13.4 71.3 L13.2 69.9 L13.1 68.4 L13.0 67.0 L13.0 65.5 L12.9 64.0 L13.0 62.6 L13.1 61.1 L13.2 59.6 L13.3 58.1 L13.5 56.6 L13.8 55.1 L14.1 53.6 L14.4 52.1 L14.8 50.6 L15.2 49.1 L15.7 47.7 L16.2 46.2 L16.8 44.7 L17.4 43.3 L18.0 41.9 L18.7 40.4 L19.4 39.0 L20.2 37.6 L21.0 36.3 L21.9 34.9 L22.8 33.6 L23.7 32.2 L24.7 31.0 L25.7 29.7 L26.8 28.4 L27.9 27.2 L29.1 26.0 L30.2 24.8 L31.5 23.7 L32.7 22.6 L34.0 21.5 L35.4 20.5 L36.7 19.5 L38.1 18.5 L39.6 17.6 L41.0 16.7 L42.5 15.8 L44.1 15.0 L45.6 14.2 L47.2 13.5 L48.8 12.8 L50.5 12.1 L52.1 11.5 L53.8 11.0 L55.5 10.4 L57.3 10.0 L59.0 9.6 L60.8 9.2 L62.6 8.9 L64.4 8.6 L66.2 8.4 L68.1 8.2 L69.9 8.1 L71.8 8.0 L73.6 8.0 L75.5 8.0 L77.4 8.1 L79.3 8.3 L81.2 8.5 L83.1 8.8 L85.0 9.1 L86.9 9.4 L88.7 9.9 L90.6 10.3 L92.5 10.9 L94.4 11.5 L96.2 12.1 L98.1 12.8 L99.9 13.6 L101.7 14.4 L103.5 15.3 L105.3 16.2 L107.1 17.2 Z" fill="#E4EDF5"/>
-  <g stroke="#7F9AB4" stroke-width="1.5" stroke-linecap="round"><path d="M89.3 58.6 Q78.6 57.4 73.6 66.8"/><path d="M94.1 68.6 Q84.0 63.3 75.4 70.7"/><path d="M94.9 80.3 Q87.1 71.3 75.8 75.3"/><path d="M91.3 92.2 Q87.0 80.3 74.3 79.9"/><path d="M83.2 102.5 Q83.5 89.1 71.2 83.9"/><path d="M71.3 109.6 Q76.7 96.5 66.5 86.7"/><path d="M56.8 112.0 Q67.2 101.2 60.9 87.6"/><path d="M41.7 108.9 Q56.0 102.2 55.0 86.4"/><path d="M27.9 100.0 Q44.6 98.8 49.7 82.9"/><path d="M17.8 86.0 Q34.6 91.2 45.7 77.5"/><path d="M13.1 68.3 Q27.7 79.9 43.9 70.6"/><path d="M15.2 49.1 Q25.2 66.1 44.7 63.1"/><path d="M24.7 31.0 Q28.0 51.6 48.4 56.0"/><path d="M40.9 16.7 Q36.4 38.3 54.7 50.5"/><path d="M62.4 8.9 Q49.6 28.4 63.1 47.4"/><path d="M86.5 9.4 Q66.5 23.7 72.5 47.6"/></g>
-  <path d="M80.5 50.7 L81.2 51.1 L81.8 51.5 L82.5 51.9 L83.2 52.4 L83.8 52.9 L84.4 53.4 L85.0 53.9 L85.6 54.5 L86.2 55.0 L86.8 55.6 L87.4 56.2 L87.9 56.8 L88.4 57.5 L89.0 58.1 L89.5 58.8 L89.9 59.5 L90.4 60.2 L90.8 60.9 L91.3 61.7 L91.7 62.4 L92.0 63.2 L92.4 64.0 L92.8 64.8 L93.1 65.6 L93.4 66.4 L93.7 67.2 L93.9 68.1 L94.1 68.9 L94.3 69.8 L94.5 70.7 L94.7 71.6 L94.8 72.5 L94.9 73.4 L95.0 74.3 L95.1 75.2 L95.1 76.1 L95.1 77.0 L95.1 77.9 L95.0 78.9 L95.0 79.8 L94.9 80.7 L94.7 81.7 L94.6 82.6 L94.4 83.5 L94.2 84.5 L94.0 85.4 L93.7 86.3 L93.4 87.2 L93.1 88.2 L92.7 89.1 L92.4 90.0 L92.0 90.9 L91.5 91.7 L91.1 92.6 L90.6 93.5 L90.1 94.4 L89.5 95.2 L89.0 96.0 L88.4 96.9 L87.8 97.7 L87.1 98.5 L86.5 99.2 L85.8 100.0 L85.1 100.8 L84.3 101.5 L83.5 102.2 L82.8 102.9 L81.9 103.6 L81.1 104.2 L80.3 104.8 L79.4 105.4 L78.5 106.0 L77.6 106.6 L76.6 107.1 L75.7 107.6 L74.7 108.1 L73.7 108.6 L72.7 109.0 L71.7 109.4 L70.6 109.8 L69.6 110.2 L68.5 110.5 L67.4 110.8 L66.3 111.0 L65.2 111.3 L64.1 111.5 L63.0 111.6 L61.8 111.8 L60.7 111.9 L59.5 112.0 L58.4 112.0 L57.2 112.0 L56.0 112.0 L54.9 111.9 L53.7 111.8 L52.5 111.7 L51.3 111.5 L50.2 111.3 L49.0 111.1 L47.8 110.8 L46.6 110.5 L45.5 110.2 L44.3 109.8 L43.1 109.4 L42.0 109.0 L40.8 108.5 L39.7 108.0 L38.6 107.5 L37.5 106.9 L36.4 106.3 L35.3 105.6 L34.2 104.9 L33.1 104.2 L32.1 103.5 L31.1 102.7 L30.1 101.9 L29.1 101.0 L28.1 100.2 L27.2 99.3 L26.3 98.3 L25.4 97.4 L24.5 96.4 L23.6 95.3 L22.8 94.3 L22.0 93.2 L21.2 92.1 L20.5 91.0 L19.8 89.8 L19.1 88.6 L18.5 87.4 L17.8 86.2 L17.3 84.9 L16.7 83.6 L16.2 82.3 L15.7 81.0 L15.3 79.7 L14.9 78.3 L14.5 77.0 L14.2 75.6 L13.9 74.2 L13.6 72.8 L13.4 71.3 L13.2 69.9 L13.1 68.4 L13.0 67.0 L13.0 65.5 L12.9 64.0 L13.0 62.6 L13.1 61.1 L13.2 59.6 L13.3 58.1 L13.5 56.6 L13.8 55.1 L14.1 53.6 L14.4 52.1 L14.8 50.6 L15.2 49.1 L15.7 47.7 L16.2 46.2 L16.8 44.7 L17.4 43.3 L18.0 41.9 L18.7 40.4 L19.4 39.0 L20.2 37.6 L21.0 36.3 L21.9 34.9 L22.8 33.6 L23.7 32.2 L24.7 31.0 L25.7 29.7 L26.8 28.4 L27.9 27.2 L29.1 26.0 L30.2 24.8 L31.5 23.7 L32.7 22.6 L34.0 21.5 L35.4 20.5 L36.7 19.5 L38.1 18.5 L39.6 17.6 L41.0 16.7 L42.5 15.8 L44.1 15.0 L45.6 14.2 L47.2 13.5 L48.8 12.8 L50.5 12.1 L52.1 11.5 L53.8 11.0 L55.5 10.4 L57.3 10.0 L59.0 9.6 L60.8 9.2 L62.6 8.9 L64.4 8.6 L66.2 8.4 L68.1 8.2 L69.9 8.1 L71.8 8.0 L73.6 8.0 L75.5 8.0 L77.4 8.1 L79.3 8.3 L81.2 8.5 L83.1 8.8 L85.0 9.1 L86.9 9.4 L88.7 9.9 L90.6 10.3 L92.5 10.9 L94.4 11.5 L96.2 12.1 L98.1 12.8 L99.9 13.6 L101.7 14.4 L103.5 15.3 L105.3 16.2 L107.1 17.2" stroke="#0B2A4A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M107.1 17.2 L80.5 50.7" stroke="#0B2A4A" stroke-width="2.2" stroke-linecap="round"/>
-  <!-- Núcleo de dados -->
-  <circle cx="63.5" cy="72.0" r="17.5" fill="url(#ld-core-l)" stroke="#0B2A4A" stroke-width="2.6"/>
-  <g stroke="#7CF5D4" stroke-width="1.2" stroke-linecap="round"><path d="M63.5 72.0 L63.5 61.2"/><path d="M63.5 72.0 L72.9 66.6"/><path d="M63.5 72.0 L72.9 77.5"/><path d="M63.5 72.0 L63.5 82.9"/><path d="M63.5 72.0 L54.1 77.5"/><path d="M63.5 72.0 L54.1 66.6"/></g>
-  <g fill="#9FF7E2"><circle cx="63.5" cy="61.2" r="2.3"/><circle cx="72.9" cy="66.6" r="2.3"/><circle cx="72.9" cy="77.5" r="2.3"/><circle cx="63.5" cy="82.9" r="2.3"/><circle cx="54.1" cy="77.5" r="2.3"/><circle cx="54.1" cy="66.6" r="2.3"/></g>
-  <circle cx="63.5" cy="72.0" r="4.4" fill="#34F0B0"/>
-</svg>
-<span class="wt"><b>Lattes</b><i>DATA</i></span></div><p>Acesso restrito. Digite o código de acesso.</p>
-<fieldset style="border:0;margin:0 0 14px;padding:0;text-align:left"><legend style="font-size:13px;margin-bottom:6px">Entrar como</legend>
-<label style="display:block;margin:4px 0;cursor:pointer"><input type="radio" name="usuario" value="alvaro" checked> Álvaro Antônio Bezerra dos Santos</label>
-<label style="display:block;margin:4px 0;cursor:pointer"><input type="radio" name="usuario" value="aramys"> Aramys Silva dos Reis</label></fieldset>
-<input type="password" name="codigo" autocomplete="current-password" autofocus required aria-label="Código de acesso">
-%ERRO%<button type="submit">Entrar</button></form></body></html>"""
+LOGIN_HTML = (STATIC_DIR / "login.html").read_text(encoding="utf-8")
 
 
 def load_access_code() -> str:
@@ -638,7 +599,7 @@ class LattesHandler(BaseHTTPRequestHandler):
     def _handle_login(self) -> None:
         ip = self._client_ip()
         if self._locked(ip):
-            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro">Muitas tentativas. Aguarde 5 minutos.</p>'), HTTPStatus.TOO_MANY_REQUESTS)
+            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro" role="alert">Muitas tentativas. Aguarde 5 minutos.</p>'), HTTPStatus.TOO_MANY_REQUESTS)
             return
         try:
             n = min(int(self.headers.get("Content-Length", "0")), 4096)
@@ -659,11 +620,12 @@ class LattesHandler(BaseHTTPRequestHandler):
             cookie = f"lf_sess={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
             # Quem entrou (não é segredo): o front lê este cookie uma vez e o guarda como usuário ativo.
             user_cookie = f"lf_user={quem}; SameSite=Strict; Path=/; Max-Age=300" + ("; Secure" if self._https() else "")
-            self._redirect("/abertura.html", (cookie, user_cookie))
+            destino = "/abertura.html?entrada=1" if form.get("transicao") == ["1"] else "/abertura.html"
+            self._redirect(destino, (cookie, user_cookie))
         else:
             LOGIN_FAILS.setdefault(ip, []).append(time.time())
             time.sleep(0.6)  # freia tentativa automatizada
-            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro">Código incorreto.</p>'), HTTPStatus.UNAUTHORIZED)
+            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro" role="alert">Código incorreto.</p>'), HTTPStatus.UNAUTHORIZED)
 
     def _send_json(self, data: Any, status: int = HTTPStatus.OK) -> None:
         raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -771,7 +733,7 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path in ("/aramys", "/espaco-aramys"):
             self._redirect("/espaco-aramys.html")
             return
-        public_static = path in PUBLIC_LANDING or path.startswith(("/fonts/", "/img/", "/api/referencias", "/api/aramys", "/api/pesquisa"))
+        public_static = path in PUBLIC_LANDING or path in {"/login.css", "/media/login-mascote.webp"} or path.startswith(("/fonts/", "/img/", "/api/referencias", "/api/aramys", "/api/pesquisa"))
         if path not in ("/api/lattes/ping", "/mockup-ia.html") and not public_static and not self._gate():
             return
 
