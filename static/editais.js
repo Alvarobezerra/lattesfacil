@@ -1,0 +1,30 @@
+(() => {
+  'use strict';
+  const $=id=>document.getElementById(id), model=window.EditaisCatalog;
+  const fields=['uf','region','agency','sphere','area','compliance','money','term','scholarship','expense'];
+  const labels={uf:'UF',region:'Região',agency:'Agência',sphere:'Esfera',area:'Área',compliance:'Requisito',money:'Valor',term:'Prazo',scholarship:'Bolsa',expense:'Rubrica'};
+  let radar='';
+  function el(tag,text='',cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
+  function button(text,fn,cls='button'){const b=el('button',text,cls);b.type='button';b.addEventListener('click',fn);return b;}
+  function link(text,href,cls='button'){const a=el('a',text,cls);a.href=href;return a;}
+  function options(id,values){$(id).append(...values.map(v=>{const o=el('option',v);o.value=v;return o;}));}
+  options('uf','AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ').sort());
+  options('agency',model.items.map(e=>e.agency).sort());
+  for(const [id,key] of [['area','area'],['compliance','compliance'],['scholarship','scholarships'],['expense','expenses']])options(id,[...new Set(model.items.flatMap(e=>e[key]))].filter(v=>v!=='Todas').sort());
+  function state(){const f={q:$('search').value.trim(),national:$('national').checked,radar};fields.forEach(id=>f[id]=$(id).value);return f;}
+  const money=e=>e.amount===null?e.basis:e.amount===0?'Sem repasse direto':new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(e.amount);
+  const date=d=>d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'Fluxo contínuo';
+  function deadline(e){const n=model.days(e.deadline);return n===null?'Fluxo contínuo':n<0?'Prazo encerrado na base':n===0?'Prazo indicado para hoje':`${n} dias até o prazo indicado`;}
+  function actions(e){const row=el('div','','call-actions');const pdf=link('Abrir PDF de referência',e.pdf);pdf.target='_blank';pdf.rel='noopener';row.append(pdf,link('Preparar projeto · Prévia','/projetos.html?edital='+encodeURIComponent(e.id),'button primary'));return row;}
+  function details(e){$('callTitle').textContent=e.title;const d=$('callDetails');d.replaceChildren(el('p',e.agency+' · '+e.sphere),el('h3','Requisitos para conferir'),el('p',e.eligibility),el('h3','Financiamento'),el('p',money(e)+' · '+e.basis),el('p','Rubricas: '+e.expenses.join(', ')),el('p','Bolsas: '+(e.scholarships.join(', ')||'Não informadas nesta referência')),el('h3','Prazos e território'),el('p','Submissão: '+date(e.deadline)+' · '+deadline(e)),el('p',e.ufs.length?'UFs: '+e.ufs.join(', '):'Abrangência nacional'),el('p','Protocolos/requisitos: '+(e.compliance.join(', ')||'Não classificados')),el('p','Fonte dos metadados: documento de concepção, página 2. A elegibilidade e eventuais retificações precisam de revisão no documento original. A data de submissão não é a vigência do projeto.','source-note'),actions(e));$('callDialog').showModal();}
+  function card(e){const a=el('article','','panel call-card');const top=el('div','','call-top');top.append(el('span',e.agency+' · '+e.sphere,'agency-label'),el('span',e.ufs.length?e.ufs.join(' · '):'Nacional','call-tag'));const meta=el('dl','','call-meta');for(const [key,value] of [['Submissão',date(e.deadline)],['Valor de referência',money(e)],['Unidade do valor',e.basis],['Bolsas',e.scholarships.join(', ')||'Não informadas']]){const pair=el('div');pair.append(el('dt',key),el('dd',value));meta.append(pair);}const tags=el('div','','call-tags');const remaining=model.days(e.deadline);tags.append(el('span',deadline(e),remaining!==null&&remaining>=0&&remaining<=15?'call-tag urgent':'call-tag'));[...e.compliance,...e.tags].forEach(t=>tags.append(el('span',t,'call-tag')));const footer=actions(e);footer.prepend(button('Ver requisitos',()=>details(e)));a.append(top,el('h3',e.title),meta,el('p',e.eligibility),tags,footer);return a;}
+  function render(){const f=state();const list=model.items.filter(e=>model.matches(e,f));const order=$('sort').value;list.sort((a,b)=>{if(order==='agency')return a.agency.localeCompare(b.agency,'pt-BR');if(order==='amount')return (b.amount??-1)-(a.amount??-1);const rank=e=>{const d=model.days(e.deadline);return d===null?1e8:d<0?1e7-d:d;};return rank(a)-rank(b);});$('catalogCount').textContent=`${model.items.length} chamadas de referência`;$('resultCount').textContent=`${list.length} chamadas encontradas · Elegibilidade não avaliada`;$('results').replaceChildren(...list.map(card));$('empty').hidden=!!list.length;
+    const chips=[];if(f.q)chips.push(button('Busca: '+f.q+' ×',()=>{$('search').value='';render();},'filter-chip'));
+    fields.filter(id=>f[id]).forEach(id=>chips.push(button(labels[id]+': '+$(id).selectedOptions[0].textContent+' ×',()=>{$(id).value='';render();},'filter-chip')));
+    if((f.uf||f.region)&&f.national)chips.push(button('Inclui nacionais ×',()=>{$('national').checked=false;render();},'filter-chip'));
+    if(radar)chips.push(button('Radar: '+({urgent:'Prazos próximos',scholarships:'Bolsas',network:'Parcerias'}[radar])+' ×',()=>{radar='';render();},'filter-chip'));
+    $('activeFilters').replaceChildren(...chips);document.querySelectorAll('[data-radar]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.radar===radar)));
+  }
+  function clear(){fields.forEach(id=>$(id).value='');$('search').value='';$('national').checked=true;radar='';render();}
+  $('filters').addEventListener('submit',e=>e.preventDefault());$('filters').addEventListener('change',e=>{if(e.target.id==='uf')$('region').value='';if(e.target.id==='region')$('uf').value='';render();});$('search').addEventListener('input',render);$('sort').addEventListener('change',render);$('clearFilters').addEventListener('click',clear);$('clearEmpty').addEventListener('click',clear);$('closeDialog').addEventListener('click',()=>$('callDialog').close());document.querySelectorAll('[data-radar]').forEach(b=>b.addEventListener('click',()=>{radar=radar===b.dataset.radar?'':b.dataset.radar;render();}));render();
+})();

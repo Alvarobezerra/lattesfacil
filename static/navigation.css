@@ -1,0 +1,54 @@
+.site-header { height: 64px; }
+.site-header .top-in { height: 64px !important; }
+.site-header .site-header-inner, .site-header.site-header-inner {
+  display: flex; align-items: center; flex-wrap: nowrap; gap: 16px;
+  width: 100%; max-width: 1240px !important; height: 64px; margin: 0 auto; padding: 0 16px;
+}
+.site-header .site-navigation {
+  display: flex; flex: 1 1 auto; align-items: center; gap: 16px; flex-wrap: nowrap;
+  width: auto; min-width: 0; height: auto; margin: 0; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.site-header .site-navigation .nav-link {
+  display: inline-flex; align-items: center; justify-content: center; text-align: center; gap: 5px; padding: 10px 0;
+  border: 0; border-bottom: 2px solid transparent; background: transparent;
+  color: #536786; font: 600 14px/1.4 Arial, sans-serif; text-decoration: none;
+  cursor: pointer; white-space: normal; flex: 0 0 auto; line-height: 1.2;
+}
+.site-header .site-navigation .nav-link:nth-child(4),
+.site-header .site-navigation .nav-link:nth-child(5),
+.site-header .site-navigation .nav-link:nth-child(6),
+.site-header .site-navigation .nav-link:nth-child(7) {
+  max-width: 120px;
+}
+.site-header .site-navigation .nav-link:nth-child(7) {
+  max-width: 132px;
+}
+/* Divisórias leves mantêm o menu organizado sem criar blocos pesados. */
+.site-header .site-navigation .nav-link + .nav-link {
+  position: relative;
+  margin-left: 4px;
+  padding-left: 20px;
+}
+.site-header .site-navigation .nav-link + .nav-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 30px;
+  transform: translateY(-50%);
+  background: linear-gradient(to bottom, transparent, #dbe4ee 28%, #dbe4ee 72%, transparent);
+}
+.site-header .site-navigation .nav-link:hover,
+.site-header .site-navigation .nav-link[aria-current="page"] {
+  color: #0089a5; border-bottom-color: #00a8c4;
+}
+.site-lattes-status { color: #536786; font: 13px/1.4 Arial, sans-serif; white-space: nowrap; text-decoration: none; }
+.site-lattes-status::before { content: '●'; color: #c3cdda; margin-right: 7px; }
+.site-lattes-status.connected::before { color: #059669; }
+@media (max-width: 900px) {
+  .site-header .site-navigation { gap: 8px 16px; }
+  .site-header .site-navigation .nav-link + .nav-link { margin-left: 0; padding-left: 0; }
+  .site-header .site-navigation .nav-link + .nav-link::before { display: none; }
+}

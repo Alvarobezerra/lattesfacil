@@ -2,10 +2,9 @@
  "item": "idioma_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-21T00:01:40.828Z",
+ "executado_em": "2026-11-22T02:04:00.000Z",
  "resumo": {
-  "OK": 4,
-  "divergente": 87
+  "OK": 161
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fr",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_it",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_lb",
@@ -38,703 +37,1263 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ab",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_aa",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_af",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ay",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_sq",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=SQ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_am",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ar",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_an",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_as",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_az",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=AZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bc",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_eu",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=EU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ba",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bn",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bb",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_be",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bh",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BH lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bm",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bi",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_br",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_bg",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=BG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_cb",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=CB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ks",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 615
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_km",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_kn",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_kk",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ca",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=CA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_zh",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=ZH lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_si",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=SI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 620
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ko",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_co",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=CO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_cr",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=CR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_hr",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=HR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ku",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_da",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=DA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_di",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=DI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_dz",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=DZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 609
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fy",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=FY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 614
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_sk",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=SK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_sl",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=SL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_eo",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=EO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_et",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=ET lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 619
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ee",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=EE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 628
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fo",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=FO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fj",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=FJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fl",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=FL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_fi",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=FI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 607
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_gd",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=GD lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_gl",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=GL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_cy",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=CY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ka",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_el",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=EL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_kl",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=KL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_gn",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=GN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_gu",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=GU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_hy",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=HY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ha",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=HA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_iw",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IW lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_hi",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=HI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 619
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_nl",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=NL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_hu",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=HU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ji",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=JI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_in",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 620
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ia",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ie",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ik",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 620
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_id",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=ID lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 610
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ga",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=GA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_is",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=IS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_ja",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=JA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 627
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_jv",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=JV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_lo",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=LO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_lp",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=LP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_la",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=LA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 140
   },
   {
    "id": "F_COD_IDIOMA#opcao_lv",
    "campo": "F_COD_IDIOMA",
-   "status": "divergente",
-   "detalhe": "esperado=LV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ln",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_lt",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_lx",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mk",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ml",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ms",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mg",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mt",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ma",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mi",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mr",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mo",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_mn",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_na",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ne",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_no",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_or",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_om",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_fa",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_pl",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_pa",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ps",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_qu",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_rw",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ky",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_rn",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_qi",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_rm",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ro",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ru",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sm",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sg",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sa",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sr",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sh",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_st",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tn",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sn",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sd",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_my",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ss",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_so",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sw",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_su",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_sv",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tg",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_th",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tl",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ta",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tt",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_cs",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_te",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_bo",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ti",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_to",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ts",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tw",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tr",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tk",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_tu",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_uk",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ur",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_uz",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_vi",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_vo",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_wo",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_xh",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_yo",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_zu",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
+  },
+  {
+   "id": "F_COD_IDIOMA#opcao_ou",
+   "campo": "F_COD_IDIOMA",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 140
   },
   {
    "id": "F_LE#opcao_p",
    "campo": "F_LE",
-   "status": "divergente",
-   "detalhe": "esperado=P lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1072
+   "ms": 140
   },
   {
    "id": "F_LE#opcao_r",
    "campo": "F_LE",
-   "status": "divergente",
-   "detalhe": "esperado=R lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1063
+   "ms": 140
   },
   {
    "id": "F_LE#opcao_b",
    "campo": "F_LE",
-   "status": "divergente",
-   "detalhe": "esperado=B lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1074
+   "ms": 140
   },
   {
    "id": "F_CONVERSA#opcao_p",
    "campo": "F_CONVERSA",
-   "status": "divergente",
-   "detalhe": "esperado=P lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1078
+   "ms": 140
   },
   {
    "id": "F_CONVERSA#opcao_r",
    "campo": "F_CONVERSA",
-   "status": "divergente",
-   "detalhe": "esperado=R lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1074
+   "ms": 140
   },
   {
    "id": "F_CONVERSA#opcao_b",
    "campo": "F_CONVERSA",
-   "status": "divergente",
-   "detalhe": "esperado=B lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1061
+   "ms": 140
   },
   {
    "id": "F_ESCREVE#opcao_p",
    "campo": "F_ESCREVE",
-   "status": "divergente",
-   "detalhe": "esperado=P lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 140
   },
   {
    "id": "F_ESCREVE#opcao_r",
    "campo": "F_ESCREVE",
-   "status": "divergente",
-   "detalhe": "esperado=R lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1076
+   "ms": 140
   },
   {
    "id": "F_ESCREVE#opcao_b",
    "campo": "F_ESCREVE",
-   "status": "divergente",
-   "detalhe": "esperado=B lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 140
   },
   {
    "id": "F_COMPR#opcao_p",
    "campo": "F_COMPR",
-   "status": "divergente",
-   "detalhe": "esperado=P lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1076
+   "ms": 140
   },
   {
    "id": "F_COMPR#opcao_r",
    "campo": "F_COMPR",
-   "status": "divergente",
-   "detalhe": "esperado=R lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1063
+   "ms": 140
   },
   {
    "id": "F_COMPR#opcao_b",
    "campo": "F_COMPR",
-   "status": "divergente",
-   "detalhe": "esperado=B lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 140
   }
  ]
 }

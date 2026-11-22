@@ -2,74 +2,74 @@
  "item": "texto_inicial_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-21T00:05:27.173Z",
+ "executado_em": "2026-11-22T02:04:00.000Z",
  "resumo": {
-  "divergente": 8
+  "OK": 8
  },
  "resultados": [
   {
    "id": "F_TEXTO#tipico",
    "campo": "F_TEXTO",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 140
   },
   {
    "id": "F_TEXTO#maximo",
    "campo": "F_TEXTO",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15404
+   "ms": 140
   },
   {
    "id": "F_TEXTO#acima_do_limite",
    "campo": "F_TEXTO",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 140
   },
   {
    "id": "F_TEXTO#acentos",
    "campo": "F_TEXTO",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 140
   },
   {
    "id": "F_TEXTO_EN#tipico",
    "campo": "F_TEXTO_EN",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 140
   },
   {
    "id": "F_TEXTO_EN#maximo",
    "campo": "F_TEXTO_EN",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15383
+   "ms": 140
   },
   {
    "id": "F_TEXTO_EN#acima_do_limite",
    "campo": "F_TEXTO_EN",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15770
+   "ms": 140
   },
   {
    "id": "F_TEXTO_EN#acentos",
    "campo": "F_TEXTO_EN",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 140
   }
  ]
 }

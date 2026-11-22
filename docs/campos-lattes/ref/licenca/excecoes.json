@@ -1,0 +1,9 @@
+{
+ "licenca": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_dta_inicio",
+   "motivo": "no HTML do Lattes o rótulo 'Data Início' fica em span separado (#labelDataIni) e a captura por proximidade pegou 'Data Fim'"
+  }
+ ]
+}

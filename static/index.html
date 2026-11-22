@@ -3,30 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LattesData — Cadastro Inteligente de Resumos</title>
+  <title>NautiScience — Cadastro Inteligente de Resumos</title>
   <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/platform.css">
 </head>
-<body>
+<body class="platform update-lattes">
+  <aside id="platformSidebar" class="platform-sidebar" aria-label="Menu da plataforma"></aside>
+  <div class="platform-frame">
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="/" aria-label="LattesData — início">
-        <img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
-        <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span>
-      </a>
-
-      <nav class="topnav" aria-label="Principal">
-        <a class="nav-link" href="/abertura.html">Início</a>
-        <a class="nav-link" href="/espaco-aramys.html" style="color:var(--accent);font-weight:700" title="Espaço colaborativo e diretrizes com Aramys">Espaço Aramys</a>
-        <a class="nav-link" href="/" aria-current="page">Cadastrar</a>
-        <a class="nav-link" href="/painel.html" title="Lote, XML do Lattes, auditoria e EditalScore">Painel</a>
-        <a class="nav-link" href="/captacao.html" title="Banco de instituições do Lattes e captação gradual">Captação</a>
-        <a class="nav-link" href="/meu-curriculo.html" title="Itens e indicadores do seu currículo, a partir do XML do Lattes">Meu currículo</a>
-        <button class="nav-link" id="btnOpenDossieModal" type="button" title="Comprovantes organizados por ano (padrão CAPES/CNPq)">Dossiê</button>
-        <button class="nav-link" id="btnToggleHistory" type="button">Registros <span class="nav-count" id="recordsCount">0</span></button>
-        <button class="nav-link" id="btnOpenAuditModal" type="button" title="Auditoria de Conformidade e Oportunidades do Currículo">Avaliação</button>
-      </nav>
+      <div class="update-location"><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span>Início / <strong id="updateViewTitle">Atualizar Lattes</strong></span></div>
 
       <div class="topbar-actions">
         <div class="lattes-wrap">
@@ -48,8 +36,8 @@
             <details class="lc-steps">
               <summary>Como conectar (3 passos)</summary>
               <ol>
-                <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o LattesData nunca vê sua senha.</li>
-                <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao LattesData</a> para os favoritos e clique nele.</li>
+                <li><strong>Entrar no Lattes:</strong> abre a página do Login Único CNPq numa nova aba. Você faz o login (CPF, e-mail ou gov.br); o NautiScience nunca vê sua senha.</li>
+                <li><strong>Conectar:</strong> na aba do Lattes, abra o Console (<code>F12</code>) e cole o conector (já copiado pelo botão), ou arraste <a id="connectorLink" class="bookmarklet-btn" href="#">Conectar ao NautiScience</a> para os favoritos e clique nele.</li>
                 <li><strong>Pronto:</strong> o selo muda para conectado com o nome do currículo aberto. Se for de outra pessoa que não o usuário em teste, ele avisa e o preenchimento é bloqueado.</li>
               </ol>
               <p class="hint">O navegador não deixa um site ler a sessão de outro, por isso o status depende desse conector. Funciona em qualquer aba do Lattes onde você já esteja logado (não precisa ter sido aberta por aqui) e atualiza a cada 15 s enquanto a aba estiver aberta.</p>
@@ -81,9 +69,10 @@
       </div>
     </div>
   </header>
+<script src="/platform-shell.js"></script>
 
   <main class="container">
-    <!-- Aviso: extensão LattesData ausente ou desatualizada -->
+    <!-- Aviso: extensão NautiScience ausente ou desatualizada -->
     <div id="extAviso" class="hidden" role="status" style="display:none;margin:0 0 14px;padding:12px 14px;border-radius:10px;border:1px solid #fcd34d;background:#fffbeb;color:#92400e">
       <strong id="extAvisoTitulo"></strong>
       <span id="extAvisoTexto" style="display:block;margin-top:2px"></span>
@@ -96,8 +85,8 @@
     <!-- Painel de Histórico Compartilhado -->
     <section id="historyPanel" class="card hidden">
       <div class="card-header">
-        <h2>📚 Registros</h2>
-        <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">← Voltar ao cadastro</button>
+        <h2>📚 Registro de Atualização Lattes</h2>
+        <button class="btn btn-sm btn-ghost" id="btnCloseHistory" type="button">← Voltar à atualização</button>
       </div>
 
       <div id="cvPendencia" style="border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;margin:6px 0 12px">
@@ -603,7 +592,7 @@
           <input type="checkbox" id="autoSaveLattes" checked />
           <div class="dual-check-content">
             <strong>Efetuar o cadastro e clicar em Salvar automaticamente no Lattes</strong>
-            <p class="hint">Se marcado, o LattesData abre o formulário correto sozinho, preenche todos os campos e já aciona o botão <strong>Salvar</strong> (se não houver nenhuma escolha pendente na lupa).</p>
+            <p class="hint">Se marcado, o NautiScience abre o formulário correto sozinho, preenche todos os campos e já aciona o botão <strong>Salvar</strong> (se não houver nenhuma escolha pendente na lupa).</p>
           </div>
         </label>
 
@@ -622,14 +611,14 @@
         <div id="lattesResultado" class="hidden" role="status" aria-live="polite"></div>
 
         <div id="extInstallBox" class="bookmarklet-box" style="margin-top: 12px;">
-          <p style="margin: 0 0 8px;"><strong>🧩 Quer cadastrar com 1 clique?</strong> Instale a extensão LattesData no Chrome ou Edge (uma única vez). Depois, o botão <em>Enviar</em> abre o login do Lattes, espera você entrar e preenche tudo sozinho.</p>
+          <p style="margin: 0 0 8px;"><strong>🧩 Quer cadastrar com 1 clique?</strong> Instale a extensão NautiScience no Chrome ou Edge (uma única vez). Depois, o botão <em>Enviar</em> abre o login do Lattes, espera você entrar e preenche tudo sozinho.</p>
           <div class="action-buttons" style="margin-top: 6px;">
             <a class="btn btn-accent btn-sm" href="/api/extensao.zip" download="lattesdata-extensao.zip">🧩 Baixar extensão (.zip)</a>
           </div>
         </div>
 
         <ol id="lattesGuide" class="lattes-guide hidden">
-          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o LattesData nunca os vê).</li>
+          <li class="guide-step" data-step="1"><strong>Faça login no Lattes</strong> na aba que abrimos, com a conta de <strong id="guideUser">o usuário selecionado</strong> (você digita CPF e senha; o NautiScience nunca os vê).</li>
           <li class="guide-step" data-step="2"><span id="guideStep2" data-doi="">Você <strong>não precisa procurar no menu</strong>: na tela inicial do Lattes já logado, o script abre o formulário correto sozinho!</span></li>
           <li class="guide-step" data-step="3">Pressione <code>F12</code> → aba <em>Console</em>, cole o script (já copiado automaticamente) e tecle Enter (ou clique no favorito na barra).</li>
           <li class="guide-step" data-step="4">O sistema abrirá o formulário, preencherá todos os campos e salvará automaticamente (ou destacará o botão <strong>Salvar</strong> em verde).</li>
@@ -656,11 +645,8 @@
       </section>
 
     </form>
-  </main>
-
-  <!-- Modal de Avaliação & Diagnóstico Lattes -->
-  <div id="auditModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="auditModalTitle">
-    <div class="audit-modal-card">
+  <!-- Página de Avaliação & Diagnóstico Lattes -->
+  <section id="avaliacao" class="card hidden" aria-labelledby="auditModalTitle">
       <div class="audit-modal-header">
         <div class="flex-align-gap">
           <span class="audit-icon-badge">🛡️</span>
@@ -669,7 +655,6 @@
             <p class="hint">Conformidade com a Portaria CNPq 2.664/2026 e Diretrizes CAPES Sucupira</p>
           </div>
         </div>
-        <button type="button" class="btn-close" id="btnCloseAuditModal" aria-label="Fechar">✕</button>
       </div>
 
       <div class="audit-modal-body">
@@ -770,8 +755,8 @@
           </a>
         </div>
       </div>
-    </div>
-  </div>
+  </section>
+  </main>
 
   <!-- Modal de Estrutura do Dossiê Acadêmico -->
   <div id="dossieModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="dossieModalTitle">
@@ -814,7 +799,7 @@
         <div class="flex-align-gap">
           <span class="audit-icon-badge">🧩</span>
           <div>
-            <h2 id="ativadorModalTitle" class="audit-modal-title">Instale ou atualize a extensão LattesData</h2>
+            <h2 id="ativadorModalTitle" class="audit-modal-title">Instale ou atualize a extensão NautiScience</h2>
             <p class="hint">Necessário apenas uma vez neste navegador (Chrome ou Edge)</p>
           </div>
         </div>
@@ -843,6 +828,7 @@
   </div>
 
   <div id="toast" class="toast hidden"></div>
+  </div>
   <script src="/guarda-servidor.js"></script>
   <script src="/instituicoes-ponte.js"></script>
   <script src="/app.js"></script>

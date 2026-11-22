@@ -52,7 +52,7 @@ ITENS: list[Item] = [
         (r"participou (do|da|de|dos|das)|participacao (no|na|do|da)|na qualidade de (participante|ouvinte)|\bouvinte\b|\bparticipante\b", 3.0, "diz que participou do evento"),
         (r"congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada|reuniao anual", 1.0, "cita um evento"),
         (r"carga horaria", 0.5, "tem carga horária"),
-        (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante", -2.0, "houve apresentação, não só participação"),
+        (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante|atestado de restauro|conservacao do painel", -2.0, "houve apresentação ou restauro, não só participação"),
     ], False, "Certificado de participação no congresso"),
     Item("organizacao_evento", "Eventos", "Organização de eventos, congressos, exposições, feiras e olimpíadas", "Organizei ou coordenei um evento", [
         (r"(integrou|integrante|membro|atuou como|participou como|coordenou|presidiu|presidente)( d[ao]s?)?( a| da)? comissao (organizadora|cientifica)|organizou o|coordenou o (evento|congresso|simposio|seminario)|coordenacao geral", 4.0, "foi da comissão organizadora"),
@@ -73,7 +73,24 @@ ITENS: list[Item] = [
     Item("livro_capitulo", "Produções", "Livros e capítulos", "Publiquei um livro ou capítulo de livro", [
         (r"\bisbn\b", 3.0, "tem ISBN"),
         (r"capitulo|organizador(es)?|\beditora\b(?! associad)|ficha catalografica", 1.5, "cita capítulo/editora"),
+        (r"\bprefacio\b|\bposfacio\b|traduziu|declaracao de traducao|declaracao de editoracao|atuou como editor|\bpartitura\b", -3.5, "é prefácio, tradução, editoração ou partitura"),
     ], False, "Ficha catalográfica do livro"),
+    Item("outra_producao_bibliografica", "Produções", "Outra produção bibliográfica", "Publiquei outra produção bibliográfica (resenha, boletim)", [
+        (r"declaracao de publicacao|\bresenha\b|\bboletim\b", 4.0, "cita resenha/boletim"),
+    ], True, "Declaração de publicação de resenha"),
+    Item("prefacio_posfacio", "Produções", "Prefácio, posfácio", "Escrevi prefácio, posfácio ou apresentação de livro", [
+        (r"\bprefacio\b|\bposfacio\b|redacao do prefacio|redacao do posfacio|carta do organizador", 4.5, "cita prefácio ou posfácio"),
+        (r"\blivro\b|\bisbn\b|\beditora\b", 1.0, "cita livro/editora"),
+    ], True, "Carta de agradecimento por prefácio"),
+    Item("texto_jornal_revista", "Produções", "Textos em jornais de notícias/revistas", "Publiquei texto em jornal ou revista de divulgação", [
+        (r"declaracao da redacao|artigo de divulgacao|no jornal\b|caderno\s+[a-z]+", 4.5, "cita texto em jornal/revista de notícias"),
+    ], True, "Declaração de publicação em jornal"),
+    Item("traducao", "Produções", "Tradução", "Traduzi um livro, artigo ou outra obra", [
+        (r"declaracao de traducao|\btraduziu\b|traducao d[eo] (livro|artigo|obra)", 4.5, "cita tradução de obra"),
+    ], True, "Declaração de tradução"),
+    Item("editoracao", "Produções", "Editoração", "Atuei na editoração de livro, periódico ou anais", [
+        (r"declaracao de editoracao|atuou como editor(a)? d[oa] (livro|periodico|anais|catalogo)|\beditoracao\b", 4.5, "cita editoração"),
+    ], True, "Declaração de editoração"),
     Item("orientacao_concluida", "Orientações", "Orientações e supervisões concluídas", "Orientei um trabalho (mestrado, doutorado, TCC, IC)", [
         (r"orientou|orientador(a)?\b|orientacao d[oa]|orientando", 2.5, "cita orientador/orientando"),
         (r"defendeu|defesa|aprovad[oa]|concluiu|concluida", 1.5, "diz que foi defendido/concluído"),
@@ -92,7 +109,11 @@ ITENS: list[Item] = [
         (r"banca examinadora|membro da banca|participou da banca|comissao julgadora|examinador(a)?|avaliador(a)? externo", 4.0, "diz que integrou a banca"),
         (r"defesa|qualificacao", 1.0, "cita defesa ou qualificação"),
         (r"disserta[c]ao|\btese\b|\btcc\b|monografia|trabalho de conclusao", 1.0, "cita o trabalho avaliado"),
+        (r"concurso publico|professor adjunto|processo seletivo para professor", -3.5, "é banca de comissão julgadora/concurso"),
     ], False, "Declaração de participação em banca"),
+    Item("banca_comissao_julgadora", "Bancas", "Participação em bancas de comissões julgadoras", "Integrei comissão julgadora de concurso ou seleção", [
+        (r"comissao julgadora.{0,60}concurso|concurso publico|professor adjunto|banca de concurso", 4.5, "cita comissão julgadora de concurso"),
+    ], True, "Declaração de comissão julgadora"),
     Item("curso_ministrado", "Produções", "Curso de curta duração ministrado", "Ministrei um curso, minicurso ou oficina", [
         (r"ministrou|ministrante|docente do curso|instrutor(a)?|professor(a)? do curso|oficina ministrada", 4.0, "diz que ministrou o curso"),
         (r"\bcurso\b|minicurso|oficina|capacitacao", 1.0, "cita curso"),
@@ -116,7 +137,17 @@ ITENS: list[Item] = [
     Item("revisor_periodico", "Atuação", "Revisor de periódico", "Fui revisor/parecerista de uma revista", [
         (r"revisor(a)?|reviewer|parecerista|peer review|avaliacao de manuscrito|referee", 4.0, "diz que foi revisor/parecerista"),
         (r"periodico|journal|revista", 1.0, "cita revista"),
+        (r"em projetos|edital universal|declaracao da agencia", -3.0, "é revisor de projeto de fomento"),
     ], False, "Certificado de revisor"),
+    Item("revisor_projeto_fomento", "Atuação", "Revisor de projeto de agência de fomento", "Emiti parecer ad hoc em projetos de agência de fomento", [
+        (r"parecer ad hoc em projetos|declaracao da agencia|revisor(a)? de projeto|projetos do edital", 4.5, "cita parecer em projetos de agência de fomento"),
+    ], True, "Declaração da agência de fomento"),
+    Item("comite_assessoramento", "Atuação", "Membro de comitê de assessoramento", "Integrei comitê de assessoramento de agência de fomento", [
+        (r"comite de assessoramento|comite assessor", 4.5, "cita comitê de assessoramento"),
+    ], True, "Portaria de comitê de assessoramento"),
+    Item("pos_doutorado", "Formação", "Pós-doutorado", "Realizei estágio de pós-doutorado", [
+        (r"pos-doutorado|pos doutorado|estagio de pos-doutorado", 4.5, "cita pós-doutorado"),
+    ], True, "Declaração de pós-doutorado"),
     Item("corpo_editorial", "Atuação", "Membro de corpo editorial", "Sou do corpo editorial de uma revista", [
         (r"corpo editorial|editor(a)? associad[oa]|editor(a)?-chefe|editor(a)? chefe|editorial board|conselho editorial", 4.5, "cita corpo/conselho editorial"),
     ], False, "Portaria de editor"),
@@ -126,6 +157,21 @@ ITENS: list[Item] = [
     Item("software_registro", "Patentes e Registros", "Programa de Computador Registrado", "Registrei um programa de computador", [
         (r"registro de programa de computador|certificado de registro.{0,40}programa|programa de computador", 4.5, "cita registro de programa de computador"),
     ], False, "Certificado de registro de software"),
+    Item("desenho_industrial", "Patentes e Registros", "Desenho Industrial Registrado", "Registrei um desenho industrial", [
+        (r"desenho industrial|registro\s+di\s*\d", 4.5, "cita registro de desenho industrial"),
+    ], True, "Certificado de registro de desenho industrial"),
+    Item("marca_registrada", "Patentes e Registros", "Marca Registrada", "Registrei uma marca", [
+        (r"registro de marca|certificado de registro de marca", 4.5, "cita registro de marca"),
+    ], True, "Certificado de registro de marca"),
+    Item("topografia_circuito", "Patentes e Registros", "Topografia de Circuito Integrado Registrada", "Registrei topografia de circuito integrado", [
+        (r"topografia de circuito integrado|circuito integrado", 4.5, "cita topografia de circuito integrado"),
+    ], True, "Certificado de topografia de circuito integrado"),
+    Item("cultivar_protegida", "Patentes e Registros", "Cultivar Protegida", "Obtive certificado de proteção de cultivar", [
+        (r"protecao de cultivar|certificado de protecao.{0,40}cultivar|obtentor(a)?", 4.5, "cita proteção de cultivar"),
+    ], True, "Certificado de proteção de cultivar"),
+    Item("cultivar_registrada", "Patentes e Registros", "Cultivar Registrada", "Registrei cultivar no Registro Nacional de Cultivares", [
+        (r"registro de cultivar|registro nacional de cultivares|mantenedor(a)?", 4.5, "cita registro de cultivar"),
+    ], True, "Certificado de registro de cultivar"),
     Item("premio", "Dados gerais", "Prêmios e títulos", "Recebi um prêmio ou título", [
         (r"\bpremio\b|premiacao|mencao honrosa|melhor trabalho|homenagem|titulo de (cidadao|doutor honoris)", 3.5, "cita prêmio/menção honrosa"),
     ], False, "Certificado de melhor trabalho"),
@@ -141,7 +187,93 @@ ITENS: list[Item] = [
     ], False, "Portaria de licença"),
     Item("relatorio_tecnico", "Produções", "Trabalhos técnicos", "Fiz um parecer, relatório ou consultoria", [
         (r"relatorio tecnico|parecer tecnico|laudo|consultoria|assessoria", 3.5, "cita relatório/parecer/consultoria"),
+        (r"declaracao de servico tecnico|analise fisico-quimica", -3.0, "é serviço/trabalho técnico"),
     ], False, "Parecer técnico"),
+    Item("trabalho_tecnico", "Produções", "Demais trabalhos técnicos", "Realizei serviço ou análise técnica com laudo", [
+        (r"declaracao de servico tecnico|servico tecnico|analise fisico-quimica.{0,80}laudo", 4.5, "cita serviço/trabalho técnico"),
+    ], True, "Declaração de serviço técnico"),
+    Item("software_sem_registro", "Produções", "Programa de computador sem registro", "Desenvolvi um programa ou aplicativo sem registro no INPI", [
+        (r"declaracao de desenvolvimento|desenvolveu o (aplicativo|programa|software|sistema).{0,80}sem registro|sem registro em orgao competente", 4.5, "cita desenvolvimento de software sem registro"),
+    ], True, "Declaração de desenvolvimento de software"),
+    Item("produto", "Produções", "Produtos tecnológicos", "Desenvolvi um produto tecnológico", [
+        (r"ficha de produto|\bproduto:\s+[^\n]+desenvolvido por", 4.5, "cita ficha/desenvolvimento de produto tecnológico"),
+    ], True, "Ficha de produto tecnológico"),
+    Item("processo_tecnica", "Produções", "Processos ou técnicas", "Desenvolvi um processo ou técnica", [
+        (r"descricao de processo|processo de extracao.{0,80}desenvolvido por|processo ou tecnica", 4.5, "cita desenvolvimento de processo ou técnica"),
+    ], True, "Descrição de processo ou técnica"),
+    Item("material_didatico", "Produções", "Desenvolvimento de material didático ou instrucional", "Desenvolvi material didático ou apostila", [
+        (r"desenvolveu o material didatico|material didatico|apostila de", 4.5, "cita desenvolvimento de material didático/apostila"),
+    ], True, "Declaração de material didático"),
+    Item("extensao_tecnologica", "Produções", "Extensão tecnológica", "Prestei atividade de extensão tecnológica", [
+        (r"declaracao de extensao tecnologica|prestou extensao tecnologica|\bextensao tecnologica\b", 4.5, "cita extensão tecnológica"),
+    ], True, "Declaração de extensão tecnológica"),
+    Item("entrevista_midia", "Produções", "Programas de rádio ou TV", "Concedi entrevista ou participei de programa de rádio/TV", [
+        (r"declaracao da emissora|concedeu entrevista ao programa|programa de (radio|tv|televisao)", 4.5, "cita entrevista ou programa de rádio/TV"),
+    ], True, "Declaração de entrevista em emissora"),
+    Item("redes_sociais", "Produções", "Redes sociais, websites e blogs", "Mantenho blog, site ou canal de divulgação científica", [
+        (r"captura de pagina|\bblog\b.{0,80}mantido por|finalidade:\s*divulgacao cientifica", 4.5, "cita blog/site de divulgação científica"),
+    ], True, "Captura de página de blog científico"),
+    Item("relatorio_pesquisa", "Produções", "Relatório de pesquisa", "Elaborei relatório final ou parcial de pesquisa", [
+        (r"relatorio de pesquisa|relatorio final do projeto", 4.5, "cita relatório de pesquisa"),
+    ], True, "Relatório final de pesquisa"),
+    Item("outra_producao_tecnica", "Produções", "Outra produção técnica", "Elaborei outra produção técnica (regimento, norma, protocolo)", [
+        (r"elaborou o regimento|regimento do laboratorio|outra producao tecnica", 4.5, "cita regimento/norma técnica"),
+    ], True, "Declaração de elaboração de regimento"),
+    Item("artes_cenicas", "Produções", "Artes cênicas", "Participei de espetáculo teatral ou artes cênicas", [
+        (r"declaracao do teatro|preparadora vocal|espetaculo\b.{0,80}teatro|artes cenicas|peca teatral", 4.5, "cita espetáculo teatral (artes cênicas)"),
+    ], True, "Declaração do teatro"),
+    Item("artes_visuais", "Produções", "Artes visuais", "Participei de exposição de artes visuais ou fotografia", [
+        (r"certificado de exposicao|exposicao coletiva|\bgaleria\b|artes visuais", 4.5, "cita exposição de artes visuais"),
+    ], True, "Certificado de exposição"),
+    Item("musica", "Produções", "Música", "Compus ou gravei obra musical", [
+        (r"declaracao de composicao|compos a cancao|gravada no album|composicao musical", 4.5, "cita composição musical"),
+    ], True, "Declaração de composição"),
+    Item("partitura_musical", "Produções", "Partitura musical", "Publiquei ou elaborei partitura musical", [
+        (r"ficha da partitura|\bpartitura\b", 4.5, "cita partitura musical"),
+    ], True, "Ficha da partitura"),
+    Item("cartas_mapas", "Produções", "Cartas, mapas ou similares", "Elaborei carta temática ou mapa", [
+        (r"declaracao cartografica|carta tematica|mapa tematico", 4.5, "cita carta temática ou mapa"),
+    ], True, "Declaração cartográfica"),
+    Item("maquete", "Produções", "Maquete", "Projetei ou construí uma maquete", [
+        (r"projetou a maquete|\bmaquete\b", 4.5, "cita maquete"),
+    ], True, "Declaração de maquete"),
+    Item("manutencao_obra", "Produções", "Manutenção de obra artística", "Atuei na conservação ou restauro de obra artística", [
+        (r"atestado de restauro|conservacao do painel|restauracao de obra|manutencao de obra", 4.5, "cita restauro ou conservação de obra"),
+    ], True, "Atestado de restauro"),
+    Item("outra_producao_artistica", "Produções", "Outra produção artística/cultural", "Realizei curadoria ou outra produção artística/cultural", [
+        (r"fez a curadoria da mostra|curadoria da mostra|centro cultural|outra producao artistica", 4.5, "cita curadoria/produção artística"),
+    ], True, "Declaração de curadoria"),
+    Item("identificacao", "Dados gerais", "Identificação", "Atualizar dados de identificação do currículo", [
+        (r"ficha cadastral institucional|nome em citacoes bibliograficas", 4.5, "é ficha cadastral institucional"),
+    ], True, "Ficha cadastral institucional"),
+    Item("endereco", "Dados gerais", "Endereço", "Atualizar endereço profissional ou residencial", [
+        (r"comprovante de endereco|endereco profissional|endereco residencial", 4.5, "é comprovante de endereço"),
+    ], True, "Comprovante de endereço profissional"),
+    Item("texto_inicial", "Dados gerais", "Texto inicial do currículo Lattes", "Atualizar o resumo/texto inicial do currículo", [
+        (r"resumo do curriculo|texto inicial do curriculo", 4.5, "é resumo do currículo"),
+    ], True, "Resumo do currículo"),
+    Item("outras_informacoes", "Dados gerais", "Outras informações relevantes", "Incluir outras informações relevantes no currículo", [
+        (r"informacao relevante complementar|outras informacoes relevantes", 4.5, "cita informação relevante complementar"),
+    ], True, "Declaração de informação relevante"),
+    Item("citacao_scopus", "Citações", "Citações — Scopus", "Atualizar indicadores de citações da base Scopus", [
+        (r"\bscopus\b", 4.5, "cita base Scopus"),
+        (r"citacoes|indice h|h-index", 1.0, "cita indicadores de citações"),
+    ], True, "Perfil de autor no Scopus"),
+    Item("citacao_web_of_science", "Citações", "Citações — Web of Science", "Atualizar indicadores de citações da Web of Science", [
+        (r"web of science|researcher profile|researcherid", 4.5, "cita base Web of Science"),
+        (r"times cited|citacoes|h-index", 1.0, "cita indicadores de citações"),
+    ], True, "Perfil de autor na Web of Science"),
+    Item("citacao_google_scholar", "Citações", "Citações — Google Scholar", "Atualizar indicadores de citações do Google Acadêmico", [
+        (r"google academico|google scholar", 4.5, "cita Google Acadêmico/Scholar"),
+        (r"citacoes|indice h|indice i10", 1.0, "cita indicadores de citações"),
+    ], True, "Perfil no Google Acadêmico"),
+    Item("citacao_scielo", "Citações", "Citações — SciELO", "Atualizar indicadores de citações da base SciELO", [
+        (r"\bscielo\b", 4.5, "cita base SciELO"),
+        (r"citacoes|documentos", 1.0, "cita indicadores de citações"),
+    ], True, "Indicadores de citações SciELO"),
+    Item("citacao_outra_base", "Citações", "Citações — Outra base", "Atualizar indicadores de citações de outra base bibliográfica", [
+        (r"base bibliografica.{0,40}citacoes|citacoes:\s*\d+.{0,60}\bbase:", 4.5, "cita citações em outra base bibliográfica"),
+    ], True, "Indicadores de citações em outra base"),
 ]
 INDICE = {i.id: i for i in ITENS}
 
@@ -203,11 +335,20 @@ def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no
 
 
 def _marcar_especificados() -> None:
-    """Itens com leitor + especificação (onda 1) passam a reconhecidos com formulário estruturado."""
+    """Todos os itens com especificação + leitor passam a reconhecidos com formulário estruturado."""
+    from itens import especificacao, ids_especificados
     from itens.leitores import LEITORES
+    existentes = {i.id for i in ITENS}
+    for item_id in ids_especificados():
+        if item_id not in existentes:
+            spec = especificacao(item_id) or {}
+            nome = spec.get("item") or item_id
+            ITENS.append(Item(item_id, spec.get("secao") or "Outros", nome, f"Cadastrar {nome.lower()}", [],
+                              item_id in LEITORES, spec.get("como_abrir") or ""))
     for i in ITENS:
         if i.id in LEITORES:
             i.implementado = True
+    INDICE.update({i.id: i for i in ITENS})
 
 
 _marcar_especificados()

@@ -25,7 +25,9 @@
     }
    ],
    "grades": [],
-   "obrigatorios_mensagens": []
+   "obrigatorios_mensagens": [
+    "Outras informações relevantes"
+   ]
   }
  ],
  "curadoria": {}

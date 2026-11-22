@@ -2,10 +2,9 @@
  "item": "comite_assessoramento_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-20T21:17:51.249Z",
+ "executado_em": "2026-11-21T17:44:52.624Z",
  "resumo": {
-  "OK": 24,
-  "exige_acao_manual": 1
+  "OK": 25
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 3004
   },
   {
    "id": "f_comite#maximo",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 3009
   },
   {
    "id": "f_comite#acima_do_limite",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 2990
   },
   {
    "id": "f_comite#acentos",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 619
+   "ms": 2997
   },
   {
    "id": "f_mes_ini#tipico",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 3005
   },
   {
    "id": "f_mes_ini#maximo",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 3001
   },
   {
    "id": "f_mes_ini#acima_do_limite",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 2998
   },
   {
    "id": "f_mes_ini#acentos",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 628
+   "ms": 3000
   },
   {
    "id": "f_ano_ini#valido",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 2996
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 3002
   },
   {
    "id": "f_ano_ini#letras",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 2997
   },
   {
    "id": "f_status#opcao_s",
@@ -102,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1060
+   "ms": 3004
   },
   {
    "id": "f_status#opcao_n",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1064
+   "ms": 3007
   },
   {
    "id": "f_mes_fim#tipico",
@@ -118,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1330
+   "ms": 4004
   },
   {
    "id": "f_mes_fim#maximo",
@@ -126,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1315
+   "ms": 3989
   },
   {
    "id": "f_mes_fim#acima_do_limite",
@@ -134,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1329
+   "ms": 18005
   },
   {
    "id": "f_mes_fim#acentos",
@@ -142,7 +141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1338
+   "ms": 60711
   },
   {
    "id": "f_ano_fim#valido",
@@ -150,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1336
+   "ms": 1314
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -158,7 +157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1339
+   "ms": 1325
   },
   {
    "id": "f_ano_fim#letras",
@@ -166,7 +165,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1339
+   "ms": 1338
   },
   {
    "id": "f_outras_inf#tipico",
@@ -174,7 +173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 624
   },
   {
    "id": "f_outras_inf#maximo",
@@ -182,7 +181,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 825
   },
   {
    "id": "f_outras_inf#acima_do_limite",
@@ -190,7 +189,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 620
   },
   {
    "id": "f_outras_inf#acentos",
@@ -198,15 +197,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 619
   },
   {
    "id": "f_nme_agencia#lupa",
    "campo": "f_nme_agencia",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 8459
+   "ms": 3448
   }
  ]
 }

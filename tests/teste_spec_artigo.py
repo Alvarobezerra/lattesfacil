@@ -21,7 +21,7 @@ spec = json.loads((RAIZ / "itens" / "especificacao" / "artigo.json").read_text(e
 v = spec["variantes"][0]
 c = {x["name"].lower(): x for x in v["campos"]}
 checa("variante com nome do Lattes", v["variante"] == "Artigo completo publicado em periódico", v["variante"])
-checa("idioma: só as 80 opções do formulário real (não o catálogo de 152)", len(c["f_idioma"].get("opcoes", {})) == 80 and "Português" in c["f_idioma"]["opcoes"], len(c["f_idioma"].get("opcoes", {})))
+checa("idioma: todas as 152 opções do catálogo completo", len(c["f_idioma"].get("opcoes", {})) == 152 and "Português" in c["f_idioma"]["opcoes"], len(c["f_idioma"].get("opcoes", {})))
 checa("idioma sem o catálogo completo como fonte", not c["f_idioma"].get("catalogo"))
 for n in ("f_titulo_periodico", "f_issn", "f_volume", "f_serie", "f_pag_ini", "f_jcr"):
     checa(f"{n} bloqueado no Lattes", c[n].get("bloqueado_no_lattes") is True)

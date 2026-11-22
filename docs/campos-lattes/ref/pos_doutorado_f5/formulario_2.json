@@ -2,10 +2,9 @@
  "item": "pos_doutorado_f5",
  "variante_slug": "formulario_2",
  "variante": "Formulário 2",
- "executado_em": "2026-11-21T00:11:45.081Z",
+ "executado_em": "2026-11-21T15:36:18.149Z",
  "resumo": {
-  "OK": 11,
-  "erro": 1
+  "OK": 12
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 637
   },
   {
    "id": "f_mes_obten#maximo",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 642
+   "ms": 622
   },
   {
    "id": "f_mes_obten#acima_do_limite",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 637
   },
   {
    "id": "f_mes_obten#acentos",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 628
   },
   {
    "id": "f_ano_obten#valido",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 628
   },
   {
    "id": "f_ano_obten#acima_do_limite",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 636
   },
   {
    "id": "f_ano_obten#letras",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 614
   },
   {
    "id": "f_titulo#maximo",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 636
   },
   {
    "id": "f_titulo#acima_do_limite",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 623
   },
   {
    "id": "f_titulo#acentos",
@@ -94,15 +93,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 623
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 3
+   "ms": 3135
   }
  ]
 }

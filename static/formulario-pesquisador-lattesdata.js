@@ -192,7 +192,7 @@
 
       try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
       if (draftInfo) draftInfo.textContent = "Escuta enviada ✓";
-      statusMsg(`Muito obrigado, ${respondente}! Recebemos ${respostas.length} resposta(s) para guiar a evolução do LattesData.`, false);
+      statusMsg(`Muito obrigado, ${respondente}! Recebemos ${respostas.length} resposta(s) para guiar a evolução do NautiScience.`, false);
       form.querySelectorAll("input, textarea, select, button").forEach((el) => { el.disabled = true; });
     } catch (err) {
       statusMsg(err.message || "Falha ao enviar respostas.", true);

@@ -23,13 +23,13 @@
   window.top.__alertasLattes = window.top.__alertasLattes || [];
   const silenciarTudo = (w, prof) => { if (prof > 6) return; try { if (!w.__lfSil) { w.alert = (m) => { window.top.__alertasLattes.push(String(m).replace(/\s+/g, ' ').slice(0, 200)); }; w.confirm = () => true; w.prompt = () => ''; w.__lfSil = true; } for (let i = 0; i < w.frames.length; i++) silenciarTudo(w.frames[i], prof + 1); } catch (e) { /* outro domínio */ } };
   if (!window.top.__lfSilTimer) window.top.__lfSilTimer = setInterval(() => silenciarTudo(window.top, 0), 150);
-  const lista = (d, name) => [...d.querySelectorAll('[name="' + name + '"]')].filter((e) => e.value !== 'DUMMY');
+  const lista = (d, name) => { const l = [...d.querySelectorAll('[name="' + name + '"]')].filter((e) => e.value !== 'DUMMY'); return l.length ? l : (d.getElementById(name) ? [d.getElementById(name)] : []); };
 
   function ler(d, name, tipo) {
     const els = lista(d, name);
     if (!els.length) return { existe: false };
     const e0 = els[0];
-    if (e0.type === 'radio') { const c = els.find((x) => x.checked); return { existe: true, valor: c ? c.value : '' }; }
+    if (e0.type === 'radio') { const c = els.find((x) => x.checked); const idx = c ? els.indexOf(c) : -1; return { existe: true, valor: c ? (c.value || (['P', 'R', 'B'][idx] || '')) : '' }; }
     if (e0.type === 'checkbox') return { existe: true, conjunto: els.filter((x) => x.checked).map((x) => x.value).sort() };
     if (e0.tagName === 'SELECT') return { existe: true, valor: e0.value, texto: (e0.options[e0.selectedIndex] || {}).text || '' };
     return { existe: true, valor: e0.value };
@@ -44,14 +44,22 @@
     });
   }
 
-  async function autofill(campos) {
+  async function autofill(campos, meta) {
+    const w = formulario();
+    let urlAtual = '';
+    try {
+      urlAtual = (w && w.frameElement && w.frameElement.getAttribute('src')) || (w && w.location && (w.location.pathname.split('/').pop() + (w.location.search || ''))) || '';
+    } catch (e) {}
+    const alvoF5 = window.top.__alvoF5 || window.__alvoF5 || {};
+    const idItem = (meta && meta.item) || alvoF5.id || 'projeto';
+    const urlItem = alvoF5.url || urlAtual || 'PKG_PROJETO.form';
     const msgs = [];
     const alertaOriginal = window.alert;
     window.alert = (m) => { msgs.push(String(m)); };
     try {
       await window.__lfAutofill({
         tipo_producao: 'generico', __usuario: '', __origem: '', __autoSalvar: false, __semAlerta: true,
-        __generico: { id: (window.__alvoF5 || {}).id || 'projeto', item: 'Teste de validação', como_abrir: '', url: (window.__alvoF5 || {}).url || 'PKG_PROJETO.form', campos, faltam: [], grades: {} },
+        __generico: { id: idItem, item: 'Teste de validação', como_abrir: '', url: urlItem, campos, faltam: [], grades: {} },
       });
     } finally { window.alert = alertaOriginal; }
     return msgs.join(' | ').replace(/\s+/g, ' ').slice(0, 400);
@@ -76,22 +84,34 @@
 
   async function rodar(slug, meta, opcoes) {
     opcoes = opcoes || {};
-    const w = formulario(); const d = w.document;
+    const docAtual = async () => {
+      for (let k = 0; k < 25; k++) {
+        const wf = formulario();
+        try {
+          if (wf && wf.document && wf.document.readyState === 'complete' && wf.document.querySelector('[name]')) return wf.document;
+        } catch (e) {}
+        await dormir(200);
+      }
+      return (formulario() || {}).document;
+    };
+    const peso = (c) => (/#opcao_lb$/i.test(c.id || '') ? 2 : (c.lento ? 1 : 0));
     const casos = (window.__casos[slug] || []).filter((c) => (opcoes.lentos ? true : !c.lento));
-    casos.sort((a, b) => (a.lento ? 1 : 0) - (b.lento ? 1 : 0));
+    casos.sort((a, b) => peso(a) - peso(b));
     const resultados = [];
     for (const caso of casos) {
       window.top.__f5caso = { slug, id: caso.id, desde: Date.now() };  // rastreio: qual caso está rodando (para achar travas)
       const t0 = Date.now();
       let status, detalhe = '', aviso = '', lido = null;
       try {
+        let d = await docAtual();
         const gatInicial = {};
         (caso.pre || []).forEach((p) => { const e = lista(d, p.name); if (e[0] && e[0].type === 'radio') { const c = e.find((x) => x.checked); gatInicial[p.name] = c ? c.value : ''; } });
         limpar(d, caso.campo);
         let campos = (caso.pre || []).concat([caso.alvo]);
         if ((caso.campo === 'f_orgao' || caso.campo === 'f_curso') && !((d.querySelector('[name="f_inst"]') || {}).value)) campos = [{ name: 'f_inst', rotulo: 'Instituição', tipo: 'text', valor: 'Universidade Federal do Maranhão', codigo: '', codigos: [], auto: false }].concat(campos);
-        aviso = await autofill(campos);
+        aviso = await autofill(campos, meta);
         await dormir(200);
+        d = await docAtual();
         lido = ler(d, caso.campo, caso.tipo);
         [status, detalhe] = comparar(caso, lido);
         // volta os gatilhos ao estado inicial
@@ -167,9 +187,10 @@
     const topo = window.top;
     const cv = (topo.document.querySelector('[name="f_cod"]') || {}).value || ((topo.document.documentElement.innerHTML.match(/[?&]f_cod=([A-Za-z0-9]{6,20})/i) || [])[1]) || '';
     window.top.__paginaAlvo = pagina;
-    window.__alvoF5 = { id: (window.__alvoF5 || {}).id || 'projeto', url };
+    const ant = window.top.__alvoF5 || window.__alvoF5 || {};
+    window.top.__alvoF5 = window.__alvoF5 = { id: ant.id || 'projeto', url, lista: ant.lista || '' };
     const listaDe = { artigo: 'pkg_artigo.lista?f_cod=' + cv, anais: 'pkg_trabalho.lista?f_cod=' + cv, orientacao_concluida: 'pkg_orient.lista?f_tipo=C&f_cod=' + cv, orientacao_andamento: 'pkg_orient.lista?f_tipo=A&f_cod=' + cv, apresentacao: 'prc_tec_demais_lista?f_cod_tipo=2J&f_cod=' + cv }[window.__alvoF5.id];
-    const listaPlano = (window.__alvoF5 || {}).lista ? String(window.__alvoF5.lista).replace('<codigo_do_cv>', cv) + (String(window.__alvoF5.lista).indexOf('f_cod=') < 0 ? (String(window.__alvoF5.lista).indexOf('?') < 0 ? '?f_cod=' : '&f_cod=') + cv : '') : '';
+    const listaPlano = window.__alvoF5.lista ? String(window.__alvoF5.lista).replace('<codigo_do_cv>', cv) + (String(window.__alvoF5.lista).indexOf('f_cod=') < 0 ? (String(window.__alvoF5.lista).indexOf('?') < 0 ? '?f_cod=' : '&f_cod=') + cv : '') : '';
     const listaUsar = listaDe || listaPlano;
     if (listaUsar) { topo.modalCV2.setarUrl(listaUsar, true); await dormir(4000); }  // como o robô: a lista prepara o estado do servidor
     topo.modalCV2.setarUrl(url.replace('<codigo_do_cv>', cv), true);

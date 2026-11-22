@@ -344,7 +344,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     } catch (e) {}
     return '';
   }
-  // Confere se o currículo aberto no Lattes é do usuário selecionado no LattesData antes de abrir ou preencher qualquer coisa.
+  // Confere se o currículo aberto no Lattes é do usuário selecionado no NautiScience antes de abrir ou preencher qualquer coisa.
   var wanted = String(d.__usuario || '');
   var loggedName = '';
   try {
@@ -358,7 +358,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var same = wa.length > 0 && lb.length > 0 && wa[0] === lb[0] && wa[wa.length - 1] === lb[lb.length - 1] &&
       wa.every(function (t) { return lb.indexOf(t) >= 0; });
     if (!same) {
-      lfAlerta('LattesData: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no LattesData é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no LattesData ou entre no Lattes com a conta correta.');
+      lfAlerta('NautiScience: o currículo aberto no Lattes é de "' + (loggedName || 'titular não identificado') + '", mas o usuário selecionado no NautiScience é "' + wanted + '".\n\nNada foi preenchido. Troque o usuário no NautiScience ou entre no Lattes com a conta correta.');
       return;
     }
   }
@@ -386,7 +386,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
           try { loc = String((cd && cd.location && cd.location.href) || ''); } catch (e) {}
           var refU = (src + ' ' + loc).toLowerCase();
           var bateUrl = refU.indexOf(pagina) >= 0 || (pagina.indexOf('.form') > 0 && refU.indexOf(pagina.replace(/\.form$/, '.form2')) >= 0);
-          if (cd && lista[i].offsetParent !== null && bateUrl && cd.readyState === 'complete' && mesmoSubtipo(src + ' ' + loc)) return cd;
+          if (cd && (lista[i].offsetParent !== null || cd.querySelectorAll('input[name],select[name],textarea[name]').length > 0) && bateUrl && cd.readyState === 'complete' && mesmoSubtipo(src + ' ' + loc)) return cd;
           var sub = lista[i].contentWindow && achaQuadro(lista[i].contentWindow);
           if (sub) return sub;
         } catch (e) {}
@@ -445,7 +445,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         else if (nomeP && postL('pkg_artigo.valida_nome_issn_periodico', 'f_nome=' + escape(nomeP.normalize('NFD').replace(/[̀-ͯ]/g, '')) + '&f_issn=' + issnP) === 'DIF') probsP.push('o nome do periódico não confere com o ISSN no cadastro do Lattes');
         if (!volP) probsP.push('volume não informado');
         if (!pagP) probsP.push('página inicial não informada');
-        if (probsP.length) { lfAlerta('LattesData: o Lattes não abriria o formulário deste artigo: ' + probsP.join('; ') + '. Corrija no LattesData (periódico, ISSN, volume, página inicial) ou informe o DOI.'); return; }
+        if (probsP.length) { lfAlerta('NautiScience: o Lattes não abriria o formulário deste artigo: ' + probsP.join('; ') + '. Corrija no NautiScience (periódico, ISSN, volume, página inicial) ou informe o DOI.'); return; }
       }
       // O Lattes só abre o formulário do artigo de forma confiável logo depois de carregar a lista de artigos (a lista prepara o estado no servidor;
       // sem ela alguns formulários abriam sem os dados do periódico). Carrega a lista antes, como o usuário faria pelo menu.
@@ -484,7 +484,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         }
       }
     }
-    if (!gdoc) { lfAlerta('LattesData: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo. Se o Lattes voltou para a tela inicial (sessão expirada), entre de novo no currículo.'); return; }
+    if (!gdoc) { lfAlerta('NautiScience: não consegui abrir o formulário "' + (G.item || '') + '". Abra: ' + (G.como_abrir || '') + ' e execute de novo. Se o Lattes voltou para a tela inicial (sessão expirada), entre de novo no currículo.'); return; }
     var rel = [];
     var fireG = function (el) { ['input', 'change'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); };
     var ok = 0;
@@ -735,6 +735,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         continue;
       }
       var alvo = [].slice.call(gdoc.querySelectorAll('[name="' + c.name + '"]'));
+      if (!alvo.length && gdoc.getElementById(c.name)) alvo = [gdoc.getElementById(c.name)];
       if (!alvo.length && typeof gw.avancar === 'function') {
         try { gw.avancar(); } catch (e) {}
         var tAv = Date.now();
@@ -761,6 +762,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       }
       if (c.tipo === 'radio') {
         var rd = alvo.filter(function (x) { return x.value === c.codigo || norm(x.value) === norm(c.valor); })[0];
+        if (!rd && /^F_(LE|CONVERSA|ESCREVE|COMPR)$/i.test(c.name)) rd = alvo[{ p: 0, pouco: 0, r: 1, razoavelmente: 1, b: 2, bem: 2 }[norm(c.codigo || c.valor)]];
         if (rd) { rd.checked = true; rd.click(); ok++; } else rel.push('opção não encontrada: ' + (c.rotulo || c.name) + ' = ' + c.valor);
       } else if (c.tipo === 'checkbox' && c.codigos && c.codigos.length) {
         var marcadosC = 0;
@@ -1186,7 +1188,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       try { gdoc.defaultView.alert = window.top.alert.bind(window.top); } catch (e) {}
       try { btnSalvarG.click(); return; } catch (e) {}
     }
-    lfAlerta('LattesData: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
+    lfAlerta('NautiScience: ' + ok + ' campos preenchidos em "' + (G.item || '') + '".' + (rel.length ? '\n\nAtenção:\n- ' + rel.join('\n- ') : '') + '\n\nConfira tudo e clique em Salvar no Lattes.');
     return;
   }
   var want = d.tipo_producao || 'anais';
@@ -1228,7 +1230,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     }
   }
   if (!doc) {
-    lfAlerta('LattesData: formulário não encontrado. Faça login no Lattes para abrir o painel principal e tente novamente.');
+    lfAlerta('NautiScience: formulário não encontrado. Faça login no Lattes para abrir o painel principal e tente novamente.');
     return;
   }
   var report = [];
@@ -1310,7 +1312,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
   var NOMES = { anais: 'um Trabalho em anais', apresentacao: 'uma Apresentação de trabalho', artigo: 'um Artigo em periódico', orientacao: 'uma Orientação' };
   var CAMINHOS = { anais: 'Produções > Trabalhos publicados em anais de eventos', apresentacao: 'Produções > Apresentação de trabalho e palestra', artigo: 'Produções > Artigos completos publicados em periódicos', orientacao: 'Orientações > Orientações e supervisões concluídas (ou em andamento)' };
   if (want !== have) {
-    lfAlerta('LattesData: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
+    lfAlerta('NautiScience: este registro é ' + NOMES[want] + ', mas o formulário aberto é de ' + NOMES[have] + '. Abra ' + CAMINHOS[want] + ' > Incluir novo item e execute de novo.');
     return;
   }
   var isApres = want === 'apresentacao';
@@ -1335,7 +1337,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
       msgs.forEach(function (m) { report.push('Lattes: ' + m); });
       var got = doc.querySelector('[name="f_titulo"]');
       recuperou = !!(got && got.value);
-      if (!recuperou) report.push('o Lattes não recuperou os dados do DOI; usei os dados do LattesData');
+      if (!recuperou) report.push('o Lattes não recuperou os dados do DOI; usei os dados do NautiScience');
     } else {
       report.push('sem DOI: escolha o periódico na lupa do Lattes');
     }
@@ -1401,7 +1403,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     var primeiro = doc.querySelector('input[name="F_COD_PROD"]');
     var formAndamento = !!(primeiro && /^A/.test(primeiro.value));
     if (andamento !== formAndamento) {
-      lfAlerta('LattesData: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
+      lfAlerta('NautiScience: este registro é uma orientação ' + (andamento ? 'em andamento' : 'concluída') + ', mas o formulário aberto é de ' + (formAndamento ? 'em andamento' : 'concluídas') + '. Abra Orientações > Orientações e supervisões ' + (andamento ? 'em andamento' : 'concluídas') + ' > Incluir novo item.');
       return;
     }
     var cod = lookup(NAT_ORI, d.natureza, 'natureza');
@@ -1660,7 +1662,7 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
     try { window.top.sessionStorage.setItem('lfSalvou', String(Date.now())); } catch (e) {}
     try { btnSalvar.click(); return; } catch (e) {}
   }
-  lfAlerta('LattesData: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
+  lfAlerta('NautiScience: campos principais preenchidos. ' + (autoresPeloDoi ? 'Autores: do DOI; ' : (autores.length ? 'Autores: ' + okAut + '/' + autores.length + '; ' : '')) + 'palavras-chave: ' + okKw + '/' + kws.length + '; áreas: ' + okArea + '/' + areas.length + '.' +
     (report.length ? '\n\nAtenção:\n- ' + report.join('\n- ') : '') + '\n\nConfira tudo e clique no botão Salvar (destacado em verde) no Lattes.');
 })();`;
 
@@ -2555,7 +2557,7 @@ $("tipo_producao").addEventListener("change", () => {
 });
 
 // Event Listeners
-// Usuário em teste: define quem está logado no LattesData (dono dos registros, autor buscado no caderno
+// Usuário em teste: define quem está logado no NautiScience (dono dos registros, autor buscado no caderno
 // e titular esperado no Lattes). Guardado só neste navegador.
 function applyUser(name, { persist = true } = {}) {
   $("ownerName").value = name;
@@ -2725,7 +2727,7 @@ const CONNECTOR_TEMPLATE = String.raw`(function () {
     } catch (err) { return ''; }
   }
   function send(online, name) {
-    // Canal 1: aba aberta pelo LattesData (window.opener). Canal 2: aviso ao servidor, funciona com qualquer aba.
+    // Canal 1: aba aberta pelo NautiScience (window.opener). Canal 2: aviso ao servidor, funciona com qualquer aba.
     try { var t = window.top.opener || window.opener; if (t) t.postMessage({ type: 'lattesfacil-status', online: online, name: name }, ORIGIN); } catch (err) {}
     try {
       var img = new Image();
@@ -2737,7 +2739,7 @@ const CONNECTOR_TEMPLATE = String.raw`(function () {
   send(!!n, n);
   window.__lfTimer = setInterval(function () { var x = nameOf(); send(!!x, x); }, 15000);
   window.addEventListener('pagehide', function () { send(false, ''); });
-  alert(n ? 'LattesData conectado. Currículo aberto: ' + n : 'LattesData conectado, mas ainda não há currículo aberto. Faça login no Lattes; o status atualiza sozinho.');
+  alert(n ? 'NautiScience conectado. Currículo aberto: ' + n : 'NautiScience conectado, mas ainda não há currículo aberto. Faça login no Lattes; o status atualiza sozinho.');
 })();`;
 
 function getSid() {
@@ -2823,7 +2825,7 @@ function openLattesTab() {
 }
 
 window.addEventListener("message", (e) => {
-  if (e.origin !== LATTES_ORIGIN && e.origin !== location.origin) return; // sinais do Lattes ou da extensão LattesData
+  if (e.origin !== LATTES_ORIGIN && e.origin !== location.origin) return; // sinais do Lattes ou da extensão NautiScience
   const m = e.data;
   if (!m || m.type !== "lattesfacil-status") return;
   lattesState.opened = true;
@@ -3035,8 +3037,8 @@ const PEND_ROTULO = {
 };
 
 function extensaoCv() {
-  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para falar com o Lattes."); return false; }
-  if (versaoMenor(window.__lattesExtVersao, "0.6.0")) { showToast("Atualize a extensão LattesData (versão 0.6.0 ou mais nova) para usar esta função."); return false; }
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão NautiScience para falar com o Lattes."); return false; }
+  if (versaoMenor(window.__lattesExtVersao, "0.6.0")) { showToast("Atualize a extensão NautiScience (versão 0.6.0 ou mais nova) para usar esta função."); return false; }
   return true;
 }
 
@@ -3075,15 +3077,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function pedirVerificacao(e) {
-  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para verificar no Lattes."); return; }
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão NautiScience para verificar no Lattes."); return; }
   window.postMessage({ type: "lattesdata-ext-verify", envioId: e.id, tipo: e.tipo, titulo: e.titulo, seq: e.lattes_seq || "" }, location.origin);
   showToast("Verificando no Lattes…");
 }
 
 async function pedirRemocao(e) {
-  if (!window.__lattesExtAtiva) { showToast("Instale a extensão LattesData para remover do Lattes."); return; }
+  if (!window.__lattesExtAtiva) { showToast("Instale a extensão NautiScience para remover do Lattes."); return; }
   const ok = window.confirm(
-    "Remover do Lattes?\n\n“" + e.titulo + "”\n\nIsto EXCLUI o item do seu Currículo Lattes e não pode ser desfeito pelo LattesData. Continuar?"
+    "Remover do Lattes?\n\n“" + e.titulo + "”\n\nIsto EXCLUI o item do seu Currículo Lattes e não pode ser desfeito pelo NautiScience. Continuar?"
   );
   if (!ok) return;
   await atualizarEnvio(e.id, "removendo", "Removendo no Lattes…", "");
@@ -3191,7 +3193,7 @@ async function dispararEnvioExtensao() {
   return true;
 }
 
-// ---------- Extensão LattesData: avisar quando não está instalada ou está desatualizada ----------
+// ---------- Extensão NautiScience: avisar quando não está instalada ou está desatualizada ----------
 const EXT_VERSAO_MINIMA = "0.9.7"; // sobe junto com extensao/manifest.json quando a extensão muda de forma incompatível
 
 function versaoMenor(a, b) {
@@ -3226,14 +3228,14 @@ function esconderAvisoExtensao() {
 function avaliarExtensao() {
   if (!window.__lattesExtAtiva) {
     mostrarAvisoExtensao(
-      "🧩 Instale a extensão LattesData para enviar ao Lattes com 1 clique",
+      "🧩 Instale a extensão NautiScience para enviar ao Lattes com 1 clique",
       "Sem ela o envio e o registro automáticos não funcionam. A instalação leva 1 minuto e é feita uma única vez, no Chrome ou no Edge."
     );
     return;
   }
   if (versaoMenor(window.__lattesExtVersao, EXT_VERSAO_MINIMA)) {
     mostrarAvisoExtensao(
-      "🔄 A extensão LattesData está desatualizada (versão " + (window.__lattesExtVersao || "?") + ")",
+      "🔄 A extensão NautiScience está desatualizada (versão " + (window.__lattesExtVersao || "?") + ")",
       "Baixe a versão atual, substitua a pasta e clique em recarregar a extensão em chrome://extensions. Precisa da versão " + EXT_VERSAO_MINIMA + " ou mais nova."
     );
     return;
@@ -3323,24 +3325,33 @@ $("btnExportJson").onclick = () => {
 // "Registros" é uma aba própria: #registros mostra só o painel de registros; sem o hash, volta o Cadastrar.
 function aplicarVista() {
   const emRegistros = location.hash === "#registros";
+  const emAvaliacao = location.hash === "#avaliacao";
+  $("updateViewTitle").textContent = emRegistros ? "Registros" : emAvaliacao ? "Avaliação" : "Atualizar Lattes";
+  document.body.classList.toggle("view-avaliacao", emAvaliacao);
+  $("avaliacao").classList.toggle("hidden", !emAvaliacao);
+  const avaliacao = document.querySelector('.topnav a[href="/#avaliacao"]');
+  if (emAvaliacao) avaliacao.setAttribute("aria-current", "page"); else avaliacao.removeAttribute("aria-current");
   document.body.classList.toggle("view-registros", emRegistros);
   $("historyPanel").classList.toggle("hidden", !emRegistros);
   const b = $("btnToggleHistory");
   if (emRegistros) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
   const cad = document.querySelector('.topnav a[href="/"]');
-  if (cad) { if (emRegistros) cad.removeAttribute("aria-current"); else cad.setAttribute("aria-current", "page"); }
+  if (cad) { if (emRegistros || emAvaliacao) cad.removeAttribute("aria-current"); else cad.setAttribute("aria-current", "page"); }
   if (emRegistros) { loadRecords(); carregarEnvios(); window.scrollTo(0, 0); }
 }
 function mostrarRegistros() { if (location.hash === "#registros") aplicarVista(); else location.hash = "#registros"; }
 function voltarCadastro() { history.pushState(null, "", location.pathname + location.search); aplicarVista(); }
 window.addEventListener("hashchange", aplicarVista);
-$("btnToggleHistory").onclick = mostrarRegistros;
+$("btnToggleHistory").onclick = (event) => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  mostrarRegistros();
+};
 $("btnCloseHistory").onclick = voltarCadastro;
-document.querySelector('.topnav a[href="/"]').addEventListener("click", (e) => { if (location.hash === "#registros") { e.preventDefault(); voltarCadastro(); } });
+document.querySelector('.topnav a[href="/"]').addEventListener("click", (e) => { if (location.hash === "#registros" || location.hash === "#avaliacao") { e.preventDefault(); voltarCadastro(); } });
 aplicarVista();
 
-// Modal de Avaliação & Diagnóstico Lattes (Lattes Shield) & Radar Online
-const auditModal = $("auditModal");
+// Avaliação & Diagnóstico Lattes (Lattes Shield) e Radar Online
 const KNOWN_ORCIDS = {
   "Aramys Silva dos Reis": "0000-0003-4999-6382",
 };
@@ -3348,7 +3359,7 @@ const KNOWN_ORCIDS = {
 let radarObrasCache = [];
 
 function carregarObraNoForm(obra) {
-  if (auditModal) auditModal.classList.add("hidden");
+  voltarCadastro();
   const tipo = "artigo";
   $("tipo_producao").value = tipo;
   applyTipoProducao(tipo);
@@ -3474,20 +3485,14 @@ async function carregarRadarObras(force = false) {
   }
 }
 
-if ($("btnOpenAuditModal") && auditModal) {
-  $("btnOpenAuditModal").onclick = () => {
-    const user = $("ownerName") ? $("ownerName").value : "Aramys Silva dos Reis";
-    if ($("auditModalUser")) $("auditModalUser").textContent = user;
-    auditModal.classList.remove("hidden");
-    carregarRadarObras();
-  };
-  if ($("btnCloseAuditModal")) {
-    $("btnCloseAuditModal").onclick = () => auditModal.classList.add("hidden");
-  }
-  auditModal.onclick = (e) => {
-    if (e.target === auditModal) auditModal.classList.add("hidden");
-  };
+function atualizarAvaliacao() {
+  if (location.hash !== "#avaliacao") return;
+  $("auditModalUser").textContent = $("ownerName").value;
+  carregarRadarObras();
 }
+window.addEventListener("hashchange", atualizarAvaliacao);
+window.addEventListener("load", atualizarAvaliacao);
+$("ownerName").addEventListener("change", atualizarAvaliacao);
 
 function escCit(s) {
   return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -3867,7 +3872,7 @@ if (lattesFormEl) {
 
 updateComplianceUI();
 
-// Extensão LattesData: se instalada, o botão "Enviar ao Lattes" abre o formulário no Lattes, aguarda login se necessário e preenche tudo sem colar script.
+// Extensão NautiScience: se instalada, o botão "Enviar ao Lattes" abre o formulário no Lattes, aguarda login se necessário e preenche tudo sem colar script.
 (function iniciarExtensao() {
   const btn = $("btnEnviarExtensao");
   const btnOpen = $("btnOpenLattes");
@@ -4382,7 +4387,7 @@ function genAssistirInstituicao(inp, wrap) {
     }
     if (!cands.length) {
       dica.append("Não está no banco local de instituições. " + (lattesState.online
-        ? "No envio, o LattesData procura na lupa do Lattes e escolhe se o resultado for claro."
+        ? "No envio, o NautiScience procura na lupa do Lattes e escolhe se o resultado for claro."
         : "Conecte-se ao Lattes: o preenchimento precisa da lupa para registrar esta instituição."));
       return;
     }
@@ -4608,7 +4613,7 @@ function citacaoConhecida(nome) {
   }
 
   function iniciarLeitura(manual) {
-    if (!window.__lattesExtAtiva) { if (manual) showToast("Instale a extensão LattesData para ler os autores do Lattes."); return; }
+    if (!window.__lattesExtAtiva) { if (manual) showToast("Instale a extensão NautiScience para ler os autores do Lattes."); return; }
     if (AUTORES_CV.coletando) return;
     AUTORES_CV.coletando = true;
     mostrar("Primeiro acesso: lendo seus autores", "Estou lendo, no seu Lattes, os autores citados no currículo. Se o Lattes abrir pedindo login, entre no seu currículo: a leitura continua sozinha.");
@@ -4640,9 +4645,9 @@ function citacaoConhecida(nome) {
       if (window.__lattesExtAtiva) {
         let feito = ""; try { feito = sessionStorage.getItem("lfAutores:" + dono()) || ""; } catch (e) {}
         if (!feito) iniciarLeitura(false);
-        else mostrar("Autores do seu Lattes ainda não lidos", "No primeiro acesso o LattesData lê os autores já cadastrados no seu currículo.", { rotulo: "Ler agora", acao: () => iniciarLeitura(true) });
+        else mostrar("Autores do seu Lattes ainda não lidos", "No primeiro acesso o NautiScience lê os autores já cadastrados no seu currículo.", { rotulo: "Ler agora", acao: () => iniciarLeitura(true) });
       } else if (++tent < 20) setTimeout(tenta, 500);
-      else mostrar("Autores do seu Lattes ainda não lidos", "Instale a extensão LattesData para ler os autores já cadastrados no seu currículo.");
+      else mostrar("Autores do seu Lattes ainda não lidos", "Instale a extensão NautiScience para ler os autores já cadastrados no seu currículo.");
     };
     tenta();
   }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LattesData — Captação de instituições</title>
+  <title>NautiScience — Captação de instituições</title>
   <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
@@ -30,18 +30,20 @@
     .conn i{width:10px;height:10px;border-radius:50%;background:#b91c1c;display:inline-block}.conn.on i{background:#047857}
     code{font-size:.8rem;word-break:break-all}
   </style>
+  <link rel="stylesheet" href="/navigation.css">
 </head>
 <body>
   <header class="topbar"><div class="topbar-inner">
-    <a class="brand" href="/" aria-label="LattesData — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
-      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span></a>
-    <nav class="topnav" aria-label="Principal"><a class="nav-link" href="/">Cadastrar</a><a class="nav-link" href="/painel.html">Painel</a><a class="nav-link" href="/captacao.html" aria-current="page">Captação</a></nav>
+    <a class="brand" href="/" aria-label="NautiScience — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
+      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Nauti</span><span class="wm-data">Science</span></span></a>
+    <nav class="topnav" aria-label="Principal"></nav>
   </div></header>
+<script src="/navigation.js"></script>
 
   <main class="painel">
     <section class="cartao">
       <h2>Captação do cadastro de instituições do Lattes</h2>
-      <p class="dica">A lupa do Lattes só pesquisa por texto, então o LattesData monta o próprio banco aos poucos: toda consulta da lupa feita durante um preenchimento é guardada (gravação oportunista) e, se você ligar a coleta, lotes pequenos pesquisam os 6 prefixos prioritários — Universidade, Instituto, Faculdade, Hospital, Centro e Fundação — e só depois aprofundam. Com teto diário, teto por lote e intervalo mínimo. O desempenho de cada consulta aparece abaixo.</p>
+      <p class="dica">A lupa do Lattes só pesquisa por texto, então o NautiScience monta o próprio banco aos poucos: toda consulta da lupa feita durante um preenchimento é guardada (gravação oportunista) e, se você ligar a coleta, lotes pequenos pesquisam os 6 prefixos prioritários — Universidade, Instituto, Faculdade, Hospital, Centro e Fundação — e só depois aprofundam. Com teto diário, teto por lote e intervalo mínimo. O desempenho de cada consulta aparece abaixo.</p>
       <div class="linha">
         <span class="conn" id="connLattes"><i></i><span id="connTxt">Lattes: sem sinal</span></span>
         <span class="conn" id="connExt"><i></i><span id="extTxt">Extensão: verificando…</span></span>

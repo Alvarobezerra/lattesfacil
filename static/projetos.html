@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NautiScience — Gestão de projetos</title><link rel="icon" href="/img/isotipo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/platform.css"><link rel="stylesheet" href="/projetos.css"></head>
+<body class="platform projects"><a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<aside id="platformSidebar" class="platform-sidebar" aria-label="Menu da plataforma"></aside>
+<div class="platform-frame"><header class="platform-topbar"><div><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span class="topbar-location">Início / <strong>Gestão de projetos</strong></span></div><div><a id="platformConnection" class="platform-connection" href="/">Verificando conexão…</a><span class="platform-avatar" data-user-initials></span></div></header>
+<main id="conteudo" class="platform-main">
+<div class="section-head"><div><h1>Gestão de projetos</h1><p class="muted">Da ideia à produção científica, um espaço para acompanhar sua pesquisa.</p></div><button class="button primary" id="newProject" type="button">+ Experimentar novo projeto</button></div>
+<p class="notice">Prévia do módulo · Use informações fictícias. Os exemplos e rascunhos ficam apenas nesta página e são descartados ao recarregar. Colaboração, arquivos e sincronização ainda não estão disponíveis.</p>
+<section id="projectHub" aria-label="Central de projetos">
+<div class="project-summary" id="projectSummary"></div>
+<section id="projectFeatured" class="project-featured" aria-label="Projeto em destaque"></section>
+<div class="project-filters"><label>Buscar projeto<input id="projectSearch" type="search" placeholder="Título ou área de pesquisa"></label><label>Minha participação<select id="projectRole"><option value="">Todas</option><option>Coordeno</option><option>Colaboro</option></select></label><label>Situação<select id="projectStatus"><option value="">Todas</option><option>Planejamento</option><option>Em andamento</option><option>Concluído</option></select></label></div>
+<p id="projectCount" role="status"></p><div id="projectList"></div>
+<section class="panel" id="projectEmpty" hidden><h2>Nenhum projeto encontrado</h2><p>Altere os filtros ou experimente criar um rascunho.</p><button class="button" id="clearFilters" type="button">Limpar filtros</button></section>
+</section>
+<section id="projectWorkspace" hidden aria-labelledby="workspaceTitle">
+<button class="button" id="backProjects" type="button">Voltar aos projetos</button>
+<div class="section-head"><div><p class="muted" id="workspaceMeta"></p><h2 id="workspaceTitle" tabindex="-1"></h2><p id="workspaceObjective"></p></div><span class="project-badge">Demonstração</span></div>
+<div id="workspacePacks" class="project-tags"></div>
+<div class="workspace-actions"><button class="button primary" id="newDelivery" type="button">+ Entrega de demonstração</button><button class="button" type="button" disabled>Importar PDF/DOCX · Em preparação</button><button class="button" type="button" disabled>Dossiê ZIP · Em preparação</button></div>
+<div id="workspaceMetrics" class="project-summary"></div>
+<h3>Pastas do projeto</h3><div id="projectFolders" class="project-folders" role="group" aria-label="Filtrar entregas por pasta"></div>
+<div class="section-head"><div><h3>Quadro científico</h3><p class="muted">Acompanhe execução, revisão e entregas validadas.</p></div><span id="boardCount" role="status"></span></div>
+<div id="projectBoard" class="project-board"></div><p id="projectFeedback" role="status"></p>
+<div class="project-grid workspace-monitoring" id="projectMonitoring"></div>
+<details class="project-structure"><summary>Estrutura do projeto · Os seis pilares</summary><div class="project-grid" id="projectPillars"></div></details>
+<details class="project-structure"><summary>Privacidade e recursos previstos</summary><p>Esta prévia não armazena arquivos nem implementa E2EE. O cofre privado, o processamento local de PDF/DOCX, a recuperação de chaves e a auditoria verificável serão implementados antes do uso com pesquisas inéditas. Dados privados não serão enviados a APIs externas de IA.</p><p>A integração futura separará o cofre privado das produções públicas autorizadas para o Lattes. Convites gratuitos para alunos, sincronização e planos ainda não estão ativos.</p></details>
+</section>
+<dialog id="projectDialog" aria-labelledby="dialogTitle"><form id="projectForm"><h2 id="dialogTitle">Experimentar novo projeto</h2><p>Crie um rascunho temporário para explorar a estrutura. Não insira conteúdo inédito.</p><label>Título<input name="title" required maxlength="160"></label><label>Objetivo resumido<textarea name="objective" maxlength="600" rows="3"></textarea></label><label>Grande área<input name="area" required maxlength="100" placeholder="Ex.: Ciências da Saúde"></label><label>Natureza<select name="nature"><option>Pesquisa</option><option>Extensão</option><option>Ensino</option><option>Desenvolvimento tecnológico</option></select></label><label>Meu papel<select name="role"><option>Coordeno</option><option>Colaboro</option></select></label><div class="project-date-fields"><label>Início<input name="start" type="date"></label><label>Término previsto<input name="end" type="date"></label></div><fieldset><legend>Módulos de especialidade (Packs)</legend><div id="projectPackOptions"></div></fieldset><div class="actions"><button class="button" id="cancelProject" type="button">Cancelar</button><button class="button primary" type="submit">Criar rascunho temporário</button></div></form></dialog>
+<dialog id="deliveryDialog" aria-labelledby="deliveryTitle"><form id="deliveryForm"><h2 id="deliveryTitle">Entrega de demonstração</h2><p>Use dados fictícios. A entrega ficará apenas nesta prévia.</p><label>Título<input name="title" required maxlength="160"></label><label>Responsável<input name="owner" required maxlength="100"></label><label>Pasta<select name="folder" id="deliveryFolder"></select></label><label>Prazo<input name="due" type="date"></label><div class="actions"><button class="button" id="cancelDelivery" type="button">Cancelar</button><button class="button primary" type="submit">Adicionar ao quadro</button></div></form></dialog></main></div><script src="/platform-shell.js"></script><script src="/editais-data.js"></script><script src="/projetos.js"></script></body></html>

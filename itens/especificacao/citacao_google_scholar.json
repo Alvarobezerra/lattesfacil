@@ -1,6 +1,6 @@
 {
  "id": "citacao_google_scholar",
- "lista": null,
+ "lista": "prc_indicadores?f_base=4",
  "secao": "Citações",
  "item": "Citações no Google Scholar",
  "como_abrir": "Citações > Citações no Google Scholar",

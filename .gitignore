@@ -20,3 +20,12 @@ backups/
 tests/amostras_sinteticas/nome.local.txt
 tests/amostras_sinteticas/pdf/
 ferramentas/saida/
+
+# Dados pessoais / currículos de referência / caches e saídas temporárias locais
+Lattes para referencia/
+tests/curriculos/
+tests/curriculos e modelos/
+tests/base_documentos_teste/
+data/
+tmp/
+output/

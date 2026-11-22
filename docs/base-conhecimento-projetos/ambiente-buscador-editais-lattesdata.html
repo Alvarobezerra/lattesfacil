@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LattesData — Buscador Inteligente de Editais de Fomento à Pesquisa</title>
+<style>
+  :root{
+    --navy:#0b192c; --navy-2:#132c4c; --teal:#087f91; --teal-l:#e8f6f8;
+    --mint:#10b981; --mint-l:#e5f9f1; --amber:#b45309; --amber-l:#fef6e4;
+    --rose:#be123c; --rose-l:#fff1f2;
+    --ink:#10233d; --muted:#566a80; --line:#dce5ee; --bg:#f3f7fa; --paper:#ffffff;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Inter,system-ui,-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.46 var(--sans);-webkit-font-smoothing:antialiased}
+  .doc{max-width:940px;margin:20px auto;padding:0 14px 40px;display:grid;gap:22px}
+  .page{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px 32px;box-shadow:0 10px 28px rgba(11,25,44,.06);position:relative;overflow:hidden}
+  .cover{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 62%,#0f4b61 100%);color:#fff;border:0}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .cover .topbar{color:#9fd7e0}
+  .brand{font:700 italic 22px var(--serif);letter-spacing:0;text-transform:none;color:var(--ink)}
+  .brand span{font:800 10px var(--sans);font-style:normal;letter-spacing:.14em;color:var(--teal);margin-left:5px}
+  .cover .brand{color:#fff}
+  .cover .brand span{color:#67f3d1}
+  .pill{display:inline-block;padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:700;background:var(--teal-l);color:var(--teal)}
+  .cover .pill{background:rgba(103,243,209,.16);color:#86f7dc;border:1px solid rgba(103,243,209,.35)}
+  h1{font:700 29px/1.15 var(--serif);margin:10px 0 12px}
+  h2{font:700 20px/1.2 var(--serif);margin:0 0 7px;color:var(--navy)}
+  h3{font:700 13.5px/1.3 var(--sans);margin:0 0 5px;color:var(--navy)}
+  p{margin:0 0 8px}
+  .lead{font-size:14px;line-height:1.55;color:#dbe8f3;max-width:760px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+  .kpi{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 13px}
+  .kpi b{display:block;font:700 21px var(--serif);color:#67f3d1}
+  .kpi span{font-size:11px;color:#d2e4f0}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+  .box{background:#f8fbfd;border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+  .cover .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#eaf4fa}
+  .cover .box h3{color:#7cf5d4}
+  .box-teal{background:var(--teal-l);border-color:#bce3e9}
+  .box-mint{background:var(--mint-l);border-color:#a7ead0}
+  .box-amber{background:var(--amber-l);border-color:#f3d79b}
+  .box-dark{background:var(--navy);border-color:var(--navy-2);color:#e6f1f8}
+  .box-dark h3{color:#7cf5d4}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;background:#e6eef5;color:var(--navy);margin:2px 3px 2px 0}
+  .tag-t{background:#d7f1f5;color:#065f6d}
+  .tag-m{background:#d6f6e9;color:#066041}
+  .tag-a{background:#fdecc8;color:#92400e}
+  .tag-r{background:var(--rose-l);color:var(--rose)}
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:10px 0}
+  .step{border:1px solid #c9e6eb;background:#f5fbfc;border-radius:10px;padding:10px 11px}
+  .step .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;font-size:10.5px;font-weight:800;margin-right:5px}
+  table{width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0}
+  th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+  th{background:#edf4f8;color:var(--navy);font-weight:700}
+  tr.hl td{background:#e7f8f3;font-weight:600;border-color:#9fe0c8}
+  .ok{color:#057a55;font-weight:800}
+  .no{color:#9ca3af}
+  .part{color:#b45309;font-weight:700}
+  ul{margin:4px 0 0;padding-left:16px}
+  li{margin:3px 0}
+  .muted{color:var(--muted);font-size:11.5px}
+  .footer{margin-top:14px;padding-top:8px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted)}
+  .cover .footer{border-color:rgba(255,255,255,.16);color:#9cc6d6}
+
+  /* MOCKUP DO BUSCADOR (INTERFACE COMPLETA) */
+  .ui-search-shell{background:#fff;border:1.5px solid #cbd9e6;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(11,25,44,.08)}
+  .ui-search-bar{background:var(--navy);color:#fff;padding:7px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .ui-search-bar .brand-sm{font:700 italic 15px var(--serif);color:#fff}
+  .ui-search-bar .brand-sm span{color:#67f3d1;font:800 9px var(--sans);margin-left:4px}
+  .search-input-wrap{flex:1;max-width:520px;position:relative}
+  .search-input{width:100%;background:#132c4c;border:1px solid #234b79;border-radius:8px;padding:5px 10px 5px 28px;color:#fff;font-size:11px;outline:none}
+  .search-input::placeholder{color:#8daecf}
+  .search-icon{position:absolute;left:9px;top:5px;color:#8daecf;font-size:11px}
+
+  /* BLOCO 7 EM DESTAQUE: RADAR INTELIGENTE LATTESDATA */
+  .radar-bloco7{background:linear-gradient(135deg,#0f2942 0%,#123c54 60%,#0a5d6d 100%);color:#fff;padding:7px 11px;border-bottom:2px solid #67f3d1}
+  .radar-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:5px}
+  .radar-title{font:800 10px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:#67f3d1;display:flex;align-items:center;gap:5px}
+  .radar-sub{font-size:9px;color:#cfe7f0}
+  .radar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .radar-pill{background:rgba(255,255,255,.10);border:1px solid rgba(103,243,209,.35);border-radius:7px;padding:5px 7px;display:flex;flex-direction:column;gap:1px;cursor:pointer}
+  .radar-pill.active{background:rgba(103,243,209,.18);border-color:#67f3d1;box-shadow:inset 0 0 0 1px rgba(103,243,209,.35)}
+  .radar-pill.warn{background:rgba(245,158,11,.16);border-color:rgba(252,211,77,.55)}
+  .radar-pill-label{font:700 9.5px/1.2 var(--sans);color:#ffffff}
+  .radar-pill-meta{font:600 8.5px/1.15 var(--sans);color:#9fece0}
+  .radar-pill.warn .radar-pill-meta{color:#fde68a}
+
+  .ui-layout{display:grid;grid-template-columns:258px 1fr;background:#f8fbfd}
+  .sidebar{background:#ffffff;border-right:1px solid #dce5ee;padding:7px 10px;display:flex;flex-direction:column;gap:5px}
+  .filter-group{padding-bottom:4px;border-bottom:1px dashed #e5edf4}
+  .filter-group:last-of-type{border-bottom:0;padding-bottom:1px}
+  .filter-group h4{margin:0 0 3px;font:800 9.5px var(--sans);color:var(--navy);display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;letter-spacing:.04em}
+  .filter-group h4 span{color:var(--teal);font-size:8.5px;text-transform:none;font-weight:700;cursor:pointer}
+  .filter-sub{font:700 8.5px var(--sans);color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin:3px 0 2px}
+  .check-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1px 6px}
+  .check-item{display:flex;align-items:center;gap:4px;font-size:9.5px;line-height:1.2;margin-bottom:1.5px;color:var(--ink);cursor:pointer}
+  .check-item input{margin:0;accent-color:var(--teal);width:10px;height:10px;flex-shrink:0}
+  .badge-count{margin-left:auto;font-size:8px;background:#eef4f8;color:var(--muted);padding:0 4px;border-radius:99px}
+  .chip-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:1px}
+  .mini-chip{font:700 8.5px var(--sans);padding:1.5px 5px;border-radius:5px;border:1px solid #cbd9e6;background:#f8fbfd;color:var(--ink)}
+  .mini-chip.on{background:var(--teal-l);border-color:#7bc7d3;color:#065f6d}
+  .uf-filter-box{background:#eef8fa;border:1px solid #9fd4de;border-radius:7px;padding:4.5px 6px;margin:3px 0}
+  .uf-filter-line{font:700 8.8px/1.3 var(--sans);color:var(--navy);display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+  .uf-pill{display:inline-flex;align-items:center;gap:2px;background:#fff;border:1px solid #b5d8e0;border-radius:4px;padding:1px 4px;font:700 8.3px var(--sans);color:var(--navy)}
+  .uf-pill.on{background:var(--teal);border-color:var(--teal);color:#fff}
+  .uf-pill.me{background:#d7f1f5;border-color:#087f91;color:#065f6d}
+  .select-compact{width:100%;font:600 9.5px var(--sans);padding:2.5px 6px;border:1px solid #cbd9e6;border-radius:6px;background:#f8fbfd;color:var(--navy);margin-bottom:3px}
+  .btn-adv-collapsed{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:5px;background:#f1f6fa;border:1px dashed #b9cadb;border-radius:6px;padding:4px 7px;font:700 9px/1.2 var(--sans);color:var(--navy-2);text-decoration:none;cursor:pointer}
+
+  .results-pane{padding:8px 11px;display:flex;flex-direction:column;gap:6px}
+  .results-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:5px;border-bottom:1px solid #dce5ee}
+  .results-header h3{margin:0;font:700 12.5px var(--sans);color:var(--navy)}
+  .active-filters{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .f-tag{background:var(--teal-l);color:var(--teal);border:1px solid #bce3e9;border-radius:6px;padding:1.5px 6px;font-size:9px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+  .f-tag span{cursor:pointer;color:#055663;font-size:10px}
+
+  .edital-card{background:#ffffff;border:1px solid #dce5ee;border-radius:9px;padding:7px 11px;display:flex;flex-direction:column;gap:3.5px;box-shadow:0 2px 6px rgba(11,25,44,.03);position:relative;border-left:4px solid var(--teal)}
+  .edital-card.urgent{border-left-color:#d97706}
+  .edital-card.highlight{border-left-color:#10b981;background:#fafdfc}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .agency-badge{display:inline-flex;align-items:center;gap:5px;font-weight:800;font-size:9px;text-transform:uppercase;padding:1.5px 6px;border-radius:5px}
+  .agency-cnpq{background:#e0edff;color:#1e40af}
+  .agency-fapema{background:#fef3c7;color:#92400e}
+  .agency-finep{background:#e0f2fe;color:#0369a1}
+  .agency-confap{background:#ede9fe;color:#6b21a8}
+  .agency-fapesp{background:#fce7f3;color:#9d174d}
+  .agency-amazonia{background:#dcfce7;color:#065f46}
+  table.table-compact{font-size:9.3px;margin:4px 0}
+  table.table-compact th,table.table-compact td{padding:3px 5px;line-height:1.2}
+  table.table-compact .tag{font-size:8px;padding:1px 4px;margin:1px 2px 0 0}
+  table.table-compact code{font-size:8px;background:#eef4f8;padding:0.5px 3px;border-radius:3px;color:var(--navy)}
+  .match-score{background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:9px;font-weight:800;padding:1.5px 7px;border-radius:99px;white-space:nowrap}
+
+  .edital-title{font:700 12px/1.22 var(--serif);color:var(--navy);margin:0}
+  .edital-meta{display:flex;gap:9px;font-size:9.5px;color:var(--muted);flex-wrap:wrap}
+  .edital-meta span b{color:var(--ink)}
+  .edital-excerpt{font-size:10px;line-height:1.32;color:#475569;margin:0}
+  .card-actions{display:flex;justify-content:space-between;align-items:center;padding-top:4px;border-top:1px dashed #e2e8f0;margin-top:1px;gap:6px}
+  .tags-row{display:flex;gap:3px;flex-wrap:wrap}
+  .btn-action{background:var(--teal);color:#fff;border:0;border-radius:5px;padding:3.5px 8px;font-size:9px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:3px;text-decoration:none;white-space:nowrap}
+  .btn-action-sec{background:#edf4f8;color:var(--navy);border:1px solid #cbd9e6;border-radius:5px;padding:2.5px 7px;font-size:9px;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap}
+
+  /* BLOCOS EXPLICATIVOS PÁGINA 4 */
+  .blocks-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0 10px}
+  .block-doc{background:#f8fbfd;border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+  .block-doc.hero-b7{grid-column:1 / -1;background:linear-gradient(135deg,#0f2942 0%,#123c54 100%);border-color:#0f4b61;color:#eaf4fa}
+  .block-doc h4{margin:0 0 3px;font:700 11.5px/1.25 var(--sans);color:var(--navy);display:flex;align-items:center;gap:6px}
+  .block-doc.hero-b7 h4{color:#67f3d1}
+  .block-doc p{margin:0;font-size:10.5px;line-height:1.36;color:#334155}
+  .block-doc.hero-b7 p{color:#dcecf4}
+  .b-badge{font:800 9px var(--sans);padding:1px 6px;border-radius:99px;background:var(--teal-l);color:var(--teal);text-transform:uppercase}
+  .hero-b7 .b-badge{background:rgba(103,243,209,.2);color:#67f3d1;border:1px solid rgba(103,243,209,.35)}
+
+  @media print{
+    @page{size:A4;margin:8mm}
+    body{background:#fff;font-size:11px;line-height:1.36}
+    .doc{max-width:none;margin:0;padding:0;gap:0}
+    .page{border:0;border-radius:0;box-shadow:none;padding:10px 14px;page-break-after:always;break-after:page}
+    .page:last-child{page-break-after:auto;break-after:auto}
+    .page.p2{padding:8px 14px}
+    .page.p2 .topbar{margin-bottom:8px}
+    .page.p2 .step{font-size:10px;line-height:1.25}
+    .page.p2 .footer{margin-top:7px;padding-top:6px}
+    .page.p3{padding:5px 14px}
+    .page.p3 .topbar{margin-bottom:3px}
+    .page.p3 h2{margin:0 0 2px;font-size:16.5px}
+    .page.p3 > p.muted{margin-bottom:4px!important;font-size:10.5px}
+    .page.p3 .ui-search-bar{padding:4px 10px}
+    .page.p3 .radar-bloco7{padding:3.5px 9px}
+    .page.p3 .radar-head{margin-bottom:2.5px}
+    .page.p3 .radar-pill{padding:3px 6px}
+    .page.p3 .sidebar{padding:4px 7px;gap:2px}
+    .page.p3 .filter-group{padding-bottom:2px}
+    .page.p3 .filter-group h4{margin-bottom:1.5px;font-size:9px}
+    .page.p3 .filter-sub{margin:1.5px 0 1px;font-size:8px}
+    .page.p3 .check-item{margin-bottom:0;line-height:1.12;font-size:9px}
+    .page.p3 .uf-filter-box{padding:2.5px 5px;margin:1px 0}
+    .page.p3 .select-compact{padding:1.5px 5px;margin-bottom:1.5px;font-size:9px}
+    .page.p3 .btn-adv-collapsed{padding:3px 6px;font-size:8.3px}
+    .page.p3 .results-pane{padding:4px 9px;gap:3px}
+    .page.p3 .results-header{padding-bottom:3px}
+    .page.p3 .edital-card{padding:4px 8px;gap:1.5px}
+    .page.p3 .edital-title{font-size:11px;line-height:1.15}
+    .page.p3 .edital-meta{font-size:8.8px;gap:7px}
+    .page.p3 .edital-excerpt{font-size:8.9px;line-height:1.2}
+    .page.p3 .card-actions{padding-top:2.5px;margin-top:0}
+    .page.p3 .footer{margin-top:4px;padding-top:3px}
+    .cover{border-radius:12px;padding:20px 22px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .box,.kpi,.step,th,tr.hl td,.pill,.tag,.edital-card,.sidebar,.ui-search-bar,.radar-bloco7,.radar-pill,.mini-chip,.uf-filter-box,.uf-pill,.agency-badge,.btn-adv-collapsed,.block-doc{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main class="doc">
+
+  <!-- PÁGINA 1: CAPA & CONCEITO ESTRATÉGICO -->
+  <section class="page cover">
+    <div class="topbar">
+      <div class="brand">Lattes<span>DATA</span></div>
+      <span class="pill">Módulo de Fomento · Inteligência de Editais</span>
+    </div>
+    <h1>Ambiente de Busca e Captura Inteligente de Editais</h1>
+    <p class="lead">
+      Documento executivo de concepção e modelagem da <strong>esteira automatizada de monitoramento de editais de fomento</strong> para as 10 principais fundações brasileiras — combinando ingestão periódica (robô de scraping), indexação de texto completo e <strong>sistema de filtros em 6 camadas</strong> para transformar chamadas públicas em novos projetos de pesquisa sem esforço manual.
+    </p>
+
+    <div class="kpis">
+      <div class="kpi"><b>10</b><span>Fundações de fomento mapeadas ativamente</span></div>
+      <div class="kpi"><b>24h</b><span>Frequência da rotina de extração automática</span></div>
+      <div class="kpi"><b>6 Níveis</b><span>Filtros especializados (Elegibilidade e Bancada)</span></div>
+      <div class="kpi"><b>1 Clique</b><span>Edital → Novo Projeto criado no Kanban</span></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="box">
+        <h3>A Dor do Pesquisador com Editais</h3>
+        <ul>
+          <li><strong>Dispersão caótica:</strong> Cada fundação publica em portais diferentes (Gov.br, sites WordPress, sistemas legados com PDFs inline).</li>
+          <li><strong>Perda de prazos críticos:</strong> Editais com janelas de 15 a 30 dias passam despercebidos durante a rotina do laboratório.</li>
+          <li><strong>Falta de filtros reais:</strong> Portais oficiais oferecem apenas busca por texto genérico, sem filtrar por valor, tipo de bolsa ou requisitos éticos (CEUA, SisGen, CEP).</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>A Solução LattesData Editais</h3>
+        <ul>
+          <li><strong>Robô Especializado:</strong> Scrapers autônomos que descobrem e baixam o PDF original diretamente nos repositórios oficiais.</li>
+          <li><strong>Extração Semântica:</strong> Leitura automática de regras de elegibilidade, datas-limite, rubricas financiáveis e cotas de bolsas.</li>
+          <li><strong>Match com o Currículo Lattes:</strong> Recomendação personalizada que cruza o perfil do grupo com os critérios do edital.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>LattesData · Documento de Arquitetura e Telas · Fomento à Pesquisa</span>
+      <span>Página 1 de 5</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 2: ARQUITETURA DE INGESTÃO E BANCO DE DADOS -->
+  <section class="page p2">
+    <div class="topbar">
+      <span>Pipeline Técnico · Robô de Extração &amp; Indexação</span>
+      <span class="pill">10 Unidades · data/editais/&lt;UNIDADE&gt;</span>
+    </div>
+    <h2>1. Dinâmica da Esteira de Captura Automática</h2>
+    <p class="muted">Como nosso robô monitora, baixa os PDFs para <code>data/editais/&lt;UNIDADE&gt;</code>, padroniza metadados e indexa diariamente:</p>
+
+    <div class="flow" style="margin:6px 0;gap:7px">
+      <div class="step" style="padding:7px 9px"><span class="n">1</span><strong>Agendamento &amp; Descoberta</strong><br><span class="muted">Rotina cron diária dispara scrapers para as 10 fontes (Gov.br, WordPress, SEI, APIs FAPs).</span></div>
+      <div class="step" style="padding:7px 9px"><span class="n">2</span><strong>Download &amp; Parse Local</strong><br><span class="muted">Grava o PDF em <code>data/editais/&lt;UNIDADE&gt;</code>, extrai texto (PyPDF/OCR) e valida hash SHA-256.</span></div>
+      <div class="step" style="padding:7px 9px"><span class="n">3</span><strong>Normalização &amp; Metadados</strong><br><span class="muted">Extração de UF/território, prazos, teto financeiro, bolsas e packs de compliance.</span></div>
+      <div class="step" style="padding:7px 9px"><span class="n">4</span><strong>Indexação Relacional</strong><br><span class="muted">Persistência estruturada com busca full-text e filtragem instantânea por Estado/UF.</span></div>
+      <div class="step" style="padding:7px 9px"><span class="n">5</span><strong>Disponibilização no Buscador</strong><br><span class="muted">Feed personalizado cruzando UF da ICT, bolsas disponíveis e aderência ao Lattes.</span></div>
+      <div class="step" style="padding:7px 9px"><span class="n">6</span><strong>Projeto no Kanban (1 Clique)</strong><br><span class="muted">Converte o edital selecionado em projeto ativo já com prazos, rubricas e cotas.</span></div>
+    </div>
+
+    <h2 style="margin-top:8px">2. Tabela Analítica dos 10 Editais Reais Mapeados (<code>data/editais/&lt;UNIDADE&gt;</code>)</h2>
+    <p class="muted" style="margin-bottom:4px">Matriz consolidada em <code>tabela-editais-reais-analise-filtros.md</code> com metadados reais extraídos dos 10 PDFs coletados e suas tags de filtro:</p>
+    <table class="table-compact">
+      <thead>
+        <tr>
+          <th style="width:15%">Unidade / Pasta</th>
+          <th style="width:27%">Título Oficial da Chamada</th>
+          <th style="width:16%">Esfera · UF / Território</th>
+          <th style="width:19%">Teto &amp; Bolsas / Rubricas</th>
+          <th style="width:23%">Prazo &amp; Tags de Filtros Reais</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><strong>FAPEMA</strong><br><code>data/editais/FAPEMA/</code></td>
+          <td>Chamada Pública Mobility CONFAP – Italy 2026</td>
+          <td>Estadual · 📍 <strong>MA</strong><br><span class="muted">MA + Bilateral (Itália)</span></td>
+          <td>Até R$ 60 mil/bolsista · Bolsas Doutorado/Sênior + passagens</td>
+          <td><strong>24/11/2026</strong><br><span class="tag tag-r">Urgente (3d)</span><span class="tag tag-t">Mobilidade Int.</span><span class="tag tag-m">ICT MA</span></td>
+        </tr>
+        <tr class="hl">
+          <td><strong>AMAZÔNIA+10</strong><br><code>data/editais/AMAZONIA10/</code></td>
+          <td>Expedições Científicas e Desafios da Amazônia</td>
+          <td>Regional · 📍 <strong>9 UFs</strong><br><span class="muted">Amazônia Legal (incl. MA)</span></td>
+          <td>R$ 400k–1,5M · Custeio expedições + Bolsas + logística</td>
+          <td><strong>30/01/2027</strong><br><span class="tag tag-a">SisGen/SISBIO</span><span class="tag tag-m">Consórcio ≥2 ICTs</span></td>
+        </tr>
+        <tr class="hl">
+          <td><strong>CNPq / MIR</strong><br><code>data/editais/CNPq/</code></td>
+          <td>Chamada CNPq/MIR Nº 23/2026 — Programa Lélia Gonzalez</td>
+          <td>Federal · 📍 <strong>Nacional</strong><br><span class="muted">Todas as UFs (BR)</span></td>
+          <td>R$ 150k–400k · Custeio + Bolsas IC, Mestrado e Pós-Doc</td>
+          <td><strong>19/12/2026</strong><br><span class="tag tag-t">Humanas/Sociais</span><span class="tag tag-a">Res. CNS 510</span></td>
+        </tr>
+        <tr>
+          <td><strong>FINEP</strong><br><code>data/editais/FINEP/</code></td>
+          <td>Seleção MCTI/FINEP/FNDCT — Rede EUREKA 2026</td>
+          <td>Federal · 📍 <strong>Nacional</strong><br><span class="muted">BR + Bilateral (Suécia)</span></td>
+          <td>Até R$ 3,0M · Subvenção, reagentes e scale-up</td>
+          <td><strong>23/11/2026</strong><br><span class="tag tag-r">Urgente (2d)</span><span class="tag tag-t">TRL 4–7</span><span class="tag">Empresa+ICT</span></td>
+        </tr>
+        <tr>
+          <td><strong>CONFAP</strong><br><code>data/editais/CONFAP/</code></td>
+          <td>Apoio Complementar MSCA Doctoral Networks</td>
+          <td>Nacional · 📍 <strong>6 UFs</strong><br><span class="muted">AM, ES, PB, CE, RO, PR + UE</span></td>
+          <td>Misto FAP + UE · Bolsas doutoramento e bancada</td>
+          <td><strong>24/11/2026</strong><br><span class="tag tag-r">Urgente (3d)</span><span class="tag tag-t">Redes Doutorais</span><span class="tag">Open Science</span></td>
+        </tr>
+        <tr>
+          <td><strong>FAPERJ</strong><br><code>data/editais/FAPERJ/</code></td>
+          <td>Edital FAPERJ Nº 36/2026 — Bolsa de IC</td>
+          <td>Estadual · 📍 <strong>RJ</strong><br><span class="muted">Exclusivo ICTs do RJ</span></td>
+          <td>Tabela fixa · Exclusivo Bolsas IC (12 a 24 meses)</td>
+          <td><strong>15/12/2026</strong><br><span class="tag">Universal</span><span class="tag tag-m">Graduação</span><span class="tag tag-a">Filtro UF: RJ</span></td>
+        </tr>
+        <tr>
+          <td><strong>FAPEMIG</strong><br><code>data/editais/FAPEMIG/</code></td>
+          <td>Chamada FAPEMIG Nº 19/2026 — Minas para o Mundo</td>
+          <td>Estadual · 📍 <strong>MG</strong><br><span class="muted">Exclusivo ICTs de MG</span></td>
+          <td>R$ 500k–2,0M · Custeio, missões, publicações e bolsas</td>
+          <td><strong>20/01/2027</strong><br><span class="tag tag-t">Internacional</span><span class="tag">Multi-inst.</span><span class="tag tag-a">Filtro UF: MG</span></td>
+        </tr>
+        <tr>
+          <td><strong>EMBRAPII</strong><br><code>data/editais/EMBRAPII/</code></td>
+          <td>Chamada Interna 03/2026 — Descarbonização (IKI)</td>
+          <td>Federal · 📍 <strong>Nacional</strong><br><span class="muted">Unidades EMBRAPII</span></td>
+          <td>R$ 1,0M–5,0M · Subvenção IKI/MDIC e pilotos industriais</td>
+          <td><strong>15/12/2026</strong><br><span class="tag tag-t">TRL 5–8</span><span class="tag tag-a">NDA/Patente</span><span class="tag">Indústria</span></td>
+        </tr>
+        <tr>
+          <td><strong>BNDES</strong><br><code>data/editais/BNDES/</code></td>
+          <td>Edital BNDESPAR/FINEP — FIP Conexões Startups</td>
+          <td>Federal · 📍 <strong>Nacional</strong><br><span class="muted">Startups e ICTs parceiras</span></td>
+          <td>Até R$ 50,0M (Fundo) · Aporte capital e aceleração</td>
+          <td><strong>23/11/2026</strong><br><span class="tag">FIP/Venture</span><span class="tag tag-a">Compliance CVM</span></td>
+        </tr>
+        <tr>
+          <td><strong>CAPES</strong><br><code>data/editais/CAPES/</code></td>
+          <td>Edital Conjunto CAPES/INEP Nº 26/2026 — Licenciaturas</td>
+          <td>Federal · 📍 <strong>Nacional</strong><br><span class="muted">Todas as UFs (BR)</span></td>
+          <td>Sem repasse direto · Apoio logístico e coleta amostral</td>
+          <td><strong>10/12/2026</strong><br><span class="tag tag-t">Educação</span><span class="tag tag-a">CEP 510</span><span class="tag">IES</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box box-teal" style="padding:6px 10px;margin-top:4px;font-size:10.5px">
+      <strong>Filtro Territorial em Ação (Ex.: Docente UFMA · MA):</strong> Ao ativar <code>[x] Nacional</code> + <code>(•) Meu Estado: MA</code> + <code>[ Amazônia Legal (9 UFs) ]</code>, o buscador exibe FAPEMA (MA), AMAZÔNIA+10 (incl. MA) e as chamadas federais (CNPq, FINEP, EMBRAPII, BNDES, CAPES), ocultando automaticamente editais restritos a RJ (FAPERJ), MG (FAPEMIG) ou UFs fora do convênio (CONFAP MSCA).
+    </div>
+
+    <div class="footer">
+      <span>Pipeline validado com os 10 PDFs reais em data/editais/&lt;UNIDADE&gt;</span>
+      <span>Página 2 de 5</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 3: SIMULAÇÃO DA INTERFACE DO BUSCADOR (MOCKUP COMPLETO) -->
+  <section class="page p3">
+    <div class="topbar">
+      <span>Simulação de Interface · Visão Operacional do Pesquisador</span>
+      <span class="pill">Painel Web LattesData Fomento</span>
+    </div>
+    <h2>3. Tela do Buscador: Radar Inteligente, Filtros Priorizados &amp; Oportunidades</h2>
+    <p class="muted" style="margin-bottom:8px">Visualização do ambiente com o Bloco 7 Inteligente no topo, barra lateral hierarquizada por prioridade de decisão e catálogo central com score de aderência:</p>
+
+    <!-- MOCKUP COMPLETO DO BUSCADOR -->
+    <div class="ui-search-shell">
+      <div class="ui-search-bar">
+        <div class="brand-sm">Lattes<span>FOMENTO</span></div>
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" type="text" value="biodiversidade OR mobilidade OR bolsas IC OR Amazônia" placeholder="Pesquisar por palavras-chave, tema, agência ou número da chamada...">
+        </div>
+        <span class="f-tag" style="background:#132c4c;color:#67f3d1;border-color:#234b79">🔔 10 Editais Reais Indexados</span>
+      </div>
+
+      <!-- BLOCO 7 EM DESTAQUE NO TOPO DA ÁREA DE BUSCA -->
+      <div class="radar-bloco7">
+        <div class="radar-head">
+          <span class="radar-title">⭐ RADAR INTELIGENTE LATTESDATA (BLOCO 7 EM DESTAQUE)</span>
+          <span class="radar-sub">Atalhos automáticos cruzando Currículo Lattes, UF da ICT (MA) e calendário</span>
+        </div>
+        <div class="radar-grid">
+          <div class="radar-pill active">
+            <span class="radar-pill-label">★ Editais com Match no meu Lattes (90%+)</span>
+            <span class="radar-pill-meta">3 chamadas elegíveis em MA / Nacional</span>
+          </div>
+          <div class="radar-pill">
+            <span class="radar-pill-label">🎓 Bolsas para meus Alunos sem Fomento</span>
+            <span class="radar-pill-meta">Cotas IC, Mestrado, Doutorado e Pós-Doc</span>
+          </div>
+          <div class="radar-pill">
+            <span class="radar-pill-label">🌐 Editais para Redes &amp; Parcerias Ativas</span>
+            <span class="radar-pill-meta">Consórcios Amazônia Legal &amp; Itália</span>
+          </div>
+          <div class="radar-pill warn">
+            <span class="radar-pill-label">⚡ Alertas: Prazos Críticos do meu Lab</span>
+            <span class="radar-pill-meta">FAPEMA Mobility encerra em 24/11/2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-layout">
+        <!-- SIDEBAR DE FILTROS NA PRIORIDADE DEFINIDA -->
+        <aside class="sidebar">
+          <!-- BLOCO 2 -->
+          <div class="filter-group">
+            <h4>Bloco 2 · Fonte, Esfera &amp; Território <span>Limpar</span></h4>
+            <div class="uf-filter-box">
+              <div class="uf-filter-line">
+                <span>📍 <strong>Estado / UF:</strong></span>
+                <span class="uf-pill on">[x] Nacional</span>
+                <span class="uf-pill me">(•) Meu Estado: MA</span>
+                <span class="uf-pill">[+ Outras UFs]</span>
+              </div>
+              <div class="filter-sub" style="margin:3px 0 2px">Atalhos Regionais</div>
+              <div class="chip-row">
+                <span class="mini-chip on">[ Amazônia Legal (9 UFs) ]</span>
+                <span class="mini-chip">[ Nordeste ]</span>
+              </div>
+            </div>
+            <div class="filter-sub">Unidades de Fomento</div>
+            <div class="check-grid-2">
+              <label class="check-item"><input type="checkbox" checked> <strong>FAPEMA</strong> <span class="badge-count">MA</span></label>
+              <label class="check-item"><input type="checkbox" checked> <strong>AMAZÔNIA+10</strong> <span class="badge-count">9 UF</span></label>
+              <label class="check-item"><input type="checkbox" checked> <strong>CNPq</strong> <span class="badge-count">BR</span></label>
+              <label class="check-item"><input type="checkbox"> FINEP <span class="badge-count">BR</span></label>
+              <label class="check-item"><input type="checkbox"> CAPES <span class="badge-count">BR</span></label>
+              <label class="check-item"><input type="checkbox"> CONFAP <span class="badge-count">6 UF</span></label>
+              <label class="check-item"><input type="checkbox"> EMBRAPII <span class="badge-count">BR</span></label>
+              <label class="check-item"><input type="checkbox"> BNDES <span class="badge-count">BR</span></label>
+              <label class="check-item"><input type="checkbox"> FAPERJ <span class="badge-count">RJ</span></label>
+              <label class="check-item"><input type="checkbox"> FAPEMIG <span class="badge-count">MG</span></label>
+            </div>
+            <div class="filter-sub">Esfera</div>
+            <div class="chip-row">
+              <span class="mini-chip on">✓ Federal</span>
+              <span class="mini-chip on">✓ Estadual</span>
+              <span class="mini-chip on">✓ Regional</span>
+            </div>
+          </div>
+
+          <!-- BLOCO 6 -->
+          <div class="filter-group">
+            <h4>Bloco 6 · Temática &amp; Compliance</h4>
+            <div class="filter-sub">Grande Área CNPq</div>
+            <select class="select-compact" aria-label="Grande Área CNPq">
+              <option selected>Todas (Bio / Saúde / Humanas)</option>
+              <option>Ciências Biológicas &amp; Biodiversidade</option>
+              <option>Ciências Humanas &amp; Sociais Aplicadas</option>
+            </select>
+            <div class="filter-sub">Packs de Compliance</div>
+            <div class="check-grid-2">
+              <label class="check-item"><input type="checkbox" checked> SisGen</label>
+              <label class="check-item"><input type="checkbox" checked> CEP / CNS 510</label>
+              <label class="check-item"><input type="checkbox"> CEUA</label>
+              <label class="check-item"><input type="checkbox"> TRL/Empresas</label>
+            </div>
+          </div>
+
+          <!-- BLOCO 4 -->
+          <div class="filter-group">
+            <h4>Bloco 4 · Faixas de Valor (Teto Global)</h4>
+            <label class="check-item"><input type="checkbox" checked> Mobilidade / Até R$ 100k</label>
+            <label class="check-item"><input type="checkbox" checked> Médio (R$ 100k a 400k)</label>
+            <label class="check-item"><input type="checkbox" checked> Consolidado (&gt; R$ 400k)</label>
+          </div>
+
+          <!-- BLOCO 5 -->
+          <div class="filter-group">
+            <h4>Bloco 5 · Prazo Restante</h4>
+            <label class="check-item"><input type="checkbox" checked> Urgentes (até 15 dias)</label>
+            <label class="check-item"><input type="checkbox" checked> Médio (16–45 dias)</label>
+            <label class="check-item"><input type="checkbox" checked> Longo prazo (&gt; 45 dias)</label>
+          </div>
+
+          <!-- BOTÃO/LINK COLAPSADO NO FINAL -->
+          <a href="#" class="btn-adv-collapsed">
+            <span>⚙️ + Filtros Avançados (Titulação, Rubricas e Contrapartida)</span>
+            <span>▾</span>
+          </a>
+        </aside>
+
+        <!-- LISTA DE CARDS DE EDITAIS -->
+        <main class="results-pane">
+          <div class="results-header">
+            <div>
+              <h3>3 Editais Reais Elegíveis para sua UF (MA + Nacional)</h3>
+              <div class="active-filters" style="margin-top:4px">
+                <span class="f-tag">📍 UF: MA + Nacional <span>×</span></span>
+                <span class="f-tag">Amazônia Legal (9 UFs) <span>×</span></span>
+                <span class="f-tag">★ Match Lattes 90%+ <span>×</span></span>
+                <span class="f-tag">FAPERJ/FAPEMIG ocultos <span>×</span></span>
+              </div>
+            </div>
+            <span class="muted">Ordenado por: <strong>Aderência &amp; UF</strong></span>
+          </div>
+
+          <!-- CARD 1: FAPEMA (DADOS REAIS) -->
+          <div class="edital-card urgent">
+            <div class="card-top">
+              <span class="agency-badge agency-fapema">FAPEMA · Maranhão · Estadual</span>
+              <span class="match-score">★ 96% Match com seu Lattes</span>
+            </div>
+            <div class="edital-title">Chamada Pública Mobility CONFAP – Italy 2026</div>
+            <div class="edital-meta">
+              <span>Prazo: <b>24/11/2026 (Urgente)</b></span>
+              <span>Modalidade: <b>Mobilidade Internacional</b></span>
+              <span>Bolsas: <b>Doutorado e Pesquisador Sênior</b></span>
+              <span>Valor: <b>Até R$ 60.000/bolsista</b></span>
+            </div>
+            <div class="edital-excerpt">
+              Diretrizes de cooperação científica bilateral Maranhão–Itália no âmbito do acordo CONFAP. Contempla bolsas de mobilidade para doutorandos ativos e pesquisadores sêniores vinculados a ICTs do MA, com passagens e seguro saúde.
+            </div>
+            <div class="card-actions">
+              <div class="tags-row">
+                <span class="tag tag-r">Prazo Crítico (24/11)</span>
+                <span class="tag tag-t">Mobilidade Internacional</span>
+                <span class="tag tag-m">Bolsas Doutorado/Sênior</span>
+              </div>
+              <div style="display:flex;gap:6px">
+                <a href="#" class="btn-action-sec">📄 Baixar PDF</a>
+                <a href="#" class="btn-action">＋ Criar Projeto no Kanban</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: AMAZÔNIA+10 (DADOS REAIS) -->
+          <div class="edital-card highlight">
+            <div class="card-top">
+              <span class="agency-badge agency-amazonia">AMAZÔNIA+10 · Amazônia Legal · Regional</span>
+              <span class="match-score">★ 94% Match com seu Lattes</span>
+            </div>
+            <div class="edital-title">Expedições Científicas e Biodiversidade — Desafios da Amazônia</div>
+            <div class="edital-meta">
+              <span>Abrangência: <b>9 Estados (incluindo MA)</b></span>
+              <span>Teto: <b>R$ 1.500.000,00</b></span>
+              <span>Rubricas: <b>Custeio + Bolsas</b></span>
+              <span>Compliance: <b>SisGen / SISBIO</b></span>
+            </div>
+            <div class="edital-excerpt">
+              Apoio a consórcios com ≥ 2 ICTs de estados distintos da Amazônia Legal (AC, AP, AM, MA, MT, PA, RO, RR, TO) para expedições científicas, bioeconomia, biodiversidade e logística de campo. Prazo até 30/01/2027.
+            </div>
+            <div class="card-actions">
+              <div class="tags-row">
+                <span class="tag tag-m">9 Estados incl. MA</span>
+                <span class="tag tag-a">Pack SisGen</span>
+                <span class="tag tag-t">Custeio + Bolsas</span>
+              </div>
+              <div style="display:flex;gap:6px">
+                <a href="#" class="btn-action-sec">📄 Baixar PDF</a>
+                <a href="#" class="btn-action">＋ Criar Projeto no Kanban</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: CNPq / MIR (DADOS REAIS) -->
+          <div class="edital-card">
+            <div class="card-top">
+              <span class="agency-badge agency-cnpq">CNPq / MIR · Nacional · Federal</span>
+              <span class="match-score">★ 90% Match com seu Lattes</span>
+            </div>
+            <div class="edital-title">Chamada CNPq/MIR Nº 23/2026 — Programa Lélia Gonzalez</div>
+            <div class="edital-meta">
+              <span>Prazo: <b>19/12/2026 (28 dias)</b></span>
+              <span>Teto: <b>R$ 400.000,00</b></span>
+              <span>Bolsas: <b>IC, Mestrado e Pós-Doc</b></span>
+              <span>Compliance: <b>Res. CNS 510 / CEP</b></span>
+            </div>
+            <div class="edital-excerpt">
+              Financiamento nacional (todas as UFs) a projetos coordenados por doutores vinculados a ICTs, com custeio direto e cotas integradas de bolsas de Iniciação Científica, Mestrado e Pós-Doutorado.
+            </div>
+            <div class="card-actions">
+              <div class="tags-row">
+                <span class="tag tag-t">Nacional (Todas UFs)</span>
+                <span class="tag tag-m">Bolsas IC/Mestrado/Pós-Doc</span>
+                <span class="tag tag-a">Faixa Média (400k)</span>
+              </div>
+              <div style="display:flex;gap:6px">
+                <a href="#" class="btn-action-sec">📄 Baixar PDF</a>
+                <a href="#" class="btn-action">＋ Criar Projeto no Kanban</a>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Interface com Radar Inteligente (Bloco 7), filtros priorizados e geração imediata de projetos</span>
+      <span>Página 3 de 5</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 4: DINÂMICA DOS BLOCOS, PAPEL DO BLOCO 7 & CRIAÇÃO DO PROJETO -->
+  <section class="page">
+    <div class="topbar">
+      <span>Arquitetura de Filtragem &amp; Integração · Do Edital à Execução</span>
+      <span class="pill">Dinâmica dos Blocos &amp; Fechamento</span>
+    </div>
+    <h2>4. Dinâmica dos Blocos de Filtragem e Papel do Bloco 7 Inteligente</h2>
+    <p class="muted">A arquitetura da interface foi priorizada para reduzir o ruído decisório do pesquisador: atalhos proativos no topo e filtros estruturais em ordem decrescente de impacto.</p>
+
+    <div class="blocks-grid">
+      <div class="block-doc hero-b7">
+        <h4><span class="b-badge">Destaque Superior</span> ⭐ Bloco 7 — Radar Inteligente LattesData</h4>
+        <p>
+          Camada de inteligência contextual que antecipa a busca manual: cruza continuamente os PDFs indexados com o <strong>Currículo Lattes do docente</strong> (match temático ≥ 90%), o <strong>status de fomento dos alunos</strong> vinculados ao grupo (<em>Bolsas para Alunos sem Fomento</em>), o grafo de <strong>redes e coautorias ativas</strong> e os <strong>prazos críticos do laboratório</strong> (≤ 15 dias), convertendo o buscador em um assistente proativo de captação.
+        </p>
+      </div>
+      <div class="block-doc">
+        <h4><span class="b-badge">1ª Prioridade Sidebar</span> Bloco 2 — Fonte, Esfera &amp; Território (UF)</h4>
+        <p>Define quem financia e onde o recurso pode ser executado com <strong>Filtro por Estado / UF</strong> (<code>Nacional</code>, <code>Meu Estado: MA</code>, <code>+ Outras UFs</code>) e atalhos regionais (<code>Amazônia Legal</code>, <code>Nordeste</code>), ocultando editais fora da jurisdição da ICT (ex.: FAPERJ/FAPEMIG).</p>
+      </div>
+      <div class="block-doc">
+        <h4><span class="b-badge">2ª Prioridade Sidebar</span> Bloco 6 — Temática &amp; Compliance</h4>
+        <p>Combina Grande Área CNPq com os <em>Packs</em> regulatórios exigidos na chamada (SisGen, CEUA, CEP/CONEP e TRL/Empresas), filtrando o edital pela capacidade real de conformidade ética e maturidade do laboratório.</p>
+      </div>
+      <div class="block-doc">
+        <h4><span class="b-badge">3ª Prioridade Sidebar</span> Bloco 4 — Faixas de Valor (Teto Global)</h4>
+        <p>Segmenta os editais em 4 portes financeiros — <em>Micro</em> (até 30k), <em>Pequeno</em> (até 100k), <em>Médio</em> (100k–400k) e <em>Consolidado</em> (&gt; 400k) — alinhando o teto do financiamento à escala de reagentes ou infraestrutura.</p>
+      </div>
+      <div class="block-doc">
+        <h4><span class="b-badge">4ª Prioridade Sidebar</span> Bloco 5 — Prazo Restante &amp; Avançados</h4>
+        <p>Prioriza janelas exequíveis (<em>Urgentes</em> ≤ 15 dias, <em>Médio</em> 16–45 dias, <em>Longo prazo</em> e <em>Fluxo Contínuo</em>). Critérios de nicho (Titulação, Rubricas Detalhadas e Contrapartida) ficam colapsados no rodapé para manter a tela limpa.</p>
+      </div>
+    </div>
+
+    <h2>5. Conexão "Do Edital ao Projeto Ativo" &amp; Cronograma</h2>
+    <div class="grid-2" style="margin-bottom:8px">
+      <div class="box box-teal" style="padding:8px 11px">
+        <h3>1. Pré-Preenchimento Automático do Projeto</h3>
+        <p class="muted" style="margin-bottom:3px">Ao clicar em <strong>"＋ Criar Projeto no Kanban"</strong> no card:</p>
+        <ul>
+          <li>Importa agência, número da chamada, teto e data limite de vigência.</li>
+          <li>Cria a <strong>Pasta 06 (Prestação de Contas)</strong> com regras de rubricas e ativa alertas de relatórios.</li>
+        </ul>
+      </div>
+
+      <div class="box box-mint" style="padding:8px 11px">
+        <h3>2. Alocação das Bolsas Previstas</h3>
+        <p class="muted" style="margin-bottom:3px">Se o edital prevê cotas (ex.: IC e Mestrado):</p>
+        <ul>
+          <li>Gera cards no Kanban para <strong>"Seleção e Indicação de Bolsistas"</strong>.</li>
+          <li>Vincula o aluno convidado diretamente à cota do processo (ex.: FAPEMA BM-01415).</li>
+        </ul>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Fase</th>
+          <th>Objetivo</th>
+          <th>Entregáveis</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><strong>Fase 1: Mapeamento</strong></td>
+          <td>Catalogação das 10 unidades de fomento iniciais</td>
+          <td>10 PDFs reais em <code>data/editais/&lt;UNIDADE&gt;</code> e matriz de filtros</td>
+          <td><span class="ok">100% Concluído</span></td>
+        </tr>
+        <tr>
+          <td><strong>Fase 2: Robô &amp; Ingestão</strong></td>
+          <td>Script de orquestração periódica e parser de texto</td>
+          <td>Orquestrador Python, extração de texto, tabela no banco</td>
+          <td><span class="part">Em modelagem</span></td>
+        </tr>
+        <tr>
+          <td><strong>Fase 3: Motor de Filtros &amp; Bloco 7</strong></td>
+          <td>Implementação dos blocos priorizados e Radar Lattes</td>
+          <td>APIs de consulta, match Lattes, compliance e faixas de valor</td>
+          <td><span class="muted">Próxima etapa</span></td>
+        </tr>
+        <tr>
+          <td><strong>Fase 4: Integração Kanban</strong></td>
+          <td>Botão de conversão de Edital → Projeto ativo</td>
+          <td>Fluxo 1 clique conectando o buscador ao Hub e Kanban</td>
+          <td><span class="muted">Próxima etapa</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box box-amber" style="margin-top:8px;padding:8px 11px">
+      <h3>Destaque de Valor para Apresentação ao Prof. Aramys</h3>
+      <p style="margin:0;font-size:11.5px">
+        Com o <strong>Radar Inteligente (Bloco 7)</strong> e os filtros priorizados, o laboratório ganha um <strong>radar automático de recursos</strong> que vigia portais oficiais diariamente — destacando em segundos onde há aderência real com o Lattes da equipe e onde existem bolsas para alunos ainda sem fomento.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>LattesData · Resumo Executivo e Simulação de Telas do Buscador de Editais</span>
+      <span>Página 4 de 5</span>
+    </div>
+  </section>
+
+  <!-- PÁGINA 5: SEGURANÇA ANTI-SCRAPING & DEFESA CONTRA ESPELHAMENTO -->
+  <section class="page">
+    <div class="topbar">
+      <span>Segurança da Plataforma · Defesa em 5 Camadas</span>
+      <span class="pill">Proteção Ativa &amp; Forense</span>
+    </div>
+    <h2>5. Blindagem Anti-Scraping e Defesa Contra Espelhamento</h2>
+    <p class="muted">
+      Embora os PDFs originais das chamadas sejam públicos, o banco enriquecido do <strong>LattesData</strong> — com normalização de tetos e prazos, packs de compliance (SisGen, CEUA, CEP), rubricas estruturadas e score de aderência ao Currículo Lattes — constitui ativo proprietário de alto valor, blindado contra extração automatizada e clonagem por concorrentes.
+    </p>
+
+    <h3 style="margin-top:8px">Arquitetura de Defesa em 5 Camadas Técnicas</h3>
+    <div class="grid-3" style="margin:6px 0 8px">
+      <div class="step">
+        <span class="n">1</span><strong>Gateway Anti-Bot &amp; HMAC</strong><br>
+        <span class="muted">Assinatura dinâmica no cliente via token efêmero de <strong>30s</strong> (<code>HMAC-SHA256</code> com nonce), bloqueando scripts headless e <em>replay attacks</em>.</span><br>
+        <span class="tag tag-t">Token 30s</span><span class="tag">Anti-Headless</span>
+      </div>
+      <div class="step">
+        <span class="n">2</span><strong>Rate Limiting &amp; Deep Paging</strong><br>
+        <span class="muted">Limite estrito de <strong>máx. 15 req/min</strong> por sessão/IP e bloqueio automático de paginação profunda (<code>offset &gt; 50</code>) contra varredura total.</span><br>
+        <span class="tag tag-a">15 req/min</span><span class="tag tag-r">Offset ≤ 50</span>
+      </div>
+      <div class="step">
+        <span class="n">3</span><strong>IDs Efêmeros &amp; Tickets 60s</strong><br>
+        <span class="muted">Identificadores opacos rotacionados por sessão e geração de URLs temporárias de download com validade de <strong>60s</strong> atreladas ao usuário autenticado.</span><br>
+        <span class="tag tag-t">Ticket 60s</span><span class="tag">Sem Enumeração</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:10px">
+      <div class="step">
+        <span class="n">4</span><strong>Marcas d'Água Invisíveis &amp; Editais "Canário"</strong><br>
+        <span class="muted">Esteganografia com caracteres <em>Unicode zero-width</em> assinando cada sessão nas ementas normalizadas, somada a registros <em>honeypot</em> ("canário") exclusivos para <strong>prova pericial</strong> irrefutável de cópia indevida.</span><br>
+        <span class="tag tag-m">Esteganografia Unicode</span><span class="tag tag-a">Honeypot Forense</span>
+      </div>
+      <div class="step">
+        <span class="n">5</span><strong>Virtualização de DOM &amp; Termos de Uso</strong><br>
+        <span class="muted">Renderização virtualizada (<em>windowing</em>) exibindo no DOM apenas os cards visíveis na tela para neutralizar scrapers de navegador, amparada por vedação contratual baseada no <strong>Marco Civil</strong> e na <strong>LDA</strong>.</span><br>
+        <span class="tag tag-t">DOM Virtualizado</span><span class="tag">Marco Civil / LDA</span>
+      </div>
+    </div>
+
+    <h3>Matriz de Resposta a Incidentes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%">Nível</th>
+          <th style="width:28%">Comportamento / Gatilho</th>
+          <th style="width:30%">Contenção Automatizada</th>
+          <th style="width:24%">Escalonamento &amp; Forense</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-a">Nível 1 · Moderado</span></td>
+          <td>Picos próximos a 12–15 req/min, paginação repetitiva até <code>offset 50</code> ou baixa entropia de clique.</td>
+          <td><em>Throttling</em> progressivo, desafio invisível de prova de trabalho e rotação forçada de token HMAC.</td>
+          <td>Telemetria de sessão sinalizada e redução temporária da cota por minuto.</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-r">Nível 2 · Alto</span></td>
+          <td>Excesso &gt; 15 req/min, tentativa de <code>offset &gt; 50</code>, assinatura HMAC inválida ou enumeração de IDs.</td>
+          <td>Bloqueio imediato (<code>HTTP 403/429</code>), revogação dos tickets de 60s e suspensão preventiva da credencial.</td>
+          <td>Captura de <em>fingerprint</em> de rede/TLS e correlação no painel de segurança.</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="tag" style="background:var(--navy);color:#67f3d1">Nível 3 · Crítico</span></td>
+          <td>Captura de edital <strong>"Canário"</strong>, detecção externa de marcas d'água <em>zero-width</em> ou espelhamento ativo.</td>
+          <td>Banimento permanente de conta/ASN e congelamento criptográfico dos logs e payloads exfiltrados.</td>
+          <td>Emissão de dossiê pericial e notificação de <strong>derrubada em 24h</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box box-dark" style="margin-top:8px;padding:10px 13px">
+      <h3>Barreira Competitiva &amp; Garantia Jurídica de Derrubada Extrajudicial em 24h</h3>
+      <p style="margin:0;font-size:11px;line-height:1.42;color:#dbe8f3">
+        A combinação de <strong>blindagem técnica em tempo real</strong> (Camadas 1–3 e 5) com <strong>rastreabilidade forense oculta</strong> (Camada 4) transforma a base enriquecida do LattesData em um fosso competitivo defensável. Caso um concorrente ou agregador não autorizado reproduza nosso catálogo estruturado, a assinatura <em>zero-width</em> e os editais "canário" identificam a origem exata da extração e fornecem lastro probatório imediato — viabilizando notificação extrajudicial ao provedor/hospedagem (<em>notice &amp; takedown</em> sob o Marco Civil da Internet e Lei nº 9.610/98) com <strong>derrubada do espelho em até 24 horas</strong>.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>LattesData · Segurança da Informação, Propriedade Intelectual &amp; Defesa Anti-Espelhamento</span>
+      <span>Página 5 de 5</span>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

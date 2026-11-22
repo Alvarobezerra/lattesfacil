@@ -2,10 +2,9 @@
  "item": "formacao_complementar_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-20T22:30:36.361Z",
+ "executado_em": "2026-11-21T15:51:23.764Z",
  "resumo": {
-  "OK": 12,
-  "exige_acao_manual": 1
+  "OK": 13
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 633
   },
   {
    "id": "f_nivel#opcao_8",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 625
   },
   {
    "id": "f_nivel#opcao_e",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 621
   },
   {
    "id": "f_nivel#opcao_y",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 611
+   "ms": 621
   },
   {
    "id": "f_carga#tipico",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 629
+   "ms": 620
   },
   {
    "id": "f_carga#maximo",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 624
   },
   {
    "id": "f_carga#acima_do_limite",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 622
   },
   {
    "id": "f_carga#acentos",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 627
   },
   {
    "id": "F_STATUS#opcao_n",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1061
+   "ms": 1079
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1060
+   "ms": 2660
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1067
+   "ms": 3007
   },
   {
    "id": "f_inst#lupa",
@@ -102,15 +101,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 3421
+   "ms": 8997
   },
   {
    "id": "f_curso#lupa",
    "campo": "f_curso",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 3420
+   "ms": 11991
   }
  ]
 }

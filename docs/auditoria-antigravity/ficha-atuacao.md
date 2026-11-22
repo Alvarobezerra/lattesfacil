@@ -84,8 +84,8 @@
 ## 4. Revisor de periódico (`f_natur=RV`) e Revisor de projeto de agência de fomento (`f_natur=RA`)
 
 - Ambos usam o mesmo motor `PKG_REVISOR.inclui` (`form[name="GN_ATIV"]`) com os mesmos **16 hidden inputs** de `MB` e `MA`:
-  - `RV` (`0` itens): usa lupa `periodico()` (popula `f_nme_agencia`, `f_nme_agencia_h`, `f_seq_per`, `f_issn`, `f_issn_h`).
-  - `RA` (`0` itens): usa lupa `agencia()` (popula `f_nme_agencia`, `f_nme_agencia_h`, `f_cod_inst`, `f_cod_inst2`), sem o campo `f_comite`.
+  - **`RV` (`revisor_periodico` — VALIDADO E LIMPO EM 21/11/2026):** estado inicial `0` itens; lupa `periodico()` pesquisando `"Revista"` selecionou `"Revista de economia e sociologia rural (1806-9479)"`, preenchidos `f_mes_ini="01"`, `f_ano_ini="2024"`, `f_status="Anterior (finalizado)"`, `f_mes_fim="12"`, `f_ano_fim="2024"`, `f_outras_inf="ZZ-TESTE-LATTESFACIL Revisor de periodico"`; reabertura em 2 níveis (`pkg_revisor.lista?f_natur=RV` → `PKG_REVISOR.lista_periodico` → `PKG_REVISOR.inclui`) confirmou 100% de persistência; **Excluir** removeu vínculo e periódico-pai (`0` itens).
+  - **`RA` (`revisor_projeto_fomento` — VALIDADO E LIMPO EM 21/11/2026):** estado inicial `0` itens; lupa `agencia()` selecionou `"(FAPESPA) FUNDACAO AMAZONIA DE AMPARO A ESTUDOS E PESQUISAS - FAPESPA"`, preenchidos `f_mes_ini="01"`, `f_ano_ini="2024"`, `f_status="Anterior (finalizado)"`, `f_mes_fim="12"`, `f_ano_fim="2024"`, `f_outras_inf="ZZ-TESTE-LATTESFACIL Revisor de projeto de fomento"`, visibilidade `"Público"`; reabertura em 2 níveis confirmou 100% de persistência (observado que `f_nme_agencia` normaliza removendo o prefixo `(FAPESPA) ` na reabertura); **Excluir** removeu vínculo e agência-pai (`0` itens).
 
 ---
 

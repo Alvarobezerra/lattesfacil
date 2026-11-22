@@ -41,7 +41,7 @@
     $("connExt").classList.toggle("on", extOk);
     $("extTxt").textContent = !estado.ext ? "Extensão: não detectada" : extOk ? "Extensão " + estado.ext : "Extensão " + estado.ext + " — atualize para 0.9.5 ou mais";
     const falta = [];
-    if (!extOk) falta.push("instalar/atualizar a extensão LattesData");
+    if (!extOk) falta.push("instalar/atualizar a extensão NautiScience");
     if (!estado.lattesOnline) falta.push("abrir o Lattes e entrar no currículo (o selo \"Lattes\" da tela principal deve ficar conectado)");
     $("avisoConexao").textContent = falta.length ? "Para consultar a lupa é preciso " + falta.join(" e ") + ". Sem isso a captação fica parada e o preenchimento usa só o banco local." : "";
     $("bExecutar").disabled = estado.rodando || !extOk || !estado.lattesOnline || !(estado.cfg && estado.cfg.ativa);

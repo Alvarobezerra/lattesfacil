@@ -2,10 +2,9 @@
  "item": "corpo_editorial_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-20T21:18:25.480Z",
+ "executado_em": "2026-11-21T17:46:41.806Z",
  "resumo": {
-  "OK": 20,
-  "exige_acao_manual": 1
+  "OK": 21
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 633
   },
   {
    "id": "f_mes_ini#maximo",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 621
   },
   {
    "id": "f_mes_ini#acima_do_limite",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 634
   },
   {
    "id": "f_mes_ini#acentos",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 3211
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 3003
   },
   {
    "id": "f_ano_ini#letras",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 2995
   },
   {
    "id": "f_status#opcao_s",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1066
+   "ms": 2992
   },
   {
    "id": "f_status#opcao_n",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1075
+   "ms": 3002
   },
   {
    "id": "f_mes_fim#tipico",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1341
+   "ms": 4006
   },
   {
    "id": "f_mes_fim#maximo",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1327
+   "ms": 3995
   },
   {
    "id": "f_mes_fim#acima_do_limite",
@@ -102,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1342
+   "ms": 4005
   },
   {
    "id": "f_mes_fim#acentos",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1338
+   "ms": 3995
   },
   {
    "id": "f_ano_fim#valido",
@@ -118,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1324
+   "ms": 4005
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -126,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1316
+   "ms": 3995
   },
   {
    "id": "f_ano_fim#letras",
@@ -134,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1324
+   "ms": 4012
   },
   {
    "id": "f_outras_inf#tipico",
@@ -142,7 +141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 2991
   },
   {
    "id": "f_outras_inf#maximo",
@@ -150,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 3003
   },
   {
    "id": "f_outras_inf#acima_do_limite",
@@ -158,7 +157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 3001
   },
   {
    "id": "f_outras_inf#acentos",
@@ -166,15 +165,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 2998
   },
   {
    "id": "f_nme_agencia#lupa",
    "campo": "f_nme_agencia",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 8466
+   "ms": 44007
   }
  ]
 }

@@ -22,56 +22,15 @@
 
   // Escolha feita na tela de login (cookie lf_user, de vida curta): vira o usuário ativo e o cookie é apagado.
   const NOMES_LOGIN = { alvaro: "Álvaro Antônio Bezerra dos Santos", aramys: "Aramys Silva dos Reis" };
-  const PUBLIC_PROFILES = {
-    "Álvaro Antônio Bezerra dos Santos": {
-      id: "0174461068626535", atualizado: "17/11/2026",
-      resumo: "Farmacêutico, perito criminal e estudante de Direito, com experiência em farmácia hospitalar, segurança de medicamentos, assistência farmacêutica e saúde pública.",
-      areas: ["Farmácia hospitalar", "Farmácia clínica", "Perícia criminal", "Saúde pública"],
-      destaques: ["Perito criminal", "Farmacêutico hospitalar", "Programa de computador registrado"],
-      dimensoes: [
-        { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "Farmácia hospitalar, perícia criminal, software Maná e extensão", total: 16, percentual: 100, nivel: "frente principal" },
-        { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Eventos científicos, apresentações e Prêmio Júlia Lima", total: 12, percentual: 75, nivel: "frente principal" },
-        { id: "conhecimento", nome: "Geração de conhecimento", descricao: "Resumos em anais, trabalhos e publicações aplicadas", total: 8, percentual: 50, nivel: "frente ativa" },
-        { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Graduação, residência, especialização e Direito em andamento", total: 5, percentual: 32, nivel: "em expansão" },
-      ],
-      legado: { pessoas_orientadas: 0, bancas_participadas: 0, inovacao_tecnica: 4, projetos: 3 },
-      oportunidades: [
-        { titulo: "Destacar atuação pericial e técnica no resumo", descricao: "Dar visibilidade à combinação singular entre farmácia hospitalar, perícia e Direito.", acao: "Analisar currículo", href: "/meu-curriculo.html" },
-        { titulo: "Registrar novas evidências da jornada", descricao: "Envie certificados, resumos ou projetos para manter sua memória viva.", acao: "Registrar conquista", href: "/" },
-      ],
-    },
-    "Aramys Silva dos Reis": {
-      id: "1040580590566490", atualizado: "23/08/2026",
-      resumo: "Professor Associado da UFMA, doutor em Ciências pela USP, coordenador de pesquisas em saúde, inovação e produtos naturais, com atuação em orientação e divulgação científica.",
-      areas: ["Pesquisa em saúde", "Produtos naturais", "Inovação", "Orientação", "Divulgação científica"],
-      destaques: ["Professor Associado I", "Coordenador do PPGST", "Patentes e projetos de inovação"],
-      fonte: "Lattes público",
-      dimensoes: [
-        { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Orientações de IC, mestrado, doutorado e 85 bancas", total: 200, percentual: 100, nivel: "frente principal" },
-        { id: "conhecimento", nome: "Geração de conhecimento", descricao: "61 artigos em periódicos (Scientific Reports, Foods, ACS) e capítulos", total: 61, percentual: 78, nivel: "frente principal" },
-        { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "34 projetos de pesquisa/tecnológicos e 3 patentes INPI", total: 37, percentual: 62, nivel: "frente ativa" },
-        { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Coordenação do PPGST/UFMA, LaFIT e redes de cooperação", total: 28, percentual: 50, nivel: "frente ativa" },
-      ],
-      legado: { pessoas_orientadas: 200, bancas_participadas: 85, inovacao_tecnica: 16, projetos: 34 },
-      oportunidades: [
-        { titulo: "Recuperar +180 pontos em potencial na CAPES/CNPq", descricao: "Localizamos DOIs na CrossRef e ajustes de vigência para fortalecer sua ficha do quadriênio.", acao: "Ver oportunidades", href: "/auditoria.html" },
-        { titulo: "Organizar e simular editais no EditalScore", descricao: "Cruze seu currículo com baremas de produtividade ou progressão sem pressa.", acao: "Abrir Bússola", href: "/painel.html#secEdi" },
-      ],
-    }
-  };
   try {
     const m = document.cookie.match(/(?:^|;\s*)lf_user=([a-z]+)/);
     if (m && NOMES_LOGIN[m[1]]) store.set("lf-usuario", NOMES_LOGIN[m[1]]);
     if (m) document.cookie = "lf_user=; Path=/; Max-Age=0";
   } catch (e) {}
 
-  const usuario = store.get("lf-usuario") || "Álvaro Antônio Bezerra dos Santos";
+  const usuario = window.LattesUI.owner;
   let orcid = store.get("lf-orcid:" + usuario) || KNOWN_ORCIDS[usuario] || "";
   let dados = null, ultimoCvDash = null, atual = "prod", janela = 5;
-
-  const iniciais = usuario.split(/\s+/).filter((p) => p.length > 2).map((p) => p[0]).slice(0, 2).join("").toUpperCase() || "?";
-  $("av").textContent = $("av2").textContent = iniciais;
-  $("nome").textContent = usuario.split(/\s+/)[0];
 
   function formOrcid(msg) {
     const input = el("input", { type: "text", placeholder: "0000-0000-0000-0000", "aria-label": "ORCID", maxlength: "19" });
@@ -84,57 +43,6 @@
       store.set("lf-orcid:" + usuario, v); orcid = v; dados = null; tentativas = 0; carregar();
     });
     $("banner").replaceChildren(el("div", { class: "banner" }, msg, f));
-  }
-
-  function proximoPasso() {
-    const title = $("nextTitle"), text = $("nextText"), action = $("nextAction"), icon = document.querySelector("#nextStep .ns-icon");
-    if (!title || !text || !action) return;
-    let cfg = { icon: "→", title: "Envie seu primeiro documento", text: "Comece por um artigo, certificado ou resumo em PDF.", label: "Enviar documento", href: "/" };
-    if (!orcid) cfg = { icon: "◎", title: "Conecte seu ORCID", text: "Assim calculamos sua produção e mostramos quem cita você.", label: "Informar ORCID", href: "#ids" };
-    else if (!dados) cfg = { icon: "…", title: "Preparando seu painel", text: "Estamos verificando seus dados e seus documentos.", label: "Aguarde", href: "#nextStep" };
-    else if (dados.pendente || dados.atualizando) cfg = { icon: "↻", title: "Atualizando seus indicadores", text: "Você já pode explorar o painel enquanto verificamos novidades.", label: "Ver currículo", href: "/meu-curriculo.html" };
-    else if (dados.envios && dados.envios.total) cfg = { icon: "✓", title: "Continue mantendo seu Lattes em dia", text: `${fmt(dados.envios.total)} documento${dados.envios.total === 1 ? " já foi" : "s já foram"} registrado${dados.envios.total === 1 ? "" : "s"}.`, label: "Enviar outro", href: "/" };
-    title.textContent = cfg.title; text.textContent = cfg.text; action.textContent = cfg.label; action.href = cfg.href;
-    if (icon) icon.textContent = cfg.icon;
-  }
-
-  function renderMomento() {
-    const box = $("moment");
-    if (!box) return;
-    if (!dados) {
-      box.replaceChildren(el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "Sua trajetória começa pelo que você já construiu."), el("p", {}, "Assim que os dados forem carregados, vamos transformar seus registros em uma visão clara da sua jornada.")));
-      return;
-    }
-    if (dados.publico && !dados.producao.total) {
-      box.replaceChildren(
-        el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "O que você construiu importa."), el("p", {}, "Sua trajetória pública já foi identificada. Agora podemos aprofundar os registros e transformar essa história em uma visão completa.")),
-        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Perfil"), el("div", { class: "ms-value" }, "✓"), el("div", { class: "ms-help" }, "Lattes público")),
-        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "ORCID"), el("div", { class: "ms-value" }, "—"), el("div", { class: "ms-help" }, "perfil privado")),
-        el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Próximo passo"), el("div", { class: "ms-value" }, "XML"), el("div", { class: "ms-help" }, "aprofundar análise"))
-      );
-      return;
-    }
-    const p = dados.producao || {}, c = dados.citacoes || {}, e = dados.envios || {};
-    const total = Number(p.total || 0), ano = Number(p.no_ano || 0), cit = Number(c.total || 0);
-    let frase = total ? `Você já tem ${fmt(total)} ${total === 1 ? "produção registrada" : "produções registradas"} para contar sua trajetória.` : "Sua trajetória está pronta para começar a ser organizada.";
-    if (ano) frase += ` Neste ano, ${fmt(ano)} ${ano === 1 ? "item já apareceu" : "itens já apareceram"} no seu percurso.`;
-    box.replaceChildren(
-      el("article", { class: "card moment-main" }, el("div", { class: "eyebrow" }, "Seu momento"), el("h2", {}, "O que você construiu importa."), el("p", {}, frase)),
-      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Produção"), el("div", { class: "ms-value" }, fmt(total)), el("div", { class: "ms-help" }, "obras encontradas")),
-      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Citações"), el("div", { class: "ms-value" }, fmt(cit)), el("div", { class: "ms-help" }, "impacto acompanhado")),
-      el("article", { class: "card moment-stat" }, el("div", { class: "ms-label" }, "Registros"), el("div", { class: "ms-value" }, fmt(e.total || 0)), el("div", { class: "ms-help" }, "no LattesData")),
-    );
-  }
-
-  function mostrarPerfilPublico() {
-    const p = PUBLIC_PROFILES[usuario], box = $("latProfile");
-    if (!p || !box) return;
-    box.hidden = false;
-    $("latMeta").textContent = `Lattes ${p.id} · perfil público · atualizado em ${p.atualizado}`;
-    $("latSummary").textContent = p.resumo;
-    $("latAreas").replaceChildren(...p.areas.map((a) => el("span", { class: "lat-area" }, a)));
-    $("latK").replaceChildren(...p.destaques.map((d) => el("div", { class: "profile-highlight" }, "✓ ", d)));
-    $("latGraf").replaceChildren();
   }
 
   function kpi(id, rotulo, valor, delta, sub, flat) {
@@ -151,22 +59,13 @@
   }
 
   function renderKpis() {
-    if (dados.publico && !dados.producao.total) {
-      $("kpis").replaceChildren(
-        kpi("prod", "Perfil", "✓", "identificado", "Lattes público", true),
-        kpi("cit", "ORCID", "—", "perfil privado", "aguardando obras públicas", true),
-        kpi("ev", "Áreas", "5", "identificadas", "no perfil público", true),
-        kpi("imp", "Próximo", "XML", "para aprofundar", "importar currículo", true)
-      );
-      return;
-    }
     const p = dados.producao, c = dados.citacoes, e = dados.eventos, a = dados.alcance, ano = dados.ano_atual;
     const [dp, fp] = variacao(p.no_ano, p.ano_anterior, ano);
     const serie = c.serie, noAno = c.no_ano;
     $("kpis").replaceChildren(
       kpi("prod", "Produção", fmt(p.total), dp, "obras indexadas (OpenAlex)", fp),
       kpi("cit", "Citações", fmt(c.total), noAno ? "▲ " + fmt(noAno) + " em " + ano : "—", `h ${c.h} · i10 ${c.i10} · sem autocit. ${fmt(c.sem_autocitacao)}`, !noAno),
-      kpi("ev", "Eventos", fmt(e.total), e.total ? "enviados ao LattesData" : "nenhum envio ainda", `${fmt(e.orientacoes)} orientações enviadas`, true),
+      kpi("ev", "Eventos", fmt(e.total), e.total ? "enviados ao NautiScience" : "nenhum envio ainda", `${fmt(e.orientacoes)} orientações enviadas`, true),
       kpi("imp", "Alcance", fmt(a.periodicos), "periódicos que citam", `${fmt(a.citantes_unicos)} trabalhos citantes`, true),
     );
     void serie;
@@ -178,7 +77,7 @@
         ["Melhor ano", dados.producao.melhor_ano ? `${dados.producao.melhor_ano[0]} (${dados.producao.melhor_ano[1]})` : "—"], ["Fonte", "OpenAlex"]]],
       cit: ["Citações por ano", "#10b981", dados.citacoes.serie, () => [["Total", fmt(dados.citacoes.total)], ["Sem autocitação", fmt(dados.citacoes.sem_autocitacao)],
         ["Índice h", dados.citacoes.h], ["Obras analisadas", `${dados.citacoes.obras_consideradas} de ${dados.citacoes.obras_indexadas}`]]],
-      ev: ["Eventos por ano (envios ao LattesData)", "#38bdf8", dados.eventos.serie, () => [["Total", fmt(dados.eventos.total)], ["Orientações", fmt(dados.eventos.orientacoes)],
+      ev: ["Eventos por ano (envios ao NautiScience)", "#38bdf8", dados.eventos.serie, () => [["Total", fmt(dados.eventos.total)], ["Orientações", fmt(dados.eventos.orientacoes)],
         ["Envios no total", fmt(dados.envios.total)], ["Fonte", "seus envios"]]],
       imp: ["Periódicos que mais citam você", "#1b365d", null, () => [["Periódicos", fmt(dados.alcance.periodicos)], ["Trabalhos citantes", fmt(dados.alcance.citantes_unicos)],
         ["Autocitações", fmt(dados.citacoes.autocitacoes)], ["Fonte", "OpenAlex + OC"]]],
@@ -231,104 +130,12 @@
       ...Object.entries(e.por_tipo).map(([k, n]) => el("div", { class: "row" }, el("div", { class: "s" }, TIPOS[k] || k), el("div", { class: "q" }, String(n)))));
   }
 
-  function renderTrajetoriaViva(cvDash) {
-    if (cvDash) ultimoCvDash = cvDash;
-    const cv = cvDash || ultimoCvDash;
-    const dimLista = $("dimLista"), dimFonte = $("dimFonte"), legStats = $("legStats"), oppsLista = $("oppsLista");
-    if (!dimLista || !legStats || !oppsLista) return;
-
-    const publico = PUBLIC_PROFILES[usuario];
-    const dimsApi = dados && Array.isArray(dados.dimensoes) ? dados.dimensoes : null;
-    const temDadosApi = dimsApi && dimsApi.some((d) => Number(d.total || 0) > 0);
-
-    let fonte = "Ponto de partida";
-    let dims = dimsApi || [
-      { id: "conhecimento", nome: "Geração de conhecimento", descricao: "Artigos, livros, capítulos e trabalhos em anais", total: 0, percentual: 0, nivel: "ponto de partida" },
-      { id: "formacao", nome: "Formação de pessoas e ensino", descricao: "Orientações, bancas, cursos ministrados e formação", total: 0, percentual: 0, nivel: "ponto de partida" },
-      { id: "comunidade", nome: "Comunidade e diálogo científico", descricao: "Apresentações, eventos organizados, participações e prêmios", total: 0, percentual: 0, nivel: "ponto de partida" },
-      { id: "impacto", nome: "Inovação, projetos e prática aplicada", descricao: "Patentes, softwares, produtos técnicos, projetos e atuação", total: 0, percentual: 0, nivel: "ponto de partida" },
-    ];
-    let stats = [
-      [fmt(dados && dados.producao ? dados.producao.total : 0), "obras indexadas"],
-      [fmt(dados && dados.citacoes ? dados.citacoes.total : 0), "citações acompanhadas"],
-      [fmt(dados && dados.envios ? dados.envios.total : 0), "registros no LattesData"],
-    ];
-    let opps = [
-      { titulo: "Registrar nova evidência da trajetória", descricao: "Envie um certificado, resumo ou artigo para transformar burocracia em memória.", acao: "Registrar conquista", href: "/" },
-      { titulo: "Importar seu currículo Lattes", descricao: "Traga seu XML ou leitura ao vivo para revelar todas as dimensões da carreira.", acao: "Analisar currículo", href: "/meu-curriculo.html" },
-    ];
-
-    if (cv && Array.isArray(cv.dimensoes)) {
-      fonte = cv.fonte === "pagina" ? "Lattes ao vivo" : "XML importado";
-      dims = cv.dimensoes;
-      const leg = cv.legado || {};
-      stats = [
-        [fmt(leg.pessoas_orientadas || 0), "pessoas orientadas"],
-        [fmt(leg.bancas_participadas || 0), "bancas examinadoras"],
-        [fmt((leg.projetos || 0) + (leg.inovacao_tecnica || 0)), "projetos e inovações"],
-      ];
-      if (Array.isArray(cv.oportunidades) && cv.oportunidades.length) {
-        opps = cv.oportunidades.slice(0, 2);
-      }
-    } else if (publico && publico.dimensoes) {
-      const citTot = Number(dados && dados.citacoes ? dados.citacoes.total : 0);
-      fonte = citTot > 0 ? "Lattes público + ORCID" : "Lattes público";
-      dims = publico.dimensoes;
-      const leg = publico.legado || {};
-      stats = [
-        [fmt(leg.pessoas_orientadas || 0), "pessoas orientadas"],
-        [citTot > 0 ? fmt(citTot) : fmt(leg.bancas_participadas || 0), citTot > 0 ? "citações acompanhadas" : "bancas examinadoras"],
-        [fmt((leg.projetos || 0) + (leg.inovacao_tecnica || 0)), "projetos e inovações"],
-      ];
-      if (Array.isArray(publico.oportunidades) && publico.oportunidades.length) {
-        opps = publico.oportunidades.slice(0, 2);
-      }
-    } else if (temDadosApi) {
-      fonte = "ORCID & Registros";
-      const leg = (dados && dados.legado) || {};
-      stats = [
-        [fmt(leg.obras_indexadas || 0), "obras indexadas"],
-        [fmt(leg.citacoes_unicas || 0), "citações acompanhadas"],
-        [fmt(leg.pessoas_orientadas || 0), "orientações registradas"],
-      ];
-    }
-
-    if (dimFonte) dimFonte.textContent = fonte;
-
-    dimLista.replaceChildren(...dims.map((d) => {
-      const fill = el("i", {});
-      fill.style.width = `${Math.max(0, Math.min(100, Number(d.percentual || 0)))}%`;
-      return el("div", { class: "dim-item" },
-        el("div", { class: "dim-head" },
-          el("b", {}, d.nome || ""),
-          el("div", { class: "dim-meta" },
-            el("span", {}, `${fmt(d.total || 0)} ${Number(d.total || 0) === 1 ? "item" : "itens"}`),
-            el("span", { class: "dim-nivel" }, d.nivel || "")
-          )
-        ),
-        el("div", { class: "dim-bar" }, fill),
-        d.descricao ? el("div", { class: "dim-desc" }, d.descricao) : null
-      );
-    }));
-
-    legStats.replaceChildren(...stats.map(([v, rotulo]) =>
-      el("div", { class: "leg-stat" }, el("b", {}, String(v)), el("span", {}, rotulo))
-    ));
-
-    oppsLista.replaceChildren(...opps.map((o) =>
-      el("div", { class: "opp-item" },
-        el("div", { class: "opp-copy" }, el("b", {}, o.titulo || ""), el("span", {}, o.descricao || "")),
-        el("a", { class: "btn btn-o", href: o.href || "/" }, o.acao || "Explorar")
-      )
-    ));
-  }
-
   let tentativas = 0;
   const CHAVE_SNAP = "lf-abertura:" + usuario + ":";
   function mostrar() {
     const ids = [];
     if (dados.orcid) ids.push(el("span", { class: "pill" }, "ORCID " + dados.orcid));
-    ids.push(el("span", { class: "pill neutral" }, "Perfil privado"));
+
     $("ids").replaceChildren(...ids);
     $("status").textContent = "Atualizado em " + dados.consultado_em + (dados.atualizando ? " · verificando novidades…" : "");
     const avisos = dados.avisos || [];
@@ -336,14 +143,14 @@
     else if (avisos.length) $("banner").replaceChildren(el("div", { class: "banner" }, avisos.join(" ")));
     else $("banner").replaceChildren();
     renderKpis(); desenhar(); renderFeed(); renderSide();
-    proximoPasso(); renderMomento(); renderTrajetoriaViva();
+
   }
   async function carregar() {
     // Última foto guardada neste navegador: a tela abre instantaneamente e a verificação segue por trás.
     if (!dados && orcid) {
       try { const snap = JSON.parse(store.get(CHAVE_SNAP + orcid) || "null"); if (snap && snap.ok) { dados = snap; dados.atualizando = true; mostrar(); } } catch (e) {}
     }
-    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; proximoPasso(); renderMomento(); renderTrajetoriaViva(); }
+    if (!dados) { $("status").textContent = "Carregando seus indicadores…"; }
     const qs = new URLSearchParams({ usuario });
     if (orcid) qs.set("orcid", orcid);
     let novo;
@@ -357,101 +164,12 @@
       else { dados.atualizando = false; $("status").textContent = "Atualizado em " + dados.consultado_em + " · sem conexão para atualizar"; }
       return;
     }
-    const perfilPublico = PUBLIC_PROFILES[usuario];
-    if (perfilPublico && (!novo.producao || !Number(novo.producao.total)) && !novo.pendente) {
-      novo.publico = true;
-      novo.producao = novo.producao || { total: 0, serie: [], no_ano: 0, ano_anterior: 0, melhor_ano: null };
-      novo.citacoes = novo.citacoes || { total: 0, no_ano: 0, h: 0, i10: 0, sem_autocitacao: 0, serie: [], obras_consideradas: 0, obras_indexadas: 0 };
-      novo.eventos = novo.eventos || { total: 0, serie: [], orientacoes: 0 };
-      novo.alcance = novo.alcance || { periodicos: 0, citantes_unicos: 0, top_periodicos: [] };
-      novo.envios = novo.envios || { total: 0, por_tipo: [], recentes: [] };
-      novo.avisos = [];
-    }
     if (novo.pendente && dados && dados.producao) novo = dados; // ainda calculando: mantém o que já está na tela
     dados = novo;
     if (!dados.pendente && orcid) store.set(CHAVE_SNAP + orcid, JSON.stringify(dados));
     mostrar();
     // Servidor ainda calculando/atualizando: confere de novo em instantes.
     if ((dados.pendente || dados.atualizando) && tentativas++ < 12) setTimeout(carregar, 5000);
-  }
-
-  // ---- Seu Lattes: dashboard do currículo já importado (XML ou leitura ao vivo), para mostrar o acesso aos dados.
-  const ROT = { artigo: "Artigos publicados", artigo_aceito: "Artigos aceitos", trabalho_evento: "Trabalhos em eventos", apresentacao: "Apresentações",
-    livro: "Livros", capitulo: "Capítulos de livro", texto_jornal: "Textos em jornal/revista", curso_ministrado: "Cursos ministrados",
-    formacao_complementar: "Formação complementar", patente: "Patentes", software: "Softwares", trabalho_tecnico: "Trabalhos técnicos",
-    produto_tecnologico: "Produtos/processos", banca: "Bancas", orientacao_concluida: "Orientações concluídas", orientacao_andamento: "Orientações em andamento",
-    projeto: "Projetos", participacao_evento: "Participação em eventos", organizacao_evento: "Organização de eventos", premio: "Prêmios e títulos",
-    atuacao_profissional: "Atuação profissional", formacao_academica: "Formação acadêmica", outra_producao_bibliografica: "Outra produção bibliográfica",
-    outra_producao_tecnica: "Outra produção técnica", producao_artistica: "Produção artística/cultural", registro_propriedade: "Marcas, cultivares e desenhos",
-    demais_trabalhos: "Demais trabalhos" };
-  const norm = (t) => (t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().split(/\s+/).filter(Boolean);
-  const CHAVE_LAT = "lf-lattes:" + usuario;
-
-  function desenharLattes(d) {
-    $("latMeta").textContent = "Lattes " + (d.id_lattes || "—") + " · " + (d.fonte === "pagina" ? "leitura ao vivo" : "XML exportado") +
-      (d.atualizacao ? " · atualizado em " + d.atualizacao.replace(/^(\d{2})(\d{2})(\d{4})$/, "$1/$2/$3") : "");
-    const k = (n, t) => el("div", {}, el("b", {}, fmt(n)), t);
-    const perfil = d.perfil || {};
-    const resumo = String(perfil.resumo || "").trim();
-    const profileBox = $("latProfile");
-    if (profileBox) {
-      if (resumo || (perfil.areas || []).length) {
-        profileBox.hidden = false;
-        $("latSummary").textContent = resumo ? (resumo.length > 520 ? resumo.slice(0, 517).replace(/\s+\S*$/, "") + "…" : resumo) : "Seu currículo já foi importado. Explore as áreas e os registros que compõem sua trajetória.";
-        $("latAreas").replaceChildren(...(perfil.areas || []).slice(0, 8).map((a) => el("span", { class: "lat-area" }, a)));
-      } else profileBox.hidden = true;
-    }
-    $("latK").replaceChildren(k(d.total_itens, "itens no Lattes"), k(d.ultimos_5_anos, "nos últimos 5 anos"), k(d.artigos.total, "artigos"),
-      k(d.artigos.sem_doi, "artigos sem DOI"), k(d.orientacoes.concluidas + d.orientacoes.em_andamento, "orientações"), k(d.bancas, "bancas"));
-    const anos = (d.por_ano || []).slice(-15), svg = $("latGraf");
-    svg.replaceChildren();
-    const add = (nome, attrs, txt) => { const n = document.createElementNS(NS, nome); Object.entries(attrs).forEach(([a, v]) => n.setAttribute(a, v)); if (txt != null) n.textContent = txt; svg.append(n); return n; };
-    if (anos.length) {
-      const W = 700, base = 130, max = Math.max(...anos.map((a) => a.total), 1), larg = W / anos.length;
-      anos.forEach((a, i) => {
-        const h = (a.total / max) * 105, hp = (a.producao / max) * 105, x = i * larg;
-        const r = add("rect", { x: x + 3, y: base - h, width: Math.max(larg - 6, 2), height: h, opacity: ".35" });
-        r.append(Object.assign(document.createElementNS(NS, "title"), { textContent: a.ano + ": " + a.total + " itens (" + a.producao + " de produção)" }));
-        add("rect", { x: x + 3, y: base - hp, width: Math.max(larg - 6, 2), height: hp, class: "p" });
-        add("text", { x: x + larg / 2, y: base + 14, "text-anchor": "middle" }, String(a.ano).slice(-2));
-      });
-    }
-    const cats = Object.entries(d.por_categoria || {}).slice(0, 6);
-    $("latCat").replaceChildren(...cats.map(([c, n]) => el("div", { class: "row" }, el("div", { class: "s" }, ROT[c] || c), el("div", { class: "q" }, fmt(n)))));
-    renderTrajetoriaViva(d);
-  }
-
-  async function carregarLattes() {
-    mostrarPerfilPublico();
-    try { const snap = JSON.parse(store.get(CHAVE_LAT) || "null"); if (snap) desenharLattes(snap); } catch (e) {}
-    try {
-      let sid = "";
-      try {
-        const { snapshots } = await (await fetch("/api/curriculo/snapshots")).json();
-        const meu = norm(usuario);
-        const achou = (snapshots || []).find((s) => { const n = norm(s.nome); return n.length && meu.length && n[0] === meu[0] && n[n.length - 1] === meu[meu.length - 1]; });
-        sid = achou ? achou.id : "";
-      } catch (e) {}
-      const r = await fetch("/api/curriculo/dashboard" + (sid ? "?snapshot=" + encodeURIComponent(sid) : ""));
-      if (!r.ok) {
-        if (!store.get(CHAVE_LAT)) {
-          const publico = PUBLIC_PROFILES[usuario];
-          if (publico) {
-            $("latMeta").textContent = `Lattes ${publico.id} · perfil público · base inicial carregada`;
-            $("latK").replaceChildren(...publico.destaques.map((d) => el("div", {}, el("b", {}, "✓"), " ", d)));
-            $("latGraf").replaceChildren(); $("latCat").replaceChildren();
-          } else {
-            $("latMeta").replaceChildren("Ainda não há currículo Lattes importado. ", el("a", { href: "/meu-curriculo.html" }, "Importe seu XML ou leia ao vivo"), " para ver sua produção e registros aqui.");
-            $("latK").replaceChildren(); $("latGraf").replaceChildren(); $("latCat").replaceChildren();
-          }
-          const ns = $("nextStep"); if (ns && orcid) { $("nextTitle").textContent = "Importe seu currículo Lattes"; $("nextText").textContent = "Veja sua produção completa, pendências e evolução por categoria."; $("nextAction").textContent = "Importar currículo"; $("nextAction").href = "/meu-curriculo.html"; }
-        }
-        return;
-      }
-      const d = await r.json();
-      store.set(CHAVE_LAT, JSON.stringify(d));
-      desenharLattes(d);
-    } catch (e) {}
   }
 
   // Área de referência do Aramys: aceita vários currículos e os encaminha juntos ao analisador de lote.
@@ -492,6 +210,6 @@
     janela = +b.dataset.n; if (dados) desenhar();
   }));
   initReferencias();
-  carregar();
-  carregarLattes();
+  if (usuario) carregar();
+
 })();

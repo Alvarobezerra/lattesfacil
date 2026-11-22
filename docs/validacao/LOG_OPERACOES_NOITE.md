@@ -151,3 +151,8 @@ A lista de artes visuais no spec estava errada (`prc_arte_lista?f_cod_tipo=36`);
 
 ## Registro de 21/11/2026 (ajuste do limite de relevantes, autorizado pelo usuário)
 Varredura das 43 listas: 6 itens de teste ZZ-TESTE estavam com 'mais relevante = sim' (software PC seq 67, 78, 79; processo seq 81; produto seq 80; apresentação seq 45). Desmarcados (F_RELEV=não, salvos pela tela) processo/técnica seq 81 e produto seq 80; ficaram 4 marcados. Matriz da faixa 7 refeita: participação 121/121, organização 216/216, curso 213/213. Para voltar ao estado anterior, marcar 'sim' nesses dois itens (ou apagá-los).
+
+## Registro de 21–22/11/2026 (limpeza completa e validação de exclusão de todos os itens `ZZ-TESTE-LATTESFACIL`)
+Varredura e exclusão ao vivo concluídas em todas as **48 listas** do currículo logado (`Lote 1`: 19 listas — Dados gerais/Prêmios, 5 Projetos, 2 Eventos, 2 Orientações, 2 Bancas e 7 Patentes e Registros com confirmação `.caixaMsg`; `Lote 2A`: 12 listas — 8 Produções Bibliográficas e 4 Produções Artísticas; `Lote 2B`: 17 listas — Produções Técnicas, incluindo `.caixaMsg` em Programa de computador sem registro).
+- **Resultado:** Todos os registros de teste `ZZ-TESTE-LATTESFACIL` criados nas rodadas anteriores foram reabertos, conferidos pelo título no formulário e **excluídos** (`0` itens `ZZ-TESTE` restantes em todo o currículo).
+- **Registros reais do titular preservados 100% intactos:** `1` Prêmio (`PRÊMIO JÚLIA LIMA`), `3` Projetos de extensão, `37` Participações em eventos, `6` Organizações de eventos, `1` Programa de computador registrado (`Maná - Nutrição Parenteral 2020`), `16` Trabalhos em anais de eventos e `8` Apresentações de trabalho.

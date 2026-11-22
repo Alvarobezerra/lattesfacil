@@ -27,16 +27,16 @@
       "Paternidade": "P",
       "Adoção": "A"
      },
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "dta_inicio",
      "name": "f_dta_inicio",
-     "rotulo": "Data Fim",
+     "rotulo": "Data Início",
      "aba": "Licença",
      "tipo": "text",
      "maxlength": 10,
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "dta_fim",
@@ -45,7 +45,7 @@
      "aba": "Licença",
      "tipo": "text",
      "maxlength": 10,
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "dta_nasc_adoc",
@@ -54,7 +54,7 @@
      "aba": "Licença",
      "tipo": "text",
      "maxlength": 10,
-     "obrigatorio": false
+     "obrigatorio": true
     },
     {
      "chave": "tipo_privacidade",
@@ -67,7 +67,12 @@
     }
    ],
    "grades": [],
-   "obrigatorios_mensagens": []
+   "obrigatorios_mensagens": [
+    "Tipo",
+    "Data Início",
+    "Data Fim",
+    "Data de nascimento/adoção"
+   ]
   }
  ],
  "curadoria": {}

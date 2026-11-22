@@ -2,7 +2,7 @@
 
 Cada XML do Lattes enviado vira um snapshot no SQLite (um por conteúdo distinto; reenviar o mesmo arquivo não duplica).
 Comparando snapshots dá para saber o que entrou e saiu do currículo, e com isso confirmar (ou não) as inclusões e
-exclusões feitas pelo LattesData. Só biblioteca padrão.
+exclusões feitas pelo NautiScience. Só biblioteca padrão.
 """
 from __future__ import annotations
 
@@ -281,7 +281,7 @@ def _presente(cur: dict[str, Any], titulo: str, ano: str) -> bool:
 
 
 def conciliar_envios(conn: sqlite3.Connection, cur: dict[str, Any]) -> dict[str, int]:
-    """Confere, contra o XML, os envios do LattesData deste pesquisador e grava `xml_status` em cada um.
+    """Confere, contra o XML, os envios do NautiScience deste pesquisador e grava `xml_status` em cada um.
 
     Inclusão: 'confirmado' (título consta no XML), 'ausente' (não consta) ou 'xml_anterior' (o XML é mais antigo que o envio,
     então não prova nada). Exclusão: 'remocao_confirmada', 'ainda_presente' ou 'xml_anterior'.

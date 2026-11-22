@@ -1,0 +1,1258 @@
+{
+  "totais": {
+    "diretorio": "C:\\Users\\icrim\\Downloads\\Projeto\\lattes-facil\\tests\\curriculos",
+    "total_candidatos": 73,
+    "validados_com_id": 53,
+    "lattes_com_texto": 10,
+    "scans_sem_texto": 7,
+    "formatos_alternativos": 3,
+    "faltando_curriculo": 0,
+    "erros_corrompidos": 0,
+    "total_paginas_somadas": 3291,
+    "total_tamanho_mb": 418.02,
+    "total_arquivos_nulos": 73
+  },
+  "detalhes": [
+    {
+      "candidato": "25331_VANESSA_VITORIA_MOURAO_PEREIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ilovepdf_merged_-_comprovaes.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 32,
+      "tamanho_mb": 7.33,
+      "tem_camada_texto": true,
+      "id_lattes": "0583893535484203",
+      "data_atualizacao": "28/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25335_PAULO_VICTOR_SANTOS_NASCIMENTO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_Documentos_Comprobatrios.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 44,
+      "tamanho_mb": 11.39,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": "NASCIMENTO,",
+      "erro": null
+    },
+    {
+      "candidato": "25356_SANDEYVISON_OLIVEIRA_DA_SILVA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_documento-unificado_1.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 46,
+      "tamanho_mb": 10.48,
+      "tem_camada_texto": true,
+      "id_lattes": "1938746352415369",
+      "data_atualizacao": "30/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25384_PAULINA_ALMEIDA_RODRIGUES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_lattes_-_Ficha_de_Avaliao_Curricular_compressed.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 165,
+      "tamanho_mb": 6.46,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25420_JANETE_DA_SILVA_BRITO",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_comprovantes.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 29,
+      "tamanho_mb": 5.69,
+      "tem_camada_texto": true,
+      "id_lattes": "3982922127233535",
+      "data_atualizacao": "08/08/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25465_JACQUELINE_MORAES_DOS_SANTOS_FERREIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Jacqueline_Moraes.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 19,
+      "tamanho_mb": 3.51,
+      "tem_camada_texto": true,
+      "id_lattes": "6026412829641775",
+      "data_atualizacao": "04/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25522_ANTONIA_RAISSA_SOUSA_DOS_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_curriculo.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 51,
+      "tamanho_mb": 3.71,
+      "tem_camada_texto": true,
+      "id_lattes": "5709747546750042",
+      "data_atualizacao": "14/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25523_ARLENE_RAIANNY_MELO_OLIVEIRA",
+      "total_arquivos": 12,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes_2026.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 2,
+      "tamanho_mb": 0.24,
+      "tem_camada_texto": true,
+      "id_lattes": "5263588452402914",
+      "data_atualizacao": "31/05/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25524_NAGYLA_LAYS_CONCEICAO_CRUZ",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Copia_Digital_do_Curri769culo_Lattes.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 15,
+      "tamanho_mb": 3.83,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25526_KARYNA_KELLY_OLIVEIRA_COELHO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes.pdf-_fundido_1.pdf-_fundido.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 31,
+      "tamanho_mb": 9.42,
+      "tem_camada_texto": true,
+      "id_lattes": "2218163715723822",
+      "data_atualizacao": "12/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25527_MIZIANE_DE_CARVALHO_PEREIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_Ficha_de_avaliao_Curricular_-_Miziane_Carvalho.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 20,
+      "tamanho_mb": 3.72,
+      "tem_camada_texto": true,
+      "id_lattes": "3820683821046753",
+      "data_atualizacao": "26/06/2025",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25529_MONICA_ROCHA_PEREIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_CURRICULUM_LATTESS.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 6,
+      "tamanho_mb": 3.23,
+      "tem_camada_texto": true,
+      "id_lattes": "9223846880999773",
+      "data_atualizacao": "25/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25534_MARIA_EDUARDA_SILVA_LIMA_AMORIM",
+      "total_arquivos": 12,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ilovepdf_merged_3_merged.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 45,
+      "tamanho_mb": 9.74,
+      "tem_camada_texto": true,
+      "id_lattes": "8668307925341503",
+      "data_atualizacao": "13/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25540_ELLEN_MIRIAN_RODRIGUES_DA_SILVA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes02-12_ELLEN_MIRIAN_RODRIGUES_DA_SILVA_11_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 44,
+      "tamanho_mb": 6.85,
+      "tem_camada_texto": true,
+      "id_lattes": "2293469639130656",
+      "data_atualizacao": "02/12/2025",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25543_DEBORA_DA_SILVA_NASCIMENTO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_CURCULO_E_DOCUMENTOS_COPROBATORIOS.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 22,
+      "tamanho_mb": 5.38,
+      "tem_camada_texto": true,
+      "id_lattes": "7096359535412090",
+      "data_atualizacao": "18/11/2025",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25546_WILDE_MARIA_CLARA_SOUSA_DE_OLIVEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_VI_CURRICULO_COMPROVADO_compressed.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 118,
+      "tamanho_mb": 4.69,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25548_CLEUDIMARA_BARRETO_MURADA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_FICHA_DE_AVALIAO_CURRICULAR_compressed.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 51,
+      "tamanho_mb": 4.76,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25549_MARIA_LUCELIA_DE_SOUSA_CARVALHO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_CURRICULO.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 163,
+      "tamanho_mb": 11.08,
+      "tem_camada_texto": true,
+      "id_lattes": "2865947018892926",
+      "data_atualizacao": "12/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25553_ANA_PAULA_ARAUJO_DE_SOUZA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_lattesufma.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 22,
+      "tamanho_mb": 7.62,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": "SOUZA, A. P. A. de",
+      "erro": null
+    },
+    {
+      "candidato": "25556_BRUNO_MORAIS_FARIAS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Curriculo_e_Comprovantes_Bruno_Farias_PPGST_2026.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 26,
+      "tamanho_mb": 4.65,
+      "tem_camada_texto": true,
+      "id_lattes": "2495762829515360",
+      "data_atualizacao": "13/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25570_VERONICA_BRITO_DOS_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_certificados_2026_comprimido.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 34,
+      "tamanho_mb": 4.0,
+      "tem_camada_texto": true,
+      "id_lattes": "3965970641790105",
+      "data_atualizacao": "12/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25579_TATIANA_MENEZES_PEREIRA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_avaliao_curricular_doc.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 127,
+      "tamanho_mb": 15.22,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25580_SAMIRA_JHENIFER_SILVA_TEIXEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ilovepdf_merged_merged_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 41,
+      "tamanho_mb": 2.44,
+      "tem_camada_texto": true,
+      "id_lattes": "0384688265871444",
+      "data_atualizacao": "30/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25593_THAUANI_CARNEIRO_FERNANDES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_barema_thauani_FINAL.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 29,
+      "tamanho_mb": 3.52,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25600_WELLITON_STENIO_CHAVES_GOMES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Curriculo_Lattes_Documentos_Comprobatrios_e_Ficha_de_Avaliao_Modelo_Lattes_d.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 32,
+      "tamanho_mb": 5.13,
+      "tem_camada_texto": true,
+      "id_lattes": "4912806042311487",
+      "data_atualizacao": "13/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25602_NAYRA_FARIAS_NASCIMENTO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_edital_PPGST.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 10,
+      "tamanho_mb": 2.98,
+      "tem_camada_texto": true,
+      "id_lattes": "0227568999914555",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25612_JOAO_NUNES_ALVES_DE_ALMEIDA_NETO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_DOCUMENTOS_CURRICULO.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 29,
+      "tamanho_mb": 19.75,
+      "tem_camada_texto": true,
+      "id_lattes": "1895957328569252",
+      "data_atualizacao": "07/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25615_RAISSA_ARAUJO_SILVA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_currculo_lattes_e_doc_comprobatrios.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 33,
+      "tamanho_mb": 4.71,
+      "tem_camada_texto": true,
+      "id_lattes": "1771441407886725",
+      "data_atualizacao": "09/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25626_RAQUEL_DE_FATIMA_PEREIRA_SOARES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes_e_Documentos_Comprobatrios__1.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 28,
+      "tamanho_mb": 4.38,
+      "tem_camada_texto": true,
+      "id_lattes": "1407387713357352",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25631_FABIANA_DA_SILVA_CAVALCANTE",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_cvIV180DECUF_compress.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 14,
+      "tamanho_mb": 1.18,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": "​",
+      "erro": null
+    },
+    {
+      "candidato": "25645_FRANCISCA_OLIVEIRA_DE_SOUSA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Combined.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 10,
+      "tamanho_mb": 6.65,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25647_ANDHERSON_MATEUS_DA_SILVA_LIMA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_5_-_LATTES.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 51,
+      "tamanho_mb": 4.07,
+      "tem_camada_texto": true,
+      "id_lattes": "6277003143248898",
+      "data_atualizacao": "16/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25649_MARIA_EDUARDA_DA_SILVA_TEIXEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Maria_Eduarda_da_Silva_Teixeira.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 9,
+      "tamanho_mb": 1.57,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25664_PATRICIA_CARINE_SILVA_ALMEIDA",
+      "total_arquivos": 12,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Documentos_curriculo_lattes_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 42,
+      "tamanho_mb": 4.19,
+      "tem_camada_texto": true,
+      "id_lattes": "3141983250752295",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25675_EMILLY_CHRISTINNA_DE_SA_VIEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes.01.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 2,
+      "tamanho_mb": 0.35,
+      "tem_camada_texto": true,
+      "id_lattes": "8389862187334763",
+      "data_atualizacao": "16/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25677_ENAIDE_PASSO_DE_SOUSA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_documentos_mestrado_ufma_26.pdf",
+      "status": "AVISO_FORMATO_NAO_PADRAO",
+      "paginas": 41,
+      "tamanho_mb": 8.57,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25682_FLAVIANY_DOS_SANTOS_SILVA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes_atualizado.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 2,
+      "tamanho_mb": 0.34,
+      "tem_camada_texto": true,
+      "id_lattes": "0947926946000817",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25691_LINDINALVO_SOARES_DOS_SANTOS",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_CURRCUO_LATTES_E_FICHA_AVALIAO.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 8,
+      "tamanho_mb": 2.0,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25704_MARIA_EDUARDA_SOARES_BRAGA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_certificados.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 12,
+      "tamanho_mb": 2.22,
+      "tem_camada_texto": true,
+      "id_lattes": "2428116433982410",
+      "data_atualizacao": "12/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25707_THYANA_LETICIA_SOUSA_BONFIM",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_VI_CURRICULUM_E_COMPROVANTES.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 32,
+      "tamanho_mb": 1.91,
+      "tem_camada_texto": true,
+      "id_lattes": "1104828244701468",
+      "data_atualizacao": "17/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25708_DANIEL_FERREIRA_DOS_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_comprovao_e_anexo_VI_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 198,
+      "tamanho_mb": 6.77,
+      "tem_camada_texto": true,
+      "id_lattes": "8132999017081680",
+      "data_atualizacao": "17/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25709_EMINY_INARA_BARRETO_LOIOLA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_lattes_e_certificados.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 12,
+      "tamanho_mb": 3.71,
+      "tem_camada_texto": true,
+      "id_lattes": "3828187730347267",
+      "data_atualizacao": "18/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25715_LUANA_LINDA_SILVA_OLIVEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_lattes_comprovado.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 40,
+      "tamanho_mb": 2.72,
+      "tem_camada_texto": true,
+      "id_lattes": "8508662552009738",
+      "data_atualizacao": "18/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25721_THIAGO_SIQUEIRA_DODO_FERRAIS_GOMES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ANEXO_E_COMPROVAES.pdf",
+      "status": "AVISO_FORMATO_NAO_PADRAO",
+      "paginas": 67,
+      "tamanho_mb": 6.17,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25724_ANA_CLARA_LAUNDOS_OLIVEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_MESTRADO_ANLISE_CURRICULAR_final.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 126,
+      "tamanho_mb": 4.79,
+      "tem_camada_texto": true,
+      "id_lattes": "8643388906215885",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25726_GRAZYELY_VIEIRA_DA_SILVA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Cpia_digital_do_currculo_lattes_atualizado_comprovao_dos_ttulos_e_document.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 10,
+      "tamanho_mb": 2.53,
+      "tem_camada_texto": true,
+      "id_lattes": "0250876786549063",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25728_TOMMASO_BINI_DA_SILVA_SOUSA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_Comprovado_Tommaso_reduzido.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 52,
+      "tamanho_mb": 4.16,
+      "tem_camada_texto": true,
+      "id_lattes": "8773143346110936",
+      "data_atualizacao": "12/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25731_LUANA_DOS_SANTOS_ROCHA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Curriculo__1.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 1,
+      "tamanho_mb": 0.24,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25737_LIVIA_ARAUJO_SOUSA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_comprovao.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 47,
+      "tamanho_mb": 4.46,
+      "tem_camada_texto": true,
+      "id_lattes": "0001067350916671",
+      "data_atualizacao": "16/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25739_KARLOS_ADRYAN_VIANA_DE_SOUSA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Documentao_Mestrado_Completa_em_PDF_compressed.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 94,
+      "tamanho_mb": 6.58,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25741_ANA_PAULA_BASTOS_OLIVEIRA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_LATTES_COMPROVAES.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 24,
+      "tamanho_mb": 2.94,
+      "tem_camada_texto": true,
+      "id_lattes": "8162394320568056",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25743_ANA_CLARA_PEREIRA_MARTINS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_lattes_merged.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 19,
+      "tamanho_mb": 2.34,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": "PEREIRA, A. C.",
+      "erro": null
+    },
+    {
+      "candidato": "25746_ANA_ITA_REIS_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_Comprovao_de_ttulos_e_documentos.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 42,
+      "tamanho_mb": 4.08,
+      "tem_camada_texto": true,
+      "id_lattes": "0326343833637018",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25748_POLLYANA_OLIVEIRA_CHAVES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_lattes_e_comprovantes.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 25,
+      "tamanho_mb": 8.29,
+      "tem_camada_texto": true,
+      "id_lattes": "9672672707694031",
+      "data_atualizacao": "21/11/2025",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25756_ELISSAMA_DOS_SANTOS_DA_SILVA_MUNIZ",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_Comprovado_Pontuado.pdf",
+      "status": "OK_LATTES_TEXTO",
+      "paginas": 100,
+      "tamanho_mb": 16.63,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25759_CAROLINNA_CORREIA_FELIPE",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_1_-_DOCS_MESTRADO_-_COMPRESSEDD.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 37,
+      "tamanho_mb": 1.99,
+      "tem_camada_texto": true,
+      "id_lattes": "1799702847592505",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25760_FERNANDO_DA_SILVA_OLIVEIRA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Curriculo_Lattes_Atualizado_e_Comprovaes..pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 169,
+      "tamanho_mb": 19.57,
+      "tem_camada_texto": true,
+      "id_lattes": "0209801215621757",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25761_LETICIA_MARIA_CARVALHO_DOS_SANTOS",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_TUDO_JUNTO_OK_2026_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 39,
+      "tamanho_mb": 3.67,
+      "tem_camada_texto": true,
+      "id_lattes": "6279700294415749",
+      "data_atualizacao": "18/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25763_MOABE_DAVID_MARINHO_DE_OLIVEIRA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ilovepdf_merged_comprimido_1.pdf",
+      "status": "AVISO_FORMATO_NAO_PADRAO",
+      "paginas": 77,
+      "tamanho_mb": 4.53,
+      "tem_camada_texto": true,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25764_VICTORIA_LAYSLA_SILVA_RAMOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_e_comprovantes_com_pontuaes_VLSR.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 71,
+      "tamanho_mb": 20.21,
+      "tem_camada_texto": true,
+      "id_lattes": "0352985797364668",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25767_MARCOS_VINICIUS_NOVAIS_ALVES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_01_Documentos_Juntos_compressed.pdf",
+      "status": "AVISO_SCAN_SEM_TEXTO",
+      "paginas": 34,
+      "tamanho_mb": 1.43,
+      "tem_camada_texto": false,
+      "id_lattes": null,
+      "data_atualizacao": null,
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25770_EDISLAN_DA_SILVA_LIMA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_DOCS_LATTES_MESTRADO_UFMA.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 30,
+      "tamanho_mb": 11.85,
+      "tem_camada_texto": true,
+      "id_lattes": "8597021104089941",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25771_LAYSMARA_DOS_SANTOS_ARAUJO",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_CURRICULO_COMPROVANTES_OFICIAL.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 98,
+      "tamanho_mb": 4.55,
+      "tem_camada_texto": true,
+      "id_lattes": "4445277431491555",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25772_MIKAELY_ANDRADE_DA_SILVA",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_do_Sistema_de_Currculos_Lattes_Mikaely_Andrade_da_Silva.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 8,
+      "tamanho_mb": 0.98,
+      "tem_camada_texto": true,
+      "id_lattes": "7458245047727899",
+      "data_atualizacao": "22/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25773_BRUNA_DA_SILVA_MILHOMEM",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Documentao_comprobatria_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 40,
+      "tamanho_mb": 2.11,
+      "tem_camada_texto": true,
+      "id_lattes": "0729544466201994",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25775_ANTONIA_GESSICA_DOS_SANTOS_SOARES",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_comprovado_pontuado_gessica.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 38,
+      "tamanho_mb": 12.59,
+      "tem_camada_texto": true,
+      "id_lattes": "3943880962745242",
+      "data_atualizacao": "11/05/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25777_LUAN_IVO_SOUSA_BRAIS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_docsdefinitivo_compressed.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 56,
+      "tamanho_mb": 4.94,
+      "tem_camada_texto": true,
+      "id_lattes": "5836662188005837",
+      "data_atualizacao": "15/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25780_MELISSA_MARRA_CESARIO_GIACOMIN",
+      "total_arquivos": 11,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Lattes_Melissa_comprovado_pontuado.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 52,
+      "tamanho_mb": 8.4,
+      "tem_camada_texto": true,
+      "id_lattes": "9904248098347373",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25783_VIVIANY_SOUSA_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Currculo_Lattes_viviany-mesclado.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 14,
+      "tamanho_mb": 2.96,
+      "tem_camada_texto": true,
+      "id_lattes": "1975111422700521",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25784_VIVIAN_CARDOSO_DE_SOUSA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Curriculo_comprovao_ficha_Vivian.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 26,
+      "tamanho_mb": 2.7,
+      "tem_camada_texto": true,
+      "id_lattes": "6350829960292928",
+      "data_atualizacao": "03/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25785_KAROLINE_OLIVEIRA_SANTANA",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_LATTES.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 41,
+      "tamanho_mb": 9.17,
+      "tem_camada_texto": true,
+      "id_lattes": "3187521975733308",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25786_PAMELLA_AYUMI_NAGANO_ITO",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_Anlise_curricular.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 61,
+      "tamanho_mb": 9.67,
+      "tem_camada_texto": true,
+      "id_lattes": "8922768751987436",
+      "data_atualizacao": "13/09/2026",
+      "nome_citacoes": null,
+      "erro": null
+    },
+    {
+      "candidato": "25787_EDUARDO_REIS_DOS_SANTOS",
+      "total_arquivos": 10,
+      "arquivos_nulos": [
+        "null"
+      ],
+      "tem_curriculo": true,
+      "arquivo_curriculo": "Q13_ilovepdf_merged.pdf",
+      "status": "OK_LATTES_VALIDADO",
+      "paginas": 6,
+      "tamanho_mb": 1.33,
+      "tem_camada_texto": true,
+      "id_lattes": "9356857954146730",
+      "data_atualizacao": "19/10/2026",
+      "nome_citacoes": null,
+      "erro": null
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
  "id": "citacao_outra_base",
- "lista": null,
+ "lista": "prc_indicadores?f_base=99",
  "secao": "Citações",
  "item": "Citações em outra base bibliográfica",
  "como_abrir": "Citações > Citações em outra base bibliográfica",

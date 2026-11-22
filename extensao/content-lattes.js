@@ -1,5 +1,5 @@
 // Roda automaticamente nas páginas do Currículo Lattes (https://wwws.cnpq.br/*).
-// 1) Informa ao LattesData se o currículo está aberto e de quem é (sem precisar de F12/conector manual).
+// 1) Informa ao NautiScience se o currículo está aberto e de quem é (sem precisar de F12/conector manual).
 // 2) Se houver um envio na fila aguardando o login do usuário, retoma o cadastro assim que o login concluir.
 (function () {
   if (window !== window.top) return;
@@ -42,7 +42,7 @@
       "border-bottom:2px solid #38bdf8"
     ].join(";");
     const nomeObra = titulo ? ` ("${String(titulo).slice(0, 70)}")` : "";
-    bar.textContent = `🚀 LattesData: Faça seu login no Lattes. Assim que entrar, o cadastro${nomeObra} será aberto e preenchido automaticamente!`;
+    bar.textContent = `🚀 NautiScience: Faça seu login no Lattes. Assim que entrar, o cadastro${nomeObra} será aberto e preenchido automaticamente!`;
     document.body.appendChild(bar);
   }
 
@@ -59,7 +59,7 @@
         "color:#0f172a;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.3);padding:12px 14px;border-left:6px solid " +
         ({ ok: "#059669", removido: "#059669", atencao: "#d97706", ausente: "#d97706", login: "#d97706", erro: "#dc2626", divergente: "#dc2626" }[r.estado] || "#0369a1");
       const h = document.createElement("strong");
-      h.textContent = "LattesData — " + String(r.titulo || "");
+      h.textContent = "NautiScience — " + String(r.titulo || "");
       p.appendChild(h);
       if (Array.isArray(r.detalhes) && r.detalhes.length) {
         const ul = document.createElement("ul");

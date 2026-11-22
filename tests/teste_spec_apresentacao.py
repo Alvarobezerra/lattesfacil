@@ -21,7 +21,7 @@ v = spec["variantes"][0]
 c = {x["name"].lower(): x for x in v["campos"]}
 checa("variante com nome do Lattes", v["variante"] == "Apresentação de trabalho e palestra", v["variante"])
 checa("natureza: 6 opções do Lattes (2J1..2J9)", list(c["f_cod_prod"]["opcoes"].values()) == ["2J1", "2J2", "2J3", "2J4", "2J5", "2J9"] and c["f_cod_prod"]["rotulo"] == "Natureza", c["f_cod_prod"])
-checa("país e idioma: 80 opções reais", len(c["f_pais"].get("opcoes", {})) == 80 and len(c["f_idioma"].get("opcoes", {})) == 80)
+checa("país e idioma: 244 países e 152 idiomas do catálogo completo", len(c["f_pais"].get("opcoes", {})) == 244 and len(c["f_idioma"].get("opcoes", {})) == 152, (len(c["f_pais"].get("opcoes", {})), len(c["f_idioma"].get("opcoes", {}))))
 checa("grades: autores, palavras-chave, áreas, setores", {g["chave"] for g in v["grades"]} >= {"autores", "palavras_chave", "areas", "setores"})
 
 from ferramentas.valida_paridade import comparar  # noqa: E402

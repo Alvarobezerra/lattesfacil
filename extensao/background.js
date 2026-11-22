@@ -11,7 +11,7 @@ async function prepararCookiesCnpq() {
     await chrome.cookies.set({ ...base, name: "imp", value: "cnpqrestritos" });
     await chrome.cookies.set({ ...base, name: "idioma", value: "PT" });
   } catch (e) {
-    console.warn("LattesData: não foi possível definir os cookies do CNPq", e);
+    console.warn("NautiScience: não foi possível definir os cookies do CNPq", e);
   }
 }
 
@@ -46,7 +46,7 @@ async function verificarSeAbaLogada(tabId) {
 }
 
 // Roda DENTRO da página do Lattes (mundo MAIN). Executa o preenchimento, captura os alert() do script em vez de
-// deixá-los piscar/bloquear, mostra um painel fixo com o resultado e devolve o resumo para o LattesData.
+// deixá-los piscar/bloquear, mostra um painel fixo com o resultado e devolve o resumo para o NautiScience.
 async function rodarComFeedback(d) {
   const top = window.top;
   const doc = top.document;
@@ -65,7 +65,7 @@ async function rodarComFeedback(d) {
     p.style.borderLeftColor = { andando: "#0369a1", ok: "#059669", atencao: "#d97706", erro: "#dc2626" }[estado] || "#0369a1";
     p.textContent = "";
     const h = doc.createElement("strong");
-    h.textContent = "LattesData — " + titulo;
+    h.textContent = "NautiScience — " + titulo;
     p.appendChild(h);
     if (detalhes && detalhes.length) {
       const ul = doc.createElement("ul");
@@ -158,8 +158,8 @@ async function rodarComFeedback(d) {
     else if (formAberto(window)) res = { estado: "atencao", titulo: "cliquei em Salvar, mas o formulário continua aberto — confira", detalhes: linhas() };
     else res = { estado: "ok", titulo: "salvo: o formulário fechou após Salvar. Confira o item no seu currículo.", detalhes: linhas() };
   } else {
-    const d2 = linhas().filter((t) => !/^LattesData:/i.test(t) && !/^Confira tudo/i.test(t) && !/^Aten[cç][aã]o:?$/i.test(t));
-    const resumo = (linhas().find((t) => /^LattesData:/i.test(t)) || "Campos preenchidos.").replace(/^LattesData:\s*/i, "");
+    const d2 = linhas().filter((t) => !/^NautiScience:/i.test(t) && !/^Confira tudo/i.test(t) && !/^Aten[cç][aã]o:?$/i.test(t));
+    const resumo = (linhas().find((t) => /^NautiScience:/i.test(t)) || "Campos preenchidos.").replace(/^NautiScience:\s*/i, "");
     res = { estado: /Aten[cç][aã]o/i.test(texto()) ? "atencao" : "ok", titulo: "preenchido — falta você salvar. " + resumo, detalhes: d2 };
   }
   top.alert = alertOriginal;
@@ -273,7 +273,7 @@ async function executarAutofillNaAba(tabId, data) {
   return publicarResultado({ envioId: data.__envioId || "", evento: "preenchimento" }, res);
 }
 
-// ===== Banco de instituições: o que a lupa do Lattes devolve (uso e coleta gradual) vai para o LattesData =====
+// ===== Banco de instituições: o que a lupa do Lattes devolve (uso e coleta gradual) vai para o NautiScience =====
 // O script do formulário guarda cada consulta da lupa em window.top.__lfInstLote; aqui se lê (e zera) e se repassa às abas do app,
 // que gravam no servidor com a sessão do usuário. Nada do currículo vai junto: só nome e argumentos do link da instituição.
 async function lerLoteInstituicoes(tabId) {
@@ -397,6 +397,17 @@ async function lerListaNaPagina(listaPath) {
       const o = /^\d+$/.test(tds[0] || "") ? 1 : 0;
       return { seq: ms ? ms[1] : "", titulo: tds[o] || "", tipo: tds[o + 1] || "", ano: tds[o + 2] || "", url, linha: tds.join(" | ") };
     }).filter((i) => i.seq && i.url);
+    if (!itens.length && /^prc_indicadores\b/i.test(listaPath)) {
+      const qtd = ((doc.querySelector('[name="f_qtd_citacoes"]') || {}).value || "").trim();
+      const temDel = !!doc.querySelector('[onclick*="del("]');
+      if (temDel || qtd) {
+        const seq = ((doc.querySelector('[name="f_seq"]') || {}).value || "").trim() || ((listaPath.match(/f_base=(\d+)/i) || [])[1] || "1");
+        const vals = [...doc.querySelectorAll('input[type="text"]')].map((x) => (x.value || "").trim()).filter(Boolean);
+        const tit = ((doc.querySelector('[name="f_txt_base"]') || {}).value || (doc.querySelector('[name="f_qtd_citacoes"]') || {}).value || (doc.querySelector('[name="f_res_id"]') || {}).value || (doc.querySelector('[name="f_query"]') || {}).value || "Citações").trim();
+        const dta = ((doc.querySelector('[name="f_data"]') || {}).value || "").trim();
+        itens.push({ seq, titulo: tit, tipo: "Citações", ano: dta, url: listaPath + m[1], linha: vals.join(" | ") });
+      }
+    }
     return { ok: true, cv: m[1], itens };
   } catch (e) {
     return { ok: false, erro: String((e && e.message) || e) };
@@ -406,17 +417,33 @@ async function lerListaNaPagina(listaPath) {
 async function lerLista(tabId, tipo) {
   const cfg = LISTAS_LATTES[tipo];
   if (!cfg) return { ok: false, naoSuportado: true, erro: "tipo sem leitura de lista" };
+  const listas = tipo === "projeto"
+    ? ["P", "E", "N", "D", "O"].map((c) => "pkg_projeto.lista?f_cod_tipo=" + c + "&f_cod=")
+    : [cfg.lista];
   try {
-    const out = await chrome.scripting.executeScript({ target: { tabId }, world: "MAIN", args: [cfg.lista], func: lerListaNaPagina });
-    return (out && out[0] && out[0].result) || { ok: false, erro: "sem resposta da página" };
+    let okAlguma = false, cv = "", erro = "";
+    const itens = [];
+    for (const path of listas) {
+      const out = await chrome.scripting.executeScript({ target: { tabId }, world: "MAIN", args: [path], func: lerListaNaPagina });
+      const r = (out && out[0] && out[0].result) || { ok: false, erro: "sem resposta da página" };
+      if (r.ok) {
+        okAlguma = true;
+        if (!cv) cv = r.cv || "";
+        (r.itens || []).forEach((it) => itens.push(it));
+      } else if (!erro) {
+        erro = r.erro || "";
+      }
+    }
+    return okAlguma ? { ok: true, cv, itens } : { ok: false, erro: erro || "sem resposta da página" };
   } catch (e) {
     return { ok: false, erro: String((e && e.message) || e) };
   }
 }
 
 // Listas como as de orientações não trazem o título na 1ª coluna (vem o orientando, a natureza...): o título vale se
-// aparecer em qualquer coluna da linha.
+// aparecer em qualquer coluna da linha. Em prc_indicadores (citações), aceita qualquer valor preenchido na base.
 function casaItem(i, titulo) {
+  if (/^prc_indicadores\b/i.test(i.url || "") && String(i.linha || "").split(" | ").some((v) => mesmoTitulo(v, titulo))) return true;
   if (mesmoTitulo(i.titulo, titulo)) return true;
   const t = normTitulo(titulo);
   return t.length >= 10 && normTitulo(i.linha || "").includes(t);
@@ -424,6 +451,9 @@ function casaItem(i, titulo) {
 
 // Procura o item na lista: por seq (se conhecido) ou pelo título (o de maior seq = o mais recente).
 function acharItem(itens, titulo, seq) {
+  if (itens.length === 1 && /^prc_indicadores\b/i.test(itens[0].url || "")) {
+    return itens[0];
+  }
   if (seq) {
     return itens.find((i) => i.seq === String(seq)) || null;
   }
@@ -477,26 +507,76 @@ async function abrirEExcluirNaPagina(itemPath, seq, titulo) {
   if (!top.modalCV2 || typeof top.modalCV2.setarUrl !== "function") return { ok: false, erro: "o Lattes ainda não está pronto (modalCV2)" };
   const janelas = (w, acc = []) => { try { acc.push(w); for (let i = 0; i < w.frames.length; i++) janelas(w.frames[i], acc); } catch (e) {} return acc; };
   top.modalCV2.setarUrl(itemPath, true);
+  const ehIndicadores = /prc_indicadores/i.test(String(itemPath || ""));
   let alvo = null;
+  let desceuNivel = false;
+  let conferidoNaTela1 = false;
   for (let i = 0; i < 40 && !alvo; i++) {
     await sleep(400);
     for (const w of janelas(top)) {
       try {
-        if (w.document.readyState !== "complete" || typeof w.del !== "function") continue;
-        // o formulário certo traz o nº do item num campo f_seq*; sem esse campo, vale o que a linha da lista abriu
+        if (w.document.readyState !== "complete") continue;
+        const href = String((w.location && w.location.href) || "");
+        if (typeof w.del !== "function") {
+          if (!desceuNivel) {
+            const sub = [...w.document.querySelectorAll("tr[onclick*='setarUrl']")].find((tr) => /PKG_REVISOR\.inclui/i.test(tr.getAttribute("onclick") || ""));
+            const mu = sub && (sub.getAttribute("onclick") || "").match(/setarUrl\(\s*['"]([^'"]+)['"]/);
+            if (mu && mu[1]) {
+              desceuNivel = true;
+              top.modalCV2.setarUrl(mu[1], true);
+              break;
+            }
+            if (/PKG_FORMACAO_COMPL/i.test(href) && typeof w.avancar === "function" && w.document.querySelector('[name="f_curso"], [name="f_inst"]')) {
+              const tx1 = [...w.document.querySelectorAll('input[type="text"],textarea')].map((x) => x.value).filter((v) => v && v.length >= 6);
+              if (tx1.length && !tx1.some((v) => bate(v, titulo))) {
+                return { ok: false, divergente: true, erro: "o item aberto não confere com o registrado (" + String(tx1[0]).slice(0, 80) + "). Nada foi excluído." };
+              }
+              conferidoNaTela1 = true;
+              desceuNivel = true;
+              try { w.avancar(); } catch (e) {}
+              break;
+            }
+          }
+          continue;
+        }
+        // o formulário certo traz o nº do item num campo f_seq*; sem esse campo preenchido (ou após descer em PKG_REVISOR / FORM2 / prc_indicadores), vale o formulário aberto
         const campo = [...w.document.querySelectorAll("input")].find((x) => /^f_seq/i.test(x.name || "") && String(x.value) === String(seq));
-        if (campo || (!w.document.querySelector('[name^="f_seq"]') && w.document.querySelector("form"))) { alvo = { w }; break; }
+        const temSeqPreenchido = [...w.document.querySelectorAll('input[name^="f_seq"]')].some((x) => String(x.value || "").trim() !== "");
+        const ehRevisor = desceuNivel && /PKG_REVISOR\.inclui/i.test(href);
+        const ehFormCompl2 = desceuNivel && /PKG_FORMACAO_COMPL\.FORM2/i.test(href);
+        const wIndicadores = ehIndicadores && /prc_indicadores/i.test(href) && !!w.document.querySelector('[name="f_qtd_citacoes"]');
+        if (campo || ehRevisor || ehFormCompl2 || wIndicadores || (!temSeqPreenchido && w.document.querySelector("form"))) { alvo = { w, ehFormCompl2: ehFormCompl2 || conferidoNaTela1 }; break; }
       } catch (e) {}
     }
   }
   if (!alvo) return { ok: false, erro: "não consegui abrir o item no Lattes" };
   // Conferência de identidade: se o formulário tem algum campo de texto com o título (ou o nome) do item, ele precisa bater.
-  const textos = [...alvo.w.document.querySelectorAll('input[type="text"],textarea')].map((x) => x.value).filter((v) => v && v.length >= 6);
-  if (textos.length && !textos.some((v) => bate(v, titulo))) {
-    return { ok: false, divergente: true, erro: "o item aberto não confere com o registrado (" + String(textos[0]).slice(0, 80) + "). Nada foi excluído." };
+  if (!alvo.ehFormCompl2 && !ehIndicadores) {
+    const textos = [...alvo.w.document.querySelectorAll('input[type="text"],textarea')].map((x) => x.value).filter((v) => v && v.length >= 6);
+    if (textos.length && !textos.some((v) => bate(v, titulo))) {
+      return { ok: false, divergente: true, erro: "o item aberto não confere com o registrado (" + String(textos[0]).slice(0, 80) + "). Nada foi excluído." };
+    }
   }
-  alvo.w.confirm = () => true; // a confirmação foi dada no LattesData, antes de chegar aqui
-  setTimeout(() => alvo.w.del(), 50); // adia: o Lattes recarrega a página ao excluir e a caixa nativa travaria a automação
+  alvo.w.confirm = () => true; // a confirmação foi dada no NautiScience, antes de chegar aqui
+  try { alvo.w.del(); } catch (e) {}
+  // Família PKG_PATENTE_REGISTRO abre modal customizado .caixaMsg pedindo confirmação após del().
+  for (let k = 0; k < 6; k++) {
+    await sleep(250);
+    let clicou = false;
+    for (const w of janelas(top)) {
+      try {
+        const caixa = w.document && w.document.querySelector(".caixaMsg");
+        if (!caixa) continue;
+        const st = w.getComputedStyle(caixa);
+        if (st.display === "none" || st.visibility === "hidden") continue;
+        const botoes = [...caixa.querySelectorAll('button, input[type="button"], input[type="submit"], a, .botao, span')];
+        const okBtn = botoes.find((b) => /^(sim|confirmar|ok|excluir)$/i.test((b.textContent || b.value || "").trim()))
+          || caixa.querySelector('button, input[type="button"], a, .botao');
+        if (okBtn) { okBtn.click(); clicou = true; break; }
+      } catch (e) {}
+    }
+    if (clicou) break;
+  }
   return { ok: true, acionado: true };
 }
 
@@ -525,7 +605,7 @@ async function publicarResultado(base, res) {
   return completo;
 }
 
-// Pedido do LattesData: listar os itens já cadastrados de um tipo (para o usuário escolher qual ALTERAR).
+// Pedido do NautiScience: listar os itens já cadastrados de um tipo (para o usuário escolher qual ALTERAR).
 async function avisarLista(res) {
   try {
     const abas = await chrome.tabs.query({ url: APP_PATTERNS });
@@ -591,7 +671,7 @@ async function coletarAutores() {
   }
 }
 
-// Pedido do LattesData: conferir no Lattes se o item (por título) existe e qual é o seq.
+// Pedido do NautiScience: conferir no Lattes se o item (por título) existe e qual é o seq.
 async function verificarEnvio(msg) {
   const base = { envioId: msg.envioId, evento: "verificacao" };
   if (!LISTAS_LATTES[msg.tipo]) return publicarResultado(base, { estado: "atencao", titulo: "a verificação automática ainda não existe para este tipo de item.", detalhes: [] });
@@ -607,7 +687,7 @@ async function verificarEnvio(msg) {
   return publicarResultado(base, { estado: "ok", titulo: "confirmado: o item está no seu currículo (nº " + it.seq + ").", detalhes: [], seq: it.seq });
 }
 
-// Pedido do LattesData: remover o item do Lattes (a confirmação do usuário já foi dada na tela do LattesData).
+// Pedido do NautiScience: remover o item do Lattes (a confirmação do usuário já foi dada na tela do NautiScience).
 async function removerEnvio(msg) {
   const base = { envioId: msg.envioId, evento: "remocao" };
   const cfg = LISTAS_LATTES[msg.tipo];
@@ -685,7 +765,7 @@ function telaEnvioAbertaNaPagina() {
   return { aberta: false };
 }
 
-// Espera a promessa, mas no máximo `ms`: um passo travado não pode deixar o LattesData sem resposta.
+// Espera a promessa, mas no máximo `ms`: um passo travado não pode deixar o NautiScience sem resposta.
 function comLimite(promessa, ms, padrao) {
   return Promise.race([promessa, new Promise((r) => setTimeout(() => r(padrao), ms))]);
 }
@@ -732,7 +812,7 @@ async function lerPaginaNaAba() {
   } catch (e) { return { ok: false, erro: String((e && e.message) || e) }; }
 }
 
-// Pedido do LattesData: lê o currículo atual direto do Lattes (sem depender do XML, que pode estar defasado).
+// Pedido do NautiScience: lê o currículo atual direto do Lattes (sem depender do XML, que pode estar defasado).
 async function lerCvAoVivo() {
   const base = { envioId: "", evento: "leitura" };
   const aba = await abaDoCurriculo(base);
@@ -750,7 +830,7 @@ async function lerCvAoVivo() {
   } catch (e) {}
 }
 
-// Pedido do LattesData: o currículo tem alterações pendentes de envio ao CNPq? Só lê.
+// Pedido do NautiScience: o currículo tem alterações pendentes de envio ao CNPq? Só lê.
 async function statusCv() {
   const base = { envioId: "", evento: "pendencia" };
   const aba = await abaDoCurriculo(base);
@@ -761,12 +841,12 @@ async function statusCv() {
   return publicarResultado(base, { estado: "em_dia", titulo: "Nenhuma alteração pendente: o CNPq já tem a versão atual do currículo.", detalhes: [] });
 }
 
-// Pedido do LattesData (confirmado pelo usuário lá): abre a tela de envio ao CNPq. O clique final em Enviar é do usuário.
+// Pedido do NautiScience (confirmado pelo usuário lá): abre a tela de envio ao CNPq. O clique final em Enviar é do usuário.
 async function enviarCv() {
   const base = { envioId: "", evento: "pendencia" };
   const aba = await abaDoCurriculo(base);
   if (!aba) return;
-  // Feedback imediato: o LattesData sempre recebe um sinal, mesmo que um passo seguinte demore ou falhe.
+  // Feedback imediato: o NautiScience sempre recebe um sinal, mesmo que um passo seguinte demore ou falhe.
   await publicarResultado(base, { estado: "abrindo", titulo: "Procurando o aviso no Lattes…", detalhes: [] });
   // Foco na aba do Lattes é conveniência: se falhar (janela fechada, SO sem foco), o resto continua.
   try { await chrome.tabs.update(aba.id, { active: true }); await chrome.windows.update(aba.windowId, { focused: true }); } catch (e) {}
@@ -824,7 +904,7 @@ async function preencher(data) {
   }
 
   await chrome.storage.local.remove("pendingLattesFill");
-  executarAutofillNaAba(aba.id, data); // o resultado chega depois, pelo painel e pelo aviso ao LattesData
+  executarAutofillNaAba(aba.id, data); // o resultado chega depois, pelo painel e pelo aviso ao NautiScience
   return {
     ok: true,
     queued: false,

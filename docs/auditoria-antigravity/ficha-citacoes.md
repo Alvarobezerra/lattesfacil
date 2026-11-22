@@ -13,18 +13,24 @@
 
 ---
 
-## 2. F4/F5 + F7 em `Citações em outra base bibliográfica` (`f_base=99`) — PASSOU
+## 2. F4/F5 + F7 nas 5 Bases (`f_base = 1, 2, 3, 4, 99`) — PASSOU (100% VALIDADO E LIMPO)
 
-- **Preenchimento e Read-Back Pré-Save (F4/F5):**
-  - `f_txt_base = "[ZZ-TESTE-ANTIGRAVITY]"`
-  - `f_qtd_citacoes = "10"`
-  - `f_qtd_trabalhos = "5"`
-  - `f_data = "20/11/2026"`
-  - `f_query = "SANTOS, A. A. B."`
-  - Botão `Excluir` ausente antes do salvamento (`hasExcluir = 0`).
-- **Salvamento e Reabertura Persistida (F5):**
-  - Clicar em **Salvar** exibiu toast `"Sucesso / A operação foi realizada com sucesso! !"` e fechou o modal.
-  - Ao reabrir `prc_indicadores?f_base=99`, **100% dos 5 campos retornaram idênticos** e o botão **`Excluir`** (`onclick="del();return false;"`) passou a ser exibido (`excluirCount = 1`).
-- **Exclusão (F7):**
-  - Clicar em **Excluir** (`del();return false;`) executou **exclusão imediata** (sem `confirm()` nativo e sem modal `.caixaMsg` de confirmação), exibindo `"Sucesso / A operação foi realizada com sucesso! !"`.
-  - Ao reabrir `f_base=99` após a exclusão, o formulário confirmou retorno ao **estado vazio inicial** (todos os 5 campos = `""` e `excluirCount = 0`).
+### 2.1 `citacao_web_of_science` (`f_base=1`)
+- **F5 (truncamento `maxlength` e leitura de volta):** `f_res_id` (max `13`), `f_indiceh` (max `3`), `f_qtd_citacoes` e `f_qtd_trabalhos` (max `6`), `f_data` (max `10`), `f_query` (max `400`) — 21/21 casos `OK`.
+- **F7 (Salvar 100% dos 6 campos + Reabrir + Excluir):** salvo (`f_res_id="A-1234-2024"`, `f_qtd_citacoes="12"`, `f_qtd_trabalhos="3"`, `f_data="21/11/2026"`, `f_indiceh="4"`, `f_query="ZZ-TESTE-LATTESFACIL Web of Science"`), reaberto com 100% de persistência e botão `Excluir` visível (`hasExcluir = 1`), e excluído imediatamente (confirmado retorno a `""` e `hasExcluir = 0`).
+
+### 2.2 `citacao_scielo` (`f_base=2`)
+- **F5:** `f_qtd_citacoes`, `f_qtd_trabalhos`, `f_data`, `f_query` — 14/14 casos `OK`.
+- **F7:** salvo (`f_qtd_citacoes="12"`, `f_qtd_trabalhos="3"`, `f_data="21/11/2026"`, `f_query="ZZ-TESTE-LATTESFACIL SciELO"`), reaberto com 100% de persistência (`hasExcluir = 1`), e excluído imediatamente (`hasExcluir = 0`).
+
+### 2.3 `citacao_scopus` (`f_base=3`)
+- **F5:** `f_qtd_citacoes`, `f_qtd_trabalhos`, `f_data`, `f_query` — 14/14 casos `OK`.
+- **F7:** salvo (`f_qtd_citacoes="12"`, `f_qtd_trabalhos="3"`, `f_data="21/11/2026"`, `f_query="ZZ-TESTE-LATTESFACIL SCOPUS"`), reaberto com 100% de persistência (`hasExcluir = 1`), e excluído imediatamente (`hasExcluir = 0`).
+
+### 2.4 `citacao_google_scholar` (`f_base=4`)
+- **F5:** `f_qtd_citacoes`, `f_qtd_trabalhos`, `f_data`, `f_query` (rótulo `"Endereço na Web(URL) do perfil do autor"`) — 14/14 casos `OK`.
+- **F7:** salvo (`f_qtd_citacoes="12"`, `f_qtd_trabalhos="3"`, `f_data="21/11/2026"`, `f_query="https://scholar.google.com/citations?user=ZZ-TESTE-LATTESFACIL"`), reaberto com 100% de persistência (`hasExcluir = 1`), e excluído imediatamente (`hasExcluir = 0`).
+
+### 2.5 `citacao_outra_base` (`f_base=99`)
+- **F5:** `f_txt_base` (max `200`), `f_qtd_citacoes`, `f_qtd_trabalhos`, `f_data`, `f_query` — 18/18 casos `OK`.
+- **F7:** salvo (`f_txt_base="ZZ-TESTE-LATTESFACIL Base Teste"`, `f_qtd_citacoes="12"`, `f_qtd_trabalhos="3"`, `f_data="21/11/2026"`, `f_query="ZZ-TESTE-LATTESFACIL Outra base"`), reaberto com **100% dos 5 campos idênticos** e botão **`Excluir`** (`onclick="del();return false;"`, `hasExcluir = 1`), e excluído imediatamente confirmando retorno ao **estado vazio inicial** (`hasExcluir = 0`).

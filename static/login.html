@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NautiScience — Acesso</title>
+  <link rel="icon" href="/img/isotipo.svg">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+  <main class="login-layout">
+    <section class="login-brand" aria-label="NautiScience">
+      <div class="login-wordmark"><em>Nauti</em><strong>Science</strong></div>
+      <img class="login-mascot" src="/media/login-mascote.webp" alt="Mascote do NautiScience com um livro luminoso">
+    </section>
+    <section class="login-panel" aria-labelledby="login-title">
+      <form method="post" action="/login">
+        <h1 id="login-title">Entre no seu espaço</h1>
+        <label for="perfil">Perfil</label>
+        <select id="perfil" name="usuario" required>
+          <option value="" disabled selected>Selecione seu perfil</option>
+          <option value="alvaro">Álvaro Antônio Bezerra dos Santos</option>
+          <option value="aramys">Aramys Silva dos Reis</option>
+        </select>
+        <label for="codigo">Código de acesso</label>
+        <input id="codigo" type="password" name="codigo" autocomplete="current-password" placeholder="Digite seu código" required>
+        %ERRO%
+        <input type="hidden" name="transicao" value="1">
+        <button type="submit">Entrar</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

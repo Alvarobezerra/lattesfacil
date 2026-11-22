@@ -22,8 +22,8 @@ c = {x["name"].lower(): x for x in v["campos"]}
 checa("variante com nome do Lattes", v["variante"] == "Trabalho publicado em anais de evento", v["variante"])
 checa("natureza: Completo/Resumo/Resumo Expandido (121/122/123)", c["f_cod_prod"]["opcoes"] == {"Completo": "121", "Resumo": "122", "Resumo Expandido": "123"} and c["f_cod_prod"]["rotulo"] == "Natureza", c["f_cod_prod"])
 checa("classificação do evento: Internacional/Nacional/Regional/Local", c["f_tipo_evento"]["opcoes"] == {"Internacional": "I", "Nacional": "N", "Regional": "R", "Local": "L"} and c["f_tipo_evento"]["rotulo"] == "Classificação do evento")
-checa("país: 80 opções reais (não as 244 do catálogo)", len(c["f_pais"].get("opcoes", {})) == 80 and "Brasil" in c["f_pais"]["opcoes"], len(c["f_pais"].get("opcoes", {})))
-checa("idioma: 80 opções reais (não as 152 do catálogo)", len(c["f_idioma"].get("opcoes", {})) == 80)
+checa("país: 244 opções do catálogo completo", len(c["f_pais"].get("opcoes", {})) == 244 and "Brasil" in c["f_pais"]["opcoes"], len(c["f_pais"].get("opcoes", {})))
+checa("idioma: 152 opções do catálogo completo", len(c["f_idioma"].get("opcoes", {})) == 152, len(c["f_idioma"].get("opcoes", {})))
 checa("grades: autores, palavras-chave, áreas, setores", {g["chave"] for g in v["grades"]} >= {"autores", "palavras_chave", "areas", "setores"})
 
 from ferramentas.valida_paridade import comparar  # noqa: E402

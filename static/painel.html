@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LattesData — Painel de ferramentas</title>
+  <title>NautiScience — Painel de ferramentas</title>
   <link rel="icon" type="image/svg+xml" href="/img/isotipo.svg" />
   <link rel="stylesheet" href="/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
@@ -22,13 +22,15 @@
     input[type=number],input[type=text]{padding:6px 8px;border:1px solid var(--border);border-radius:8px;font:inherit}
     .grande{font-size:2rem;font-weight:700;color:var(--primary)}
   </style>
+  <link rel="stylesheet" href="/navigation.css">
 </head>
 <body>
   <header class="topbar"><div class="topbar-inner">
-    <a class="brand" href="/" aria-label="LattesData — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
-      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Lattes</span><span class="wm-data">DATA</span></span></a>
-    <nav class="topnav" aria-label="Principal"><a class="nav-link" href="/abertura.html">Início</a><a class="nav-link" href="/">Registrar conquista</a><a class="nav-link" href="/painel.html" aria-current="page">Bússola &amp; Ferramentas</a><a class="nav-link" href="/auditoria.html">Valorização</a><a class="nav-link" href="/meu-curriculo.html">Minha trajetória</a><a class="nav-link" href="/captacao.html" title="Banco de instituições do Lattes e captação gradual">Captação</a></nav>
+    <a class="brand" href="/" aria-label="NautiScience — início"><img class="logo" src="/img/isotipo.svg" alt="" width="44" height="44" />
+      <span class="wordmark" aria-hidden="true"><span class="wm-lattes">Nauti</span><span class="wm-data">Science</span></span></a>
+    <nav class="topnav" aria-label="Principal"></nav>
   </div></header>
+<script src="/navigation.js"></script>
 
   <main class="painel">
     <section class="cartao" id="secXml">
@@ -47,7 +49,7 @@
 
     <section class="cartao" id="secAud">
       <h2>3. Auditor de conformidade</h2>
-      <p class="dica">Aponta artigos sem DOI, ISSN/ISBN inválidos, duplicidades, anos futuros e vínculos sem término. A classificação de risco é uma heurística do LattesData (inspirada na Portaria CNPq 2.664/2026), não a decisão do CNPq.</p>
+      <p class="dica">Aponta artigos sem DOI, ISSN/ISBN inválidos, duplicidades, anos futuros e vínculos sem término. A classificação de risco é uma heurística do NautiScience (inspirada na Portaria CNPq 2.664/2026), não a decisão do CNPq.</p>
       <div class="linha"><button class="btn btn-primary" id="bAud" type="button">Auditar currículo</button><span id="sAud"></span></div>
       <div id="rAud"></div>
     </section>

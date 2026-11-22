@@ -1,7 +1,7 @@
 """Dados da tela de abertura: indicadores de produção, citações e eventos de um pesquisador.
 
 Só entra aqui o que existe de verdade: obras e citações vêm do OpenAlex/OpenCitations/Crossref (por ORCID)
-e os envios vêm da tabela `records` do próprio LattesData. Nada é inventado; o que falta vem vazio.
+e os envios vêm da tabela `records` do próprio NautiScience. Nada é inventado; o que falta vem vazio.
 """
 from __future__ import annotations
 
@@ -29,6 +29,32 @@ _pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix="abertura")
 # tipo_producao dos registros -> grupo do indicador
 EVENTOS = {"anais", "apresentacao", "evento", "participacao_evento", "organizacao_evento"}
 ORIENTACOES = {"orientacao", "orientacao_concluida", "orientacao_andamento"}
+
+
+def montar_rotina(conn: sqlite3.Connection, usuario: str) -> dict[str, Any]:
+    """Resumo operacional por dono, sem confundir registro salvo com envio confirmado."""
+    total = conn.execute(
+        "SELECT COUNT(*) FROM records WHERE deleted_at IS NULL AND owner = ?", (usuario,)
+    ).fetchone()[0]
+    registros = conn.execute(
+        "SELECT id, titulo, created_at FROM records WHERE deleted_at IS NULL AND owner = ? "
+        "ORDER BY created_at DESC LIMIT 5", (usuario,)
+    ).fetchall()
+    envios = conn.execute(
+        "SELECT titulo, status, xml_status, enviado_em FROM lattes_envios "
+        "WHERE oculto_em IS NULL AND owner = ? ORDER BY enviado_em DESC", (usuario,)
+    ).fetchall()
+    ativos = {"salvo", "preenchido", "atencao"}
+    confirmados = sum(status in ativos and xml == "confirmado" for _, status, xml, _ in envios)
+    atencao = sum(status in {"erro", "falha_remocao"} or (status == "atencao" and xml != "confirmado") or
+                  (status in ativos and xml == "ausente") or
+                  (status in {"removido", "removendo"} and xml == "ainda_presente")
+                  for _, status, xml, _ in envios)
+    return {
+        "registros_salvos": total, "envios_confirmados": confirmados, "envios_atencao": atencao,
+        "registros": [dict(zip(("id", "titulo", "criado_em"), r)) for r in registros],
+        "atividade": [dict(zip(("titulo", "status", "xml_status", "enviado_em"), r)) for r in envios[:6]],
+    }
 
 
 def indice_h(contagens: list[int]) -> int:

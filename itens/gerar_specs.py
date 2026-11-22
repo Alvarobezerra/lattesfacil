@@ -575,6 +575,37 @@ def ajustes_da_captura(item_id, var_):
         ):
             if extra["name"].lower() not in existentes:
                 var_["campos"].append(extra)
+    if item_id == "identificacao":
+        for c in var_["campos"]:
+            if c["name"] == "nmeCitacao":
+                c["rotulo"] = "Nome em citações bibliográficas"
+        grades = var_.setdefault("grades", [])
+        if not any(g.get("chave") == "nomes_citacao" for g in grades):
+            grades.append({
+                "chave": "nomes_citacao",
+                "rotulo": "Nome em citações bibliográficas",
+                "aba": "Dados pessoais",
+                "placeholder": "Ex.: SANTOS, A. A. B.",
+                "dica": "Cada nome em citação é incluído no campo #nmeCitacao com Enter (#holderDetNmeCit).",
+            })
+    if item_id == "endereco":
+        grades = var_.setdefault("grades", [])
+        if not any(g.get("chave") == "contatos" for g in grades):
+            grades.append({
+                "chave": "contatos",
+                "rotulo": "Outra forma de contato",
+                "aba": "Outras formas de contato",
+                "placeholder": "Tipo; Contato (ex.: Telefone; (98) 99999-0000)",
+                "dica": "Grade dinâmica #holderContatos (f_dados_grid_contatos).",
+            })
+        if not any(g.get("chave") == "redes_sociais" for g in grades):
+            grades.append({
+                "chave": "redes_sociais",
+                "rotulo": "Redes Sociais",
+                "aba": "Redes Sociais",
+                "placeholder": "Rede; Endereço (ex.: LinkedIn; https://linkedin.com/in/exemplo)",
+                "dica": "Grade dinâmica #holder (f_dados_grid).",
+            })
 
 
 def dependencias_da_captura(item_id, var_):

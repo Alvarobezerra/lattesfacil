@@ -1,6 +1,6 @@
 {
  "id": "citacao_scielo",
- "lista": null,
+ "lista": "prc_indicadores?f_base=2",
  "secao": "Citações",
  "item": "Citações no SciELO",
  "como_abrir": "Citações > Citações no SciELO",

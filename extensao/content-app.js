@@ -1,4 +1,4 @@
-// Roda nas páginas do LattesData (local e Render). Faz a ponte entre a página e a extensão.
+// Roda nas páginas do NautiScience (local e Render). Faz a ponte entre a página e a extensão.
 window.addEventListener("message", (e) => {
   if (e.source !== window || e.origin !== location.origin) return;
   const m = e.data;

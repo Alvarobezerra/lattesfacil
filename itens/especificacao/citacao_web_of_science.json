@@ -1,6 +1,6 @@
 {
  "id": "citacao_web_of_science",
- "lista": null,
+ "lista": "prc_indicadores?f_base=1",
  "secao": "Citações",
  "item": "Citações no Web of Science",
  "como_abrir": "Citações > Citações no Web of Science",

@@ -155,8 +155,10 @@ def parse_evidence_text(text: str, filename: str = "") -> dict[str, Any]:
         re.IGNORECASE | re.DOTALL,
     )
     if kw_match:
-        kw_block = " ".join(ln.strip() for ln in kw_match.group(1).splitlines()[:3] if ln.strip() and not ln.strip().isupper())
-        kws = [k.strip(" .;,-") for k in re.split(r"[.;,•/]+", kw_block) if k.strip(" .;,-")]
+        kw_block = " ".join(ln.strip() for ln in kw_match.group(1).splitlines()[:3]
+                            if ln.strip() and not ln.strip().isupper() and not ln.strip().isdigit())
+        kws = [k.strip(" .;,-") for k in re.split(r"[.;,•/]+", kw_block)
+               if k.strip(" .;,-") and not re.fullmatch(r"\d+", k.strip(" .;,-"))]
         result["palavras_chave"] = kws[:6]
 
     # Detect Event name

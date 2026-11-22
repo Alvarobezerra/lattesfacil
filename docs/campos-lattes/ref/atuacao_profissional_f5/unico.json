@@ -2,28 +2,26 @@
  "item": "atuacao_profissional_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-21T05:05:36.918Z",
+ "executado_em": "2026-11-21T14:05:18.517Z",
  "resumo": {
-  "divergente": 2,
-  "OK": 28,
-  "exige_acao_manual": 1
+  "OK": 36
  },
  "resultados": [
   {
    "id": "f_stavinc#opcao_0",
    "campo": "f_stavinc",
-   "status": "divergente",
-   "detalhe": "esperado=0 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 8740
+   "ms": 3854
   },
   {
    "id": "f_stavinc#opcao_1",
    "campo": "f_stavinc",
-   "status": "divergente",
-   "detalhe": "esperado=1 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 8735
+   "ms": 3779
   },
   {
    "id": "f_enqua#tipico",
@@ -31,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 624
   },
   {
    "id": "f_enqua#maximo",
@@ -39,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 611
   },
   {
    "id": "f_enqua#acima_do_limite",
@@ -47,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 618
   },
   {
    "id": "f_enqua#acentos",
@@ -55,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 626
   },
   {
    "id": "f_carga#tipico",
@@ -63,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 627
   },
   {
    "id": "f_carga#maximo",
@@ -71,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 623
   },
   {
    "id": "f_carga#acima_do_limite",
@@ -79,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 623
   },
   {
    "id": "f_carga#acentos",
@@ -87,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 625
   },
   {
    "id": "f_mes_ini#tipico",
@@ -95,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 637
   },
   {
    "id": "f_mes_ini#maximo",
@@ -103,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 621
   },
   {
    "id": "f_mes_ini#acima_do_limite",
@@ -111,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 624
   },
   {
    "id": "f_mes_ini#acentos",
@@ -119,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 625
   },
   {
    "id": "f_ano_ini#valido",
@@ -127,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 613
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -135,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 627
   },
   {
    "id": "f_ano_ini#letras",
@@ -143,7 +141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 628
   },
   {
    "id": "f_status#opcao_s",
@@ -151,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1053
+   "ms": 1074
   },
   {
    "id": "f_status#opcao_n",
@@ -159,7 +157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1056
+   "ms": 1058
   },
   {
    "id": "f_mes_fim#tipico",
@@ -167,7 +165,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1304
+   "ms": 1315
   },
   {
    "id": "f_mes_fim#maximo",
@@ -175,7 +173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1305
+   "ms": 1325
   },
   {
    "id": "f_mes_fim#acima_do_limite",
@@ -183,7 +181,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1306
+   "ms": 1312
   },
   {
    "id": "f_mes_fim#acentos",
@@ -191,7 +189,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1307
+   "ms": 1338
   },
   {
    "id": "f_ano_fim#valido",
@@ -199,7 +197,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1304
+   "ms": 1315
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -207,7 +205,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1305
+   "ms": 1341
   },
   {
    "id": "f_ano_fim#letras",
@@ -215,7 +213,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1305
+   "ms": 1328
   },
   {
    "id": "f_outras_inf#tipico",
@@ -223,7 +221,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 603
+   "ms": 608
   },
   {
    "id": "f_outras_inf#maximo",
@@ -231,7 +229,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 604
+   "ms": 621
   },
   {
    "id": "f_outras_inf#acima_do_limite",
@@ -239,7 +237,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 602
+   "ms": 623
   },
   {
    "id": "f_outras_inf#acentos",
@@ -247,15 +245,55 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 605
+   "ms": 623
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 8501
+   "ms": 3534
+  },
+  {
+   "id": "f_vinc#lupa_servidor_publico",
+   "campo": "f_vinc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3514
+  },
+  {
+   "id": "f_vinc#lupa_celetista",
+   "campo": "f_vinc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3501
+  },
+  {
+   "id": "f_vinc#lupa_professor_visitante",
+   "campo": "f_vinc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3505
+  },
+  {
+   "id": "f_vinc#lupa_bolsista",
+   "campo": "f_vinc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3516
+  },
+  {
+   "id": "f_vinc#lupa_tipo_de_vinculo_livre",
+   "campo": "f_vinc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3432
   }
  ]
 }

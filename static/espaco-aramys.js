@@ -1,4 +1,4 @@
-// LattesData - Espaço de Co-construção Aramys
+// NautiScience - Espaço de Co-construção Aramys
 
 document.addEventListener("DOMContentLoaded", () => {
   initTabs();
@@ -570,7 +570,7 @@ function initQuestionario() {
         alertBox.replaceChildren();
         const okStrong = document.createElement("strong");
         okStrong.textContent = `✓ Avaliação completa salva com sucesso (${respostas.length} resposta${respostas.length === 1 ? "" : "s"})! `;
-        alertBox.append(okStrong, document.createTextNode("Suas diretrizes estão salvas e balizando as próximas entregas do LattesData."));
+        alertBox.append(okStrong, document.createTextNode("Suas diretrizes estão salvas e balizando as próximas entregas do NautiScience."));
         verificarRespostasPrevias();
       } catch (err) {
         alertBox.className = "alert-box alert-error show";

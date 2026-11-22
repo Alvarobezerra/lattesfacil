@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "LattesData — Automação Currículo Lattes",
+  "name": "NautiScience — Automação Currículo Lattes",
   "version": "0.9.7",
-  "description": "Conecta o LattesData ao Currículo Lattes: aguarda login na 1ª vez, abre o formulário certo sozinho e cadastra com 1 clique.",
+  "description": "Conecta o NautiScience ao Currículo Lattes: aguarda login na 1ª vez, abre o formulário certo sozinho e cadastra com 1 clique.",
   "permissions": ["scripting", "tabs", "storage", "cookies"],
   "host_permissions": [
     "https://*.cnpq.br/*",

@@ -53,8 +53,8 @@ checa("reconhece Apresentação de trabalho", c["candidatos"][0]["id"] == "apres
 checa("traz o motivo em português", bool(c["candidatos"][0]["motivos"]))
 checa("já devolve os campos extraídos", j.get("extracted", {}).get("tipo_producao") == "apresentacao")
 checa("texto bruto do arquivo NÃO volta no campo interno", "_leitura" not in j)
-r = s.post(BASE + "/api/classificacao/interpretar", json={"id": uid, "item": "livro_capitulo"}, headers=ORIGEM).json()  # item ainda sem leitor/preenchimento
-checa("item sem preenchimento pronto responde 'em breve'", r.get("implementado") is False and "Livros" in r.get("item", ""), r)
+r = s.post(BASE + "/api/classificacao/interpretar", json={"id": uid, "item": "livro_capitulo"}, headers=ORIGEM).json()
+checa("interpreta livro_capitulo pelo formulário do spec", r.get("implementado") is True and "extracted" in r, r)
 r = s.post(BASE + "/api/classificacao/interpretar", json={"id": uid, "item": "anais"}, headers=ORIGEM).json()
 checa("interpreta o mesmo arquivo como outro item (anais)", r.get("implementado") is True and "extracted" in r)
 

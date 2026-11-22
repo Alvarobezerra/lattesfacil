@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LattesData | Valorização e Conformidade da Trajetória</title>
+  <title>NautiScience | Valorização e Conformidade da Trajetória</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @keyframes pulse-emerald {
@@ -26,6 +26,7 @@
       border-color: #0f172a !important;
     }
   </style>
+  <link rel="stylesheet" href="/navigation.css">
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen selection:bg-emerald-100 selection:text-emerald-900">
 
@@ -37,7 +38,7 @@
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <span class="font-extrabold text-sm tracking-tight text-slate-900">LattesData</span>
+          <span class="font-extrabold text-sm tracking-tight text-slate-900">NautiScience</span>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
             VALORIZAÇÃO &amp; CONFORMIDADE
           </span>
@@ -46,11 +47,7 @@
       </div>
     </div>
 
-    <div class="hidden lg:flex items-center gap-4 text-xs font-semibold text-slate-600">
-      <a href="/abertura.html" class="hover:text-emerald-700 transition-colors">← Voltar ao Início</a>
-      <a href="/" class="hover:text-emerald-700 transition-colors">Registrar conquista</a>
-      <a href="/painel.html" class="hover:text-emerald-700 transition-colors">Bússola de Editais</a>
-    </div>
+
 
     <div class="flex items-center gap-3">
       <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600">
@@ -63,6 +60,7 @@
       </button>
     </div>
   </nav>
+<script src="/navigation.js"></script>
 
   <!-- Layout Principal: Split-Screen Command Center -->
   <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
@@ -173,7 +171,7 @@
             Aplique todas as 19 melhorias agora.
           </h3>
           <p class="text-xs text-emerald-50 leading-relaxed">
-            O LattesData recupera os DOIs oficiais da CrossRef e gera o script de preenchimento automático para o seu currículo em segundos.
+            O NautiScience recupera os DOIs oficiais da CrossRef e gera o script de preenchimento automático para o seu currículo em segundos.
           </p>
           <div class="pt-2">
             <button onclick="abrirCheckout()" class="w-full py-3.5 rounded-2xl bg-white hover:bg-emerald-50 text-slate-900 font-extrabold text-xs shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
@@ -197,7 +195,7 @@
               <span class="text-xs text-slate-500 font-medium">recuperáveis no quadriênio do PPGST</span>
             </div>
             <p class="text-xs text-slate-600 mt-1">
-              Tempo de correção manual estimado: <strong class="text-slate-900">14 horas</strong> • Com LattesData: <strong class="text-emerald-700">10 minutos</strong>.
+              Tempo de correção manual estimado: <strong class="text-slate-900">14 horas</strong> • Com NautiScience: <strong class="text-emerald-700">10 minutos</strong>.
             </p>
           </div>
           <div class="sm:text-right shrink-0">
@@ -258,7 +256,7 @@
             <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-2 text-emerald-800">
                 <span>✦</span>
-                <span class="font-medium">O LattesData localizou os 12 DOIs correspondentes na base CrossRef oficial.</span>
+                <span class="font-medium">O NautiScience localizou os 12 DOIs correspondentes na base CrossRef oficial.</span>
               </div>
               <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
                 Aplicar Correção →
@@ -295,7 +293,7 @@
             <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-2 text-emerald-800">
                 <span>✦</span>
-                <span class="font-medium">O LattesData sugere o encerramento da vigência e vinculação aos artigos resultantes.</span>
+                <span class="font-medium">O NautiScience sugere o encerramento da vigência e vinculação aos artigos resultantes.</span>
               </div>
               <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
                 Encerrar Vigências →
@@ -369,7 +367,7 @@
             <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-2 text-emerald-800">
                 <span>✦</span>
-                <span class="font-medium">O LattesData cruza sua lista de alunos orientados com os autores dos artigos.</span>
+                <span class="font-medium">O NautiScience cruza sua lista de alunos orientados com os autores dos artigos.</span>
               </div>
               <button onclick="abrirCheckout()" class="text-emerald-700 font-bold hover:underline shrink-0 text-xs">
                 Vincular Alunos →
@@ -379,7 +377,7 @@
 
         </div>
 
-        <!-- Banner Comparador Visual: Sem LattesData vs Com LattesData -->
+        <!-- Banner Comparador Visual: Sem NautiScience vs Com NautiScience -->
         <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
           <div class="flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="space-y-2">
@@ -388,7 +386,7 @@
               </span>
               <h3 class="text-xl font-black">Pronto para ter seu Lattes 100% Blindado?</h3>
               <p class="text-xs text-slate-300 max-w-lg leading-relaxed">
-                Você não precisa gastar o seu fim de semana navegando em dezenas de páginas antigas do CNPq. O LattesData resolve tudo com segurança.
+                Você não precisa gastar o seu fim de semana navegando em dezenas de páginas antigas do CNPq. O NautiScience resolve tudo com segurança.
               </p>
             </div>
             <button onclick="abrirCheckout()" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 active:scale-95 shrink-0">
@@ -411,7 +409,7 @@
         ✦
       </div>
       
-      <h3 class="text-lg font-black text-slate-900">Ativação LattesData · Blindagem &amp; Valorização</h3>
+      <h3 class="text-lg font-black text-slate-900">Ativação NautiScience · Blindagem &amp; Valorização</h3>
       <p class="text-xs text-slate-600">
         Você está a um passo de aplicar as 19 oportunidades de fortalecimento no currículo de <strong>Prof. Dr. Aramys Silva dos Reis</strong>.
       </p>

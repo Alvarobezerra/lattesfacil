@@ -1,0 +1,24 @@
+{
+ "formacao_complementar": [
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "f_ano_ini",
+   "motivo": "campo da Tela 2 (PKG_FORMACAO_COMPL.FORM2) do assistente em 2 telas de Formação complementar, capturado após Avançar"
+  },
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "f_ano_fim",
+   "motivo": "campo da Tela 2 (PKG_FORMACAO_COMPL.FORM2) do assistente em 2 telas de Formação complementar, capturado após Avançar"
+  },
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "F_BOLSA",
+   "motivo": "campo da Tela 2 (PKG_FORMACAO_COMPL.FORM2) do assistente em 2 telas de Formação complementar, capturado após Avançar"
+  },
+  {
+   "categoria": "sobrando_no_spec",
+   "campo": "f_nme_agencia",
+   "motivo": "campo da Tela 2 (PKG_FORMACAO_COMPL.FORM2) do assistente em 2 telas de Formação complementar, capturado após Avançar"
+  }
+ ]
+}

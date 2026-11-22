@@ -22,7 +22,7 @@ for item in ("orientacao_concluida", "orientacao_andamento"):
     spec = json.loads((RAIZ / "itens" / "especificacao" / f"{item}.json").read_text(encoding="utf-8"))
     v = spec["variantes"][0]
     c = {x["name"].lower(): x for x in v["campos"]}
-    checa(f"{item}: natureza com 7 opções e país/idioma com 80", len(c["f_cod_prod"]["opcoes"]) == 7 and len(c["f_pais"]["opcoes"]) == 80 and len(c["f_idioma"]["opcoes"]) == 80)
+    checa(f"{item}: natureza com 7 opções e país 244 / idioma 152", len(c["f_cod_prod"]["opcoes"]) == 7 and len(c["f_pais"]["opcoes"]) == 244 and len(c["f_idioma"]["opcoes"]) == 152)
     checa(f"{item}: tipo de orientação exige mestrado ou doutorado", c["f_tpo_orient"].get("exige_antes", {}).get("name") == "F_COD_PROD" and len(c["f_tpo_orient"]["exige_antes"]["valores"]) == 2, c["f_tpo_orient"].get("exige_antes"))
     checa(f"{item}: agência é campo de lupa", c["f_nme_agencia"].get("lupa") is True)
     ref_dir = RAIZ / "docs" / "campos-lattes" / "ref" / item

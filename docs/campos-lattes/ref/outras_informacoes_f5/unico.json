@@ -2,7 +2,7 @@
  "item": "outras_informacoes_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-21T00:02:07.548Z",
+ "executado_em": "2026-11-22T02:04:00.000Z",
  "resumo": {
   "OK": 4
  },
@@ -13,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 635
+   "ms": 140
   },
   {
    "id": "F_TEXTO#maximo",
@@ -21,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_TEXTO#acima_do_limite",
@@ -29,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 140
   },
   {
    "id": "F_TEXTO#acentos",
@@ -37,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 140
   }
  ]
 }

@@ -25,7 +25,7 @@ CASOS = {
     "DOC-20260923-WA0086.pdf": ("banca", {"F_COD_PROD": "Exame de qualificação de doutorado", "f_ano": "2026", "f_nme_orient": "Antônia Fernanda Lopes da Silva"}),
     "Declaração Aramys dos Reis.pdf": ("banca", {"F_COD_PROD": "Doutorado", "f_ano": "2024", "f_nme_orient": "Kayanny Queiroz Ferreira", "f_inst": "Ceará"}),
     "MENÇÃO HONROSA - PÓS GRADUAÇÃO.pdf": ("premio", {"f_titulo": "Menção honrosa", "f_ano": "2023"}),
-    "Patente - probiotico de babaçu.pdf": ("patente", {"f_cod_reg": "BR 10 2024 003766 9", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"}),
+    "Patente - probiotico de babaçu.pdf": ("patente", {"f_cod_reg": "BR1020240037669", "f_tipo": "Patente de Invenção", "f_titulo": "Bebidas mistas probióticas"}),
     "SEI_0529614_Declaracao.pdf": ("orientacao_concluida", {"nome_orientando": "Mércia Machado Araújo Lima", "curso_orient": "Saúde e Tecnologia", "papel_orientacao": "Orientador principal", "ano": "2023", "titulo": "atividade antioxidante e fotoprotetora"}),
     "SEI_0888683_Declaracao.pdf": ("orientacao_concluida", {"nome_orientando": "Tatielle Gomes Dias", "curso_orient": "Saúde e Tecnologia", "papel_orientacao": "Coorientador", "ano": "2023"}),
     "nomeação.pdf": ("projeto", {"f_titulo": "Ciência na Rede", "F_TPO_NATUREZA": "Extensão", "f_inst": "Universidade Federal do Maranhão"}),

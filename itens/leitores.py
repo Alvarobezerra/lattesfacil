@@ -131,17 +131,23 @@ def ler_formacao_complementar(texto: str, usuario: str):
     flat = _clean_line(texto)
     low = normalize(flat)
     carga, _ = _carga(flat)
+    datas = _datas(flat)
+    ano_ini = datas[0][2] if datas else _ano_unico(flat)
+    ano_fim = datas[-1][2] if len(datas) > 1 else ano_ini
     m = re.search(r"(?:realizado|promovido|oferecido|ministrado)\s+(?:pel[ao]s?|por)\s+(.+?)(?:,|\s+no per|\s+com\s+carga|\.|$)", flat, re.I)
     v: dict[str, Any] = {
         "f_curso": _titulo_curso(flat), "f_carga": carga, "f_inst": _clean_line(m.group(1))[:255] if m else "",
         "f_nivel": "Extensão Universitária" if "extensao" in low else "Curso De Curta Duração",
         "F_STATUS": "incompleto" if re.search(r"n[aã]o conclu|incompleto|cursando|em andamento", low) else "concluído",
+        "f_ano_ini": ano_ini,
+        "f_ano_fim": ano_fim,
+        "F_BOLSA": "Não",
     }
     n = []
-    for k, msg in (("f_curso", "Nome do curso não identificado."), ("f_inst", "Instituição não identificada.")):
+    for k, msg in (("f_curso", "Nome do curso não identificado."), ("f_inst", "Instituição não identificada."), ("f_ano_ini", "Ano de início não identificado.")):
         if not v[k]:
             n.append(msg)
-    n.append("Ano de início/término e demais datas ficam na aba de período do Lattes; confira.")
+    n.append("Confira o ano de início/término e se houve bolsa na 2ª tela do Lattes.")
     return v, n
 
 
@@ -171,12 +177,14 @@ def ler_banca(texto: str, usuario: str):
     cand = ""
     m = re.search(r"(?:doutorand[ao]|mestrand[ao]|candidat[ao]|discente|aluno|aluna)\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{4,70}?)(?:,|\s+do curso|\s+no curso|\s+com\b)", flat)
     if not m:
-        m = re.search(r"(?:Tese|Disserta[çc][ãa]o|Monografia|Trabalho)(?: de Conclus[ãa]o)?[^.]{0,50}?\bde\s+([A-ZÀ-Ý]{2,}(?: [A-ZÀ-Ý]{2,}| d[aeo]s?)+)\s+com\s+a\s+(?:tese|disserta)", flat)
+        m = re.search(r"(?:Tese|Disserta[çc][ãa]o|Monografia|Trabalho)(?: de Conclus[ãa]o)?[^.]{0,50}?\bde\s+([A-ZÀ-Ý]{2,}(?: [A-ZÀ-Ý]{2,}| d[aeo]s?)+)\s+com\s+a\s+(?:tese|disserta)", flat) or \
+            re.search(r"(?:Tese|Disserta[çc][ãa]o|Monografia|Trabalho)(?:\s+de\s+(?:Mestrado|Doutorado|Conclus[ãa]o(?:\s+de\s+Curso)?))?\s+de\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{4,70}?)(?:,\s*intitulad|\s+intitulad|\s+com\s+a\s+(?:tese|disserta))", flat, re.I)
     if m:
         cand = " ".join(w.capitalize() if w.lower() not in ("da", "de", "do", "das", "dos", "e") else w.lower() for w in m.group(1).split())
     titulo = ""
     m = re.search(r"T[ií]tulo(?: d[aeo]s?\s+\w+)?:\s*[\"“”](.+?)[\"“”]", flat) or \
-        re.search(r"(?:tese|disserta[çc][ãa]o|monografia|trabalho)\s+intitulad[oa]:?\s*[\"“”]?(.+?)[\"“”]?,\s*no\s+(?:Programa|Curso)", flat, re.I)
+        re.search(r"(?:tese|disserta[çc][ãa]o|monografia|trabalho)\s+intitulad[oa]:?\s*[\"“”]?(.+?)[\"“”]?,\s*no\s+(?:Programa|Curso)", flat, re.I) or \
+        re.search(r"intitulad[oa]:?\s*[\"“”]([^\"“”]{3,200})[\"“”]", flat, re.I)
     caixa_alta = False
     if m:
         from certificado import sentence_title
@@ -221,7 +229,7 @@ def ler_premio(texto: str, usuario: str):
     m = re.search(r"(?:premiad[oa]|agraciad[oa]|recebeu|conferid[oa]|concedid[oa])[^.]{0,60}?\b(?:no|na|em|do|da)\s+((?:[IVXLCDM]+|\d+[ºª°]?)?\s*[A-ZÀ-Ý][^,.]{6,120}?)(?:,|\.|\s+realizad)", flat)
     evento = _clean_line(m.group(1)) if m else ""
     nome = f"{termo} - {evento}" if evento else termo
-    v: dict[str, Any] = {"f_titulo": nome[:255], "f_agencia": evento[:255], "f_ano": _ano_data(flat)}
+    v: dict[str, Any] = {"f_titulo": nome[:255], "f_agencia": evento[:255], "f_ano": _ano_data(flat) or _ano_unico(flat)}
     n = ["Entidade promotora assumida como o evento; troque pela instituição organizadora se o certificado indicar outra."]
     if not evento:
         n.append("Evento/entidade do prêmio não identificado.")
@@ -239,14 +247,25 @@ def ler_projeto(texto: str, usuario: str):
             "Projeto de desenvolvimento tecnológico" if re.search(r"desenvolvimento tecnologico", low) else "Outros tipos de projetos")
     natureza = {"Projeto de extensão": "Extensão", "Projetos de pesquisa": "Pesquisa", "Projeto de ensino": "Ensino",
                 "Projeto de desenvolvimento tecnológico": "Desenvolvimento"}.get(tipo, "Outra")
-    m = re.search(r"intitulad[oa]\s+[\"“]?(.+?)[\"”]?,\s*(?:coordenad|sob a coordena|desenvolvid|executad|de responsabilidade)", flat, re.I)
+    m = re.search(r"intitulad[oa]\s+[\"“]?(.+?)[\"”]?,\s*(?:coordenad|sob a coordena|desenvolvid|executad|de responsabilidade)", flat, re.I) or \
+        re.search(r"projeto\s+de\s+(?:pesquisa|extens[ãa]o|ensino|desenvolvimento(?:\s+tecnol[óo]gico)?)\s+[\"“”]([^\"“”]{3,200})[\"“”]", flat, re.I)
     titulo = sentence_title(m.group(1).strip(" \"“”.")) if m else ""
     ano = ""
     md = re.search(r"\d{1,2}\s+de\s+[a-zç]+\s+de\s+(20[0-3]\d|199\d)", flat, re.I)
     if md:
         ano = md.group(1)
+    if not ano:
+        ano = _ano_unico(flat)
     m = re.search(r"coordenad[oa]\s+pel[oa]\s+(?:Professor[a]?\s+|Prof\.?\s+|Dr\.?\s+)*([A-ZÀ-Ý][\wÀ-ÿ' ]{4,70}?)\s*,\s*(?:d[aoe]s?\s+)?(.+?),\s*vinculad[oa]\s+(?:a[o]?|à)\s+(.+?),\s*d[aoe]s?\s+(Universidade[^.,]+)", flat)
     coord, orgao, centro, inst = (m.group(1), m.group(2), m.group(3), m.group(4)) if m else ("", "", "", "")
+    if not inst:
+        mi = re.search(r"\b(Universidade\s+(?:Federal|Estadual|de)[^,.;()]{3,80})", flat)
+        if mi:
+            inst = mi.group(1)
+    if not coord:
+        mc = re.search(r"(?:declaramos\s+que\s+)([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{4,70}?)\s+[ée]\s+coordenador(?:a)?\b", flat, re.I)
+        if mc:
+            coord = mc.group(1)
     orgao_txt = _clean_line(orgao).strip(" ,.")
     inst_txt = _clean_line(inst).strip(" ,.")
     v: dict[str, Any] = {"__variante": tipo, "f_titulo": titulo, "F_TPO_NATUREZA": natureza, "F_TPO_SITUACAO": "Em andamento",
@@ -290,8 +309,9 @@ def ler_patente(texto: str, usuario: str):
         proc = _clean_line(m.group(0)) if m else ""
     tipo = "Patente de Modelo de Utilidade" if re.search(r"patente de modelo de utilidade|\(mu\)", low) else \
         "Patente de Invenção" if re.search(r"patente de invencao|\(pi\)", low) else ""
-    m = re.search(r"T[ií]tulo da Inven[çc][ãa]o ou Modelo de Utilidade(?: \(54\))?:\s*(.+?)\s+Resumo:", flat)
-    titulo = sentence_title(m.group(1)) if m else ""
+    m = re.search(r"T[ií]tulo da Inven[çc][ãa]o ou Modelo de Utilidade(?: \(54\))?:\s*(.+?)\s+Resumo:", flat) or \
+        re.search(r"\bT[ií]tulo:\s*(.+?)(?:\.\s*(?:Inventores|Titular|Depositante|Resumo|Concess[ãa]o)|$)", flat)
+    titulo = sentence_title(m.group(1).strip(" .")) if m else ""
     m = re.search(r"Resumo:\s*(.+?)(?:\s+Peti[çc][ãa]o\s+\d{6,}\s*,\s*de\s+\d|\s+Dados do Inventor|\s+Documentos anexados|$)", flat)
     resumo = _clean_line(m.group(1)) if m else ""
     natureza = ""
@@ -303,8 +323,14 @@ def ler_patente(texto: str, usuario: str):
                  for a, b in re.findall(r"Nome ou Raz[ãa]o Social:\s*(.+?)\s+Tipo de Pessoa:\s*(Pessoa Jur[íi]dica|Pessoa F[íi]sica)", flat)]
     depositante = titulares[0]["nome"] if titulares else ""
     inventores = list(dict.fromkeys(_clean_line(x) for x in re.findall(r"\bNome:\s*(.+?)\s+CPF:", flat)))
+    if not inventores:
+        mi = re.search(r"\bInventores:\s*(.+?)(?:\.\s*(?:Concess[ãa]o|Dep[óo]sito|Titular)|\.|$)", flat)
+        if mi:
+            inventores = [_clean_line(x).strip(" .;") for x in re.split(r"\s*;\s*|\s*,\s*", mi.group(1)) if _clean_line(x).strip(" .;")]
+    if not titulares and inventores:
+        titulares = [{"nome": inventores[0], "tipo": "pessoa"}]
     m = re.search(r"\b(\d{2})/(\d{2})/(20[0-3]\d)\b", flat)
-    dep_data = f"{m.group(1)}/{m.group(2)}/{m.group(3)}" if m else ""
+    dep_data = f"{m.group(1)}/{m.group(2)}/{m.group(3)}" if m else (_fmt(d[0]) if (d := _datas(flat)) else "")
     from itens.sugestoes import como_citado
     # O Lattes limita o número do registro a 16 caracteres e o aceita sem espaços (BR1020240037669).
     v: dict[str, Any] = {"f_cod_reg": re.sub(r"\s+", "", proc), "f_inst": "INPI - Instituto Nacional da Propriedade Industrial", "f_pais": "Brasil",
@@ -497,11 +523,150 @@ LEITORES: dict[str, TipoLeitor] = {
 }
 
 
-from .leitores_onda2 import LEITORES_ONDA2  # noqa: E402
+from .leitores_onda2 import LEITORES_ONDA2, _ano_unico, _datas, _fmt, _mes_ano  # noqa: E402
+
+
+def ler_livro_capitulo(texto: str, usuario: str):
+    """Leitor heurístico para livros e capítulos (ficha catalográfica ou texto de referência)."""
+    flat = _clean_line(texto)
+    v: dict[str, Any] = {}
+    m = re.search(r"ISBN\s*[:.]?\s*([0-9][0-9\-Xx ]{8,19}[0-9Xx])", flat, re.I)
+    if m:
+        v["f_isbn"] = re.sub(r"[^0-9Xx]", "", m.group(1).upper())[:13]
+    m = re.search(r"\b(20[0-3]\d|19[89]\d)\b", flat)
+    if m:
+        v["f_ano"] = m.group(1)
+    m = re.search(r"\b(\d{1,3})\s*[ªº°]?\s*edi[çc][ãa]o\b", flat, re.I)
+    if m:
+        v["f_edicao"] = m.group(1)
+    m = re.search(r"\bp{1,2}\.\s*(\d{1,5})\s*[-–]\s*(\d{1,5})\b", flat, re.I)
+    if m:
+        v["f_pag_ini"], v["f_pag_fim"] = m.group(1), m.group(2)
+    m = re.search(r"\b(\d{1,5})\s*p[áa]ginas?\b", flat, re.I)
+    if m:
+        v["f_paginas"] = m.group(1)
+    m = re.search(r"Organizadores?\s*:\s*(.+?)(?:\.|\n|$)", flat, re.I)
+    if m:
+        v["f_organizadores"] = _clean_line(m.group(1)).strip(" .;")[:255]
+    m = re.search(r"Cap[íi]tulo\s+\d+\s*[:\-–]\s*(.+?)(?:,\s*por\b|\s+p{1,2}\.\s*\d|\.|\n|$)", flat, re.I)
+    if m:
+        v["f_titulo_cap"] = sentence_title(m.group(1).strip(" \"“”.,"))[:400]
+    m = re.search(r"^(?:FICHA CATALOGR[ÁA]FICA\s+)?(.+?)(?:\.\s*Organizadores?:|\.\s*Cap[íi]tulo\b|\s+ISBN\b)", flat, re.I)
+    if not m:
+        m = re.search(r"[\"“”']([^\"“”']{4,250})[\"“”']", flat)
+    if m:
+        tit = re.sub(r"^(?:FICHA CATALOGR[ÁA]FICA|LIVRO)\s+", "", _clean_line(m.group(1)).strip(" ."), flags=re.I)
+        if tit:
+            v["f_titulo"] = tit[:400]
+    m = re.search(r"\b(Editora\s+[^,.\n]{2,120})(?:,\s*([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}))?", flat)
+    if m:
+        v["f_editora"] = _clean_line(m.group(1)).strip(" .,")[:100]
+        if m.group(2):
+            v["f_cidade_ed"] = _clean_line(m.group(2)).strip(" .,")[:30]
+    return v, ["Confira se é Livro ou Capítulo de livro e complete autores/palavras-chave."]
+
+
+def ler_formacao_academica(texto: str, usuario: str):
+    """Leitor heurístico para diplomas/declarações de titulação acadêmica."""
+    flat = _clean_line(texto)
+    v: dict[str, Any] = {}
+    m = re.search(r"grau de (?:Doutor(?:a)?|Mestre|Mestra|Bacharel|Licenciad[oa]|Especialista)\s+(?:em\s+)?(.+?)(?:\s+a\s+[A-ZÀ-Ý]|,|\.|$)", flat, re.I)
+    if m:
+        v["f_curso"] = _clean_line(m.group(1)).strip(" .,")[:150]
+    m = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio)\s+[^,.\n]{3,120})", flat)
+    if m:
+        v["f_inst"] = _clean_line(m.group(1)).strip(" .,")[:150]
+    datas = _datas(flat)
+    if datas:
+        v["f_mes_obten"], v["f_ano_obten"], v["f_ano_fim"] = datas[0][1], datas[0][2], datas[0][2]
+    else:
+        ano = _ano_unico(flat)
+        if ano:
+            v["f_ano_obten"] = v["f_ano_fim"] = ano
+    return v, ["Instituição e curso são campos de lupa no Lattes: confira e informe o ano de início."]
+
+
+def ler_generico_spec(item_id: str) -> TipoLeitor:
+    """Leitor genérico guiado pelos nomes de campos do spec (itens sem leitor específico ainda)."""
+    def _ler(texto: str, usuario: str):
+        flat = _clean_line(texto)
+        spec = especificacao(item_id) or {}
+        nomes = {c["name"] for v_ in spec.get("variantes", [])[:1] for c in v_.get("campos", [])}
+        v: dict[str, Any] = {}
+        ano = _ano_unico(flat) or (m_ano.group(1) if (m_ano := re.search(r"\b(20\d{2}|199\d)\b", flat)) else "")
+        datas = _datas(flat)
+        ma = _mes_ano(flat)
+        m_doi = re.search(r"\b(10\.\d{4,9}/[^\s,;\"'<>]+)", flat)
+        m_isbn = re.search(r"ISBN\s*[:.]?\s*([0-9][0-9\-Xx ]{8,19}[0-9Xx])", flat, re.I)
+        m_issn = re.search(r"ISSN\s*[:.]?\s*([0-9]{4}-?[0-9]{3}[0-9Xx])", flat, re.I)
+        m_reg = re.search(r"\b(?:BR|DI)[\s\d.\-/]{8,25}\b", flat) or re.search(r"\bn[º°]\s*([0-9\-]{4,20})\b", flat, re.I)
+        m_tit = re.search(r"[\"“”']([^\"“”']{5,200})[\"“”']", flat) or re.search(r"(?:T[ií]tulo|Marca)\s*:\s*([^.\n]{3,200})", flat, re.I)
+        m_comite = re.search(r"\b(Comit[êe]\s+de\s+Assessoramento[^,.\n]{2,100})", flat, re.I)
+        m_inst = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio|Funda[çc][ãa]o|Empresa)\s+[^,.\n]{3,120})", flat)
+        m_cid = re.search(r"\bem\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}?)\s*[-–/]\s*([A-Z]{2})\b", flat)
+        m_jor = re.search(r"\b(?:no|na)\s+(?:jornal|revista|boletim)\s+([A-ZÀ-Ý][^,.\n]{3,120})", flat, re.I)
+        m_idi_orig = re.search(r"traduziu\s+d[oa]\s+(ingl[êe]s|espanhol|franc[êe]s|alem[ãa]o|italiano|portugu[êe]s)", flat, re.I)
+        idi_map = {"ingles": "Inglês", "espanhol": "Espanhol", "frances": "Francês", "alemao": "Alemão", "italiano": "Italiano", "portugues": "Português"}
+        m_nat_bib = re.search(r"\b(resenha|pref[áa]cio|posf[áa]cio|boletim|folheto|cat[áa]logo|apostila|material did[áa]tico|regimento)\b", flat, re.I)
+        m_ling = re.search(r"\b(Python|JavaScript|Java|C\+\+|C#|R|SQL|PHP|TypeScript|MATLAB)\b", flat, re.I)
+        m_fin = re.search(r"(?:finalidade:\s*([^.\n]{3,160})|\b(uso interno|divulga[çc][ãa]o cient[íi]fica|ensino|pesquisa)\b)", flat, re.I)
+        m_prod_tit = re.search(r"\bProduto\s*:\s*([^.\n]{4,200})", flat, re.I)
+        m_cit = re.search(r"(?:Total de cita[çc][õo]es|Cita[çc][õo]es(?:\s+recebidas)?|Times cited)\s*:\s*(\d+)", flat, re.I)
+        m_trab = re.search(r"(?:Documentos|Publications|Trabalhos)\s*:\s*(\d+)", flat, re.I)
+        m_base = re.search(r"\bBase\s*:\s*([^.\n]{2,120})", flat, re.I)
+        m_nome = re.search(r"\bNome\s*:\s*([^.\n]{4,120})", flat)
+        m_cep = re.search(r"\bCEP\s*:?\s*([0-9]{5}-?[0-9]{3})\b", flat, re.I)
+        m_fone = re.search(r"\btelefone\s*:?\s*([0-9()\- ]{8,20})", flat, re.I)
+        m_rua = re.search(r"\b((?:Avenida|Rua|Alameda|Pra[çc]a)[^,\n]{3,100}(?:,\s*\d+)?)", flat, re.I)
+        m_cid_uf = re.search(r",\s*([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}?)\s*[-–/]\s*([A-Z]{2})\b", flat)
+        tit = _clean_line((m_tit or m_prod_tit).group(1)).strip(" \"“”.,") if (m_tit or m_prod_tit) else _clean_line(texto.splitlines()[0] if texto.strip() else "")[:180]
+        ext = {
+            "f_titulo": tit, "f_titulo_cap": tit, "f_tit_obra": tit, "F_TEXTO": flat[:2000],
+            "f_ano": ano, "f_ano_ini": ano, "F_ANO_INIC": ano,
+            "f_data": _fmt(datas[0]) if datas else "", "f_dta_dep": _fmt(datas[0]) if datas else "",
+            "f_dta_conc": _fmt(datas[-1]) if datas else "", "f_mes_ini": ma[0][0] if ma else "",
+            "f_cod_doi": m_doi.group(1).rstrip(".,;)") if m_doi else "",
+            "f_isbn": re.sub(r"[^0-9Xx]", "", m_isbn.group(1).upper())[:13] if m_isbn else "",
+            "f_issn": re.sub(r"[^0-9Xx]", "", m_issn.group(1).upper())[:8] if m_issn else "",
+            "f_cod_reg": re.sub(r"\s+", "", (m_reg.group(1) if m_reg.lastindex else m_reg.group(0)))[:16] if m_reg else "",
+            "f_comite": _clean_line(m_comite.group(1)).strip(" .,")[:150] if m_comite else "",
+            "f_inst": _clean_line(m_inst.group(1)).strip(" .,")[:150] if m_inst else "",
+            "f_nme_agencia": _clean_line(m_inst.group(1)).strip(" .,")[:150] if m_inst else "",
+            "f_cidade": f"{m_cid.group(1).strip()} - {m_cid.group(2)}" if m_cid else "",
+            "f_cidade_ed": m_cid.group(1).strip()[:30] if m_cid else "",
+            "f_titulo_periodico": _clean_line(m_jor.group(1)).strip(" .,")[:150] if m_jor else "",
+            "F_IDIOMA_OBRA": idi_map.get(normalize(m_idi_orig.group(1)), "") if m_idi_orig else "",
+            "f_natureza": m_nat_bib.group(1).capitalize() if m_nat_bib else "",
+            "f_plataforma": m_ling.group(1) if m_ling else "",
+            "f_finalidade": _clean_line(m_fin.group(1) or m_fin.group(2)).strip(" .,")[:255] if m_fin else "",
+            "F_SUB_PROD": "Outra" if item_id == "produto" else "",
+            "f_qtd_citacoes": m_cit.group(1) if m_cit else "",
+            "f_qtd_trabalhos": m_trab.group(1) if m_trab else "",
+            "f_txt_base": _clean_line(m_base.group(1)).strip(" .,")[:150] if m_base else "",
+            "f_nome": _clean_line(m_nome.group(1)).strip(" .,")[:150] if m_nome else "",
+            "f_pais_nacio": "Brasil" if re.search(r"brasileir[ao]", flat, re.I) else "",
+            "f_pais_i": "Brasil" if m_cep else "",
+            "f_cep_i": m_cep.group(1) if m_cep else "",
+            "f_fone_i": _clean_line(m_fone.group(1)).strip(" .,") if m_fone else "",
+            "f_rua_i": _clean_line(m_rua.group(1)).strip(" .,")[:150] if m_rua else "",
+            "f_munic_i": m_cid_uf.group(1).strip() if m_cid_uf else "",
+            "f_estado_i": m_cid_uf.group(2).strip() if m_cid_uf else "",
+        }
+        for n in nomes:
+            if ext.get(n):
+                v[n] = ext[n]
+        return v, ["Preenchimento automático genérico a partir do texto; revise todos os campos antes de enviar ao Lattes."]
+    return _ler
+
 
 LEITORES.update(LEITORES_ONDA2)
+LEITORES["livro_capitulo"] = ler_livro_capitulo
+LEITORES["formacao_academica"] = ler_formacao_academica
+from . import ids_especificados  # noqa: E402
+for _item_id in ids_especificados():
+    LEITORES.setdefault(_item_id, ler_generico_spec(_item_id))
 
-PADROES_COMUNS = {"f_tpo_pesq_emp": "Não", "f_sta_inovacao": "Não", "f_pais": "Brasil", "F_IDIOMA": "Português", "F_RELEV": "não", "F_STA_DIVULGACAO_CIENTIFICA": "não"}
+PADROES_COMUNS = {"f_tpo_pesq_emp": "Não", "f_sta_inovacao": "Não", "f_pais": "Brasil", "f_pais_inst": "Brasil", "F_IDIOMA": "Português", "F_RELEV": "não", "F_STA_DIVULGACAO_CIENTIFICA": "não"}
 
 
 def aplicar_padroes(item_id: str, valores: dict[str, Any], variante: str | None = None) -> dict[str, Any]:

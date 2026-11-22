@@ -2,10 +2,9 @@
  "item": "pos_doutorado_f5",
  "variante_slug": "formulario_1",
  "variante": "Formulário 1",
- "executado_em": "2026-11-21T00:11:30.624Z",
+ "executado_em": "2026-11-21T15:50:43.573Z",
  "resumo": {
-  "OK": 12,
-  "erro": 1
+  "OK": 13
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1091
+   "ms": 2997
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1088
+   "ms": 2991
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1065
+   "ms": 3012
   },
   {
    "id": "f_ano_ini#valido",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 2999
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 2996
   },
   {
    "id": "f_ano_ini#letras",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 620
+   "ms": 2990
   },
   {
    "id": "f_ano_fim#valido",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 641
+   "ms": 3001
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 634
+   "ms": 3015
   },
   {
    "id": "f_ano_fim#letras",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 641
+   "ms": 2989
   },
   {
    "id": "F_BOLSA#opcao_s",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 3008
   },
   {
    "id": "F_BOLSA#opcao_n",
@@ -94,15 +93,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1078
+   "ms": 3002
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 3
+   "ms": 4256
   },
   {
    "id": "f_nme_agencia#lupa",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 2197
+   "ms": 2538
   }
  ]
 }

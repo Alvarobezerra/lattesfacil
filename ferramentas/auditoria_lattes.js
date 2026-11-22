@@ -74,7 +74,7 @@ async function auditar(meta) {
     const c = { name, tipo: e0.type === 'select-one' ? 'select' : e0.type === 'select-multiple' ? 'select_multiplo' : e0.tagName === 'TEXTAREA' ? 'textarea' : e0.type === 'radio' ? 'radio' : e0.type === 'checkbox' ? (els.length > 1 ? 'grupo_marcacao' : 'marcacao') : e0.type, desabilitado: els.every((x) => x.disabled), somente_leitura: els.every((x) => x.readOnly), visivel_inicial: els.some(visivel) };
     if (!escolha) c.rotulo = rotuloDe(e0);
     if (e0.maxLength > 0 && e0.maxLength < 100000) c.maxlength = e0.maxLength;
-    if (e0.tagName === 'SELECT') { c.total_opcoes = e0.options.length; c.opcoes = [...e0.options].slice(0, 80).map((o) => ({ valor: o.value, texto: limpo(o.text) })); }
+    if (e0.tagName === 'SELECT') { c.total_opcoes = e0.options.length; c.opcoes = [...e0.options].map((o) => ({ valor: o.value, texto: limpo(o.text) })); }
     if (escolha) { let anterior = null; c.opcoes = els.map((x) => { let t = textoOpcao(x); if (x.type === 'radio' && anterior !== null && t === anterior) { t = textosPerto(x, 1, 1)[0] || t; } anterior = t; rotulosDeOpcao.add(t); return { valor: x.value, texto: t, visivel: visivel(x), marcado_inicial: x.checked }; }); }
     campos.push(c);
   });

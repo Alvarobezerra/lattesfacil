@@ -34,7 +34,7 @@ self.LISTAS_POR_ITEM = {
  "artes_cenicas": "pkg_arte_nova.lista?f_cod_tipo=AC",
  "musica": "pkg_arte_nova.lista?f_cod_tipo=MU",
  "artes_visuais": "pkg_arte_nova.lista?f_cod_tipo=AV",
- "outra_producao_artistica": "prc_arte_lista?f_cod_tipo=3Z",
+ "outra_producao_artistica": "pkg_arte_nova.lista?f_cod_tipo=OU",
  "patente": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=PP",
  "software_registro": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=PC",
  "desenho_industrial": "PKG_PATENTE_REGISTRO.LISTA?f_cod_tipo=DI",
@@ -46,7 +46,7 @@ self.LISTAS_POR_ITEM = {
  "banca_comissao_julgadora": "pkg_banca_julg.lista",
  "orientacao_concluida": "pkg_orient.lista?f_tipo=C",
  "orientacao": "pkg_orient.lista?f_tipo=C",
- "orientacao_andamento": "pkg_arte_nova.lista?f_cod_tipo=OU",
+ "orientacao_andamento": "pkg_orient.lista?f_tipo=A",
  "atuacao_profissional": "pkg_ativ.lista",
  "revisor_periodico": "pkg_revisor.lista?f_natur=RV",
  "corpo_editorial": "pkg_revisor.lista?f_natur=MB",
@@ -55,5 +55,10 @@ self.LISTAS_POR_ITEM = {
  "premio": "pkg_premio.lista",
  "projeto": "pkg_projeto.lista?f_cod_tipo=P",
  "idioma": "pkg_idioma.lista",
- "licenca": "pkg_licenca.lista"
+ "licenca": "pkg_licenca.lista",
+ "citacao_scopus": "prc_indicadores?f_base=3",
+ "citacao_web_of_science": "prc_indicadores?f_base=1",
+ "citacao_google_scholar": "prc_indicadores?f_base=4",
+ "citacao_scielo": "prc_indicadores?f_base=2",
+ "citacao_outra_base": "prc_indicadores?f_base=99"
 };

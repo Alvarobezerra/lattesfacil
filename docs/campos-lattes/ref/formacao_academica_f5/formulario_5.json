@@ -2,10 +2,9 @@
  "item": "formacao_academica_f5",
  "variante_slug": "formulario_5",
  "variante": "Formulário 5",
- "executado_em": "2026-11-21T00:09:15.633Z",
+ "executado_em": "2026-11-21T15:32:09.170Z",
  "resumo": {
-  "OK": 20,
-  "erro": 1
+  "OK": 21
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1075
+   "ms": 1081
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 1079
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1077
+   "ms": 1087
   },
   {
    "id": "f_ano_ini#valido",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 637
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 636
+   "ms": 621
   },
   {
    "id": "f_ano_ini#letras",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 633
   },
   {
    "id": "f_ano_fim#valido",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 633
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 616
   },
   {
    "id": "f_ano_fim#letras",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 634
   },
   {
    "id": "F_BOLSA#opcao_s",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1062
+   "ms": 1086
   },
   {
    "id": "F_BOLSA#opcao_n",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1091
+   "ms": 1080
   },
   {
    "id": "f_titulo#tipico",
@@ -102,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 636
   },
   {
    "id": "f_titulo#maximo",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 639
+   "ms": 619
   },
   {
    "id": "f_titulo#acima_do_limite",
@@ -118,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 627
+   "ms": 620
   },
   {
    "id": "f_titulo#acentos",
@@ -126,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 630
   },
   {
    "id": "f_orient#tipico",
@@ -134,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 624
   },
   {
    "id": "f_orient#maximo",
@@ -142,7 +141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 634
   },
   {
    "id": "f_orient#acima_do_limite",
@@ -150,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 620
   },
   {
    "id": "f_orient#acentos",
@@ -158,15 +157,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 623
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 4
+   "ms": 3440
   },
   {
    "id": "f_nme_agencia#lupa",
@@ -174,7 +173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 2504
+   "ms": 2480
   }
  ]
 }

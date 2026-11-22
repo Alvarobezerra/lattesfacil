@@ -2,10 +2,9 @@
  "item": "formacao_academica_f5",
  "variante_slug": "formulario_1",
  "variante": "Formulário 1",
- "executado_em": "2026-11-21T00:06:45.994Z",
+ "executado_em": "2026-11-21T15:30:08.961Z",
  "resumo": {
-  "OK": 67,
-  "erro": 2
+  "OK": 60
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1069
+   "ms": 1083
   },
   {
    "id": "f_tpo_doutorado#opcao_s",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1068
+   "ms": 1066
   },
   {
    "id": "f_tpo_doutorado#opcao_cs",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1083
+   "ms": 1060
   },
   {
    "id": "F_STATUS#opcao_n",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1086
+   "ms": 1061
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1087
+   "ms": 1060
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1091
+   "ms": 1067
   },
   {
    "id": "f_ano_ini#valido",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 628
+   "ms": 618
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -78,7 +77,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 613
+   "ms": 618
   },
   {
    "id": "f_ano_ini#letras",
@@ -86,7 +85,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 642
+   "ms": 619
   },
   {
    "id": "f_ano_fim#valido",
@@ -94,7 +93,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 611
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -102,7 +101,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 644
+   "ms": 612
   },
   {
    "id": "f_ano_fim#letras",
@@ -110,7 +109,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 636
+   "ms": 612
   },
   {
    "id": "f_mes_obten#tipico",
@@ -118,7 +117,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 618
   },
   {
    "id": "f_mes_obten#maximo",
@@ -126,7 +125,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 628
+   "ms": 618
   },
   {
    "id": "f_mes_obten#acima_do_limite",
@@ -134,7 +133,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 633
   },
   {
    "id": "f_mes_obten#acentos",
@@ -142,7 +141,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 612
+   "ms": 625
   },
   {
    "id": "f_ano_obten#valido",
@@ -150,7 +149,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 626
+   "ms": 631
   },
   {
    "id": "f_ano_obten#acima_do_limite",
@@ -158,7 +157,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 636
   },
   {
    "id": "f_ano_obten#letras",
@@ -166,7 +165,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 641
+   "ms": 639
   },
   {
    "id": "F_BOLSA#opcao_s",
@@ -174,7 +173,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1093
+   "ms": 1076
   },
   {
    "id": "F_BOLSA#opcao_n",
@@ -182,7 +181,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1087
+   "ms": 1069
   },
   {
    "id": "f_titulo#tipico",
@@ -190,7 +189,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 633
   },
   {
    "id": "f_titulo#maximo",
@@ -198,7 +197,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 635
   },
   {
    "id": "f_titulo#acima_do_limite",
@@ -206,7 +205,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 622
   },
   {
    "id": "f_titulo#acentos",
@@ -214,7 +213,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 622
   },
   {
    "id": "f_orient#tipico",
@@ -222,7 +221,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 642
+   "ms": 631
   },
   {
    "id": "f_orient#maximo",
@@ -230,7 +229,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 637
+   "ms": 620
   },
   {
    "id": "f_orient#acima_do_limite",
@@ -238,7 +237,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 641
+   "ms": 630
   },
   {
    "id": "f_orient#acentos",
@@ -246,7 +245,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 640
+   "ms": 633
   },
   {
    "id": "f_coorient#tipico",
@@ -254,7 +253,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 621
   },
   {
    "id": "f_coorient#maximo",
@@ -262,7 +261,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 620
   },
   {
    "id": "f_coorient#acima_do_limite",
@@ -270,7 +269,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 624
   },
   {
    "id": "f_coorient#acentos",
@@ -278,7 +277,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 638
+   "ms": 623
   },
   {
    "id": "f_orient_dout#tipico",
@@ -286,7 +285,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1359
+   "ms": 1340
   },
   {
    "id": "f_orient_dout#maximo",
@@ -294,7 +293,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1355
+   "ms": 1346
   },
   {
    "id": "f_orient_dout#acima_do_limite",
@@ -302,7 +301,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1358
+   "ms": 1319
   },
   {
    "id": "f_orient_dout#acentos",
@@ -310,39 +309,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1354
-  },
-  {
-   "id": "f_inst_dout#tipico",
-   "campo": "f_inst_dout",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1342
-  },
-  {
-   "id": "f_inst_dout#maximo",
-   "campo": "f_inst_dout",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
    "ms": 1345
-  },
-  {
-   "id": "f_inst_dout#acima_do_limite",
-   "campo": "f_inst_dout",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1354
-  },
-  {
-   "id": "f_inst_dout#acentos",
-   "campo": "f_inst_dout",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1327
   },
   {
    "id": "f_meses_sw#tipico",
@@ -350,7 +317,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1318
+   "ms": 1340
   },
   {
    "id": "f_meses_sw#maximo",
@@ -358,7 +325,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1347
+   "ms": 1338
   },
   {
    "id": "f_meses_sw#acima_do_limite",
@@ -374,7 +341,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1353
+   "ms": 1330
   },
   {
    "id": "f_orient_dout_sw#tipico",
@@ -382,7 +349,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1359
+   "ms": 1315
   },
   {
    "id": "f_orient_dout_sw#maximo",
@@ -390,7 +357,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1344
+   "ms": 1336
   },
   {
    "id": "f_orient_dout_sw#acima_do_limite",
@@ -398,7 +365,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1354
+   "ms": 1336
   },
   {
    "id": "f_orient_dout_sw#acentos",
@@ -406,39 +373,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1338
-  },
-  {
-   "id": "f_inst_dout_sw#tipico",
-   "campo": "f_inst_dout_sw",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1341
-  },
-  {
-   "id": "f_inst_dout_sw#maximo",
-   "campo": "f_inst_dout_sw",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1341
-  },
-  {
-   "id": "f_inst_dout_sw#acima_do_limite",
-   "campo": "f_inst_dout_sw",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1354
-  },
-  {
-   "id": "f_inst_dout_sw#acentos",
-   "campo": "f_inst_dout_sw",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1314
+   "ms": 1334
   },
   {
    "id": "f_meses_sw_aux#tipico",
@@ -446,7 +381,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1326
+   "ms": 1325
   },
   {
    "id": "f_meses_sw_aux#maximo",
@@ -454,7 +389,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1342
+   "ms": 1326
   },
   {
    "id": "f_meses_sw_aux#acima_do_limite",
@@ -462,7 +397,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1340
+   "ms": 1333
   },
   {
    "id": "f_meses_sw_aux#acentos",
@@ -470,7 +405,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1357
+   "ms": 1340
   },
   {
    "id": "f_orient_dout_ct#tipico",
@@ -478,7 +413,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1327
+   "ms": 1354
   },
   {
    "id": "f_orient_dout_ct#maximo",
@@ -486,7 +421,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1344
+   "ms": 1332
   },
   {
    "id": "f_orient_dout_ct#acima_do_limite",
@@ -494,7 +429,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1358
+   "ms": 1344
   },
   {
    "id": "f_orient_dout_ct#acentos",
@@ -502,55 +437,23 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1354
-  },
-  {
-   "id": "f_inst_dout_ct#tipico",
-   "campo": "f_inst_dout_ct",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1333
-  },
-  {
-   "id": "f_inst_dout_ct#maximo",
-   "campo": "f_inst_dout_ct",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1324
-  },
-  {
-   "id": "f_inst_dout_ct#acima_do_limite",
-   "campo": "f_inst_dout_ct",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1353
-  },
-  {
-   "id": "f_inst_dout_ct#acentos",
-   "campo": "f_inst_dout_ct",
-   "status": "OK",
-   "detalhe": "",
-   "aviso": "",
-   "ms": 1338
+   "ms": 1356
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 3
+   "ms": 4110
   },
   {
    "id": "f_curso#lupa",
    "campo": "f_curso",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 2
+   "ms": 5973
   },
   {
    "id": "f_nme_agencia#lupa",
@@ -558,7 +461,31 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 2815
+   "ms": 2794
+  },
+  {
+   "id": "f_inst_dout#lupa",
+   "campo": "f_inst_dout",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3930
+  },
+  {
+   "id": "f_inst_dout_sw#lupa",
+   "campo": "f_inst_dout_sw",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3892
+  },
+  {
+   "id": "f_inst_dout_ct#lupa",
+   "campo": "f_inst_dout_ct",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 3876
   }
  ]
 }

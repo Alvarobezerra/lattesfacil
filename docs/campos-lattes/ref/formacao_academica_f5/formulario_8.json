@@ -2,10 +2,9 @@
  "item": "formacao_academica_f5",
  "variante_slug": "formulario_8",
  "variante": "Formulário 8",
- "executado_em": "2026-11-21T00:10:30.865Z",
+ "executado_em": "2026-11-21T15:33:56.206Z",
  "resumo": {
-  "OK": 9,
-  "erro": 1
+  "OK": 10
  },
  "resultados": [
   {
@@ -14,7 +13,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1075
+   "ms": 1059
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -22,7 +21,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1063
+   "ms": 1058
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -30,7 +29,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1078
+   "ms": 1072
   },
   {
    "id": "f_ano_ini#valido",
@@ -38,7 +37,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 3145
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -46,7 +45,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 3006
   },
   {
    "id": "f_ano_ini#letras",
@@ -54,7 +53,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 622
+   "ms": 3002
   },
   {
    "id": "f_ano_fim#valido",
@@ -62,7 +61,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 625
+   "ms": 2989
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -70,7 +69,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 627
+   "ms": 2913
   },
   {
    "id": "f_ano_fim#letras",
@@ -78,15 +77,15 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 634
+   "ms": 614
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 2
+   "ms": 3917
   }
  ]
 }

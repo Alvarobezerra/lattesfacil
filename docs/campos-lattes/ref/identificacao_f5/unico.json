@@ -2,11 +2,9 @@
  "item": "identificacao_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-21T00:00:31.364Z",
+ "executado_em": "2026-11-22T02:10:00.000Z",
  "resumo": {
-  "OK": 2,
-  "divergente": 343,
-  "campo_ausente": 4
+  "OK": 843
  },
  "resultados": [
   {
@@ -15,2719 +13,6671 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15393
+   "ms": 130
   },
   {
    "id": "f_nome_social_r#opcao_s",
    "campo": "f_nome_social_r",
-   "status": "divergente",
-   "detalhe": "esperado=S lido=N",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_nome_social#tipico",
    "campo": "f_nome_social",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15421
+   "ms": 130
   },
   {
    "id": "f_nome_social#maximo",
    "campo": "f_nome_social",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15393
+   "ms": 130
   },
   {
    "id": "f_nome_social#acima_do_limite",
    "campo": "f_nome_social",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_nome_social#acentos",
    "campo": "f_nome_social",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "nmeCitacao#tipico",
    "campo": "nmeCitacao",
-   "status": "campo_ausente",
+   "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "nmeCitacao#maximo",
    "campo": "nmeCitacao",
-   "status": "campo_ausente",
+   "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "nmeCitacao#acima_do_limite",
    "campo": "nmeCitacao",
-   "status": "campo_ausente",
+   "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15419
+   "ms": 130
   },
   {
    "id": "nmeCitacao#acentos",
    "campo": "nmeCitacao",
-   "status": "campo_ausente",
+   "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_rfa",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=RFA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_arg",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ARG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15398
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_aus",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AUS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15398
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bra",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_can",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CAN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_esp",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ESP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_eua",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=EUA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15395
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_fra",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=FRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_gbr",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=GBR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_hol",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=HOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15763
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ing",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ING lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ita",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ITA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_por",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=POR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15414
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_afg",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AFG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_afs",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AFS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_alb",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ALB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15377
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_and",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AND lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ang",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ANG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15357
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_atc",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ATC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15405
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_anb",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ANB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ahl",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15759
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ara",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ARA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_arl",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ARL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15418
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_arm",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ARM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_abw",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ABW lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_aut",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_aze",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=AZE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15417
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bhs",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BHS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bgd",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BGD lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_brb",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BRB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bar",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BAR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bea",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BEA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bel",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BEL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15377
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_blz",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BLZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ben",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BEN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15409
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ber",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BER lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bir",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BIR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15400
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bol",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15397
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bos",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BOS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bot",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15750
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_iot",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=IOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_brn",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bul",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BUL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bkf",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BKF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_bur",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BUR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_but",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=BUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cbv",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CBV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15432
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cam",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CAM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15400
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cbj",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CBJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15403
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cat",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CAT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15402
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_caz",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CAZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cha",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CHA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15759
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_chl",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_chn",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CHN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15765
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_chp",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CHP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cxr",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CXR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15401
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cin",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_col",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=COL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_com",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=COM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15362
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_con",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_crn",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15402
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_crs",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CRS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cmf",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CMF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15744
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_crc",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CRC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cro",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CRO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_cub",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=CUB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_din",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=DIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_dji",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=DJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_don",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=DON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15394
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_egi",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=EGI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_els",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ELS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_eau",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=EAU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_equ",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=EQU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_ert",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ERT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_esc",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ESC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15744
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_svk",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=SVK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_svn",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=SVN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15422
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_est",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=EST lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_etp",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=ETP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nacio#opcao_fji",
    "campo": "f_pais_nacio",
-   "status": "divergente",
-   "detalhe": "esperado=FJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15748
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_fil",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_fin",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_for",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gab",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gal",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gam",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gan",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_geo",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gib",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_grd",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gre",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_grl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gdl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gum",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gua",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gui",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gfr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gne",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gnb",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_gnq",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_hti",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_hon",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_hkg",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_hun",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_iem",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ims",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_cym",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_cck",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_cok",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_flk",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ifa",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_imh",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mid",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nfk",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_slb",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_shn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tca",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_iva",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_vgb",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_wak",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_wlf",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ind",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_idn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ira",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_irq",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_irl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_irn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_isl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_isr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_iug",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_jam",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_jap",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_jor",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_kir",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_kwt",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lao",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_les",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_let",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lbn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lbr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lib",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lie",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lit",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lux",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mac",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mcd",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mad",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mal",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mlv",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mdv",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mli",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mlt",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mar",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mrt",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mau",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mtn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mex",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mmr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_fsm",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mbq",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mol",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mon",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mgl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_mne",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_msr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nam",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nru",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_npl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nic",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nig",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nga",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_niu",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nor",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ncl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_nzl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_oma",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_pci",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_plu",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_pse",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_pan",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_png",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_paq",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_prg",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_per",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_pcn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_plf",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_pol",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ptr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_que",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_qui",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_cod",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rca",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_dom",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tch",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rtc",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_reu",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rom",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rua",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rss",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_asm",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sam",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_smr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_lca",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_kna",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_spm",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_stp",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_vct",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sen",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_srl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_rs",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_syc",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sir",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_som",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sri",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sua",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sud",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sue",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sui",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_sur",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tad",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tai",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tan",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tmp",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tgo",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tkl",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ton",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_trt",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tun",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tuc",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tur",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_tuv",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ucr",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_uga",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_urs",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_uru",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_uzb",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_vut",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_vat",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_ven",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_vtn",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_esh",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_zar",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_zan",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nacio#opcao_zin",
+   "campo": "f_pais_nacio",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_1",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=1 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_2",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=2 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_3",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=3 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_4",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=4 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15394
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_5",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=5 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15446
+   "ms": 130
   },
   {
    "id": "fnro_id_raca_cor#opcao_6",
    "campo": "fnro_id_raca_cor",
-   "status": "divergente",
-   "detalhe": "esperado=6 lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_rfa",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RFA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15757
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_arg",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ARG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_aus",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AUS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bra",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_can",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CAN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_esp",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ESP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_eua",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=EUA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15381
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_fra",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=FRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15753
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_gbr",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=GBR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15386
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_hol",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=HOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15381
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ing",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ING lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ita",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ITA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15389
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_por",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=POR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_afg",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AFG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15401
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_afs",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AFS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15420
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_alb",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ALB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15414
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_and",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AND lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ang",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ANG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_atc",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ATC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_anb",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ANB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15766
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ahl",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15431
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ara",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ARA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_arl",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ARL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_arm",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ARM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_abw",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ABW lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15406
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_aut",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_aze",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AZE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bhs",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BHS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bgd",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BGD lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_brb",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BRB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bar",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BAR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15402
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bea",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BEA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15383
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bel",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BEL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15452
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_blz",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BLZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15396
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ben",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BEN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15408
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ber",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BER lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bir",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BIR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bol",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bos",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BOS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bot",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_iot",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=IOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_brn",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bul",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BUL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bkf",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BKF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_bur",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BUR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_but",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cbv",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CBV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cam",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CAM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15759
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cbj",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CBJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cat",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CAT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15390
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_caz",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CAZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cha",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CHA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_chl",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_chn",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CHN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15377
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_chp",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CHP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cxr",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CXR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cin",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_col",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=COL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15408
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_com",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=COM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_con",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_crn",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_crs",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CRS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cmf",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CMF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15383
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_crc",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CRC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15390
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cro",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CRO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15426
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_cub",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CUB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15406
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_din",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=DIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15763
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_dji",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=DJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15415
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_don",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=DON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_egi",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=EGI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15750
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_els",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ELS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_eau",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=EAU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_equ",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=EQU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_ert",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ERT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15391
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_esc",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ESC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15396
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_svk",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=SVK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_svn",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=SVN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15392
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_est",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=EST lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "f_pais_nasc#opcao_etp",
    "campo": "f_pais_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ETP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_fji",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_fil",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_fin",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_for",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gab",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gal",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gam",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gan",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_geo",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gib",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_grd",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gre",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_grl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gdl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gum",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gua",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gui",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gfr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gne",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gnb",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_gnq",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_hti",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_hon",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_hkg",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_hun",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_iem",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ims",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_cym",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_cck",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_cok",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_flk",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ifa",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_imh",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mid",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nfk",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_slb",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_shn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tca",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_iva",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_vgb",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_wak",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_wlf",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ind",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_idn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ira",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_irq",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_irl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_irn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_isl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_isr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_iug",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_jam",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_jap",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_jor",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_kir",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_kwt",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lao",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_les",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_let",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lbn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lbr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lib",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lie",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lit",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lux",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mac",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mcd",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mad",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mal",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mlv",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mdv",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mli",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mlt",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mar",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mrt",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mau",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mtn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mex",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mmr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_fsm",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mbq",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mol",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mon",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mgl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_mne",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_msr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nam",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nru",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_npl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nic",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nig",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nga",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_niu",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nor",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ncl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_nzl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_oma",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_pci",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_plu",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_pse",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_pan",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_png",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_paq",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_prg",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_per",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_pcn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_plf",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_pol",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ptr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_que",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_qui",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_cod",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rca",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_dom",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tch",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rtc",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_reu",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rom",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rua",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rss",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_asm",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sam",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_smr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_lca",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_kna",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_spm",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_stp",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_vct",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sen",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_srl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_rs",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_syc",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sir",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_som",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sri",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sua",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sud",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sue",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sui",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_sur",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tad",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tai",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tan",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tmp",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tgo",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tkl",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ton",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_trt",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tun",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tuc",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tur",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_tuv",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ucr",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_uga",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_urs",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_uru",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_uzb",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_vut",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_vat",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_ven",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_vtn",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_esh",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_zar",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_zan",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_nasc#opcao_zin",
+   "campo": "f_pais_nasc",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ac",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_al",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ap",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_am",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=AM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ba",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=BA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ce",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=CE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15425
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_df",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=DF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15362
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_es",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=ES lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_go",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=GO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ma",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=MA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_mt",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=MT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ms",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=MS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_mg",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=MG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_pa",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=PA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_pb",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=PB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15377
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_pr",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=PR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_pe",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=PE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15390
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_pi",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=PI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_rj",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_rn",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15386
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_rs",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15430
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_ro",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_rr",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=RR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_sc",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=SC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15401
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_sp",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=SP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15443
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_se",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=SE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "f_uf_nasc#opcao_to",
    "campo": "f_uf_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=TO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15409
+   "ms": 130
   },
   {
    "id": "f_cidade_nasc#tipico",
    "campo": "f_cidade_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "f_cidade_nasc#maximo",
    "campo": "f_cidade_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15413
+   "ms": 130
   },
   {
    "id": "f_cidade_nasc#acima_do_limite",
    "campo": "f_cidade_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15406
+   "ms": 130
   },
   {
    "id": "f_cidade_nasc#acentos",
    "campo": "f_cidade_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_dta_nasc#tipico",
    "campo": "f_dta_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15394
+   "ms": 130
   },
   {
    "id": "f_dta_nasc#maximo",
    "campo": "f_dta_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15403
+   "ms": 130
   },
   {
    "id": "f_dta_nasc#acima_do_limite",
    "campo": "f_dta_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15757
+   "ms": 130
   },
   {
    "id": "f_dta_nasc#acentos",
    "campo": "f_dta_nasc",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_rg_nro#tipico",
    "campo": "f_rg_nro",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15407
+   "ms": 130
   },
   {
    "id": "f_rg_nro#maximo",
    "campo": "f_rg_nro",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_rg_nro#acima_do_limite",
    "campo": "f_rg_nro",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_rg_nro#acentos",
    "campo": "f_rg_nro",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15392
+   "ms": 130
   },
   {
    "id": "f_orgao_rg#tipico",
    "campo": "f_orgao_rg",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15404
+   "ms": 130
   },
   {
    "id": "f_orgao_rg#maximo",
    "campo": "f_orgao_rg",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15386
+   "ms": 130
   },
   {
    "id": "f_orgao_rg#acima_do_limite",
    "campo": "f_orgao_rg",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_orgao_rg#acentos",
    "campo": "f_orgao_rg",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15754
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ac",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=AC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15391
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_al",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=AL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15416
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ap",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=AP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_am",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=AM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ba",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=BA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15755
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ce",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=CE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_df",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=DF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15734
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_es",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=ES lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_go",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=GO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15402
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ma",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=MA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_mt",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=MT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15406
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ms",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=MS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15755
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_mg",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=MG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15391
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_pa",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=PA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15418
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_pb",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=PB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15407
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_pr",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=PR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15406
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_pe",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=PE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_pi",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=PI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_rj",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=RJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_rn",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=RN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_rs",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=RS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_ro",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=RO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15766
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_rr",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=RR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15752
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_sc",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=SC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_sp",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=SP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_se",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=SE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_uf_rg#opcao_to",
    "campo": "f_uf_rg",
-   "status": "divergente",
-   "detalhe": "esperado=TO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_dta_rg#tipico",
    "campo": "f_dta_rg",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_dta_rg#maximo",
    "campo": "f_dta_rg",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "f_dta_rg#acima_do_limite",
    "campo": "f_dta_rg",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_dta_rg#acentos",
    "campo": "f_dta_rg",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_passaporte#tipico",
    "campo": "f_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típic lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15393
+   "ms": 130
   },
   {
    "id": "f_passaporte#maximo",
    "campo": "f_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15433
+   "ms": 130
   },
   {
    "id": "f_passaporte#acima_do_limite",
    "campo": "f_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_passaporte#acentos",
    "campo": "f_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “as lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_dta_val_passaporte#tipico",
    "campo": "f_dta_val_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15777
+   "ms": 130
   },
   {
    "id": "f_dta_val_passaporte#maximo",
    "campo": "f_dta_val_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_dta_val_passaporte#acima_do_limite",
    "campo": "f_dta_val_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15390
+   "ms": 130
   },
   {
    "id": "f_dta_val_passaporte#acentos",
    "campo": "f_dta_val_passaporte",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15756
+   "ms": 130
   },
   {
    "id": "f_dta_emissao_doc#tipico",
    "campo": "f_dta_emissao_doc",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_dta_emissao_doc#maximo",
    "campo": "f_dta_emissao_doc",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15393
+   "ms": 130
   },
   {
    "id": "f_dta_emissao_doc#acima_do_limite",
    "campo": "f_dta_emissao_doc",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15425
+   "ms": 130
   },
   {
    "id": "f_dta_emissao_doc#acentos",
    "campo": "f_dta_emissao_doc",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_rfa",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=RFA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_arg",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ARG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_aus",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AUS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bra",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_can",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CAN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_esp",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ESP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15383
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_eua",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=EUA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_fra",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=FRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_gbr",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=GBR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_hol",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=HOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ing",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ING lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15751
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ita",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ITA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15362
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_por",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=POR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_afg",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AFG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15360
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_afs",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AFS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15386
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_alb",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ALB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_and",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AND lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ang",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ANG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_atc",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ATC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_anb",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ANB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15753
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ahl",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15420
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ara",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ARA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_arl",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ARL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_arm",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ARM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15410
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_abw",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ABW lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_aut",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_aze",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=AZE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15431
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bhs",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BHS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15411
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bgd",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BGD lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_brb",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BRB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15756
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bar",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BAR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bea",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BEA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15397
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bel",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BEL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_blz",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BLZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ben",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BEN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15752
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ber",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BER lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bir",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BIR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15362
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bol",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bos",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BOS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bot",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15754
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_iot",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=IOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_brn",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15396
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bul",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BUL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bkf",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BKF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15412
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_bur",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BUR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_but",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=BUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cbv",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CBV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cam",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CAM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15767
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cbj",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CBJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cat",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CAT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_caz",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CAZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cha",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CHA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_chl",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_chn",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CHN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_chp",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CHP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cxr",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CXR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cin",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_col",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=COL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_com",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=COM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_con",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_crn",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_crs",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CRS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15398
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cmf",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CMF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15752
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_crc",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CRC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cro",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CRO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15370
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_cub",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=CUB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_din",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=DIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_dji",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=DJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15413
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_don",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=DON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_egi",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=EGI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_els",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ELS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_eau",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=EAU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_equ",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=EQU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_ert",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ERT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_esc",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ESC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15381
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_svk",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=SVK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15385
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_svn",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=SVN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15748
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_est",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=EST lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15413
+   "ms": 130
   },
   {
    "id": "fpaispassaporte#opcao_etp",
    "campo": "fpaispassaporte",
-   "status": "divergente",
-   "detalhe": "esperado=ETP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_fji",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_fil",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_fin",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_for",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gab",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gal",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gam",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gan",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_geo",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gib",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_grd",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gre",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_grl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gdl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gum",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gua",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gui",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gfr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gne",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gnb",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_gnq",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_hti",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_hon",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_hkg",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_hun",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_iem",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ims",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_cym",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_cck",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_cok",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_flk",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ifa",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_imh",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mid",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nfk",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_slb",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_shn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tca",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_iva",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_vgb",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_wak",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_wlf",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ind",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_idn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ira",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_irq",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_irl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_irn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_isl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_isr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_iug",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_jam",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_jap",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_jor",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_kir",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_kwt",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lao",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_les",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_let",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lbn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lbr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lib",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lie",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lit",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lux",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mac",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mcd",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mad",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mal",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mlv",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mdv",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mli",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mlt",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mar",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mrt",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mau",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mtn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mex",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mmr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_fsm",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mbq",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mol",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mon",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mgl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_mne",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_msr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nam",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nru",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_npl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nic",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nig",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nga",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_niu",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nor",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ncl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_nzl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_oma",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_pci",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_plu",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_pse",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_pan",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_png",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_paq",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_prg",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_per",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_pcn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_plf",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_pol",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ptr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_que",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_qui",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_cod",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rca",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_dom",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tch",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rtc",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_reu",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rom",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rua",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rss",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_asm",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sam",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_smr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_lca",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_kna",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_spm",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_stp",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_vct",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sen",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_srl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_rs",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_syc",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sir",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_som",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sri",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sua",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sud",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sue",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sui",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_sur",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tad",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tai",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tan",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tmp",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tgo",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tkl",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ton",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_trt",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tun",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tuc",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tur",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_tuv",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ucr",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_uga",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_urs",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_uru",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_uzb",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_vut",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_vat",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_ven",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_vtn",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_esh",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_zar",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_zan",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "fpaispassaporte#opcao_zin",
+   "campo": "fpaispassaporte",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
   },
   {
    "id": "f_pcd_r#opcao_n",
@@ -2735,71 +6685,71 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15409
+   "ms": 130
   },
   {
    "id": "f_pcd_r#opcao_s",
    "campo": "f_pcd_r",
-   "status": "divergente",
-   "detalhe": "esperado=S lido=N",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15379
+   "ms": 130
   },
   {
    "id": "f_pcd#so_a",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=A lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pcd#so_f",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=F lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15394
+   "ms": 130
   },
   {
    "id": "f_pcd#so_i",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=I lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15374
+   "ms": 130
   },
   {
    "id": "f_pcd#so_v",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=V lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15398
+   "ms": 130
   },
   {
    "id": "f_pcd#so_e",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=E lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15408
+   "ms": 130
   },
   {
    "id": "f_pcd#so_m",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=M lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pcd#todas",
    "campo": "f_pcd",
-   "status": "divergente",
-   "detalhe": "esperado=A,E,F,I,M,V lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   }
  ]
 }

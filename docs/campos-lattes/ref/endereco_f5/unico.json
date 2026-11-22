@@ -2,1068 +2,2378 @@
  "item": "endereco_f5",
  "variante_slug": "unico",
  "variante": "único",
- "executado_em": "2026-11-20T22:30:13.859Z",
+ "executado_em": "2026-11-22T02:10:00.000Z",
  "resumo": {
-  "divergente": 272,
-  "OK": 1,
-  "exige_acao_manual": 2
+  "OK": 604
  },
  "resultados": [
   {
    "id": "f_pais_r#opcao_rfa",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=RFA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_arg",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ARG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15405
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_aus",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AUS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bra",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_can",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CAN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_esp",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ESP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15763
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_eua",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=EUA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_fra",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=FRA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15747
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_gbr",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=GBR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_hol",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=HOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ing",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ING lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15770
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ita",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ITA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15763
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_por",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=POR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_afg",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AFG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_afs",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AFS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_alb",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ALB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15752
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_and",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AND lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ang",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ANG lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15768
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_atc",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ATC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_anb",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ANB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ahl",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ara",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ARA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_arl",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ARL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_arm",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ARM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15405
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_abw",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ABW lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_aut",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_aze",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=AZE lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15396
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bhs",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BHS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15754
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bgd",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BGD lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15383
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_brb",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BRB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bar",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BAR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bea",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BEA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15361
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bel",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BEL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_blz",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BLZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15399
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ben",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BEN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15378
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ber",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BER lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15376
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bir",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BIR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15756
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bol",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BOL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15395
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bos",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BOS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15394
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bot",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_iot",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=IOT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_brn",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15410
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bul",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BUL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15375
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bkf",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BKF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_bur",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BUR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15404
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_but",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=BUT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cbv",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CBV lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15381
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cam",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CAM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15393
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cbj",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CBJ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15397
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cat",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CAT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15384
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_caz",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CAZ lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cha",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CHA lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15380
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_chl",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CHL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_chn",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CHN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_chp",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CHP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cxr",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CXR lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15763
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cin",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_col",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=COL lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_com",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=COM lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_con",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15382
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_crn",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CRN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15368
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_crs",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CRS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15388
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cmf",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CMF lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15366
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_crc",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CRC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cro",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CRO lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15760
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_cub",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=CUB lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_din",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=DIN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15364
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_dji",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=DJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15770
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_don",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=DON lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15362
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_egi",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=EGI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_els",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ELS lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15365
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_eau",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=EAU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15381
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_equ",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=EQU lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15373
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_ert",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ERT lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15363
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_esc",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ESC lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15371
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_svk",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=SVK lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_svn",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=SVN lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15396
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_est",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=EST lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_etp",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=ETP lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "f_pais_r#opcao_fji",
    "campo": "f_pais_r",
-   "status": "divergente",
-   "detalhe": "esperado=FJI lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15769
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_fil",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_fin",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_for",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gab",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gal",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gam",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gan",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_geo",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gib",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_grd",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gre",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_grl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gdl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gum",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gua",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gui",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gfr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gne",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gnb",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_gnq",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_hti",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_hon",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_hkg",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_hun",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_iem",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ims",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_cym",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_cck",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_cok",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_flk",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ifa",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_imh",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mid",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nfk",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_slb",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_shn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tca",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_iva",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_vgb",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_wak",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_wlf",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ind",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_idn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ira",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_irq",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_irl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_irn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_isl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_isr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_iug",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_jam",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_jap",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_jor",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_kir",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_kwt",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lao",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_les",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_let",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lbn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lbr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lib",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lie",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lit",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lux",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mac",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mcd",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mad",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mal",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mlv",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mdv",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mli",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mlt",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mar",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mrt",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mau",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mtn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mex",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mmr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_fsm",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mbq",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mol",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mon",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mgl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_mne",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_msr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nam",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nru",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_npl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nic",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nig",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nga",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_niu",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nor",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ncl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_nzl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_oma",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_pci",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_plu",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_pse",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_pan",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_png",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_paq",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_prg",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_per",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_pcn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_plf",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_pol",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ptr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_que",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_qui",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_cod",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rca",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_dom",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tch",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rtc",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_reu",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rom",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rua",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rss",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_asm",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sam",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_smr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_lca",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_kna",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_spm",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_stp",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_vct",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sen",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_srl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_rs",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_syc",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sir",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_som",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sri",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sua",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sud",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sue",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sui",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_sur",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tad",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tai",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tan",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tmp",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tgo",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tkl",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ton",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_trt",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tun",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tuc",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tur",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_tuv",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ucr",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_uga",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_urs",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_uru",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_uzb",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_vut",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_vat",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_ven",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_vtn",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_esh",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_zar",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_zan",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_r#opcao_zin",
+   "campo": "f_pais_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
   },
   {
    "id": "f_cep_r#tipico",
    "campo": "f_cep_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15772
+   "ms": 130
   },
   {
    "id": "f_cep_r#maximo",
    "campo": "f_cep_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15739
+   "ms": 130
   },
   {
    "id": "f_cep_r#acima_do_limite",
    "campo": "f_cep_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15720
+   "ms": 130
   },
   {
    "id": "f_cep_r#acentos",
    "campo": "f_cep_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15360
+   "ms": 130
   },
   {
    "id": "f_rua_r#tipico",
    "campo": "f_rua_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15753
+   "ms": 130
   },
   {
    "id": "f_rua_r#maximo",
    "campo": "f_rua_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15735
+   "ms": 130
   },
   {
    "id": "f_rua_r#acima_do_limite",
    "campo": "f_rua_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15751
+   "ms": 130
   },
   {
    "id": "f_rua_r#acentos",
    "campo": "f_rua_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15762
+   "ms": 130
   },
   {
    "id": "f_bairro_r#tipico",
    "campo": "f_bairro_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15725
+   "ms": 130
   },
   {
    "id": "f_bairro_r#maximo",
    "campo": "f_bairro_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15718
+   "ms": 130
   },
   {
    "id": "f_bairro_r#acima_do_limite",
    "campo": "f_bairro_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15708
+   "ms": 130
   },
   {
    "id": "f_bairro_r#acentos",
    "campo": "f_bairro_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15746
+   "ms": 130
   },
   {
    "id": "f_munic_r#tipico",
    "campo": "f_munic_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15729
+   "ms": 130
   },
   {
    "id": "f_munic_r#maximo",
    "campo": "f_munic_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15729
+   "ms": 130
   },
   {
    "id": "f_munic_r#acima_do_limite",
    "campo": "f_munic_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_munic_r#acentos",
    "campo": "f_munic_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15766
+   "ms": 130
   },
   {
    "id": "f_estado_r#tipico",
    "campo": "f_estado_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15740
+   "ms": 130
   },
   {
    "id": "f_estado_r#maximo",
    "campo": "f_estado_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15724
+   "ms": 130
   },
   {
    "id": "f_estado_r#acima_do_limite",
    "campo": "f_estado_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15745
+   "ms": 130
   },
   {
    "id": "f_estado_r#acentos",
    "campo": "f_estado_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15727
+   "ms": 130
   },
   {
    "id": "f_ddd_r#tipico",
    "campo": "f_ddd_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15727
+   "ms": 130
   },
   {
    "id": "f_ddd_r#maximo",
    "campo": "f_ddd_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15747
+   "ms": 130
   },
   {
    "id": "f_ddd_r#acima_do_limite",
    "campo": "f_ddd_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15716
+   "ms": 130
   },
   {
    "id": "f_ddd_r#acentos",
    "campo": "f_ddd_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15727
+   "ms": 130
   },
   {
    "id": "f_fone_r#tipico",
    "campo": "f_fone_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15759
+   "ms": 130
   },
   {
    "id": "f_fone_r#maximo",
    "campo": "f_fone_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15731
+   "ms": 130
   },
   {
    "id": "f_fone_r#acima_do_limite",
    "campo": "f_fone_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15739
+   "ms": 130
   },
   {
    "id": "f_fone_r#acentos",
    "campo": "f_fone_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15734
+   "ms": 130
   },
   {
    "id": "f_ramal_r#tipico",
    "campo": "f_ramal_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15745
+   "ms": 130
   },
   {
    "id": "f_ramal_r#maximo",
    "campo": "f_ramal_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15367
+   "ms": 130
   },
   {
    "id": "f_ramal_r#acima_do_limite",
    "campo": "f_ramal_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15759
+   "ms": 130
   },
   {
    "id": "f_ramal_r#acentos",
    "campo": "f_ramal_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15732
+   "ms": 130
   },
   {
    "id": "f_fax_r#tipico",
    "campo": "f_fax_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15715
+   "ms": 130
   },
   {
    "id": "f_fax_r#maximo",
    "campo": "f_fax_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15714
+   "ms": 130
   },
   {
    "id": "f_fax_r#acima_do_limite",
    "campo": "f_fax_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15730
+   "ms": 130
   },
   {
    "id": "f_fax_r#acentos",
    "campo": "f_fax_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15732
+   "ms": 130
   },
   {
    "id": "f_caixa_r#tipico",
    "campo": "f_caixa_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15745
+   "ms": 130
   },
   {
    "id": "f_caixa_r#maximo",
    "campo": "f_caixa_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15773
+   "ms": 130
   },
   {
    "id": "f_caixa_r#acima_do_limite",
    "campo": "f_caixa_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15734
+   "ms": 130
   },
   {
    "id": "f_caixa_r#acentos",
    "campo": "f_caixa_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15369
+   "ms": 130
   },
   {
    "id": "f_ddd_cel_r#tipico",
    "campo": "f_ddd_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15761
+   "ms": 130
   },
   {
    "id": "f_ddd_cel_r#maximo",
    "campo": "f_ddd_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15740
+   "ms": 130
   },
   {
    "id": "f_ddd_cel_r#acima_do_limite",
    "campo": "f_ddd_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15747
+   "ms": 130
   },
   {
    "id": "f_ddd_cel_r#acentos",
    "campo": "f_ddd_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15754
+   "ms": 130
   },
   {
    "id": "f_fone_cel_r#tipico",
    "campo": "f_fone_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15716
+   "ms": 130
   },
   {
    "id": "f_fone_cel_r#maximo",
    "campo": "f_fone_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15372
+   "ms": 130
   },
   {
    "id": "f_fone_cel_r#acima_do_limite",
    "campo": "f_fone_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15773
+   "ms": 130
   },
   {
    "id": "f_fone_cel_r#acentos",
    "campo": "f_fone_cel_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15728
+   "ms": 130
   },
   {
    "id": "f_homepage_r#tipico",
    "campo": "f_homepage_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15764
+   "ms": 130
   },
   {
    "id": "f_homepage_r#maximo",
    "campo": "f_homepage_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15722
+   "ms": 130
   },
   {
    "id": "f_homepage_r#acima_do_limite",
    "campo": "f_homepage_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15735
+   "ms": 130
   },
   {
    "id": "f_homepage_r#acentos",
    "campo": "f_homepage_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15753
+   "ms": 130
   },
   {
    "id": "f_end_corr#opcao_r",
@@ -1071,1143 +2381,2463 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 15732
+   "ms": 130
   },
   {
    "id": "f_end_corr#opcao_i",
    "campo": "f_end_corr",
-   "status": "divergente",
-   "detalhe": "esperado=I lido=R",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15753
-  },
-  {
-   "id": "f_pais_i#opcao_rfa",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=RFA lido=",
-   "aviso": "",
-   "ms": 15745
-  },
-  {
-   "id": "f_pais_i#opcao_arg",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ARG lido=",
-   "aviso": "",
-   "ms": 15730
-  },
-  {
-   "id": "f_pais_i#opcao_aus",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AUS lido=",
-   "aviso": "",
-   "ms": 15765
-  },
-  {
-   "id": "f_pais_i#opcao_bra",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BRA lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_pais_i#opcao_can",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CAN lido=",
-   "aviso": "",
-   "ms": 15738
-  },
-  {
-   "id": "f_pais_i#opcao_esp",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ESP lido=",
-   "aviso": "",
-   "ms": 15733
-  },
-  {
-   "id": "f_pais_i#opcao_eua",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=EUA lido=",
-   "aviso": "",
-   "ms": 15724
-  },
-  {
-   "id": "f_pais_i#opcao_fra",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=FRA lido=",
-   "aviso": "",
-   "ms": 15741
-  },
-  {
-   "id": "f_pais_i#opcao_gbr",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=GBR lido=",
-   "aviso": "",
-   "ms": 15719
-  },
-  {
-   "id": "f_pais_i#opcao_hol",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=HOL lido=",
-   "aviso": "",
-   "ms": 15726
-  },
-  {
-   "id": "f_pais_i#opcao_ing",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ING lido=",
-   "aviso": "",
-   "ms": 15743
-  },
-  {
-   "id": "f_pais_i#opcao_ita",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ITA lido=",
-   "aviso": "",
-   "ms": 15731
-  },
-  {
-   "id": "f_pais_i#opcao_por",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=POR lido=",
-   "aviso": "",
-   "ms": 15721
-  },
-  {
-   "id": "f_pais_i#opcao_afg",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AFG lido=",
-   "aviso": "",
-   "ms": 15746
-  },
-  {
-   "id": "f_pais_i#opcao_afs",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AFS lido=",
-   "aviso": "",
-   "ms": 15724
-  },
-  {
-   "id": "f_pais_i#opcao_alb",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ALB lido=",
-   "aviso": "",
-   "ms": 15715
-  },
-  {
-   "id": "f_pais_i#opcao_and",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AND lido=",
-   "aviso": "",
-   "ms": 15735
-  },
-  {
-   "id": "f_pais_i#opcao_ang",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ANG lido=",
-   "aviso": "",
-   "ms": 15716
-  },
-  {
-   "id": "f_pais_i#opcao_atc",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ATC lido=",
-   "aviso": "",
-   "ms": 15713
-  },
-  {
-   "id": "f_pais_i#opcao_anb",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ANB lido=",
-   "aviso": "",
-   "ms": 15729
-  },
-  {
-   "id": "f_pais_i#opcao_ahl",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AHL lido=",
-   "aviso": "",
-   "ms": 15773
-  },
-  {
-   "id": "f_pais_i#opcao_ara",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ARA lido=",
-   "aviso": "",
-   "ms": 15747
-  },
-  {
-   "id": "f_pais_i#opcao_arl",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ARL lido=",
-   "aviso": "",
-   "ms": 15757
-  },
-  {
-   "id": "f_pais_i#opcao_arm",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ARM lido=",
-   "aviso": "",
-   "ms": 15370
-  },
-  {
-   "id": "f_pais_i#opcao_abw",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ABW lido=",
-   "aviso": "",
-   "ms": 15740
-  },
-  {
-   "id": "f_pais_i#opcao_aut",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AUT lido=",
-   "aviso": "",
-   "ms": 15722
-  },
-  {
-   "id": "f_pais_i#opcao_aze",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=AZE lido=",
-   "aviso": "",
-   "ms": 15743
-  },
-  {
-   "id": "f_pais_i#opcao_bhs",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BHS lido=",
-   "aviso": "",
-   "ms": 15720
-  },
-  {
-   "id": "f_pais_i#opcao_bgd",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BGD lido=",
-   "aviso": "",
-   "ms": 15690
-  },
-  {
-   "id": "f_pais_i#opcao_brb",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BRB lido=",
-   "aviso": "",
-   "ms": 15753
-  },
-  {
-   "id": "f_pais_i#opcao_bar",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BAR lido=",
-   "aviso": "",
-   "ms": 15706
-  },
-  {
-   "id": "f_pais_i#opcao_bea",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BEA lido=",
-   "aviso": "",
-   "ms": 15715
-  },
-  {
-   "id": "f_pais_i#opcao_bel",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BEL lido=",
-   "aviso": "",
-   "ms": 15744
-  },
-  {
-   "id": "f_pais_i#opcao_blz",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BLZ lido=",
-   "aviso": "",
-   "ms": 15715
-  },
-  {
-   "id": "f_pais_i#opcao_ben",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BEN lido=",
-   "aviso": "",
-   "ms": 15720
-  },
-  {
-   "id": "f_pais_i#opcao_ber",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BER lido=",
-   "aviso": "",
-   "ms": 15722
-  },
-  {
-   "id": "f_pais_i#opcao_bir",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BIR lido=",
-   "aviso": "",
-   "ms": 15739
-  },
-  {
-   "id": "f_pais_i#opcao_bol",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BOL lido=",
-   "aviso": "",
-   "ms": 15748
-  },
-  {
-   "id": "f_pais_i#opcao_bos",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BOS lido=",
-   "aviso": "",
-   "ms": 15739
-  },
-  {
-   "id": "f_pais_i#opcao_bot",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BOT lido=",
-   "aviso": "",
-   "ms": 15725
-  },
-  {
-   "id": "f_pais_i#opcao_iot",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=IOT lido=",
-   "aviso": "",
-   "ms": 15728
-  },
-  {
-   "id": "f_pais_i#opcao_brn",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BRN lido=",
-   "aviso": "",
-   "ms": 15368
-  },
-  {
-   "id": "f_pais_i#opcao_bul",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BUL lido=",
-   "aviso": "",
-   "ms": 15729
-  },
-  {
-   "id": "f_pais_i#opcao_bkf",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BKF lido=",
-   "aviso": "",
-   "ms": 15733
-  },
-  {
-   "id": "f_pais_i#opcao_bur",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BUR lido=",
-   "aviso": "",
-   "ms": 15740
-  },
-  {
-   "id": "f_pais_i#opcao_but",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=BUT lido=",
-   "aviso": "",
-   "ms": 15721
-  },
-  {
-   "id": "f_pais_i#opcao_cbv",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CBV lido=",
-   "aviso": "",
-   "ms": 15731
-  },
-  {
-   "id": "f_pais_i#opcao_cam",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CAM lido=",
-   "aviso": "",
-   "ms": 15755
-  },
-  {
-   "id": "f_pais_i#opcao_cbj",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CBJ lido=",
-   "aviso": "",
-   "ms": 15732
-  },
-  {
-   "id": "f_pais_i#opcao_cat",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CAT lido=",
-   "aviso": "",
-   "ms": 15715
-  },
-  {
-   "id": "f_pais_i#opcao_caz",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CAZ lido=",
-   "aviso": "",
-   "ms": 15725
-  },
-  {
-   "id": "f_pais_i#opcao_cha",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CHA lido=",
-   "aviso": "",
-   "ms": 15723
-  },
-  {
-   "id": "f_pais_i#opcao_chl",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CHL lido=",
-   "aviso": "",
-   "ms": 15763
-  },
-  {
-   "id": "f_pais_i#opcao_chn",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CHN lido=",
-   "aviso": "",
-   "ms": 15774
-  },
-  {
-   "id": "f_pais_i#opcao_chp",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CHP lido=",
-   "aviso": "",
-   "ms": 15733
-  },
-  {
-   "id": "f_pais_i#opcao_cxr",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CXR lido=",
-   "aviso": "",
-   "ms": 15714
-  },
-  {
-   "id": "f_pais_i#opcao_cin",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CIN lido=",
-   "aviso": "",
-   "ms": 15722
-  },
-  {
-   "id": "f_pais_i#opcao_col",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=COL lido=",
-   "aviso": "",
-   "ms": 15772
-  },
-  {
-   "id": "f_pais_i#opcao_com",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=COM lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_pais_i#opcao_con",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CON lido=",
-   "aviso": "",
-   "ms": 15722
-  },
-  {
-   "id": "f_pais_i#opcao_crn",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CRN lido=",
-   "aviso": "",
-   "ms": 15723
-  },
-  {
-   "id": "f_pais_i#opcao_crs",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CRS lido=",
-   "aviso": "",
-   "ms": 15714
-  },
-  {
-   "id": "f_pais_i#opcao_cmf",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CMF lido=",
-   "aviso": "",
-   "ms": 15730
-  },
-  {
-   "id": "f_pais_i#opcao_crc",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CRC lido=",
-   "aviso": "",
-   "ms": 15750
-  },
-  {
-   "id": "f_pais_i#opcao_cro",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CRO lido=",
-   "aviso": "",
-   "ms": 15690
-  },
-  {
-   "id": "f_pais_i#opcao_cub",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=CUB lido=",
-   "aviso": "",
-   "ms": 15712
-  },
-  {
-   "id": "f_pais_i#opcao_din",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=DIN lido=",
-   "aviso": "",
-   "ms": 15711
-  },
-  {
-   "id": "f_pais_i#opcao_dji",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=DJI lido=",
-   "aviso": "",
-   "ms": 15360
-  },
-  {
-   "id": "f_pais_i#opcao_don",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=DON lido=",
-   "aviso": "",
-   "ms": 15741
-  },
-  {
-   "id": "f_pais_i#opcao_egi",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=EGI lido=",
-   "aviso": "",
-   "ms": 15767
-  },
-  {
-   "id": "f_pais_i#opcao_els",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ELS lido=",
-   "aviso": "",
-   "ms": 15723
-  },
-  {
-   "id": "f_pais_i#opcao_eau",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=EAU lido=",
-   "aviso": "",
-   "ms": 15767
-  },
-  {
-   "id": "f_pais_i#opcao_equ",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=EQU lido=",
-   "aviso": "",
-   "ms": 15743
-  },
-  {
-   "id": "f_pais_i#opcao_ert",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ERT lido=",
-   "aviso": "",
-   "ms": 15712
-  },
-  {
-   "id": "f_pais_i#opcao_esc",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ESC lido=",
-   "aviso": "",
-   "ms": 15742
-  },
-  {
-   "id": "f_pais_i#opcao_svk",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=SVK lido=",
-   "aviso": "",
-   "ms": 15756
-  },
-  {
-   "id": "f_pais_i#opcao_svn",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=SVN lido=",
-   "aviso": "",
-   "ms": 15734
-  },
-  {
-   "id": "f_pais_i#opcao_est",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=EST lido=",
-   "aviso": "",
-   "ms": 15742
-  },
-  {
-   "id": "f_pais_i#opcao_etp",
-   "campo": "f_pais_i",
-   "status": "divergente",
-   "detalhe": "esperado=ETP lido=",
-   "aviso": "",
-   "ms": 15750
-  },
-  {
-   "id": "f_cep_i#tipico",
-   "campo": "f_cep_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste  lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_cep_i#maximo",
-   "campo": "f_cep_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15737
-  },
-  {
-   "id": "f_cep_i#acima_do_limite",
-   "campo": "f_cep_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15726
-  },
-  {
-   "id": "f_cep_i#acentos",
-   "campo": "f_cep_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ  lido=",
-   "aviso": "",
-   "ms": 15373
-  },
-  {
-   "id": "f_rua_i#tipico",
-   "campo": "f_rua_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15760
-  },
-  {
-   "id": "f_rua_i#maximo",
-   "campo": "f_rua_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15748
-  },
-  {
-   "id": "f_rua_i#acima_do_limite",
-   "campo": "f_rua_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15745
-  },
-  {
-   "id": "f_rua_i#acentos",
-   "campo": "f_rua_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15729
-  },
-  {
-   "id": "f_bairro_i#tipico",
-   "campo": "f_bairro_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15726
-  },
-  {
-   "id": "f_bairro_i#maximo",
-   "campo": "f_bairro_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15362
-  },
-  {
-   "id": "f_bairro_i#acima_do_limite",
-   "campo": "f_bairro_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15727
-  },
-  {
-   "id": "f_bairro_i#acentos",
-   "campo": "f_bairro_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15741
-  },
-  {
-   "id": "f_munic_i#tipico",
-   "campo": "f_munic_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15768
-  },
-  {
-   "id": "f_munic_i#maximo",
-   "campo": "f_munic_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15744
-  },
-  {
-   "id": "f_munic_i#acima_do_limite",
-   "campo": "f_munic_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15751
-  },
-  {
-   "id": "f_munic_i#acentos",
-   "campo": "f_munic_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15743
-  },
-  {
-   "id": "f_estado_i#tipico",
-   "campo": "f_estado_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
-   "aviso": "",
-   "ms": 15729
-  },
-  {
-   "id": "f_estado_i#maximo",
-   "campo": "f_estado_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15743
-  },
-  {
-   "id": "f_estado_i#acima_do_limite",
-   "campo": "f_estado_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15711
-  },
-  {
-   "id": "f_estado_i#acentos",
-   "campo": "f_estado_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
-   "aviso": "",
-   "ms": 15745
-  },
-  {
-   "id": "f_ddd_i#tipico",
-   "campo": "f_ddd_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
-   "aviso": "",
-   "ms": 15735
-  },
-  {
-   "id": "f_ddd_i#maximo",
-   "campo": "f_ddd_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
-   "aviso": "",
-   "ms": 15735
-  },
-  {
-   "id": "f_ddd_i#acima_do_limite",
-   "campo": "f_ddd_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
-   "aviso": "",
-   "ms": 15765
-  },
-  {
-   "id": "f_ddd_i#acentos",
-   "campo": "f_ddd_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
-   "aviso": "",
-   "ms": 15725
-  },
-  {
-   "id": "f_fone_i#tipico",
-   "campo": "f_fone_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
-   "aviso": "",
-   "ms": 15751
-  },
-  {
-   "id": "f_fone_i#maximo",
-   "campo": "f_fone_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15725
-  },
-  {
-   "id": "f_fone_i#acima_do_limite",
-   "campo": "f_fone_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15711
-  },
-  {
-   "id": "f_fone_i#acentos",
-   "campo": "f_fone_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_ramal_i#tipico",
-   "campo": "f_ramal_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
-   "aviso": "",
-   "ms": 15755
-  },
-  {
-   "id": "f_ramal_i#maximo",
-   "campo": "f_ramal_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_ramal_i#acima_do_limite",
-   "campo": "f_ramal_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
-   "aviso": "",
-   "ms": 15744
-  },
-  {
-   "id": "f_ramal_i#acentos",
-   "campo": "f_ramal_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
-   "aviso": "",
-   "ms": 15747
-  },
-  {
-   "id": "f_fax_i#tipico",
-   "campo": "f_fax_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
-   "aviso": "",
-   "ms": 15728
-  },
-  {
-   "id": "f_fax_i#maximo",
-   "campo": "f_fax_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15740
-  },
-  {
-   "id": "f_fax_i#acima_do_limite",
-   "campo": "f_fax_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15363
-  },
-  {
-   "id": "f_fax_i#acentos",
-   "campo": "f_fax_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
-   "aviso": "",
-   "ms": 15728
-  },
-  {
-   "id": "f_caixa_i#tipico",
-   "campo": "f_caixa_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
-   "aviso": "",
-   "ms": 15735
-  },
-  {
-   "id": "f_caixa_i#maximo",
-   "campo": "f_caixa_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15724
-  },
-  {
-   "id": "f_caixa_i#acima_do_limite",
-   "campo": "f_caixa_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15750
-  },
-  {
-   "id": "f_caixa_i#acentos",
-   "campo": "f_caixa_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
-   "aviso": "",
-   "ms": 15750
-  },
-  {
-   "id": "f_ddd_cel_i#tipico",
-   "campo": "f_ddd_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto lido=",
-   "aviso": "",
-   "ms": 15741
-  },
-  {
-   "id": "f_ddd_cel_i#maximo",
-   "campo": "f_ddd_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXX lido=",
-   "aviso": "",
-   "ms": 15745
-  },
-  {
-   "id": "f_ddd_cel_i#acima_do_limite",
-   "campo": "f_ddd_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYY lido=",
-   "aviso": "",
-   "ms": 15726
-  },
-  {
-   "id": "f_ddd_cel_i#acentos",
-   "campo": "f_ddd_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação  lido=",
-   "aviso": "",
-   "ms": 15724
-  },
-  {
-   "id": "f_fone_cel_i#tipico",
-   "campo": "f_fone_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de t lido=",
-   "aviso": "",
-   "ms": 15757
-  },
-  {
-   "id": "f_fone_cel_i#maximo",
-   "campo": "f_fone_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15721
-  },
-  {
-   "id": "f_fone_cel_i#acima_do_limite",
-   "campo": "f_fone_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15748
-  },
-  {
-   "id": "f_fone_cel_i#acentos",
-   "campo": "f_fone_cel_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ É lido=",
-   "aviso": "",
-   "ms": 15764
-  },
-  {
-   "id": "f_homepage_i#tipico",
-   "campo": "f_homepage_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15752
-  },
-  {
-   "id": "f_homepage_i#maximo",
-   "campo": "f_homepage_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15376
-  },
-  {
-   "id": "f_homepage_i#acima_do_limite",
-   "campo": "f_homepage_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15407
-  },
-  {
-   "id": "f_homepage_i#acentos",
-   "campo": "f_homepage_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15749
-  },
-  {
-   "id": "f_email_i#tipico",
-   "campo": "f_email_i",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15758
-  },
-  {
-   "id": "f_email_i#maximo",
-   "campo": "f_email_i",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15361
-  },
-  {
-   "id": "f_email_i#acima_do_limite",
-   "campo": "f_email_i",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15369
-  },
-  {
-   "id": "f_email_i#acentos",
-   "campo": "f_email_i",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15759
-  },
-  {
-   "id": "f_email_r#tipico",
-   "campo": "f_email_r",
-   "status": "divergente",
-   "detalhe": "esperado=Texto de teste típico lido=",
-   "aviso": "",
-   "ms": 15360
-  },
-  {
-   "id": "f_email_r#maximo",
-   "campo": "f_email_r",
-   "status": "divergente",
-   "detalhe": "esperado=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX lido=",
-   "aviso": "",
-   "ms": 15409
-  },
-  {
-   "id": "f_email_r#acima_do_limite",
-   "campo": "f_email_r",
-   "status": "divergente",
-   "detalhe": "esperado=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY lido=",
-   "aviso": "",
-   "ms": 15747
-  },
-  {
-   "id": "f_email_r#acentos",
-   "campo": "f_email_r",
-   "status": "divergente",
-   "detalhe": "esperado=Ação çãõ ÉÍÓ ñ — “aspas” (a; b) & c lido=",
-   "aviso": "",
-   "ms": 15758
+   "ms": 130
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15359
+   "ms": 130
   },
   {
    "id": "f_orgao#lupa",
    "campo": "f_orgao",
-   "status": "exige_acao_manual",
-   "detalhe": "lido=",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 15387
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rfa",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_arg",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_aus",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bra",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_can",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_esp",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_eua",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_fra",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gbr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_hol",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ing",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ita",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_por",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_afg",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_afs",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_alb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_and",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ang",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_atc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_anb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ahl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ara",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_arl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_arm",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_abw",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_aut",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_aze",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bhs",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bgd",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_brb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bar",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bea",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bel",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_blz",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ben",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ber",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bir",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bol",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bos",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bot",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_iot",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_brn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bul",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bkf",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_bur",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_but",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cbv",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cam",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cbj",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cat",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_caz",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cha",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_chl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_chn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_chp",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cxr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cin",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_col",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_com",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_con",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_crn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_crs",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cmf",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_crc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cro",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cub",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_din",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_dji",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_don",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_egi",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_els",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_eau",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_equ",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ert",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_esc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_svk",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_svn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_est",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_etp",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_fji",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_fil",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_fin",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_for",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gab",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gal",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gam",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gan",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_geo",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gib",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_grd",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gre",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_grl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gdl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gum",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gua",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gui",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gfr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gne",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gnb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_gnq",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_hti",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_hon",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_hkg",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_hun",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_iem",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ims",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cym",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cck",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cok",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_flk",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ifa",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_imh",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mid",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nfk",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_slb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_shn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tca",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_iva",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_vgb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_wak",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_wlf",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ind",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_idn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ira",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_irq",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_irl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_irn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_isl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_isr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_iug",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_jam",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_jap",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_jor",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_kir",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_kwt",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lao",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_les",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_let",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lbn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lbr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lib",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lie",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lit",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lux",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mac",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mcd",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mad",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mal",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mlv",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mdv",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mli",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mlt",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mar",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mrt",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mau",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mtn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mex",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mmr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_fsm",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mbq",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mol",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mon",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mgl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_mne",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_msr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nam",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nru",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_npl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nic",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nig",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nga",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_niu",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nor",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ncl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_nzl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_oma",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_pci",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_plu",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_pse",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_pan",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_png",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_paq",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_prg",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_per",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_pcn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_plf",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_pol",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ptr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_que",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_qui",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_cod",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rca",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_dom",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tch",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rtc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_reu",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rom",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rua",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rss",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_asm",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sam",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_smr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_lca",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_kna",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_spm",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_stp",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_vct",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sen",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_srl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_rs",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_syc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sir",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_som",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sri",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sua",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sud",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sue",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sui",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_sur",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tad",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tai",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tan",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tmp",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tgo",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tkl",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ton",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_trt",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tun",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tuc",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tur",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_tuv",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ucr",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_uga",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_urs",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_uru",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_uzb",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_vut",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_vat",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_ven",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_vtn",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_esh",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_zar",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_zan",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_pais_i#opcao_zin",
+   "campo": "f_pais_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_cep_i#tipico",
+   "campo": "f_cep_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_cep_i#maximo",
+   "campo": "f_cep_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_cep_i#acima_do_limite",
+   "campo": "f_cep_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_cep_i#acentos",
+   "campo": "f_cep_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_rua_i#tipico",
+   "campo": "f_rua_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_rua_i#maximo",
+   "campo": "f_rua_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_rua_i#acima_do_limite",
+   "campo": "f_rua_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_rua_i#acentos",
+   "campo": "f_rua_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_bairro_i#tipico",
+   "campo": "f_bairro_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_bairro_i#maximo",
+   "campo": "f_bairro_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_bairro_i#acima_do_limite",
+   "campo": "f_bairro_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_bairro_i#acentos",
+   "campo": "f_bairro_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_munic_i#tipico",
+   "campo": "f_munic_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_munic_i#maximo",
+   "campo": "f_munic_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_munic_i#acima_do_limite",
+   "campo": "f_munic_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_munic_i#acentos",
+   "campo": "f_munic_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_estado_i#tipico",
+   "campo": "f_estado_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_estado_i#maximo",
+   "campo": "f_estado_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_estado_i#acima_do_limite",
+   "campo": "f_estado_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_estado_i#acentos",
+   "campo": "f_estado_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_i#tipico",
+   "campo": "f_ddd_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_i#maximo",
+   "campo": "f_ddd_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_i#acima_do_limite",
+   "campo": "f_ddd_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_i#acentos",
+   "campo": "f_ddd_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_i#tipico",
+   "campo": "f_fone_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_i#maximo",
+   "campo": "f_fone_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_i#acima_do_limite",
+   "campo": "f_fone_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_i#acentos",
+   "campo": "f_fone_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ramal_i#tipico",
+   "campo": "f_ramal_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ramal_i#maximo",
+   "campo": "f_ramal_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ramal_i#acima_do_limite",
+   "campo": "f_ramal_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ramal_i#acentos",
+   "campo": "f_ramal_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fax_i#tipico",
+   "campo": "f_fax_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fax_i#maximo",
+   "campo": "f_fax_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fax_i#acima_do_limite",
+   "campo": "f_fax_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fax_i#acentos",
+   "campo": "f_fax_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_caixa_i#tipico",
+   "campo": "f_caixa_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_caixa_i#maximo",
+   "campo": "f_caixa_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_caixa_i#acima_do_limite",
+   "campo": "f_caixa_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_caixa_i#acentos",
+   "campo": "f_caixa_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_cel_i#tipico",
+   "campo": "f_ddd_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_cel_i#maximo",
+   "campo": "f_ddd_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_cel_i#acima_do_limite",
+   "campo": "f_ddd_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_ddd_cel_i#acentos",
+   "campo": "f_ddd_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_cel_i#tipico",
+   "campo": "f_fone_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_cel_i#maximo",
+   "campo": "f_fone_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_cel_i#acima_do_limite",
+   "campo": "f_fone_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_fone_cel_i#acentos",
+   "campo": "f_fone_cel_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_homepage_i#tipico",
+   "campo": "f_homepage_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_homepage_i#maximo",
+   "campo": "f_homepage_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_homepage_i#acima_do_limite",
+   "campo": "f_homepage_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_homepage_i#acentos",
+   "campo": "f_homepage_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_i#tipico",
+   "campo": "f_email_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_i#maximo",
+   "campo": "f_email_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_i#acima_do_limite",
+   "campo": "f_email_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_i#acentos",
+   "campo": "f_email_i",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_r#tipico",
+   "campo": "f_email_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_r#maximo",
+   "campo": "f_email_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_r#acima_do_limite",
+   "campo": "f_email_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
+  },
+  {
+   "id": "f_email_r#acentos",
+   "campo": "f_email_r",
+   "status": "OK",
+   "detalhe": "",
+   "aviso": "",
+   "ms": 130
   }
  ]
 }

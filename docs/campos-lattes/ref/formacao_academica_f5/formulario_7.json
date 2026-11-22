@@ -2,10 +2,10 @@
  "item": "formacao_academica_f5",
  "variante_slug": "formulario_7",
  "variante": "Formulário 7",
- "executado_em": "2026-11-21T00:10:16.431Z",
+ "executado_em": "2026-11-21T15:48:06.568Z",
  "resumo": {
-  "OK": 12,
-  "erro": 2
+  "OK": 13,
+  "exige_acao_manual": 1
  },
  "resultados": [
   {
@@ -14,7 +14,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1063
+   "ms": 3007
   },
   {
    "id": "F_STATUS#opcao_s",
@@ -22,7 +22,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1073
+   "ms": 2988
   },
   {
    "id": "F_STATUS#opcao_i",
@@ -30,7 +30,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1078
+   "ms": 142016
   },
   {
    "id": "f_ano_ini#valido",
@@ -38,7 +38,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 621
+   "ms": 65655
   },
   {
    "id": "f_ano_ini#acima_do_limite",
@@ -46,7 +46,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 629
+   "ms": 683
   },
   {
    "id": "f_ano_ini#letras",
@@ -54,7 +54,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 623
   },
   {
    "id": "f_ano_fim#valido",
@@ -62,7 +62,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 625
   },
   {
    "id": "f_ano_fim#acima_do_limite",
@@ -70,7 +70,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 624
+   "ms": 621
   },
   {
    "id": "f_ano_fim#letras",
@@ -78,7 +78,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 623
+   "ms": 626
   },
   {
    "id": "F_BOLSA#opcao_s",
@@ -86,7 +86,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1076
+   "ms": 1119
   },
   {
    "id": "F_BOLSA#opcao_n",
@@ -94,23 +94,23 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 1074
+   "ms": 1083
   },
   {
    "id": "f_inst#lupa",
    "campo": "f_inst",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "OK",
+   "detalhe": "",
    "aviso": "",
-   "ms": 2
+   "ms": 6012
   },
   {
    "id": "f_curso#lupa",
    "campo": "f_curso",
-   "status": "erro",
-   "detalhe": "url is not defined",
+   "status": "exige_acao_manual",
+   "detalhe": "lido=",
    "aviso": "",
-   "ms": 1
+   "ms": 5195
   },
   {
    "id": "f_nme_agencia#lupa",
@@ -118,7 +118,7 @@
    "status": "OK",
    "detalhe": "",
    "aviso": "",
-   "ms": 2183
+   "ms": 2544
   }
  ]
 }

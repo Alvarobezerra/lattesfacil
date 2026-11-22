@@ -152,6 +152,12 @@ try:
     ok(json.loads(raw)["envios_conciliados"] == {"confirmado": 1}, f"envio confirmado pelo XML ({json.loads(raw).get('envios_conciliados')})")
     envios = json_(a, "GET", "/api/lattes/envios?owner=Joao%20da%20Silva")[1]["envios"]
     ok(envios and envios[0]["xml_status"] == "confirmado", "lista de envios traz o status do XML")
+    st, rotina = json_(a, "GET", "/api/rotina?usuario=Joao%20da%20Silva")
+    ok(st == 200 and rotina["envios_confirmados"] == 1 and rotina["atividade"][0]["titulo"] == "Livro novo", "rotina mostra o envio realmente confirmado")
+    st, rotina = json_(a, "GET", "/api/rotina?usuario=Outro%20Pesquisador")
+    ok(st == 200 and rotina["envios_confirmados"] == 0 and not rotina["atividade"], "rotina filtra pelo pesquisador selecionado")
+    st, tipo, video = pedido(a, "GET", "/media/boas-vindas.mp4")
+    ok(st == 200 and tipo.startswith("video/mp4") and b"ftyp" in video[:16], "animação de boas-vindas é servida como MP4")
     ok(pedido(anon, "DELETE", "/api/curriculo/snapshots/" + sid1)[0] == 401, "apagar versão exige sessão")
     ok(pedido(a, "DELETE", "/api/curriculo/snapshots/" + sid1)[0] == 200 and len(json_(a, "GET", "/api/curriculo/snapshots")[1]["snapshots"]) == 2, "versão apagada")
     ok(pedido(a, "GET", "/meu-curriculo.html")[0] == 200 and pedido(a, "GET", "/meu-curriculo.js")[0] == 200, "página Meu currículo é servida")
