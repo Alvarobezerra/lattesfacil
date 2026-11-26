@@ -78,7 +78,7 @@ def ok(cond, msg):
 
 
 try:
-    for _ in range(40):
+    for _ in range(120):
         try:
             urllib.request.urlopen(BASE + "/login", timeout=1)
             break

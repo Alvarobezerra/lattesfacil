@@ -76,7 +76,11 @@ def anterior(conn: sqlite3.Connection, sid: str) -> str | None:
     if not r:
         return None
     # só compara versões da mesma fonte: o texto de uma página e o XML descrevem o mesmo item de formas diferentes
-    p = conn.execute("SELECT id FROM cv_snapshots WHERE id_lattes = ? AND carregado_em < ? AND fonte = ? ORDER BY carregado_em DESC LIMIT 1", r).fetchone()
+    # desempate por rowid: dois snapshots salvos no mesmo instante (relógio de baixa resolução) têm o mesmo carregado_em
+    p = conn.execute(
+        "SELECT id FROM cv_snapshots WHERE id_lattes = ? AND fonte = ? AND (carregado_em < ? OR "
+        "(carregado_em = ? AND rowid < (SELECT rowid FROM cv_snapshots WHERE id = ?))) "
+        "ORDER BY carregado_em DESC, rowid DESC LIMIT 1", (r[0], r[2], r[1], r[1], sid)).fetchone()
     return p[0] if p else None
 
 
