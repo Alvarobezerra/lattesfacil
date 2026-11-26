@@ -14,8 +14,19 @@
   };
   const rot = (c) => ROTULO[c] || c;
   const UI = window.LattesUI, D = window.CurriculumData;
-  let itens = [], snapshots = [], pagina = 1, grupo = '', carga = 0;
+  let itens = [], snapshots = [], pagina = 1, grupo = '', carga = 0, snapshotAtual = '';
   const PAGE_SIZE = 6;
+  const SECOES = [
+    ['formacao', 'Formação', ['formacao_academica', 'formacao_complementar']],
+    ['atuacao', 'Atuação', ['atuacao_profissional', 'curso_ministrado']],
+    ['publicacoes', 'Publicações', ['artigo', 'artigo_aceito', 'livro', 'capitulo', 'trabalho_evento', 'texto_jornal', 'outra_producao_bibliografica']],
+    ['orientacoes', 'Orientações', ['orientacao_concluida', 'orientacao_andamento']],
+    ['projetos', 'Projetos', ['projeto']],
+    ['patentes', 'Patentes', ['patente']],
+    ['bancas', 'Bancas', ['banca']],
+    ['premios', 'Prêmios', ['premio']],
+  ];
+  const categoriasDasSecoes = new Set(SECOES.flatMap(([, , categorias]) => categorias));
 
   // texto sempre via textContent: nada vindo do XML entra como HTML
   function el(tag, props, ...filhos) {
@@ -39,6 +50,85 @@
     return d;
   }
   const dataHora = (iso) => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }); };
+
+  function detalhesItem(item) {
+    const details = el('details', { class: 'item-detail' }, el('summary', {}, 'Ver detalhes'));
+    const dl = el('dl');
+    [['Título', item.titulo], ['Categoria', rot(item.categoria)], ['Ano', item.ano], ['Veículo', item.veiculo], ['Instituição', item.instituicao], ['Autores', (item.autores || []).join('; ')], ['DOI', item.doi], ['ISSN', item.issn], ['ISBN', item.isbn]].forEach(([key, value]) => {
+      if (value) dl.append(el('dt', {}, key), el('dd', {}, String(value)));
+    });
+    details.append(dl);
+    return details;
+  }
+
+  function desenharLeitura(nome, resumo, data) {
+    $('cvName').textContent = nome || 'Meu currículo';
+    const partesDoNome = (nome || '').trim().split(/\s+/);
+    const primeira = partesDoNome[0][0] || '';
+    const ultima = partesDoNome.length > 1 ? partesDoNome.at(-1)[0] : '';
+    $('cvInitials').textContent = (primeira + ultima).toUpperCase();
+    $('cvSummary').textContent = resumo || 'Esta versão não traz um resumo.';
+    $('cvUpdated').textContent = data ? 'Currículo Lattes · Atualizado em ' + data : 'Versão do Currículo Lattes';
+    const outros = itens.filter(item => !categoriasDasSecoes.has(item.categoria));
+    const secoes = SECOES.map(([id, titulo, categorias]) => [id, titulo, itens.filter(item => categorias.includes(item.categoria))]);
+    if (outros.length) secoes.push(['outros', 'Outros registros', outros]);
+    // Publicações abre primeiro na leitura. O índice mantém a ordem das seções do currículo.
+    const secoesOrdenadas = [...secoes].sort(([idA], [idB]) => Number(idB === 'publicacoes') - Number(idA === 'publicacoes'));
+    const links = new Map();
+    const paineis = secoesOrdenadas.map(([id, titulo, registros]) => {
+      const section = el('details', { id: 'cv-' + id, class: 'panel cv-section', open: id === 'publicacoes' });
+      section.append(el('summary', {}, el('strong', {}, titulo), el('span', {}, registros.length)));
+      const link = el('a', { href: '#' + section.id }, titulo, el('span', {}, registros.length));
+      links.set(id, link);
+      if (id === 'publicacoes') link.setAttribute('aria-current', 'location');
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        section.open = true;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        link.setAttribute('aria-current', 'location');
+        section.querySelector('summary').focus({ preventScroll: true });
+        section.scrollIntoView({ block: 'nearest' });
+      });
+      const resultado = el('div');
+      if (id === 'publicacoes') {
+        const search = el('input', { type: 'search', placeholder: 'Título, periódico, autor ou DOI' });
+        const total = el('p', { class: 'muted', hidden: true });
+        total.setAttribute('role', 'status');
+        section.append(el('label', { class: 'cv-search' }, 'Buscar em publicações', search), total);
+        search.addEventListener('input', () => {
+          const query = search.value.trim();
+          const filtrados = D.filter(registros, { query });
+          total.hidden = !query;
+          total.textContent = filtrados.length + (filtrados.length === 1 ? ' publicação encontrada' : ' publicações encontradas');
+          desenharPorAno(resultado, filtrados, Boolean(query));
+        });
+      }
+      section.append(resultado);
+      desenharPorAno(resultado, registros, false);
+      if (!registros.length && resumo && (id === 'formacao' || id === 'atuacao')) {
+        resultado.replaceChildren(el('p', { class: 'muted' }, 'Esta versão traz o resumo do perfil acima. Os registros detalhados desta seção não estão disponíveis.'));
+      }
+      return section;
+    });
+    $('cvIndex').replaceChildren(...secoes.map(([id]) => links.get(id)));
+    $('cvSections').replaceChildren(...paineis);
+    $('cvProfile').hidden = $('cvReading').hidden = $('curriculumTable').hidden = false;
+  }
+
+  function desenharPorAno(destino, registros, expandirTodos) {
+    const anos = new Map();
+    for (const item of registros) {
+      const ano = String(item.ano || '');
+      if (!anos.has(ano)) anos.set(ano, []);
+      anos.get(ano).push(item);
+    }
+    const grupos = [...anos].sort(([a], [b]) => b.localeCompare(a, 'pt-BR', { numeric: true }));
+    destino.replaceChildren(...grupos.map(([ano, items], index) => el('details', { class: 'cv-year', open: expandirTodos || index === 0 },
+      el('summary', {}, el('strong', {}, ano || 'Ano não informado'), el('span', {}, items.length + (items.length === 1 ? ' registro' : ' registros'))),
+      items.map(item => el('article', { class: 'cv-entry' }, el('h3', {}, item.titulo || 'Título não informado'),
+        el('p', { class: 'muted' }, item.veiculo || item.instituicao || rot(item.categoria)), detalhesItem(item))))));
+    if (!registros.length) destino.append(el('p', { class: 'empty' }, 'Nenhum registro disponível nesta seção.'));
+  }
 
   function grafico(anos) {
     if (!anos.length) return el("p", { class: "dica" }, "Sem itens com ano.");
@@ -66,12 +156,7 @@
     $('nItens').textContent = lista.length ? `${start + 1}–${start + shown.length} de ${lista.length} registros (${itens.length} na versão)` : 'Nenhum registro corresponde aos filtros.';
     $('pageItems').textContent = `${pagina} / ${pages}`; $('prevItems').disabled = pagina === 1; $('nextItems').disabled = pagina === pages;
     const rows = shown.map(i => {
-      const details = el('details', { class: 'item-detail' }, el('summary', {}, 'Ver detalhes'));
-      const dl = el('dl');
-      [['Título', i.titulo], ['Categoria', rot(i.categoria)], ['Ano', i.ano], ['Veículo', i.veiculo], ['Instituição', i.instituicao], ['Autores', (i.autores || []).join('; ')], ['DOI', i.doi], ['ISSN', i.issn], ['ISBN', i.isbn]].forEach(([key, value]) => {
-        if (value) dl.append(el('dt', {}, key), el('dd', {}, String(value)));
-      });
-      details.append(dl);
+      const details = detalhesItem(i);
       const title = el('div', {}, el('strong', {}, i.titulo || 'Título não informado'), el('div', { class: 'record-subtitle' }, i.veiculo || rot(i.categoria)));
       const situation = D.needsAttention(i) ? el('span', { class: 'badge warning' }, 'DOI não informado') : el('span', { class: 'badge' }, 'Na versão importada');
       return [title, rot(i.categoria), i.ano || '—', situation, details];
@@ -90,7 +175,12 @@
   }
 
   function limparCurriculo() {
+    carga++;
+    snapshotAtual = '';
     itens = []; $('secDash').hidden = $('secItens').hidden = $('secComp').hidden = true;
+    $('cvProfile').hidden = $('cvReading').hidden = $('curriculumTable').hidden = true;
+    if ($('bDiagIA')) $('bDiagIA').hidden = true;
+    if ($('secDiagnosticoIA')) $('secDiagnosticoIA').hidden = true;
     $('curriculumEmpty').hidden = false; $('snapshotLabel').textContent = 'Nenhuma versão selecionada';
   }
 
@@ -111,6 +201,9 @@
     if (ticket !== carga) return;
     if (!UI.sameOwner(d.nome) || !UI.sameOwner(it.nome)) { limparCurriculo(); throw new Error('Esta versão pertence a outro perfil. Entre com o pesquisador correspondente para consultá-la.'); }
     UI.storage.set('lf-cv-selection:' + UI.owner, snap);
+    snapshotAtual = snap;
+    if ($('bDiagIA')) $('bDiagIA').hidden = false;
+    if ($('secDiagnosticoIA')) $('secDiagnosticoIA').hidden = true;
     $('curriculumEmpty').hidden = true;
     $("secDash").hidden = false; $("secItens").hidden = false;
     const version = snapshots.find(s => s.id === snap);
@@ -130,6 +223,7 @@
     $("tPer").replaceChildren(d.periodicos_top.length ? tabela(["Periódico", "Artigos"], d.periodicos_top) : el("p", { class: "dica" }, "—"));
     $("tCoa").replaceChildren(d.coautores_top.length ? tabela(["Coautor", "Itens"], d.coautores_top) : el("p", { class: "dica" }, "—"));
     itens = it.itens;
+    desenharLeitura(it.nome, it.perfil?.resumo || d.perfil?.resumo, dt || it.atualizacao_iso?.slice(0, 10).split('-').reverse().join('/'));
     const cats = [...new Set(itens.map((i) => i.categoria))].sort((a, b) => rot(a).localeCompare(rot(b)));
     $("fCat").replaceChildren(el("option", { value: "" }, "Todas as categorias"), cats.map((c) => el("option", { value: c }, rot(c))));
     $('fAno').replaceChildren(el('option', { value: '' }, 'Todos os anos'), [...new Set(itens.map(i => String(i.ano || '')).filter(Boolean))].sort().reverse().map(year => el('option', { value: year }, year)));
@@ -202,13 +296,102 @@
   $("bExcluir").onclick = async () => {
     const id = $("selVersao").value; if (!id) return status("Escolha a versão que quer apagar.", true);
     if (!window.confirm("Apagar esta versão guardada? Isso não afeta o seu currículo no Lattes.")) return;
-    try { await json("/api/curriculo/snapshots/" + encodeURIComponent(id), { method: "DELETE" }); status("Versão apagada.", false); ++carga; UI.storage.set('lf-cv-selection:' + UI.owner, ''); limparCurriculo(); await carregarTudo(await listarVersoes()); }
+    try { await json("/api/curriculo/snapshots/" + encodeURIComponent(id), { method: "DELETE" }); status("Versão apagada.", false); UI.storage.set('lf-cv-selection:' + UI.owner, ''); limparCurriculo(); await carregarTudo(await listarVersoes()); }
     catch (e) { status(e.message, true); }
   };
   ['fCat','fAno','fSituacao'].forEach(id => $(id).addEventListener('change', () => { pagina = 1; desenharItens(); }));
   $('fBusca').addEventListener('input', () => { pagina = 1; desenharItens(); });
   $('prevItems').addEventListener('click', () => { pagina--; desenharItens(); });
   $('nextItems').addEventListener('click', () => { pagina++; desenharItens(); });
+  function renderizarDiagnosticoIA(res) {
+    const sec = $('secDiagnosticoIA');
+    const body = $('iaDiagBody');
+    const meta = $('iaDiagMeta');
+    const av = res.avaliacao || {};
+    const u = res.usage || {};
+    const cacheTxt = res.cached ? ' · resultado em cache ($0)' : ` · custo acumulado da sessão: ~$${Number(u.estimated_usd || 0).toFixed(4)}`;
+    meta.textContent = `Modelo: ${res.model || 'Gemini'} · ${res.total_itens_analisados || 0} de ${res.total_itens_curriculo || 0} itens analisados${cacheTxt}`;
+
+    const blocos = [];
+    blocos.push(el('div', { class: 'cv-ai-score' }, `Nota geral de organização Lattes/CAPES: ${av.nota_geral ?? '—'}/100`));
+    if (av.resumo_executivo) blocos.push(el('p', {}, av.resumo_executivo));
+
+    if ((av.pontos_fortes || []).length) {
+      blocos.push(el('div', { class: 'cv-ai-block' },
+        el('h3', {}, 'Pontos fortes da trajetória'),
+        el('ul', { class: 'cv-ai-list' }, av.pontos_fortes.map(p => el('li', {}, p)))));
+    }
+
+    const errados = av.itens_secao_errada || [];
+    blocos.push(el('div', { class: 'cv-ai-block' },
+      el('h3', {}, `Itens possivelmente na seção errada (${errados.length})`),
+      errados.length
+        ? tabela(['Item', 'Seção atual', 'Sugestão Lattes', 'Motivo'], errados.map(x => [x.titulo, rot(x.secao_atual), rot(x.secao_sugerida), x.motivo]))
+        : el('p', { class: 'muted' }, 'Nenhum item com suspeita de seção incorreta encontrado.')));
+
+    const dups = av.duplicatas_semanticas || [];
+    if (dups.length) {
+      blocos.push(el('div', { class: 'cv-ai-block' },
+        el('h3', {}, `Possíveis duplicatas semânticas (${dups.length})`),
+        el('ul', { class: 'cv-ai-list' }, dups.map(d => el('li', {}, el('strong', {}, d.item_a), ' ↔ ', el('strong', {}, d.item_b), ' — ', d.motivo)))));
+    }
+
+    const lacunas = av.lacunas_estrategicas || [];
+    if (lacunas.length) {
+      blocos.push(el('div', { class: 'cv-ai-block' },
+        el('h3', {}, 'Lacunas e prioridades estratégicas'),
+        el('ul', { class: 'cv-ai-list' }, lacunas.map(l => el('li', {},
+          el('span', { class: 'cv-ai-prio ' + (l.prioridade || 'media') }, l.prioridade || 'média'),
+          el('strong', {}, l.tema + ': '),
+          l.acao)))));
+    }
+
+    if (av.sugestao_texto_inicial) {
+      const ta = el('textarea', { class: 'cv-ai-textarea', readOnly: true, value: av.sugestao_texto_inicial });
+      const btnCopiar = el('button', { class: 'button', type: 'button', style: 'margin-top:6px' }, '📋 Copiar sugestão de resumo inicial');
+      btnCopiar.onclick = async () => {
+        try { await navigator.clipboard.writeText(av.sugestao_texto_inicial); btnCopiar.textContent = '✅ Copiado!'; setTimeout(() => { btnCopiar.textContent = '📋 Copiar sugestão de resumo inicial'; }, 2000); }
+        catch (_) { status('Não foi possível copiar automaticamente; selecione e copie o texto acima.', true); }
+      };
+      blocos.push(el('div', { class: 'cv-ai-block' },
+        el('h3', {}, 'Sugestão de Texto Inicial para o Lattes (padrão CNPq)'),
+        el('p', { class: 'muted' }, 'Revise antes de colar em Dados gerais › Texto inicial do currículo:'),
+        ta,
+        btnCopiar));
+    }
+
+    body.replaceChildren(...blocos);
+    sec.hidden = false;
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function executarDiagnosticoIA(force) {
+    if (!snapshotAtual) return status('Importe ou selecione uma versão do currículo primeiro.', true);
+    const btn = $('bDiagIA');
+    const btnRef = $('bDiagIARefazer');
+    if (btn) btn.disabled = true;
+    if (btnRef) btnRef.disabled = true;
+    status('Consultando Gemini para diagnóstico qualitativo do currículo…', false);
+    try {
+      const res = await json('/api/ia/avaliar-curriculo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ snapshot: snapshotAtual, force: !!force }),
+      });
+      renderizarDiagnosticoIA(res);
+      status(res.cached ? 'Diagnóstico carregado do cache local ($0).' : 'Diagnóstico IA concluído.', false);
+    } catch (e) {
+      status(e.message, true);
+    } finally {
+      if (btn) btn.disabled = false;
+      if (btnRef) btnRef.disabled = false;
+    }
+  }
+
+  if ($('bDiagIA')) $('bDiagIA').onclick = () => executarDiagnosticoIA(false);
+  if ($('bDiagIARefazer')) $('bDiagIARefazer').onclick = () => executarDiagnosticoIA(true);
+  if ($('bDiagIAFechar')) $('bDiagIAFechar').onclick = () => { $('secDiagnosticoIA').hidden = true; };
+
   function revealHash() {
     if (location.hash === '#importar') $('importar').open = true;
     if (location.hash === '#coautorias') { $('curriculumAnalysis').open = true; if (!$('secDash').hidden) $('tCoa').scrollIntoView({ block: 'center' }); }

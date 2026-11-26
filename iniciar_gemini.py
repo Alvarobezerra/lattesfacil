@@ -64,7 +64,8 @@ def main():
             return 1
     os.environ["GEMINI_API_KEY"] = key
     os.environ["GEMINI_ENABLED"] = "1"
-    os.environ.setdefault("GEMINI_MODEL", "gemini-2.5-flash")
+    os.environ.setdefault("GEMINI_MODEL", gemini.DEFAULT_MODEL)
+    os.environ.setdefault("GEMINI_MODE", gemini.DEFAULT_MODE)
     os.environ["HOST"] = "127.0.0.1"
     os.environ["PORT"] = str(args.port)
     print("Testando Gemini com documento fictício, sem salvar sua chave...")

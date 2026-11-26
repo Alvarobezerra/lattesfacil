@@ -32,7 +32,7 @@ from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item, de_regis
 from itens.variantes import spec_com_rotulos
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
 from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, extract_text_from_image_bytes, parse_evidence_text
-from ocr_texto import reconciliar_nome
+from ocr_texto import qualidade_texto, reconciliar_nome
 from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura, aquecer as aquecer_abertura
@@ -452,19 +452,162 @@ def _purge_uploads() -> None:
 LEGADO_PARA_ITEM = ("artigo", "apresentacao", "orientacao_concluida")
 
 
-def interpretar(item_id: str, raw_text: str, filename: str, usuario: str) -> dict[str, Any] | None:
+MIMES_IA = {"application/pdf", "image/png", "image/jpeg", "image/webp"}
+CAMPOS_DETERMINISTICOS = {"f_cod_doi", "f_issn", "f_isbn"}
+CAMPOS_SEMANTICOS = {"f_titulo", "f_nme_evento", "f_curso", "f_inst", "f_local", "f_titulo_anais", "f_editora", "f_titulo_periodico"}
+
+
+def _leitura_fraca(g: dict[str, Any]) -> bool:
+    """A leitura local deixou obrigatório vazio ou campo de texto com muitas palavras fora do português (OCR ruim)?"""
+    if g.get("faltam_obrigatorios"):
+        return True
+    return any(isinstance(v, str) and len(v.split()) >= 4 and qualidade_texto(v, minimo=3) < 0.6
+               for k, v in (g.get("valores") or {}).items() if k in ("f_titulo", "f_nme_evento", "f_curso"))
+
+
+def _deve_consultar_ia_campos(item_id: str, g: dict[str, Any], mode: str, force: bool = False) -> bool:
+    if force or mode == "completo":
+        return True
+    if _leitura_fraca(g):
+        return True
+    notas_txt = " ".join(g.get("notas") or []).lower()
+    if "genérico" in notas_txt or "generico" in notas_txt:
+        return True
+    spec = especificacao_item(item_id) or {}
+    var = next((v for v in spec.get("variantes", []) if v["variante"] == g.get("variante")), None)
+    if var:
+        preenchidos_doc = [
+            c["name"] for c in var.get("campos", [])
+            if not c.get("oculto") and not c.get("padrao") and g["valores"].get(c["name"])
+        ]
+        if len(preenchidos_doc) < 3:
+            return True
+        if any(gr["chave"] == "autores" for gr in var.get("grades", []) if not gr.get("colunas")):
+            if not g["valores"].get("grade:autores"):
+                return True
+    return False
+
+
+def _mescla_gemini(local: dict[str, Any], ia: dict[str, Any], *, preferir_ia: bool = False) -> dict[str, Any]:
+    """Combina campos locais e sugeridos pelo Gemini preservando identificadores determinísticos já válidos."""
+    saida = dict(local)
+    for k, v in ia.items():
+        if v in ("", None, []):
+            continue
+        atual_raw = local.get(k)
+        vazio = atual_raw in ("", None, []) or (isinstance(atual_raw, str) and not atual_raw.strip())
+        if k in CAMPOS_DETERMINISTICOS and not vazio:
+            continue
+        ruim = isinstance(atual_raw, str) and len(atual_raw.split()) >= 3 and qualidade_texto(atual_raw, minimo=3) < 0.6
+        # Campo semântico curto/genérico capturado por regex (ex.: "Psicologia" vs "Liga Acadêmica de Neuropsicologia – LANPSI")
+        semantico_curto = (
+            k in CAMPOS_SEMANTICOS
+            and isinstance(atual_raw, str)
+            and isinstance(v, str)
+            and len(atual_raw.strip().split()) <= 2
+            and len(atual_raw.strip()) < 20
+            and len(v.strip()) >= len(atual_raw.strip()) + 6
+        )
+        if preferir_ia or vazio or ruim or semantico_curto:
+            saida[k] = v
+    return saida
+
+
+def _filtrar_notas_obsoletas(notas: list[str], valores: dict[str, Any]) -> list[str]:
+    """Remove avisos locais 'X não identificado(a)' quando o campo correspondente foi preenchido pela IA."""
+    regras = (
+        ("f_inst", "instituição não identificada"),
+        ("f_curso", "nome do curso não identificado"),
+        ("f_ano_ini", "ano de início não identificado"),
+        ("f_nme_evento", "nome do evento não identificado"),
+        ("f_ano", "ano do evento não identificado"),
+        ("f_titulo", "título do curso não identificado"),
+        ("f_duracao", "carga horária não identificada"),
+    )
+    out = []
+    for n in notas:
+        low = n.lower()
+        if any(valores.get(campo) and trecho in low for campo, trecho in regras):
+            continue
+        out.append(n)
+    return out
+
+
+def _contexto_cv_usuario(usuario: str, sess_tag: str = "") -> str:
+    """Devolve o mini-perfil compacto (~100 tokens) do currículo Lattes mais recente do usuário, se existir."""
+    def _mesmo_nome(a: str, b: str) -> bool:
+        na = " ".join(str(a or "").split()).casefold()
+        nb = " ".join(str(b or "").split()).casefold()
+        return bool(na and nb) and (na == nb or na in nb or nb in na)
+
+    try:
+        if sess_tag:
+            cur_sess = _xml_da_sessao(sess_tag)
+            if cur_sess and (not usuario or _mesmo_nome(cur_sess.get("nome", ""), usuario)):
+                return gemini.build_researcher_context(cur_sess)
+        if not usuario or not DB_PATH.is_file():
+            return ""
+        with db() as conn:
+            snaps = curriculo_store.listar(conn)
+            for s in snaps:
+                if _mesmo_nome(s.get("nome", ""), usuario):
+                    cur = curriculo_store.carregar(conn, s["id"])
+                    if cur:
+                        return gemini.build_researcher_context(cur)
+    except Exception:
+        return ""
+    return ""
+
+
+def interpretar(
+    item_id: str,
+    raw_text: str,
+    filename: str,
+    usuario: str,
+    media: tuple[str, bytes] | None = None,
+    *,
+    force_gemini: bool = False,
+    transcrito_ia: bool = False,
+    perfil_cv: str = "",
+) -> dict[str, Any] | None:
     """Lê o texto como o item escolhido. None quando o preenchimento daquele item ainda não existe."""
     if item_id in LEITORES_ITENS:
         g = ler_item(item_id, raw_text, usuario)
-        if gemini.enabled() and raw_text.strip():
-            try:
-                from itens.leitores import montar_resposta
-                values, evidence = gemini.fields(raw_text, especificacao_item(item_id), g["variante"])
-                merged = {**g["valores"], **values, "__variante": g["variante"]}
-                g = montar_resposta(item_id, raw_text, merged, g["notas"] +
-                    ["Análise assistida pelo Gemini. Confira os valores e os trechos antes de enviar."] + evidence)
-            except gemini.GeminiError as exc:
-                g["notas"].append(str(exc))
+        spec = especificacao_item(item_id)
+        mode = gemini.current_mode()
+        if (force_gemini or gemini.enabled()) and (raw_text.strip() or media) and spec:
+            if _deve_consultar_ia_campos(item_id, g, mode, force_gemini):
+                try:
+                    from itens.leitores import montar_resposta
+                    ctx_cv = perfil_cv or _contexto_cv_usuario(usuario)
+                    variante_alvo = g["variante"]
+                    if len(spec.get("variantes", [])) > 1 and not g.get("motivo_variante") and raw_text.strip():
+                        sug_var = gemini.choose_variant(raw_text, spec, usuario=usuario)
+                        if sug_var:
+                            variante_alvo = sug_var
+                    # Se o documento já foi transcrito limpo pelo próprio Gemini, não reenvia o PDF base64 à toa
+                    usar_midia = media if (media and not transcrito_ia and (_leitura_fraca(g) or force_gemini)) else None
+                    values, evidence = gemini.fields(
+                        raw_text, spec, variante_alvo, usuario=usuario, perfil_cv=ctx_cv, media=usar_midia
+                    )
+                    if values:
+                        notas_txt = " ".join(g.get("notas") or []).lower()
+                        eh_generico = "genérico" in notas_txt or "generico" in notas_txt
+                        merged = {
+                            **_mescla_gemini(g["valores"], values, preferir_ia=(force_gemini or mode == "completo" or eh_generico)),
+                            "__variante": variante_alvo,
+                        }
+                        aviso = (
+                            f"Leitura local fraca: o Gemini ({gemini.current_model()}) leu o documento para completar os campos. Confira com o original."
+                            if usar_midia
+                            else f"Análise assistida pelo Gemini ({gemini.current_model()}). Confira os valores e os trechos antes de enviar."
+                        )
+                        notas_limpas = _filtrar_notas_obsoletas(g["notas"], merged)
+                        g = montar_resposta(item_id, raw_text, merged, notas_limpas + [aviso] + evidence)
+                    else:
+                        g["notas"].append(f"Gemini ({gemini.current_model()}) consultado, sem novos campos comprovados no documento.")
+                except gemini.GeminiError as exc:
+                    g["notas"].append(str(exc))
         v = g["valores"]
         base = {"tipo_producao": item_id, "titulo": v.get("f_titulo") or v.get("f_nme_evento") or v.get("f_curso") or "",
                 "ano": v.get("f_ano", "")}
@@ -506,54 +649,198 @@ def classificar_evidencia(raw_text: str, filename: str, paginas: int = 0, n_kw: 
     return cls
 
 
-def responder_evidencia(cls: dict[str, Any], raw_text: str, filename: str, usuario: str) -> dict[str, Any]:
+def responder_evidencia(
+    cls: dict[str, Any],
+    raw_text: str,
+    filename: str,
+    usuario: str,
+    media: tuple[str, bytes] | None = None,
+    *,
+    allow_gemini: bool = True,
+    ia_preclass: dict[str, str] | None = None,
+    transcrito_ia: bool = False,
+    perfil_cv: str = "",
+) -> dict[str, Any]:
     """Monta a resposta: classificação + (só quando o sistema pode avançar sozinho) os campos extraídos."""
     ia_notice = ""
-    if gemini.enabled() and raw_text.strip() and not cls.get("caderno"):
-        try:
-            item = gemini.classify(raw_text, {k: v.item for k, v in INDICE.items()})
-            if item != "nenhum":
-                original = cls["candidatos"][0]["id"] if cls.get("candidatos") else None
-                if original != item or cls["decisao"] != "avancar":
-                    cls = candidato_fixo(item, "sugerido pelo Gemini; confirme o tipo de evidência", 0.5)
-                    cls["decisao"] = "confirmar"
-                ia_notice = "Gemini consultado para identificar o documento."
-        except gemini.GeminiError as exc:
-            ia_notice = str(exc)
+    mode = gemini.current_mode()
+    ctx_cv = perfil_cv or (_contexto_cv_usuario(usuario) if allow_gemini and gemini.enabled() else "")
+    item = None
+    segundo_item = "nenhum"
+    motivo_ia = ""
+    if ia_preclass and ia_preclass.get("item") and ia_preclass["item"] != "nenhum":
+        # Já veio classificado visualmente na chamada unificada (sem 2ª chamada de rede!)
+        if mode == "completo" or cls.get("decisao") != "avancar":
+            item = ia_preclass["item"]
+            segundo_item = ia_preclass.get("segundo_item") or "nenhum"
+            motivo_ia = ia_preclass.get("motivo") or ""
+    else:
+        deve_classificar_ia = (
+            allow_gemini
+            and gemini.enabled()
+            and raw_text.strip()
+            and not cls.get("caderno")
+            and (mode == "completo" or cls.get("decisao") != "avancar")
+        )
+        if deve_classificar_ia:
+            try:
+                item = gemini.classify(raw_text, {k: v.item for k, v in INDICE.items()}, usuario=usuario, perfil_cv=ctx_cv)
+            except gemini.GeminiError as exc:
+                ia_notice = str(exc)
+
+    if item and item != "nenhum":
+        existentes = list(cls.get("candidatos") or [])
+        original = existentes[0]["id"] if existentes else None
+        nota_motivo = f"sugerido pelo Gemini ({motivo_ia})" if motivo_ia else "sugerido pelo Gemini; confirme o tipo de evidência"
+        if original != item or cls["decisao"] != "avancar":
+            sugerido = candidato_fixo(item, nota_motivo, 0.5)
+            cand_ia = sugerido["candidatos"][0]
+            if existentes:
+                # Preserva os candidatos locais plausíveis (ex.: apresentação + anais) sem apagar alternativas válidas
+                novos: list[dict[str, Any]] = []
+                achou_ia = False
+                for c in existentes[:3]:
+                    copia = {**c, "motivos": list(c.get("motivos") or [])}
+                    if c["id"] == item:
+                        achou_ia = True
+                        copia["motivos"].append("também sugerido pelo Gemini" + (f" ({motivo_ia})" if motivo_ia else ""))
+                    novos.append(copia)
+                if not achou_ia:
+                    novos = novos[:2] + [cand_ia]
+                if segundo_item != "nenhum" and segundo_item in INDICE and not any(c["id"] == segundo_item for c in novos):
+                    cand_seg = candidato_fixo(segundo_item, "também comprovado segundo o Gemini", 0.48)["candidatos"][0]
+                    novos = (novos[:2] + [cand_seg])[:3]
+                motivo = (
+                    "a leitura local e o Gemini discordam do tipo"
+                    if (original != item and cls["decisao"] == "avancar")
+                    else cls.get("motivo_decisao") or "há mais de uma possibilidade plausível"
+                )
+                cls = {**cls, "decisao": "confirmar", "motivo_decisao": motivo, "candidatos": novos}
+            else:
+                if segundo_item != "nenhum" and segundo_item in INDICE:
+                    cand_seg = candidato_fixo(segundo_item, "também comprovado segundo o Gemini", 0.48)["candidatos"][0]
+                    sugerido["candidatos"].append(cand_seg)
+                cls = sugerido
+                cls["decisao"] = "confirmar"
+        ia_notice = "Gemini consultado para identificar o documento."
+
     resp: dict[str, Any] = {"classificacao": cls, "raw_text": raw_text[:4000], "filename": filename,
                             "ia_aviso": ia_notice}
     top = cls["candidatos"][0] if cls.get("candidatos") else None
     if cls["decisao"] == "avancar" and top and top.get("implementado"):
-        feito = interpretar(top["id"], raw_text, filename, usuario)
+        feito = interpretar(
+            top["id"], raw_text, filename, usuario, media if allow_gemini else None,
+            transcrito_ia=transcrito_ia, perfil_cv=ctx_cv,
+        )
         if feito:
             resp.update(feito)
             resp["item_escolhido"] = top["id"]
     return resp
 
 
-def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str, Any]:
+EXT_IMAGEM = (".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".bmp", ".jfif")
+MAX_PARTES_EVIDENCIA = 30
+
+
+def juntar_em_pdf(partes: list[tuple[str, bytes]]) -> bytes:
+    """Junta PDFs e imagens, na ordem recebida, num único PDF: páginas separadas que fazem parte do mesmo documento.
+
+    Levanta ValueError se alguma parte não for PDF ou imagem legível."""
+    import pymupdf
+    saida = pymupdf.open()
+    try:
+        for nome, dados in partes:
+            baixo = nome.lower()
+            if baixo.endswith(".pdf"):
+                doc = pymupdf.open(stream=dados, filetype="pdf")
+            elif baixo.endswith(EXT_IMAGEM):
+                img = pymupdf.open(stream=dados, filetype=baixo.rsplit(".", 1)[-1].replace("jfif", "jpeg"))
+                doc = pymupdf.open("pdf", img.convert_to_pdf())
+                img.close()
+            else:
+                raise ValueError(f"\"{nome}\": só dá para juntar PDF e imagem (PNG, JPG).")
+            try:
+                saida.insert_pdf(doc)
+            finally:
+                doc.close()
+        if saida.page_count == 0:
+            raise ValueError("Nenhuma página para juntar.")
+        return saida.tobytes(garbage=3, deflate=True)
+    finally:
+        saida.close()
+
+
+def _texto_nativo_pdf(file_bytes: bytes) -> tuple[str, int]:
+    """Extrai apenas a camada vetorial nativa do PDF (instantâneo, sem rodar RapidOCR)."""
+    import pymupdf
+    from extractor import corrigir_ligaduras
+    with pymupdf.open(stream=file_bytes, filetype="pdf") as doc:
+        paginas = len(doc)
+        texto = corrigir_ligaduras("\n".join(page.get_text("text") for page in doc).strip())
+    return texto, paginas
+
+
+def process_extract(filename: str, file_bytes: bytes, usuario: str, *, allow_gemini: bool = True) -> dict[str, Any]:
     """Lê um arquivo de evidência (PDF, TXT, Imagem PNG/JPG ou E-mail .eml) e devolve o JSON de resposta de /api/extract."""
     orig_filename = filename
     media_bytes = file_bytes
     leitura_aviso = ""
+    ja_transcrito_ia = False
+    ia_preclass: dict[str, str] | None = None
     paginas, n_kw = 0, 0
     fn_lower = filename.lower()
+    catalogo_ia = {k: v.item for k, v in INDICE.items()}
+    ctx_cv = _contexto_cv_usuario(usuario) if allow_gemini and gemini.enabled() else ""
     if fn_lower.endswith(".pdf"):
-        pdf_info = extract_text_from_pdf_bytes(file_bytes)
-        paginas = pdf_info["page_count"]
-        n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I))
-        if pdf_info["page_count"] > MAX_SINGLE_ABSTRACT_PAGES and len(
-            re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I)
-        ) >= MIN_ABSTRACTS_FOR_CADERNO:
-            # PDF longo = caderno de anais com vários trabalhos; o cliente segue para a busca por autor
-            return {"caderno": True, "page_count": pdf_info["page_count"], "filename": filename}
-        raw_text = pdf_info["text"]
+        nativo, pag_nativo = _texto_nativo_pdf(file_bytes)
+        nativo_limpo = re.sub(r"(?i)powered by tcpdf[^\n]*", "", nativo).strip()
+        media_nativa = len(nativo_limpo) / max(pag_nativo, 1)
+        # Se o Gemini está ativo e o PDF é escaneado, faz 1 chamada multimodal unificada (transcrição + classificação visual)
+        if (
+            allow_gemini
+            and gemini.enabled()
+            and pag_nativo <= 15
+            and len(file_bytes) <= 10 * 1024 * 1024
+            and (len(nativo_limpo) < 180 or media_nativa < 90)
+        ):
+            try:
+                tc = gemini.transcribe_and_classify(file_bytes, "application/pdf", catalogo_ia, usuario=usuario, perfil_cv=ctx_cv)
+                raw_text = f"{tc['texto']}\n{nativo_limpo}".strip() if nativo_limpo else tc["texto"]
+                ia_preclass = tc
+                paginas = pag_nativo
+                n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", raw_text, re.I))
+                leitura_aviso = "Documento lido e analisado visualmente pelo Gemini; confira com o original."
+                ja_transcrito_ia = True
+            except gemini.GeminiError as exc:
+                leitura_aviso = str(exc)
+        if not ja_transcrito_ia:
+            pdf_info = extract_text_from_pdf_bytes(file_bytes)
+            paginas = pdf_info["page_count"]
+            n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I))
+            if pdf_info["page_count"] > MAX_SINGLE_ABSTRACT_PAGES and len(
+                re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I)
+            ) >= MIN_ABSTRACTS_FOR_CADERNO:
+                # PDF longo = caderno de anais com vários trabalhos; o cliente segue para a busca por autor
+                return {"caderno": True, "page_count": pdf_info["page_count"], "filename": filename}
+            raw_text = pdf_info["text"]
     elif fn_lower.endswith((".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".bmp", ".jfif")):
         # Imagem (foto de diploma, certificado escaneado, captura de tela de publicação)
-        img_info = extract_text_from_image_bytes(file_bytes, filename)
+        mime_img = mimetypes.guess_type(filename)[0]
         paginas = 1
-        n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", img_info["text"], re.I))
-        raw_text = img_info["text"]
+        if allow_gemini and gemini.enabled() and mime_img in MIMES_IA and len(file_bytes) <= 10 * 1024 * 1024:
+            try:
+                tc = gemini.transcribe_and_classify(file_bytes, mime_img, catalogo_ia, usuario=usuario, perfil_cv=ctx_cv)
+                raw_text = tc["texto"]
+                ia_preclass = tc
+                n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", raw_text, re.I))
+                leitura_aviso = "Imagem lida e analisada visualmente pelo Gemini; confira com o original."
+                ja_transcrito_ia = True
+            except gemini.GeminiError as exc:
+                leitura_aviso = str(exc)
+        if not ja_transcrito_ia:
+            img_info = extract_text_from_image_bytes(file_bytes, filename)
+            n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", img_info["text"], re.I))
+            raw_text = img_info["text"]
     elif fn_lower.endswith((".eml", ".msg")):
         from email_parser import parse_eml_bytes
         eml_info = parse_eml_bytes(file_bytes)
@@ -579,10 +866,12 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
     mime = mimetypes.guess_type(filename)[0]
     texto_limpo = re.sub(r"(?i)powered by tcpdf[^\n]*", "", raw_text).strip()
     media_por_pag = len(texto_limpo) / max(paginas, 1)
-    if gemini.enabled() and (len(texto_limpo) < 180 or media_por_pag < 90) and mime in {"application/pdf", "image/png", "image/jpeg", "image/webp"}:
+    ocr_qualidade_baixa = len(texto_limpo) >= 80 and qualidade_texto(texto_limpo) < 0.55
+    precisa_visao = (not ja_transcrito_ia) and (len(texto_limpo) < 180 or media_por_pag < 90 or ocr_qualidade_baixa)
+    if allow_gemini and gemini.enabled() and precisa_visao and mime in MIMES_IA:
         try:
             transcrito = gemini.transcribe(media_bytes, mime)
-            if len(transcrito.strip()) > len(texto_limpo):
+            if len(transcrito.strip()) > len(texto_limpo) or ocr_qualidade_baixa:
                 if texto_limpo:
                     raw_text = f"{transcrito}\n{texto_limpo}"
                 else:
@@ -592,9 +881,19 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
             leitura_aviso = str(exc)
     raw_text = reconciliar_nome(raw_text, usuario)  # erro de OCR no nome do pesquisador ("MOVRAO") não pode virar "autor não encontrado"
     cls = classificar_evidencia(raw_text, filename, paginas, n_kw)
-    resp = responder_evidencia(cls, raw_text, filename, usuario)
+    resp = responder_evidencia(
+        cls,
+        raw_text,
+        filename,
+        usuario,
+        (mime, media_bytes) if mime in MIMES_IA else None,
+        allow_gemini=allow_gemini,
+        ia_preclass=ia_preclass,
+        transcrito_ia=ja_transcrito_ia,
+        perfil_cv=ctx_cv,
+    )
     resp["ia_aviso"] = " ".join(filter(None, [leitura_aviso, resp.get("ia_aviso")]))
-    resp["_leitura"] = {"texto": raw_text, "arquivo": filename}  # fica só na memória da sessão; não vai ao cliente
+    resp["_leitura"] = {"texto": raw_text, "arquivo": filename, "transcrito_ia": ja_transcrito_ia}  # fica só na memória da sessão
     return resp
 
 
@@ -1057,6 +1356,9 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/servidor/estado":  # autenticada (o /api/health público continua mínimo)
             self._send_json({"desatualizado": codigo_desatualizado()})
             return
+        if path == "/api/ia/status":
+            self._send_json({"ok": True, **gemini.status()})
+            return
         if path == "/api/instituicoes/buscar":
             qs = parse_qs(parsed.query)
             with db() as conn:
@@ -1262,10 +1564,13 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/records":
+            record_id = (parse_qs(parsed.query).get("id") or [""])[0]
             with db() as conn:
-                rows = conn.execute(
-                    "SELECT id, owner, titulo, payload, created_at FROM records WHERE deleted_at IS NULL ORDER BY created_at DESC LIMIT 50"
-                ).fetchall()
+                query = "SELECT id, owner, titulo, payload, created_at FROM records WHERE deleted_at IS NULL"
+                if record_id:
+                    rows = conn.execute(query + " AND id = ?", (record_id,)).fetchall()
+                else:
+                    rows = conn.execute(query + " ORDER BY created_at DESC LIMIT 50").fetchall()
             records = [
                 {
                     "id": r[0],
@@ -1564,6 +1869,142 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
         ctype = self.headers.get("Content-Type", "")
 
+        if path == "/api/ia/config":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                api_key = payload.get("api_key")
+                if api_key is not None:
+                    api_key = str(api_key)
+                is_enabled = payload.get("enabled")
+                if is_enabled is not None:
+                    is_enabled = bool(is_enabled)
+                model = str(payload["model"]) if payload.get("model") is not None else None
+                mode = str(payload["mode"]) if payload.get("mode") is not None else None
+                save_local = bool(payload.get("save_local", False))
+                st = gemini.configure(
+                    api_key=api_key,
+                    is_enabled=is_enabled,
+                    model=model,
+                    mode=mode,
+                    save_local=save_local,
+                    base_dir=BASE_DIR,
+                )
+                self._send_json({"ok": True, **st})
+            except gemini.GeminiError as exc:
+                self._send_json({"ok": False, "error": str(exc)}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao atualizar configuração da IA."}, HTTPStatus.BAD_REQUEST)
+            return
+
+        if path == "/api/ia/testar":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                raw_key = payload.get("api_key")
+                key_to_test = str(raw_key).strip() if isinstance(raw_key, str) and raw_key.strip() else None
+                model_to_test = str(payload.get("model")).strip() if payload.get("model") else None
+                res = gemini.test_connection(api_key=key_to_test, model=model_to_test)
+                self._send_json(res, HTTPStatus.OK if res.get("ok") else HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"ok": False, "error": "Não foi possível testar a conexão com o Gemini."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/ia/completar":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                st = gemini.status()
+                if not st["configured"]:
+                    self._send_json({"ok": False, "sem_chave": True, "error": "Configure uma chave API do Gemini primeiro."}, HTTPStatus.BAD_REQUEST)
+                    return
+                item = str(payload.get("item", "")).strip()
+                spec = especificacao_item(item)
+                if item not in INDICE or not spec:
+                    self._send_json({"ok": False, "error": "Item desconhecido ou sem especificação."}, HTTPStatus.BAD_REQUEST)
+                    return
+                variante = str(payload.get("variante") or spec["variantes"][0]["variante"])
+                texto, media = "", None
+                uid = str(payload.get("id", "")).strip()
+                if uid:
+                    with UPLOADS_LOCK:
+                        up = UPLOADS.get(uid) if SID_RE.match(uid) else None
+                        if up and up.get("sess") != self._sess_tag():
+                            up = None
+                        if up:
+                            up["ts"] = time.time()
+                            texto = up.get("texto", "")
+                            raw_data = up.get("data")
+                            arq_nome = up.get("arquivo") or up.get("name") or ""
+                            mime = mimetypes.guess_type(arq_nome)[0]
+                            if raw_data and mime in MIMES_IA and len(raw_data) <= 10 * 1024 * 1024:
+                                media = (mime, raw_data)
+                if not texto:
+                    texto = str(payload.get("texto", ""))[:60000]
+                if not texto.strip() and not media:
+                    self._send_json({"ok": False, "error": "Envie um documento ou texto antes de usar o Gemini."}, HTTPStatus.BAD_REQUEST)
+                    return
+                valores_atuais = payload.get("valores_atuais")
+                if not isinstance(valores_atuais, dict):
+                    valores_atuais = {}
+                usuario_ia = str(payload.get("usuario", "")).strip()
+                ctx_cv = _contexto_cv_usuario(usuario_ia, self._sess_tag())
+                values, evidence = gemini.fields(texto, spec, variante, usuario=usuario_ia, perfil_cv=ctx_cv, media=media)
+                from itens.leitores import montar_resposta
+                merged = {**_mescla_gemini(valores_atuais, values, preferir_ia=True), "__variante": variante}
+                notas = [f"Campos revisados sob demanda pelo Gemini ({gemini.current_model()}). Confira os trechos antes de enviar."] + evidence
+                g = montar_resposta(item, texto, merged, notas)
+                self._send_json({
+                    "ok": True,
+                    "generico": g,
+                    "valores_ia": values,
+                    "campos_preenchidos": sorted(values.keys()),
+                    "evidencias": evidence,
+                    "model": gemini.current_model(),
+                    "usage": gemini.usage_stats(),
+                })
+            except gemini.GeminiError as exc:
+                self._send_json({"ok": False, "error": str(exc)}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao completar os campos com o Gemini."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
+        if path == "/api/ia/avaliar-curriculo":
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                st = gemini.status()
+                if not st["configured"]:
+                    self._send_json(
+                        {
+                            "ok": False,
+                            "sem_chave": True,
+                            "error": "Configure sua chave API do Gemini na tela Atualizar Lattes (botão Configurar IA no topo) para usar o diagnóstico por IA.",
+                        },
+                        HTTPStatus.BAD_REQUEST,
+                    )
+                    return
+                sid = str(payload.get("snapshot") or "").strip()
+                qs_fake = {"snapshot": [sid]} if sid else {}
+                cur, resolved_sid = _curriculo_pedido(self, qs_fake)
+                if not cur:
+                    self._send_json(
+                        {"ok": False, "sem_xml": True, "error": "Importe um XML/ZIP ou leia seu currículo do Lattes antes de rodar o diagnóstico."},
+                        HTTPStatus.CONFLICT,
+                    )
+                    return
+                force = bool(payload.get("force", False))
+                aud = auditar(cur)
+                res = gemini.evaluate_curriculum(cur, aud, use_cache=not force)
+                self._send_json({
+                    "ok": True,
+                    "snapshot_id": resolved_sid,
+                    "nome": cur.get("nome", ""),
+                    "auditoria_local": {"total": aud.get("total", 0), "por_risco": aud.get("por_risco") or {}},
+                    **res,
+                })
+            except gemini.GeminiError as exc:
+                self._send_json({"ok": False, "error": str(exc)}, HTTPStatus.BAD_REQUEST)
+            except Exception:
+                self._send_json({"ok": False, "error": "Falha ao avaliar o currículo com o Gemini."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if path == "/api/upload/chunk":
             # Envio em pedaços de ~1 MB: túneis lentos derrubam requisições longas, então cada pedaço é curto.
             qs = parse_qs(parsed.query)
@@ -1597,6 +2038,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                     self._send_json({"error": "Item desconhecido."}, HTTPStatus.BAD_REQUEST)
                     return
                 texto, arquivo = "", ""
+                media_do_upload = None
                 uid = str(payload.get("id", ""))
                 if uid:
                     with UPLOADS_LOCK:
@@ -1606,12 +2048,16 @@ class LattesHandler(BaseHTTPRequestHandler):
                         if up:
                             up["ts"] = time.time()
                             texto, arquivo = up.get("texto", ""), up.get("arquivo", "")
+                            transcrito_ia_up = bool(up.get("transcrito_ia"))
+                            mime_up = mimetypes.guess_type(up.get("name", "") or "")[0]
+                            if isinstance(up.get("data"), (bytes, bytearray)) and mime_up in MIMES_IA:
+                                media_do_upload = (mime_up, bytes(up["data"]))
                     if not texto:
                         self._send_json({"error": "Arquivo vencido no servidor. Envie de novo.", "expired": True}, HTTPStatus.GONE)
                         return
                 else:
-                    texto, arquivo = str(payload.get("texto", ""))[:200000], ""
-                feito = interpretar(item, texto, arquivo, usuario)
+                    texto, arquivo, transcrito_ia_up = str(payload.get("texto", ""))[:200000], "", False
+                feito = interpretar(item, texto, arquivo, usuario, media_do_upload, transcrito_ia=transcrito_ia_up)
                 if feito is None:
                     self._send_json({"implementado": False, "item": INDICE[item].item, "secao": INDICE[item].secao})
                 else:
@@ -1644,6 +2090,57 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": "Falha ao registrar a correção."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
+        if path == "/api/upload/juntar":
+            # Várias páginas enviadas em arquivos separados que são o MESMO documento: vira um PDF só e é lido como uma evidência.
+            try:
+                payload = json.loads(body.decode("utf-8") or "{}")
+                ids = [str(x) for x in (payload.get("ids") or [])]
+                usuario = str(payload.get("usuario", "")).strip()
+                if not (2 <= len(ids) <= MAX_PARTES_EVIDENCIA) or not all(SID_RE.match(x) for x in ids):
+                    self._send_json({"error": "Escolha de 2 a %d arquivos para juntar." % MAX_PARTES_EVIDENCIA}, HTTPStatus.BAD_REQUEST)
+                    return
+                partes: list[tuple[str, bytes]] = []
+                with UPLOADS_LOCK:
+                    for uid in ids:
+                        up = UPLOADS.get(uid)
+                        if up and up.get("sess") != self._sess_tag():
+                            up = None
+                        if not up:
+                            self._send_json({"error": "Um dos envios venceu no servidor. Envie de novo.", "expired": True}, HTTPStatus.GONE)
+                            return
+                        if up.get("data") is None:
+                            faltam = [k for k in range(up["n"]) if k not in up["chunks"]]
+                            if faltam:
+                                self._send_json({"error": "Faltam pedaços de um dos arquivos.", "missing": faltam[:20]}, HTTPStatus.BAD_REQUEST)
+                                return
+                            up["data"] = b"".join(up["chunks"][k] for k in range(up["n"]))
+                            up["chunks"] = {}
+                        up["ts"] = time.time()
+                        partes.append((up["name"] or "arquivo.pdf", up["data"]))
+                try:
+                    junto = juntar_em_pdf(partes)
+                except ValueError as exc:
+                    self._send_json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
+                    return
+                novo = str(uuid.uuid4()).replace("-", "")[:16]
+                nome_junto = "documento_unido.pdf"
+                with UPLOADS_LOCK:
+                    _purge_uploads()
+                    UPLOADS[novo] = {"chunks": {}, "n": 1, "name": nome_junto, "ts": time.time(), "data": junto, "sess": self._sess_tag()}
+                result = process_extract(nome_junto, junto, usuario)
+                leitura = result.pop("_leitura", None)
+                if leitura:
+                    with UPLOADS_LOCK:
+                        if novo in UPLOADS:
+                            UPLOADS[novo]["texto"], UPLOADS[novo]["arquivo"] = leitura["texto"], leitura["arquivo"]
+                            UPLOADS[novo]["transcrito_ia"] = bool(leitura.get("transcrito_ia"))
+                result["upload_id"] = novo
+                result["partes"] = [n for n, _ in partes]
+                self._send_json(result)
+            except Exception:
+                self._send_json({"error": "Falha ao juntar os arquivos. Confira se são PDFs ou imagens legíveis."}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if path == "/api/upload/finish":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
@@ -1669,6 +2166,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                     with UPLOADS_LOCK:
                         if uid in UPLOADS:
                             UPLOADS[uid]["texto"], UPLOADS[uid]["arquivo"] = leitura["texto"], leitura["arquivo"]
+                            UPLOADS[uid]["transcrito_ia"] = bool(leitura.get("transcrito_ia"))
                 result["upload_id"] = uid
                 self._send_json(result)
             except Exception:
@@ -1693,6 +2191,7 @@ class LattesHandler(BaseHTTPRequestHandler):
                         with UPLOADS_LOCK:
                             if uid in UPLOADS:
                                 UPLOADS[uid]["texto"], UPLOADS[uid]["arquivo"] = leitura["texto"], leitura["arquivo"]
+                            UPLOADS[uid]["transcrito_ia"] = bool(leitura.get("transcrito_ia"))
                     res["upload_id"] = uid
                     self._send_json(res)
                     return
@@ -1745,7 +2244,11 @@ class LattesHandler(BaseHTTPRequestHandler):
                     self._send_json({"error": "Envie um ZIP ou vários PDFs."}, HTTPStatus.BAD_REQUEST)
                     return
                 usuario = fields.get("usuario", "").strip()
-                resultado = processar_lote(files, usuario, process_extract, _duplicata_da_resposta(self._sess_tag()))
+                # Em lotes grandes (> 20 arquivos), evita chamadas por item ao Gemini para não estourar o timeout HTTP
+                from lote import expandir as _expandir_lote
+                n_arquivos = len(_expandir_lote(files)[0])
+                proc = process_extract if n_arquivos <= 20 else (lambda n, d, u: process_extract(n, d, u, allow_gemini=False))
+                resultado = processar_lote(files, usuario, proc, _duplicata_da_resposta(self._sess_tag()))
                 if fields.get("saida") == "zip":
                     raw = gerar_zip_organizado(files, resultado)
                     self.send_response(HTTPStatus.OK)
@@ -2095,6 +2598,12 @@ class LattesHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if not self._gate(mutating=True):
             return
+        if parsed.path == "/api/ia/chave":
+            qs = parse_qs(parsed.query)
+            remove_local = (qs.get("local") or ["0"])[0] == "1"
+            st = gemini.clear_key(remove_local=remove_local, base_dir=BASE_DIR)
+            self._send_json({"ok": True, **st})
+            return
         if parsed.path.startswith("/api/curriculo/snapshots/"):
             sid = parsed.path.rsplit("/", 1)[-1]
             if not SNAP_ID_RE.match(sid):
@@ -2128,6 +2637,7 @@ class LattesHandler(BaseHTTPRequestHandler):
 
 def main() -> None:
     global ACCESS_CODE, _assinatura_inicial
+    gemini.load_dotenv_file(BASE_DIR)
     default_host = "0.0.0.0"
     host = os.environ.get("HOST", default_host)
     port = int(os.environ.get("PORT", "8765"))
@@ -2145,6 +2655,11 @@ def main() -> None:
     except Exception as exc:
         print("backup inicial falhou:", type(exc).__name__)
     threading.Thread(target=_backup_loop, daemon=True).start()
+    try:
+        from extractor import aquecer_ocr
+        aquecer_ocr()  # modelo de OCR carregado antes do primeiro envio
+    except Exception:
+        pass
     if os.environ.get("LATTESFACIL_SKIP_WARMUP") != "1":
         aquecer_abertura(str(DB_PATH))  # painel do Aramys já pronto quando ele entrar
     if host not in ("127.0.0.1", "localhost", "::1"):

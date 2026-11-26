@@ -406,6 +406,11 @@ def espelhar_lattes(campos, item_id="", variante=""):
             if n in ARTIGO_ROTULOS:
                 c["rotulo"] = ARTIGO_ROTULOS[n]
                 c["opcoes"] = {"Sim": "S", "Não": "N"}
+            if n == "f_cod_doi" and item_id == "artigo":
+                # Conferido no Lattes em 26/11/2026: a janela "Incluir novo artigo" abre com um único campo "Informe o DOI, ISSN ou parte do nome do periódico".
+                # DOI abre pelo DOI; ISSN abre pelo cadastro de periódicos (nome vem do Lattes); nome sem resultado cai no cadastro manual (ISSN, nome, volume, edição, página).
+                c["rotulo"] = "DOI, ISSN ou nome do periódico"
+                c["dica"] = "Primeiro campo, como no Lattes: o DOI abre pelos dados do DOI; o ISSN ou o nome abrem pelo cadastro de periódicos do Lattes (se não achar, cadastra à mão)."
             if n == "f_jcr":
                 c["bloqueado_no_lattes"] = True  # o Lattes preenche o fator de impacto a partir do periódico; o campo aparece bloqueado
                 c["dica"] = "O Lattes preenche o fator de impacto (JCR) a partir do periódico; campo bloqueado."
@@ -541,11 +546,12 @@ def ajustes_da_captura(item_id, var_):
                     c.pop("oculto", None)
                     break
         if item_id == "atuacao_profissional" and c["name"].lower() == "f_stavinc":
-            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"]}  # o Lattes limpa o vínculo (checkVinc) se a instituição está vazia
+            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"], "qualquer": True}  # o Lattes limpa o vínculo (checkVinc) se a instituição está vazia
         if item_id == "atuacao_profissional" and c["name"].lower() == "f_vinc":
-            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"]}  # idem: sem instituição o vínculo é limpo
+            c["opcoes_lupa"] = ["Servidor público", "Celetista", "Professor Visitante", "Bolsista", "Outro (especifique)"]  # lupa dominio(); "Outro" libera texto livre
+            c["exige_antes"] = {"name": "f_inst", "valores": ["Universidade Federal do Maranhão"], "qualquer": True}  # idem: sem instituição o vínculo é limpo
         if item_id == "formacao_complementar" and c["name"].lower() in ("f_inst", "f_curso"):
-            c["exige_antes"] = {"name": "f_nivel", "valores": ["Mba"]}  # o Lattes pede o nível antes da lupa de instituição ("Campo Nível obrigatório"); só MBA/pós têm cursos listados
+            c["exige_antes"] = {"name": "f_nivel", "valores": ["Mba"], "qualquer": True}  # o Lattes pede o nível antes da lupa de instituição ("Campo Nível obrigatório"); qualquer nível escolhido libera (com "Mba" só, a plataforma apagava instituição e curso dos demais níveis)
         if item_id == "formacao_academica" and c["name"].lower().startswith("f_inst_dout"):
             c["lupa_instituicao"] = True  # campo desabilitado: o valor entra pela lupa sele_inst(2/3/4), com o código oculto f_cod_inst_dout*
         if c["name"].lower() == "f_sub_prod" and r.get("desabilitado") and c.get("tipo") == "text":

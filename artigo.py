@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import difflib
 import re
 import urllib.parse
 from typing import Any
@@ -105,7 +106,7 @@ def pdf_keywords(text: str) -> list[str]:
     """Palavras-chave do PDF: linha 'Keywords:' (+ a próxima só se for continuação da lista)."""
     lines = [ln.strip() for ln in text.splitlines()]
     for i, ln in enumerate(lines):
-        m = re.match(r"(?i)^(?:keywords?|palavras[- ]chave|index terms)\s*[:\-–]\s*(.*)$", ln)
+        m = re.match(r"(?i)^(?:keywords?|palavras[- ]chave|index terms)\s*[:\-–.]\s*(.*)$", ln)  # o OCR às vezes troca ":" por "."
         if not m:
             continue
         block = m.group(1)
@@ -114,8 +115,23 @@ def pdf_keywords(text: str) -> list[str]:
             block += " " + lines[j]
             j += 1
         block = _clean_line(block)[:300]
-        return [k.strip(" .;,-") for k in re.split(r"\s*[;•·,]\s*", block) if 2 < len(k.strip(" .;,-")) < 60][:8]
+        block = re.sub(r"(?<=[a-zà-ú])\.(?=[A-ZÀ-Ú])", "; ", block)  # "Identidade,Mudança.Paradoxo.Teseu": ponto sem espaço separa palavras-chave
+        palavras = [k.strip(" .;,-") for k in re.split(r"\s*[;•·,]\s*", block) if 2 < len(k.strip(" .;,-")) < 60][:8]
+        return [_corrigir_ocr_palavra(k, text) for k in palavras]
     return []
+
+
+def _corrigir_ocr_palavra(kw: str, text: str) -> str:
+    """Palavra-chave de uma palavra só com letra trocada pelo OCR ("ldennldade"): troca pela palavra parecida que aparece no corpo do texto."""
+    if " " in kw or len(kw) < 6:
+        return kw
+    vocab = {w.lower() for w in re.findall(r"[A-Za-zÀ-ÿ]{6,}", text)}
+    if kw.lower() in vocab:
+        return kw
+    perto = difflib.get_close_matches(kw.lower(), vocab, n=1, cutoff=0.75)
+    if not perto:
+        return kw
+    return perto[0].capitalize() if kw[:1].isupper() else perto[0]
 
 
 def is_article(text: str) -> bool:
@@ -131,20 +147,51 @@ def is_article(text: str) -> bool:
     return sinais >= 2
 
 
+# Rótulos de volume/edição/páginas tolerando OCR: "Voume13", "lssue2" (l no lugar de I), sem espaço entre rótulo e número.
+_VOL = r"(?:Vo[l1I]?ume|Vol\.?|v\.)\s*(\d+)"
+_EDICAO = r"(?:[Il1]ssue|No\.|n\.|N[uú]mero|Fasc[ií]culo)\s*(\d+)"
+_PAGINAS = r"(?:pp?\.|p[aá]ginas?|pages?)\s*([0-9A-Za-z]+)\s*[-–]\s*([0-9A-Za-z]+)"
+
+
+def _nome_periodico(linha: str) -> str:
+    """Nome da revista lido da linha: separa palavras coladas pelo OCR ("interferenceJoumal") e conserta "Journal" mal lido."""
+    nome = _clean_line(re.sub(r"(?<=[a-z])(?=[A-Z])", " ", linha)).strip(" ,.;")
+    palavras = nome.split()
+    if palavras:
+        ultima = palavras[-1]
+        for certo in ("Journal", "Review", "Revista"):
+            minimo = 0.6 if certo == "Journal" and ultima[:2].lower() == "jo" else 0.75  # "Joumaf", "Joumal": OCR troca letras do fim
+            if ultima.lower() != certo.lower() and difflib.SequenceMatcher(None, ultima.lower(), certo.lower()).ratio() >= minimo:
+                palavras[-1] = certo
+                break
+    return " ".join(palavras)
+
+
 def dados_bibliograficos(text: str) -> dict[str, str]:
-    """Periódico, volume, número, páginas e ISSN lidos da linha de citação do PDF (ex.: 'Revista X, Volume 12, Issue 3, pp. 101-110, 2025. ISSN 0000-0000')."""
+    """Periódico, volume, número, páginas e ISSN lidos da citação do PDF.
+
+    Aceita 'Revista X, Volume 12, Issue 3, pp. 101-110, 2025. ISSN 0000-0000' e também o nome da revista numa linha e
+    'Volume 11, Issue 2 (2025), Page 1856-1871' na seguinte."""
     flat = text[:6000]
     out: dict[str, str] = {}
-    m = re.search(r"^[ \t]*([^\n]{4,140}?),\s*(?:Volume|Vol\.?|v\.)\s*\d+", flat, re.M | re.I)
+    m = re.search(r"^[ \t]*([^\n]{4,140}?),\s*" + _VOL, flat, re.M | re.I)
     if m:
-        out["periodico"] = _clean_line(m.group(1)).strip(" ,.;")
-    m = re.search(r"(?:Volume|Vol\.?|v\.)\s*(\d+)", flat, re.I)
+        out["periodico"] = _nome_periodico(m.group(1))
+    else:  # nome da revista na linha de cima do "Volume N, Issue N"
+        linhas = flat.splitlines()
+        for k, ln in enumerate(linhas):
+            if k and re.match(r"^\s*" + _VOL, ln, re.I) and re.search(_EDICAO + r"|" + _PAGINAS, ln, re.I):
+                anterior = _clean_line(linhas[k - 1])
+                if 4 <= len(anterior) <= 90 and not re.search(r"\d{3,}|https?://|doi", anterior, re.I):
+                    out["periodico"] = _nome_periodico(anterior)
+                break
+    m = re.search(_VOL, flat, re.I)
     if m:
         out["volume"] = m.group(1)
-    m = re.search(r"(?:Issue|No\.|n\.|N[uú]mero|Fasc[ií]culo)\s*(\d+)", flat, re.I)
+    m = re.search(_EDICAO, flat, re.I)
     if m:
         out["serie"] = m.group(1)
-    m = re.search(r"(?:pp?\.|p[aá]ginas?|pages?)\s*([0-9A-Za-z]+)\s*[-–]\s*([0-9A-Za-z]+)", flat, re.I)
+    m = re.search(_PAGINAS, flat, re.I)
     if m:
         out["pagina_inicial"], out["pagina_final"] = m.group(1), m.group(2)
     m = re.search(r"ISSN[:\s]*([0-9]{4}-[0-9]{3}[0-9Xx])", flat, re.I)
@@ -192,7 +239,14 @@ def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
             rec["titulo"] = titulo_formatado(pagina) if pagina else " ".join(head[:3])
             if len(rec["titulo"].split()) < 4:  # primeira linha era a faixa/logo da revista ("Interference"): procura a linha com cara de título
                 rec["titulo"] = titulo_provavel(text) or rec["titulo"]
-            notes.append("Título tirado do PDF sem DOI; confira.")
+            # título que só aparece depois do "RESUMO/ABSTRACT" é frase do resumo, não título (página sem a folha de rosto)
+            m_res = re.search(r"(?im)^\s*(resumo|abstract)\b", text)
+            chave = rec["titulo"][:40]
+            if m_res and chave and text.find(chave) > m_res.start():
+                rec["titulo"] = ""
+                notes.append("O título do artigo não aparece neste documento (só o resumo); preencha o título no formulário.")
+            else:
+                notes.append("Título tirado do PDF sem DOI; confira.")
         if not rec["ano"]:
             rec["ano"] = ano_de_publicacao(text[:3000])  # ignora faixas de anos e Qualis ("2017-2020")
     if text.strip() and not doi_only(text):
@@ -200,6 +254,11 @@ def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
         preenchidos = [k for k, v in achados.items() if v and not rec.get(k)]
         for k in preenchidos:
             rec[k] = achados[k]
+        if not rec["isbn_issn"] and rec["doi"]:  # DOIs de revistas (Atena, SciELO...) trazem o ISSN logo depois da barra
+            m_issn = re.match(r"10\.\d{4,9}/(\d{4}-\d{3}[\dXx])(?![\d-])", rec["doi"])
+            if m_issn:
+                rec["isbn_issn"] = m_issn.group(1).upper()
+                notes.append("ISSN deduzido do DOI; confira.")
         if preenchidos:
             notes.append("Periódico, volume e páginas lidos da citação do documento; confira com a primeira página do artigo.")
     if not rec["palavras_chave"]:

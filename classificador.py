@@ -56,6 +56,7 @@ ITENS: list[Item] = [
         (r"participou(?:\s+(?:com\s+[êe]xito|com\s+sucesso|com\s+aproveitamento|ativamente))?\s+(?:do|da|de|no|na|dos|das|em)|participa[cç][aã]o\s+(?:no|na|do|da|em)|na qualidade de (participante|ouvinte)|\bouvinte\b|\bparticipante\b", 2.5, "diz que participou do evento"),
         (r"evento|congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada|reuniao anual", 1.0, "cita um evento"),
         (r"carga horaria", 0.5, "tem carga horária"),
+        (r"participou d[oa](?:\(a\))? monitoria|monitoria academica|exerceu (a )?monitoria|atuou como monitor(a)?|monitoria (da|na|de) disciplina", -4.0, "é monitoria (atuação profissional), não evento"),
         (r"comissao (organizadora|cientifica)|organizacao do evento|historico escolar|colacao de grau|denominacao das ucs", -3.0, "é organização de evento ou documento acadêmico, não só participação"),
         (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante|atestado de restauro|conservacao do painel|apresentacao de trabalhos? cientificos?|atividade apresentacao de trabalho|foi (submetido e )?apresentado|banner digital|participou,? como organizador", -2.0, "houve apresentação, organização ou restauro, não só participação"),
     ], True, "Certificado de participação no congresso"),
@@ -64,7 +65,7 @@ ITENS: list[Item] = [
         (r"congresso|simposio|jornada|seminario|encontro|semana|workshop", 1.0, "cita um evento"),
     ], False, "Certificado da comissão organizadora"),
     Item("artigo", "Produções", "Artigos completos publicados em periódicos", "Publiquei um artigo em revista científica", [
-        (r"\bdoi\b|10\.\d{4,9}/|certificado de publicacao|declaracao de publicacao|publicou o artigo|publicaram (no|o) (artigo)?|artigo intitulado", 4.0, "tem DOI ou é comprovante de publicação de artigo em periódico"),
+        (r"\bdoi\b|10\.\d{4,9}/|d[o0][il1]\s*:|[a-z]*doi\.or|revista[^\n]{0,90}\bv\.?\s*\d+[^\n]{0,12}\bn\.?\s*\d+[^\n]{0,12}\bp\.?\s*\d+\W{1,2}\d+|revista[^\n]{0,90}\bn\.?\s*\d+\s*,?\s*p\.?\s*\d+\W{1,2}\d+|certificado de publicacao|declaracao de publicacao|publicou o artigo|publicaram (no|o) (artigo)?|artigo intitulado", 4.0, "tem DOI ou é comprovante de publicação de artigo em periódico"),
         (r"\bjournal\b|\brevista\b|periodico", 1.0, "cita revista"),
         (r"\babstract\b|\bresumo\b", 0.8, "tem resumo"),
         (r"received|accepted|recebido em|aceito em|published", 1.2, "tem datas de recebimento/aceite"),
@@ -108,11 +109,13 @@ ITENS: list[Item] = [
         # anterior por causa de um backspace no padrão, e o comportamento da ata é mantido)
         (r"^(?!.*ata d[aeo]s? defesa).*(?:examinador(?:a|es)?\b|comissao de defesa|membros da banca)", -3.0, "cita quem avaliou (examinador/comissão), não orientação"),
         (r"certificamos|declaramos que .{0,60}(apresentou|participou)", -1.0, "parece certificado de evento"),
+        (r"termo de compromisso de estagio|estagio (curricular )?(nao )?obrigatorio|supervisor(a)? de estagio", -3.5, "é termo de estágio: o orientador/curso citado é o do estágio (atuação), não orientação nem curso ministrado"),
     ], True, "Declaração de orientação de TCC"),
     Item("orientacao_andamento", "Orientações", "Orientações e supervisões em andamento", "Oriento um trabalho que ainda não terminou", [
         (r"orientou|orientador(a)?\b|orientacao d[oa]|orientando", 2.0, "cita orientador/orientando"),
         (r"em andamento|em curso|atualmente orienta|vigencia da bolsa", 3.5, "diz que está em andamento"),
         (r"disserta[c]ao|\btese\b|\btcc\b|trabalho de conclusao|iniciacao cientifica|monografia|pibic", 1.5, "cita o tipo de trabalho orientado"),
+        (r"termo de compromisso de estagio|estagio (curricular )?(nao )?obrigatorio|supervisor(a)? de estagio", -3.5, "é termo de estágio: o orientador/curso citado é o do estágio (atuação), não orientação nem curso ministrado"),
     ], True, "Declaração de IC em andamento"),
     Item("banca", "Bancas", "Participação em bancas de trabalhos de conclusão", "Participei de uma banca examinadora", [
         (r"banca examinadora|membro da banca|participou da banca|comissao julgadora|examinador(a)?|avaliador(a)? externo", 4.0, "diz que integrou a banca"),
@@ -127,9 +130,10 @@ ITENS: list[Item] = [
         (r"ministrou|ministrante|docente do curso|instrutor(a)?|professor(a)? do curso|oficina ministrada", 4.0, "diz que ministrou o curso"),
         (r"\bcurso\b|minicurso|oficina|capacitacao", 1.0, "cita curso"),
         (r"carga horaria", 0.8, "tem carga horária"),
+        (r"termo de compromisso de estagio|estagio (curricular )?(nao )?obrigatorio|supervisor(a)? de estagio", -3.5, "é termo de estágio: o orientador/curso citado é o do estágio (atuação), não orientação nem curso ministrado"),
     ], False, "Certificado de ministrante"),
     Item("formacao_complementar", "Formação", "Formação complementar", "Fiz um curso (como aluno)", [
-        (r"concluiu o curso|participou do curso|cursou|carga horaria de \d+|certificado de conclusao do curso|curso de (extensao|capacitacao|atualizacao|aperfeicoamento)", 3.0, "diz que concluiu/participou do curso"),
+        (r"concluiu (?:com exito )?o curso|participou do curso|cursou|carga horaria de \d+|certificado de conclusao do curso|curso de (extensao|capacitacao|atualizacao|aperfeicoamento)", 3.0, "diz que concluiu/participou do curso"),
         (r"carga horaria", 1.5, "tem carga horária"),
         (r"comissao (organizadora|cientifica)|organizacao do evento", -3.5, "é organização de evento, não curso"),
         (r"curso livre|formacao continuada|participou e concluiu|certificado do curso de", 3.0, "diz que concluiu curso livre/formação continuada"),
@@ -141,6 +145,7 @@ ITENS: list[Item] = [
         (r"trabalho (cientifico )?intitulado|foi (submetido e )?apresentado|apresentacao de trabalhos? cientificos?|banner digital", -3.5, "é apresentação de trabalho, não curso"),
         (r"\bmonitoria\b|\bmonitor(a)? (bolsista|voluntari[oa])|\bestagio\b|\bestagiari[oa]\b", -3.5, "é monitoria/estágio (atuação), não curso"),
         (r"participou como (1o |primeiro |vice-)?(diretor|diretora|presidente|coordenador|coordenadora|tesoureiro|secretario|secretaria)\b", -3.5, "é cargo em liga/projeto/grupo, não curso"),
+        (r"(voluntari|bolsista|integrante|membro|colaborador|coordenador)\w*.{0,60}projeto de (pesquisa|extensao|ensino|desenvolvimento)|projeto de (pesquisa|extensao|ensino|desenvolvimento).{0,20}intitulado", -3.5, "é atuação em projeto, não curso"),
     ], False, "Certificado de curso de extensão"),
     Item("formacao_academica", "Formação", "Formação acadêmica/titulação", "Concluí ou curso graduação, especialização, mestrado ou doutorado", [
         (r"\bdiploma\b|colacao de grau|conferiu o grau|historico (escolar|academico)|componentes curriculares cursados|grau de (mestre|doutor|bacharel|especialista|licenciado)|certificado de (conclusao|especializacao|pos-graduacao)|declaracao (de|da) matricula|aluno(?:\([a-z]\))? vinculado(?:\([a-z]\))?|declaramos.{0,100}aluno|matriculad[oa] no curso|vinculad[oa] a esta universidade|no curso de.{0,60}lato sensu", 4.5, "é diploma, certificado de titulação/aperfeiçoamento ou declaração de matrícula"),
@@ -304,6 +309,13 @@ ITENS: list[Item] = [
 ]
 INDICE = {i.id: i for i in ITENS}
 
+# itens cujo texto, em frase própria, os define sem ambiguidade; a confiança sobe sem inflar o "máximo possível" das regras
+DECISIVOS = {
+    "atuacao_profissional": (r"participou d[oa](?:\(a\))? monitoria|monitoria academica|exerceu (a )?monitoria|atuou como monitor(a)?|monitoria (da|na|de) disciplina",
+                             "o certificado é de monitoria (registrada na atuação profissional)"),
+    "apresentacao": (r"atividade apresentacao de trabalho|participou[^.]{0,80}atividade[^.]{0,20}apresentacao de trabalhos? cientificos?",
+                     "o certificado diz que a atividade foi apresentar trabalho"),
+}
 LIMIAR_AVANCAR = 0.70   # confiança mínima do 1º candidato para seguir sozinho
 MARGEM_AVANCAR = 0.25   # vantagem sobre o 2º
 LIMIAR_CONFIRMAR = 0.35  # abaixo disso nada é plausível
@@ -337,8 +349,13 @@ def _titulos_aproximados(t: str) -> str:
         n = len(chave)
         for i in range(0, max(1, len(base) - n + 1)):
             if difflib.SequenceMatcher(None, chave, base[i:i + n]).ratio() >= (0.75 if n >= 15 else 0.85):  # frase longa tolera mais erro de OCR
-                achados.append(titulo)
-                break
+                # a última palavra do título (vínculo, acadêmico, defesa...) também precisa aparecer: "declaração" + "declaramos"
+                # sozinhos não fazem uma "declaração de vínculo"
+                ultima = titulo.split()[-1]
+                trecho = base[i + n - len(ultima) - 1:i + n + 1]
+                if difflib.SequenceMatcher(None, ultima, trecho).find_longest_match(0, len(ultima), 0, len(trecho)).size >= len(ultima) - 2:
+                    achados.append(titulo)
+                    break
     return " ".join(achados)
 
 
@@ -365,7 +382,17 @@ def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no
         conf = min(conf, 0.95 if fortes >= 1 else 0.6)
         if len(motivos) == 1:
             conf = min(conf, 0.78)  # uma única pista isolada nunca passa de "provável"
-        cands.append({"id": it.id, "item": it.item, "secao": it.secao, "grupo": it.grupo, "pontos": round(pontos, 2),
+        if it.id in DECISIVOS and re.search(DECISIVOS[it.id][0], t) and pontos > 0:
+            conf = max(conf, 0.85)  # documento cujo texto o define sem dúvida (ex.: "participou da Monitoria Acadêmica"): segue sozinho
+            motivos = motivos + [DECISIVOS[it.id][1]]
+        rotulo = it.item
+        if it.id == "projeto":  # o menu do Lattes tem um item por tipo de projeto: mostra o que o documento diz
+            for pad, nome_tipo in ((r"projeto de extensao", "Projeto de extensão"), (r"projeto de ensino", "Projeto de ensino"),
+                                   (r"projeto de desenvolvimento", "Projeto de desenvolvimento tecnológico"), (r"projeto de pesquisa", "Projetos de pesquisa")):
+                if re.search(pad, t):
+                    rotulo = nome_tipo
+                    break
+        cands.append({"id": it.id, "item": rotulo, "secao": it.secao, "grupo": it.grupo, "pontos": round(pontos, 2),
                       "confianca": round(conf, 2), "motivos": motivos, "implementado": it.implementado})
     cands.sort(key=lambda c: (-c["confianca"], -c["pontos"]))
     cands = [c for c in cands if c["confianca"] >= LIMIAR_CONFIRMAR][:4]
@@ -381,6 +408,10 @@ def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no
     relacionados = []
     if top["id"] == "apresentacao":
         relacionados.append({"id": "participacao_evento", "motivo": "o mesmo certificado também comprova a participação no evento"})
+        if re.search(r"\banais\b|titulo dos anais|caderno de resumos", t):
+            relacionados.append({"id": "anais", "motivo": "o documento também registra publicação nos anais do evento"})
+    elif top["id"] == "anais" and re.search(r"comunicacao oral|\bposter\b|apresentacao oral|modalidade.{0,30}(oral|poster|banner)", t):
+        relacionados.append({"id": "apresentacao", "motivo": "o documento também indica modalidade de apresentação (comunicação oral/pôster)"})
     return {"decisao": decisao, "motivo_decisao": why, "candidatos": cands, "tambem_pode_gerar": relacionados}
 
 

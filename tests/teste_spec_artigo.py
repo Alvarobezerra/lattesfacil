@@ -32,8 +32,11 @@ checa("grades: autores, palavras-chave, áreas, setores", {g["chave"] for g in v
 from ferramentas.valida_paridade import comparar  # noqa: E402
 
 ref = json.loads((RAIZ / "docs" / "campos-lattes" / "ref" / "artigo" / "artigo_periodico.json").read_text(encoding="utf-8"))
-div = comparar(v, ref)
-checa("paridade com a captura real: 0 divergências", not div, div)
+from ferramentas.valida_paridade import carregar_excecoes  # noqa: E402
+
+just = {(x["categoria"], x["campo"].lower()) for x in carregar_excecoes("artigo").get(ref["variante_slug"], [])}
+div = [d for d in comparar(v, ref) if (d["categoria"], d["campo"].lower()) not in just]
+checa("paridade com a captura real: 0 divergências (1 justificada: primeiro campo DOI/ISSN/nome)", not div and ("rotulo_diferente", "f_cod_doi") in just, div)
 checa("captura com os radios Sim/Não lidos certo", [o["texto"].lower()[:1] for o in next(x for x in ref["campos"] if x["name"] == "F_RELEV")["opcoes"]] == ["s", "n"])
 
 # leitor: citação do PDF (sem DOI resolvido)

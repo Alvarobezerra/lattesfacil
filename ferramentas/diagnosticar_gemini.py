@@ -11,8 +11,10 @@ import gemini
 
 
 def main(documents=False):
+    gemini.load_dotenv_file(ROOT)
     key = os.getenv("GEMINI_API_KEY", "").strip()
-    report = {"modelo": os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+    model = gemini.current_model()
+    report = {"modelo": model,
               "chave_configurada": bool(key),
               "configuracao": {"tamanho_chave": len(key),
                   "tipo_chave": "auth" if key.startswith("AQ.") else "standard" if key.startswith("AIza") else "desconhecido",
@@ -40,13 +42,12 @@ def main(documents=False):
         report.update(ok=False, erro=str(exc), diagnostico=exc.diagnostic)
         if report["chave_configurada"] and report["configuracao"]["formato_compativel"] and len(key) >= 20:
             key = os.environ["GEMINI_API_KEY"].strip()
-            model = report["modelo"]
             if gemini.re.fullmatch(r"gemini-[a-zA-Z0-9.-]+", model):
                 try:
                     minimal = requests.post(
-                        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-                        headers={"x-goog-api-key": key},
-                        json={"contents": [{"parts": [{"text": "Responda apenas OK."}]}]},
+                        gemini.INTERACTIONS_URL,
+                        headers={"x-goog-api-key": key, "Content-Type": "application/json"},
+                        json={"model": model, "input": "Responda apenas OK.", "store": False},
                         timeout=(10, 45), allow_redirects=False)
                     report["requisicao_minima"] = ({"http": 200} if minimal.status_code == 200
                                                   else gemini.api_error(minimal, key).diagnostic)

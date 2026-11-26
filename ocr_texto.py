@@ -104,13 +104,13 @@ def _palavra_conhecida(tok: str) -> bool:
     return bool(v) and tok in v[0]
 
 
-def qualidade_texto(texto: str) -> float:
-    """Fração das palavras (3+ letras) que existem no vocabulário português; 1.0 se não houver palavras ou dicionário.
+def qualidade_texto(texto: str, minimo: int = 20) -> float:
+    """Fração das palavras (3+ letras) que existem no vocabulário português; 1.0 se houver menos de `minimo` palavras ou não houver dicionário.
     Camada de texto de escaneado mal reconhecido ("Curse:", "Pslco'Ogla") fica bem abaixo de texto limpo."""
     if not _vocabulario():
         return 1.0
     palavras = [_sem_acento(w) for w in re.findall(r"[^\W\d_]{3,}", texto)]
-    if len(palavras) < 20:
+    if len(palavras) < minimo:
         return 1.0
     return sum(1 for w in palavras if _palavra_conhecida(w)) / len(palavras)
 
@@ -150,6 +150,39 @@ def corrigir_espacos(texto: str) -> str:
     texto = re.sub(r"(?<![A-Za-z0-9])(\d{4,})(?=[A-Za-zÀ-ÿ]{3,}\b)", r"\1 ", texto)  # "21271176Monitora"
     texto = re.sub(r"(?<=[a-zà-ÿ])(?=(?:19|20)\d{2}\b)", " ", texto)  # "de2022" -> "de 2022"
     return re.sub(r"[A-Za-zÀ-ÿ]{7,}", lambda m: _separar_token(m.group(0)), texto)
+
+@lru_cache(maxsize=1)
+def _formas_acentuadas() -> dict[str, str]:
+    """sem acento -> forma acentuada, só quando a acentuada é bem mais comum que a sem acento ("reducao" -> "redução").
+    Pares em que as duas formas são palavras reais ("esta"/"está", "pais"/"país", "ate"/"até") só entram se a acentuada dominar com folga."""
+    try:
+        from spellchecker import SpellChecker
+        dic = SpellChecker(language="pt").word_frequency.dictionary
+    except Exception:
+        return {}
+    melhor: dict[str, tuple[int, str]] = {}
+    for w, f in dic.items():
+        k = _sem_acento(w)
+        if k != w.lower() and k.isalpha() and f >= (100000 if len(k) == 3 else _FREQ_MIN) and f > melhor.get(k, (0, ""))[0]:
+            melhor[k] = (f, w.lower())  # 3 letras só se muito comuns ("nao" -> "não", "sao" -> "são")
+    # o dicionário traz formas de Portugal ("académico", "económico", "género"): no Brasil o e/o/a tônico antes de m/n + vogal leva circunflexo
+    br = {"é": "ê", "ó": "ô", "á": "â"}
+    return {k: re.sub(r"([éóá])(?=[mn][aeiou])", lambda m: br[m.group(1)], w) for k, (f, w) in melhor.items() if f >= 20 * dic.get(k, 0)}
+
+
+def restaurar_acentos(texto: str) -> str:
+    """O OCR entrega "Reducao", "COMPORTAMENTOS-PROBLEMA", "Psicologo": devolve os acentos de palavras que, sem eles, não são palavras
+    do português (ou são muito mais raras que a forma acentuada). Só palavras de 3+ letras sem acento nenhum; o resto fica como veio."""
+    formas = _formas_acentuadas()
+    if not texto or not formas:
+        return texto
+
+    def troca(m: "re.Match[str]") -> str:
+        palavra = m.group(0)
+        canonico = formas.get(palavra.lower())
+        return _estilo(palavra, canonico) if canonico else palavra
+
+    return re.sub(r"(?<![A-Za-zÀ-ÿ])[A-Za-z]{3,}(?![A-Za-zÀ-ÿ])", troca, texto)
 
 
 def _estilo(original: str, canonico: str) -> str:

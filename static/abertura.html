@@ -5,23 +5,33 @@
 <body class="platform overview"><a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 <aside id="platformSidebar" class="platform-sidebar" aria-label="Menu da plataforma"></aside>
 <div class="platform-frame"><header class="platform-topbar"><div><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span class="topbar-location">Início / <strong>Visão geral</strong></span></div><div><a id="platformConnection" class="platform-connection" href="/">Verificando conexão…</a><span class="platform-avatar" data-user-initials></span></div></header>
-<main id="conteudo" class="platform-main"><section class="welcome"><div class="welcome-copy"><h1>Olá, <span data-user-name>pesquisador</span></h1><p>Que tal registrar uma nova conquista hoje?</p><a class="welcome-add" href="/">+ Adicionar produção</a></div></section>
+<main id="conteudo" class="platform-main"><section class="welcome"><div class="welcome-copy"><h1>Visão geral</h1></div></section>
 <div class="view-tabs" role="tablist" aria-label="Visão geral"><button type="button" id="tabRotina" role="tab" aria-controls="rotina" aria-selected="true">Minha rotina</button><button type="button" id="tabTrajetoria" role="tab" aria-controls="trajetoria" aria-selected="false" tabindex="-1">Minha trajetória</button></div>
 <section id="rotina" role="tabpanel" aria-labelledby="tabRotina">
-<section class="next-step" id="nextStep" aria-live="polite"><div class="ns-copy"><div class="ns-label">Próximo passo</div><h2 id="nextTitle">Carregando seus registros</h2><p id="nextText">Consultando sua atividade no NautiScience.</p></div><a id="nextAction" class="button primary" href="/">Adicionar produção</a></section>
+<section class="next-step" id="nextStep" aria-live="polite"><div class="ns-copy"><h2 id="nextTitle">Carregando seus registros</h2><p id="nextText">Consultando sua atividade no NautiScience.</p></div><a id="nextAction" class="button primary" href="/" hidden>Adicionar produção</a><ul id="routinePending" class="routine-pending" hidden></ul></section>
 <div id="routineNotice" role="status"></div>
+<section class="panel routine-records"><div class="section-head"><h2>Registros recentes</h2><a href="/#registros">Abrir histórico</a></div><div id="routineRecords"><p class="empty">Carregando registros…</p></div></section>
 <div class="metric-grid"><article class="panel"><span class="label">Registros salvos</span><b id="savedCount" class="value">—</b><span class="note">No NautiScience, para este perfil</span></article><article class="panel"><span class="label">Envios confirmados</span><b id="confirmedCount" class="value">—</b><span class="note">Conferidos na cópia do currículo</span></article><article class="panel"><span class="label">Envios com atenção</span><b id="attentionCount" class="value">—</b><span class="note">Falhas ou divergências na conferência</span></article></div>
-<div class="content-grid"><section class="panel"><div class="section-head"><h2>Seus registros recentes</h2><a href="/#registros">Abrir histórico</a></div><p class="muted">Retome um registro salvo pelo botão “Carregar” no histórico.</p><div id="routineRecords"><p class="empty">Carregando registros…</p></div></section>
-<section class="panel"><h2>Próximos caminhos</h2><div class="opportunity"><strong>Prepare seu próximo edital</strong><p>Explore chamadas de fomento e prepare seu projeto.</p><a href="/editais.html">Explorar editais</a></div><div class="opportunity"><strong>Conheça sua trajetória</strong><p>Explore suas contribuições e a evolução do currículo.</p><a href="#trajetoria">Abrir Minha trajetória</a></div></section></div>
+<div class="content-grid"><section class="panel"><h2>Próximos caminhos</h2><div class="opportunity"><strong>Prepare seu próximo edital</strong><p>Explore chamadas de fomento e prepare seu projeto.</p><a href="/editais.html">Explorar editais</a></div><div class="opportunity"><strong>Conheça sua trajetória</strong><p>Explore suas contribuições e a evolução do currículo.</p><a href="#trajetoria">Abrir Minha trajetória</a></div></section></div>
 <section class="panel"><div class="section-head"><h2>Atividade recente</h2><a href="/#registros">Ver histórico</a></div><div id="routineActivity"><p class="empty">Carregando atividade…</p></div></section>
 </section>
 <section id="trajetoria" role="tabpanel" aria-labelledby="tabTrajetoria" hidden>
-<div class="section-head"><div><h2>Cada contribuição conta uma parte da sua história.</h2><p class="muted">Conheça sua evolução, suas conexões e os marcos do seu percurso.</p></div><label>Período <select id="trajectoryPeriod"><option value="5">Últimos 5 anos</option><option value="0" selected>Todo o período</option></select></label></div>
 <div id="trajectoryNotice" role="status"></div>
+<div class="content-grid trajectory-lead">
+  <section class="panel trajectory-hero">
+    <div class="section-head">
+      <div><h2 id="trajectoryChartTitle">Artigos por ano</h2><p id="trajectoryChartSummary"></p></div>
+      <label>Período <select id="trajectoryPeriod"><option value="5" selected>Últimos 5 anos</option><option value="0">Todo o período</option></select></label>
+    </div>
+    <svg id="trajectoryChart" class="chart" role="img" aria-label="Artigos do currículo por ano" viewBox="0 0 700 235"></svg>
+    <p id="trajectoryChartNote" class="source-note"></p>
+  </section>
+  <section class="panel trajectory-milestones"><h2>Marcos da trajetória</h2><ul id="trajectoryMilestones" class="timeline"></ul><a class="button primary trajectory-curriculum-link" href="/meu-curriculo.html">Ver meu currículo completo</a></section>
+</div>
+<p id="trajectorySource" class="source-note">Consultando o currículo importado…</p>
 <div class="metric-grid four" id="trajectoryMetrics"></div>
-<div class="content-grid"><section class="panel"><h2>Sua evolução ao longo dos anos</h2><p class="muted">Produções registradas por ano</p><svg id="trajectoryChart" class="chart" role="img" aria-label="Produções do currículo por ano" viewBox="0 0 700 235"></svg><p id="trajectoryChartNote" class="source-note"></p></section><section class="panel"><h2>Dimensões da sua contribuição</h2><div id="trajectoryDimensions"></div><p class="source-note">As dimensões descrevem tipos de contribuição; não são uma avaliação de desempenho.</p></section></div>
-<div class="content-grid"><section class="panel"><h2>Marcos registrados na sua trajetória</h2><ul id="trajectoryMilestones" class="timeline"></ul></section><section class="panel"><h2>Explore sua história</h2><div class="opportunity"><strong>Produções e temas</strong><p>Consulte os títulos e detalhes que compõem seu currículo.</p><a href="/meu-curriculo.html">Explorar registros</a></div><div class="opportunity"><strong>Pessoas e conexões</strong><p>Conheça as coautorias identificadas no currículo importado.</p><a href="/meu-curriculo.html#coautorias">Ver coautorias</a></div><div id="trajectoryProfile"></div></section></div>
-<p id="trajectorySource" class="source-note">Consultando o currículo importado…</p><details class="detail-fold" id="externalIndicators" open><summary>Citações, alcance e indicadores das bases externas</summary><div id="banner"></div><p id="status" class="source-note"></p><div id="ids" class="ids"></div>  <div class="legacy-grid">
+<div class="content-grid"><section class="panel"><h2>Dimensões da sua contribuição</h2><div id="trajectoryDimensions"></div><p class="source-note">As dimensões descrevem tipos de contribuição; não são uma avaliação de desempenho.</p></section><section class="panel"><h2>Explore sua história</h2><div class="opportunity"><strong>Produções e temas</strong><p>Consulte os títulos e detalhes que compõem seu currículo.</p><a href="/meu-curriculo.html">Explorar registros</a></div><div class="opportunity"><strong>Pessoas e conexões</strong><p>Conheça as coautorias identificadas no currículo importado.</p><a href="/meu-curriculo.html#coautorias">Ver coautorias</a></div><div id="trajectoryProfile"></div></section></div>
+<details class="detail-fold" id="externalIndicators"><summary>Citações, alcance e indicadores das bases externas</summary><div id="banner"></div><p id="status" class="source-note"></p><div id="ids" class="ids"></div>  <div class="legacy-grid">
     <div>
       <section class="kpis" id="kpis" aria-label="Indicadores"></section>
 

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import collections
 import difflib
+import hashlib
 import logging
 import re
 import threading
@@ -14,7 +16,7 @@ from typing import Any
 import pymupdf
 import requests
 
-from ocr_texto import corrigir_espacos, qualidade_texto
+from ocr_texto import corrigir_espacos, qualidade_texto, restaurar_acentos
 
 
 AREA_KEYWORDS = [
@@ -33,6 +35,7 @@ AREA_KEYWORDS = [
 _log = logging.getLogger("lattesfacil.ocr")
 _OCR_ENGINE: Any = None
 _OCR_LOCK = threading.Lock()
+_OCR_CACHE: "collections.OrderedDict[str, str]" = collections.OrderedDict()  # sha1 da imagem -> texto lido
 
 
 def _ocr_engine() -> Any:
@@ -46,9 +49,29 @@ def _ocr_engine() -> Any:
 
 def ocr_imagem(png_ou_bytes: bytes) -> str:
     """OCR de uma imagem; devolve o texto com uma linha por trecho reconhecido (preserva as quebras)."""
+    chave = hashlib.sha1(png_ou_bytes).hexdigest() if isinstance(png_ou_bytes, (bytes, bytearray)) else None
+    if chave and chave in _OCR_CACHE:  # mesma imagem de página já lida (reenvio, junção de arquivos): não refaz o OCR
+        _OCR_CACHE.move_to_end(chave)
+        return _OCR_CACHE[chave]
     with _OCR_LOCK:  # a sessão onnx compartilhada não deve ser usada por duas requisições ao mesmo tempo
         res, _ = _ocr_engine()(png_ou_bytes)
-    return corrigir_espacos("\n".join(_juntar_rotulo_e_valor(res or [])))
+    texto = restaurar_acentos(corrigir_espacos("\n".join(_juntar_rotulo_e_valor(res or []))))
+    if chave:
+        _OCR_CACHE[chave] = texto
+        while len(_OCR_CACHE) > 300:
+            _OCR_CACHE.popitem(last=False)
+    return texto
+
+
+def aquecer_ocr() -> None:
+    """Carrega o modelo de OCR em segundo plano (a primeira leitura depois de ligar o servidor gastava ~9 s só nisso)."""
+    def _carregar():
+        try:
+            with _OCR_LOCK:
+                _ocr_engine()
+        except Exception:
+            pass
+    threading.Thread(target=_carregar, daemon=True).start()
 
 
 def _juntar_rotulo_e_valor(res: list) -> list[str]:
@@ -149,7 +172,7 @@ def _pagina_escaneada_mal_lida(page: Any, texto: str) -> bool:
                     for img in page.get_images())
     except Exception:
         return False
-    return cobre and len(texto) > 300 and qualidade_texto(texto) < 0.8
+    return cobre and len(texto) > 300 and qualidade_texto(texto) < 0.45
 
 
 def extract_text_from_pdf_bytes(pdf_bytes: bytes) -> dict[str, Any]:

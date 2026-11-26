@@ -17,6 +17,9 @@
       <div class="update-location"><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span>Início / <strong id="updateViewTitle">Atualizar Lattes</strong></span></div>
 
       <div class="topbar-actions">
+        <button type="button" class="lattes-pill state-off ia-pill" id="iaPill" title="Configurar chave API do Gemini para reconhecimento e preenchimento">
+          <i class="pill-dot" aria-hidden="true"></i><span id="iaPillText">IA desligada</span>
+        </button>
         <button type="button" class="btn btn-secondary btn-sm btn-viewer-toggle" id="btnToggleViewerSplit" title="Alternar visualizador do documento à direita">
           <span class="btn-viewer-icon">📄</span> <span id="btnToggleViewerText">Visualizador</span>
         </button>
@@ -64,6 +67,9 @@
               <input id="citacaoNome" type="text" maxlength="60" autocomplete="off" placeholder="Ex.: SANTOS, A. A. B." aria-label="Nome em citações bibliográficas no Lattes" style="width:100%">
               <p class="hint" style="margin:4px 0 0">Copie exatamente de Dados gerais › Nomes em citações bibliográficas. O Lattes só salva se o seu autor tiver um desses nomes.</p>
             </div>
+            <button type="button" class="um-item um-item-btn" id="btnOpenIaModalMenu" role="menuitem">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2l1.8 4.6L16.5 8.5l-4.7 1.9L10 15l-1.8-4.6L3.5 8.5l4.7-1.9L10 2z"/></svg>Configurar Gemini (IA)
+            </button>
             <a class="um-item" href="/logout" title="Encerrar a sessão" role="menuitem">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H4.5A1.5 1.5 0 003 4.5v11A1.5 1.5 0 004.5 17H8M13 14l4-4-4-4M17 10H8"/></svg>Sair
             </a>
@@ -145,7 +151,7 @@
       </div>
 
       <div id="dropZone" class="drop-zone">
-        <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,.txt,.eml,.msg,image/*" hidden />
+        <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,.txt,.eml,.msg,image/*" hidden />
         <div class="drop-content">
           <div class="drop-icon">📄</div>
           <p><strong>Arraste o PDF, imagem (PNG, JPG) ou e-mail (.eml) aqui</strong> ou <button type="button" class="link-btn" id="btnPickFile">clique para escolher o arquivo</button></p>
@@ -163,6 +169,11 @@
 
       <p class="search-for">Se o PDF for um caderno de anais com vários trabalhos, procuramos os resumos de <strong id="searchUser"></strong> (usuário selecionado no topo).</p>
       <p id="fileAdded" class="file-added hidden"></p>
+      <div id="parteBox" class="hidden" style="margin:6px 0 10px">
+        <input type="file" id="parteInput" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,image/*" hidden />
+        <button type="button" class="btn btn-secondary btn-sm" id="btnAddParte">➕ Adicionar mais páginas deste mesmo documento</button>
+        <span class="hint" id="parteInfo"></span>
+      </div>
 
       <section id="classPanel" class="class-panel hidden" aria-live="polite">
         <div id="classHead" class="class-head"></div>
@@ -928,6 +939,85 @@
           <button type="button" class="btn btn-secondary" id="btnModalManualLattes" style="justify-content: center;">
             🔗 Ou abrir o Lattes manualmente (modo F12 / Favorito)
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: configurar chave API do Gemini (guardada apenas no servidor) -->
+  <div id="iaModal" class="audit-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="iaModalTitle">
+    <div class="audit-modal-card" style="max-width: 560px;">
+      <div class="audit-modal-header">
+        <div class="flex-align-gap">
+          <span class="audit-icon-badge">✨</span>
+          <div>
+            <h2 id="iaModalTitle" class="audit-modal-title">Assistente Gemini (IA)</h2>
+            <p class="hint">Ajuda a reconhecer documentos, ler scans difíceis e preencher os 64 formulários do Lattes</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close" id="btnCloseIaModal" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="audit-modal-body">
+        <div id="iaStatusBox" class="ia-status-box">
+          <strong id="iaStatusTitle">Verificando status...</strong>
+          <span id="iaStatusDetail" class="hint"></span>
+          <span id="iaUsageDetail" class="hint ia-usage-detail"></span>
+        </div>
+
+        <div class="field" style="margin-top: 12px;">
+          <label for="iaApiKeyInput">Chave API do Gemini (<a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener">gerar no Google AI Studio ↗</a>)</label>
+          <input type="password" id="iaApiKeyInput" autocomplete="off" spellcheck="false" placeholder="Cole sua chave completa (ex.: AIza...)" />
+          <span class="hint">A chave nunca fica no navegador nem no Git — é enviada diretamente ao servidor local/hospedado. Deixe em branco para manter a chave já configurada.</span>
+        </div>
+
+        <div class="field-grid" style="margin-top: 12px;">
+          <div class="field">
+            <label for="iaModelSelect">Modelo</label>
+            <select id="iaModelSelect">
+              <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite (Recomendado · ~$0,002/doc)</option>
+              <option value="gemini-4-hydrogen">Gemini 4 Hydrogen (Alta precisão · ~$0,007/doc)</option>
+              <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite (Ultra econômico · ~$0,001/doc)</option>
+              <option value="gemini-4-argon">Gemini 4 Argon (Raciocínio avançado)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="iaModeSelect">Modo de uso</label>
+            <select id="iaModeSelect">
+              <option value="hibrido">Híbrido (Recomendado — só lacunas, scans ruins ou dúvida)</option>
+              <option value="completo">Completo (revisa classificação e campos de todos os documentos)</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="dual-checkbox-label" style="margin-top: 12px; padding: 10px 12px;">
+          <input type="checkbox" id="iaEnabledToggle" />
+          <div class="dual-check-content">
+            <strong>Ativar análise automática com Gemini</strong>
+            <p class="hint">Mesmo desligada, você pode usar o botão <em>Completar com Gemini</em> sob demanda em qualquer formulário.</p>
+          </div>
+        </label>
+
+        <label id="iaSaveLocalWrap" class="dual-checkbox-label" style="margin-top: 8px; padding: 10px 12px;">
+          <input type="checkbox" id="iaSaveLocalCheck" checked />
+          <div class="dual-check-content">
+            <strong>Salvar no arquivo <code>.env</code> local (fora do Git)</strong>
+            <p class="hint">Mantém a configuração ao reiniciar o servidor neste computador. Desmarque para manter só na memória desta sessão.</p>
+          </div>
+        </label>
+
+        <p class="hint" style="margin-top: 10px;">
+          <strong>Privacidade:</strong> as requisições usam <code>store=false</code> (sem retenção na API). Para documentos reais com dados pessoais (CPF, notas), recomenda-se o plano pago do Google AI Studio (onde dados não são usados para treinamento).
+        </p>
+
+        <div id="iaFeedback" class="status-banner hidden" style="margin-top: 10px;" aria-live="polite"></div>
+
+        <div class="action-buttons" style="margin-top: 14px; justify-content: space-between; flex-wrap: wrap;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" id="btnIaSalvar">💾 Salvar configuração</button>
+            <button type="button" class="btn btn-secondary" id="btnIaTestar">⚡ Testar conexão</button>
+          </div>
+          <button type="button" class="btn btn-ghost hidden" id="btnIaRemover" style="color: #b91c1c;">Remover chave</button>
         </div>
       </div>
     </div>

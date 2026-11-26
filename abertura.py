@@ -46,14 +46,18 @@ def montar_rotina(conn: sqlite3.Connection, usuario: str) -> dict[str, Any]:
     ).fetchall()
     ativos = {"salvo", "preenchido", "atencao"}
     confirmados = sum(status in ativos and xml == "confirmado" for _, status, xml, _ in envios)
-    atencao = sum(status in {"erro", "falha_remocao"} or (status == "atencao" and xml != "confirmado") or
-                  (status in ativos and xml == "ausente") or
-                  (status in {"removido", "removendo"} and xml == "ainda_presente")
-                  for _, status, xml, _ in envios)
+    def requer_atencao(status, xml):
+        return (status in {"erro", "falha_remocao"} or (status == "atencao" and xml != "confirmado") or
+                (status in ativos and xml == "ausente") or
+                (status in {"removido", "removendo"} and xml == "ainda_presente"))
+
+    pendencias = [envio for envio in envios if requer_atencao(envio[1], envio[2])]
+    campos_envio = ("titulo", "status", "xml_status", "enviado_em")
     return {
-        "registros_salvos": total, "envios_confirmados": confirmados, "envios_atencao": atencao,
+        "registros_salvos": total, "envios_confirmados": confirmados, "envios_atencao": len(pendencias),
         "registros": [dict(zip(("id", "titulo", "criado_em"), r)) for r in registros],
-        "atividade": [dict(zip(("titulo", "status", "xml_status", "enviado_em"), r)) for r in envios[:6]],
+        "atividade": [dict(zip(campos_envio, r)) for r in envios[:6]],
+        "pendencias": [dict(zip(campos_envio, r)) for r in pendencias[:3]],
     }
 
 

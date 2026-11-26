@@ -438,11 +438,27 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
             }
           } catch (eq) { probsP.push('não consegui consultar o cadastro de periódicos do Lattes; informe o ISSN'); }
         }
-        if (!nomeP) probsP.push('nome do periódico não informado');
+        if (!nomeP && !issnP) probsP.push('nome do periódico não informado');
         if (!issnP) { if (!probsP.length) probsP.push('ISSN não informado'); }
         else if (!/^\d{7}[\dXx]$/.test(issnP)) probsP.push('ISSN fora do formato 9999-999X');
         else if (postL('prc_valida_issn', 'f_issn=' + issnP) === 'INVALIDO') probsP.push('ISSN não consta no cadastro de periódicos do Lattes');
-        else if (nomeP && postL('pkg_artigo.valida_nome_issn_periodico', 'f_nome=' + escape(nomeP.normalize('NFD').replace(/[̀-ͯ]/g, '')) + '&f_issn=' + issnP) === 'DIF') probsP.push('o nome do periódico não confere com o ISSN no cadastro do Lattes');
+        else {
+          // Igual à janela do Lattes (conferido em 26/11/2026): com o ISSN, o Lattes busca o periódico no cadastro dele e usa o nome cadastrado
+          // (sem comparar com o que foi digitado). Só se o ISSN não estiver no cadastro é que vale o nome informado (cadastro manual).
+          try {
+            var xi = new XMLHttpRequest();
+            xi.open('GET', baseL + 'pkg_artigo.find_periodico?p_str=' + issnP + '&p_tipo=issn&p_cod=' + cvG, false);
+            xi.send();
+            var mI = /selecionar\('([^']*)','([^']*)'\)/.exec(xi.responseText);
+            if (mI && mI[2]) {
+              G.url = String(G.url).replace(/([?&]F_TITULO_PERIODICO=)[^&]*/, '$1' + escape(mI[2]));
+              nomeP = mI[2];
+            } else if (nomeP && postL('pkg_artigo.valida_nome_issn_periodico', 'f_nome=' + escape(nomeP.normalize('NFD').replace(/[̀-ͯ]/g, '')) + '&f_issn=' + issnP) === 'DIF') {
+              probsP.push('o nome do periódico não confere com o ISSN no cadastro do Lattes');
+            }
+          } catch (ei) {}
+          if (!nomeP) probsP.push('ISSN fora do cadastro de periódicos do Lattes: informe também o nome do periódico para cadastrá-lo');
+        }
         if (!volP) probsP.push('volume não informado');
         if (!pagP) probsP.push('página inicial não informada');
         if (probsP.length) { lfAlerta('NautiScience: o Lattes não abriria o formulário deste artigo: ' + probsP.join('; ') + '. Corrija no NautiScience (periódico, ISSN, volume, página inicial) ou informe o DOI.'); return; }
@@ -1972,6 +1988,7 @@ function showFileAdded(file) {
 // Entrada única de arquivos: PDF curto = um resumo; PDF longo = caderno de anais (busca pelo usuário selecionado).
 // Envio em pedaços de 1 MB: em conexões lentas (ex.: túnel) uma requisição longa é derrubada, uma curta não.
 const UPLOAD_CHUNK = 1024 * 1024;
+let evidenciaPartes = [];  // envios que formam a evidência atual: [{ id, name, nomes }]
 
 async function uploadChunks(file, onProgress) {
   const id = randomId(16);
@@ -2037,6 +2054,11 @@ async function uploadEvidenceFile(file) {
     statusEl.textContent = (e && e.message) || "Falha de conexão ao enviar o arquivo.";
     return;
   }
+  tratarRespostaUpload(json, file, uploadId, [{ id: uploadId, name: file.name }]);
+}
+// Depois de ler o arquivo no servidor: caderno de anais ou evidência única (com as partes que a formam).
+function tratarRespostaUpload(json, file, uploadId, partes) {
+  const statusEl = $("extractStatus");
   if (json.caderno) {
     // PDF com várias páginas: é um caderno de resumos, então procuramos os trabalhos do usuário selecionado.
     cadernoFile = file;
@@ -2054,6 +2076,69 @@ async function uploadEvidenceFile(file) {
     renderDocumentInViewer(file, file.name);
   }
   aplicarResposta(json, { uploadId, nomeArquivo: file.name });
+  evidenciaPartes = partes;
+  atualizarPartes();
+}
+
+
+const EXT_EVIDENCIA = /\.(pdf|txt|png|jpe?g|webp|bmp|tiff?|eml|msg)$/i;
+const EXT_JUNTAVEL = /\.(pdf|png|jpe?g|webp|bmp|tiff?)$/i;
+
+function atualizarPartes() {
+  const box = $("parteBox");
+  if (!box) return;
+  const temArquivo = evidenciaPartes.length > 0 && !!currentUploadId && currentUploadId !== "sample";
+  box.classList.toggle("hidden", !temArquivo);
+  const nomes = evidenciaPartes.flatMap((p) => p.nomes || [p.name]);
+  $("parteInfo").textContent = nomes.length > 1 ? `Documento formado por ${nomes.length} arquivos: ${nomes.join(" + ")}` : "";
+}
+
+// Vários arquivos que são o MESMO documento (páginas em arquivos separados): o servidor junta na ordem e lê como uma evidência.
+// `anexar` = true acrescenta ao documento já enviado, em vez de começar outro.
+async function uploadVariosArquivos(arquivos, anexar) {
+  const statusEl = $("extractStatus");
+  const lista = [...arquivos];
+  if (!lista.length) return;
+  if (!anexar && lista.length === 1) { uploadEvidenceFile(lista[0]); return; }
+  const ruins = lista.filter((f) => !EXT_JUNTAVEL.test(f.name));
+  if (ruins.length) {
+    showToast(`Só dá para juntar PDF e imagem (PNG, JPG): ${ruins.map((f) => f.name).join(", ")}`);
+    $("fileAdded").textContent = "❌ Para juntar páginas, envie PDFs ou imagens (PNG, JPG).";
+    $("fileAdded").classList.remove("hidden");
+    return;
+  }
+  statusEl.classList.remove("hidden");
+  const ids = anexar ? evidenciaPartes.map((p) => p.id) : [];
+  const nomes = anexar ? evidenciaPartes.flatMap((p) => p.nomes || [p.name]) : [];
+  try {
+    for (let k = 0; k < lista.length; k += 1) {
+      const f = lista[k];
+      statusEl.textContent = `Enviando ${k + 1} de ${lista.length}: "${f.name}"...`;
+      ids.push(await uploadChunks(f, progressText(f)));
+      nomes.push(f.name);
+    }
+    statusEl.textContent = `Juntando ${ids.length} arquivos em um documento só...`;
+    const resp = await fetch("/api/upload/juntar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, usuario: $("ownerName").value }),
+    });
+    const json = await resp.json();
+    if (!resp.ok) {
+      statusEl.textContent = json.error || "Não consegui juntar os arquivos.";
+      return;
+    }
+    const dl = await fetch(`/api/dossie/download?id=${encodeURIComponent(json.upload_id)}&nome=documento_unido.pdf`);
+    const blob = await dl.blob();
+    const unido = new File([blob], "documento_unido.pdf", { type: "application/pdf" });
+    const el = $("fileAdded");
+    el.textContent = `✅ ${nomes.length} arquivos juntados em um documento só (${(unido.size / 1048576).toFixed(1)} MB)`;
+    el.classList.remove("hidden");
+    showToast(`${nomes.length} arquivos juntados em um documento`);
+    tratarRespostaUpload(json, unido, json.upload_id, [{ id: json.upload_id, name: unido.name, nomes }]);
+  } catch (e) {
+    statusEl.textContent = (e && e.message) || "Falha de conexão ao enviar os arquivos.";
+  }
 }
 
 async function extractFromRawText(text) {
@@ -2709,7 +2794,16 @@ $("dropZone").onclick = (e) => {
   if (e.target.id !== "btnPickFile") $("fileInput").click();
 };
 $("fileInput").onchange = (e) => {
-  if (e.target.files[0]) uploadEvidenceFile(e.target.files[0]);
+  const fs = [...e.target.files];
+  e.target.value = "";
+  if (fs.length > 1) uploadVariosArquivos(fs, false);
+  else if (fs[0]) uploadEvidenceFile(fs[0]);
+};
+$("btnAddParte").onclick = () => $("parteInput").click();
+$("parteInput").onchange = (e) => {
+  const fs = [...e.target.files];
+  e.target.value = "";
+  if (fs.length) uploadVariosArquivos(fs, true);
 };
 $("dropZone").ondragover = (e) => {
   e.preventDefault();
@@ -2719,7 +2813,9 @@ $("dropZone").ondragleave = () => $("dropZone").classList.remove("dragover");
 $("dropZone").ondrop = (e) => {
   e.preventDefault();
   $("dropZone").classList.remove("dragover");
-  if (e.dataTransfer.files[0]) uploadEvidenceFile(e.dataTransfer.files[0]);
+  const fs = [...e.dataTransfer.files];
+  if (fs.length > 1) uploadVariosArquivos(fs, false);
+  else if (fs[0]) uploadEvidenceFile(fs[0]);
 };
 
 $("btnExtractText").onclick = () => {
@@ -4016,6 +4112,23 @@ if ($("btnLoadRadarItem")) {
 
 updateCompleteness();
 updateBookmarklet();
+const resumeUrl = new URL(location.href);
+const resumeRecordId = resumeUrl.searchParams.get("retomar");
+if (resumeRecordId) {
+  resumeUrl.searchParams.delete("retomar");
+  history.replaceState(history.state, "", resumeUrl);
+  (async () => {
+    const response = await fetch(`/api/records?id=${encodeURIComponent(resumeRecordId)}`);
+    if (!response.ok) throw new Error("Não foi possível consultar o registro.");
+    const { records: [record] } = await response.json();
+    if (record) {
+      await abrirRegistroAntigo(record.data);
+      showToast("Registro carregado no formulário!");
+    } else {
+      showToast("O registro salvo não está disponível.");
+    }
+  })().catch(() => showToast("Não foi possível retomar o registro."));
+}
 loadRecords();
 // (updateStandardizedDossieName() é chamada logo depois de STOP_WORDS_SET, abaixo: antes dava erro de inicialização)
 
@@ -4420,26 +4533,83 @@ async function mostrarGenerico(g) {
       : "Não consegui identificar o tipo pelo documento: escolha o tipo de formulário acima."));
   }
   (g.notas || []).forEach((n) => av.appendChild(el("p", "hint", "• " + n)));
+  const acoesBarra = el("div", "gen-ai-bar");
+  const stBarra = el("p", "hint", "");
   if (["anais", "artigo"].includes(g.item)) {
     // Mesma busca de dados faltantes do formulário antigo (Crossref e OpenAlex), agora sobre o formulário do spec.
     const bt = el("button", "btn btn-secondary btn-sm", "🔎 Buscar dados faltantes (Crossref, OpenAlex)");
     bt.type = "button";
     bt.id = "btnGenEnriquecer";
-    const st = el("p", "hint", "");
     bt.onclick = async () => {
-      st.textContent = "Consultando Crossref e OpenAlex...";
+      stBarra.textContent = "Consultando Crossref e OpenAlex...";
       const valores = {};
       GEN.variante.campos.forEach((c) => { const e = $("gen_" + c.name); if (e) valores[c.name] = e.value.trim(); });
       try {
         const r = await (await fetch("/api/itens/enriquecer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: g.item, valores }) })).json();
         const chaves = Object.keys(r.valores || {});
         chaves.forEach((n) => { const e = $("gen_" + n); if (e) { e.value = r.valores[n]; e.dispatchEvent(new Event("input", { bubbles: true })); } });
-        st.textContent = chaves.length ? `Campos completados (${chaves.length}) via ${(r.fontes || []).join(", ")}: confira.` : "Nenhum dado adicional encontrado nas bases externas.";
+        stBarra.textContent = chaves.length ? `Campos completados (${chaves.length}) via ${(r.fontes || []).join(", ")}: confira.` : "Nenhum dado adicional encontrado nas bases externas.";
         genAtualizar();
-      } catch (e) { st.textContent = "Não consegui consultar as bases externas."; }
+      } catch (e) { stBarra.textContent = "Não consegui consultar as bases externas."; }
     };
-    av.append(bt, st);
+    acoesBarra.append(bt);
   }
+  if (classCtx.uploadId || (classCtx.texto && classCtx.texto.trim())) {
+    const btIa = el("button", "btn btn-accent btn-sm", "✨ Completar campos com Gemini");
+    btIa.type = "button";
+    btIa.id = "btnGenGemini";
+    btIa.onclick = async () => {
+      if (!IA_STATE.configured) {
+        abrirIaModal("Cole sua chave API do Gemini abaixo para completar os campos automaticamente.");
+        return;
+      }
+      btIa.disabled = true;
+      stBarra.textContent = `Consultando Gemini (${IA_STATE.model || "IA"}) para revisar e completar os campos...`;
+      const valoresAtuais = {};
+      GEN.variante.campos.forEach((c) => {
+        const e = $("gen_" + c.name);
+        if (e) valoresAtuais[c.name] = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
+      });
+      const grAtuais = genGrades();
+      Object.keys(grAtuais).forEach((k) => { if (grAtuais[k] && grAtuais[k].length) valoresAtuais["grade:" + k] = grAtuais[k]; });
+      const corpo = {
+        item: GEN.item,
+        variante: GEN.variante.variante,
+        valores_atuais: valoresAtuais,
+        usuario: $("ownerName") ? $("ownerName").value : "",
+      };
+      if (classCtx.uploadId) corpo.id = classCtx.uploadId;
+      if (classCtx.texto) corpo.texto = classCtx.texto;
+      try {
+        const resp = await fetch("/api/ia/completar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(corpo),
+        });
+        const res = await resp.json();
+        if (res.sem_chave) {
+          abrirIaModal(res.error || "Configure sua chave API do Gemini primeiro.");
+          stBarra.textContent = "";
+          return;
+        }
+        if (!resp.ok || !res.ok) {
+          stBarra.textContent = res.error || "Não foi possível consultar o Gemini agora.";
+          return;
+        }
+        if (res.generico) {
+          mostrarGenerico(res.generico);
+          const qtd = (res.campos_preenchidos || []).length;
+          showToast(qtd ? `Gemini revisou e completou ${qtd} campo(s). Confira antes de enviar.` : "Gemini não encontrou campos adicionais comprovados no documento.");
+        }
+      } catch (e) {
+        stBarra.textContent = "Falha de conexão ao consultar o Gemini.";
+      } finally {
+        btIa.disabled = false;
+      }
+    };
+    acoesBarra.append(btIa);
+  }
+  if (acoesBarra.childElementCount) av.append(acoesBarra, stBarra);
   genDesenhar();
 }
 
@@ -4705,9 +4875,36 @@ function genGradeTabular(gr) {
   return wrap;
 }
 
+// Select cujas opções dependem do valor de outro campo (c.opcoes_por = {name, valores:{gatilho:[opções]}}), como no Lattes (montaTipoApres).
+// Sem opções para o valor do gatilho (ex.: Ouvinte), o campo fica vazio e bloqueado, como o Lattes faz.
+function genOpcoesPor(inp, c) {
+  const nome = c.opcoes_por.name;
+  const g = $("gen_" + nome);
+  const campoG = ((GEN.variante && GEN.variante.campos) || []).find((x) => x.name === nome) || {};
+  const gat = g ? g.value : (GEN.valores[nome] || campoG.padrao || "");
+  const lista = c.opcoes_por.valores[gat] || [];
+  const atual = inp.value || GEN.valores[c.name] || "";
+  inp.replaceChildren();
+  ["", ...lista].forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o || "—"; inp.appendChild(op); });
+  inp.value = lista.includes(atual) ? atual : "";
+  inp.disabled = !lista.length;
+  inp.title = lista.length ? "" : "Não se aplica a \"" + gat + "\": o Lattes deixa este campo vazio.";
+}
+
+// O Lattes repete rótulos genéricos ("Ano", "Mês", "Carga horária semanal") que, soltos na tela, não dizem de que se trata.
+const GEN_ROTULOS_EXIBIDOS = {
+  atuacao_profissional: { f_mes_ini: "Mês de início", f_ano_ini: "Ano de início", f_status: "Situação do período", f_mes_fim: "Mês de término", f_ano_fim: "Ano de término" },
+};
+function genRotuloExibido(c) {
+  const mapa = GEN.spec && GEN_ROTULOS_EXIBIDOS[GEN.spec.id];
+  if (mapa && mapa[c.name]) return mapa[c.name];
+  if (c.tipo === "checkbox" && c.opcoes && Object.keys(c.opcoes).length === 1) return Object.keys(c.opcoes)[0];  // caixa única: o texto é a opção ("Dedicação exclusiva"), não o rótulo repetido
+  return c.rotulo;
+}
+
 function genCampo(c) {
   const wrap = el("div", "field");
-  const lab = el("label", "", c.rotulo + (c.obrigatorio ? " *" : ""));
+  const lab = el("label", "", genRotuloExibido(c) + (c.obrigatorio ? " *" : ""));
   lab.htmlFor = "gen_" + c.name;
   wrap.appendChild(lab);
   let inp;
@@ -4722,6 +4919,7 @@ function genCampo(c) {
     inp.value = GEN.valores[c.name] || c.padrao || "";
     const grupo = el("div", "radio-group");
     grupo.setAttribute("role", "radiogroup");
+    wrap.classList.add("col-span-2");  // grupo de opções ocupa a linha inteira: os campos que dependem dele (mês/ano de término) vêm logo abaixo, alinhados
     ops.forEach((o) => {
       const rl = el("label", "radio-opt");
       const r = document.createElement("input");
@@ -4765,6 +4963,10 @@ function genCampo(c) {
     inp = document.createElement("textarea");
     inp.rows = 3;
     if (c.maxlength) inp.maxLength = c.maxlength;
+  } else if (c.opcoes_por) {
+    // Lista que o Lattes monta a partir de outro campo (ex.: tipo da participação depende da forma): select refeito quando o gatilho muda
+    inp = document.createElement("select");
+    genOpcoesPor(inp, c);
   } else if (ops && (c.tipo === "select" || c.tipo === "radio")) {
     inp = document.createElement("select");
     ["", ...ops].forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o || "—"; inp.appendChild(op); });
@@ -4775,6 +4977,13 @@ function genCampo(c) {
     inp = document.createElement("input");
     inp.type = "text";
     if (c.maxlength) inp.maxLength = c.maxlength;
+    if (c.opcoes_lupa) {  // campo preenchido por lupa no Lattes: sugere as opções reais e aceita texto livre ("Outro")
+      const dl = document.createElement("datalist");
+      dl.id = "dl_" + c.name;
+      c.opcoes_lupa.forEach((o) => { const op = document.createElement("option"); op.value = o; dl.appendChild(op); });
+      inp.setAttribute("list", dl.id);
+      wrap.appendChild(dl);
+    }
   }
   inp.id = "gen_" + c.name;
   inp.dataset.name = c.name;
@@ -4806,12 +5015,13 @@ function genAplicarCondicionais() {
     if (c.exige_antes && e) {
       // O Lattes recusa o valor enquanto outro campo não for escolhido (ex.: tipo de orientação só com mestrado/doutorado): campo bloqueado até lá.
       const g = $("gen_" + c.exige_antes.name);
-      const libera = !!g && c.exige_antes.valores.includes(g.value);
+      const libera = !!g && (c.exige_antes.qualquer ? g.value.trim() !== "" : c.exige_antes.valores.includes(g.value));  // "qualquer": basta o campo estar preenchido (ex.: vínculo só pede instituição escolhida, não uma específica)
       e.disabled = !libera;
       if (!libera && e.value) { e.value = ""; document.querySelectorAll('input[name="genr_' + c.name + '"]').forEach((r) => { r.checked = false; }); }  // o Lattes recusa o valor sem o pré-requisito
       document.querySelectorAll('input[name="genr_' + c.name + '"]').forEach((r) => { r.disabled = !libera; });
-      if (!libera) e.title = "Disponível quando " + c.exige_antes.name + " for: " + c.exige_antes.valores.join(" ou ");
+      if (!libera) e.title = c.exige_antes.qualquer ? "Disponível depois de preencher " + c.exige_antes.name : "Disponível quando " + c.exige_antes.name + " for: " + c.exige_antes.valores.join(" ou ");
     }
+    if (c.opcoes_por && e) genOpcoesPor(e, c);
     if (!c.mostrar_quando) return;
     if (e && e.closest(".field")) e.closest(".field").style.display = genVisivel(c) ? "" : "none";
   });
@@ -4875,7 +5085,7 @@ function genColetar() {
     if (!e || !genVisivel(c)) return;
     const valor = e.type === "checkbox" ? (e.checked ? "S" : "") : e.value.trim();
     const obrigatorio = c.obrigatorio || (c.obrigatorio_quando && [].concat(c.obrigatorio_quando.valor).indexOf(($("gen_" + c.obrigatorio_quando.name) || {}).value) >= 0);
-    if (obrigatorio && !valor && !c.automatico) faltam.push(c.rotulo);
+    if (obrigatorio && !valor && (!c.automatico || c.opcoes_por)) faltam.push(c.rotulo);
     if (c.tipo === "checkbox" && c.opcoes && Object.keys(c.opcoes).length > 1) {
       const partes = valor.split("|").filter(Boolean);
       campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor: partes.join("; "), codigo: "", codigos: partes.map((p) => c.opcoes[p]).filter(Boolean), auto: false, auto_de: "" });
@@ -4884,6 +5094,14 @@ function genColetar() {
     campos.push({ name: c.name, rotulo: c.rotulo, tipo: c.tipo, valor, codigo: c.opcoes && c.opcoes[valor] ? c.opcoes[valor] : "", auto: !!c.automatico, auto_de: c.auto_de || "" });
   });
   if (genExigeTitular() && !genTitularInformado()) faltam.push(GEN_ROTULO_TITULAR);
+  // Artigo: o primeiro campo aceita DOI, ISSN ou nome do periódico (como a janela "Incluir novo artigo" do Lattes). Com um ISSN, o Lattes traz o nome sozinho.
+  if (GEN.spec && GEN.spec.id === "artigo") {
+    const b = genArtigoBusca(campos);
+    if (b.tipo === "issn") {
+      const i = faltam.indexOf((GEN.variante.campos.find((c) => c.name === "f_titulo_periodico") || {}).rotulo);
+      if (i >= 0) faltam.splice(i, 1);
+    }
+  }
   // Projetos: o Lattes exige a equipe com um (e só um) coordenador.
   if (GEN.spec && GEN.spec.id === "projeto") {
     const ta = $("gengrade_autores");
@@ -4905,7 +5123,7 @@ function genAtualizar() {
   const { faltam } = genColetar();
   GEN.variante.campos.forEach((c) => {
     const e = $("gen_" + c.name);
-    if (e) e.classList.toggle("missing-highlight", c.obrigatorio && faltam.includes(c.rotulo));
+    if (e) e.classList.toggle("missing-highlight", (c.obrigatorio || c.obrigatorio_quando) && faltam.includes(c.rotulo));
   });
   if (genExigeTitular()) ["titulares_pessoa", "titulares_inst"].forEach((k) => { const e = $("gengrade_" + k); if (e) e.classList.toggle("missing-highlight", faltam.includes(GEN_ROTULO_TITULAR)); });
   $("btnGenEnviar").title = faltam.length ? "Faltam obrigatórios: " + faltam.join(", ") : "";
@@ -4928,6 +5146,29 @@ function genTitulo(campos) {
 
 // Formulários de registro (patente, software, marca...) abrem com a instituição e o nº do registro no endereço.
 // O mapeamento traz um nº de exemplo: troca pelos valores reais do formulário.
+// Primeiro campo do artigo: "DOI, ISSN ou parte do nome do periódico" (mesma regra do Lattes: começa com "10." = DOI; 8 dígitos/X = ISSN; senão, nome).
+function genArtigoBusca(campos) {
+  const c = campos.find((x) => x.name === "f_cod_doi");
+  const v = c ? (c.valor || "").trim() : "";
+  if (!v) return { tipo: "", valor: "" };
+  if (v.slice(0, 3) === "10.") return { tipo: "doi", valor: v };
+  if (/^[0-9]{4}-?[0-9]{3}[0-9Xx]$/.test(v)) return { tipo: "issn", valor: v.replace("-", "").replace(/^(.{4})(.{4})$/, "$1-$2").toUpperCase() };
+  return { tipo: "nome", valor: v };
+}
+
+// Passa o que veio no primeiro campo para o campo certo (ISSN ou título do periódico) e deixa o DOI só quando for DOI.
+function genArtigoNormalizaBusca(campos) {
+  const b = genArtigoBusca(campos);
+  if (b.tipo === "issn" || b.tipo === "nome") {
+    const pega = (n) => campos.find((x) => x.name === n);
+    const destino = pega(b.tipo === "issn" ? "f_issn" : "f_titulo_periodico");
+    if (destino && !destino.valor) destino.valor = b.valor;
+    const doi = pega("f_cod_doi");
+    if (doi) doi.valor = "";
+  }
+  return campos;
+}
+
 function genUrlDaVariante(campos) {
   let url = GEN.variante.url || "";
   const val = (n) => ((campos.find((c) => c.name === n) || {}).valor || "").trim();
@@ -4952,6 +5193,7 @@ function genUrlDaVariante(campos) {
 
 function genPayload() {
   const { campos, faltam } = genColetar();
+  if (GEN.spec && GEN.spec.id === "artigo") genArtigoNormalizaBusca(campos);
   const usuario = $("ownerName") ? $("ownerName").value : "";
   const ano = (campos.find((x) => /^f_?ano/i.test(x.name) && x.valor) || {}).valor || "";
   return {
@@ -5123,4 +5365,207 @@ function citacaoConhecida(nome) {
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => { setTimeout(verificar, 1500); });
   else setTimeout(verificar, 1500);
   if ($("ownerName")) $("ownerName").addEventListener("change", () => { esconder(); AUTORES_CV.coletando = false; verificar(); });
+})();
+
+// ==========================================================================
+// Configuração da Chave API do Gemini (armazenada apenas no servidor)
+// ==========================================================================
+const IA_STATE = { enabled: false, configured: false, key_hint: "", model: "gemini-3.5-flash-lite", mode: "hibrido", can_save_local: true };
+
+function atualizarIaUI(st) {
+  if (st) Object.assign(IA_STATE, st);
+  const pill = $("iaPill");
+  const pillText = $("iaPillText");
+  if (pill && pillText) {
+    pill.classList.remove("state-on", "state-off", "state-wait");
+    if (IA_STATE.enabled && IA_STATE.configured) {
+      pill.classList.add("state-on");
+      const curto = (IA_STATE.model || "").replace("gemini-", "");
+      pillText.textContent = `IA ativa (${curto})`;
+    } else if (IA_STATE.configured) {
+      pill.classList.add("state-wait");
+      pillText.textContent = "IA pronta (manual)";
+    } else {
+      pill.classList.add("state-off");
+      pillText.textContent = "Configurar IA";
+    }
+  }
+  const box = $("iaStatusBox");
+  const title = $("iaStatusTitle");
+  const detail = $("iaStatusDetail");
+  if (box && title && detail) {
+    box.classList.toggle("ok", !!(IA_STATE.enabled && IA_STATE.configured));
+    if (IA_STATE.configured) {
+      title.textContent = IA_STATE.enabled
+        ? `✅ Gemini ativo (${IA_STATE.model})`
+        : `🔑 Chave configurada (${IA_STATE.key_hint}) — modo manual`;
+      detail.textContent = `Chave no servidor: ${IA_STATE.key_hint} · Modo: ${IA_STATE.mode === "completo" ? "Completo" : "Híbrido"}.`;
+    } else {
+      title.textContent = "Gemini não configurado";
+      detail.textContent = "Cole sua chave API do Google AI Studio abaixo para ativar o reconhecimento e preenchimento assistido.";
+    }
+  }
+  if ($("iaModelSelect") && IA_STATE.model) $("iaModelSelect").value = IA_STATE.model;
+  if ($("iaModeSelect") && IA_STATE.mode) $("iaModeSelect").value = IA_STATE.mode;
+  if ($("iaEnabledToggle")) $("iaEnabledToggle").checked = !!(IA_STATE.flag_enabled ?? IA_STATE.enabled);
+  if ($("iaSaveLocalWrap")) $("iaSaveLocalWrap").classList.toggle("hidden", !IA_STATE.can_save_local);
+  if ($("btnIaRemover")) $("btnIaRemover").classList.toggle("hidden", !IA_STATE.configured);
+  const usageEl = $("iaUsageDetail");
+  if (usageEl) {
+    const u = IA_STATE.usage;
+    if (u && (u.calls > 0 || u.cache_hits > 0)) {
+      const totalTok = (u.input_tokens || 0) + (u.output_tokens || 0);
+      const tokFmt = totalTok >= 1000 ? `${(totalTok / 1000).toFixed(1)}k` : String(totalTok);
+      const usdFmt = `$${Number(u.estimated_usd || 0).toFixed(4)}`;
+      const cacheTxt = u.cache_hits ? ` · ${u.cache_hits} em cache ($0)` : "";
+      usageEl.textContent = `Sessão: ${u.calls} chamada(s)${cacheTxt} · ${tokFmt} tokens · ~${usdFmt}`;
+    } else {
+      usageEl.textContent = "Sessão: 0 chamadas até agora (cache por arquivo ativo).";
+    }
+  }
+}
+
+async function carregarIaStatus() {
+  try {
+    const r = await fetch("/api/ia/status");
+    if (!r.ok) return;
+    const j = await r.json();
+    atualizarIaUI(j);
+  } catch (e) {}
+}
+
+function mostrarIaFeedback(msg, isError) {
+  const fb = $("iaFeedback");
+  if (!fb) return;
+  if (!msg) { fb.classList.add("hidden"); fb.textContent = ""; return; }
+  fb.textContent = msg;
+  fb.style.borderColor = isError ? "#ef4444" : "#10b981";
+  fb.style.background = isError ? "#fef2f2" : "#ecfdf5";
+  fb.style.color = isError ? "#991b1b" : "#065f46";
+  fb.classList.remove("hidden");
+}
+
+function abrirIaModal(avisoInicial) {
+  const modal = $("iaModal");
+  if (!modal) return;
+  if ($("userMenu")) $("userMenu").classList.add("hidden");
+  if ($("iaApiKeyInput")) $("iaApiKeyInput").value = "";
+  mostrarIaFeedback(avisoInicial || "", false);
+  carregarIaStatus();
+  modal.classList.remove("hidden");
+  if ($("iaApiKeyInput") && !IA_STATE.configured) $("iaApiKeyInput").focus();
+}
+
+function fecharIaModal() {
+  const modal = $("iaModal");
+  if (modal) modal.classList.add("hidden");
+  if ($("iaApiKeyInput")) $("iaApiKeyInput").value = "";
+}
+
+(function iniciarPainelIA() {
+  const pill = $("iaPill");
+  const menuBtn = $("btnOpenIaModalMenu");
+  const closeBtn = $("btnCloseIaModal");
+  const modal = $("iaModal");
+  if (pill) pill.addEventListener("click", () => abrirIaModal());
+  if (menuBtn) menuBtn.addEventListener("click", () => abrirIaModal());
+  if (closeBtn) closeBtn.addEventListener("click", fecharIaModal);
+  if (modal) {
+    modal.addEventListener("click", (e) => { if (e.target === modal) fecharIaModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.classList.contains("hidden")) fecharIaModal(); });
+  }
+  const btnSalvar = $("btnIaSalvar");
+  if (btnSalvar) {
+    btnSalvar.addEventListener("click", async () => {
+      const key = ($("iaApiKeyInput") ? $("iaApiKeyInput").value : "").trim();
+      const model = $("iaModelSelect") ? $("iaModelSelect").value : "gemini-3.5-flash-lite";
+      const mode = $("iaModeSelect") ? $("iaModeSelect").value : "hibrido";
+      let enabledVal = $("iaEnabledToggle") ? $("iaEnabledToggle").checked : false;
+      if (key && !IA_STATE.configured) enabledVal = true;
+      const saveLocal = IA_STATE.can_save_local && $("iaSaveLocalCheck") ? $("iaSaveLocalCheck").checked : false;
+      btnSalvar.disabled = true;
+      mostrarIaFeedback("Salvando configuração no servidor...", false);
+      try {
+        const corpo = { enabled: enabledVal, model, mode, save_local: saveLocal };
+        if (key) corpo.api_key = key;
+        const r = await fetch("/api/ia/config", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(corpo),
+        });
+        const j = await r.json();
+        if (!r.ok || !j.ok) {
+          mostrarIaFeedback(j.error || "Não foi possível salvar a configuração.", true);
+          return;
+        }
+        atualizarIaUI(j);
+        if ($("iaApiKeyInput")) $("iaApiKeyInput").value = "";
+        mostrarIaFeedback(
+          j.enabled
+            ? `Configuração salva! Gemini ativo com ${j.model} (${j.mode}).`
+            : "Configuração salva no servidor.",
+          false
+        );
+        showToast("Configuração do Gemini atualizada.");
+      } catch (e) {
+        mostrarIaFeedback("Falha de conexão com o servidor.", true);
+      } finally {
+        btnSalvar.disabled = false;
+      }
+    });
+  }
+  const btnTestar = $("btnIaTestar");
+  if (btnTestar) {
+    btnTestar.addEventListener("click", async () => {
+      const key = ($("iaApiKeyInput") ? $("iaApiKeyInput").value : "").trim();
+      const model = $("iaModelSelect") ? $("iaModelSelect").value : IA_STATE.model;
+      if (!key && !IA_STATE.configured) {
+        mostrarIaFeedback("Cole sua chave API do Gemini antes de testar.", true);
+        return;
+      }
+      btnTestar.disabled = true;
+      mostrarIaFeedback(`Testando conexão real com ${model} usando certificado fictício...`, false);
+      try {
+        const corpo = { model };
+        if (key) corpo.api_key = key;
+        const r = await fetch("/api/ia/testar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(corpo),
+        });
+        const j = await r.json();
+        if (r.ok && j.ok) {
+          if (j.usage) atualizarIaUI({ usage: j.usage });
+          mostrarIaFeedback(`✅ Conexão validada com sucesso! Modelo: ${j.model} (${j.latency_ms} ms).`, false);
+        } else {
+          mostrarIaFeedback(j.error || "A API do Gemini rejeitou o teste. Verifique a chave e o modelo.", true);
+        }
+      } catch (e) {
+        mostrarIaFeedback("Falha de rede ao testar a conexão.", true);
+      } finally {
+        btnTestar.disabled = false;
+      }
+    });
+  }
+  const btnRemover = $("btnIaRemover");
+  if (btnRemover) {
+    btnRemover.addEventListener("click", async () => {
+      btnRemover.disabled = true;
+      try {
+        const remLocal = IA_STATE.can_save_local ? "1" : "0";
+        const r = await fetch(`/api/ia/chave?local=${remLocal}`, { method: "DELETE" });
+        const j = await r.json();
+        if (r.ok && j.ok) {
+          atualizarIaUI(j);
+          mostrarIaFeedback("Chave removida do servidor e IA desligada.", false);
+          showToast("Chave do Gemini removida.");
+        }
+      } catch (e) {
+        mostrarIaFeedback("Não foi possível remover a chave.", true);
+      } finally {
+        btnRemover.disabled = false;
+      }
+    });
+  }
+  carregarIaStatus();
 })();

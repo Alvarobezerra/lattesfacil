@@ -82,11 +82,16 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
         if re.search(r"\([A-ZÀ-Ý]{4,} [A-ZÀ-Ý]{4,}\)", m.group(1)):
             notes.append("Nome científico no título foi escrito como 'Gênero espécie'; confira.")
 
-    m = re.search(rf"\b(?:no|na|do|da|em)\s+((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;]*?\([A-Z0-9]{{2,12}}\))", flat)
+    # o evento vem depois de "no/na/em..." ou logo depois do título entre aspas ("... com TEA” 4ª Jornada de Análise do Comportamento (JAC)")
+    antes = r"(?:\b(?:no|na|do|da|em|durante\s+o|durante\s+a|durante|o|a)\s+|[”\"»]\s*)"
+    m = re.search(rf"{antes}((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;]*?\([A-Z0-9]{{2,12}}\))", flat)
     if not m:
-        m = re.search(rf"\b(?:no|na|do|da|em)\s+((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;.]{{5,140}})", flat)
+        m = re.search(rf"{antes}((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;.]{{5,140}})", flat)
     if m:
         rec["nome_evento"] = re.sub(r"\s+em\s+(?:19|20)\d{2}\b.*$", "", _clean_line(m.group(1)), flags=re.I).strip(" ,.")[:255]
+        rec["nome_evento"] = re.sub(r"\s+(?:na|no)\s+(?:modalidade|forma|categoria|vers[ãa]o)\b.*$", "", rec["nome_evento"], flags=re.I).strip(" ,.")  # "... - I CONBRANEURO na modalidade on-line"
+        if re.search(r"modalidade\s+(?:on-?line|remot[ao]|virtual|a dist[âa]ncia)", flat, re.I):
+            rec["local_evento"] = "Evento on-line"
         ev = normalize(rec["nome_evento"])
         for key, nat in NATUREZA_POR_EVENTO:
             if key in ev:
@@ -95,9 +100,10 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
     else:
         notes.append("Nome do evento não identificado no certificado.")
 
-    m = re.search(r"realizad[oa]\s+(?:pel[ao]s?|por)\s+(.+?)(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s)", flat, re.I)
+    fim_promotora = r"(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s|,?\s*realizad[oa]\b|,\s*entre\s)"
+    m = re.search(r"realizad[oa]\s+(?:pel[ao]s?|por)\s+(.+?)" + fim_promotora, flat, re.I)
     if not m:
-        m = re.search(r"promovid[oa]\s+(?:pel[ao]s?|por)\s+(.+?)(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s)", flat, re.I)
+        m = re.search(r"promovid[oa]\s+(?:pel[ao]s?|por)\s+(.+?)" + fim_promotora, flat, re.I)
     if not m:
         # Prioriza Universidade/Instituto/Faculdade ou Sociedade promotora
         m_univ = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio)\s+[^,.\n]{3,80})", flat, re.I)
@@ -105,6 +111,10 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
         m = m_univ or m_soc
     if m:
         promotora = _clean_line(m.group(1))
+        promotora = re.sub(r"\s+[-–—]\s+\d.*$", "", promotora)  # "Universidade de Brasília - 13 a 15 de junho de 2025": data não é parte do nome
+        uni = re.search(r"\bd[aoe]s?\s+((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio)\s+[^,(;]{3,80})", promotora, re.I)
+        if uni:  # "Departamento de Processos Psicológicos Básicos da Universidade de Brasília (PPB/UnB)": a instituição é a universidade
+            promotora = _clean_line(uni.group(1))
         j = re.search(r"juntamente com\s+(?:a|o|as|os)\s+(.+)$", promotora, re.I)
         rec["instituicao_promotora"] = (j.group(1) if j else promotora)[:255]
 
@@ -129,7 +139,12 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
         if m_br:
             rec["cidade_evento"] = m_br.group(1).strip()
         else:
-            notes.append("Cidade do evento não identificada.")
+            m_emi = re.search(r"(?m)^\s*([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,30}?)(?:\s*[-–/]\s*[A-Z]{2})?,\s*\d{1,2}\s+de\s+[A-Za-zçÇ]+\s+de\s+(?:19|20)\d{2}\b", text)
+            if m_emi and not rec["local_evento"]:  # evento presencial: a cidade onde o certificado foi emitido costuma ser a do evento
+                rec["cidade_evento"] = m_emi.group(1).strip()
+                notes.append(f"Cidade tirada do local de emissão do certificado ({rec['cidade_evento']}); confira.")
+            else:
+                notes.append("Cidade do evento não identificada.")
 
     # Papéis e autores
     ori = re.search(r"orientador(?:a)?\s+(.+?)(?:,\s*(?:apresentad)|\s+apresentad)", flat, re.I)
@@ -146,8 +161,12 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
             re.search(r"(?:de|com)\s+autoria\s+de\s+(.+?)(?:,\s*(?:no|na|em)\s+|\s+foi|\.|$)", flat, re.I) or \
             re.search(r"autores\s*:\s*(.+?)(?:,\s*(?:no|na|em)\s+|\.|$)", flat, re.I)
 
+    if not m_aut:
+        # "Certificamos que A e B tiveram o trabalho intitulado ..." / "... apresentaram o trabalho": os nomes antes do verbo são os autores
+        m_aut = re.search(r"(?:certificamos|declaramos)\s+que\s+([A-ZÀ-Ý][^\"“”]{4,250}?)\s+(?:tiveram|tev[e]|apresentaram|submeteram|publicaram)\b", flat, re.I)
+
     if m_aut:
-        nomes_aut = [title_name(n) for n in _split_names(m_aut.group(1))]
+        nomes_aut =[title_name(n) for n in _split_names(m_aut.group(1))]
         if nomes_aut:
             ordem = []
             for n in nomes_aut:

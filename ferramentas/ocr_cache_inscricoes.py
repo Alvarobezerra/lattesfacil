@@ -1,5 +1,5 @@
 """Extrai texto por página (nativo; OCR via rapidocr quando a página é imagem) e grava cache JSON.
-Uso: python ferramentas/ocr_cache_inscricoes.py [workers]
+Uso: python ferramentas/ocr_cache_inscricoes.py [workers] [prefixo_candidato ...]
 """
 import glob, json, os, sys, re
 from multiprocessing import Pool
@@ -9,6 +9,9 @@ _ocr = None
 
 def alvos():
     fs = sorted(glob.glob(os.path.join(RAIZ, '*', 'Q13*.pdf')) + glob.glob(os.path.join(RAIZ, '25664*', 'Q12_Hist*ACAD*.pdf')))
+    filtro = sys.argv[2:]
+    if filtro:
+        fs = [f for f in fs if any(os.path.basename(os.path.dirname(f)).startswith(x) for x in filtro)]
     return fs
 
 def tarefa(f):

@@ -56,10 +56,79 @@
 .overview #trajetoria .metric-grid .note{display:block;line-height:1.2}
 .overview #trajetoria .content-grid .panel{padding-block:10px}
 .overview #trajetoria .timeline p{margin:2px 0}
+.overview #rotina .next-step{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px 24px;
+  padding:clamp(18px,3vw,34px);border-radius:17px;
+}
+.overview #rotina .next-step h2{font-size:clamp(23px,3vw,34px);line-height:1.18;letter-spacing:-.035em;margin:0 0 8px}
+.overview #rotina .next-step p{font-size:16px;color:inherit}
+.overview #rotina .next-step[data-state=clear]{background:#d9f4ea;color:#084437;border-color:#a3ddcc;border-inline-start:5px solid #16846d}
+.overview #rotina .next-step[data-state=pending]{background:#fff1d3;color:#563713;border-color:#efd3a2;border-inline-start:5px solid #bd7316}
+.overview #rotina .next-step[data-state=clear] .button{background:#075443;border-color:#075443;color:#fff}
+.overview #rotina .next-step[data-state=pending] .button{background:#633903;border-color:#633903;color:#fff}
+.overview #rotina .routine-pending{grid-column:1/-1;list-style:none;padding:0;margin:0;border-top:1px solid #e8c993}
+.overview #rotina .routine-pending .data-row{border-color:#e8c993}
+.overview #rotina .routine-pending small{color:#704d26}
+.overview #rotina .routine-records{margin-bottom:14px}
+.overview .routine-records .data-row a{flex-shrink:0;font-weight:700}
+.overview #trajetoria .trajectory-lead>.panel{padding:clamp(16px,2.7vw,28px);border-radius:17px;min-width:0}
+.overview #trajetoria .trajectory-lead h2{font-size:clamp(20px,2.5vw,28px);line-height:1.15}
+.overview #trajetoria .trajectory-hero{background:#0c2a43;border-color:#0c2a43;color:#fff}
+.overview .trajectory-hero .section-head{align-items:flex-start;flex-wrap:wrap;gap:10px}
+.overview .trajectory-hero .section-head p,.overview .trajectory-hero .source-note{color:#c4dfea}
+.overview .trajectory-hero label{color:#d9ebf5;font-size:13px}
+.overview .trajectory-hero select{background:#fff;color:#15344b;border:1px solid #c4d1df;border-radius:8px;padding:4px 7px}
+.overview #trajetoria .trajectory-hero .chart{height:auto;aspect-ratio:700/235}
+.overview .trajectory-hero .chart-axis{fill:#d2ebf4}
+.overview .trajectory-hero .chart-value{fill:#fff;font-weight:700}
+.overview .trajectory-hero .chart-baseline{stroke:#62879c}
+.overview .trajectory-hero .chart-bar{fill:#37adaa}
+.overview .trajectory-hero .chart-bar.peak{fill:#65f0cd}
+.overview #trajetoria .trajectory-milestones .timeline{margin-top:16px}
+.overview #trajetoria .trajectory-milestones li{padding-bottom:14px;border-color:#94dbcf;overflow-wrap:anywhere}
+.overview #trajetoria .trajectory-milestones li:last-child{padding-bottom:0}
+.overview .trajectory-milestones li::before{background:#007a71}
+.overview .trajectory-milestones time{display:block;color:#006b64;font-size:13px;font-weight:750}
+.overview .trajectory-milestones b{font-size:15px;line-height:1.35}
+.overview .trajectory-curriculum-link{margin-top:18px}
+@media(max-width:620px){
+  .overview #rotina .next-step{grid-template-columns:minmax(0,1fr);justify-items:start}
+  .overview #rotina .routine-pending{width:100%}
+}
 .curriculum .welcome{min-height:0;margin-bottom:16px}
 .curriculum .welcome h1{font-size:36px;letter-spacing:-1px}
 .curriculum .welcome p{margin:0;font-size:16px}
 .curriculum .curriculum-heading{margin-bottom:12px}
+.curriculum .curriculum-heading h1{font-size:clamp(25px,3vw,36px);letter-spacing:-.035em;margin:0}
+.curriculum .cv-profile{display:flex;align-items:flex-start;gap:16px;padding:clamp(18px,3vw,30px);margin-bottom:14px;border-radius:16px;background:#0c2a43;color:#fff}
+.curriculum .cv-profile h2{font-size:clamp(23px,4vw,38px);line-height:1.15;margin:0}
+.curriculum .cv-profile p{max-width:68ch;margin:8px 0 0;color:#edf7ff;white-space:pre-line}
+.curriculum .cv-profile .cv-source{color:#bfd9e9;font-size:13px}
+.curriculum .cv-initials{display:grid;place-items:center;flex:0 0 46px;height:46px;border-radius:12px;background:#65e2c6;color:#0b3339;font-weight:750}
+.curriculum .cv-layout{display:grid;grid-template-columns:minmax(150px,205px) minmax(0,1fr);align-items:start;gap:16px;margin:14px 0}
+.curriculum .cv-index,.curriculum .cv-section{padding:15px;border-radius:13px}
+.curriculum .cv-index h2{font-size:16px;margin:0 0 6px}
+.curriculum .cv-index a{display:flex;justify-content:space-between;gap:8px;padding:7px 8px;border-radius:7px;color:var(--text)}
+.curriculum .cv-index a[aria-current],.curriculum .cv-index a:hover{background:#e0f5ee;color:#006660}
+.curriculum .cv-index a[aria-current]{font-weight:700}
+.curriculum .cv-sections{display:grid;gap:8px;min-width:0}
+.curriculum .cv-section summary{cursor:pointer}
+.curriculum .cv-section>summary{font-size:17px}
+.curriculum #cv-publicacoes>summary{font-size:24px;letter-spacing:-.02em}
+.curriculum .cv-section summary span{margin-inline-start:8px;color:var(--muted);font-size:13px}
+.curriculum .cv-search{display:grid;gap:4px;margin:10px 0;color:var(--muted);font-size:13px}
+.curriculum .cv-search input{width:100%;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;font:inherit;font-size:16px}
+.curriculum .cv-year{border-top:1px solid var(--border);margin-top:10px;padding-top:8px}
+.curriculum .cv-year>summary{color:#006660}
+.curriculum .cv-entry{padding:10px 0 10px 12px;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
+.curriculum .cv-entry:last-child{border-bottom:0;padding-bottom:0}
+.curriculum .cv-entry h3{font-size:15px;line-height:1.4;margin:0}
+.curriculum .cv-entry p{font-size:13px;margin:2px 0 4px}
+.curriculum .cv-entry .item-detail{font-size:13px}
+@media(max-width:650px){
+  .curriculum .cv-layout{grid-template-columns:minmax(0,1fr)}
+  .curriculum #cvIndex{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 .curriculum .button.primary{background:#007e99;border-color:#007e99}
 .curriculum .curriculum-heading .button:not(.primary){border-color:#60799a}
 .curriculum .version-banner,.curriculum .trajectory-link{display:flex;justify-content:space-between;align-items:center;gap:10px 20px;flex-wrap:wrap;margin-bottom:10px}
@@ -189,3 +258,15 @@
 /* NautiScience: ajusta a assinatura à largura do menu existente. */
 .platform .platform-brand{font-size:26px;letter-spacing:-1px}
 @media(min-width:761px) and (max-width:1100px){.platform .platform-brand{font-size:22px}.overview .platform-brand-mascot{width:24px;margin-left:4px}}
+.cv-ai-panel{border-left:4px solid #00a3c4;margin:14px 0}
+.cv-ai-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.cv-ai-head h2{margin:0;font-size:1.08rem}
+.cv-ai-score{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:99px;background:#ecfdf5;color:#065f46;font-weight:700;font-size:.88rem;margin-bottom:8px}
+.cv-ai-block{margin-top:14px;padding-top:10px;border-top:1px solid #e2e8f0}
+.cv-ai-block h3{margin:0 0 6px;font-size:.95rem}
+.cv-ai-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.cv-ai-prio{display:inline-block;padding:1px 7px;border-radius:99px;font-size:.74rem;font-weight:700;text-transform:uppercase;margin-right:6px}
+.cv-ai-prio.alta{background:#fee2e2;color:#991b1b}
+.cv-ai-prio.media{background:#fef3c7;color:#92400e}
+.cv-ai-prio.baixa{background:#e0f2fe;color:#075985}
+.cv-ai-textarea{width:100%;min-height:92px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;background:#f8fafc;color:inherit;margin-top:6px}

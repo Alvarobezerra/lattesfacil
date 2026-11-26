@@ -21,11 +21,12 @@
     {
      "chave": "cod_doi",
      "name": "f_cod_doi",
-     "rotulo": "do artigo e clique no botão para recuperar os dados da produção",
+     "rotulo": "DOI, ISSN ou nome do periódico",
      "aba": "D.O.I",
      "tipo": "text",
      "maxlength": 250,
-     "obrigatorio": false
+     "obrigatorio": false,
+     "dica": "Primeiro campo, como no Lattes: o DOI abre pelos dados do DOI; o ISSN ou o nome abrem pelo cadastro de periódicos do Lattes (se não achar, cadastra à mão)."
     },
     {
      "chave": "titulo",

@@ -228,8 +228,31 @@ body {
   color: var(--navy);
   text-decoration: none;
 }
+.um-item-btn {
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
 .um-item:hover { background: #f0f4f9; }
 .um-item svg { width: 16px; height: 16px; color: var(--muted); }
+
+.ia-pill { border: 1px solid var(--border); background: #fff; }
+.ia-pill.state-on { border-color: rgba(16, 185, 129, 0.35); background: #ecfdf5; }
+.ia-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+.ia-status-box.ok { border-color: var(--ok-border); background: var(--ok-bg); }
+.ia-usage-detail { font-family: var(--font-mono); font-size: 0.78rem; margin-top: 2px; }
+.gen-ai-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0 4px; }
 
 @media (max-width: 960px) {
   .topbar-inner { gap: 16px; }

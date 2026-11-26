@@ -215,7 +215,25 @@ def ler_atuacao_profissional(texto: str, usuario: str):
     servidor = bool(re.search(r"servidor(a)? (publico|publica|efetivo|efetiva)|estatutari", low))
     sem_vinculo = bool(re.search(r"sem vinculo(?: empregaticio)?|nao (?:gera|cria|ha) vinculo|nao ha vinculo", low))
     empregado = not sem_vinculo and (servidor or bool(re.search(r"efetivo|\bclt\b|celetista|vinculo empregaticio|concursad", low)))
-    tipo = "Servidor público" if servidor else "Celetista" if re.search(r"\bclt\b|celetista", low) else "Outro"
+    # Lattes (lupa dominio() de f_vinc): Servidor público, Celetista, Professor Visitante, Bolsista ou "Outro (especifique)", com texto livre.
+    # Com "Possui vínculo empregatício = Sim" o Lattes exige Servidor público ou Celetista (checkVinc2).
+    celetista = bool(re.search(r"\bclt\b|celetista", low))
+    if servidor:
+        tipo = "Servidor público"
+    elif celetista:
+        tipo = "Celetista"
+    elif empregado:
+        tipo = "Servidor público" if re.search(r"efetivo|concursad", low) else "Celetista"
+    elif re.search(r"professor(a)? visitante", low):
+        tipo = "Professor Visitante"
+    elif re.search(r"\bbolsista\b|\bbolsa\b", low) and not estagio:
+        tipo = "Bolsista"
+    elif estagio:
+        tipo = "Estagiário"  # fora da lista fixa: o robô escolhe "Outro" e digita este texto
+    elif re.search(r"volunt[aá]ri[oa]", low):
+        tipo = "Voluntário"
+    else:
+        tipo = "Outro"
     carga = re.search(r"(\d{1,2})(?:[.,]\d+)?\s*(?:h|horas)\s*(?:semanais|/semana)|carga horaria semanal(?: de)?\s*:?\s*(\d{1,2})(?:[.,]\d+)?", low)
     per = _periodo(flat)
     v: dict[str, Any] = {"f_inst": inst, "f_enqua": cargo, "f_stavinc": "Sim" if empregado else "Não", "f_vinc": tipo,

@@ -5,8 +5,25 @@
 <body class="platform curriculum"><a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 <aside id="platformSidebar" class="platform-sidebar" aria-label="Menu da plataforma"></aside>
 <div class="platform-frame"><header class="platform-topbar"><div><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span class="topbar-location">Início / <strong>Meu currículo</strong></span></div><div><a id="platformConnection" class="platform-connection" href="/">Verificando conexão…</a><span class="platform-avatar" data-user-initials></span></div></header>
-<main id="conteudo" class="platform-main"><section class="welcome"><div><h1>Olá, <span data-user-name>pesquisador</span></h1><p>Que tal registrar uma nova conquista hoje?</p></div></section>
-<div class="curriculum-heading"><h2>Meu currículo</h2><div class="actions"><a class="button" href="#importar" id="showImport">Importar currículo</a><a class="button primary" href="/">+ Adicionar registro</a></div></div>
+<main id="conteudo" class="platform-main">
+<div class="curriculum-heading"><h1>Meu currículo</h1><div class="actions"><button class="button" type="button" id="bDiagIA" hidden>✨ Diagnóstico IA</button><a class="button" href="#importar" id="showImport">Importar currículo</a><a class="button primary" href="/">+ Adicionar registro</a></div></div>
+<section class="cv-profile" id="cvProfile" aria-labelledby="cvName" hidden>
+  <span class="cv-initials" id="cvInitials" aria-hidden="true"></span>
+  <div><h2 id="cvName"></h2><p id="cvSummary"></p><p class="cv-source" id="cvUpdated"></p></div>
+</section>
+<section class="panel cv-ai-panel" id="secDiagnosticoIA" aria-live="polite" hidden>
+  <div class="cv-ai-head">
+    <div>
+      <h2 id="iaDiagTitulo">✨ Diagnóstico Estratégico por IA (Gemini)</h2>
+      <p class="muted" id="iaDiagMeta"></p>
+    </div>
+    <div class="actions">
+      <button class="button" type="button" id="bDiagIARefazer">↻ Reanalisar</button>
+      <button class="button" type="button" id="bDiagIAFechar">Ocultar</button>
+    </div>
+  </div>
+  <div id="iaDiagBody"></div>
+</section>
 <div class="notice version-banner"><div><strong id="snapshotLabel">Nenhuma versão selecionada</strong><p class="source-note">Esta é a cópia do currículo no NautiScience. A revisão aqui não altera automaticamente o currículo no CNPq.</p></div><a href="#importar" id="showVersions">Ver versões</a></div>
 <details class="detail-fold" id="importar"><summary>Importar, ler ao vivo e gerenciar versões</summary><section class="cartao">
 <h2>Versões do currículo</h2><p class="dica">Importe o XML/ZIP exportado do Lattes ou leia o currículo aberto no navegador. As versões anteriores ficam disponíveis para comparação.</p>
@@ -15,9 +32,15 @@
 <div class="linha"><label for="selVersao">Versão guardada</label><select id="selVersao"></select><button class="button" id="bExcluir" type="button">Apagar esta versão</button></div>
 </section></details><div id="sStatus" role="status" aria-live="polite"></div>
 <section id="curriculumEmpty" class="panel"><h2>Seu currículo começa por uma importação</h2><p class="muted">Escolha um XML/ZIP ou use a leitura ao vivo para consultar seus registros.</p><a class="button" href="#importar">Importar currículo</a></section>
+<div class="cv-layout" id="cvReading" hidden>
+  <nav class="panel cv-index" aria-labelledby="cvIndexTitle"><h2 id="cvIndexTitle">Neste currículo</h2><div id="cvIndex"></div></nav>
+  <div class="cv-sections" id="cvSections"></div>
+</div>
+<details class="detail-fold" id="curriculumTable" hidden><summary>Consultar todos os registros em tabela</summary>
 <section class="cartao" id="secItens" hidden><h2 class="sr-only">Registros do currículo</h2><div id="categoryTabs" class="category-tabs" role="group" aria-label="Grupos de registros"></div>
 <div class="filter-bar"><input type="search" id="fBusca" aria-label="Buscar registros" placeholder="Buscar por título, autor, DOI ou instituição"><select id="fCat" aria-label="Categoria"></select><select id="fAno" aria-label="Ano"></select><select id="fSituacao" aria-label="Informações a conferir"><option value="">Todas as situações</option><option value="sem-doi">Artigos sem DOI</option></select></div>
 <div id="tItens" class="table-scroll"></div><div class="pagination"><span class="dica" id="nItens" role="status"></span><div class="actions"><button class="button" id="prevItems" type="button">Anterior</button><span id="pageItems"></span><button class="button" id="nextItems" type="button">Próxima</button></div></div></section>
+</details>
 <details class="detail-fold" id="curriculumAnalysis"><summary>Resumo da versão e comparação com a anterior</summary>    <section class="cartao" id="secDash" hidden>
       <h2 id="tNome"></h2>
       <p class="dica" id="tMeta"></p>
