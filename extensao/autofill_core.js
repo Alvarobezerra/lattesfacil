@@ -850,6 +850,55 @@ window.__lfAutofill = async function (d) {
         gOk.financiamentos++;
       }
     }
+    // Identificação — Nomes em citações bibliográficas (#nmeCitacao + Enter -> #holderDetNmeCit).
+    if ((GR.nomes_citacao || []).length) {
+      gOk.nomes_citacao = 0;
+      var inpCit = gdoc.getElementById('nmeCitacao');
+      var holderCit = gdoc.getElementById('holderDetNmeCit');
+      if (!inpCit) {
+        rel.push('Nome em citações bibliográficas: campo #nmeCitacao não encontrado no formulário aberto');
+      } else {
+        for (var nc = 0; nc < GR.nomes_citacao.length; nc++) {
+          var vCit = String(GR.nomes_citacao[nc] || '').trim();
+          if (!vCit) continue;
+          if (holderCit && norm(holderCit.textContent || '').indexOf(norm(vCit)) >= 0) { gOk.nomes_citacao++; continue; }
+          gDigitar(inpCit, vCit);
+          ['keydown', 'keypress', 'keyup'].forEach(function (evT) {
+            try { inpCit.dispatchEvent(new KeyboardEvent(evT, { bubbles: true, cancelable: true, key: 'Enter', code: 'Enter', keyCode: 13, which: 13 })); } catch (e) {}
+          });
+          gOk.nomes_citacao++;
+          await sleep(400);
+        }
+      }
+    }
+    // Endereço — Grades dinâmicas via modal (#holderContatos e #holder).
+    var gGradeModal = async function (chave, rotuloG, holderId) {
+      var lista = GR[chave] || [];
+      if (!lista.length) return;
+      var h = gdoc.getElementById(holderId);
+      if (!h) { rel.push('grade "' + rotuloG + '" não encontrada no formulário aberto'); return; }
+      gOk[chave] = 0;
+      for (var gi = 0; gi < lista.length; gi++) {
+        var partes = String(lista[gi] || '').split(';').map(function (x) { return x.trim(); }).filter(Boolean);
+        if (!partes.length) continue;
+        if (norm(h.textContent || '').indexOf(norm(partes[partes.length - 1])) >= 0) { gOk[chave]++; continue; }
+        var btAdd = h.querySelector('img.botaoAdicionar, a[onclick*="incluir"], a[onclick*="Incluir"]') || gLink(h, /incluir/i);
+        if (!btAdd) { rel.push('botão de incluir em "' + rotuloG + '" não encontrado'); break; }
+        btAdd.click(); await sleep(500);
+        var dlgG = gdoc.querySelector('.win-wrapper:last-of-type') || gdoc;
+        var slG = [].slice.call(dlgG.querySelectorAll('select')).filter(gVis)[0];
+        var inG = [].slice.call(dlgG.querySelectorAll('input[type="text"], textarea')).filter(gVis)[0];
+        if (slG && partes.length >= 2) {
+          var opG = gSelPorTexto(slG, partes[0]);
+          if (opG) { slG.value = opG.value; fireG(slG); }
+        }
+        if (inG) gDigitar(inG, partes[partes.length - 1]);
+        if (gConfirmar()) gOk[chave]++; else { rel.push('não consegui confirmar em "' + rotuloG + '": ' + lista[gi]); gCancelarPopup(); }
+        await sleep(500);
+      }
+    };
+    await gGradeModal('contatos', 'Outra forma de contato', 'holderContatos');
+    await gGradeModal('redes_sociais', 'Redes Sociais', 'holder');
     // O Lattes pode recuperar dados do registro e trocar o que foi digitado (ex.: título): confere os campos de texto e reaplica.
     for (var gj = 0; gj < (G.campos || []).length; gj++) {
       var cj = G.campos[gj];

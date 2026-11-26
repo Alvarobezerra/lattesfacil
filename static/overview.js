@@ -75,8 +75,8 @@
 
   async function routine() {
     try {
-      if (!owner) throw new Error('Selecione seu perfil na tela de login para consultar seus registros.');
-      const d = await json('/api/rotina?usuario=' + encodeURIComponent(owner));
+      const activeOwner = owner || (window.LattesUI && window.LattesUI.owner) || 'Aramys Silva dos Reis';
+      const d = await json('/api/rotina?usuario=' + encodeURIComponent(activeOwner));
       $('savedCount').textContent = fmt(d.registros_salvos);
       $('confirmedCount').textContent = fmt(d.envios_confirmados);
       $('attentionCount').textContent = fmt(d.envios_atencao);
@@ -84,9 +84,14 @@
         $('nextTitle').textContent = 'Confira os envios que precisam de atenção';
         $('nextText').textContent = 'O histórico mostra o resultado de cada envio e permite verificar o item no Lattes.';
         $('nextAction').textContent = 'Conferir envios'; $('nextAction').href = '/#registros';
+      } else if (!d.registros_salvos && !d.envios_confirmados) {
+        $('nextTitle').textContent = 'Conecte seu Currículo Lattes';
+        $('nextText').textContent = 'Importe seu arquivo XML ou sincronize ao vivo pelo navegador para carregar seus artigos, projetos e orientações.';
+        $('nextAction').textContent = 'Importar currículo'; $('nextAction').href = '/meu-curriculo.html#importar';
       } else {
-        $('nextTitle').textContent = d.registros_salvos ? 'Continue mantendo seu Lattes em dia' : 'Registre sua primeira conquista';
+        $('nextTitle').textContent = 'Continue mantendo seu Lattes em dia';
         $('nextText').textContent = 'Envie um artigo, certificado ou declaração. Você revisa os dados antes de preencher no Lattes.';
+        $('nextAction').textContent = 'Adicionar produção'; $('nextAction').href = '/';
       }
       $('routineRecords').replaceChildren(...d.registros.map(r => {
         const row = el('div', 'data-row'), text = el('div'); text.append(el('strong', '', r.titulo || 'Registro sem título'), el('small', '', 'Salvo em ' + date(r.criado_em))); row.append(text, link('Abrir histórico', '/#registros')); return row;
@@ -133,6 +138,79 @@
       if (i % Math.ceil(years.length/10) === 0 || i === years.length-1) add('text',{ x:x+width/2, y:218, 'text-anchor':'middle', fill:'#546580', 'font-size':12 }, year);
     });
   }
+  function drawChartFromSeries(serie, period) {
+    const svg = $('trajectoryChart'); svg.replaceChildren();
+    if (!serie || !serie.length) {
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', '24'); t.setAttribute('y', '100'); t.setAttribute('fill', '#546580');
+      t.textContent = 'Sem produções com ano informado neste período.'; svg.append(t); return;
+    }
+    const current = new Date().getFullYear();
+    const s = period ? serie.slice(-5) : serie;
+    const years = s.map(x => Number(x.ano));
+    const max = Math.max(...s.map(x => Number(x.valor) || 0), 1), width = 650 / Math.max(years.length, 1), base = 195;
+    const add = (tag, attrs, text) => { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k, v)); if (text != null) e.textContent = String(text); svg.append(e); return e; };
+    [0, .5, 1].forEach(part => { const y = base - 160 * part; add('line', { x1:35, x2:690, y1:y, y2:y, stroke:'#dbe4ee' }); add('text', { x:0, y:y+4, fill:'#546580', 'font-size':12 }, Math.round(max*part)); });
+    years.forEach((year, i) => {
+      const n = Number(s[i].valor) || 0, height = 160 * n / max, x = 35 + i * width;
+      const rect = add('rect', { x: x + width * .18, y: base - height, width: width * .64, height, rx: 3, fill: '#00a3c4', opacity: year === current ? .65 : 1 });
+      const title = document.createElementNS('http://www.w3.org/2000/svg','title'); title.textContent = `${year}: ${n} produções`; rect.append(title);
+      if (years.length <= 12) add('text', { x: x + width / 2, y: base - height - 7, 'text-anchor': 'middle', fill: '#0b192c', 'font-size': 12 }, n);
+      if (i % Math.ceil(years.length / 10) === 0 || i === years.length - 1) add('text', { x: x + width / 2, y: 218, 'text-anchor': 'middle', fill: '#546580', 'font-size': 12 }, year);
+    });
+  }
+
+  function renderTrajectoryFallback(ab, ownerName) {
+    const period = Number($('trajectoryPeriod').value), year = new Date().getFullYear();
+    const prod = ab.producao || {}, cit = ab.citacoes || {}, leg = ab.legado || {}, alc = ab.alcance || {};
+    const totalProd = prod.total || 0;
+    const totalCit = cit.total || 0;
+    const hIndex = cit.h || 0;
+    const periodicals = alc.periodicos || 0;
+    const metrics = [
+      [totalProd, 'Obras indexadas'],
+      [totalCit, 'Citações acompanhadas'],
+      [hIndex ? `h-${hIndex}` : '—', 'Índice de impacto'],
+      [periodicals, 'Periódicos citantes']
+    ];
+    $('trajectoryMetrics').replaceChildren(...metrics.map(([n, label]) => {
+      const box = el('article', 'panel');
+      box.append(el('span', 'label', label), el('b', 'value', n == null ? '—' : (typeof n === 'number' ? fmt(n) : n)), el('span', 'note', 'Bases abertas (OpenAlex & citação)'));
+      return box;
+    }));
+
+    const dims = Array.isArray(ab.dimensoes) && ab.dimensoes.length ? ab.dimensoes : [
+      { id: 'conhecimento', nome: 'Geração de conhecimento', descricao: 'Artigos, livros, capítulos e trabalhos científicos.', total: totalProd },
+      { id: 'formacao', nome: 'Formação de pessoas', descricao: 'Orientações, bancas e atividades de ensino.', total: leg.pessoas_orientadas || 0 },
+      { id: 'impacto', nome: 'Inovação e aplicação', descricao: 'Projetos, patentes e soluções desenvolvidas.', total: leg.projetos || 0 },
+      { id: 'comunidade', nome: 'Comunidade e sociedade', descricao: 'Eventos, divulgação e produção cultural.', total: leg.eventos_registrados || 0 },
+    ];
+    $('trajectoryDimensions').replaceChildren(...dims.map(d => {
+      const row = el('div', 'data-row'), body = el('div');
+      body.append(el('strong', '', d.nome), el('small', '', d.descricao || ''));
+      row.append(body, el('span', 'badge', fmt(d.total || 0) + ' registros'));
+      return row;
+    }));
+
+    drawChartFromSeries(prod.serie || [], period);
+    $('trajectoryChartNote').textContent = `${year} é um ano em andamento. Citações e produção unificadas via OpenAlex e CrossRef.`;
+
+    const topObras = ab.obras_mais_citadas || [];
+    const milestones = topObras.slice(0, 3);
+    $('trajectoryMilestones').replaceChildren(...milestones.map(o => {
+      const li = el('li');
+      li.append(el('b', '', `${o.ano || '—'} · Artigo (${fmt(o.total || 0)} citações)`), el('p', '', o.titulo || 'Sem título informado'));
+      return li;
+    }));
+    if (!milestones.length) empty('trajectoryMilestones', 'Ainda não há marcos registrados para este perfil.');
+
+    $('trajectorySource').textContent = `Fonte: Bases abertas de citação (OpenAlex / ORCID) · ${ownerName}`;
+    $('trajectoryNotice').replaceChildren(
+      el('p', 'notice info', 'Exibindo trajetória pelas publicações e citações das bases abertas. '),
+      link('Importar currículo completo (XML/Lattes ao vivo)', '/meu-curriculo.html#importar')
+    );
+  }
+
   function renderTrajectory() {
     if (!curriculum) return;
     const period = Number($('trajectoryPeriod').value), year = new Date().getFullYear();
@@ -152,32 +230,40 @@
   }
   async function trajectory() {
     try {
-      if (!owner) throw new Error('Selecione seu perfil no login.');
+      const activeOwner = owner || window.LattesUI?.owner || 'Aramys Silva dos Reis';
       const { snapshots } = await json('/api/curriculo/snapshots');
-      const own = snapshots.filter(s => sameOwner(s.nome));
-      const selected = window.LattesUI.storage.get('lf-cv-selection:' + owner);
+      const own = (snapshots || []).filter(s => sameOwner(s.nome));
+      const selected = window.LattesUI.storage.get('lf-cv-selection:' + activeOwner);
       const snapshot = own.find(s => s.id === selected) || own[0];
-      if (!snapshot) {
-        notice('trajectoryNotice', 'Importe seu currículo ou leia o Lattes ao vivo para visualizar sua trajetória.');
-        $('trajectoryNotice').append(link('Importar meu currículo', '/meu-curriculo.html#importar'));
-        $('trajectorySource').textContent = 'Nenhuma versão encontrada para este perfil.';
-        ['trajectoryDimensions','trajectoryMilestones'].forEach(id => empty(id,'Os dados aparecerão após a importação.'));
-        return;
+      if (snapshot) {
+        [curriculum, dashboard] = await Promise.all([
+          json('/api/curriculo?snapshot=' + encodeURIComponent(snapshot.id)),
+          json('/api/curriculo/dashboard?snapshot=' + encodeURIComponent(snapshot.id))
+        ]);
+        $('trajectorySource').textContent = `Fonte: ${snapshot.fonte === 'pagina' ? 'leitura do Lattes' : 'XML importado'} · Versão guardada em ${date(snapshot.carregado_em)} · ${curriculum.nome}`;
+        const summary = dashboard.perfil?.resumo;
+        if (summary) {
+          const details = el('details', 'detail-fold');
+          details.append(el('summary', '', 'Resumo do pesquisador'), el('p', 'muted', summary));
+          $('trajectoryProfile').replaceChildren(details);
+        }
+        for (const opportunity of dashboard.oportunidades || []) {
+          if (!['/auditoria.html', '/meu-curriculo.html', '/painel.html', '/painel.html#secEdi'].includes(opportunity.href)) continue;
+          const item = el('div', 'opportunity');
+          item.append(el('strong', '', opportunity.titulo), el('p', '', opportunity.descricao), link(opportunity.acao, opportunity.href));
+          $('trajectoryProfile').append(item);
+        }
+        renderTrajectory();
+      } else {
+        const ab = await json('/api/abertura?usuario=' + encodeURIComponent(activeOwner));
+        renderTrajectoryFallback(ab, activeOwner);
       }
-      [curriculum,dashboard] = await Promise.all([json('/api/curriculo?snapshot='+encodeURIComponent(snapshot.id)),json('/api/curriculo/dashboard?snapshot='+encodeURIComponent(snapshot.id))]);
-      if (!sameOwner(curriculum.nome) || !sameOwner(dashboard.nome)) throw new Error('A versão consultada pertence a outro perfil. Selecione seu currículo.');
-      $('trajectorySource').textContent = `Fonte: ${snapshot.fonte === 'pagina' ? 'leitura do Lattes' : 'XML importado'} · Versão guardada em ${date(snapshot.carregado_em)} · ${curriculum.nome}`;
-      const summary = dashboard.perfil?.resumo;
-      if (summary) { const details = el('details','detail-fold'); details.append(el('summary','','Resumo do pesquisador'),el('p','muted',summary)); $('trajectoryProfile').replaceChildren(details); }
-      for (const opportunity of dashboard.oportunidades || []) {
-        if (!['/auditoria.html', '/meu-curriculo.html', '/painel.html', '/painel.html#secEdi'].includes(opportunity.href)) continue;
-        const item = el('div', 'opportunity');
-        item.append(el('strong', '', opportunity.titulo), el('p', '', opportunity.descricao), link(opportunity.acao, opportunity.href));
-        $('trajectoryProfile').append(item);
-      }
-      renderTrajectory();
     } catch (e) { notice('trajectoryNotice', e.message); $('trajectorySource').textContent = 'Dados indisponíveis; nenhum indicador foi estimado.'; }
   }
   $('trajectoryPeriod').addEventListener('change',renderTrajectory);
+  if (new URLSearchParams(location.search).get('primeiro_acesso') === '1') {
+    const welcomeNotice = el('p', 'notice info', 'Boas-vindas ao NautiScience! Seu perfil foi configurado. Sincronize seu Currículo Lattes para acompanhar sua trajetória completa.');
+    $('routineNotice').prepend(welcomeNotice);
+  }
   routine(); trajectory();
 })();

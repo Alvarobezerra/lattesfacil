@@ -1135,6 +1135,55 @@ const AUTOFILL_TEMPLATE = String.raw`(async function () {
         gOk.financiamentos++;
       }
     }
+    // Identificação — Nomes em citações bibliográficas (#nmeCitacao + Enter -> #holderDetNmeCit).
+    if ((GR.nomes_citacao || []).length) {
+      gOk.nomes_citacao = 0;
+      var inpCit = gdoc.getElementById('nmeCitacao');
+      var holderCit = gdoc.getElementById('holderDetNmeCit');
+      if (!inpCit) {
+        rel.push('Nome em citações bibliográficas: campo #nmeCitacao não encontrado no formulário aberto');
+      } else {
+        for (var nc = 0; nc < GR.nomes_citacao.length; nc++) {
+          var vCit = String(GR.nomes_citacao[nc] || '').trim();
+          if (!vCit) continue;
+          if (holderCit && norm(holderCit.textContent || '').indexOf(norm(vCit)) >= 0) { gOk.nomes_citacao++; continue; }
+          gDigitar(inpCit, vCit);
+          ['keydown', 'keypress', 'keyup'].forEach(function (evT) {
+            try { inpCit.dispatchEvent(new KeyboardEvent(evT, { bubbles: true, cancelable: true, key: 'Enter', code: 'Enter', keyCode: 13, which: 13 })); } catch (e) {}
+          });
+          gOk.nomes_citacao++;
+          await sleep(400);
+        }
+      }
+    }
+    // Endereço — Grades dinâmicas via modal (#holderContatos e #holder).
+    var gGradeModal = async function (chave, rotuloG, holderId) {
+      var lista = GR[chave] || [];
+      if (!lista.length) return;
+      var h = gdoc.getElementById(holderId);
+      if (!h) { rel.push('grade "' + rotuloG + '" não encontrada no formulário aberto'); return; }
+      gOk[chave] = 0;
+      for (var gi = 0; gi < lista.length; gi++) {
+        var partes = String(lista[gi] || '').split(';').map(function (x) { return x.trim(); }).filter(Boolean);
+        if (!partes.length) continue;
+        if (norm(h.textContent || '').indexOf(norm(partes[partes.length - 1])) >= 0) { gOk[chave]++; continue; }
+        var btAdd = h.querySelector('img.botaoAdicionar, a[onclick*="incluir"], a[onclick*="Incluir"]') || gLink(h, /incluir/i);
+        if (!btAdd) { rel.push('botão de incluir em "' + rotuloG + '" não encontrado'); break; }
+        btAdd.click(); await sleep(500);
+        var dlgG = gdoc.querySelector('.win-wrapper:last-of-type') || gdoc;
+        var slG = [].slice.call(dlgG.querySelectorAll('select')).filter(gVis)[0];
+        var inG = [].slice.call(dlgG.querySelectorAll('input[type="text"], textarea')).filter(gVis)[0];
+        if (slG && partes.length >= 2) {
+          var opG = gSelPorTexto(slG, partes[0]);
+          if (opG) { slG.value = opG.value; fireG(slG); }
+        }
+        if (inG) gDigitar(inG, partes[partes.length - 1]);
+        if (gConfirmar()) gOk[chave]++; else { rel.push('não consegui confirmar em "' + rotuloG + '": ' + lista[gi]); gCancelarPopup(); }
+        await sleep(500);
+      }
+    };
+    await gGradeModal('contatos', 'Outra forma de contato', 'holderContatos');
+    await gGradeModal('redes_sociais', 'Redes Sociais', 'holder');
     // O Lattes pode recuperar dados do registro e trocar o que foi digitado (ex.: título): confere os campos de texto e reaplica.
     for (var gj = 0; gj < (G.campos || []).length; gj++) {
       var cj = G.campos[gj];
@@ -1959,10 +2008,10 @@ function progressText(file) {
 
 async function uploadEvidenceFile(file) {
   const statusEl = $("extractStatus");
-  if (!/\.(pdf|txt)$/i.test(file.name)) {
-    $("fileAdded").textContent = "❌ Envie um arquivo PDF.";
+  if (!/\.(pdf|txt|png|jpe?g|webp|bmp|tiff?|eml|msg)$/i.test(file.name)) {
+    $("fileAdded").textContent = "❌ Envie um arquivo PDF, imagem (PNG, JPG) ou e-mail.";
     $("fileAdded").classList.remove("hidden");
-    showToast("Formato não aceito: envie um PDF.");
+    showToast("Formato não aceito: envie um PDF ou imagem (PNG, JPG).");
     return;
   }
   showFileAdded(file);
@@ -2001,6 +2050,9 @@ async function uploadEvidenceFile(file) {
   currentUploadedFile = file;
   currentUploadId = uploadId;
   $("cadernoResults").innerHTML = "";
+  if (typeof renderDocumentInViewer === "function") {
+    renderDocumentInViewer(file, file.name);
+  }
   aplicarResposta(json, { uploadId, nomeArquivo: file.name });
 }
 
@@ -2008,6 +2060,9 @@ async function extractFromRawText(text) {
   const statusEl = $("extractStatus");
   statusEl.textContent = "Analisando texto...";
   statusEl.classList.remove("hidden");
+  if (typeof renderTextInViewer === "function") {
+    renderTextInViewer(text, "Texto colado / DOI");
+  }
 
   const resp = await fetch("/api/extract", {
     method: "POST",
@@ -2028,32 +2083,33 @@ async function extractFromRawText(text) {
 // ==========================================================================
 let classCtx = { uploadId: null, texto: null, json: null };
 let catalogoItens = null;
-let chooserGrupo = "";
+let chooserSecao = "";
 const TIPO_DO_ITEM = {};
 const SINONIMOS = {
-  anais: "resumo congresso poster pôster publicado anais caderno de resumos",
-  apresentacao: "palestra poster pôster comunicação oral apresentei apresentação",
-  participacao_evento: "ouvinte participante congresso simpósio jornada semana",
-  organizacao_evento: "comissão organizadora organizei coordenei evento",
-  artigo: "revista periódico doi publicado journal",
-  artigo_aceito: "aceite aceito carta submissão",
-  livro_capitulo: "livro capítulo isbn editora",
-  orientacao_concluida: "tcc monografia ic iniciação científica mestrado doutorado coorientação orientei",
-  orientacao_andamento: "tcc ic iniciação científica orientando atual em andamento",
-  banca: "banca examinadora examinador defesa qualificação avaliador",
-  curso_ministrado: "minicurso oficina aula ministrei docente instrutor",
-  formacao_complementar: "curso capacitação extensão aperfeiçoamento atualização certificado de curso aluno",
-  formacao_academica: "diploma graduação especialização mestrado doutorado titulação histórico",
-  atuacao_profissional: "vínculo cargo trabalho emprego servidor monitoria contrato",
-  revisor_periodico: "parecerista reviewer peer review revisor revista",
-  corpo_editorial: "editor editorial conselho revista",
-  patente: "inpi invenção carta patente depósito",
-  software_registro: "programa de computador software registro inpi",
-  premio: "prêmio menção honrosa melhor trabalho homenagem título",
-  projeto: "pesquisa extensão ensino bolsa edital fapema cnpq equipe",
-  idioma: "inglês espanhol proficiência toefl ielts cambridge",
-  licenca: "maternidade paternidade adoção licença",
-  relatorio_tecnico: "parecer relatório consultoria assessoria laudo",
+  anais: "resumo congresso poster poster publicado anais caderno de resumos simposio encontro evento seminario jornada",
+  apresentacao: "palestra poster poster comunicacao oral apresentei apresentacao expositor conferencista conferrencia",
+  participacao_evento: "ouvinte participante congresso simposio jornada semana participante ouvinte congresso",
+  organizacao_evento: "comissao organizadora organizei coordenei evento organizador comite organizador",
+  artigo: "revista periodico doi publicado journal artigo paper publicacao artigo cientifico",
+  artigo_aceito: "aceite aceito carta submissao aprovacao publicado prelo no prelo",
+  livro_capitulo: "livro capitulo isbn editora coletanea organizacao de livro",
+  orientacao_concluida: "tcc monografia ic iniciacao cientifica mestrado doutorado coorientacao orientei orientador concluida",
+  orientacao_andamento: "tcc ic iniciacao cientifica orientando atual em andamento orientacao",
+  banca: "banca examinadora examinador defesa qualificacao avaliador tcc monografia mestrado doutorado",
+  banca_comissao_julgadora: "comissao julgadora concurso selecao docente avaliador concurso publico",
+  curso_ministrado: "curso cursos minicurso oficina aula ministrei docente instrutor aula aberta treinamento palestras capacitacao ministrada docencia",
+  formacao_complementar: "curso cursos capacitacao extensao aperfeicoamento atualizacao certificado de curso aluno treinamento workshop minicurso horas carga horaria",
+  formacao_academica: "curso cursos diploma graduacao especializacao pos graduacao mestrado doutorado titulacao historico aperfeicoamento lato sensu stricto sensu residencia faculdade universidade",
+  atuacao_profissional: "vinculo cargo trabalho emprego servidor monitoria contrato docencia professor pesquisador",
+  revisor_periodico: "parecerista reviewer peer review revisor revista consultor ad hoc",
+  corpo_editorial: "editor editorial conselho revista comite editorial corpo editorial",
+  patente: "inpi invencao carta patente deposito propriedade intelectual",
+  software_registro: "programa de computador software registro inpi codigo aplicativo sistema",
+  premio: "premio mencao honrosa melhor trabalho homenagem titulo medalha distincao laureado",
+  projeto: "pesquisa extensao ensino bolsa edital fapema cnpq equipe projeto",
+  idioma: "ingles espanhol proficiencia toefl ielts cambridge lingua estrangeira idiomas",
+  licenca: "maternidade paternidade adocao licenca afastamento",
+  relatorio_tecnico: "parecer relatorio consultoria assessoria laudo parecer tecnico",
 };
 const normTxt = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const confRotulo = (c) => (c >= 0.75 ? "Confiança alta" : c >= 0.5 ? "Confiança média" : "Confiança baixa");
@@ -2090,9 +2146,12 @@ function aplicarResposta(json, ctx) {
     const notes = (json.extracted.extraction_notes || []).join(" ");
     statusEl.textContent = `Li ${ctx.nomeArquivo}. ${notes || "Revise e clique em Buscar Dados Faltantes se necessário."}`;
     if (notes.includes("ATENÇÃO")) showToast("Atenção: o usuário selecionado não consta neste documento.");
+  } else if (cls.decisao === "confirmar" && (cls.candidatos || []).length) {
+    statusEl.textContent = `Li ${ctx.nomeArquivo}. Identifiquei opções para este documento: escolha abaixo em qual seção do Lattes você prefere para preencher os dados automaticamente.`;
   } else {
     statusEl.textContent = `Li ${ctx.nomeArquivo}, mas ainda não preenchi nada: ${cls.motivo_decisao || "escolha abaixo o que ele comprova"}.`;
   }
+  if (json.ia_aviso) statusEl.textContent += " " + json.ia_aviso;
   statusEl.classList.remove("hidden");
   renderClassPanel(cls, json);
 }
@@ -2128,15 +2187,16 @@ async function renderClassPanel(cls, json) {
     }
   } else if (cls.decisao === "confirmar" && cands.length) {
     painel.classList.add("duvida");
-    head.appendChild(el("strong", "", "Encontrei mais de uma possibilidade. Qual descreve melhor este documento?"));
+    head.appendChild(el("strong", "", "Documento reconhecido! Em qual seção do Lattes você prefere cadastrar?"));
+    head.appendChild(el("p", "", "Encontrei as opções abaixo para este documento. Clique em uma para abrir o formulário já pré-preenchido:"));
     cands.slice(0, 3).forEach((c) => {
       const card = el("div", "class-card");
       card.appendChild(el("h4", "", c.item));
-      card.appendChild(el("span", "conf-pill", confRotulo(c.confianca)));
+      card.appendChild(el("span", "conf-pill", `${c.secao || "Lattes"} · ${confRotulo(c.confianca)}`));
       const ul = el("ul");
       c.motivos.forEach((m) => ul.appendChild(el("li", "", m)));
       card.appendChild(ul);
-      const b = el("button", "btn btn-sm btn-primary", c.implementado ? "Usar este" : "Reconhecido (em breve)");
+      const b = el("button", "btn btn-sm btn-primary", c.implementado ? "Usar este (preencher automático)" : "Reconhecido (em breve)");
       b.type = "button";
       b.onclick = () => escolherItem(c.id);
       card.appendChild(b);
@@ -2153,36 +2213,76 @@ async function renderClassPanel(cls, json) {
 function abrirChooser() {
   $("classPanel").classList.remove("hidden");
   $("classChooser").classList.remove("hidden");
+  $("chooserBusca").value = "";
+  chooserSecao = "";
   renderChooser();
   $("chooserBusca").focus();
 }
 
 async function renderChooser() {
   const itens = await garantirCatalogo();
-  const q = normTxt($("chooserBusca").value).trim();
-  const grupos = [...new Set(itens.map((i) => i.grupo))];
+  const qRaw = $("chooserBusca").value || "";
+  const q = normTxt(qRaw).trim();
+  const termos = q.split(/\s+/).filter(Boolean);
+
+  // Seções reais do Lattes para os filtros (máximo ~10 botões limpos)
+  const secoesDisponiveis = [...new Set(itens.map((i) => i.secao).filter(Boolean))];
+  const secoes = ["", ...secoesDisponiveis];
   const gBox = $("chooserGrupos");
   gBox.innerHTML = "";
-  ["", ...grupos].forEach((g) => {
-    const b = el("button", g === chooserGrupo ? "ativo" : "", g || "Todos");
+
+  secoes.forEach((s) => {
+    const b = el("button", s === chooserSecao ? "ativo" : "", s || "Todos");
     b.type = "button";
     b.onclick = () => {
-      chooserGrupo = g;
+      chooserSecao = s;
       renderChooser();
     };
     gBox.appendChild(b);
   });
+
   const lista = $("chooserLista");
   lista.innerHTML = "";
   const sugerido = classCtx.json && classCtx.json.classificacao && (classCtx.json.classificacao.candidatos || []).map((c) => c.id);
+
   const filtrados = itens
-    .filter((i) => !chooserGrupo || i.grupo === chooserGrupo)
-    .filter((i) => !q || normTxt([i.item, i.secao, i.grupo, i.exemplo, SINONIMOS[i.id] || ""].join(" ")).includes(q))
-    .sort((a, b) => (sugerido && sugerido.includes(b.id) ? 1 : 0) - (sugerido && sugerido.includes(a.id) ? 1 : 0));
+    .filter((i) => {
+      // Se uma seção foi clicada explicitamente, respeita; caso contrário, busca global
+      if (chooserSecao && i.secao !== chooserSecao) return false;
+      if (!termos.length) return true;
+      const textoCompleto = normTxt([i.item, i.secao, i.grupo, i.exemplo, SINONIMOS[i.id] || ""].join(" "));
+      const tokens = textoCompleto.match(/[a-z0-9]+/g) || [];
+      return termos.every((termo) => tokens.some((tok) => tok.startsWith(termo)) || textoCompleto.includes(termo));
+    })
+    .sort((a, b) => {
+      if (termos.length) {
+        const primeiroTermo = termos[0];
+        const aItemNorm = normTxt(a.item);
+        const bItemNorm = normTxt(b.item);
+        const aMatch = aItemNorm.includes(primeiroTermo) ? 2 : (normTxt(SINONIMOS[a.id] || "").includes(primeiroTermo) ? 1 : 0);
+        const bMatch = bItemNorm.includes(primeiroTermo) ? 2 : (normTxt(SINONIMOS[b.id] || "").includes(primeiroTermo) ? 1 : 0);
+        if (bMatch !== aMatch) return bMatch - aMatch;
+      }
+      return (sugerido && sugerido.includes(b.id) ? 1 : 0) - (sugerido && sugerido.includes(a.id) ? 1 : 0);
+    });
+
   if (!filtrados.length) {
-    lista.appendChild(el("p", "hint", "Nada encontrado. Tente outra palavra (ex.: certificado, declaração, ata) ou escolha um grupo acima."));
+    const vazio = el("div", "hint");
+    vazio.style.padding = "16px";
+    vazio.style.textAlign = "center";
+    vazio.textContent = `Nenhum tipo de registro encontrado para "${qRaw}". Tente palavras como "curso", "artigo", "banca", "projeto", "especialização" ou escolha uma seção acima.`;
+    lista.appendChild(vazio);
     return;
   }
+
+  if (termos.length) {
+    const cont = el("div", "hint");
+    cont.style.padding = "4px 8px";
+    cont.style.fontSize = "0.82rem";
+    cont.textContent = `${filtrados.length} opção(ões) encontrada(s) para "${qRaw}":`;
+    lista.appendChild(cont);
+  }
+
   filtrados.forEach((i) => {
     const b = el("button", "chooser-item");
     b.type = "button";
@@ -2279,6 +2379,7 @@ $("btnEscolherManual").onclick = () => {
   abrirChooser();
 };
 $("chooserBusca").addEventListener("input", renderChooser);
+$("chooserBusca").addEventListener("search", renderChooser);
 
 async function enrichMissing() {
   const statusEl = $("enrichStatus");
@@ -2642,7 +2743,11 @@ CIÊNCIAS BIOLÓGICAS
     const resp = await fetch("/exemplos/2024-SEMICresumo.pdf");
     if (resp.ok) {
       currentUploadedFile = await resp.blob();
+      currentUploadedFile.name = "2024-SEMICresumo.pdf";
       currentUploadId = "sample";
+      if (typeof renderDocumentInViewer === "function") {
+        renderDocumentInViewer(currentUploadedFile, "2024-SEMICresumo.pdf");
+      }
     }
   } catch (e) {}
 };
@@ -3070,11 +3175,374 @@ function enviarCurriculoAoCnpq() {
   window.postMessage({ type: "lattesdata-ext-cv-publish" }, location.origin);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// ==========================================================================
+// Visualizador de Arquivo à Direita (Modo Observador / Lattes Split)
+// ==========================================================================
+let viewerZoom = 1.0;
+let viewerCurrentBlobUrl = null;
+let viewerCollapsed = false;
+let viewerExpanded = false;
+
+function renderDocumentInViewer(fileOrBlob, filename) {
+  if (!fileOrBlob) return;
+  const split = $("workspaceSplit");
+  if (split && split.classList.contains("viewer-collapsed")) {
+    setViewerCollapsed(false);
+  }
+
+  const name = filename || fileOrBlob.name || "comprovante.pdf";
+  const sizeMb = fileOrBlob.size ? (fileOrBlob.size / 1048576).toFixed(1) + " MB" : "";
+
+  const metaEl = $("viewerFileMeta");
+  if (metaEl) metaEl.textContent = `${name} ${sizeMb ? "(" + sizeMb + ")" : ""}`;
+  const statusEl = $("observerDocStatus");
+  if (statusEl) statusEl.textContent = "Documento em conferência";
+
+  // Revoga URL anterior se existir
+  if (viewerCurrentBlobUrl) {
+    try { URL.revokeObjectURL(viewerCurrentBlobUrl); } catch (e) {}
+  }
+
+  viewerCurrentBlobUrl = URL.createObjectURL(fileOrBlob);
+  const isImage = /\.(png|jpe?g|webp|bmp|tiff?)$/i.test(name) || (fileOrBlob.type && fileOrBlob.type.startsWith("image/"));
+  const iframe = $("docViewerIframe");
+  const imgWrap = $("docViewerImgWrap");
+  const img = $("docViewerImg");
+
+  if (isImage) {
+    if (img) img.src = viewerCurrentBlobUrl;
+    if (imgWrap) imgWrap.classList.remove("hidden");
+    if (iframe) {
+      iframe.classList.add("hidden");
+      iframe.src = "about:blank";
+    }
+  } else {
+    if (iframe) {
+      iframe.classList.remove("hidden");
+      iframe.src = viewerCurrentBlobUrl;
+    }
+    if (imgWrap) imgWrap.classList.add("hidden");
+  }
+
+  const btnOpenTab = $("btnViewerOpenTab");
+  if (btnOpenTab) {
+    btnOpenTab.href = viewerCurrentBlobUrl;
+    btnOpenTab.style.display = "inline-flex";
+  }
+
+  // Alterna visibilidade dos painéis
+  const emptyEl = $("docViewerEmpty");
+  if (emptyEl) emptyEl.classList.add("hidden");
+  const textWrap = $("docViewerTextWrap");
+  if (textWrap) textWrap.classList.add("hidden");
+  const frameWrap = $("docViewerFrameWrap");
+  if (frameWrap) frameWrap.classList.remove("hidden");
+  resetViewerZoom();
+}
+
+function renderTextInViewer(text, title) {
+  const split = $("workspaceSplit");
+  if (split && split.classList.contains("viewer-collapsed")) {
+    setViewerCollapsed(false);
+  }
+
+  const metaEl = $("viewerFileMeta");
+  if (metaEl) metaEl.textContent = title || "Texto de Evidência";
+  const statusEl = $("observerDocStatus");
+  if (statusEl) statusEl.textContent = "Texto em conferência";
+
+  const preEl = $("docViewerTextContent");
+  if (preEl) preEl.textContent = text;
+  const emptyEl = $("docViewerEmpty");
+  if (emptyEl) emptyEl.classList.add("hidden");
+  const frameWrap = $("docViewerFrameWrap");
+  if (frameWrap) frameWrap.classList.add("hidden");
+  const textWrap = $("docViewerTextWrap");
+  if (textWrap) textWrap.classList.remove("hidden");
+
+  const btnOpenTab = $("btnViewerOpenTab");
+  if (btnOpenTab) btnOpenTab.style.display = "none";
+}
+
+function setViewerCollapsed(collapsed) {
+  viewerCollapsed = collapsed;
+  const split = $("workspaceSplit");
+  const toggleBtnText = $("btnToggleViewerText");
+  if (split) {
+    split.classList.toggle("viewer-collapsed", collapsed);
+  }
+  if (toggleBtnText) {
+    toggleBtnText.textContent = collapsed ? "Visualizador: Oculto" : "Visualizador: Aberto";
+  }
+  try {
+    localStorage.setItem("lf_viewer_collapsed", collapsed ? "1" : "0");
+  } catch (e) {}
+}
+
+function setViewerExpanded(expanded) {
+  viewerExpanded = expanded;
+  const split = $("workspaceSplit");
+  if (split) {
+    split.classList.toggle("viewer-expanded", expanded);
+  }
+  const btn = $("btnViewerExpand");
+  if (btn) {
+    btn.textContent = expanded ? "🗗" : "⛶";
+    btn.title = expanded ? "Largura padrão" : "Expandir visualizador";
+  }
+}
+
+function applyViewerZoom(delta) {
+  if (delta === 0) viewerZoom = 1.0;
+  else viewerZoom = Math.max(0.6, Math.min(2.5, viewerZoom + delta));
+
+  const iframe = $("docViewerIframe");
+  if (iframe && !iframe.classList.contains("hidden")) {
+    iframe.style.transform = viewerZoom === 1.0 ? "none" : `scale(${viewerZoom})`;
+    iframe.style.width = viewerZoom === 1.0 ? "100%" : `${100 / viewerZoom}%`;
+    iframe.style.height = viewerZoom === 1.0 ? "100%" : `${100 / viewerZoom}%`;
+  }
+  const img = $("docViewerImg");
+  if (img) {
+    img.style.transform = viewerZoom === 1.0 ? "none" : `scale(${viewerZoom})`;
+  }
+  const btnReset = $("btnViewerZoomReset");
+  if (btnReset) btnReset.textContent = `${Math.round(viewerZoom * 100)}%`;
+}
+
+function resetViewerZoom() {
+  applyViewerZoom(0);
+}
+
+async function loadPresetTestFile(filename) {
+  try {
+    showToast(`Carregando "${filename}" no visualizador...`);
+    const resp = await fetch(`/api/test-file?name=${encodeURIComponent(filename)}`);
+    if (!resp.ok) {
+      showToast("Não foi possível carregar o arquivo de teste.");
+      return;
+    }
+    const blob = await resp.blob();
+    const file = new File([blob], filename, { type: "application/pdf" });
+    // Carrega tanto no visualizador quanto no fluxo de extração
+    renderDocumentInViewer(file, filename);
+    await uploadEvidenceFile(file);
+  } catch (err) {
+    showToast("Erro ao carregar comprovante de teste.");
+  }
+}
+
+function initDocumentViewer() {
+  // Botões de zoom
+  const zIn = $("btnViewerZoomIn");
+  const zOut = $("btnViewerZoomOut");
+  const zReset = $("btnViewerZoomReset");
+  if (zIn) zIn.onclick = () => applyViewerZoom(0.15);
+  if (zOut) zOut.onclick = () => applyViewerZoom(-0.15);
+  if (zReset) zReset.onclick = () => resetViewerZoom();
+
+  // Expansão / Colapso
+  const btnExpand = $("btnViewerExpand");
+  if (btnExpand) btnExpand.onclick = () => setViewerExpanded(!viewerExpanded);
+
+  const btnClose = $("btnViewerClose");
+  if (btnClose) btnClose.onclick = () => setViewerCollapsed(true);
+
+  const btnToggle = $("btnToggleViewerSplit");
+  if (btnToggle) btnToggle.onclick = () => setViewerCollapsed(!viewerCollapsed);
+
+  // Ações do estado vazio
+  const btnEmptySample = $("btnViewerLoadSample");
+  if (btnEmptySample) {
+    btnEmptySample.onclick = () => {
+      const orig = $("btnLoadSample");
+      if (orig) orig.click();
+    };
+  }
+
+  const btnEmptyPick = $("btnViewerPickFile");
+  if (btnEmptyPick) {
+    btnEmptyPick.onclick = () => {
+      const inp = $("fileInput");
+      if (inp) inp.click();
+    };
+  }
+
+  // Copiar texto no visualizador de texto
+  const btnCopyTxt = $("btnCopyViewerText");
+  if (btnCopyTxt) {
+    btnCopyTxt.onclick = async () => {
+      const txt = $("docViewerTextContent").textContent;
+      if (txt) {
+        await navigator.clipboard.writeText(txt);
+        showToast("Texto copiado para a área de transferência.");
+      }
+    };
+  }
+
+  // Chips de teste rápido
+  document.querySelectorAll(".preset-chip").forEach((chip) => {
+    chip.onclick = (e) => {
+      e.preventDefault();
+      const fn = chip.dataset.testFile;
+      if (fn) loadPresetTestFile(fn);
+    };
+  });
+
+  // Drag & drop direto sobre a coluna do visualizador
+  const viewerCol = $("docViewerCol");
+  if (viewerCol) {
+    viewerCol.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      viewerCol.style.borderColor = "var(--cyan)";
+    });
+    viewerCol.addEventListener("dragleave", (e) => {
+      e.preventDefault();
+      viewerCol.style.borderColor = "";
+    });
+    viewerCol.addEventListener("drop", (e) => {
+      e.preventDefault();
+      viewerCol.style.borderColor = "";
+      const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) {
+        uploadEvidenceFile(f);
+      }
+    });
+  }
+
+  // Checkboxes de confirmação do observador
+  ["chkConfirmaAutores", "chkConfirmaTitulo", "chkConfirmaAno"].forEach((id) => {
+    const chk = $(id);
+    if (chk) {
+      chk.addEventListener("change", () => {
+        const c1 = $("chkConfirmaAutores") && $("chkConfirmaAutores").checked;
+        const c2 = $("chkConfirmaTitulo") && $("chkConfirmaTitulo").checked;
+        const c3 = $("chkConfirmaAno") && $("chkConfirmaAno").checked;
+        const status = $("observerDocStatus");
+        if (!status) return;
+        if (c1 && c2 && c3) {
+          status.textContent = "✅ Dados confirmados pelo observador";
+          status.style.color = "#15803d";
+        } else if (c1 || c2 || c3) {
+          status.textContent = "🔍 Conferência parcial";
+          status.style.color = "#b45309";
+        } else {
+          status.textContent = "Documento em conferência";
+          status.style.color = "";
+        }
+      });
+    }
+  });
+
+  // Regulagem das Janelas (Split Resizer Interativo)
+  const resizer = $("splitResizer");
+  const splitContainer = $("workspaceSplit");
+
+  // Restaura largura salva da divisão
+  try {
+    const savedLeft = localStorage.getItem("lf_split_left");
+    if (savedLeft && !isNaN(parseFloat(savedLeft))) {
+      const val = Math.max(25, Math.min(75, parseFloat(savedLeft)));
+      if (splitContainer) splitContainer.style.setProperty("--split-left", `${val}%`);
+    }
+  } catch (e) {}
+
+  if (resizer && splitContainer) {
+    let isDragging = false;
+
+    function startDrag(e) {
+      e.preventDefault();
+      isDragging = true;
+      resizer.classList.add("is-active");
+      document.body.classList.add("is-resizing-split");
+      window.addEventListener("pointermove", onDrag);
+      window.addEventListener("pointerup", stopDrag);
+    }
+
+    function onDrag(e) {
+      if (!isDragging) return;
+      const rect = splitContainer.getBoundingClientRect();
+      const pointerX = e.clientX - rect.left;
+      const totalWidth = rect.width;
+      if (totalWidth <= 0) return;
+
+      // Limites de regulagem: 25% a 75%
+      let pct = (pointerX / totalWidth) * 100;
+      pct = Math.max(25, Math.min(75, pct));
+
+      splitContainer.style.setProperty("--split-left", `${pct.toFixed(1)}%`);
+    }
+
+    function stopDrag() {
+      if (!isDragging) return;
+      isDragging = false;
+      resizer.classList.remove("is-active");
+      document.body.classList.remove("is-resizing-split");
+      window.removeEventListener("pointermove", onDrag);
+      window.removeEventListener("pointerup", stopDrag);
+
+      const currentPct = splitContainer.style.getPropertyValue("--split-left");
+      if (currentPct) {
+        try { localStorage.setItem("lf_split_left", currentPct); } catch (e) {}
+      }
+    }
+
+    resizer.addEventListener("pointerdown", startDrag);
+
+    // Duplo clique no divisor: centraliza em 50% / 50%
+    resizer.addEventListener("dblclick", () => {
+      splitContainer.style.setProperty("--split-left", "50%");
+      try { localStorage.setItem("lf_split_left", "50%"); } catch (e) {}
+      showToast("Janelas reguladas igualmente (50% / 50%)");
+    });
+
+    // Acessibilidade via teclado no divisor
+    resizer.addEventListener("keydown", (e) => {
+      let currentVal = parseFloat(splitContainer.style.getPropertyValue("--split-left")) || 55;
+      if (e.key === "ArrowLeft") {
+        currentVal = Math.max(25, currentVal - 3);
+        splitContainer.style.setProperty("--split-left", `${currentVal}%`);
+        try { localStorage.setItem("lf_split_left", `${currentVal}%`); } catch (err) {}
+        e.preventDefault();
+      } else if (e.key === "ArrowRight") {
+        currentVal = Math.min(75, currentVal + 3);
+        splitContainer.style.setProperty("--split-left", `${currentVal}%`);
+        try { localStorage.setItem("lf_split_left", `${currentVal}%`); } catch (err) {}
+        e.preventDefault();
+      }
+    });
+  }
+
+  // Botão na barra de ferramentas para regulagem 50% / 50%
+  const btnPreset50 = $("btnViewerPreset50");
+  if (btnPreset50 && splitContainer) {
+    btnPreset50.onclick = () => {
+      splitContainer.style.setProperty("--split-left", "50%");
+      try { localStorage.setItem("lf_split_left", "50%"); } catch (e) {}
+      showToast("Janelas reguladas para 50% / 50%");
+    };
+  }
+
+  // Restaura preferência salva de colapso
+  try {
+    const saved = localStorage.getItem("lf_viewer_collapsed");
+    if (saved === "1") setViewerCollapsed(true);
+  } catch (e) {}
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    const v = $("btnCvVerificar"), e = $("btnCvEnviar");
+    if (v) v.onclick = verificarPendenciaCv;
+    if (e) e.onclick = enviarCurriculoAoCnpq;
+    initDocumentViewer();
+  });
+} else {
   const v = $("btnCvVerificar"), e = $("btnCvEnviar");
   if (v) v.onclick = verificarPendenciaCv;
   if (e) e.onclick = enviarCurriculoAoCnpq;
-});
+  initDocumentViewer();
+}
 
 function pedirVerificacao(e) {
   if (!window.__lattesExtAtiva) { showToast("Instale a extensão NautiScience para verificar no Lattes."); return; }

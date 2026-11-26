@@ -25,11 +25,10 @@
   try {
     const m = document.cookie.match(/(?:^|;\s*)lf_user=([a-z]+)/);
     if (m && NOMES_LOGIN[m[1]]) store.set("lf-usuario", NOMES_LOGIN[m[1]]);
-    if (m) document.cookie = "lf_user=; Path=/; Max-Age=0";
   } catch (e) {}
 
-  const usuario = window.LattesUI.owner;
-  let orcid = store.get("lf-orcid:" + usuario) || KNOWN_ORCIDS[usuario] || "";
+  const usuario = (window.LattesUI && window.LattesUI.owner) || store.get("lf-usuario") || "Aramys Silva dos Reis";
+  let orcid = store.get("lf-orcid:" + usuario) || KNOWN_ORCIDS[usuario] || (usuario.includes("Aramys") ? "0000-0003-4999-6382" : "");
   let dados = null, ultimoCvDash = null, atual = "prod", janela = 5;
 
   function formOrcid(msg) {
@@ -40,7 +39,13 @@
       const v = input.value.trim().toUpperCase();
       if (!/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(v)) { input.setCustomValidity("Formato 0000-0000-0000-0000"); input.reportValidity(); return; }
       input.setCustomValidity("");
-      store.set("lf-orcid:" + usuario, v); orcid = v; dados = null; tentativas = 0; carregar();
+      store.set("lf-orcid:" + usuario, v); orcid = v; dados = null; tentativas = 0;
+      fetch('/api/usuario/orcid', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orcid: v })
+      }).catch(() => {});
+      carregar();
     });
     $("banner").replaceChildren(el("div", { class: "banner" }, msg, f));
   }

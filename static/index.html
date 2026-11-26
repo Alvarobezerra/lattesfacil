@@ -17,6 +17,9 @@
       <div class="update-location"><button id="sidebarToggle" type="button" aria-controls="platformSidebar" aria-expanded="false" aria-label="Abrir menu">☰</button><span>Início / <strong id="updateViewTitle">Atualizar Lattes</strong></span></div>
 
       <div class="topbar-actions">
+        <button type="button" class="btn btn-secondary btn-sm btn-viewer-toggle" id="btnToggleViewerSplit" title="Alternar visualizador do documento à direita">
+          <span class="btn-viewer-icon">📄</span> <span id="btnToggleViewerText">Visualizador</span>
+        </button>
         <div class="lattes-wrap">
           <button class="lattes-pill state-off" id="lattesPill" type="button" aria-expanded="false" aria-controls="lattesConnect" title="Estado da conexão com o Lattes"><i class="pill-dot" aria-hidden="true"></i><span id="lattesPillText">Lattes desconectado</span></button>
           <!-- Conexão com o Lattes: caminho de login + sinalização ON/OFF -->
@@ -111,8 +114,11 @@
       <div id="recordsList" class="records-list"></div>
     </section>
 
-    <!-- Passo 1: o que o usuário quer adicionar hoje (os demais passos só aparecem depois) -->
-    <section id="stepIntent" class="card step-intent">
+    <!-- Workspace Dividido: Formulário à Esquerda e Visualizador à Direita para o Observador -->
+    <div class="workspace-split" id="workspaceSplit">
+      <div class="split-form-col" id="splitFormCol">
+        <!-- Passo 1: o que o usuário quer adicionar hoje (os demais passos só aparecem depois) -->
+        <section id="stepIntent" class="card step-intent">
       <div class="card-header">
         <div>
           <span class="step-pill">Passo 1</span>
@@ -139,11 +145,11 @@
       </div>
 
       <div id="dropZone" class="drop-zone">
-        <input type="file" id="fileInput" accept=".pdf,.txt,.eml,.msg" hidden />
+        <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,.txt,.eml,.msg,image/*" hidden />
         <div class="drop-content">
           <div class="drop-icon">📄</div>
-          <p><strong>Arraste o PDF ou o e-mail do evento (.eml) aqui</strong> ou <button type="button" class="link-btn" id="btnPickFile">clique para escolher o arquivo</button></p>
-          <span class="hint">Suporta PDFs, anais e e-mails salvos (.eml do Even3/Doity) com extração de anexos.</span>
+          <p><strong>Arraste o PDF, imagem (PNG, JPG) ou e-mail (.eml) aqui</strong> ou <button type="button" class="link-btn" id="btnPickFile">clique para escolher o arquivo</button></p>
+          <span class="hint">Suporta PDFs, fotos e scans de certificados/diplomas (PNG, JPG com OCR) e e-mails salvos.</span>
         </div>
       </div>
 
@@ -645,6 +651,106 @@
       </section>
 
     </form>
+      </div><!-- /.split-form-col -->
+
+      <!-- Divisor Ajustável (Resizer) para regulagem das janelas -->
+      <div class="split-resizer" id="splitResizer" role="separator" aria-orientation="vertical" tabindex="0" title="Arraste para regular o tamanho das janelas (duplo clique para 50/50)">
+        <div class="resizer-handle"></div>
+      </div>
+
+      <!-- Painel do Visualizador do Documento à Direita (Observador) -->
+      <aside class="split-viewer-col" id="docViewerCol" aria-label="Visualizador do Documento Comprobatório">
+        <div class="viewer-header">
+          <div class="viewer-title-group">
+            <span class="viewer-icon" aria-hidden="true">📄</span>
+            <div style="min-width:0">
+              <h3 class="viewer-title">Visualizador da Evidência</h3>
+              <span id="viewerFileMeta" class="viewer-meta">Nenhum documento carregado</span>
+            </div>
+          </div>
+          <div class="viewer-toolbar">
+            <button type="button" class="btn-icon" id="btnViewerPreset50" title="Dividir igualmente 50% / 50%">½</button>
+            <button type="button" class="btn-icon" id="btnViewerZoomOut" title="Diminuir zoom (－)">－</button>
+            <button type="button" class="btn-icon" id="btnViewerZoomReset" title="Zoom 100%">100%</button>
+            <button type="button" class="btn-icon" id="btnViewerZoomIn" title="Aumentar zoom (＋)">＋</button>
+            <a id="btnViewerOpenTab" class="btn-icon" target="_blank" rel="noopener" title="Abrir em nova aba" style="display:none">↗</a>
+            <button type="button" class="btn-icon" id="btnViewerExpand" title="Expandir/Reduzir largura da visualização">⛶</button>
+            <button type="button" class="btn-icon" id="btnViewerClose" title="Ocultar visualizador">✕</button>
+          </div>
+        </div>
+
+        <!-- Barra de Conferência do Observador -->
+        <div class="viewer-observer-bar" id="viewerObserverBar">
+          <div class="observer-tag">
+            <span class="observer-pulse"></span>
+            <strong>Observador:</strong> <span id="observerDocStatus">Aguardando arquivo</span>
+          </div>
+          <div class="observer-quick-checks">
+            <label class="check-pill" title="Marque para confirmar que conferiu os autores no documento">
+              <input type="checkbox" id="chkConfirmaAutores" /> <span>Autores</span>
+            </label>
+            <label class="check-pill" title="Marque para confirmar que conferiu o título no documento">
+              <input type="checkbox" id="chkConfirmaTitulo" /> <span>Título</span>
+            </label>
+            <label class="check-pill" title="Marque para confirmar que conferiu ano/evento">
+              <input type="checkbox" id="chkConfirmaAno" /> <span>Ano/Evento</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="viewer-body" id="docViewerBody">
+          <!-- Estado Vazio -->
+          <div id="docViewerEmpty" class="viewer-empty">
+            <div class="empty-icon-wrap">
+              <span class="empty-big-icon">📄</span>
+            </div>
+            <h4>Visualização Lado a Lado</h4>
+            <p class="hint">Envie um PDF ou selecione um comprovante para conferir os dados originais enquanto revisa e confirma o formulário Lattes.</p>
+            <div class="empty-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnViewerLoadSample">
+                ⚡ Carregar Exemplo (SEMIC UFMA)
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="btnViewerPickFile">
+                📂 Escolher PDF do Computador
+              </button>
+            </div>
+            <!-- Seleção rápida de comprovantes de teste -->
+            <div class="viewer-test-presets" id="viewerTestPresets">
+              <span class="test-presets-title">Comprovantes de teste para validação:</span>
+              <div class="preset-chips">
+                <button type="button" class="preset-chip" data-test-file="11_certificado_publicacao_artigo.pdf">Artigo / Periódico</button>
+                <button type="button" class="preset-chip" data-test-file="12_certificado_apresentacao_oral.pdf">Apresentação Oral</button>
+                <button type="button" class="preset-chip" data-test-file="14_certificado_even3_participacao.pdf">Even3 Participação</button>
+                <button type="button" class="preset-chip" data-test-file="10_termo_compromisso_estagio_tce.pdf">Termo Estágio (TCE)</button>
+                <button type="button" class="preset-chip" data-test-file="16_certificado_comissao_organizadora.pdf">Comissão Organizadora</button>
+                <button type="button" class="preset-chip" data-test-file="02_historico_escolar_graduacao.pdf">Histórico Graduação</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Iframe do PDF ou Imagem -->
+          <div id="docViewerFrameWrap" class="viewer-frame-wrap hidden">
+            <iframe id="docViewerIframe" class="viewer-iframe" title="Pré-visualização do Documento Comprobatório"></iframe>
+            <div id="docViewerImgWrap" class="viewer-img-wrap hidden">
+              <img id="docViewerImg" class="viewer-img" alt="Pré-visualização da evidência em imagem" />
+            </div>
+          </div>
+
+          <!-- Visualizador de Texto / DOI -->
+          <div id="docViewerTextWrap" class="viewer-text-wrap hidden">
+            <div class="viewer-text-head">
+              <span id="docViewerTextBadge" class="badge">Texto Extraído</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnCopyViewerText">📋 Copiar texto</button>
+            </div>
+            <pre id="docViewerTextContent" class="viewer-pre"></pre>
+          </div>
+        </div>
+
+        <div class="viewer-footer" id="docViewerFooter">
+          <small id="viewerFooterNote">💡 Dica: confira os dados do documento à direita e edite o formulário à esquerda antes de confirmar.</small>
+        </div>
+      </aside>
+    </div><!-- /.workspace-split -->
   <!-- Página de Avaliação & Diagnóstico Lattes -->
   <section id="avaliacao" class="card hidden" aria-labelledby="auditModalTitle">
       <div class="audit-modal-header">

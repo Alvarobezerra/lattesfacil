@@ -10,6 +10,7 @@ linguagem simples, e uma decisão:
 
 from __future__ import annotations
 
+import difflib
 import re
 import unicodedata
 from dataclasses import dataclass, field
@@ -38,33 +39,38 @@ ITENS: list[Item] = [
         (r"palavras-?chave|keywords", 2.5, "tem palavras-chave"),
         (r"\bresumo\b|\babstract\b", 1.5, "tem resumo"),
         (r"\banais\b|caderno de resumos|proceedings", 2.5, "cita anais ou caderno de resumos"),
+        # (uma regra só: somar regras positivas novas aumenta o teto e derruba a confiança de quem já pontuava)
+        (r"titulo dos anais|anais d[oe] .{0,60}(congresso|evento|simposio)|como citar.{0,200}\banais\b|\(anais\s*[-–]?\s*issn|anais\s*[-–]\s*issn|publicacao d[oe] (artigo|resumo|trabalho).{0,250}\banais\b", 3.0, "trabalho nos anais (título dos anais, como citar ou certificado de publicação)"),
         (r"congresso|simposio|seminario|jornada|encontro", 0.8, "cita um evento"),
         (r"\bintroducao\b|\bmetodologia\b|\bresultados\b", 0.7, "tem estrutura de resumo científico"),
         (r"certificamos|certificado|declaramos|declaro", -3.0, "parece certificado, não resumo"),
     ], True, "Resumo do SEMIC 2024"),
     Item("apresentacao", "Produções", "Apresentação de trabalho e palestra", "Apresentei um trabalho, pôster ou palestra", [
         (r"certificamos|certificado|declaramos", 1.2, "é um certificado/declaração"),
-        (r"apresentacao oral|apresentacao de poster|comunicacao oral|\bposter\b|formato de apresentacao|apresentado por|apresentou", 3.5, "diz que o trabalho foi apresentado"),
+        (r"apresentacao oral|apresentacao de poster|comunicacao oral|\bposter\b|formato de apresentacao|apresentado por|apresentou|foi (submetido e )?apresentado|apresentado no evento|atividade apresentacao de trabalho|apresentacao de trabalhos? cientificos?|modalidade .{0,3}banner|banner digital", 3.5, "diz que o trabalho foi apresentado"),
         (r"trabalho (cientifico )?intitulado|trabalho (cientifico )?(com o )?titulo", 2.0, "cita o título do trabalho"),
         (r"palestra|conferencia proferida|proferiu", 2.5, "cita palestra proferida"),
     ], True, "Certificado COIMAMA 2024"),
     Item("participacao_evento", "Eventos", "Participação em eventos, congressos, exposições, feiras e olimpíadas", "Participei de um evento como ouvinte", [
-        (r"participou (do|da|de|dos|das)|participacao (no|na|do|da)|na qualidade de (participante|ouvinte)|\bouvinte\b|\bparticipante\b", 3.0, "diz que participou do evento"),
-        (r"congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada|reuniao anual", 1.0, "cita um evento"),
+        (r"(?:participa[cç][aã]o|participou)(?:\s+(?:com\s+[êe]xito|com\s+sucesso|com\s+aproveitamento|ativamente|como\s+\w+|na\s+qualidade\s+de\s+\w+))?\s*(?:do|da|de|no|na|dos|das|em)?\s*(?:[\w.\-]{1,12}\s+){0,3}?(?:evento|congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|forum|reuniao|olimpiada)", 3.5, "cita participação expressa em evento"),
+        (r"participou(?:\s+(?:com\s+[êe]xito|com\s+sucesso|com\s+aproveitamento|ativamente))?\s+(?:do|da|de|no|na|dos|das|em)|participa[cç][aã]o\s+(?:no|na|do|da|em)|na qualidade de (participante|ouvinte)|\bouvinte\b|\bparticipante\b", 2.5, "diz que participou do evento"),
+        (r"evento|congresso|simposio|jornada|seminario|encontro|semana|workshop|feira|olimpiada|reuniao anual", 1.0, "cita um evento"),
         (r"carga horaria", 0.5, "tem carga horária"),
-        (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante|atestado de restauro|conservacao do painel", -2.0, "houve apresentação ou restauro, não só participação"),
-    ], False, "Certificado de participação no congresso"),
+        (r"comissao (organizadora|cientifica)|organizacao do evento|historico escolar|colacao de grau|denominacao das ucs", -3.0, "é organização de evento ou documento acadêmico, não só participação"),
+        (r"apresentou|apresentacao oral|\bposter\b|ministrou|palestrante|atestado de restauro|conservacao do painel|apresentacao de trabalhos? cientificos?|atividade apresentacao de trabalho|foi (submetido e )?apresentado|banner digital|participou,? como organizador", -2.0, "houve apresentação, organização ou restauro, não só participação"),
+    ], True, "Certificado de participação no congresso"),
     Item("organizacao_evento", "Eventos", "Organização de eventos, congressos, exposições, feiras e olimpíadas", "Organizei ou coordenei um evento", [
-        (r"(integrou|integrante|membro|atuou como|participou como|coordenou|presidiu|presidente)( d[ao]s?)?( a| da)? comissao (organizadora|cientifica)|organizou o|coordenou o (evento|congresso|simposio|seminario)|coordenacao geral", 4.0, "foi da comissão organizadora"),
+        (r"(integrou|integrante|membro|atuou como|participou como|participou|coordenou|presidiu|presidente)( d[ao]s?)?( a| da)? comissao (organizadora|cientifica)|(participou|atuou|atuacao),? como (organizador|organizadora|coordenador|coordenadora)(\(a\))?|organizou o|coordenou o (evento|congresso|simposio|seminario)|coordenacao geral|participou (com exito )?(da|na) organizacao d[oae]|organizacao do evento", 4.0, "foi da comissão organizadora"),
         (r"congresso|simposio|jornada|seminario|encontro|semana|workshop", 1.0, "cita um evento"),
     ], False, "Certificado da comissão organizadora"),
     Item("artigo", "Produções", "Artigos completos publicados em periódicos", "Publiquei um artigo em revista científica", [
-        (r"\bdoi\b|10\.\d{4,9}/", 3.0, "tem DOI"),
+        (r"\bdoi\b|10\.\d{4,9}/|certificado de publicacao|declaracao de publicacao|publicou o artigo|publicaram (no|o) (artigo)?|artigo intitulado", 4.0, "tem DOI ou é comprovante de publicação de artigo em periódico"),
         (r"\bjournal\b|\brevista\b|periodico", 1.0, "cita revista"),
         (r"\babstract\b|\bresumo\b", 0.8, "tem resumo"),
         (r"received|accepted|recebido em|aceito em|published", 1.2, "tem datas de recebimento/aceite"),
         (r"\bvolume\b|\bissn\b|\bvol\.", 1.2, "tem volume ou ISSN"),
-        (r"certificamos|certificado|declaramos", -2.5, "parece certificado, não artigo"),
+        (r"\(anais\s*[-–]?\s*issn|anais\s*[-–]\s*issn", -3.0, "é publicação em anais de evento, não em periódico"),
+        (r"(?<!de )certificamos que (apresentou|participou)|declaramos que (apresentou|participou)", -2.5, "parece certificado de apresentação/participação, não artigo"),
         (r"carta de aceite|aceito para publicacao|accepted for publication|we are pleased to inform", -3.0, "é carta de aceite, ainda não publicado"),
     ], True, "DOI ou PDF de artigo"),
     Item("artigo_aceito", "Produções", "Artigos aceitos para publicação", "Meu artigo foi aceito, mas ainda não saiu", [
@@ -97,7 +103,10 @@ ITENS: list[Item] = [
         (r"disserta[c]ao|\btese\b|\btcc\b|trabalho de conclusao|iniciacao cientifica|monografia|pibic", 2.0, "cita o tipo de trabalho orientado"),
         (r"em andamento|em curso|atualmente orienta", -3.0, "está em andamento"),
         (r"banca examinadora|membro da banca", -1.5, "fala de banca"),
-        (r"examinador(a)?|comissao de defesa|membros da banca", -3.0, "cita quem avaliou (examinador/comissão), não orientação"),
+        (r"historico (escolar|academico)|componentes curriculares cursados", -3.0, "é histórico: 'orientador' e 'trabalho de conclusão' aparecem só como disciplinas e docentes"),
+        # (a ata de defesa fica ambígua entre banca e orientação, por decisão do teste_classificador; esta regra nunca disparava no commit
+        # anterior por causa de um backspace no padrão, e o comportamento da ata é mantido)
+        (r"^(?!.*ata d[aeo]s? defesa).*(?:examinador(?:a|es)?\b|comissao de defesa|membros da banca)", -3.0, "cita quem avaliou (examinador/comissão), não orientação"),
         (r"certificamos|declaramos que .{0,60}(apresentou|participou)", -1.0, "parece certificado de evento"),
     ], True, "Declaração de orientação de TCC"),
     Item("orientacao_andamento", "Orientações", "Orientações e supervisões em andamento", "Oriento um trabalho que ainda não terminou", [
@@ -120,18 +129,29 @@ ITENS: list[Item] = [
         (r"carga horaria", 0.8, "tem carga horária"),
     ], False, "Certificado de ministrante"),
     Item("formacao_complementar", "Formação", "Formação complementar", "Fiz um curso (como aluno)", [
-        (r"concluiu o curso|participou do curso|cursou|carga horaria de \d+|certificado de conclusao do curso|curso de (extensao|aperfeicoamento|capacitacao|atualizacao)", 3.0, "diz que concluiu/participou do curso"),
+        (r"concluiu o curso|participou do curso|cursou|carga horaria de \d+|certificado de conclusao do curso|curso de (extensao|capacitacao|atualizacao|aperfeicoamento)", 3.0, "diz que concluiu/participou do curso"),
         (r"carga horaria", 1.5, "tem carga horária"),
+        (r"comissao (organizadora|cientifica)|organizacao do evento", -3.5, "é organização de evento, não curso"),
+        (r"curso livre|formacao continuada|participou e concluiu|certificado do curso de", 3.0, "diz que concluiu curso livre/formação continuada"),
+        (r"pos-graduacao lato sensu|especializacao lato sensu|nivel de pos-graduacao|titulo de especialista|especializacao\s*lato", -4.0, "é pós-graduação formal (titulação), não curso complementar"),
         (r"ministrou|ministrante|palestrante|instrutor", -3.5, "ele ministrou, não cursou"),
         (r"congresso|simposio|jornada", -1.0, "parece evento, não curso"),
+        (r"(?:participa[cç][aã]o|participou)\s+(?:no|na|em|do|da|de)?\s*(?:[\w.\-]{1,12}\s+){0,3}?(?:evento|congresso|reuniao|simposio|jornada|encontro|semana|workshop|feira|forum)", -3.5, "é participação em evento, não curso"),
         (r"participacao (no|na|em|do|da)\b.{0,80}(congresso|reuniao|simposio|jornada|encontro|semana|workshop|feira)", -3.5, "é participação em evento, não curso"),
+        (r"trabalho (cientifico )?intitulado|foi (submetido e )?apresentado|apresentacao de trabalhos? cientificos?|banner digital", -3.5, "é apresentação de trabalho, não curso"),
+        (r"\bmonitoria\b|\bmonitor(a)? (bolsista|voluntari[oa])|\bestagio\b|\bestagiari[oa]\b", -3.5, "é monitoria/estágio (atuação), não curso"),
+        (r"participou como (1o |primeiro |vice-)?(diretor|diretora|presidente|coordenador|coordenadora|tesoureiro|secretario|secretaria)\b", -3.5, "é cargo em liga/projeto/grupo, não curso"),
     ], False, "Certificado de curso de extensão"),
-    Item("formacao_academica", "Formação", "Formação acadêmica/titulação", "Concluí uma graduação, especialização, mestrado ou doutorado", [
-        (r"\bdiploma\b|colacao de grau|conferiu o grau|historico escolar|grau de (mestre|doutor|bacharel|especialista|licenciado)|certificado de (conclusao|especializacao|pos-graduacao)", 4.0, "é diploma/histórico/certificado de titulação"),
-        (r"bacharel|licenciatura|especializacao|mestrado|doutorado", 1.0, "cita o nível de formação"),
+    Item("formacao_academica", "Formação", "Formação acadêmica/titulação", "Concluí ou curso graduação, especialização, mestrado ou doutorado", [
+        (r"\bdiploma\b|colacao de grau|conferiu o grau|historico (escolar|academico)|componentes curriculares cursados|grau de (mestre|doutor|bacharel|especialista|licenciado)|certificado de (conclusao|especializacao|pos-graduacao)|declaracao (de|da) matricula|aluno(?:\([a-z]\))? vinculado(?:\([a-z]\))?|declaramos.{0,100}aluno|matriculad[oa] no curso|vinculad[oa] a esta universidade|no curso de.{0,60}lato sensu", 4.5, "é diploma, certificado de titulação/aperfeiçoamento ou declaração de matrícula"),
+        (r"confere .{0,80}titulo de (especialista|mestre|doutor|bacharel|licenciado)|titulo de especialista|pos-graduacao lato sensu|certificado de conclusao do curso de pos", 4.5, "confere título de especialista/mestre/doutor ou pós-graduação"),
+        (r"nivel do curso\s*:?\s*(especializacao|mestrado|doutorado|graduacao)|identificacao da instituicao/?\s*curso", 4.0, "dados do curso com nível de titulação (certificado de pós/graduação)"),
+        (r"bacharel|licenciatura|especializacao|mestrado|doutorado|lato sensu|stricto sensu|pos-graduacao", 1.5, "cita o nível de formação"),
     ], False, "Diploma de graduação"),
     Item("atuacao_profissional", "Atuação", "Atuação profissional", "Trabalho ou trabalhei em uma instituição", [
-        (r"declaracao de vinculo|portaria de nomeacao|contrato de trabalho|admissao|exerce o cargo|lotado|matricula funcional|vinculo empregaticio|servidor(a)? (publico|efetivo)", 3.5, "comprova vínculo de trabalho"),
+        (r"declaracao de vinculo|portaria de nomeacao|contrato de trabalho|admissao|exerce o cargo|lotado|matricula funcional|vinculo empregaticio|servidor(a)? (publico|efetivo)|termo de compromisso de estagio|estagio (curricular )?nao obrigatorio|\bestagiari[oa]\b|selecao para monitoria|\bmonitor(a)? (bolsista|voluntari[oa])|\bmonitoria\b", 3.5, "comprova vínculo, estágio ou monitoria (registrados na atuação profissional)"),
+        (r"participou como (1o |primeiro |vice-)?(diretor|diretora|presidente|coordenador|coordenadora|tesoureiro|secretario|secretaria)\b.{0,100}\b(liga|projeto|nucleo|grupo|laboratorio)\b|diretor(a)? cientifico", 3.0, "diz que exerceu cargo em liga/projeto/grupo"),
+        (r"faz parte do (nosso )?quadro (de )?pessoal|exercendo (atualmente )?a funcao de|presta servicos? (a|nesta|neste)", 3.5, "declara que integra o quadro de pessoal/exerce função"),
         (r"\bcargo\b|\bfuncao\b|regime de trabalho|carga horaria semanal", 1.2, "cita cargo/função"),
     ], False, "Declaração de vínculo"),
     Item("revisor_periodico", "Atuação", "Revisor de periódico", "Fui revisor/parecerista de uma revista", [
@@ -150,6 +170,7 @@ ITENS: list[Item] = [
     ], True, "Declaração de pós-doutorado"),
     Item("corpo_editorial", "Atuação", "Membro de corpo editorial", "Sou do corpo editorial de uma revista", [
         (r"corpo editorial|editor(a)? associad[oa]|editor(a)?-chefe|editor(a)? chefe|editorial board|conselho editorial", 4.5, "cita corpo/conselho editorial"),
+        (r"certificado de publicacao|declaracao de publicacao|publicaram no|publicaram o artigo|o artigo intitulado|artigo intitulado", -5.0, "é certificado de publicação assinado pelo editor, não atuação como editor"),
     ], False, "Portaria de editor"),
     Item("patente", "Patentes e Registros", "Patente", "Depositei ou obtive uma patente", [
         (r"carta patente|pedido de patente|\bpatente\b|\binpi\b|modelo de utilidade|privilegio de invencao", 4.0, "cita patente/INPI"),
@@ -186,7 +207,9 @@ ITENS: list[Item] = [
         (r"licenca[- ](maternidade|paternidade)|licenca[- ]adocao|adocao", 4.5, "cita licença maternidade/paternidade/adoção"),
     ], False, "Portaria de licença"),
     Item("relatorio_tecnico", "Produções", "Trabalhos técnicos", "Fiz um parecer, relatório ou consultoria", [
-        (r"relatorio tecnico|parecer tecnico|laudo|consultoria|assessoria", 3.5, "cita relatório/parecer/consultoria"),
+        (r"relatorio tecnico|parecer tecnico|\blaudo\b", 3.5, "cita relatório/parecer/laudo"),
+        (r"consultoria|assessoria", 1.5, "cita consultoria/assessoria"),  # sozinha não prova: aparece em nomes de disciplinas e cargos
+        (r"portaria (reitoria )?n|resultado da selecao|relacao de (alunos|aprovados)|\bmonitor(a)?\b", -3.0, "é portaria/lista de seleção, não trabalho técnico"),
         (r"declaracao de servico tecnico|analise fisico-quimica", -3.0, "é serviço/trabalho técnico"),
     ], False, "Parecer técnico"),
     Item("trabalho_tecnico", "Produções", "Demais trabalhos técnicos", "Realizei serviço ou análise técnica com laudo", [
@@ -256,19 +279,23 @@ ITENS: list[Item] = [
         (r"informacao relevante complementar|outras informacoes relevantes", 4.5, "cita informação relevante complementar"),
     ], True, "Declaração de informação relevante"),
     Item("citacao_scopus", "Citações", "Citações — Scopus", "Atualizar indicadores de citações da base Scopus", [
-        (r"\bscopus\b", 4.5, "cita base Scopus"),
+        (r"\bscopus\b", 1.5, "cita base Scopus"),
+        (r"(?:citacoes|indice h|h-index|times cited).{0,300}\bscopus\b|\bscopus\b.{0,300}(?:citacoes|indice h|h-index|times cited)", 3.5, "base Scopus junto de indicadores de citações"),
         (r"citacoes|indice h|h-index", 1.0, "cita indicadores de citações"),
     ], True, "Perfil de autor no Scopus"),
     Item("citacao_web_of_science", "Citações", "Citações — Web of Science", "Atualizar indicadores de citações da Web of Science", [
-        (r"web of science|researcher profile|researcherid", 4.5, "cita base Web of Science"),
+        (r"web of science|researcher profile|researcherid", 1.5, "cita base Web of Science"),
+        (r"(?:times cited|citacoes|h-index).{0,300}(?:web of science|researcherid)|(?:web of science|researcherid).{0,300}(?:times cited|citacoes|h-index)", 3.5, "Web of Science junto de indicadores de citações"),
         (r"times cited|citacoes|h-index", 1.0, "cita indicadores de citações"),
     ], True, "Perfil de autor na Web of Science"),
     Item("citacao_google_scholar", "Citações", "Citações — Google Scholar", "Atualizar indicadores de citações do Google Acadêmico", [
-        (r"google academico|google scholar", 4.5, "cita Google Acadêmico/Scholar"),
+        (r"google academico|google scholar", 1.5, "cita Google Acadêmico/Scholar"),
+        (r"(?:citacoes|indice h|indice i10).{0,300}(?:google academico|google scholar)|(?:google academico|google scholar).{0,300}(?:citacoes|indice h|indice i10)", 3.5, "Google Acadêmico junto de indicadores de citações"),
         (r"citacoes|indice h|indice i10", 1.0, "cita indicadores de citações"),
     ], True, "Perfil no Google Acadêmico"),
     Item("citacao_scielo", "Citações", "Citações — SciELO", "Atualizar indicadores de citações da base SciELO", [
-        (r"\bscielo\b", 4.5, "cita base SciELO"),
+        (r"\bscielo\b", 1.5, "cita base SciELO"),  # só citar a base não basta: artigos listam SciELO como fonte de busca
+        (r"(?:citacoes|indice h|h-index|times cited).{0,300}\bscielo\b|\bscielo\b.{0,300}(?:citacoes|indice h|h-index|times cited)", 3.5, "base SciELO junto de indicadores de citações"),
         (r"citacoes|documentos", 1.0, "cita indicadores de citações"),
     ], True, "Indicadores de citações SciELO"),
     Item("citacao_outra_base", "Citações", "Citações — Outra base", "Atualizar indicadores de citações de outra base bibliográfica", [
@@ -293,9 +320,32 @@ def _pontuar(item: Item, texto: str) -> tuple[float, list[str], float]:
     return pontos, motivos if pontos > 0 else [], maximo
 
 
+TITULOS_DE_DOCUMENTO = ("historico academico", "historico escolar", "certificado de conclusao", "declaracao de vinculo", "ata de defesa")
+
+
+def _titulos_aproximados(t: str) -> str:
+    """Títulos de documento muito discriminativos, achados por aproximação nas primeiras linhas (OCR de documento antigo/torto troca letras).
+
+    Devolve os títulos canônicos encontrados para serem acrescentados ao texto antes da pontuação. Só olha o começo e exige 80% de semelhança.
+    """
+    base = re.sub(r"[^a-z0-9]", "", t[:600])
+    achados = []
+    for titulo in TITULOS_DE_DOCUMENTO:
+        chave = titulo.replace(" ", "")
+        if chave in base:
+            continue  # já está escrito certo: a regra normal pega
+        n = len(chave)
+        for i in range(0, max(1, len(base) - n + 1)):
+            if difflib.SequenceMatcher(None, chave, base[i:i + n]).ratio() >= (0.75 if n >= 15 else 0.85):  # frase longa tolera mais erro de OCR
+                achados.append(titulo)
+                break
+    return " ".join(achados)
+
+
 def classificar(texto: str, nome_arquivo: str = "", paginas: int = 0, resumos_no_pdf: int = 0) -> dict[str, Any]:
     """Classifica o texto de uma evidência. `resumos_no_pdf` = quantas vezes 'Keywords:' aparece (detecta caderno)."""
     t = norm(texto)
+    t = (t + " " + _titulos_aproximados(t)).strip()  # título do documento lido com erro de OCR ("H lst6rico Acad6m !co")
     nome = norm(nome_arquivo)
     if len(t.strip()) < 40:
         return {"decisao": "escolher", "motivo_decisao": "não consegui ler texto no arquivo (pode ser imagem escaneada)",

@@ -914,7 +914,10 @@
   "variantes": 1,
   "spec_campos": 37,
   "spec_obrigatorios": 15,
-  "spec_grades": [],
+  "spec_grades": [
+   "contatos",
+   "redes_sociais"
+  ],
   "catalogo_truncado": [],
   "claude_captura_variantes": 1,
   "claude_campos": 37,
@@ -942,8 +945,8 @@
    "preenchidos": 33,
    "total": 33,
    "vazios": [],
-   "grades_spec": 0,
-   "grades_carga": 0
+   "grades_spec": 2,
+   "grades_carga": 2
   }
  },
  {
@@ -1117,7 +1120,9 @@
   "variantes": 1,
   "spec_campos": 30,
   "spec_obrigatorios": 14,
-  "spec_grades": [],
+  "spec_grades": [
+   "nomes_citacao"
+  ],
   "catalogo_truncado": [],
   "claude_captura_variantes": 1,
   "claude_campos": 28,
@@ -1146,8 +1151,8 @@
    "preenchidos": 20,
    "total": 20,
    "vazios": [],
-   "grades_spec": 0,
-   "grades_carga": 0
+   "grades_spec": 1,
+   "grades_carga": 1
   }
  },
  {

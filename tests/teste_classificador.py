@@ -40,7 +40,9 @@ SINTETICOS = [
     ("Palestrante", "Certificamos que Fulano de Tal proferiu a palestra Segurança do Paciente no IX Simpósio de Enfermagem.", "apresentacao"),
     ("Coorientação", "Declaramos que a Profa. Maria Lima atuou como coorientadora da dissertação de mestrado de Pedro Alves, defendida em 2022.", "orientacao_concluida"),
     ("Ata de defesa (ambígua)", "ATA DE DEFESA DE DISSERTAÇÃO. Realizou-se a defesa da dissertação de mestrado de Maria Souza perante a banca examinadora composta por Prof. A (orientador), Prof. B e Prof. C. A candidata foi aprovada.", "ambiguo:banca,orientacao_concluida"),
-    ("Monitoria (sem item claro)", "Certificado de monitoria da disciplina de Anatomia Humana, semestre 2023.1, 60 horas.", "escolher"),
+    # Decisão do usuário (25/11/2026): monitoria é registrada na Atuação profissional do Lattes (antes: "sem item claro")
+    ("Monitoria (atuação profissional)", "Certificado de monitoria da disciplina de Anatomia Humana, semestre 2023.1, 60 horas.", "atuacao_profissional"),
+    ("Portaria de seleção para monitoria", "PORTARIA REITORIA N.º 026/2024 PUBLICA O RESULTADO DA SELEÇÃO PARA MONITORIA NO SEMESTRE DE 2024.1. Disciplina: Anatomia. Aluna: Fulana de Tal - Matrícula: 2111 - Monitora Voluntária. Disciplina: Consultoria Empresarial. Aluno: Beltrano - Matrícula: 2222 - Monitor Bolsista", "atuacao_profissional"),
     ("Sem relação", "Lista de compras: arroz, feijão, macarrão, sabão em pó e detergente. Comprar na sexta.", "escolher"),
     ("Texto vazio (imagem escaneada)", "", "escolher"),
 ]

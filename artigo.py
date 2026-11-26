@@ -11,6 +11,7 @@ import requests
 from caderno import LATTES_AREAS, name_matches, normalize
 from certificado import title_name
 from extractor import _clean_line, to_citation_name
+from itens.leitura_comum import ano_de_publicacao, corrigir_doi_ocr, titulo_de_pagina, titulo_formatado, titulo_provavel
 
 DOI_RE = re.compile(r"\b(10\.\d{4,9}/[-._;()/:A-Za-z0-9]+)", re.I)
 DOI_ONLY_RE = re.compile(r"^\s*(?:doi:\s*|https?://(?:dx\.)?doi\.org/)?(10\.\d{4,9}/\S+?)\s*[.,;]?\s*$", re.I)
@@ -125,7 +126,8 @@ def is_article(text: str) -> bool:
     low = normalize(head)
     sinais = sum(bool(re.search(p, low)) for p in (
         r"\babstract\b|\bresumo\b", r"keywords?|palavras[- ]chave", r"received|accepted|recebido|aceito",
-        r"\bjournal\b|\brevista\b|\bperiodico\b", r"\bintroduction\b|\bintroducao\b"))
+        r"\bjournal\b|\brevista\b|\bperiodico\b", r"\bintroduction\b|\bintroducao\b",
+        r"certificado de publicacao|declaracao de publicacao|publicaram no|publicou o artigo|artigo intitulado"))
     return sinais >= 2
 
 
@@ -151,10 +153,15 @@ def dados_bibliograficos(text: str) -> dict[str, str]:
     return out
 
 
+CABECALHO_RE = re.compile(
+    r"(?i)(?<!\w)(issn|e-issn|volume|issue|pages?|p[aá]ginas|doi\.org|https?://|original research article|artigo original)(?!\w)|^comprovante(?!\w)")
+
+
 def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
     """Monta o registro do artigo. Dados do Crossref (via DOI) têm prioridade; o PDF completa palavras-chave e lacunas."""
     rec = new_artigo()
     notes: list[str] = rec["extraction_notes"]
+    text = corrigir_doi_ocr(text)  # DOI quebrado na troca de linha, com espaço depois da barra ou com prefixo estragado pelo OCR
     doi = clean_doi(doi or (DOI_RE.search(text[:8000]).group(1) if DOI_RE.search(text[:8000]) else ""))
     rec["doi"] = doi
     msg = fetch_crossref(doi) if doi else None
@@ -171,17 +178,23 @@ def parse_artigo(text: str, usuario: str = "", doi: str = "") -> dict[str, Any]:
         rec["palavras_chave"] = pdf_keywords(text)
         if not rec["titulo"]:
             lines = [_clean_line(ln) for ln in text.splitlines() if _clean_line(ln)]
+            # Faixa de cabeçalho do periódico (selo "COMPROVANTE", nome da revista, volume/ISSN/DOI, tipo do artigo)
+            # vem antes do título: começa depois da última linha de metadados dentro das primeiras linhas.
+            ultima_meta = max((i for i, ln in enumerate(lines[:8]) if CABECALHO_RE.search(ln)), default=-1)
+            if ultima_meta >= 0 and ultima_meta + 1 < len(lines):
+                lines = lines[ultima_meta + 1:]
             head: list[str] = []
             for ln in lines[:8]:
                 if re.match(r"(?i)^(abstract|resumo|keywords?|palavras)", ln) or (head and re.search(r"\d\s*,|\w\d\b", ln)):
                     break
                 head.append(ln)
-            rec["titulo"] = " ".join(head[:3])
+            pagina = titulo_de_pagina(text)  # página de artigo na web: título depois de "ARTIGO DE REVISÃO"/"Published..."
+            rec["titulo"] = titulo_formatado(pagina) if pagina else " ".join(head[:3])
+            if len(rec["titulo"].split()) < 4:  # primeira linha era a faixa/logo da revista ("Interference"): procura a linha com cara de título
+                rec["titulo"] = titulo_provavel(text) or rec["titulo"]
             notes.append("Título tirado do PDF sem DOI; confira.")
         if not rec["ano"]:
-            years = re.findall(r"\b(19[89]\d|20[0-3]\d)\b", text[:3000])
-            if years:
-                rec["ano"] = years[0]
+            rec["ano"] = ano_de_publicacao(text[:3000])  # ignora faixas de anos e Qualis ("2017-2020")
     if text.strip() and not doi_only(text):
         achados = dados_bibliograficos(text)
         preenchidos = [k for k, v in achados.items() if v and not rec.get(k)]

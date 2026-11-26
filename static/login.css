@@ -23,6 +23,10 @@ body { margin: 0; background: #f4f8fb; color: #0b192c; font: 16px/1.5 Inter, Ari
 .login-panel button:hover { background: #00687e; }
 .login-panel :focus-visible { outline: 3px solid #0089a5; outline-offset: 3px; }
 .login-panel .erro { margin: 0; color: #9b2c25; }
+.login-tabs { display: flex; gap: 6px; margin-bottom: 14px; background: #e6eef5; padding: 4px; border-radius: 8px; }
+.login-tab-btn { background: none; border: 0; padding: 8px 12px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 6px; flex: 1; text-align: center; font-size: 14px; margin: 0 !important; width: auto !important; }
+.login-tab-btn.active { background: white; color: #007d96; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.login-hint { font-size: 13px; color: #52637a; margin-top: -4px; margin-bottom: 10px; line-height: 1.35; }
 @media (max-width: 700px) {
   .login-layout { grid-template-columns: minmax(0, 1fr); }
   .login-panel { grid-row: 1; }

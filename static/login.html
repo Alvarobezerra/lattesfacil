@@ -15,21 +15,79 @@
       <img class="login-mascot" src="/media/login-mascote.webp" alt="Mascote do NautiScience com um livro luminoso">
     </section>
     <section class="login-panel" aria-labelledby="login-title">
-      <form method="post" action="/login">
+      <form method="post" action="/login" id="loginForm">
         <h1 id="login-title">Entre no seu espaço</h1>
-        <label for="perfil">Perfil</label>
-        <select id="perfil" name="usuario" required>
-          <option value="" disabled selected>Selecione seu perfil</option>
-          <option value="alvaro">Álvaro Antônio Bezerra dos Santos</option>
-          <option value="aramys">Aramys Silva dos Reis</option>
-        </select>
+        
+        <div class="login-tabs" role="tablist" aria-label="Modo de acesso">
+          <button type="button" class="login-tab-btn active" id="tabEntrar" role="tab" aria-selected="true">Já tenho perfil</button>
+          <button type="button" class="login-tab-btn" id="tabNovo" role="tab" aria-selected="false">Primeiro acesso</button>
+        </div>
+
+        <input type="hidden" name="modo" id="modoInput" value="existente">
+
+        <div id="campoExistente">
+          <label for="perfil">Perfil</label>
+          <select id="perfil" name="usuario">
+            <option value="" disabled selected>Selecione seu perfil</option>
+%OPCOES_USUARIOS%
+          </select>
+        </div>
+
+        <div id="camposNovo" hidden>
+          <label for="novoNome">Nome completo</label>
+          <input id="novoNome" type="text" name="novo_nome" placeholder="Ex: Dra. Maria Silva" autocomplete="name">
+          <p class="login-hint">Identificação para seus relatórios e visão geral no NautiScience.</p>
+
+          <label for="novoOrcid">ORCID (opcional)</label>
+          <input id="novoOrcid" type="text" name="novo_orcid" placeholder="0000-0000-0000-0000" pattern="\d{4}-\d{4}-\d{4}-\d{3}[\dXx]">
+          <p class="login-hint">Permite localizar suas publicações e citações mundiais automaticamente.</p>
+        </div>
+
         <label for="codigo">Código de acesso</label>
         <input id="codigo" type="password" name="codigo" autocomplete="current-password" placeholder="Digite seu código" required>
         %ERRO%
         <input type="hidden" name="transicao" value="1">
-        <button type="submit">Entrar</button>
+        <button type="submit" id="btnSubmit">Entrar</button>
       </form>
     </section>
   </main>
+  <script>
+    (() => {
+      const tabEntrar = document.getElementById('tabEntrar');
+      const tabNovo = document.getElementById('tabNovo');
+      const campoExistente = document.getElementById('campoExistente');
+      const camposNovo = document.getElementById('camposNovo');
+      const modoInput = document.getElementById('modoInput');
+      const perfilSelect = document.getElementById('perfil');
+      const novoNomeInput = document.getElementById('novoNome');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      function setModo(novo) {
+        if (novo) {
+          tabNovo.classList.add('active'); tabNovo.setAttribute('aria-selected', 'true');
+          tabEntrar.classList.remove('active'); tabEntrar.setAttribute('aria-selected', 'false');
+          campoExistente.hidden = true;
+          camposNovo.hidden = false;
+          modoInput.value = 'novo';
+          perfilSelect.removeAttribute('required');
+          novoNomeInput.setAttribute('required', 'required');
+          btnSubmit.textContent = 'Iniciar meu espaço';
+        } else {
+          tabEntrar.classList.add('active'); tabEntrar.setAttribute('aria-selected', 'true');
+          tabNovo.classList.remove('active'); tabNovo.setAttribute('aria-selected', 'false');
+          campoExistente.hidden = false;
+          camposNovo.hidden = true;
+          modoInput.value = 'existente';
+          perfilSelect.setAttribute('required', 'required');
+          novoNomeInput.removeAttribute('required');
+          btnSubmit.textContent = 'Entrar';
+        }
+      }
+
+      tabEntrar.addEventListener('click', () => setModo(false));
+      tabNovo.addEventListener('click', () => setModo(true));
+      setModo(false);
+    })();
+  </script>
 </body>
 </html>

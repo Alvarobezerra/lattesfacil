@@ -14,6 +14,7 @@ from caderno import name_matches, normalize
 from certificado import EVENT_WORDS, sentence_title
 from extractor import _clean_line
 from . import especificacao
+from .leitura_comum import par_de_datas, sem_referencias_legais, titulo_de_pagina, titulo_formatado, titulo_provavel, valor_do_rotulo
 from .variantes import sugerir_variante
 
 TipoLeitor = Callable[[str, str], tuple[dict[str, Any], list[str]]]
@@ -23,20 +24,48 @@ NATUREZA_EVENTO = [("congresso", "Congresso"), ("seminario", "Seminário"), ("si
                    ("exposicao", "Exposição"), ("reuniao", "Encontro")]
 
 
+def format_event_name(nome: str) -> str:
+    """Padroniza o nome do evento em Title Case quando estiver em CAIXA ALTA (ex.: I CONGRESSO NACIONAL -> I Congresso Nacional)."""
+    if not nome or not nome.isupper():
+        return nome
+    words = nome.split()
+    lowers = {"de", "da", "do", "das", "dos", "e", "em", "na", "no", "com", "para"}
+    res = []
+    for i, w in enumerate(words):
+        w_clean = re.sub(r"[,;.:]+$", "", w)
+        punct = w[len(w_clean):]
+        if re.fullmatch(r"[IVXLCDM]+", w_clean, re.I):
+            res.append(w_clean.upper() + punct)
+        elif w_clean.lower() in lowers and i > 0:
+            res.append(w_clean.lower() + punct)
+        else:
+            res.append(w_clean.capitalize() + punct)
+    return " ".join(res)
+
+
 def _evento(flat: str) -> dict[str, str]:
     out: dict[str, str] = {}
-    m = re.search(r"participa[cç][aã]o\s+(?:no|na|em|do|da)\s+(.+?)(?:,\s*realizad|\s+realizad|,\s*no per[ií]odo|$)", flat, re.I)
+    pat = (r"(?:participa[cç][aã]o|participou)(?:\s+(?:com\s+[êe]xito|com\s+sucesso|com\s+aproveitamento|ativamente|como\s+\w+|na\s+qualidade\s+de\s+\w+))?"
+           # "participou, como organizador(a), com êxito o Congresso X": papel entre vírgulas, êxito e artigo antes do nome do evento
+           r"(?:,?\s*como\s+[^,]{2,60}?,)?(?:\s*com\s+[êe]xito)?\s*(?:do|da|de|no|na|dos|das|em|o|a)?\s*"
+           # função na organização ("participou da Comissão Organizadora da X", "na organização do evento com êxito da X"): o nome vem depois
+           r"(?:(?:comiss[aã]o\s+(?:organizadora|cient[ií]fica|executiva)|organiza[cç][aã]o|coordena[cç][aã]o)(?:\s+d[oae]s?\s+evento)?(?:\s+com\s+[êe]xito)?\s+d[oae]s?\s+)?"
+           r"(?:evento\s+)?(.+?)"
+           r"(?:,\s*em\s+[A-ZÀ-Ý][^,]{2,40}?[-–/]\s*[A-Z]{2}\b|\s+entre\s+\d|,\s*realizad|\s+realizad|,\s*ocorrido|\s+ocorrido|,\s*no per[ií]odo|\s+no per[ií]odo|,\s*com carga|\s+com carga|,\s*contabilizando|\s+contabilizando|\s+promovid|\s+organizado\b|\s+exercendo|$)")
+    m = re.search(pat, flat, re.I)
     if m:
         full = _clean_line(m.group(1))
         primeiro = re.match(r"(.+?\([^)]{2,15}\))(?:,|\s|$)", full)
-        out["nome"] = (primeiro.group(1) if primeiro else full)[:255]
-        out["nome_completo"] = full[:400]
+        raw_name = (primeiro.group(1) if primeiro else full)[:255]
+        raw_name = re.sub(r"(?<=\w)-\s+(?=\w)", "-", raw_name)  # "Nordeste- Norte": hífen de composto quebrado na linha do PDF
+        out["nome"] = format_event_name(raw_name)
+        out["nome_completo"] = format_event_name(full)[:400]
     if "nome" not in out:
-        m = re.search(rf"\b(?:no|na|do|da|em)\s+((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;]*?\([A-Z0-9]{{2,12}}\))", flat) or \
-            re.search(rf"\b(?:no|na|do|da|em)\s+((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;.]{{5,140}})", flat) or \
-            re.search(rf"\b(?:no|na|do|da|em)\s+((?:{EVENT_WORDS})\s+[^,;.]{{5,140}})", flat)
+        m = re.search(rf"\b(?:no|na|do|da|em|de)?\s*(?:evento\s+)?((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;]*?\([A-Z0-9]{{2,12}}\))", flat) or \
+            re.search(rf"\b(?:no|na|do|da|em|de)?\s*(?:evento\s+)?((?:[IVXLCDM]+|\d+[ºª°]?)\s+(?:{EVENT_WORDS})[^,;.]{{5,140}})", flat) or \
+            re.search(rf"\b(?:no|na|do|da|em|de)?\s*(?:evento\s+)?((?:{EVENT_WORDS})\s+[^,;.]{{5,140}})", flat)
         if m:
-            out["nome"] = _clean_line(m.group(1))[:255]
+            out["nome"] = format_event_name(_clean_line(m.group(1))[:255])
     if out.get("nome"):
         ev = normalize(out["nome"])
         out["natureza"] = next((n for k, n in NATUREZA_EVENTO if k in ev), "Outra")
@@ -48,10 +77,20 @@ def _evento(flat: str) -> dict[str, str]:
         re.search(r"\b(20[0-3]\d|199\d)\b", flat)
     if m:
         out["ano"] = m.group(1)
-    m = re.search(r"cidade de\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}?)\s*[-–/]\s*([A-Z]{2})\b", flat) or \
+    m = re.search(r"cidade de\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}?)\s*[-–/]\s*([A-Z]{2})\b", flat, re.I) or \
         re.search(r"\bem\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' ]{2,40}?)\s*[-–/]\s*([A-Z]{2})\b", flat)
     if m:
-        out["cidade"] = f"{m.group(1).strip()} - {m.group(2)}"
+        cidade_nome = m.group(1).strip()
+        cidade_formatada = cidade_nome.title() if cidade_nome.isupper() else cidade_nome
+        out["cidade"] = f"{cidade_formatada} - {m.group(2).upper()}"
+    if "cidade" not in out:
+        mc = re.search(r"(?:Faculdade|Universidade|Campus|Cidade|Município)\s+(?:[A-Za-zÀ-ÿ'\s-]{1,30}?\s+)?(Santo\s+[A-Za-zÀ-ÿ]+|[A-ZÀ-Ý][a-zà-ÿ]+(?:\s+[A-ZÀ-Ý][a-zà-ÿ]+)?)\s*[-–/]\s*([A-Z]{2})\b", flat) or \
+             re.search(r"\b(Santo\s+Ângelo|Santo\s+Angelo)\b", flat, re.I)
+        if mc:
+            if mc.lastindex and mc.lastindex >= 2:
+                out["cidade"] = f"{mc.group(1).strip()} - {mc.group(2)}"
+            else:
+                out["cidade"] = mc.group(1).strip()
     m = re.search(r"realizad[oa]\s+(?:pel[ao]s?|por)\s+(.+?)(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s)", flat, re.I)
     if m:
         out["promotora"] = _clean_line(m.group(1))[:255]
@@ -62,6 +101,10 @@ def _carga(flat: str) -> tuple[str, str]:
     m = re.search(r"carga hor[aá]ria(?: total)?(?: de|:)?\s*(\d{1,4})\s*(horas?|h\b|dias?|semanas?)?", flat, re.I)
     if not m:
         m = re.search(r"(\d{1,4})\s*(horas?|h)\s*(?:de carga|/aula|-aula|aula)", flat, re.I)
+    if not m:  # "num total de 200 horas", "totalizando 100h", "perfazendo 192 horas"
+        m = re.search(r"(?:total de|totalizando|perfazendo(?: um total de)?)\s*(\d{1,4})\s*(horas?|h\b)", flat, re.I)
+    if not m:
+        m = re.search(r"dura[cç][aã]o\s+(?:total\s+)?de\s+(\d{1,4})\s*(h)(?![a-z])", flat, re.I)  # "com duração de 20h0m"
     if not m:
         return "", ""
     un = (m.group(2) or "horas").lower()
@@ -84,6 +127,8 @@ def ler_participacao_evento(texto: str, usuario: str):
         "f_classif": ev.get("classif", ""), "f_cidade": ev.get("cidade", ""),
         "F_FORMA": "Convidado" if re.search(r"convidad[oa]|palestrante|conferencista", low) else
         "Participante" if re.search(r"na qualidade de participante|participante\b", low) else "Ouvinte",
+        "f_pais": "Brasil",
+        "F_STA_DIVULGACAO_CIENTIFICA": "não",
     }
     n = []
     if not ev.get("nome"):
@@ -131,8 +176,9 @@ def ler_formacao_complementar(texto: str, usuario: str):
     flat = _clean_line(texto)
     low = normalize(flat)
     carga, _ = _carga(flat)
-    datas = _datas(flat)
-    ano_ini = datas[0][2] if datas else _ano_unico(flat)
+    flat_dt = sem_referencias_legais(flat)  # "Decreto 5.154, de 2004", "Parecer 64/2004" no rodapé não são o ano do curso
+    datas = _datas(flat_dt)
+    ano_ini = datas[0][2] if datas else _ano_unico(flat_dt)
     ano_fim = datas[-1][2] if len(datas) > 1 else ano_ini
     m = re.search(r"(?:realizado|promovido|oferecido|ministrado)\s+(?:pel[ao]s?|por)\s+(.+?)(?:,|\s+no per|\s+com\s+carga|\.|$)", flat, re.I)
     v: dict[str, Any] = {
@@ -247,7 +293,7 @@ def ler_projeto(texto: str, usuario: str):
             "Projeto de desenvolvimento tecnológico" if re.search(r"desenvolvimento tecnologico", low) else "Outros tipos de projetos")
     natureza = {"Projeto de extensão": "Extensão", "Projetos de pesquisa": "Pesquisa", "Projeto de ensino": "Ensino",
                 "Projeto de desenvolvimento tecnológico": "Desenvolvimento"}.get(tipo, "Outra")
-    m = re.search(r"intitulad[oa]\s+[\"“]?(.+?)[\"”]?,\s*(?:coordenad|sob a coordena|desenvolvid|executad|de responsabilidade)", flat, re.I) or \
+    m = re.search(r"intitulad[oa]\s*[\"“”]?(.+?)[\"“”]?\s*,\s*(?:coordenad|sob a coordena|desenvolvid|executad|de responsabilidade)", flat, re.I) or \
         re.search(r"projeto\s+de\s+(?:pesquisa|extens[ãa]o|ensino|desenvolvimento(?:\s+tecnol[óo]gico)?)\s+[\"“”]([^\"“”]{3,200})[\"“”]", flat, re.I)
     titulo = sentence_title(m.group(1).strip(" \"“”.")) if m else ""
     ano = ""
@@ -366,7 +412,17 @@ def ler_patente(texto: str, usuario: str):
 def ler_anais(texto: str, usuario: str):
     """Trabalho publicado em anais de evento (resumo/trabalho avulso): leitura de antes (extractor.parse_evidence_text), agora no formulário por spec."""
     from extractor import parse_evidence_text
-    return ler_anais_registro(parse_evidence_text(texto), texto)
+    rec = parse_evidence_text(texto)
+    tit = rec.get("titulo", "")
+    m_int = re.search(r"intitulad[oa]\s*:?\s*[\"“”]\s*([^\"“”]{10,300}?)\s*[\"“”]", texto)
+    if m_int and re.search(r"(?i)certificamos|certificado|declaramos", texto):  # certificado de publicação: o título vem entre aspas depois de "intitulado"
+        rec["titulo"] = titulo_formatado(_clean_line(m_int.group(1)))
+        tit = rec["titulo"]
+    elif re.search(r"(?i)issn|revista|journal|anais do evento|\bv\.\s*\d", tit) or re.match(r"\s*\d", tit) or len(tit.split()) < 4:  # pegou a faixa da revista/dos anais/do evento em vez do título
+        melhor = titulo_de_pagina(texto) or titulo_provavel(texto)
+        if melhor:
+            rec["titulo"] = titulo_formatado(melhor)
+    return ler_anais_registro(rec, texto)
 
 
 def ler_anais_registro(rec: dict, texto: str = ""):
@@ -550,7 +606,11 @@ def ler_livro_capitulo(texto: str, usuario: str):
         v["f_organizadores"] = _clean_line(m.group(1)).strip(" .;")[:255]
     m = re.search(r"Cap[íi]tulo\s+\d+\s*[:\-–]\s*(.+?)(?:,\s*por\b|\s+p{1,2}\.\s*\d|\.|\n|$)", flat, re.I)
     if m:
-        v["f_titulo_cap"] = sentence_title(m.group(1).strip(" \"“”.,"))[:400]
+        v["f_titulo_cap"] = titulo_formatado(sentence_title(m.group(1).strip(" \"“”.,")))[:400]  # CAIXA ALTA com erro de OCR também vira sentença
+    if not v.get("f_titulo_cap"):  # página de capítulo: "CAPÍTULO 9" e o título nas linhas seguintes (ou "CAPÍTULO 11 - TÍTULO" quebrado em linhas)
+        pagina = titulo_de_pagina(texto)
+        if pagina:
+            v["f_titulo_cap"] = titulo_formatado(pagina)[:400]
     m = re.search(r"^(?:FICHA CATALOGR[ÁA]FICA\s+)?(.+?)(?:\.\s*Organizadores?:|\.\s*Cap[íi]tulo\b|\s+ISBN\b)", flat, re.I)
     if not m:
         m = re.search(r"[\"“”']([^\"“”']{4,250})[\"“”']", flat)
@@ -563,27 +623,129 @@ def ler_livro_capitulo(texto: str, usuario: str):
         v["f_editora"] = _clean_line(m.group(1)).strip(" .,")[:100]
         if m.group(2):
             v["f_cidade_ed"] = _clean_line(m.group(2)).strip(" .,")[:30]
+    if True:  # ficha catalográfica (CIP): "[código] Título [subtítulo] / Organizadores ..." — é mais confiável que o 1º trecho do texto
+        mc = re.search(r"(?s)Cataloga[çc][ãa]o na Publica[çc][ãa]o.{0,300}?\n(?:[A-Z]{1,3}\d{0,4}[a-z]?[ \t]*\n)?[ \t]*(?:[A-Z]{1,3}\d{0,4}[a-z]?[ \t]+)?([A-ZÀ-Ý][^\n/]{8,160}?)[ \t]*/", texto)
+        if mc:
+            v["f_titulo"] = re.sub(r"\s*\[livro eletr[ôo]nico\]\s*:?", "", _clean_line(mc.group(1))).strip(" .:")[:400]
     return v, ["Confira se é Livro ou Capítulo de livro e complete autores/palavras-chave."]
 
 
 def ler_formacao_academica(texto: str, usuario: str):
-    """Leitor heurístico para diplomas/declarações de titulação acadêmica."""
+    """Leitor heurístico para diplomas, declarações de titulação e certificados de aperfeiçoamento/especialização."""
     flat = _clean_line(texto)
     v: dict[str, Any] = {}
-    m = re.search(r"grau de (?:Doutor(?:a)?|Mestre|Mestra|Bacharel|Licenciad[oa]|Especialista)\s+(?:em\s+)?(.+?)(?:\s+a\s+[A-ZÀ-Ý]|,|\.|$)", flat, re.I)
-    if m:
+
+    # 1. Nome do Curso / Titulação
+    curso_rotulado = valor_do_rotulo(texto, ("Curso",))  # "CURSO: Bacharelado em Odontologia" (valor na linha ou na seguinte)
+    if not curso_rotulado:  # tabela: rótulo e valor distantes; a linha do grau ("Bacharelado em X") identifica o curso
+        m_grau = re.search(r"^\W*((?:Bacharelado|Licenciatura|Tecnologia|Curso Superior de Tecnologia)\s+(?:em|de)\s+[^\n\-–:]{3,70}?)\s*(?:-|–|$)", texto, re.I | re.M)
+        curso_rotulado = m_grau.group(1).strip() if m_grau else ""
+    if not curso_rotulado:  # linha de sistema acadêmico: "ENFERMAGEM - IMPERATRIZ - PRESENCIAL - BACHARELADO - MT"
+        m_sis = re.search(r"^\W*([A-ZÀ-Ý][A-ZÀ-Ý ]{3,60}?)\s+-\s+[A-ZÀ-Ý ]{3,40}\s+-\s+(?:PRESENCIAL|EAD|A DIST[ÂA]NCIA|SEMIPRESENCIAL)\s+-\s+(BACHARELADO|LICENCIATURA|TECN[ÓO]LOG\w*)", texto, re.M)
+        if m_sis:
+            curso_rotulado = f"{m_sis.group(2).capitalize()} em {m_sis.group(1).title()}"
+    if not curso_rotulado:  # diploma/certificado: "confere o título de BACHARELA EM SERVIÇO SOCIAL" ou "conclusão do Curso de SERVIÇO SOCIAL e outorga-lhe"
+        m_tit = re.search(r"t[ií]tulo de (?:Bacharel(?:a)?|Licenciad[oa]|Mestre|Mestra|Doutor(?:a)?|Tecn[óo]log[oa])\s+em\s+(.+?)(?=\s+em vista|\s+tendo|,|\.|$)", flat, re.I) or \
+            re.search(r"conclus[ãa]o do curso de\s+(.+?)(?=\s+em\s+\d|\s+e outorga|\s+outorga|,|\.|$)", flat, re.I)
+        if m_tit and not re.search(r"(?i)\bem vista\b", m_tit.group(1)):
+            nome_curso = _clean_line(m_tit.group(1)).strip(" .,")
+            curso_rotulado = format_event_name(nome_curso) if nome_curso.isupper() else nome_curso
+    if not curso_rotulado:  # "HISTÓRICO ESCOLAR DE CURSO DE PÓS-GRADUAÇÃO LATO SENSU EM: ENFERMAGEM DO TRABALHO": curso depois do "EM:"
+        m_ls = re.search(r"(?:LATO SENSU|STRICTO SENSU|P[ÓO]S-GRADUA[ÇC][ÃA]O)\s+EM\s*:?\s*([A-ZÀ-Ý][A-ZÀ-Ý ]{4,60}?)(?=\s{2,}|\n|\s+PLANEJ|\s+CARGA|$)", texto)
+        if m_ls:
+            curso_rotulado = "Pós-graduação em " + format_event_name(m_ls.group(1).strip())
+    if not curso_rotulado:  # "Psicologia - Bacharelado": curso e grau na mesma linha, sem rótulo
+        m_cg = re.search(r"^\W*([A-ZÀ-Ý][A-Za-zÀ-ÿ ,]{3,60}?)\s*[-–]\s*(Bacharelado|Licenciatura|Tecn[óo]log\w*)\s*$", texto, re.M)
+        if m_cg:
+            curso_rotulado = f"{m_cg.group(2).capitalize()} em {m_cg.group(1).strip()}"
+    m = None if curso_rotulado else re.search(r"grau de (?:Doutor(?:a)?|Mestre|Mestra|Bacharel|Licenciad[oa]|Especialista)\s+(?:em\s+)?(.+?)(?:\s+a\s+[A-ZÀ-Ý]|,|\.|$)", flat, re.I)
+    if not m and not curso_rotulado:
+        m = re.search(r"(?:concluiu o curso de|curso de|conclus[aã]o do curso de)\s+([^,.\n]+?)(?:\s+(?:com\s+tripla|com\s+carga|promovido|realizado|no\s+per[ií]odo|perfazendo)|,|\.|$)", flat, re.I)
+    if not m:
+        m = re.search(r"(?:aperfei[çc]oamento em|especializa[çc][ãa]o em|mestrado em|doutorado em|gradua[çc][ãa]o em)\s+([^,.\n]+?)(?:\s+(?:com\s+tripla|com\s+carga|promovido|realizado|no\s+per[ií]odo)|,|\.|$)", flat, re.I)
+    if not m:
+        m = re.search(r"curso\s*:\s*([^,.\n]+)", flat, re.I)
+    if curso_rotulado:
+        v["f_curso"] = _clean_line(curso_rotulado).strip(" .,")[:150]
+    elif m and ":" not in m.group(1):  # valor com ':' é outro rótulo capturado por engano (ex.: "AUTORIZAÇÃO: RECONHECIMENTO: ...")
         v["f_curso"] = _clean_line(m.group(1)).strip(" .,")[:150]
-    m = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio)\s+[^,.\n]{3,120})", flat)
-    if m:
-        v["f_inst"] = _clean_line(m.group(1)).strip(" .,")[:150]
-    datas = _datas(flat)
-    if datas:
-        v["f_mes_obten"], v["f_ano_obten"], v["f_ano_fim"] = datas[0][1], datas[0][2], datas[0][2]
+
+    # 2. Instituição
+    m_inst = re.search(r"promovido pel[oa]\s+([^,.\n]+)", flat, re.I)
+    if not m_inst:
+        m_inst = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio|Associa[çc][ãa]o|Escola|Funda[çc][ãa]o|Sociedade|Academia)\s+[^,.\n]{3,120})", flat, re.I)
+    if not re.search(r"promovido pel[oa]", flat, re.I):  # histórico/declaração: a instituição está no cabeçalho, antes de "Entidade realizada: UNIC..."
+        for ln in texto.splitlines()[:6]:
+            if re.match(r"^\W*(?:FACULDADE|UNIVERSIDADE|CENTRO UNIVERSIT[ÁA]RIO|INSTITUTO)\b[^\n]{3,80}$", ln.strip(), re.I):
+                v["f_inst"] = format_event_name(_clean_line(ln).strip(" .,-"))[:150]
+                m_inst = None
+                break
+    if m_inst:
+        v["f_inst"] = _clean_line(m_inst.group(1)).strip(" .,")[:150]
+    if not v.get("f_inst") or not re.search(r"(?i)universidade|faculdade|instituto|centro|escola|associa|funda", v["f_inst"]):
+        # certificado de título: "O Diretor-Geral em exercício da FACUMINAS, no uso de suas atribuições, confere o título..."
+        m_dir = re.search(r"(?:Diretor(?:a)?(?:-Geral)?(?: em exerc[ií]cio)?|Reitor(?:a)?)\s+d[aeo]s?\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ0-9 ]{2,60}?)(?=\s*[,.]|\s+no uso)", flat)
+        if m_dir:
+            v["f_inst"] = format_event_name(m_dir.group(1).strip()) if m_dir.group(1).isupper() else m_dir.group(1).strip()
+
+    # 3. Carga Horária (Aperfeiçoamento / Especialização)
+    carga, _ = _carga(flat)
+    if carga:
+        v["f_carga"] = carga
     else:
-        ano = _ano_unico(flat)
-        if ano:
-            v["f_ano_obten"] = v["f_ano_fim"] = ano
-    return v, ["Instituição e curso são campos de lupa no Lattes: confira e informe o ano de início."]
+        m_carga = re.search(r"(\d{2,4})\s*horas?[/ -]aula|carga hor[áa]ria\s*(?:total\s+)?(?:de)?\s*:?\s*(\d{2,4})", flat, re.I)
+        if m_carga:
+            v["f_carga"] = (m_carga.group(1) or m_carga.group(2)).strip()
+
+    # Situação do aluno: histórico "pré-concluinte/cursando" e declaração de matrícula são curso EM ANDAMENTO; nesses casos
+    # não existe ano de conclusão (a data de emissão do documento e as portarias de autorização do curso não são conclusão).
+    situacao = normalize(valor_do_rotulo(texto, ("Situação acadêmica", "Situação do aluno", "Situação")))
+    # em histórico em tabela, rótulo e valor saem em linhas distantes: palavras de situação inequívocas valem em qualquer ponto
+    situacao = situacao or " ".join(re.findall(r"pre-?concluinte|cursando|trancad[oa]", normalize(flat)))
+    em_andamento = bool(re.search(r"pre-?concluinte|cursando|matriculad|ativo|regular|trancad|em andamento|em curso", situacao)) or \
+        (not situacao and bool(re.search(r"matriculad[oa]|vinculad[oa]|em andamento|aluno\(a\)", flat, re.I))
+         and not re.search(r"concluiu|conferiu o grau|conclu[ií]do|colou grau|diploma", flat, re.I))
+    flat_dt = sem_referencias_legais(flat)  # datas de leis/portarias não são as do documento
+
+    # 4. Período (Ano Início e Fim)
+    par = par_de_datas(flat_dt)
+    m_per = None if par else re.search(r"(?:per[ií]odo\s+de|per[ií]odo|de)\s+(?:[a-zçã]+\s+de\s+)?(?:\d{1,2}\s+de\s+[a-zç]+\s+de\s+)?(20\d{2}|199\d)\s+[aà]\s+(?:[a-zçã]+\s+de\s+)?(?:\d{1,2}\s+de\s+[a-zç]+\s+de\s+)?(20\d{2}|199\d)", flat, re.I)
+    if par:
+        v["f_ano_ini"] = par[0][2]
+        if not em_andamento:
+            v["f_ano_fim"] = v["f_ano_obten"] = par[1][2]
+            v["f_mes_obten"] = par[1][1]
+    elif m_per:
+        v["f_ano_ini"] = m_per.group(1)
+        if not em_andamento:
+            v["f_ano_fim"] = v["f_ano_obten"] = m_per.group(2)
+    elif not em_andamento:
+        datas = _datas(flat_dt)
+        if datas:
+            v["f_mes_obten"], v["f_ano_obten"], v["f_ano_fim"] = datas[0][1], datas[0][2], datas[0][2]
+        else:
+            ano = _ano_unico(flat_dt)
+            if ano:
+                v["f_ano_obten"] = v["f_ano_fim"] = ano
+
+    # Histórico escolar: o ingresso aparece como "ANO/SEM: 2021/1" (ou o primeiro período cursado, "2021.1")
+    if not v.get("f_ano_ini"):
+        m_ing = re.search(r"ANO/SEM:\s*(20\d{2}|199\d)", flat, re.I) or re.search(r"ingresso\D{0,40}(20\d{2}|199\d)", flat, re.I) or \
+            re.search(r"per[ií]odo letivo inicial\W{0,6}(20\d{2}|199\d)|ano/per[ií]odo inicial\W{0,6}(20\d{2}|199\d)", flat, re.I)
+        if m_ing:
+            v["f_ano_ini"] = m_ing.group(1)
+
+    # 5. Status do curso e bolsa
+    if em_andamento:
+        v["F_STATUS"] = "em andamento"
+        v["f_status"] = "em andamento"
+    elif re.search(r"concluiu|conferiu|diploma|conclu[ií]do|certificado de conclus", flat, re.I) or v.get("f_ano_obten"):
+        v["F_STATUS"] = "concluído"
+        v["f_status"] = "concluído"
+
+    v["F_BOLSA"] = "Não"
+
+    return v, ["Instituição e curso são campos de busca controlada no Lattes: confira antes de confirmar."]
 
 
 def ler_generico_spec(item_id: str) -> TipoLeitor:

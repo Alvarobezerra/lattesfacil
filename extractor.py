@@ -2,13 +2,19 @@
 
 from __future__ import annotations
 
+import difflib
+import logging
 import re
+import threading
+import unicodedata
 import urllib.parse
 from collections import Counter
 from typing import Any
 
 import pymupdf
 import requests
+
+from ocr_texto import corrigir_espacos, qualidade_texto
 
 
 AREA_KEYWORDS = [
@@ -24,6 +30,91 @@ AREA_KEYWORDS = [
 
 
 # Ligaduras que alguns PDFs (SEI, Word) gravam como um só caractere e quebram as buscas por palavra.
+_log = logging.getLogger("lattesfacil.ocr")
+_OCR_ENGINE: Any = None
+_OCR_LOCK = threading.Lock()
+
+
+def _ocr_engine() -> Any:
+    """Uma única instância do RapidOCR por processo (carregar o modelo a cada arquivo é caro)."""
+    global _OCR_ENGINE
+    if _OCR_ENGINE is None:
+        from rapidocr_onnxruntime import RapidOCR
+        _OCR_ENGINE = RapidOCR()
+    return _OCR_ENGINE
+
+
+def ocr_imagem(png_ou_bytes: bytes) -> str:
+    """OCR de uma imagem; devolve o texto com uma linha por trecho reconhecido (preserva as quebras)."""
+    with _OCR_LOCK:  # a sessão onnx compartilhada não deve ser usada por duas requisições ao mesmo tempo
+        res, _ = _ocr_engine()(png_ou_bytes)
+    return corrigir_espacos("\n".join(_juntar_rotulo_e_valor(res or [])))
+
+
+def _juntar_rotulo_e_valor(res: list) -> list[str]:
+    """Linhas do OCR; em tabelas ("Curso:" | "Psicologia") o RapidOCR entrega rótulos e valores em ordem de coluna, longe um do outro.
+    Quando uma caixa termina em ':' (rótulo), cola nela a caixa mais próxima À DIREITA na mesma linha visual. Só rótulos são mexidos:
+    texto corrido e colunas de artigo continuam na ordem original."""
+    itens = []
+    for r in res:
+        if len(r) > 1 and r[1] and r[1].strip():
+            xs, ys = [p[0] for p in r[0]], [p[1] for p in r[0]]
+            itens.append({"t": r[1].strip(), "x0": min(xs), "x1": max(xs), "y0": min(ys), "y1": max(ys), "usado": False})
+    for it in itens:
+        if it["usado"] or not re.search(r"[:;]$", it["t"]) or len(it["t"]) > 45:
+            continue
+        melhor = None
+        for o in itens:
+            if o is it or o["usado"] or o["x0"] < it["x1"] - 4:
+                continue
+            sobre = min(it["y1"], o["y1"]) - max(it["y0"], o["y0"])
+            if sobre < 0.5 * min(it["y1"] - it["y0"], o["y1"] - o["y0"]):
+                continue  # não está na mesma linha visual
+            gap = o["x0"] - it["x1"]
+            if gap <= 6 * max(it["y1"] - it["y0"], 1) and (melhor is None or gap < melhor[0]):
+                melhor = (gap, o)
+        if melhor and not re.search(r"[:;]$", melhor[1]["t"]):  # o vizinho é valor, não outro rótulo
+            it["t"] = it["t"] + " " + melhor[1]["t"]
+            melhor[1]["usado"] = True
+    return [it["t"] for it in itens if not it["usado"]]
+
+
+LACUNA_RE = re.compile(r"carga hor[aá]ria\s+(?:de\s+)?(?:horas|h\b|hs\b)|realizad[oa]\s+de\s+a\s|\bno dia\s*[,.]|\bnos dias\s*[,.]|\bperíodo de\s+a\s", re.I)
+
+
+def _chave_linha(linha: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", unicodedata.normalize("NFKD", linha).encode("ascii", "ignore").decode().lower())
+
+
+def mesclar_linhas(base: str, extra: str) -> str:
+    """Acrescenta a `base` as linhas de `extra` que não aparecem nela (comparação sem acentos/espaços, tolerante a erro de OCR)."""
+    base_linhas = [_chave_linha(ln) for ln in base.splitlines() if ln.strip()]
+    base_junta = "".join(base_linhas)
+    novas = []
+    for ln in extra.splitlines():
+        k = _chave_linha(ln)
+        if len(k) < 12 or k in base_junta:
+            continue
+        if any(difflib.SequenceMatcher(None, k, b).ratio() >= 0.8 for b in base_linhas if abs(len(b) - len(k)) <= max(8, len(k) // 3)):
+            continue
+        novas.append(ln)
+    return base + ("\n" + "\n".join(novas) if novas else "")
+
+
+def ocr_pagina(page: Any) -> str:
+    """OCR da página em duas resoluções e união das linhas.
+
+    O RapidOCR perde linhas inteiras de forma diferente conforme a resolução (ex.: a frase com o período do curso sumia a 200 dpi e
+    aparecia a 100 dpi). Uma segunda leitura em resolução menor, mais barata, recupera essas linhas.
+    """
+    alta = ocr_imagem(page.get_pixmap(dpi=200).tobytes("png"))
+    try:
+        baixa = ocr_imagem(page.get_pixmap(dpi=100).tobytes("png"))
+    except Exception:
+        return alta
+    return mesclar_linhas(alta, baixa)
+
+
 LIGADURAS = {"\u019f": "ti", "\u01a9": "tt", "\ufb00": "ff", "\ufb01": "fi", "\ufb02": "fl", "\ufb03": "ffi", "\ufb04": "ffl",
              "\u01ab": "tt", "\u0183": "ti"}
 
@@ -34,19 +125,96 @@ def corrigir_ligaduras(texto: str) -> str:
     return texto
 
 
+def corrigir_ocr_certificados(texto: str) -> str:
+    """Corrige falhas e ruídos típicos de OCR em fontes cursivas/caligráficas e certificados."""
+    t = re.sub(r'\b[I1l]{2}\b(?=\s*(?:Jornada|Congresso|Simp[oó]sio|Semin[aá]rio|Encontro|brn|prn|odont))', 'II', texto, flags=re.I)
+    t = re.sub(r'\b[I1l]{3}\b(?=\s*(?:Jornada|Congresso|Simp[oó]sio|Semin[aá]rio|Encontro|brn|prn|odont))', 'III', t, flags=re.I)
+    t = re.sub(r'\b[I1l]\b(?=\s*(?:Jornada|Congresso|Simp[oó]sio|Semin[aá]rio|Encontro|brn|prn|odont))', 'I', t, flags=re.I)
+    # Corrige 'brn ada', 'prn ada', 'brnada', 'prnada' -> Jornada
+    t = re.sub(r'\b(?:brn\s*ada|prn\s*ada|brnada|prnada|ornada)\b', 'Jornada', t, flags=re.I)
+    # Corrige Odontoligica / Odontolbgica -> Odontológica
+    t = re.sub(r'\bodontol[iobg]+ica\b', 'Odontológica', t, flags=re.I)
+    # Corrige Mhssoes / Mssoes / dad Missoes -> das Missões
+    t = re.sub(r'\b(?:dad|das)\s+M[hs\d]+[oó0]+es\b', 'das Missões', t, flags=re.I)
+    # Corrige carga horária: TOhoras, T0horas, 1Ohoras -> 10 horas
+    t = re.sub(r'carga\s+hor[aá]ria\s+de\s+[T1I][0O]\s*horas?', 'carga horária de 10 horas', t, flags=re.I)
+    return t
+
+
+def _pagina_escaneada_mal_lida(page: Any, texto: str) -> bool:
+    """Página que é basicamente uma imagem (escaneada) cuja camada de texto tem muitas palavras fora do vocabulário."""
+    try:
+        area = page.rect.width * page.rect.height
+        cobre = any(page.get_image_rects(img[0]) and max(r.width * r.height for r in page.get_image_rects(img[0])) >= 0.7 * area
+                    for img in page.get_images())
+    except Exception:
+        return False
+    return cobre and len(texto) > 300 and qualidade_texto(texto) < 0.8
+
+
 def extract_text_from_pdf_bytes(pdf_bytes: bytes) -> dict[str, Any]:
     """Extract plain text and basic PDF metadata from raw PDF bytes."""
     doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
     pages_text: list[str] = []
-    for page in doc:
-        pages_text.append(page.get_text("text"))
+    for i, page in enumerate(doc):
+        texto_pag = page.get_text("text")
+        # texto nativo com lacunas ("carga horária de   horas/aula, realizado de   a  "): os valores destacados estão em objetos que não
+        # entram no texto (anotações/campos). O OCR da página enxerga o que está desenhado e completa o texto.
+        if LACUNA_RE.search(texto_pag) and len(doc) <= 15:
+            try:
+                texto_pag = texto_pag + "\n" + ocr_pagina(page)  # sem dedupe: a linha do OCR com o valor é quase igual à nativa em branco
+            except Exception as exc:  # sem OCR segue com o texto nativo
+                _log.warning("OCR de página com lacunas falhou: %s", type(exc).__name__)
+        elif _pagina_escaneada_mal_lida(page, texto_pag) and len(doc) <= 15:
+            # escaneado com camada de texto de OCR ruim: o nosso OCR vem primeiro (os leitores usam a 1ª ocorrência) e o nativo fica de reserva
+            try:
+                texto_pag = ocr_pagina(page) + "\n" + texto_pag
+            except Exception as exc:
+                _log.warning("OCR de escaneado mal lido falhou: %s", type(exc).__name__)
+        pages_text.append(texto_pag)
     full_text = corrigir_ligaduras("\n".join(pages_text).strip())
+
+    # Fallback automático de OCR para PDFs escaneados, com texto insuficiente ou com apenas metadados/nomes
+    texto_limpo = re.sub(r"(?i)powered by tcpdf[^\n]*", "", full_text).strip()
+    media_por_pag = len(texto_limpo) / max(len(doc), 1)
+    ocr_erro = ""
+    if (len(texto_limpo) < 200 or media_por_pag < 90) and len(doc) <= 15:
+        try:
+            ocr_pages = [ocr_pagina(page) for page in doc]
+            ocr_pages = [t for t in ocr_pages if t]
+            if ocr_pages:
+                ocr_full = corrigir_ligaduras(corrigir_ocr_certificados("\n".join(ocr_pages).strip()))
+                if len(ocr_full) > len(texto_limpo):
+                    full_text = f"{ocr_full}\n{texto_limpo}" if texto_limpo else ocr_full
+        except Exception as exc:  # sem OCR o arquivo segue com o texto nativo, mas o motivo fica registrado
+            ocr_erro = f"{type(exc).__name__}: {exc}"[:200]
+            _log.warning("OCR falhou: %s", ocr_erro)
+
     meta = doc.metadata or {}
     return {
         "text": full_text,
         "page_count": len(doc),
         "pdf_title": (meta.get("title") or "").strip(),
         "pdf_author": (meta.get("author") or "").strip(),
+        "ocr_erro": ocr_erro,
+    }
+
+
+def extract_text_from_image_bytes(image_bytes: bytes, filename: str = "") -> dict[str, Any]:
+    """Extrai texto de arquivos de imagem (PNG, JPG, JPEG, WEBP, BMP, TIFF) via OCR (RapidOCR)."""
+    full_text, ocr_erro = "", ""
+    try:
+        full_text = corrigir_ligaduras(corrigir_ocr_certificados(ocr_imagem(image_bytes).strip()))
+    except Exception as exc:
+        ocr_erro = f"{type(exc).__name__}: {exc}"[:200]
+        _log.warning("OCR de imagem falhou: %s", ocr_erro)
+
+    return {
+        "text": full_text,
+        "page_count": 1,
+        "pdf_title": "",
+        "pdf_author": "",
+        "ocr_erro": ocr_erro,
     }
 
 
@@ -191,7 +359,7 @@ def parse_evidence_text(text: str, filename: str = "") -> dict[str, Any]:
     # Detect Title & Authors around "RESUMO" / "INTRODUÇÃO"
     resumo_idx = None
     for idx, ln in enumerate(lines):
-        if re.fullmatch(r"(?:RESUMO|ABSTRACT)", ln, re.IGNORECASE):
+        if re.fullmatch(r"(?:RESUMO|ABSTRACT)(?:\s+(?:EXPANDIDO|SIMPLES|ESTENDIDO))?", ln, re.IGNORECASE):
             resumo_idx = idx
             break
 
@@ -203,7 +371,10 @@ def parse_evidence_text(text: str, filename: str = "") -> dict[str, Any]:
             continue
         if any(ln.lower() == a.lower() for a, _ in AREA_KEYWORDS):
             continue
-        if result["nome_evento"] and ln in result["nome_evento"]:
+        if result["nome_evento"] and ln.lower() in result["nome_evento"].lower():
+            continue
+        # Faixa de cabeçalho dos anais (selo "COMPROVANTE", título dos anais, volume/ISSN, tipo do trabalho): não é título.
+        if re.search(r"(?i)^comprovante\b|\bissn\b|\bvolume\s+\d|^anais d[eo]\b|^trabalho (?:completo|resumido|expandido)\b|publicado em anais", ln):
             continue
         filtered_header.append(ln)
 
@@ -220,6 +391,13 @@ def parse_evidence_text(text: str, filename: str = "") -> dict[str, Any]:
             and all(w[0].isupper() or w.lower() in {"da", "de", "do", "das", "dos", "e"} for w in ln.split() if w)
             and not ln.endswith(":")
         )
+        # Autores numerados em texto simples ("Fulano de Tal 1, Beltrano 2"): vários por linha, afiliação pelo número.
+        if title_lines and not authors and not has_sup and re.search(r"[A-Za-zÀ-ÿ.]\s*\d\s*(?:[,;]|$)", ln) and not re.match(r"\d", ln):
+            for parte in re.split(r"(?<=\d)\s*[,;]\s*", ln):
+                nome = re.sub(r"[\d¹²³⁴⁵⁶⁷⁸⁹⁰*†‡]+$", "", parte).strip(" ,;")
+                if nome:
+                    authors.append({"nome": nome, "citacao": to_citation_name(nome)})
+            continue
         if has_sup or (resumo_idx is not None and looks_like_person and title_lines):
             clean_author = re.sub(r"[\d¹²³⁴⁵⁶⁷⁸⁹⁰*†‡]+$", "", ln).strip(" ,;")
             if clean_author:

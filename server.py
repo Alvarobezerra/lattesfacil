@@ -31,7 +31,8 @@ from itens import especificacao as especificacao_item
 from itens.leitores import LEITORES as LEITORES_ITENS, ler as ler_item, de_registro_antigo, enriquecer as enriquecer_item
 from itens.variantes import spec_com_rotulos
 from classificador import INDICE, candidato_fixo, catalogo_publico, classificar
-from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, parse_evidence_text
+from extractor import enrich_missing_fields, extract_text_from_pdf_bytes, extract_text_from_image_bytes, parse_evidence_text
+from ocr_texto import reconciliar_nome
 from radar import buscar_obras_radar
 from citacoes.servico import citacoes_do_pesquisador
 from abertura import montar_abertura, aquecer as aquecer_abertura
@@ -39,6 +40,7 @@ from compliance import sanitizar_metadados, verificar_conformidade
 import curriculo_store
 import autores_cv
 import instituicoes
+import gemini
 from lattes_pagina import ler_pagina
 from lattes_xml import ler_curriculo, procurar_duplicata, resumo as resumo_xml
 from auditor import auditar
@@ -57,6 +59,72 @@ LATTES_STATUS: dict[str, dict[str, Any]] = {}  # sid do navegador -> último sin
 ENVIO_STATUS = {"enviando", "salvo", "preenchido", "atencao", "erro", "removendo", "removido", "falha_remocao"}
 ENVIO_ID_RE = re.compile(r"^[0-9a-f]{8,16}$")
 LOGIN_USUARIOS = {"alvaro", "aramys"}          # opções da tela de login (nomes completos no front)
+LOGIN_NOMES = {
+    "alvaro": "Álvaro Antônio Bezerra dos Santos",
+    "aramys": "Aramys Silva dos Reis",
+}
+SESSION_USERS: dict[str, str] = {}
+
+
+def carregar_usuarios_db() -> None:
+    """Sincroniza LOGIN_USUARIOS e LOGIN_NOMES com a tabela usuarios."""
+    try:
+        with db() as conn:
+            rows = conn.execute("SELECT slug, nome FROM usuarios").fetchall()
+            for slug, nome in rows:
+                LOGIN_USUARIOS.add(slug)
+                LOGIN_NOMES[slug] = nome
+    except Exception:
+        pass
+
+
+def obter_usuario_db(slug_ou_nome: str) -> dict[str, Any] | None:
+    """Busca dados de um usuário pelo slug ou nome."""
+    if not slug_ou_nome:
+        return None
+    slug_limpo = slug_ou_nome.strip().lower()
+    try:
+        with db() as conn:
+            r = conn.execute(
+                "SELECT slug, nome, orcid, lattes_id, criado_em FROM usuarios WHERE slug = ? OR lower(nome) = ?",
+                (slug_limpo, slug_limpo),
+            ).fetchone()
+            if r:
+                return {"slug": r[0], "nome": r[1], "orcid": r[2] or "", "lattes_id": r[3] or "", "criado_em": r[4]}
+    except Exception:
+        pass
+    if slug_limpo in LOGIN_NOMES:
+        return {"slug": slug_limpo, "nome": LOGIN_NOMES[slug_limpo], "orcid": "0000-0003-4999-6382" if slug_limpo == "aramys" else "", "lattes_id": "", "criado_em": ""}
+    for k, v in LOGIN_NOMES.items():
+        if slug_limpo == v.lower():
+            return {"slug": k, "nome": v, "orcid": "0000-0003-4999-6382" if k == "aramys" else "", "lattes_id": "", "criado_em": ""}
+    return None
+
+
+def salvar_usuario_db(nome: str, orcid: str = "", lattes_id: str = "") -> dict[str, Any]:
+    """Cadastra ou atualiza um usuário no banco."""
+    import unicodedata
+    nome_limpo = nome.strip()
+    slug = re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", nome_limpo).encode("ascii", "ignore").decode("ascii").lower()).strip("-")
+    if not slug:
+        slug = f"usuario-{int(time.time())}"
+    now = datetime.now(timezone.utc).isoformat()
+    with db() as conn:
+        conn.execute(
+            """
+            INSERT INTO usuarios (slug, nome, orcid, lattes_id, criado_em)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(slug) DO UPDATE SET
+                nome=excluded.nome,
+                orcid=coalesce(nullif(excluded.orcid, ''), usuarios.orcid),
+                lattes_id=coalesce(nullif(excluded.lattes_id, ''), usuarios.lattes_id)
+            """,
+            (slug, nome_limpo, orcid.strip().upper(), lattes_id.strip(), now),
+        )
+        conn.commit()
+    LOGIN_USUARIOS.add(slug)
+    LOGIN_NOMES[slug] = nome_limpo
+    return {"slug": slug, "nome": nome_limpo, "orcid": orcid.strip().upper(), "lattes_id": lattes_id.strip()}
 
 # ---------------------------------------------------------------- segurança
 ACCESS_FILE = BASE_DIR / ".acesso"          # código de acesso gerado na 1ª execução (fora do git)
@@ -68,8 +136,8 @@ SESSIONS: dict[str, float] = {}             # token de sessão -> expiração
 LOGIN_FAILS: dict[str, list[float]] = {}
 ACCESS_CODE = ""                            # definido em main()
 FORCE_SECURE_COOKIE = os.environ.get("LATTESFACIL_HTTPS", "") == "1"
-CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
-       "connect-src 'self'; frame-src 'self' lattesdata:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
+       "connect-src 'self'; frame-src 'self' blob: data: lattesdata:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
 PUBLIC_LANDING = {
     "/inicio.html",
     "/inicio.css",
@@ -264,6 +332,25 @@ def init_db() -> None:
         curriculo_store.criar_tabelas(conn)
         instituicoes.criar_tabelas(conn)
         autores_cv.criar_tabelas(conn)
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS usuarios (
+                slug TEXT PRIMARY KEY,
+                nome TEXT NOT NULL,
+                orcid TEXT,
+                lattes_id TEXT,
+                criado_em TEXT NOT NULL
+            )
+            """
+        )
+        conn.execute(
+            "INSERT OR IGNORE INTO usuarios (slug, nome, orcid, lattes_id, criado_em) VALUES (?, ?, ?, ?, ?)",
+            ("aramys", "Aramys Silva dos Reis", "0000-0003-4999-6382", "", "2026-11-22T00:00:00"),
+        )
+        conn.execute(
+            "INSERT OR IGNORE INTO usuarios (slug, nome, orcid, lattes_id, criado_em) VALUES (?, ?, ?, ?, ?)",
+            ("alvaro", "Álvaro Antônio Bezerra dos Santos", "", "", "2026-11-22T00:00:00"),
+        )
         cols_contrib = [r[1] for r in conn.execute("PRAGMA table_info(contribuicoes_colaboradores)").fetchall()]
         if "prioridade" not in cols_contrib:
             conn.execute("ALTER TABLE contribuicoes_colaboradores ADD COLUMN prioridade TEXT")
@@ -273,6 +360,14 @@ def init_db() -> None:
         if "deleted_at" not in cols:  # bancos criados antes da exclusão lógica
             conn.execute("ALTER TABLE records ADD COLUMN deleted_at TEXT")
         conn.commit()
+        carregar_usuarios_db()
+        try:
+            total_snaps = conn.execute("SELECT count(*) FROM cv_snapshots").fetchone()[0]
+            if total_snaps == 0:
+                from ferramentas.seed_curriculos import seed_db
+                seed_db()
+        except Exception as _e:
+            pass
 
 
 def parse_multipart(content_type: str, body: bytes) -> tuple[dict[str, str], tuple[str, bytes] | None]:
@@ -361,6 +456,15 @@ def interpretar(item_id: str, raw_text: str, filename: str, usuario: str) -> dic
     """Lê o texto como o item escolhido. None quando o preenchimento daquele item ainda não existe."""
     if item_id in LEITORES_ITENS:
         g = ler_item(item_id, raw_text, usuario)
+        if gemini.enabled() and raw_text.strip():
+            try:
+                from itens.leitores import montar_resposta
+                values, evidence = gemini.fields(raw_text, especificacao_item(item_id), g["variante"])
+                merged = {**g["valores"], **values, "__variante": g["variante"]}
+                g = montar_resposta(item_id, raw_text, merged, g["notas"] +
+                    ["Análise assistida pelo Gemini. Confira os valores e os trechos antes de enviar."] + evidence)
+            except gemini.GeminiError as exc:
+                g["notas"].append(str(exc))
         v = g["valores"]
         base = {"tipo_producao": item_id, "titulo": v.get("f_titulo") or v.get("f_nme_evento") or v.get("f_curso") or "",
                 "ano": v.get("f_ano", "")}
@@ -383,8 +487,18 @@ def classificar_evidencia(raw_text: str, filename: str, paginas: int = 0, n_kw: 
         return candidato_fixo("artigo", "o texto é um DOI")
     cls = classificar(raw_text, filename, paginas, n_kw)
     if cls["decisao"] == "escolher" and not cls.get("caderno") and raw_text.strip():
-        legado = "artigo" if is_article(raw_text) else "apresentacao" if is_certificate(raw_text) else \
-            "orientacao_concluida" if is_orientacao(raw_text) else None
+        if is_article(raw_text):
+            legado = "artigo"
+        elif is_certificate(raw_text):
+            low = raw_text.lower()
+            if re.search(r"participou|participa[cç][aã]o|\bouvinte\b", low) and not re.search(r"apresentou|apresenta[cç][aã]o|intitulad[oa]|comunica[cç][aã]o oral|\bp[oó]ster\b", low):
+                legado = "participacao_evento"
+            else:
+                legado = "apresentacao"
+        elif is_orientacao(raw_text):
+            legado = "orientacao_concluida"
+        else:
+            legado = None
         if legado:
             cand = candidato_fixo(legado, "o leitor específico reconheceu o formato", 0.5)
             cand["decisao"] = "confirmar"
@@ -394,7 +508,20 @@ def classificar_evidencia(raw_text: str, filename: str, paginas: int = 0, n_kw: 
 
 def responder_evidencia(cls: dict[str, Any], raw_text: str, filename: str, usuario: str) -> dict[str, Any]:
     """Monta a resposta: classificação + (só quando o sistema pode avançar sozinho) os campos extraídos."""
-    resp: dict[str, Any] = {"classificacao": cls, "raw_text": raw_text[:4000], "filename": filename}
+    ia_notice = ""
+    if gemini.enabled() and raw_text.strip() and not cls.get("caderno"):
+        try:
+            item = gemini.classify(raw_text, {k: v.item for k, v in INDICE.items()})
+            if item != "nenhum":
+                original = cls["candidatos"][0]["id"] if cls.get("candidatos") else None
+                if original != item or cls["decisao"] != "avancar":
+                    cls = candidato_fixo(item, "sugerido pelo Gemini; confirme o tipo de evidência", 0.5)
+                    cls["decisao"] = "confirmar"
+                ia_notice = "Gemini consultado para identificar o documento."
+        except gemini.GeminiError as exc:
+            ia_notice = str(exc)
+    resp: dict[str, Any] = {"classificacao": cls, "raw_text": raw_text[:4000], "filename": filename,
+                            "ia_aviso": ia_notice}
     top = cls["candidatos"][0] if cls.get("candidatos") else None
     if cls["decisao"] == "avancar" and top and top.get("implementado"):
         feito = interpretar(top["id"], raw_text, filename, usuario)
@@ -405,10 +532,13 @@ def responder_evidencia(cls: dict[str, Any], raw_text: str, filename: str, usuar
 
 
 def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str, Any]:
-    """Lê um arquivo de evidência (PDF, TXT ou E-mail .eml) e devolve o JSON de resposta de /api/extract."""
+    """Lê um arquivo de evidência (PDF, TXT, Imagem PNG/JPG ou E-mail .eml) e devolve o JSON de resposta de /api/extract."""
     orig_filename = filename
+    media_bytes = file_bytes
+    leitura_aviso = ""
     paginas, n_kw = 0, 0
-    if filename.lower().endswith(".pdf"):
+    fn_lower = filename.lower()
+    if fn_lower.endswith(".pdf"):
         pdf_info = extract_text_from_pdf_bytes(file_bytes)
         paginas = pdf_info["page_count"]
         n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", pdf_info["text"], re.I))
@@ -418,7 +548,13 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
             # PDF longo = caderno de anais com vários trabalhos; o cliente segue para a busca por autor
             return {"caderno": True, "page_count": pdf_info["page_count"], "filename": filename}
         raw_text = pdf_info["text"]
-    elif filename.lower().endswith((".eml", ".msg")):
+    elif fn_lower.endswith((".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".bmp", ".jfif")):
+        # Imagem (foto de diploma, certificado escaneado, captura de tela de publicação)
+        img_info = extract_text_from_image_bytes(file_bytes, filename)
+        paginas = 1
+        n_kw = len(re.findall(r"keywords?\s*:|palavras[- ]chave\s*:", img_info["text"], re.I))
+        raw_text = img_info["text"]
+    elif fn_lower.endswith((".eml", ".msg")):
         from email_parser import parse_eml_bytes
         eml_info = parse_eml_bytes(file_bytes)
         if eml_info.get("first_pdf"):
@@ -427,13 +563,37 @@ def process_extract(filename: str, file_bytes: bytes, usuario: str) -> dict[str,
             pdf_info = extract_text_from_pdf_bytes(pdf_anexo["data"])
             raw_text = pdf_info["text"]
             filename = pdf_anexo["filename"]
+            media_bytes = pdf_anexo["data"]
+        elif eml_info.get("first_image"):
+            # Se tem anexo de imagem (foto de certificado), extrai com OCR
+            img_anexo = eml_info["first_image"]
+            img_info = extract_text_from_image_bytes(img_anexo["data"], img_anexo["filename"])
+            raw_text = img_info["text"]
+            filename = img_anexo["filename"]
+            media_bytes = img_anexo["data"]
         else:
             # Caso contrário, utiliza o corpo do e-mail e assunto
             raw_text = f"{eml_info.get('subject', '')}\n\n{eml_info.get('body', '')}".strip()
     else:
         raw_text = file_bytes.decode("utf-8", errors="replace")
+    mime = mimetypes.guess_type(filename)[0]
+    texto_limpo = re.sub(r"(?i)powered by tcpdf[^\n]*", "", raw_text).strip()
+    media_por_pag = len(texto_limpo) / max(paginas, 1)
+    if gemini.enabled() and (len(texto_limpo) < 180 or media_por_pag < 90) and mime in {"application/pdf", "image/png", "image/jpeg", "image/webp"}:
+        try:
+            transcrito = gemini.transcribe(media_bytes, mime)
+            if len(transcrito.strip()) > len(texto_limpo):
+                if texto_limpo:
+                    raw_text = f"{transcrito}\n{texto_limpo}"
+                else:
+                    raw_text = transcrito
+                leitura_aviso = "Texto transcrito pelo Gemini; confira a leitura com o documento original."
+        except gemini.GeminiError as exc:
+            leitura_aviso = str(exc)
+    raw_text = reconciliar_nome(raw_text, usuario)  # erro de OCR no nome do pesquisador ("MOVRAO") não pode virar "autor não encontrado"
     cls = classificar_evidencia(raw_text, filename, paginas, n_kw)
     resp = responder_evidencia(cls, raw_text, filename, usuario)
+    resp["ia_aviso"] = " ".join(filter(None, [leitura_aviso, resp.get("ia_aviso")]))
     resp["_leitura"] = {"texto": raw_text, "arquivo": filename}  # fica só na memória da sessão; não vai ao cliente
     return resp
 
@@ -596,10 +756,26 @@ class LattesHandler(BaseHTTPRequestHandler):
             return False
         return True
 
+    def _render_login_html(self, erro: str = "") -> str:
+        template = (STATIC_DIR / "login.html").read_text(encoding="utf-8")
+        opcoes = []
+        try:
+            with db() as conn:
+                rows = conn.execute("SELECT slug, nome FROM usuarios ORDER BY nome ASC").fetchall()
+                for slug, nome in rows:
+                    opcoes.append(f'<option value="{slug}">{nome}</option>')
+        except Exception:
+            for slug, nome in sorted(LOGIN_NOMES.items(), key=lambda x: x[1]):
+                opcoes.append(f'<option value="{slug}">{nome}</option>')
+        opcoes_html = "\n".join(opcoes)
+        html = template.replace("%ERRO%", erro)
+        html = html.replace("%OPCOES_USUARIOS%", opcoes_html)
+        return html
+
     def _handle_login(self) -> None:
         ip = self._client_ip()
         if self._locked(ip):
-            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro" role="alert">Muitas tentativas. Aguarde 5 minutos.</p>'), HTTPStatus.TOO_MANY_REQUESTS)
+            self._send_html(self._render_login_html('<p class="erro" role="alert">Muitas tentativas. Aguarde 5 minutos.</p>'), HTTPStatus.TOO_MANY_REQUESTS)
             return
         try:
             n = min(int(self.headers.get("Content-Length", "0")), 4096)
@@ -607,25 +783,48 @@ class LattesHandler(BaseHTTPRequestHandler):
             n = 0
         form = parse_qs(self.rfile.read(n).decode("utf-8", errors="replace"))
         code = form.get("codigo", [""])[0]
-        quem = form.get("usuario", [""])[0]
-        if quem not in LOGIN_USUARIOS:
-            quem = "alvaro"
-        if hmac.compare_digest(code.encode(), ACCESS_CODE.encode()):
-            LOGIN_FAILS.pop(ip, None)
-            now = time.time()
-            for k in [k for k, v in SESSIONS.items() if v < now]:
-                SESSIONS.pop(k, None)
-            token = secrets.token_urlsafe(32)
-            SESSIONS[token] = now + SESSION_TTL
-            cookie = f"lf_sess={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
-            # Quem entrou (não é segredo): o front lê este cookie uma vez e o guarda como usuário ativo.
-            user_cookie = f"lf_user={quem}; SameSite=Strict; Path=/; Max-Age=300" + ("; Secure" if self._https() else "")
-            destino = "/abertura.html?entrada=1" if form.get("transicao") == ["1"] else "/abertura.html"
-            self._redirect(destino, (cookie, user_cookie))
-        else:
+        quem = form.get("usuario", [""])[0].strip()
+        modo = form.get("modo", [""])[0].strip()
+        novo_nome = form.get("novo_nome", [""])[0].strip()
+        novo_orcid = form.get("novo_orcid", [""])[0].strip().upper()
+
+        if not hmac.compare_digest(code.encode(), ACCESS_CODE.encode()):
             LOGIN_FAILS.setdefault(ip, []).append(time.time())
             time.sleep(0.6)  # freia tentativa automatizada
-            self._send_html(LOGIN_HTML.replace("%ERRO%", '<p class="erro" role="alert">Código incorreto.</p>'), HTTPStatus.UNAUTHORIZED)
+            self._send_html(self._render_login_html('<p class="erro" role="alert">Código incorreto.</p>'), HTTPStatus.UNAUTHORIZED)
+            return
+
+        primeiro_acesso = False
+        if modo == "novo" or quem == "novo" or (novo_nome and quem not in LOGIN_USUARIOS):
+            if not novo_nome or len(novo_nome) < 3:
+                self._send_html(self._render_login_html('<p class="erro" role="alert">Informe seu nome completo (mínimo 3 letras).</p>'), HTTPStatus.BAD_REQUEST)
+                return
+            if novo_orcid and not ORCID_RE.match(novo_orcid):
+                self._send_html(self._render_login_html('<p class="erro" role="alert">ORCID inválido (formato 0000-0000-0000-0000).</p>'), HTTPStatus.BAD_REQUEST)
+                return
+            usr = salvar_usuario_db(novo_nome, orcid=novo_orcid)
+            quem = usr["slug"]
+            primeiro_acesso = True
+        elif quem not in LOGIN_USUARIOS:
+            usr = obter_usuario_db(quem)
+            if usr:
+                quem = usr["slug"]
+            else:
+                quem = "aramys"
+
+        LOGIN_FAILS.pop(ip, None)
+        now = time.time()
+        for k in [k for k, v in SESSIONS.items() if v < now]:
+            SESSIONS.pop(k, None)
+        token = secrets.token_urlsafe(32)
+        SESSIONS[token] = now + SESSION_TTL
+        SESSION_USERS[token] = quem
+        cookie = f"lf_sess={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
+        user_cookie = f"lf_user={quem}; SameSite=Strict; Path=/; Max-Age={SESSION_TTL}" + ("; Secure" if self._https() else "")
+        destino = "/abertura.html?entrada=1"
+        if primeiro_acesso:
+            destino += "&primeiro_acesso=1"
+        self._redirect(destino, (cookie, user_cookie))
 
     def _send_json(self, data: Any, status: int = HTTPStatus.OK) -> None:
         raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -656,7 +855,12 @@ class LattesHandler(BaseHTTPRequestHandler):
         path = parsed.path
 
         if path == "/login":
-            self._send_html(LOGIN_HTML.replace("%ERRO%", ""))
+            self._send_html(self._render_login_html())
+            return
+        if path == "/api/usuarios":
+            with db() as conn:
+                rows = conn.execute("SELECT slug, nome, orcid, lattes_id FROM usuarios ORDER BY nome ASC").fetchall()
+            self._send_json({"ok": True, "usuarios": [{"slug": r[0], "nome": r[1], "orcid": r[2] or "", "lattes_id": r[3] or ""} for r in rows]})
             return
         if path.startswith("/api/itens/") and path.endswith("/spec"):
             if self._gate():
@@ -681,7 +885,29 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/logout":
             tok = self._sess()
             SESSIONS.pop(tok, None)
-            self._redirect("/login", "lf_sess=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0")
+            SESSION_USERS.pop(tok, None)
+            self._redirect("/login", ("lf_sess=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0", "lf_user=; SameSite=Strict; Path=/; Max-Age=0"))
+            return
+        if path == "/api/usuario":
+            tok = self._sess()
+            quem = SESSION_USERS.get(tok, "")
+            if not quem:
+                cookie_str = self.headers.get("Cookie", "")
+                m = re.search(r"(?:^|;\s*)lf_user=([a-z0-9_-]+)", cookie_str)
+                if m:
+                    usr_cand = obter_usuario_db(m.group(1))
+                    if usr_cand:
+                        quem = usr_cand["slug"]
+                    elif m.group(1) in LOGIN_USUARIOS:
+                        quem = m.group(1)
+                    if tok and quem:
+                        SESSION_USERS[tok] = quem
+            if not quem:
+                quem = "aramys"
+            usr = obter_usuario_db(quem)
+            nome = usr["nome"] if usr else LOGIN_NOMES.get(quem, "Aramys Silva dos Reis")
+            orcid = (usr.get("orcid") or "") if usr else ("0000-0003-4999-6382" if quem == "aramys" else "")
+            self._send_json({"ok": True, "usuario": quem, "nome": nome, "orcid": orcid})
             return
         if path == "/api/health":
             self._send_json({"ok": True})
@@ -868,16 +1094,42 @@ class LattesHandler(BaseHTTPRequestHandler):
             from abertura import montar_rotina
             usuario = (parse_qs(parsed.query).get("usuario") or [""])[0].strip()[:60]
             if not usuario:
-                self._send_json({"error": "Selecione seu perfil no login."}, HTTPStatus.BAD_REQUEST)
-                return
+                tok = self._sess()
+                quem = SESSION_USERS.get(tok, "")
+                if not quem:
+                    m = re.search(r"(?:^|;\s*)lf_user=([a-z0-9_-]+)", self.headers.get("Cookie", ""))
+                    if m:
+                        quem = m.group(1)
+                usr = obter_usuario_db(quem)
+                usuario = usr["nome"] if usr else LOGIN_NOMES.get(quem, "Aramys Silva dos Reis")
+            else:
+                usr = obter_usuario_db(usuario)
+                if usr:
+                    usuario = usr["nome"]
             with db() as conn:
                 self._send_json(montar_rotina(conn, usuario))
             return
 
         if path == "/api/abertura":
             qs = parse_qs(parsed.query)
-            usuario = (qs.get("usuario") or [""])[0].strip()[:60] or "Convidado"
-            orcid = (qs.get("orcid") or [""])[0].strip().upper() or None
+            usuario = (qs.get("usuario") or [""])[0].strip()[:60]
+            usr = None
+            if not usuario:
+                tok = self._sess()
+                quem = SESSION_USERS.get(tok, "")
+                if not quem:
+                    m = re.search(r"(?:^|;\s*)lf_user=([a-z0-9_-]+)", self.headers.get("Cookie", ""))
+                    if m:
+                        quem = m.group(1)
+                usr = obter_usuario_db(quem)
+                usuario = usr["nome"] if usr else LOGIN_NOMES.get(quem, "Aramys Silva dos Reis")
+            else:
+                usr = obter_usuario_db(usuario)
+                if usr:
+                    usuario = usr["nome"]
+            orcid = (qs.get("orcid") or [""])[0].strip().upper() or (usr.get("orcid") if usr else None)
+            if not orcid and "Aramys" in usuario:
+                orcid = "0000-0003-4999-6382"
             if orcid and not ORCID_RE.match(orcid):
                 self._send_json({"ok": False, "error": "ORCID inválido (formato 0000-0000-0000-0000)."}, HTTPStatus.BAD_REQUEST)
                 return
@@ -1052,15 +1304,37 @@ class LattesHandler(BaseHTTPRequestHandler):
             if not nome:
                 nome = "comprovante_padronizado.pdf"
             nome = re.sub(r"[^\w.\- ]", "_", nome, flags=re.UNICODE)[:120].strip() or "comprovante"
-            if not nome.lower().endswith(".pdf"):
-                nome += ".pdf"
+            ext = os.path.splitext(nome)[1].lower()
+            if not ext:
+                orig_ext = os.path.splitext(up.get("name", "") if up else "")[1].lower()
+                nome += orig_ext if orig_ext in (".pdf", ".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".bmp") else ".pdf"
             ascii_nome = re.sub(r"[^A-Za-z0-9._-]", "_", nome)
+            inline = (qs.get("inline") or ["0"])[0] == "1"
+            disp = "inline" if inline else "attachment"
+            content_type = mimetypes.guess_type(nome)[0] or "application/pdf"
             self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", "application/pdf")
-            self.send_header("Content-Disposition", f"attachment; filename=\"{ascii_nome}\"; filename*=UTF-8''{quote(nome)}")
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Disposition", f"{disp}; filename=\"{ascii_nome}\"; filename*=UTF-8''{quote(nome)}")
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)
+            return
+
+        if path == "/api/test-file":
+            qs = parse_qs(parsed.query)
+            nome = (qs.get("name") or [""])[0]
+            safe_name = os.path.basename(nome)
+            target = (BASE_DIR / "tests" / "evidencias_separadas_por_documento" / safe_name).resolve()
+            if not target.is_file() or not target.is_relative_to((BASE_DIR / "tests" / "evidencias_separadas_por_documento").resolve()):
+                self._send_json({"error": "Arquivo não encontrado."}, HTTPStatus.NOT_FOUND)
+                return
+            raw = target.read_bytes()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "application/pdf")
+            self.send_header("Content-Disposition", f"inline; filename=\"{safe_name}\"")
+            self.send_header("Content-Length", str(len(raw)))
+            self.end_headers()
+            self.wfile.write(raw)
             return
 
         if path == "/api/dossie/padronizar":
@@ -1110,6 +1384,32 @@ class LattesHandler(BaseHTTPRequestHandler):
         path = parsed.path
         if path == "/login":
             self._handle_login()
+            return
+        if path == "/api/usuario/orcid":
+            if not self._gate():
+                return
+            try:
+                body = self._read_body() or b"{}"
+                payload = json.loads(body.decode("utf-8"))
+                orcid = str(payload.get("orcid") or "").strip().upper()
+                if orcid and not ORCID_RE.match(orcid):
+                    self._send_json({"error": "ORCID inválido (formato 0000-0000-0000-0000)."}, HTTPStatus.BAD_REQUEST)
+                    return
+                tok = self._sess()
+                quem = SESSION_USERS.get(tok, "")
+                if not quem:
+                    cookie_str = self.headers.get("Cookie", "")
+                    m = re.search(r"(?:^|;\s*)lf_user=([a-z0-9_-]+)", cookie_str)
+                    if m:
+                        quem = m.group(1)
+                usr = obter_usuario_db(quem)
+                if usr:
+                    with db() as conn:
+                        conn.execute("UPDATE usuarios SET orcid = ? WHERE slug = ?", (orcid, usr["slug"]))
+                        conn.commit()
+                self._send_json({"ok": True, "orcid": orcid})
+            except Exception:
+                self._send_json({"error": "Falha ao salvar ORCID."}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return
         if path == "/api/pesquisa/pesquisador":
             # Endpoint público apenas para a pesquisa; respostas e IP não ficam públicos.

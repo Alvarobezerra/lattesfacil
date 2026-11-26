@@ -2,11 +2,27 @@
 (() => {
   const names = { alvaro: 'Álvaro Antônio Bezerra dos Santos', aramys: 'Aramys Silva dos Reis' };
   const storage = { get(key) { try { return localStorage.getItem(key) || ''; } catch (_) { return ''; } }, set(key, value) { try { localStorage.setItem(key, value); } catch (_) {} } };
-  const cookie = document.cookie.match(/(?:^|;\s*)lf_user=([a-z]+)/);
-  if (cookie && names[cookie[1]]) { storage.set('lf-usuario', names[cookie[1]]); document.cookie = 'lf_user=; Path=/; Max-Age=0'; }
-  const owner = storage.get('lf-usuario');
+  const cookie = document.cookie.match(/(?:^|;\s*)lf_user=([a-z0-9_-]+)/);
+  if (cookie && names[cookie[1]]) { storage.set('lf-usuario', names[cookie[1]]); }
+  let owner = storage.get('lf-usuario') || (cookie && names[cookie[1]]) || names.aramys;
+  storage.set('lf-usuario', owner);
   const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+/g, ' ').toLowerCase();
   const sameOwner = name => !!owner && normalize(name) === normalize(owner);
+  const getInitials = name => (name || '').split(/\s+/).filter(p => p.length > 2).slice(0, 2).map(p => p[0]).join('') || '?';
+  let initials = getInitials(owner);
+
+  function updateUserDOM(name) {
+    if (!name) return;
+    initials = getInitials(name);
+    document.querySelectorAll('[data-user-name]').forEach(e => e.textContent = name.split(' ')[0] || 'pesquisador');
+    document.querySelectorAll('[data-user-full]').forEach(e => e.textContent = name || 'Selecione seu perfil no login');
+    document.querySelectorAll('[data-user-initials]').forEach(e => e.textContent = initials);
+    const personName = document.querySelector('.sidebar-person span:last-child');
+    if (personName) personName.textContent = name;
+    const personAvatar = document.querySelector('.sidebar-person .platform-avatar');
+    if (personAvatar) personAvatar.textContent = initials;
+  }
+
   async function json(url, options) {
     const response = await fetch(url, options);
     if (response.status === 401) { location.assign('/login'); throw new Error('Sessão expirada.'); }
@@ -22,10 +38,21 @@
     return data;
   }
   window.LattesUI = { owner, storage, sameOwner, json, normalize };
-  const initials = owner.split(/\s+/).filter(p => p.length > 2).slice(0, 2).map(p => p[0]).join('') || '?';
-  document.querySelectorAll('[data-user-name]').forEach(e => e.textContent = owner.split(' ')[0] || 'pesquisador');
-  document.querySelectorAll('[data-user-full]').forEach(e => e.textContent = owner || 'Selecione seu perfil no login');
-  document.querySelectorAll('[data-user-initials]').forEach(e => e.textContent = initials);
+
+  updateUserDOM(owner);
+
+  fetch('/api/usuario').then(r => r.ok ? r.json() : null).then(u => {
+    if (u && u.ok && u.nome) {
+      if (storage.get('lf-usuario') !== u.nome) {
+        storage.set('lf-usuario', u.nome);
+        window.LattesUI.owner = u.nome;
+        updateUserDOM(u.nome);
+      }
+      if (u.orcid) {
+        storage.set('lf-orcid:' + u.nome, u.orcid);
+      }
+    }
+  }).catch(() => {});
   const sidebar = document.getElementById('platformSidebar');
   const items = [
     ["Visão geral","/abertura.html","M3 10l9-7 9 7v10H3z M9 20v-7h6v7"],
@@ -85,10 +112,14 @@
   logout.textContent = 'Sair';
   footer.append(logout);
   const person = document.createElement('div'); person.className = 'sidebar-person'; const avatar = document.createElement('span'); avatar.className = 'platform-avatar'; avatar.textContent = initials; const name = document.createElement('span'); name.textContent = owner || 'Perfil não identificado'; person.append(avatar, name); footer.append(person);
-  sidebar.replaceChildren(brand, label, nav, footer);
+  if (sidebar) {
+    sidebar.replaceChildren(brand, label, nav, footer);
+  }
   const toggle = document.getElementById('sidebarToggle');
-  toggle.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('sidebar-open', open); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { document.body.classList.remove('sidebar-open'); toggle.setAttribute('aria-expanded', 'false'); } });
+  if (toggle) {
+    toggle.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('sidebar-open', open); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { document.body.classList.remove('sidebar-open'); toggle.setAttribute('aria-expanded', 'false'); } });
+  }
   const status = document.getElementById('platformConnection');
   if (!status) return;
   async function refresh() {

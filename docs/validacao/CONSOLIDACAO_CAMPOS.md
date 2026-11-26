@@ -42,8 +42,8 @@ Legenda: Par = pendentes de paridade · F5 = casos OK/total · Cat80 = catálogo
 | Citações | `citacao_scielo` | 1 | 5 | 0 | 14/14 |  |  | ✔ | ✘ | 4/4 (0/0) | ✔ | ✔ |
 | Citações | `citacao_scopus` | 1 | 5 | 0 | 14/14 |  |  | ✔ | ✘ | 4/4 (0/0) | ✔ | ✔ |
 | Citações | `citacao_web_of_science` | 1 | 7 | 0 | 21/21 |  |  | ✔ | ✘ | 6/6 (0/0) | ✔ | ✔ |
-| Dados gerais | `endereco` | 1 | 37 | 0 | 604/604 |  |  | ✔ | único | 33/33 (0/0) | n/a | ✘ |
-| Dados gerais | `identificacao` | 1 | 30 | 0 | 843/843 |  |  | ✔ | único | 20/20 (0/0) | n/a | ✘ |
+| Dados gerais | `endereco` | 1 | 37 | 0 | 604/604 |  |  | ✔ | único | 33/33 (2/2) | n/a | ✘ |
+| Dados gerais | `identificacao` | 1 | 30 | 0 | 843/843 |  |  | ✔ | único | 20/20 (1/1) | n/a | ✘ |
 | Dados gerais | `idioma` | 1 | 10 | 0 | 161/161 |  |  | ✔ | ✘ | 9/9 (0/0) | ✔ | ✔ |
 | Dados gerais | `licenca` | 1 | 5 | 0 | 15/15 |  |  | ✔ | ✘ | 4/4 (0/0) | ✔ | ✔ |
 | Dados gerais | `outras_informacoes` | 1 | 1 | 0 | 4/4 |  |  | ✔ | único | 1/1 (0/0) | n/a | ✘ |

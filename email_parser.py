@@ -54,8 +54,9 @@ def parse_eml_bytes(raw_bytes: bytes) -> dict[str, Any]:
 
     full_body = "\n".join(body_text_parts).strip()
 
-    # Prioriza anexos em PDF (certificados típicos)
+    # Prioriza anexos em PDF (certificados típicos) e imagens (PNG, JPG)
     pdf_attachments = [a for a in attachments if a["filename"].lower().endswith(".pdf")]
+    image_attachments = [a for a in attachments if re.search(r"\.(png|jpe?g|webp|bmp|tiff?)$", a["filename"], re.I)]
 
     return {
         "ok": True,
@@ -65,5 +66,7 @@ def parse_eml_bytes(raw_bytes: bytes) -> dict[str, Any]:
         "body": full_body,
         "attachments_count": len(attachments),
         "pdf_attachments": pdf_attachments,
-        "first_pdf": pdf_attachments[0] if pdf_attachments else None
+        "first_pdf": pdf_attachments[0] if pdf_attachments else None,
+        "image_attachments": image_attachments,
+        "first_image": image_attachments[0] if image_attachments else None,
     }

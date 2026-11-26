@@ -44,18 +44,22 @@ def title_name(name: str) -> str:
 
 
 def sentence_title(raw: str) -> str:
-    """Título em CAIXA ALTA -> caixa de sentença; '(ATTALEA SPECIOSA)' vira '(Attalea speciosa)'."""
+    """Título em CAIXA ALTA -> caixa de sentença; preserva siglas como COVID-19, DNA, etc."""
     raw = _clean_line(raw)
     if not raw.isupper():
-        return raw
-    out = raw.lower()
-    out = out[:1].upper() + out[1:]
+        out = raw
+    else:
+        out = raw.lower()
+        out = out[:1].upper() + out[1:]
 
     def binomial(m: re.Match) -> str:
         genus, species = m.group(1).split()
         return f"({genus.capitalize()} {species})"
 
-    return re.sub(r"\(([a-zà-ÿ]{4,} [a-zà-ÿ]{4,})\)", binomial, out)
+    out = re.sub(r"\(([a-zà-ÿ]{4,} [a-zà-ÿ]{4,})\)", binomial, out)
+    out = re.sub(r"\bcovid(?:-?19)?\b", "COVID-19", out, flags=re.I)
+    out = re.sub(r"\b(sars-cov-2|hiv|dna|rna|pcr|tcc|ic|semic|cnpq|capes|fapema)\b", lambda m: m.group(1).upper(), out, flags=re.I)
+    return out
 
 
 def _split_names(chunk: str) -> list[str]:
@@ -69,8 +73,10 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
     rec = new_apresentacao()
     notes: list[str] = rec["extraction_notes"]
 
-    m = re.search(r"intitulad[oa]\s+['\"“”]([^'\"“”]{3,300})['\"“”]", flat, re.I) or \
-        re.search(r"intitulad[oa]\s+(.+?)\s+(?:foi\s+(?:aprovad|apresentad|selecionad)|fo[ir]|apresentad[oa]\s+(?:no|na|em))", flat, re.I)
+    m = re.search(r"intitulad[oa]\s*:?\s*['\"“”]([^'\"“”]{3,300})['\"“”]", flat, re.I) or \
+        re.search(r"intitulad[oa]\s*:?\s+(.+?)(?:,\s*na categoria\s+|,\s*tendo como (?:autores|co-?autores)|,\s*(?:de|com)\s+autoria|\s+(?:foi\s+(?:aprovad|apresentad|selecionad)|fo[ir]|apresentad[oa]\s+(?:no|na|em))|,\s*(?:no|na|em)\s+)", flat, re.I) or \
+        re.search(r"com o t[íi]tulo\s+['\"“”]([^'\"“”]{3,300})['\"“”]", flat, re.I) or \
+        re.search(r"com o t[íi]tulo\s+(.+?)(?:,\s*tendo como|,\s*(?:de|com)\s+autoria|\s+apresentad|,\s*(?:no|na|em)\s+)", flat, re.I)
     if m:
         rec["titulo"] = sentence_title(m.group(1))
         if re.search(r"\([A-ZÀ-Ý]{4,} [A-ZÀ-Ý]{4,}\)", m.group(1)):
@@ -90,6 +96,13 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
         notes.append("Nome do evento não identificado no certificado.")
 
     m = re.search(r"realizad[oa]\s+(?:pel[ao]s?|por)\s+(.+?)(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s)", flat, re.I)
+    if not m:
+        m = re.search(r"promovid[oa]\s+(?:pel[ao]s?|por)\s+(.+?)(?:,\s*no per[ií]odo|\s+no per[ií]odo|,\s*em\s)", flat, re.I)
+    if not m:
+        # Prioriza Universidade/Instituto/Faculdade ou Sociedade promotora
+        m_univ = re.search(r"\b((?:Universidade|Instituto|Faculdade|Centro Universit[áa]rio)\s+[^,.\n]{3,80})", flat, re.I)
+        m_soc = re.search(r"\b((?:Sociedade|Associa[çc][ãa]o)\s+[^,.\n]{3,80})", flat, re.I)
+        m = m_univ or m_soc
     if m:
         promotora = _clean_line(m.group(1))
         j = re.search(r"juntamente com\s+(?:a|o|as|os)\s+(.+)$", promotora, re.I)
@@ -127,13 +140,23 @@ def parse_certificado(text: str, usuario: str = "") -> dict[str, Any]:
     orientador = title_name(ori.group(1)) if ori else ""
     apresentador = title_name(apr.group(1)) if apr else ""
     coautores = [title_name(n) for n in _split_names(coa.group(1))] if coa else []
-    aut = re.search(r"de\s+autoria\s+de\s+(.+?)(?:,\s*foi\s+apresentad|\s+foi\s+apresentad)", flat, re.I)
-    if aut and not apresentador and not coautores:
-        nomes_aut = [title_name(n) for n in _split_names(aut.group(1))]
-        if nomes_aut:
-            apresentador, coautores = nomes_aut[0], nomes_aut[1:]
 
-    ordem = [(apresentador, "apresentador")] + [(c, "coautor") for c in coautores] + [(orientador, "orientador")]
+    # Procura lista expressa de autores (ex: "tendo como autores A, B, C" ou "de autoria de A, B, C")
+    m_aut = re.search(r"tendo como (?:autores|co-?autores)\s+(.+?)(?:,\s*(?:no|na|em)\s+|\s+no formato|\.|$)", flat, re.I) or \
+            re.search(r"(?:de|com)\s+autoria\s+de\s+(.+?)(?:,\s*(?:no|na|em)\s+|\s+foi|\.|$)", flat, re.I) or \
+            re.search(r"autores\s*:\s*(.+?)(?:,\s*(?:no|na|em)\s+|\.|$)", flat, re.I)
+
+    if m_aut:
+        nomes_aut = [title_name(n) for n in _split_names(m_aut.group(1))]
+        if nomes_aut:
+            ordem = []
+            for n in nomes_aut:
+                papel = "apresentador" if (apresentador and (n.lower() in apresentador.lower() or apresentador.lower() in n.lower())) else "coautor"
+                ordem.append((n, papel))
+            if orientador and not any(orientador.lower() in n[0].lower() for n in ordem):
+                ordem.append((orientador, "orientador"))
+    else:
+        ordem = [(apresentador, "apresentador")] + [(c, "coautor") for c in coautores] + [(orientador, "orientador")]
     for nome, papel in ordem:
         if nome:
             rec["autores"].append({"nome": nome, "citacao": to_citation_name(nome), "papel": papel})

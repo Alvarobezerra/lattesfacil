@@ -60,7 +60,7 @@
     {
      "chave": "nmecitacao",
      "name": "nmeCitacao",
-     "rotulo": "SANTOS, A. A. B.",
+     "rotulo": "Nome em citações bibliográficas",
      "aba": "Dados pessoais",
      "tipo": "text",
      "maxlength": 255,
@@ -1115,7 +1115,15 @@
      "obrigatorio": false
     }
    ],
-   "grades": [],
+   "grades": [
+    {
+     "chave": "nomes_citacao",
+     "rotulo": "Nome em citações bibliográficas",
+     "aba": "Dados pessoais",
+     "placeholder": "Ex.: SANTOS, A. A. B.",
+     "dica": "Cada nome em citação é incluído no campo #nmeCitacao com Enter (#holderDetNmeCit)."
+    }
+   ],
    "obrigatorios_mensagens": [
     "Nome completo",
     "Nome social",

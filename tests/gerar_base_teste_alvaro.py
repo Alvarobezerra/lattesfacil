@@ -640,7 +640,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
     p6 = doc_mestre.new_page(width=842, height=595)  # Paisagem
     p6.draw_rect(pymupdf.Rect(30, 30, 812, 565), color=(0.15, 0.35, 0.25), width=2.5)
     p6.draw_rect(pymupdf.Rect(38, 38, 804, 557), color=(0.7, 0.6, 0.2), width=1.5)
-    p6.insert_text((50, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 01: APRESENTAÇÃO DE TRABALHO ORAL", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p6.insert_text((50, 22), f"COMPROVANTE: APRESENTAÇÃO DE TRABALHO ORAL", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p6.insert_textbox(pymupdf.Rect(50, 60, 792, 110),
                       "XXVIII CONGRESSO BRASILEIRO DE FARMÁCIA E SAÚDE INTEGRADA\nSOCIEDADE BRASILEIRA DE CIÊNCIAS FARMACÊUTICAS — SBCF",
                       fontsize=12, fontname="hebo", align=1, color=(0.1, 0.2, 0.3))
@@ -661,7 +661,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 02: Artigo em Periódico 1 (Revista Brasileira de Farmacognosia)
     p7 = doc_mestre.new_page(width=595, height=842)
-    p7.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 02: ARTIGO EM PERIÓDICO (QUALIS A)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p7.insert_text((40, 22), f"COMPROVANTE: ARTIGO EM PERIÓDICO (QUALIS A)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p7.draw_rect(pymupdf.Rect(40, 40, 555, 95), color=(0.3, 0.3, 0.3), fill=(0.96, 0.96, 0.96))
     p7.insert_textbox(pymupdf.Rect(50, 48, 545, 90),
                       "Revista Brasileira de Farmacognosia — Brazilian Journal of Pharmacognosy\n"
@@ -693,7 +693,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 03: Artigo em Periódico 2 (Brazilian Journal of Health Review)
     p8 = doc_mestre.new_page(width=595, height=842)
-    p8.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 03: ARTIGO EM PERIÓDICO (BJHR)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p8.insert_text((40, 22), f"COMPROVANTE: ARTIGO EM PERIÓDICO (BJHR)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p8.draw_rect(pymupdf.Rect(40, 40, 555, 95), color=(0.3, 0.3, 0.3), fill=(0.96, 0.96, 0.96))
     p8.insert_textbox(pymupdf.Rect(50, 48, 545, 90),
                       "Brazilian Journal of Health Review — Curitiba, v. 6, n. 1, p. 1420-1435, jan./fev. 2024\n"
@@ -723,7 +723,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 04: Trabalho Publicado em Anais de Congresso (Resumo Expandido)
     p_anais = doc_mestre.new_page(width=595, height=842)
-    p_anais.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 04: TRABALHO EM ANAIS DE CONGRESSO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p_anais.insert_text((40, 22), f"COMPROVANTE: TRABALHO EM ANAIS DE CONGRESSO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p_anais.draw_rect(pymupdf.Rect(40, 40, 555, 95), color=(0.2, 0.35, 0.5), fill=(0.95, 0.97, 1.0))
     p_anais.insert_textbox(pymupdf.Rect(50, 48, 545, 90),
                            "XXVIII CONGRESSO BRASILEIRO DE FARMÁCIA E SAÚDE INTEGRADA\n"
@@ -754,7 +754,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 05: Declaração de Projeto de Pesquisa (UFMA/PPPGI)
     p9 = doc_mestre.new_page(width=595, height=842)
-    p9.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 05: PROJETO DE PESQUISA (PPPGI)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p9.insert_text((40, 22), f"COMPROVANTE: PROJETO DE PESQUISA (PPPGI)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p9.insert_textbox(pymupdf.Rect(40, 60, 555, 120),
                       "UNIVERSIDADE FEDERAL DO MARANHÃO — UFMA\nPRÓ-REITORIA DE PESQUISA, PÓS-GRADUAÇÃO E INOVAÇÃO — PPPGI\nCOORDENAÇÃO DE PESQUISA E INICIAÇÃO CIENTÍFICA",
                       fontsize=10, fontname="hebo", align=1)
@@ -778,7 +778,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
     p10 = doc_mestre.new_page(width=842, height=595)  # Paisagem
     p10.draw_rect(pymupdf.Rect(30, 30, 812, 565), color=(0.3, 0.2, 0.5), width=2.5)
     p10.draw_rect(pymupdf.Rect(38, 38, 804, 557), color=(0.7, 0.6, 0.2), width=1.5)
-    p10.insert_text((50, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 06: CURSO DE CURTA DURAÇÃO MINISTRADO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p10.insert_text((50, 22), f"COMPROVANTE: CURSO DE CURTA DURAÇÃO MINISTRADO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p10.insert_textbox(pymupdf.Rect(50, 60, 792, 110),
                        "UNIVERSIDADE FEDERAL DO MARANHÃO\nPRÓ-REITORIA DE EXTENSÃO E CULTURA — PROEC",
                        fontsize=12, fontname="hebo", align=1)
@@ -797,7 +797,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 07: Declaração de Membro de Comissão Organizadora de Evento
     p11 = doc_mestre.new_page(width=595, height=842)
-    p11.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 07: ORGANIZAÇÃO DE EVENTO CIENTÍFICO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p11.insert_text((40, 22), f"COMPROVANTE: ORGANIZAÇÃO DE EVENTO CIENTÍFICO", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p11.insert_textbox(pymupdf.Rect(40, 60, 555, 120),
                        "I JORNADA MARANHENSE DE CIÊNCIAS FARMACÊUTICAS E BIOTECNOLOGIA EM SAÚDE\n"
                        "ASSOCIAÇÃO DOS FARMACÊUTICOS DO MARANHÃO & UFMA",
@@ -819,7 +819,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 08: Declaração de Membro de Banca Examinadora de Graduação
     p_banca = doc_mestre.new_page(width=595, height=842)
-    p_banca.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 08: PARTICIPAÇÃO EM BANCA EXAMINADORA", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p_banca.insert_text((40, 22), f"COMPROVANTE: PARTICIPAÇÃO EM BANCA EXAMINADORA", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p_banca.insert_textbox(pymupdf.Rect(40, 60, 555, 120),
                            "UNIVERSIDADE FEDERAL DO MARANHÃO — UFMA\nDEPARTAMENTO DE FARMÁCIA — COORDENAÇÃO DE TCC",
                            fontsize=10.5, fontname="hebo", align=1)
@@ -841,7 +841,7 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
 
     # Evidência 09: Declaração de Orientação de Conclusão de Curso Concluída
     p_orient = doc_mestre.new_page(width=595, height=842)
-    p_orient.insert_text((40, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 09: ORIENTAÇÃO ACADÊMICA CONCLUÍDA", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p_orient.insert_text((40, 22), f"COMPROVANTE: ORIENTAÇÃO ACADÊMICA CONCLUÍDA", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
     p_orient.insert_textbox(pymupdf.Rect(40, 60, 555, 120),
                             "UNIVERSIDADE FEDERAL DO MARANHÃO — UFMA\nCURSO DE GRADUAÇÃO EM FARMÁCIA — COORDENAÇÃO DE CURSO",
                             fontsize=10.5, fontname="hebo", align=1)
@@ -864,7 +864,28 @@ def gerar_q13_completo_e_evidencias_individuais(destino_dossie: Path, destino_ev
     p_part = doc_mestre.new_page(width=842, height=595)  # Paisagem
     p_part.draw_rect(pymupdf.Rect(30, 30, 812, 565), color=(0.1, 0.3, 0.5), width=2.5)
     p_part.draw_rect(pymupdf.Rect(38, 38, 804, 557), color=(0.6, 0.6, 0.6), width=1.0)
-    p_part.insert_text((50, 22), f"CADERNO DE EVIDÊNCIAS — EVIDÊNCIA 10: PARTICIPAÇÃO EM EVENTO (OUVINTE)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p_part.insert_text((50, 22), f"COMPROVANTE: PARTICIPAÇÃO EM EVENTO (OUVINTE)", fontsize=8, fontname="hebo", color=(0.4, 0.4, 0.4))
+    p_part.insert_textbox(pymupdf.Rect(50, 60, 792, 110),
+                          "XXVIII CONGRESSO BRASILEIRO DE FARMÁCIA E SAÚDE INTEGRADA\nPLATAFORMA DE GESTÃO DE EVENTOS EVEN3",
+                          fontsize=12, fontname="hebo", align=1, color=(0.1, 0.2, 0.4))
+    p_part.insert_textbox(pymupdf.Rect(50, 130, 792, 175), "CERTIFICADO DE PARTICIPAÇÃO", fontsize=20, fontname="hebo", align=1, color=(0.1, 0.3, 0.5))
+    cert_part = (
+        f"Certificamos que {NOME_UPPER} participou do XXVIII Congresso Brasileiro de Farmácia e Saúde Integrada, "
+        f"promovido pela Sociedade Brasileira de Ciências Farmacêuticas, realizado em São Luís - MA, no período de "
+        f"14 a 17 de novembro de 2023, na qualidade de OUVINTE / CONGRESSISTA, totalizando 40 horas de atividades."
+    )
+    p_part.insert_textbox(pymupdf.Rect(80, 195, 762, 330), cert_part, fontsize=13, fontname="helv", align=1)
+    p_part.insert_text((100, 370), "São Luís - MA, 17 de novembro de 2023.", fontsize=11, fontname="helv")
+    p_part.draw_line(pymupdf.Point(260, 460), pymupdf.Point(580, 460), color=(0.3, 0.3, 0.3))
+    p_part.insert_textbox(pymupdf.Rect(260, 465, 580, 500), "Comissão Organizadora Oficial do XXVIII CBFS", fontsize=9, fontname="hebo", align=1)
+    p_part.insert_textbox(pymupdf.Rect(50, 520, 792, 550),
+                          "Código de autenticidade Even3: 9847120.2023.ALVARO.VALIDO — Acesse https://www.even3.com.br/documentos",
+                          fontsize=8, fontname="helv", align=1, color=(0.4, 0.4, 0.4))
+    salvar_individual(doc_mestre, "10_certificado_participacao_ouvinte.pdf")
+
+    # Salva o dossiê unificado mestre Q13
+    doc_mestre.save(destino_dossie / "Q13_curriculo_lattes_comprovacoes.pdf")
+    doc_mestre.close()
     p_part.insert_textbox(pymupdf.Rect(50, 60, 792, 110),
                           "XXVIII CONGRESSO BRASILEIRO DE FARMÁCIA E SAÚDE INTEGRADA\nPLATAFORMA DE GESTÃO DE EVENTOS EVEN3",
                           fontsize=12, fontname="hebo", align=1, color=(0.1, 0.2, 0.4))

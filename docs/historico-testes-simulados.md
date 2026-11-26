@@ -1,6 +1,6 @@
 # Histórico consolidado dos testes simulados
 
-Gerado por `tests/amostras_sinteticas/painel.py` a partir de `tests/historico/execucoes.jsonl` — 723 registros em 21 execuções (de 2026-11-17 a 2026-11-17), 65 itens.
+Gerado por `tests/amostras_sinteticas/painel.py` a partir de `tests/historico/execucoes.jsonl` — 6597 registros em 92 execuções (de 2026-11-17 a 2026-11-22), 65 itens.
 
 Legenda: ✅ ok · ❌ falha · 🟡 lacuna conhecida · 🟠 parcial (precisou de ajuda manual / não observado) · ⚪ aviso (sem regra ou tratador ainda) · · não testado.
 Etapas, na ordem do caminho do documento até o Lattes: **Módulos** (classificador+leitor direto), **Plataforma** (caminho do /api/extract), **Vínculo** (abertura do formulário, lista mapeada e tratador), **Lista Lattes** (leitura da lista no currículo real), **Salvar**, **Conferir**, **Excluir** e **Reconferir** (ciclo no currículo real).
@@ -9,9 +9,9 @@ Etapas, na ordem do caminho do documento até o Lattes: **Módulos** (classifica
 
 | Etapa | ✅ ok | 🟡 lacuna | 🟠 parcial | ⚪ aviso | ❌ falha | · não testado | % ok (sem os avisos) |
 | --- | --: | --: | --: | --: | --: | --: | --: |
-| Módulos | 24 | 0 | 0 | 41 | 0 | 0 | 100% (24/24) |
-| Plataforma | 23 | 0 | 0 | 41 | 0 | 1 | 100% (23/23) |
-| Vínculo | 63 | 0 | 0 | 0 | 0 | 2 | 100% (63/63) |
+| Módulos | 65 | 0 | 0 | 0 | 0 | 0 | 100% (65/65) |
+| Plataforma | 64 | 0 | 0 | 0 | 0 | 1 | 100% (64/64) |
+| Vínculo | 64 | 0 | 0 | 0 | 0 | 1 | 100% (64/64) |
 | Lista Lattes | 11 | 0 | 6 | 38 | 0 | 10 | 65% (11/17) |
 | Salvar | 5 | 0 | 0 | 0 | 1 | 59 | 83% (5/6) |
 | Conferir | 5 | 0 | 0 | 0 | 0 | 60 | 100% (5/5) |
@@ -22,82 +22,82 @@ Etapas, na ordem do caminho do documento até o Lattes: **Módulos** (classifica
 
 | Item | Módulos | Plataforma | Vínculo | Lista Lattes | Salvar | Conferir | Excluir | Reconferir | Registros | Última execução |
 | --- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | --: | --- |
-| `apresentacao` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 27 | 2026-11-17 10:05 |
-| `curso_ministrado` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 19 | 2026-11-17 15:11 |
-| `organizacao_evento` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 17 | 2026-11-17 17:10 |
-| `participacao_evento` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 18 | 2026-11-17 16:40 |
-| `premio` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 26 | 2026-11-17 13:20 |
-| `formacao_complementar` | ✅ | ✅ | ✅ | ✅ | ❌ | · | · | · | 14 | 2026-11-17 17:40 |
-| `anais` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 12 | 2026-11-17 10:05 |
-| `artigo` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 12 | 2026-11-17 10:05 |
-| `atuacao_profissional` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `banca` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 20 | 2026-11-17 11:20 |
-| `formacao_academica` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `idioma` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `licenca` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `livro_capitulo` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `orientacao_concluida` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `projeto` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 20 | 2026-11-17 11:20 |
-| `revisor_periodico` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `artigo_aceito` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `corpo_editorial` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `orientacao_andamento` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `patente` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 20 | 2026-11-17 11:20 |
-| `relatorio_tecnico` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `software_registro` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 13 | 2026-11-17 11:20 |
-| `artes_cenicas` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `artes_visuais` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `banca_comissao_julgadora` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `caderno` | ✅ | · | · | · | · | · | · | · | 3 | 2026-11-17 10:05 |
-| `cartas_mapas` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `citacao_google_scholar` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `citacao_outra_base` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `citacao_scielo` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `citacao_scopus` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `citacao_web_of_science` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `comite_assessoramento` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `cultivar_protegida` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `cultivar_registrada` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `desenho_industrial` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `editoracao` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `endereco` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `entrevista_midia` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `extensao_tecnologica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `identificacao` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `manutencao_obra` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `maquete` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `marca_registrada` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `material_didatico` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `musica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `outra_producao_artistica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `outra_producao_bibliografica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `outra_producao_tecnica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `outras_informacoes` | ⚪ | ⚪ | ✅ | · | · | · | · | · | 8 | 2026-11-17 11:20 |
-| `partitura_musical` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `pos_doutorado` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `prefacio_posfacio` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `processo_tecnica` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `produto` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `redes_sociais` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `relatorio_pesquisa` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `revisor_projeto_fomento` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `software_sem_registro` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `texto_jornal_revista` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `topografia_circuito` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `trabalho_tecnico` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `traducao` | ⚪ | ⚪ | ✅ | ⚪ | · | · | · | · | 9 | 2026-11-17 11:20 |
-| `texto_inicial` | ⚪ | ⚪ | · | · | · | · | · | · | 7 | 2026-11-17 10:05 |
+| `apresentacao` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 209 | 2026-11-22 08:14 |
+| `curso_ministrado` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 129 | 2026-11-22 08:14 |
+| `organizacao_evento` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 127 | 2026-11-22 08:14 |
+| `participacao_evento` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 128 | 2026-11-22 08:14 |
+| `premio` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 208 | 2026-11-22 08:14 |
+| `formacao_complementar` | ✅ | ✅ | ✅ | ✅ | ❌ | · | · | · | 124 | 2026-11-22 08:14 |
+| `anais` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 122 | 2026-11-22 08:14 |
+| `artigo` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 122 | 2026-11-22 08:14 |
+| `atuacao_profissional` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `banca` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 202 | 2026-11-22 08:14 |
+| `formacao_academica` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `idioma` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `licenca` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `livro_capitulo` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `orientacao_concluida` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `projeto` | ✅ | ✅ | ✅ | ✅ | · | · | · | · | 202 | 2026-11-22 08:14 |
+| `revisor_periodico` | ✅ | ✅ | ✅ | 🟠 | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `artes_cenicas` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `artes_visuais` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `artigo_aceito` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `banca_comissao_julgadora` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `cartas_mapas` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `citacao_google_scholar` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `citacao_outra_base` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `citacao_scielo` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `citacao_scopus` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `citacao_web_of_science` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `comite_assessoramento` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `corpo_editorial` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `cultivar_protegida` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `cultivar_registrada` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `desenho_industrial` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `editoracao` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `endereco` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `entrevista_midia` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `extensao_tecnologica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `identificacao` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `manutencao_obra` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `maquete` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `marca_registrada` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `material_didatico` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `musica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `orientacao_andamento` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `outra_producao_artistica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `outra_producao_bibliografica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `outra_producao_tecnica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `outras_informacoes` | ✅ | ✅ | ✅ | · | · | · | · | · | 80 | 2026-11-22 08:14 |
+| `partitura_musical` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `patente` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 202 | 2026-11-22 08:14 |
+| `pos_doutorado` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `prefacio_posfacio` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `processo_tecnica` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `produto` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `redes_sociais` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `relatorio_pesquisa` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `relatorio_tecnico` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `revisor_projeto_fomento` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `software_registro` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 123 | 2026-11-22 08:14 |
+| `software_sem_registro` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `texto_inicial` | ✅ | ✅ | ✅ | · | · | · | · | · | 79 | 2026-11-22 08:14 |
+| `texto_jornal_revista` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `topografia_circuito` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `trabalho_tecnico` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `traducao` | ✅ | ✅ | ✅ | ⚪ | · | · | · | · | 81 | 2026-11-22 08:14 |
+| `caderno` | ✅ | · | · | · | · | · | · | · | 35 | 2026-11-22 08:14 |
 
 ## 3. Onde testamos mais e onde menos
 
 - **Testados de ponta a ponta no currículo real (Salvar → Excluir → Reconferir):** `apresentacao`, `curso_ministrado`, `organizacao_evento`, `participacao_evento`, `premio`.
 - **Profundidade ≥ 5 etapas:** `apresentacao`, `curso_ministrado`, `formacao_complementar`, `organizacao_evento`, `participacao_evento`, `premio`.
 - **Só testados no simulado (sem salvar no Lattes), com vínculo/lista prontos:** `anais`, `atuacao_profissional`, `formacao_academica`, `idioma`, `projeto`.
-- **Menos testados (sem regra no classificador, só o documento simulado existe):** 41 itens — `artes_cenicas`, `artes_visuais`, `banca_comissao_julgadora`, `cartas_mapas`, `citacao_google_scholar`, `citacao_outra_base`, `citacao_scielo`, `citacao_scopus`, `citacao_web_of_science`, `comite_assessoramento`, `cultivar_protegida`, `cultivar_registrada`, `desenho_industrial`, `editoracao`, `endereco`, `entrevista_midia`, `extensao_tecnologica`, `identificacao`, `manutencao_obra`, `maquete`, `marca_registrada`, `material_didatico`, `musica`, `outra_producao_artistica`, `outra_producao_bibliografica`, `outra_producao_tecnica`, `outras_informacoes`, `partitura_musical`, `pos_doutorado`, `prefacio_posfacio`, `processo_tecnica`, `produto`, `redes_sociais`, `relatorio_pesquisa`, `revisor_projeto_fomento`, `software_sem_registro`, `texto_inicial`, `texto_jornal_revista`, `topografia_circuito`, `trabalho_tecnico`, `traducao`.
+- **Menos testados (sem regra no classificador, só o documento simulado existe):** 0 itens — .
 
 ## 4. Onde já temos êxito
 
-`anais`, `apresentacao`, `artigo_aceito`, `atuacao_profissional`, `corpo_editorial`, `curso_ministrado`, `formacao_academica`, `idioma`, `organizacao_evento`, `orientacao_andamento`, `participacao_evento`, `patente`, `premio`, `projeto`, `relatorio_tecnico`, `software_registro`
+`anais`, `apresentacao`, `artes_cenicas`, `artes_visuais`, `artigo_aceito`, `atuacao_profissional`, `banca_comissao_julgadora`, `cartas_mapas`, `citacao_google_scholar`, `citacao_outra_base`, `citacao_scielo`, `citacao_scopus`, `citacao_web_of_science`, `comite_assessoramento`, `corpo_editorial`, `cultivar_protegida`, `cultivar_registrada`, `curso_ministrado`, `desenho_industrial`, `editoracao`, `endereco`, `entrevista_midia`, `extensao_tecnologica`, `formacao_academica`, `identificacao`, `idioma`, `manutencao_obra`, `maquete`, `marca_registrada`, `material_didatico`, `musica`, `organizacao_evento`, `orientacao_andamento`, `outra_producao_artistica`, `outra_producao_bibliografica`, `outra_producao_tecnica`, `outras_informacoes`, `participacao_evento`, `partitura_musical`, `patente`, `pos_doutorado`, `prefacio_posfacio`, `premio`, `processo_tecnica`, `produto`, `projeto`, `redes_sociais`, `relatorio_pesquisa`, `relatorio_tecnico`, `revisor_projeto_fomento`, `software_registro`, `software_sem_registro`, `texto_inicial`, `texto_jornal_revista`, `topografia_circuito`, `trabalho_tecnico`, `traducao`
 
 ## 5. Onde aprimorar (do mais grave ao menos grave)
 
@@ -112,21 +112,10 @@ Etapas, na ordem do caminho do documento até o Lattes: **Módulos** (classifica
 | `livro_capitulo` | Lista Lattes | 🟠 | a lista abre (HTTP 200) mas está vazia no currículo: formato das linhas ainda não observado. |
 | `orientacao_concluida` | Lista Lattes | 🟠 | a lista abre (HTTP 200) mas está vazia no currículo: formato das linhas ainda não observado. |
 | `revisor_periodico` | Lista Lattes | 🟠 | a lista abre (HTTP 200) mas está vazia no currículo: formato das linhas ainda não observado. |
-| `apresentacao (variação `apresentacao__autoria_no_titulo`)` | Módulos | 🟡 | autores='[]', esperado conter '<titular>' |
-| `apresentacao (variação `apresentacao__autoria_no_titulo`)` | Plataforma | 🟡 | valor autores='[]', esperado conter '<titular>'; nome do arquivo sem o seu sobrenome (2024_APRESENTACAO_AUTOR_ATIVIDADE-ANTIOXIDANTE-EXTRATOS-VEGETAIS.pdf) |
-| `banca (variação `banca__sem_cargo`)` | Módulos | 🟡 | f_nme_orient=None, esperado conter 'Lucas Ferreira Andrade' |
-| `banca (variação `banca__sem_cargo`)` | Plataforma | 🟡 | valor f_nme_orient='None', esperado conter 'Lucas Ferreira Andrade'; nome do arquivo sem o seu sobrenome (2024_PRODUCAO_AUTOR_DOCUMENTO.pdf) |
-| `patente (variação `patente__carta`)` | Módulos | 🟡 | f_titulo=None, esperado conter 'Bebidas mistas probióticas' |
-| `patente (variação `patente__carta`)` | Plataforma | 🟡 | valor f_titulo='None', esperado conter 'Bebidas mistas probióticas'; nome do arquivo sem o seu sobrenome (SEM-ANO_PATENTE_AUTOR_DOCUMENTO.pdf) |
-| `premio (variação `premio__so_ano`)` | Módulos | 🟡 | f_ano=None, esperado conter '2023' |
-| `premio (variação `premio__so_ano`)` | Plataforma | 🟡 | valor f_ano='None', esperado conter '2023'; nome do arquivo sem o seu sobrenome (SEM-ANO_PRODUCAO_AUTOR_MENCAO-HONROSA.pdf) |
-| `projeto (variação `projeto__sem_intitulado`)` | Módulos | 🟡 | f_titulo=None, esperado conter 'Ciência na Rede' |
-| `projeto (variação `projeto__sem_intitulado`)` | Plataforma | 🟡 | valor f_titulo='None', esperado conter 'Ciência na Rede'; nome do arquivo sem o seu sobrenome (SEM-ANO_PROJETO_AUTOR_DOCUMENTO.pdf) |
 
 **Recorrentes** (mesma causa em vários itens):
 
 - Lista vazia no currículo: formato da linha não observado: 6 item(ns)
-- Nome padronizado do arquivo sem o sobrenome do usuário: 5 item(ns)
 
 ## 6. Registro das ações testadas (cronológico)
 
@@ -153,6 +142,77 @@ Etapas, na ordem do caminho do documento até o Lattes: **Módulos** (classifica
 | 2026-11-17 16:40:00 | `manual_lattes_real` | 4 | 4 | 0 | 0 | 0 | 0 | — |
 | 2026-11-17 17:10:00 | `manual_lattes_real` | 4 | 4 | 0 | 0 | 0 | 0 | — |
 | 2026-11-17 17:40:00 | `manual_lattes_real` | 1 | 0 | 0 | 0 | 0 | 1 | formacao_complementar |
+| 2026-11-17 20:14:01 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-17 21:33:43 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-17 21:48:39 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-17 21:48:40 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-17 22:00:00 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-18 09:12:41 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-18 09:12:42 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-18 09:14:26 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-18 09:32:41 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 00:26:08 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | projeto |
+| 2026-11-20 00:26:10 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 00:26:29 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | projeto |
+| 2026-11-20 00:26:44 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 00:26:46 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:06:05 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:06:24 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | artigo |
+| 2026-11-20 06:07:27 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:07:37 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:16:59 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:41:18 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:58:46 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:59:09 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 06:59:45 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:05:30 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | anais |
+| 2026-11-20 07:05:50 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:11:44 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:15:34 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:15:56 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:24:36 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:54:19 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 07:54:42 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:00:11 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:00:16 | `teste_plataforma_sinteticos` | 92 | 45 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:00:17 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:00:35 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:00:38 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:07:09 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:07:34 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:07:52 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:08:09 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:14:22 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:14:44 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:14:58 | `teste_amostras_sinteticas` | 70 | 23 | 5 | 0 | 41 | 1 | apresentacao |
+| 2026-11-20 08:15:08 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 08:15:09 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 09:09:14 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 09:09:34 | `teste_plataforma_sinteticos` | 92 | 44 | 5 | 0 | 41 | 2 | orientacao_andamento, orientacao_concluida |
+| 2026-11-20 09:09:45 | `teste_plataforma_sinteticos` | 92 | 44 | 5 | 0 | 41 | 2 | orientacao_andamento, orientacao_concluida |
+| 2026-11-20 09:09:47 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 09:10:27 | `teste_plataforma_sinteticos` | 92 | 44 | 5 | 0 | 41 | 2 | orientacao_andamento, orientacao_concluida |
+| 2026-11-20 09:10:37 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 09:10:39 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:14:59 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:15:22 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:21:27 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:21:45 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:23:46 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-20 11:41:37 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 14:46:44 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 14:46:45 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 14:47:35 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 14:47:54 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 15:09:05 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 15:09:21 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 15:09:41 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 23:11:31 | `teste_amostras_sinteticas` | 70 | 24 | 5 | 0 | 41 | 0 | — |
+| 2026-11-21 23:11:48 | `teste_plataforma_sinteticos` | 92 | 46 | 5 | 0 | 41 | 0 | — |
+| 2026-11-22 00:38:48 | `teste_amostras_sinteticas` | 70 | 29 | 0 | 0 | 41 | 0 | — |
+| 2026-11-22 00:38:49 | `teste_plataforma_sinteticos` | 92 | 51 | 0 | 0 | 41 | 0 | — |
+| 2026-11-22 08:14:52 | `teste_amostras_sinteticas` | 70 | 70 | 0 | 0 | 0 | 0 | — |
+| 2026-11-22 08:14:53 | `teste_plataforma_sinteticos` | 138 | 138 | 0 | 0 | 0 | 0 | — |
 
 ### Detalhe das execuções no currículo real
 

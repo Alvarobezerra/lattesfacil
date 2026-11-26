@@ -12,7 +12,7 @@ import re
 import zipfile
 from typing import Any, Callable
 
-EXTENSOES = (".pdf", ".txt", ".eml")
+EXTENSOES = (".pdf", ".txt", ".eml", ".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff")
 MAX_ARQUIVOS = 150
 MAX_TOTAL = 400 * 1024 * 1024
 MAX_ARQUIVO = 60 * 1024 * 1024
