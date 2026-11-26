@@ -208,7 +208,12 @@ def current_mode() -> str:
 
 
 def enabled() -> bool:
-    return os.getenv("GEMINI_ENABLED", "").strip().lower() in {"1", "true", "yes", "on"}
+    flag = os.getenv("GEMINI_ENABLED", "").strip().lower()
+    if flag in {"1", "true", "yes", "on"}:
+        return True
+    if flag == "auto" or (flag == "" and os.environ.get("RENDER")):
+        return len(os.getenv("GEMINI_API_KEY", "").strip()) >= 20
+    return False
 
 
 def mask_key(key: str) -> str:

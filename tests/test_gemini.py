@@ -123,6 +123,12 @@ class GeminiTests(unittest.TestCase):
             server.process_extract("teste.txt", b"Certificado de curso de Python, carga horaria 20 horas.", "")
             post.assert_not_called()
 
+    def test_auto_enabled_depends_on_api_key_presence(self):
+        with patch.dict(os.environ, {"GEMINI_ENABLED": "auto", "GEMINI_API_KEY": ""}):
+            self.assertFalse(gemini.enabled())
+        with patch.dict(os.environ, {"GEMINI_ENABLED": "auto", "GEMINI_API_KEY": "AIzaTestAutoKeyValue1234567890"}):
+            self.assertTrue(gemini.enabled())
+
     def test_http_failure_does_not_expose_key_or_response(self):
         resp = Mock(status_code=403, headers={}, text="Forbidden")
         resp.json.return_value = {"error": {"message": "Forbidden"}}

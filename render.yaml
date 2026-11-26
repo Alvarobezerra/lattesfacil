@@ -13,7 +13,7 @@ services:
       - key: LATTESFACIL_HTTPS
         value: "1"
       - key: GEMINI_ENABLED
-        value: "0"  # mude para "1" no painel do Render após informar GEMINI_API_KEY
+        value: auto  # ativa automaticamente assim que GEMINI_API_KEY estiver definida no painel do Render
       - key: GEMINI_MODEL
         value: gemini-3.5-flash-lite
       - key: GEMINI_MODE
