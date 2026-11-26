@@ -15,7 +15,12 @@ spec = importlib.util.spec_from_file_location("separar", RAIZ / "ferramentas" / 
 sep = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sep)
 
-gab = json.loads((RAIZ / "tests" / "gabarito_ocr" / "segmentacao.json").read_text(encoding="utf-8"))["candidatos"]
+arq_gabarito = RAIZ / "tests" / "gabarito_ocr" / "segmentacao.json"
+if not arq_gabarito.exists():
+    # O gabarito vem de documentos de candidatos reais e fica só na máquina do desenvolvedor (não é versionado).
+    print("PULADO: tests/gabarito_ocr/segmentacao.json não existe neste ambiente")
+    sys.exit(0)
+gab = json.loads(arq_gabarito.read_text(encoding="utf-8"))["candidatos"]
 filtro = sys.argv[1:]
 falhas = 0
 for cand, g in gab.items():

@@ -1,0 +1,9 @@
+{
+ "artigo_periodico": [
+  {
+   "categoria": "rotulo_diferente",
+   "campo": "f_cod_doi",
+   "motivo": "no Lattes a janela 'Incluir novo artigo' tem um único campo 'Informe o DOI, ISSN ou parte do nome do periódico'; a captura leu só o texto solto ao lado do botão do DOI"
+  }
+ ]
+}
