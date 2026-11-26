@@ -29,3 +29,8 @@ tests/base_documentos_teste/
 data/
 tmp/
 output/
+
+# Ambiente local e cache de testes
+.env.*
+!.env.example
+.pytest_cache/
