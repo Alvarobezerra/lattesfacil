@@ -154,6 +154,9 @@ PUBLIC_LANDING = {
     "/aramys.html",
 }  # vitrine, pesquisas públicas e espaço colaborativo Aramys
 BLOQUEIO_LOCAL = os.environ.get("LATTESFACIL_BLOQUEIO_LOCAL") == "1"  # padrão: sem bloqueio de login para o próprio computador
+# Isolamento por dono: o "owner" passa a vir da sessão, nunca do navegador. Ligado por padrão no Render;
+# localmente fica desligado para o seletor de "usuário em teste" continuar funcionando (LATTESFACIL_ISOLAR_OWNER=1 liga).
+ISOLAR_OWNER = os.environ.get("LATTESFACIL_ISOLAR_OWNER", "1" if os.environ.get("RENDER") else "0") == "1"
 PUBLIC_GET = {"/login", "/api/health"}  # /api/lattes/ping é público de propósito (beacon da aba do Lattes, sem cookie)
 PESQUISA_RATE = {}  # IP -> último envio; a pesquisa pública não deve virar um endpoint de spam
 ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dXx]$")
@@ -172,7 +175,8 @@ def load_access_code() -> str:
         if len(code) >= 10:
             return code
     if os.environ.get("RENDER"):
-        return "merthiolate"
+        # Em produção não existe código padrão: sem a variável o servidor não sobe (falha fechada).
+        raise SystemExit("Defina LATTESFACIL_CODIGO (mínimo 10 caracteres) nas variáveis de ambiente do Render.")
     code = secrets.token_urlsafe(12)
     ACCESS_FILE.write_text(code + "\n", encoding="utf-8")
     try:
@@ -1005,6 +1009,22 @@ class LattesHandler(BaseHTTPRequestHandler):
         t = self._sess()
         return hashlib.sha256(t.encode()).hexdigest()[:16] if t else ""
 
+    def _dono(self, pedido: str = "") -> "str | None":
+        """Nome do dono dos dados deste pedido. Com isolamento ligado vem da sessão (o valor do navegador é ignorado);
+        None quando a sessão não identifica um usuário conhecido."""
+        if not ISOLAR_OWNER:
+            return pedido
+        usr = obter_usuario_db(SESSION_USERS.get(self._sess(), ""))
+        return usr["nome"] if usr else None
+
+    def _dono_do_id(self, conn: sqlite3.Connection, tabela: str, item_id: str) -> bool:
+        """True se o registro pode ser alterado por esta sessão (sempre, com isolamento desligado)."""
+        if not ISOLAR_OWNER:
+            return True
+        dono = self._dono()
+        r = conn.execute(f"SELECT owner FROM {tabela} WHERE id = ?", (item_id,)).fetchone()  # tabela vem do código, nunca do cliente
+        return bool(dono) and (r is None or r[0] == dono)
+
     def _origin_ok(self) -> bool:
         """Anti-CSRF: pedidos que alteram dados só valem se vierem da própria página."""
         origin = self.headers.get("Origin")
@@ -1365,7 +1385,10 @@ class LattesHandler(BaseHTTPRequestHandler):
                 self._send_json(instituicoes.buscar(conn, (qs.get("q") or [""])[0]))
             return
         if path == "/api/autores":  # autores citados no currículo do usuário (coletados na rotina de primeiro acesso)
-            owner = (parse_qs(parsed.query).get("owner") or [""])[0]
+            owner = self._dono((parse_qs(parsed.query).get("owner") or [""])[0])
+            if owner is None:
+                self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                return
             with db() as conn:
                 self._send_json(autores_cv.listar(conn, owner))
             return
@@ -1552,7 +1575,10 @@ class LattesHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/lattes/envios":
-            owner = (parse_qs(parsed.query).get("owner") or [""])[0].strip()[:60]
+            owner = self._dono((parse_qs(parsed.query).get("owner") or [""])[0].strip()[:60])
+            if owner is None:
+                self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                return
             with db() as conn:
                 rows = conn.execute(
                     "SELECT id, owner, titulo, tipo, ano, status, mensagem, lattes_seq, enviado_em, atualizado_em, removido_em, xml_status, xml_verificado_em "
@@ -1565,12 +1591,20 @@ class LattesHandler(BaseHTTPRequestHandler):
 
         if path == "/api/records":
             record_id = (parse_qs(parsed.query).get("id") or [""])[0]
+            dono = self._dono()
+            if dono is None:
+                self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                return
             with db() as conn:
                 query = "SELECT id, owner, titulo, payload, created_at FROM records WHERE deleted_at IS NULL"
+                args: tuple = ()
+                if ISOLAR_OWNER:  # cada sessão só enxerga os próprios registros
+                    query += " AND owner = ?"
+                    args = (dono,)
                 if record_id:
-                    rows = conn.execute(query + " AND id = ?", (record_id,)).fetchall()
+                    rows = conn.execute(query + " AND id = ?", args + (record_id,)).fetchall()
                 else:
-                    rows = conn.execute(query + " ORDER BY created_at DESC LIMIT 50").fetchall()
+                    rows = conn.execute(query + " ORDER BY created_at DESC LIMIT 50", args).fetchall()
             records = [
                 {
                     "id": r[0],
@@ -2357,8 +2391,12 @@ class LattesHandler(BaseHTTPRequestHandler):
         if path == "/api/autores/salvar":
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
+                dono = self._dono(str(payload.get("owner", "")))
+                if dono is None:
+                    self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                    return
                 with db() as conn:
-                    r = autores_cv.salvar(conn, str(payload.get("owner", "")), (payload.get("linhas") or [])[:5000], str(payload.get("cv", "")))
+                    r = autores_cv.salvar(conn, dono, (payload.get("linhas") or [])[:5000], str(payload.get("cv", "")))
                     conn.commit()
                 self._send_json({"ok": True, **r})
             except Exception:
@@ -2528,7 +2566,10 @@ class LattesHandler(BaseHTTPRequestHandler):
                 payload = json.loads(body.decode("utf-8") or "{}")
                 env_id = uuid.uuid4().hex[:12]
                 now = datetime.now(timezone.utc).isoformat()
-                owner = str(payload.get("owner") or "Convidado").strip()[:60]
+                owner = self._dono(str(payload.get("owner") or "Convidado").strip()[:60])
+                if owner is None:
+                    self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                    return
                 titulo = str(payload.get("titulo") or "Sem título").strip()[:300]
                 tipo = re.sub(r"[^a-z_]", "", str(payload.get("tipo") or "anais").lower())[:30] or "anais"
                 ano = re.sub(r"\D", "", str(payload.get("ano") or ""))[:4]
@@ -2559,6 +2600,9 @@ class LattesHandler(BaseHTTPRequestHandler):
                 seq = re.sub(r"\D", "", str(payload.get("lattes_seq") or ""))[:12]
                 now = datetime.now(timezone.utc).isoformat()
                 with db() as conn:
+                    if not self._dono_do_id(conn, "lattes_envios", env_id):
+                        self._send_json({"error": "Envio pertence a outro usuário."}, HTTPStatus.FORBIDDEN)
+                        return
                     cur = conn.execute(
                         "UPDATE lattes_envios SET status = ?, mensagem = ?, lattes_seq = CASE WHEN ? != '' THEN ? ELSE lattes_seq END, "
                         "atualizado_em = ?, removido_em = CASE WHEN ? = 'removido' THEN ? ELSE removido_em END WHERE id = ?",
@@ -2577,11 +2621,17 @@ class LattesHandler(BaseHTTPRequestHandler):
             try:
                 payload = json.loads(body.decode("utf-8") or "{}")
                 rec_id = payload.get("id") or str(uuid.uuid4())[:8]
-                owner = (payload.get("owner") or "Convidado").strip()[:60]
+                owner = self._dono((payload.get("owner") or "Convidado").strip()[:60])
+                if owner is None:
+                    self._send_json({"error": "Sessão sem usuário identificado."}, HTTPStatus.FORBIDDEN)
+                    return
                 data = payload.get("data") or {}
                 titulo = (data.get("titulo") or "Resumo sem título").strip()[:200]
                 now = datetime.now(timezone.utc).isoformat()
                 with db() as conn:
+                    if not self._dono_do_id(conn, "records", rec_id):
+                        self._send_json({"error": "Registro pertence a outro usuário."}, HTTPStatus.FORBIDDEN)
+                        return
                     conn.execute(
                         "INSERT OR REPLACE INTO records (id, owner, titulo, payload, created_at) VALUES (?, ?, ?, ?, ?)",
                         (rec_id, owner, titulo, json.dumps(data, ensure_ascii=False), now),
@@ -2620,6 +2670,9 @@ class LattesHandler(BaseHTTPRequestHandler):
                 return
             # só tira da lista do NautiScience; NÃO remove nada do Lattes (isso é feito pela extensão, com confirmação)
             with db() as conn:
+                if not self._dono_do_id(conn, "lattes_envios", env_id):
+                    self._send_json({"error": "Envio pertence a outro usuário."}, HTTPStatus.FORBIDDEN)
+                    return
                 conn.execute("UPDATE lattes_envios SET oculto_em = ? WHERE id = ?", (datetime.now(timezone.utc).isoformat(), env_id))
                 conn.commit()
             self._send_json({"ok": True})
@@ -2628,6 +2681,9 @@ class LattesHandler(BaseHTTPRequestHandler):
             rec_id = parsed.path.split("/")[-1][:64]
             # exclusão lógica: o registro some da lista, mas continua no banco (e nos backups) para ser recuperado
             with db() as conn:
+                if not self._dono_do_id(conn, "records", rec_id):
+                    self._send_json({"error": "Registro pertence a outro usuário."}, HTTPStatus.FORBIDDEN)
+                    return
                 conn.execute("UPDATE records SET deleted_at = ? WHERE id = ?", (datetime.now(timezone.utc).isoformat(), rec_id))
                 conn.commit()
             self._send_json({"ok": True})
